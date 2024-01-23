@@ -1,0 +1,104 @@
+.web-nav{
+    .web-nav-text{
+        color: #889BEA;
+        font-weight: 500;
+        font-size: 20px;
+        line-height: 23.44px;
+        font-family: 'Roboto', sans-serif;
+        cursor: pointer;
+    }
+    .web-nav-text:hover,
+    .web-nav-text:focus,
+    .web-nav-text:active{
+        font-weight: 600;
+        color: #4563E4;
+    }
+    
+    .logo {
+        width: 154px;
+        cursor: pointer;
+    }
+}
+
+
+
+.topbar {
+    nav {
+        background-color: yellow;
+    }
+
+    .nav-link {
+        letter-spacing: 0px;
+        cursor: pointer;
+        position: relative;
+        font-weight: 500;
+        font-family: 'Roboto', sans-serif;
+        font-size: 20px;
+        line-height: 23.44px;
+        margin-right: 40px;
+    }
+
+    .nav-link:hover {
+        color: var(--clr-netural-100);
+    }
+
+    @media (min-width:60em) {
+        .nav-link:hover {
+            color: var(--clr-netural-100);
+        }
+
+        .nav-link:focus,
+        .nav-link:hover {
+            color: #4563E4;
+            font-weight: 500;
+            line-height: 23.44px;
+            
+        }
+
+        .nav-link:hover:after {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
+
+
+    }
+
+    .navbar-dark .navbar-toggler-icon {
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%23000000' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
+    }
+
+
+    // .navbar-dark .navbar-toggler {
+    //     color: rgba(255, 255, 255, 0) !important;
+    //     border-color: transparent !important;
+    // }
+
+
+    .airrchiplogo {
+        margin: 0 auto;
+        padding-bottom: 10px;
+    }
+
+    .offcanvas {
+        width: 100%;
+        /* background: var(--clr-primary-500); */
+        background: radial-gradient(50% 50% at 50% 50%, #316EB6 0%, #1A5294 100%);
+    }
+
+    .offcanvas-body .nav-item .nav-link {
+        font-weight: 600 !important;
+    }
+
+    .btn-close {
+        opacity: 1;
+    }
+
+    .offcanvas-header .btn-close {
+        border-radius: 999em;
+        padding: 0.5rem;
+        margin-top: 0rem;
+        margin-right: 0rem;
+        margin-bottom: 0rem;
+        background-color: white !important;
+    }
+}
