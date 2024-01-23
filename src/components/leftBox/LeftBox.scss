@@ -19,4 +19,37 @@
         line-height: 18.75px;
         color: #171E42;
     }
+    .scroll-tabs-btn{
+        overflow: auto;
+    }
+    .scroll-tabs-btn::-webkit-scrollbar{
+        background-color: transparent;
+    }
+    .stock-price-list{
+        width: 100%;
+        background-color: #E8ECFB99;
+        height: 46px;
+        padding: 12px 24px;
+        border-radius: 15px;
+    }
+    .stock-name{
+        font-weight: 400;
+        font-family: 'Roboto', sans-serif;
+        font-size: 14px;
+        line-height: 22px;
+        color: #171E42;
+    }
+    .ltp-text{
+        font-weight: 400;
+        font-family: 'Roboto', sans-serif;
+        font-size: 14px;
+        line-height: 22px;
+        color: #6F7387;
+    }
+    .stock-price{
+        font-weight: 400;
+        font-family: 'Roboto', sans-serif;
+        font-size: 14px;
+        line-height: 22px;
+    }
 }
