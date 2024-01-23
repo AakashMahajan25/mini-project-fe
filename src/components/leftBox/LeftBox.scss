@@ -1,0 +1,22 @@
+.left-box{
+    .box{
+        border: 1px solid #E5E5E5;
+        width: 20%;
+        height: 70vh;
+        margin-top: 22px;
+        margin-bottom: 22px;
+        border-left: 0px ;
+        border-top-right-radius: 25px;
+        border-bottom-right-radius: 25px;
+        padding: 16px;
+        // overflow: hidden;
+        // overflow-y: auto; /* Enable vertical scrolling */
+    }
+    .watchlistText{
+        font-weight: 500;
+        font-family: 'Roboto', sans-serif;
+        font-size: 16px;
+        line-height: 18.75px;
+        color: #171E42;
+    }
+}
