@@ -2,8 +2,26 @@ import React from 'react'
 import './TopBar.scss';
 import FrruitLogo from '../../assets/images/frruit-logo.png'
 import ProfilePic from '../../assets/images/profile.png'
+import { useNavigate } from 'react-router-dom';
 
 function TopBar() {
+  let navigate = useNavigate();
+  const routeChangeDashboard = () => {
+    let path = `/dashboard`;
+    navigate(path);
+  }
+  const routeChangeFrruitGPT = () => {
+    let path = `/frruit_gpt`;
+    navigate(path);
+  }
+  const routeChangeDiscoverCorrelation = () => {
+    let path = `/discover_correlation`;
+    navigate(path);
+  }
+  const routeChangeProfile = () => {
+    let path = `/profile`;
+    navigate(path);
+  }
   return (
     <>
       <div className='web-nav'>
@@ -12,10 +30,10 @@ function TopBar() {
             <img className="logo" style={{ width: 155 }} src={FrruitLogo} alt="" />
           </div>
           <div className='d-flex align-items-center justify-content-between'>
-            <div className='web-nav-text me-5'>Dashboard</div>
-            <div className='web-nav-text me-5'>Frruit GPT</div>
-            <div className='web-nav-text me-5'>Discover Correlation</div>
-            <img className="logo" style={{ width: 42 }} src={ProfilePic} alt="" />
+            <div className='web-nav-text me-5' onClick={routeChangeDashboard}>Dashboard</div>
+            <div className='web-nav-text me-5' onClick={routeChangeFrruitGPT}>Frruit GPT</div>
+            <div className='web-nav-text me-5' onClick={routeChangeDiscoverCorrelation}>Discover Correlation</div>
+            <img className="logo" onClick={routeChangeProfile} style={{ width: 42 }} src={ProfilePic} alt="" />
           </div>
         </div>
       </div>
