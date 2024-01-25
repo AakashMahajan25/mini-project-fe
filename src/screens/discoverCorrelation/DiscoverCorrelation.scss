@@ -1,19 +1,33 @@
-.dashboard{
-    .dashboard-container{
+.Discover-Correlation-css {
+    .Discover-Correlation-container {
         padding-left: 20px;
         padding-right: 20px;
     }
-    .stories-title{
+
+    .title {
         font-weight: 500;
         font-family: 'Roboto', sans-serif;
         font-size: 16px;
         line-height: 18.75px;
         color: #171E42;
     }
+
+    .viewAllTeaxt {
+        font-weight: 500;
+        font-family: 'Roboto', sans-serif;
+        font-size: 14px;
+        line-height: 16.41px;
+        color: #4563E4;
+        cursor: pointer;
+    }
     .scroll-tabs-btn{
         overflow: auto;
     }
     .scroll-tabs-btn::-webkit-scrollbar{
         background-color: transparent;
+    }
+    .row{
+        padding-left: 10px;
+        padding-right: 10px;
     }
 }
