@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef, useState } from 'react'
 import TopBar from '../../components/topBar/TopBar'
 import StockPriceScroll from '../../components/stockPriceScroll/StockPriceScroll'
 import LeftBox from '../../components/leftBox/LeftBox'
@@ -9,6 +9,7 @@ import Stories3 from '../../assets/images/stories-icon-3.png';
 import Stories4 from '../../assets/images/stories-icon-4.png';
 import Stories5 from '../../assets/images/stories-icon-5.png';
 import './Dashboard.scss';
+import TrendingStocksCard from '../../components/trendingStocks/TrendingStocksCard'
 
 const storiesData = [
     { src: Stories1, onClick: () => handleOnClick(1) },
@@ -19,30 +20,106 @@ const storiesData = [
     { src: Stories1, onClick: () => handleOnClick(6) },
     { src: Stories2, onClick: () => handleOnClick(7) },
     { src: Stories3, onClick: () => handleOnClick(8) },
+    { src: Stories1, onClick: () => handleOnClick(9) },
+    { src: Stories2, onClick: () => handleOnClick(10) },
 ];
 
 function handleOnClick(storyNumber) {
     console.log(`Clicked on story ${storyNumber}`);
 }
+const trendingStocksData = [
+    {
+        stockName: 'TCS',
+        ltpLabel: 'LTP',
+        ltpValue: '3903',
+        percentageChange: '0.5%',
+        buyButtonText: 'Buy',
+        sellButtonText: 'Sell',
+        fruitButtonText: 'Get Frruit',
+    },
+    {
+        stockName: 'TCS',
+        ltpLabel: 'LTP',
+        ltpValue: '3903',
+        percentageChange: '-0.5%',
+        buyButtonText: 'Buy',
+        sellButtonText: 'Sell',
+        fruitButtonText: 'Get Frruit',
+    },
+    {
+        stockName: 'TCS',
+        ltpLabel: 'LTP',
+        ltpValue: '3903',
+        percentageChange: '0.5%',
+        buyButtonText: 'Buy',
+        sellButtonText: 'Sell',
+        fruitButtonText: 'Get Frruit',
+    },
+    {
+        stockName: 'TCS',
+        ltpLabel: 'LTP',
+        ltpValue: '3903',
+        percentageChange: '-0.5%',
+        buyButtonText: 'Buy',
+        sellButtonText: 'Sell',
+        fruitButtonText: 'Get Frruit',
+    },
+    {
+        stockName: 'TCS',
+        ltpLabel: 'LTP',
+        ltpValue: '3903',
+        percentageChange: '0.5%',
+        buyButtonText: 'Buy',
+        sellButtonText: 'Sell',
+        fruitButtonText: 'Get Frruit',
+    },
+];
 
 function Dashboard() {
+    const itemsRef = useRef(null);
+    const [isMouseDown, setIsMouseDown] = useState(false);
+    const [startX, setStartX] = useState(0);
+    const [scrollLeft, setScrollLeft] = useState(0);
+
+    const handleMouseDown = (e) => {
+        setIsMouseDown(true);
+        setStartX(e.pageX - itemsRef.current.offsetLeft);
+        setScrollLeft(itemsRef.current.scrollLeft);
+    };
+
+    const handleMouseLeave = () => {
+        setIsMouseDown(false);
+    };
+
+    const handleMouseUp = () => {
+        setIsMouseDown(false);
+    };
+
+    const handleMouseMove = (e) => {
+        if (!isMouseDown) return;
+        e.preventDefault();
+        const x = e.pageX - itemsRef.current.offsetLeft;
+        const walk = (x - startX) * 2;
+        itemsRef.current.scrollLeft = scrollLeft - walk;
+        requestAnimationFrame(() => handleMouseMove(e));
+    };
     return (
         <>
             <TopBar />
             <StockPriceScroll />
             <div className='row justify-content-between m-0'>
-                <div className='col-lg-2'>
+                <div className='col-lg-3'>
                     <LeftBox />
                 </div>
-                <div className='col-lg-8'>
+                <div className='col-lg-6'>
                     <div className='dashboard mt-4'>
                         <div className='dashboard-container'>
                             <p className='stories-title' style={{ marginBottom: 10 }}>Investors Stories</p>
-                            <div className='d-flex justify-content-between align-items-center' style={{marginBottom:20}}>
+                            <div className='d-flex justify-content-between align-items-center' style={{ marginBottom: 20 }}>
                                 {storiesData.map((story, index) => (
                                     <img
                                         key={index}
-                                        style={{ width: 75, objectFit: 'contain', cursor: 'pointer' }}
+                                        style={{ width: 60, objectFit: 'contain', cursor: 'pointer' }}
                                         src={story.src}
                                         onClick={story.onClick}
                                     />
@@ -50,11 +127,29 @@ function Dashboard() {
                             </div>
                         </div>
                         <div className='dashboard-container'>
-                        <p className='stories-title' style={{ marginBottom: 10 }}>Trending Stocks</p>
+                            <p className='stories-title' style={{ marginBottom: 10 }}>Trending Stocks</p>
+                            <div
+                                className='scroll-tabs-btn'
+                                ref={itemsRef}
+                                onMouseDown={handleMouseDown}
+                                onMouseLeave={handleMouseLeave}
+                                onMouseUp={handleMouseUp}
+                                onMouseMove={handleMouseMove}
+                            >
+                                <div className='d-flex'>
+                                    {trendingStocksData.map((stockData, index) => (
+                                        <div className='col-lg-6' key={index}>
+                                            <div className='me-2' >
+                                                <TrendingStocksCard {...stockData} />
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div className='col-lg-2'>
+                <div className='col-lg-3'>
                     <DashboardRightBox />
                 </div>
             </div>

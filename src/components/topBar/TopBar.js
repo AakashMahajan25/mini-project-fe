@@ -25,7 +25,7 @@ function TopBar() {
   return (
     <>
       <div className='web-nav'>
-        <div className='d-flex align-items-center justify-content-between mx-5 mt-3'>
+        <div className='d-flex align-items-center justify-content-between mx-5 mt-2'>
           <div>
             <img className="logo" style={{ width: 155 }} src={FrruitLogo} alt="" />
           </div>

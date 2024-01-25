@@ -17,7 +17,7 @@ export default function StockPriceScroll() {
     ];
 
     return (
-        <div className="mt-3 stockpricescroll">
+        <div className="mt-2 stockpricescroll">
             <div className="banner py-2" style={{ border: 'solid 1px #EDEDED' }}>
                 <Marquee key={Math.random()} velocity={20} minScale={0.7} resetAfterTries={100}>
                     {words.map((word, index) => (
