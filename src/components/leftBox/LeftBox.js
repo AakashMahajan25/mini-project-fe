@@ -7,40 +7,58 @@ import RedArrow from '../../assets/images/red_down-arrow.png';
 
 function LeftBox() {
     const itemsRef = useRef(null);
-    const [isMouseDown, setIsMouseDown] = useState(false);
-    const [startX, setStartX] = useState(0);
-    const [scrollLeft, setScrollLeft] = useState(0);
-    const [activeWatchlist, setActiveWatchlist] = useState(1);
+    const [state, setState] = useState({
+        isMouseDown: false,
+        startX: 0,
+        scrollLeft: 0,
+        activeWatchlist: 1
+    });
 
     const handleMouseDown = (e) => {
-        setIsMouseDown(true);
-        setStartX(e.pageX - itemsRef.current.offsetLeft);
-        setScrollLeft(itemsRef.current.scrollLeft);
+        setState(prevState => ({
+            ...prevState,
+            isMouseDown: true,
+            startX: e.pageX - itemsRef.current.offsetLeft,
+            scrollLeft: itemsRef.current.scrollLeft
+        }));
     };
 
     const handleMouseLeave = () => {
-        setIsMouseDown(false);
+        setState(prevState => ({
+            ...prevState,
+            isMouseDown: false
+        }));
     };
 
     const handleMouseUp = () => {
-        setIsMouseDown(false);
+        setState(prevState => ({
+            ...prevState,
+            isMouseDown: false
+        }));
     };
 
     const handleMouseMove = (e) => {
-        if (!isMouseDown) return;
+        const { isMouseDown, startX, scrollLeft } = state;
+        if (!isMouseDown || !itemsRef.current) return;
         e.preventDefault();
         const x = e.pageX - itemsRef.current.offsetLeft;
         const walk = (x - startX) * 2;
         itemsRef.current.scrollLeft = scrollLeft - walk;
-        requestAnimationFrame(() => handleMouseMove(e));
+        setState(prevState => ({
+            ...prevState,
+            scrollLeft: itemsRef.current.scrollLeft
+        }));
     };
 
     const handleWatchlistClick = (watchlistNumber) => {
-        setActiveWatchlist(watchlistNumber);
+        setState(prevState => ({
+            ...prevState,
+            activeWatchlist: watchlistNumber
+        }));
     };
 
     const renderStockData = () => {
-        switch (activeWatchlist) {
+        switch (state.activeWatchlist) {
             case 1:
                 return [
                     { name: 'TCS', price: '3903', percentage: '0.5%' },
@@ -97,62 +115,60 @@ function LeftBox() {
     const stockData = renderStockData();
 
     return (
-        <>
-            <div className='left-box'>
-                <div className='box'>
-                    <div className="position-relative" style={{ marginBottom: 20 }}>
-                        <input type="text" className="form-control form-control-search" placeholder='Search Here'></input>
-                        <div className="position-absolute" style={{ left: 15, top: '15%' }}>
-                            <img src={SearchIcon} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} alt="Search Icon" />
-                        </div>
+        <div className='left-box'>
+            <div className='box'>
+                <div className="position-relative" style={{ marginBottom: 20 }}>
+                    <input type="text" className="form-control form-control-search" placeholder='Search Here'></input>
+                    <div className="position-absolute" style={{ left: 15, top: '15%' }}>
+                        <img src={SearchIcon} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} alt="Search Icon" />
                     </div>
-                    <div className='watchlistText' style={{ marginBottom: 20 }}>Watchlist</div>
-                    <div
-                        className='scroll-tabs-btn'
-                        ref={itemsRef}
-                        onMouseDown={handleMouseDown}
-                        onMouseLeave={handleMouseLeave}
-                        onMouseUp={handleMouseUp}
-                        onMouseMove={handleMouseMove}
-                    >
-                        <Nav variant="pills" defaultActiveKey="/home">
-                            {[1, 2, 3, 4, 5, 6].map((watchlistNumber) => (
-                                <Nav.Item key={watchlistNumber}>
-                                    <Nav.Link
-                                        className={`me-3 ${activeWatchlist === watchlistNumber ? 'active' : ''}`}
-                                        eventKey={`link-${watchlistNumber}`}
-                                        onClick={() => handleWatchlistClick(watchlistNumber)}
-                                    >
-                                        Watchlist {watchlistNumber}
-                                    </Nav.Link>
-                                </Nav.Item>
-                            ))}
-                        </Nav>
-                    </div>
-                    <div>
-                        {stockData.map((stock, index) => (
-                            <div key={index} className='stock-price-list mb-2'>
-                                <div className='d-flex justify-content-between align-items-center'>
-                                    <p className='stock-name'>{stock.name}</p>
-                                    <div>
-                                        <div className='d-flex justify-content-end align-items-center'>
-                                            <p className='ltp-text me-2'>LTP</p>
-                                            <p className='stock-price me-2' style={{ color: stock.percentage.includes('-') ? '#EA5455' : '#28C76F' }}>{stock.price}</p>
-                                            <p className='stock-price me-2' style={{ color: stock.percentage.includes('-') ? '#EA5455' : '#28C76F' }}>{stock.percentage}</p>
-                                            {stock.percentage.includes('-') ? (
-                                                <img style={{ width: 24, objectFit: 'contain' }} src={RedArrow} alt="Red Arrow" />
-                                            ) : (
-                                                <img style={{ width: 24, objectFit: 'contain' }} src={GreenArrow} alt="Green Arrow" />
-                                            )}
-                                        </div>
+                </div>
+                <div className='watchlistText' style={{ marginBottom: 20 }}>Watchlist</div>
+                <div
+                    className='scroll-tabs-btn'
+                    ref={itemsRef}
+                    onMouseDown={handleMouseDown}
+                    onMouseLeave={handleMouseLeave}
+                    onMouseUp={handleMouseUp}
+                    onMouseMove={handleMouseMove}
+                >
+                    <Nav variant="pills" defaultActiveKey="/home">
+                        {[1, 2, 3, 4, 5, 6].map((watchlistNumber) => (
+                            <Nav.Item key={watchlistNumber}>
+                                <Nav.Link
+                                    className={`me-3 ${state.activeWatchlist === watchlistNumber ? 'active' : ''}`}
+                                    eventKey={`link-${watchlistNumber}`}
+                                    onClick={() => handleWatchlistClick(watchlistNumber)}
+                                >
+                                    Watchlist {watchlistNumber}
+                                </Nav.Link>
+                            </Nav.Item>
+                        ))}
+                    </Nav>
+                </div>
+                <div>
+                    {stockData.map((stock, index) => (
+                        <div key={index} className='stock-price-list mb-2'>
+                            <div className='d-flex justify-content-between align-items-center'>
+                                <p className='stock-name'>{stock.name}</p>
+                                <div>
+                                    <div className='d-flex justify-content-end align-items-center'>
+                                        <p className='ltp-text me-2'>LTP</p>
+                                        <p className='stock-price me-2' style={{ color: stock.percentage.includes('-') ? '#EA5455' : '#28C76F' }}>{stock.price}</p>
+                                        <p className='stock-price me-2' style={{ color: stock.percentage.includes('-') ? '#EA5455' : '#28C76F' }}>{stock.percentage}</p>
+                                        {stock.percentage.includes('-') ? (
+                                            <img style={{ width: 24, objectFit: 'contain' }} src={RedArrow} alt="Red Arrow" />
+                                        ) : (
+                                            <img style={{ width: 24, objectFit: 'contain' }} src={GreenArrow} alt="Green Arrow" />
+                                        )}
                                     </div>
                                 </div>
                             </div>
-                        ))}
-                    </div>
+                        </div>
+                    ))}
                 </div>
             </div>
-        </>
+        </div>
     );
 }
 

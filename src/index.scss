@@ -15,7 +15,8 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
-.row>*{
+
+.row>* {
   padding: 0px !important;
 }
 
@@ -93,3 +94,49 @@ p {
 }
 
 //scroll tab btn css end
+
+//light blue btn start
+.light-blue-btn {
+  width: 100%;
+  text-align: left;
+  padding: 11px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 22px;
+  font-family: 'Roboto', sans-serif;
+  color: #6F7387;
+  background-color: #F1F4FD;
+  border: 0px;
+  border-radius: 15px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.light-blue-btn:hover {
+  background-color: #E5EAFF;
+  color: #4563E4;
+}
+
+.light-blue-btn:active {
+  background-color: #E5EAFF;
+  color: #4563E4;
+}
+
+
+//light blue btn end
+
+
+// white-btn start
+.white-btn {
+  padding: 8px 22.44px;
+  border: 0px;
+  background-color: #fff;
+  border-radius: 50px;
+  // height: 32px;
+  color: #4563E4;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 16.41px;
+  font-family: 'Roboto', sans-serif;
+}
+
+// white-btn end
