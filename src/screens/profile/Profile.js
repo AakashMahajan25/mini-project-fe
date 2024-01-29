@@ -73,17 +73,17 @@ function Profile() {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="position-relative" style={{ width: '100%', marginBottom: 20 }}>
-                                    <label className='form-control-label'>Phone Number</label>
-                                    <div className='row m-0'>
-                                        <div className='col-lg-2 column-pad'>
-                                            <div className='me-2'>
-                                                <input type="text" className="form-control form-control-input" placeholder=''></input>
-                                            </div>
+                                <label className='form-control-label'>Phone Number</label>
+                                <div className='row m-0'>
+                                    <div className='col-lg-2 column-pad'>
+                                        <div className='me-2'>
+                                            <input type="text" className="form-control form-control-input" placeholder=''></input>
                                         </div>
-                                        <div className='col-lg-10 column-pad'>
+                                    </div>
+                                    <div className='col-lg-10 column-pad'>
+                                        <div className="position-relative" style={{ width: '100%', marginBottom: 20 }}>
                                             <input type="text" className="form-control form-control-input" placeholder='Enter Name'></input>
-                                            <div className="position-absolute" style={{ left: 110, top: '50%' }}>
+                                            <div className="position-absolute" style={{ left: 17, top: '22%' }}>
                                                 <img src={MobileIcon} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} alt="Search Icon" />
                                             </div>
                                         </div>
