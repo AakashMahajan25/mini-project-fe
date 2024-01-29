@@ -1,64 +1,21 @@
-import React, { useRef, useState } from 'react';
 import './LeftBox.scss';
 import SearchIcon from '../../assets/images/search-icon.png';
-import Nav from 'react-bootstrap/Nav';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import Box from '@mui/material/Box';
+import * as React from 'react';
 import GreenArrow from '../../assets/images/green_up-arrow.png';
 import RedArrow from '../../assets/images/red_down-arrow.png';
 
 function LeftBox() {
-    const itemsRef = useRef(null);
-    const [state, setState] = useState({
-        isMouseDown: false,
-        startX: 0,
-        scrollLeft: 0,
-        activeWatchlist: 1
-    });
+    const [value, setValue] = React.useState(0);
 
-    const handleMouseDown = (e) => {
-        setState(prevState => ({
-            ...prevState,
-            isMouseDown: true,
-            startX: e.pageX - itemsRef.current.offsetLeft,
-            scrollLeft: itemsRef.current.scrollLeft
-        }));
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
     };
 
-    const handleMouseLeave = () => {
-        setState(prevState => ({
-            ...prevState,
-            isMouseDown: false
-        }));
-    };
-
-    const handleMouseUp = () => {
-        setState(prevState => ({
-            ...prevState,
-            isMouseDown: false
-        }));
-    };
-
-    const handleMouseMove = (e) => {
-        const { isMouseDown, startX, scrollLeft } = state;
-        if (!isMouseDown || !itemsRef.current) return;
-        e.preventDefault();
-        const x = e.pageX - itemsRef.current.offsetLeft;
-        const walk = (x - startX) * 2;
-        itemsRef.current.scrollLeft = scrollLeft - walk;
-        setState(prevState => ({
-            ...prevState,
-            scrollLeft: itemsRef.current.scrollLeft
-        }));
-    };
-
-    const handleWatchlistClick = (watchlistNumber) => {
-        setState(prevState => ({
-            ...prevState,
-            activeWatchlist: watchlistNumber
-        }));
-    };
-
-    const renderStockData = () => {
-        switch (state.activeWatchlist) {
+    const renderStockData = (watchlistNumber) => {
+        switch (watchlistNumber) {
             case 1:
                 return [
                     { name: 'TCS', price: '3903', percentage: '0.5%' },
@@ -77,21 +34,37 @@ function LeftBox() {
                 ];
             case 3:
                 return [
-                    { name: 'Birla Soft', price: '2903', percentage: '0.9%' },
-                    { name: 'Birla Soft', price: '5403', percentage: '-0.10%' },
-                    { name: 'Birla Soft', price: '4603', percentage: '0.7%' },
-                    { name: 'Birla Soft', price: '3903', percentage: '-0.2%' },
-                    { name: 'Birla Soft', price: '5903', percentage: '0.1%' },
-                ];
-            case 4:
-                return [
                     { name: 'SBI Bank', price: '2903', percentage: '0.9%' },
                     { name: 'SBI Bank', price: '5403', percentage: '-0.10%' },
                     { name: 'SBI Bank', price: '4603', percentage: '0.7%' },
                     { name: 'SBI Bank', price: '3903', percentage: '-0.2%' },
                     { name: 'SBI Bank', price: '5903', percentage: '0.1%' },
                 ];
+            case 4:
+                return [
+                    { name: 'MRI', price: '2903', percentage: '0.9%' },
+                    { name: 'MRI', price: '5403', percentage: '-0.10%' },
+                    { name: 'MRI', price: '4603', percentage: '0.7%' },
+                    { name: 'MRI', price: '3903', percentage: '-0.2%' },
+                    { name: 'MRI', price: '5903', percentage: '0.1%' },
+                ];
             case 5:
+                return [
+                    { name: 'TATA Power', price: '2903', percentage: '0.9%' },
+                    { name: 'TATA Power', price: '5403', percentage: '-0.10%' },
+                    { name: 'TATA Power', price: '4603', percentage: '0.7%' },
+                    { name: 'TATA Power', price: '3903', percentage: '-0.2%' },
+                    { name: 'TATA Power', price: '5903', percentage: '0.1%' },
+                ];
+            case 6:
+                return [
+                    { name: 'Boat', price: '2903', percentage: '0.9%' },
+                    { name: 'Boat', price: '5403', percentage: '-0.10%' },
+                    { name: 'Boat', price: '4603', percentage: '0.7%' },
+                    { name: 'Boat', price: '3903', percentage: '-0.2%' },
+                    { name: 'Boat', price: '5903', percentage: '0.1%' },
+                ];
+            case 7:
                 return [
                     { name: 'TATA', price: '2903', percentage: '0.9%' },
                     { name: 'TATA', price: '5403', percentage: '-0.10%' },
@@ -99,53 +72,40 @@ function LeftBox() {
                     { name: 'TATA', price: '3903', percentage: '-0.2%' },
                     { name: 'TATA', price: '5903', percentage: '0.1%' },
                 ];
-            case 6:
-                return [
-                    { name: 'HDFC', price: '2903', percentage: '0.9%' },
-                    { name: 'HDFC', price: '5403', percentage: '-0.10%' },
-                    { name: 'HDFC', price: '4603', percentage: '0.7%' },
-                    { name: 'HDFC', price: '3903', percentage: '-0.2%' },
-                    { name: 'HDFC', price: '5903', percentage: '0.1%' },
-                ];
             default:
                 return [];
         }
     };
 
-    const stockData = renderStockData();
+    const stockData = renderStockData(value + 1);
 
     return (
         <div className='left-box'>
-            <div className='box' style={{height:window.innerHeight-130}}>
+            <div className='box' style={{ height: window.innerHeight - 130 }}>
                 <div className="position-relative" style={{ marginBottom: 20 }}>
-                    <input type="text" className="form-control form-control-search" placeholder='Search Here'></input>
+                    <input type="text" className="form-control form-control-search" placeholder='Search Here' />
                     <div className="position-absolute" style={{ left: 15, top: '15%' }}>
                         <img src={SearchIcon} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} alt="Search Icon" />
                     </div>
                 </div>
-                <div className='watchlistText' style={{ marginBottom: 20 }}>Watchlist</div>
-                <div
-                    className='scroll-tabs-btn'
-                    ref={itemsRef}
-                    onMouseDown={handleMouseDown}
-                    onMouseLeave={handleMouseLeave}
-                    onMouseUp={handleMouseUp}
-                    onMouseMove={handleMouseMove}
-                >
-                    <Nav variant="pills" defaultActiveKey="/home">
-                        {[1, 2, 3, 4, 5, 6].map((watchlistNumber) => (
-                            <Nav.Item key={watchlistNumber}>
-                                <Nav.Link
-                                    className={`me-3 ${state.activeWatchlist === watchlistNumber ? 'active' : ''}`}
-                                    eventKey={`link-${watchlistNumber}`}
-                                    onClick={() => handleWatchlistClick(watchlistNumber)}
-                                >
-                                    Watchlist {watchlistNumber}
-                                </Nav.Link>
-                            </Nav.Item>
-                        ))}
-                    </Nav>
-                </div>
+                <div className='watchlistText'>Watchlist</div>
+                <Box marginBottom={'20px'} sx={{ maxWidth: { xs: 320, sm: 480 }, bgcolor: 'background.paper' }}>
+                    <Tabs
+                        value={value}
+                        onChange={handleChange}
+                        variant="scrollable"
+                        scrollButtons="auto"
+                        aria-label="scrollable auto tabs example"
+                    >
+                        <Tab label="Watchlist 1" className='tab-css' />
+                        <Tab label="Watchlist 2" className='tab-css' />
+                        <Tab label="Watchlist 3" className='tab-css' />
+                        <Tab label="Watchlist 4" className='tab-css' />
+                        <Tab label="Watchlist 5" className='tab-css' />
+                        <Tab label="Watchlist 6" className='tab-css' />
+                        <Tab label="Watchlist 7" className='tab-css' />
+                    </Tabs>
+                </Box>
                 <div>
                     {stockData.map((stock, index) => (
                         <div key={index} className='stock-price-list mb-2'>

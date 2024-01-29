@@ -15,15 +15,15 @@ function Profile() {
     return (
         <>
             <div className='row justify-content-between m-0 profile-css'>
-                <div className='col-lg-3'>
+                <div className='col-lg-3 column-pad'>
                     <LeftProfileBox />
                 </div>
-                <div className='col-lg-9'>
+                <div className='col-lg-9 column-pad'>
                     <div className='right-part'>
                         <div className='welcome-text'>Welcome</div>
                         <div style={{ marginBottom: 20 }} className='user-text'>Shubham Patel!</div>
                         <div className='row m-0'>
-                            <div className='col-lg-6' style={{ marginBottom: 20 }}>
+                            <div className='col-lg-6 column-pad' style={{ marginBottom: 20 }}>
                                 <div className='me-2'>
                                     <div className='blue-box'>
                                         <div className='d-flex justify-content-between align-items-center' style={{ marginBottom: 10 }}>
@@ -43,7 +43,7 @@ function Profile() {
                                     </div>
                                 </div>
                             </div>
-                            <div className='col-lg-6' style={{ marginBottom: 20 }}>
+                            <div className='col-lg-6 column-pad' style={{ marginBottom: 20 }}>
                                 <div className='ms-2'>
                                     <div className='blue-box'>
                                         <div className='d-flex justify-content-start align-items-center' style={{ marginBottom: 10 }}>
@@ -61,7 +61,7 @@ function Profile() {
                             </div>
                         </div>
                         <div className='row m-0'>
-                            <div className='col-lg-6'>
+                            <div className='col-lg-6 column-pad'>
                                 <div className='profile-title' style={{ marginBottom: 32 }}>Profile</div>
                                 <div className='d-flex jsutify-content-between align-items-center' style={{ marginBottom: 20 }}>
                                     <img src={UserImg} style={{ width: 82, objectFit: 'contain', marginRight: 15 }} />
@@ -73,17 +73,17 @@ function Profile() {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="position-relative" style={{ width: '100%', marginBottom: 20 }}>
-                                    <label className='form-control-label'>Phone Number</label>
-                                    <div className='row m-0'>
-                                        <div className='col-lg-2'>
-                                            <div className='me-2'>
-                                                <input type="text" className="form-control form-control-input" placeholder=''></input>
-                                            </div>
+                                <label className='form-control-label'>Phone Number</label>
+                                <div className='row m-0'>
+                                    <div className='col-lg-2 column-pad'>
+                                        <div className='me-2'>
+                                            <input type="text" className="form-control form-control-input" placeholder=''></input>
                                         </div>
-                                        <div className='col-lg-10'>
+                                    </div>
+                                    <div className='col-lg-10 column-pad'>
+                                        <div className="position-relative" style={{ width: '100%', marginBottom: 20 }}>
                                             <input type="text" className="form-control form-control-input" placeholder='Enter Name'></input>
-                                            <div className="position-absolute" style={{ left: 110, top: '50%' }}>
+                                            <div className="position-absolute" style={{ left: 17, top: '22%' }}>
                                                 <img src={MobileIcon} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} alt="Search Icon" />
                                             </div>
                                         </div>

@@ -2,14 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './TrendingStocksCard.scss';
 import UpArrow from '../../assets/images/up-arrow-outline.png';
-import DownArrow from '../../assets/images/down-arrow-outline.png';            
+import DownArrow from '../../assets/images/down-arrow-outline.png';
 import RightWhiteArrow from '../../assets/images/white-right.png';
 
 function TrendingStocksCard({ stockName, ltpLabel, ltpValue, percentageChange, buyButtonText, sellButtonText, fruitButtonText }) {
     const isPositiveChange = parseFloat(percentageChange) > 0;
 
     return (
-        <div className='trendingStockCard'>
+        <div className='trendingStockCard' style={{ marginRight: 10 }}>
             <div className='card'>
                 <div className='d-flex justify-content-between align-items-center' style={{ marginBottom: 8 }}>
                     <p className='stockname'>{stockName}</p>
@@ -34,7 +34,7 @@ function TrendingStocksCard({ stockName, ltpLabel, ltpValue, percentageChange, b
                         </div>
                         <div className='col-lg-4'>
                             <div className='mx-1'>
-                                <button className='blue-btn'>{fruitButtonText} <img src={RightWhiteArrow} style={{ width: 6, objectFit: 'contain', marginBottom: 3 }} /></button>
+                                <button className='blue-btn  d-flex align-items-center justify-content-center'>{fruitButtonText}  <img src={RightWhiteArrow} style={{ width: 6, objectFit: 'contain', marginLeft: 5 }} /></button>
                             </div>
                         </div>
                     </div>

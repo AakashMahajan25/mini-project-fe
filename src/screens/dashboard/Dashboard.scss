@@ -1,23 +1,72 @@
-.dashboardHome{
+.dashboardHome {
     overflow-y: hidden;
-    .dashboard{
-        .dashboard-container{
+
+    .dashboard {
+        // display: flex;
+        // align-items: flex-start;
+        // justify-content: flex-end;
+        // flex-direction: column;
+        .dashboard-container {
             padding-left: 20px;
             padding-right: 20px;
         }
-        .stories-title{
+
+        .stories-title {
             font-weight: 500;
             font-family: 'Roboto', sans-serif;
             font-size: 16px;
             line-height: 18.75px;
             color: #171E42;
         }
-        .scroll-tabs-btn{
-            overflow: auto;
+
+        .dashboard-slider {
+            padding-left: 20px;
         }
-        .scroll-tabs-btn::-webkit-scrollbar{
-            background-color: transparent;
+
+        .suggested-prompts-container {
+            margin-top: 20px;
+
+            .prompts-text-bg {
+                border-radius: 15px;
+                background: #F5F5F6;
+                padding: 16px;
+            }
+
+            .prompts-text {
+                color: #6F7387;
+                font-size: 12px;
+                font-style: normal;
+                font-weight: 400;
+
+            }
+            .search-dashboard-main {
+                display: flex;
+                align-items: center;
+                cursor: pointer;
+                .text-main-bg {
+                    display: flex;
+                    align-items: center;
+                    border-radius: 15px;
+                    border: 1px solid #4563E4;
+                    background: #F1F4FD;
+                    padding: 16px 16px;
+                    font-size: 14px;
+                    font-style: normal;
+                    font-weight: 400;
+                    width: 100%;
+                }
+                .send-image{
+                    background: #F5F5F6;
+                    width: 56px;
+                    height: 56px;
+                    object-fit: contain;
+                    border-radius: 15px;
+                    margin-left: 20px;
+                }
+            }
         }
+
     }
+
 
 }
