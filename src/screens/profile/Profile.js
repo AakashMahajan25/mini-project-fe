@@ -9,8 +9,6 @@ import BlueArrow from '../../assets/images/blue-right-arrow.png';
 function Profile() {
     return (
         <>
-            <TopBar />
-            <StockPriceScroll />
             <div className='row justify-content-between m-0 profile-css'>
                 <div className='col-lg-3'>
                     <LeftProfileBox />
