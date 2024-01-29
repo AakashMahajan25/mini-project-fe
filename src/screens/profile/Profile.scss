@@ -20,7 +20,10 @@
     }
 
     .blue-box {
-        background: linear-gradient(180deg, #5575FF 0%, #3F5AD1 136.52%);
+        // background: linear-gradient(180deg, #5575FF 0%, #3F5AD1 136.52%);
+        background-image: url(../../assets/images/blue-card-bg-img.png);
+        background-repeat: no-repeat;
+        background-size:cover;
         padding: 16px;
         border-radius: 15px;
     }
@@ -56,5 +59,12 @@
         padding: 4px 27px;
         background: #FFFFFF33;
         border-radius: 10px;
+    }
+    .profile-title{
+        font-weight: 500;
+        font-family: 'Roboto', sans-serif;
+        font-size: 18px;
+        line-height: 21.09px;
+        color: #171E42;
     }
 }
