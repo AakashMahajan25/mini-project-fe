@@ -3,10 +3,10 @@ import TopBar from '../../components/topBar/TopBar'
 import StockPriceScroll from '../../components/stockPriceScroll/StockPriceScroll'
 import LeftBox from '../../components/leftBox/LeftBox'
 import './DiscoverCorrelation.scss';
-import { Nav } from 'react-bootstrap';
 import EventExplorerCard from '../../components/eventExplorerCard/EventExplorerCard';
 import BackBtnArrow from '../../assets/images/back-btn-arrow.png';
 import BuySellStockCard from '../../components/buySellStockCard/BuySellStockCard';
+import { Nav, Tab, Tabs } from 'react-bootstrap'
 
 function DiscoverCorrelation() {
     const itemsRef = useRef(null);
@@ -172,16 +172,35 @@ function DiscoverCorrelation() {
                                 <div className='box' style={{ height: window.innerHeight - 210 }}>
                                     <div className='title' style={{ marginBottom: 10 }}>Indian Stocks Likely to be impacted be budget 2024</div>
                                     <div className='light-blue-btn' style={{ marginBottom: 10 }}>Regulatory Event</div>
-                                    <div className='title-2' style={{ marginBottom: 10 }}>Stocks that get affected the most  (in %)</div>
-                                    <div className='row'>
-                                        <div className='col-lg-3'>
-                                            <BuySellStockCard />
-                                        </div>
-                                        <div className='col-lg-9 column-pad'>
+                                    <div >
+                                        <Tab.Container defaultActiveKey="first">
+                                            <Nav className='customDiscoverCorrelationtabs' variant="pills">
+                                                <Nav.Item>
+                                                    <Nav.Link eventKey="first">Returns</Nav.Link>
+                                                </Nav.Item>
+                                                <Nav.Item>
+                                                    <Nav.Link eventKey="second">Connections</Nav.Link>
+                                                </Nav.Item>
+                                            </Nav>
+                                            <Tab.Content className='mt-3'>
+                                                <Tab.Pane eventKey="first">
+                                                    <div className='title-2' style={{ marginBottom: 10 }}>Stocks that get affected the most  (in %)</div>
+                                                    <div className='row'>
+                                                        <div className='col-lg-3'>
+                                                            <BuySellStockCard />
+                                                        </div>
+                                                        <div className='col-lg-9 column-pad'>
 
-                                        </div>
-
+                                                        </div>
+                                                    </div>
+                                                </Tab.Pane>
+                                                <Tab.Pane eventKey="second">
+                                                    <div className='title-2' style={{ marginBottom: 10 }}>Stocks that get affected the most  (in %)</div>
+                                                </Tab.Pane>
+                                            </Tab.Content>
+                                        </Tab.Container>
                                     </div>
+
                                 </div>
                             </>
                         }
