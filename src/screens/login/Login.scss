@@ -1,15 +1,32 @@
 .login {
     margin: 50px;
 
+    @media only screen and (max-width: 500px) {
+        margin: 20px !important;
+    }
+
     .login-page {
         height: 100%;
     }
 
     .login-form {
         padding: 64px;
-
         background-color: #F1F4FD;
         border-radius: 45px;
+
+        @media only screen and (max-width: 500px) {
+            padding: 50px 20px !important;
+        }
+    }
+
+    .login-form1 {
+        padding: 40px 64px;
+        background-color: #F1F4FD;
+        border-radius: 45px;
+
+        @media only screen and (max-width: 500px) {
+            padding: 50px 20px !important;
+        }
     }
 
     .loginText {
@@ -68,12 +85,45 @@
         border: 1px solid #C6C6C6
     }
 
+    .imagecontainer {
+        @media only screen and (max-width: 500px) {
+            display: none !important;
+        }
+    }
+
+    .verificationBox {
+        height: 48px;
+        border-radius: 8px;
+        border: 1px solid #DBDADE;
+
+        @media only screen and (max-width: 500px) {
+            margin-right: 0 !important;
+        }
+    }
+
+    .verificationBox:hover {
+        border: 1px solid #4563E4;
+    }
+
+    .verificationBox:focus-visible {
+        box-shadow: none !important;
+        border: 1px solid #4563E4 !important;
+        // background-color: #F1F4FD;
+        color: #6F7387;
+        font-family: 'Roboto', sans-serif;
+    }
+
+
+    .verification {
+        margin-top: 38px;
+    }
+
     // a {
     //     text-decoration: none;
     // }
 
     ::placeholder {
-        color: #171E42;
+        color: #6F7387;
     }
 
     .privacyText {

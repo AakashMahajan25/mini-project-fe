@@ -94,16 +94,16 @@ p {
 
 .form-control-input:focus {
   box-shadow: none;
-  border-color: #EDEDED !important;
-  background-color: #F1F4FD;
+  border: 1px solid #4563E4 !important;
+  // background-color: #F1F4FD;
   color: #6F7387;
   font-family: 'Roboto', sans-serif;
 }
 
 .form-control-input:focus-visible {
   box-shadow: none !important;
-  border-color: #EDEDED !important;
-  background-color: #F1F4FD;
+  border: 1px solid #4563E4 !important;
+  // background-color: #F1F4FD;
   color: #6F7387;
   font-family: 'Roboto', sans-serif;
 }
