@@ -62,6 +62,54 @@ p {
 
 //search box css end
 
+
+//input box css start
+.form-control-input {
+  // height: 44px !important;
+  border-radius: 15px !important;
+  padding: 15px;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 16.41px;
+  border: 1px solid #BDC3DD;
+  background-color: #Fff;
+  color: #171E42;
+  text-indent: 33px;
+  width: 100%;
+  font-family: 'Roboto', sans-serif;
+
+  // @media only screen and (max-width: 992px) {
+  //   margin-bottom: 20px;
+  // }
+}
+
+.form-control-label {
+  color: #6F7387;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 16.41px;
+  font-family: 'Roboto', sans-serif;
+  margin-bottom: 10px;
+}
+
+.form-control-input:focus {
+  box-shadow: none;
+  border-color: #EDEDED !important;
+  background-color: #F1F4FD;
+  color: #6F7387;
+  font-family: 'Roboto', sans-serif;
+}
+
+.form-control-input:focus-visible {
+  box-shadow: none !important;
+  border-color: #EDEDED !important;
+  background-color: #F1F4FD;
+  color: #6F7387;
+  font-family: 'Roboto', sans-serif;
+}
+
+//input box css end
+
 //scroll tab btn css start
 .scroll-tabs-btn {
   .nav-pills .nav-link.active {
@@ -94,6 +142,23 @@ p {
 }
 
 //scroll tab btn css end
+
+
+
+// blue-btn start
+.blue-btn {
+  background-color: #4563E4;
+  padding: 11px 16px;
+  border: 0px;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 22px;
+  font-family: 'Roboto', sans-serif;
+  border-radius: 50px;
+}
+
+//blue btn end
 
 //light blue btn start
 .light-blue-btn {
