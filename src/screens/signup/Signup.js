@@ -3,9 +3,8 @@ import '../login/Login.scss'
 import LoginImg from '../../assets/images/login_img.png'
 import MobileIcon from '../../assets/images/mobile-icon.png';
 import OtpInput from 'react-otp-input';
-import { useNavigate } from 'react-router-dom';
 
-function Login() {
+function Signup() {
     const [showCode, setShowCode] = useState(false)
     const [otp, setOtp] = useState('');
 
@@ -18,7 +17,7 @@ function Login() {
                     </div>
                 </div>
                 <div className={showCode ? 'col-xl-7 login-form1' : 'col-xl-7 login-form'}>
-                    <p className='loginText text-center m-0 '>Login</p>
+                    <p className='loginText text-center m-0 '>Signup</p>
                     <div className="form-outline mt-4">
                         {!showCode &&
                             <>
@@ -27,7 +26,8 @@ function Login() {
                                     <input type="text" className="form-control form-control-input me-3" placeholder='+91' style={{ width: '15%', textIndent: 13 }}></input>
                                     <div className="position-relative" style={{ width: '100%' }}>
                                         <input type="text" className="form-control form-control-input" placeholder='00000 00000'></input>
-                                        <div className="position-absolute" style={{ left: 20, top: '28%' }}>
+
+                                        <div className="position-absolute" style={{ left: 20, top: '25%' }}>
                                             <img src={MobileIcon} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} />
                                         </div>
                                     </div>
@@ -48,14 +48,16 @@ function Login() {
                                     </div>
                                 </div>
                                 <a href='' style={{ fontSize: 15 }}>Use a different Number</a>
+
                                 <div className="form-outline verification">
-                                    <label className="form-label">Type your 6 digit security code</label>
+                                    <label className="form-label my-2">Type your 6 digit security code</label>
                                     <div className='d-flex'>
                                         <OtpInput
                                             value={otp}
                                             onChange={setOtp}
+                                            inputStyle={{ co }}
                                             numInputs={6}
-                                            renderInput={(props) => <input {...props} style={{ width: 56.68 }} className='form-control-input text-center me-2' />}
+                                            renderInput={(props) => <input {...props} style={{ width: 56.68 }} className='verificationBox text-center me-2' />}
                                         />
                                     </div>
                                 </div>
@@ -64,7 +66,7 @@ function Login() {
                         }
                         {showCode &&
                             <div className='d-flex justify-content-center align-items-center'>
-                                <button onClick={() => setShowCode(true)} className='btnPrimary mt-5'>Login</button>
+                                <button onClick={() => setShowCode(true)} className='btnPrimary mt-5'>Signup</button>
                             </div>
                         }
                         {!showCode &&
@@ -72,13 +74,13 @@ function Login() {
                                 <div className='d-flex justify-content-center align-items-center'>
                                     <button onClick={() => setShowCode(true)} className='btnPrimary mt-5'>Get OTP</button>
                                 </div>
-                                <div className='d-flex align-items-center just mt-3'>
+                                <div className='d-flex  align-items-center mt-3'>
                                     <div className='horizontalLine w-100'></div>
                                     <div className='mx-2' style={{ fontWeight: 700, fontSize: 20, color: '#C6C6C6' }}>OR</div>
                                     <div className='horizontalLine w-100'></div>
                                 </div>
                                 <div className='d-flex justify-content-center align-items-center'>
-                                    <button className='btnSecondary mt-3'>Signup Using Phone Number</button>
+                                    <button className='btnSecondary mt-3'>Login Using Phone Number</button>
                                 </div>
                             </>
                         }
@@ -90,5 +92,4 @@ function Login() {
         </section>
     )
 }
-
-export default Login
+export default Signup
