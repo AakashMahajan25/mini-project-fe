@@ -1,0 +1,86 @@
+.login {
+    margin: 50px;
+
+    .login-page {
+        height: 100%;
+    }
+
+    .login-form {
+        padding: 64px;
+
+        background-color: #F1F4FD;
+        border-radius: 45px;
+    }
+
+    .loginText {
+        font-family: Roboto;
+        font-size: 20px;
+        font-weight: 600;
+        line-height: 23px;
+        letter-spacing: 0em;
+        text-align: center;
+        color: #4563E4;
+    }
+
+    .form-label {
+        font-family: Roboto;
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 16px;
+        letter-spacing: 0em;
+        text-align: left;
+        color: #6F7387;
+    }
+
+    .form-control {
+        height: 56px;
+        border: 1px solid #BDC3DD;
+        box-shadow: none;
+    }
+
+    .btnPrimary {
+        background-color: #4563E4;
+        color: #FFFFFF;
+        border: none;
+        border-radius: 27.5px;
+        width: 224px;
+        height: 44px;
+        font-size: 14px;
+        font-weight: 700;
+        line-height: 16px;
+        letter-spacing: 0em;
+        text-align: center;
+    }
+
+    .btnSecondary {
+        border-radius: 27.5px;
+        border: 1px solid #4563E4;
+        color: #4563E4;
+        height: 44px;
+        width: 224px;
+        font-family: Roboto;
+        font-size: 14px;
+        font-weight: 700;
+        line-height: 16px;
+    }
+
+    .horizontalLine {
+        border: 1px solid #C6C6C6
+    }
+
+    // a {
+    //     text-decoration: none;
+    // }
+
+    ::placeholder {
+        color: #171E42;
+    }
+
+    .privacyText {
+        font-size: 12px;
+        font-weight: 400;
+        color: #6F6B7D;
+        margin: 0;
+        margin-top: 40px;
+    }
+}
