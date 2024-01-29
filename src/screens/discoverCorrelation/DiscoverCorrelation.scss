@@ -12,6 +12,14 @@
         color: #171E42;
     }
 
+    .title-2 {
+        font-weight: 500;
+        font-family: 'Roboto', sans-serif;
+        font-size: 14px;
+        line-height: 14.06px;
+        color: #6F7387;
+    }
+
     .viewAllTeaxt {
         font-weight: 500;
         font-family: 'Roboto', sans-serif;
@@ -20,14 +28,19 @@
         color: #4563E4;
         cursor: pointer;
     }
-    .scroll-tabs-btn{
+
+    .scroll-tabs-btn {
         overflow: auto;
     }
-    .scroll-tabs-btn::-webkit-scrollbar{
+
+    .scroll-tabs-btn::-webkit-scrollbar {
         background-color: transparent;
     }
-    .row{
-        padding-left: 10px;
-        padding-right: 10px;
+
+    .box {
+        width: 100%;
+        border: 1px solid #E5E5E5;
+        border-radius: 15px;
+        padding: 16px;
     }
 }
