@@ -8,8 +8,10 @@ import Stories2 from '../../assets/images/stories-icon-2.png';
 import Stories3 from '../../assets/images/stories-icon-3.png';
 import Stories4 from '../../assets/images/stories-icon-4.png';
 import Stories5 from '../../assets/images/stories-icon-5.png';
+import SendIcon from '../../assets/images/send_icon.png';
 import './Dashboard.scss';
 import TrendingStocksCard from '../../components/trendingStocks/TrendingStocksCard'
+import Slider from 'react-slick'
 
 const storiesData = [
     { src: Stories1, onClick: () => handleOnClick(1) },
@@ -75,33 +77,20 @@ const trendingStocksData = [
     },
 ];
 
+const promptText = [
+    'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
+    'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
+    'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
+    'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
+]
 function Dashboard() {
-    const itemsRef = useRef(null);
-    const [isMouseDown, setIsMouseDown] = useState(false);
-    const [startX, setStartX] = useState(0);
-    const [scrollLeft, setScrollLeft] = useState(0);
-
-    const handleMouseDown = (e) => {
-        setIsMouseDown(true);
-        setStartX(e.pageX - itemsRef.current.offsetLeft);
-        setScrollLeft(itemsRef.current.scrollLeft);
-    };
-
-    const handleMouseLeave = () => {
-        setIsMouseDown(false);
-    };
-
-    const handleMouseUp = () => {
-        setIsMouseDown(false);
-    };
-
-    const handleMouseMove = (e) => {
-        if (!isMouseDown) return;
-        e.preventDefault();
-        const x = e.pageX - itemsRef.current.offsetLeft;
-        const walk = (x - startX) * 2;
-        itemsRef.current.scrollLeft = scrollLeft - walk;
-        requestAnimationFrame(() => handleMouseMove(e));
+    var settings = {
+        dots: false,
+        infinite: false,
+        speed: 500,
+        slidesToShow: 2.3,
+        swipeToSlide: true,
+        arrows: false
     };
     return (
         <>
@@ -111,37 +100,46 @@ function Dashboard() {
                 </div>
                 <div className='col-lg-7 column-pad'>
                     <div className='dashboard mt-4'>
-                        <div className='dashboard-container'>
-                            <p className='stories-title' style={{ marginBottom: 10 }}>Investors Stories</p>
-                            <div className='d-flex justify-content-between align-items-center' style={{ marginBottom: 20 }}>
-                                {storiesData.map((story, index) => (
-                                    <img
-                                        key={index}
-                                        style={{ width: 60, objectFit: 'contain', cursor: 'pointer' }}
-                                        src={story.src}
-                                        onClick={story.onClick}
-                                    />
-                                ))}
+                        <div className='d-flex flex-column justify-content-between' style={{ height: window.innerHeight - 170 }}>
+                            <div className='d-flex flex-column'>
+                                <div className='dashboard-container'>
+                                    <p className='stories-title' style={{ marginBottom: 10 }}>Investors Stories</p>
+                                    <div className='d-flex justify-content-between align-items-center' style={{ marginBottom: 20 }}>
+                                        {storiesData.map((story, index) => (
+                                            <img
+                                                key={index}
+                                                style={{ width: 60, objectFit: 'contain', cursor: 'pointer' }}
+                                                src={story.src}
+                                                onClick={story.onClick}
+                                            />
+                                        ))}
+                                    </div>
+                                </div>
+                                <div className='dashboard-slider'>
+                                    <p className='stories-title' style={{ marginBottom: 10 }}>Trending Stocks</p>
+                                    <Slider {...settings}>
+                                        {trendingStocksData.map((stockData, index) => (
+                                            <TrendingStocksCard {...stockData} />
+                                        ))}
+                                    </Slider>
+                                </div>
                             </div>
-                        </div>
-                        <div className='dashboard-container'>
-                            <p className='stories-title' style={{ marginBottom: 10 }}>Trending Stocks</p>
-                            <div
-                                className='scroll-tabs-btn'
-                                ref={itemsRef}
-                                onMouseDown={handleMouseDown}
-                                onMouseLeave={handleMouseLeave}
-                                onMouseUp={handleMouseUp}
-                                onMouseMove={handleMouseMove}
-                            >
-                                <div className='d-flex'>
-                                    {trendingStocksData.map((stockData, index) => (
-                                        <div className='col-lg-6' key={index}>
-                                            <div className='me-2' >
-                                                <TrendingStocksCard {...stockData} />
+                            <div className='dashboard-container'>
+                                <div className='suggested-prompts-container'>
+                                    <p className='stories-title' style={{ marginBottom: 15 }}>Suggested Prompts</p>
+                                    <div className='row' >
+                                        {promptText.map((prompts, index) => (
+                                            <div className='col-lg-6 mb-3' style={{ cursor: 'pointer' }}>
+                                                <div className='prompts-text-bg'>
+                                                    <p className='prompts-text'>{prompts}</p>
+                                                </div>
                                             </div>
-                                        </div>
-                                    ))}
+                                        ))}
+                                    </div>
+                                    <div className='search-dashboard-main'>
+                                        <div className='text-main-bg'>Type your message here</div>
+                                        <img className='send-image' src={SendIcon} />
+                                    </div>
                                 </div>
                             </div>
                         </div>
