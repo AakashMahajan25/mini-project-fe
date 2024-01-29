@@ -14,8 +14,6 @@ import BlueCardFrruitLogo from '../../assets/images/blue-card-frruitlogo.png';
 function Profile() {
     return (
         <>
-            <TopBar />
-            <StockPriceScroll />
             <div className='row justify-content-between m-0 profile-css'>
                 <div className='col-lg-3'>
                     <LeftProfileBox />
