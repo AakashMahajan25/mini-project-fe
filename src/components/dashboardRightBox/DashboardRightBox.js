@@ -37,7 +37,7 @@ function DashboardRightBox() {
     return (
         <>
             <div className='Right-box'>
-                <div className='box'>
+                <div className='box'  style={{ height: window.innerHeight - 130 }}>
                     <div className='box-content'>
                         <div className='title' style={{ marginBottom: 20 }}>Most on Frruit</div>
                         {texts.map((text, index) => (
