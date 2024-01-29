@@ -95,10 +95,10 @@ function Dashboard() {
     return (
         <>
             <div className='dashboardHome row justify-content-between m-0'>
-                <div className='col-lg-3'>
+                <div className='col-lg-3 column-pad'>
                     <LeftBox />
                 </div>
-                <div className='col-lg-7'>
+                <div className='col-lg-7 column-pad'>
                     <div className='dashboard mt-4'>
                         <div className='d-flex flex-column justify-content-between' style={{ height: window.innerHeight - 170 }}>
                             <div className='d-flex flex-column'>
@@ -145,7 +145,7 @@ function Dashboard() {
                         </div>
                     </div>
                 </div>
-                <div className='col-lg-2'>
+                <div className='col-lg-2 column-pad'>
                     <DashboardRightBox />
                 </div>
             </div>

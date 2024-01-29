@@ -7,8 +7,37 @@
         position: sticky;
         left: 0;
         overflow-y: scroll;
-        
-    
+    }
+
+    .tab-css {
+        background-color: #E5EAFF;
+        border-radius: 50px;
+        color: #4563E4;
+        margin-right: 10px;
+    }
+
+    .css-1h9z7r5-MuiButtonBase-root-MuiTab-root.Mui-selected {
+        background-color: #4563E4;
+        border-radius: 50px;
+        color: #fff;
+    }
+
+    .css-1aquho2-MuiTabs-indicator {
+        position: absolute;
+        height: 0px;
+        bottom: 0;
+        width: 100%;
+        -webkit-transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+        transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+        background-color: #ffffff;
+    }
+
+    .css-145v6pe-MuiButtonBase-root-MuiTabScrollButton-root {
+        width: 18px;
+    }
+
+    .css-1h9z7r5-MuiButtonBase-root-MuiTab-root {
+        text-transform: unset;
     }
 
     .watchlistText {
@@ -17,6 +46,7 @@
         font-size: 16px;
         line-height: 18.75px;
         color: #171E42;
+        margin-bottom: 20px;
     }
 
     .scroll-tabs-btn {
@@ -74,5 +104,5 @@
     ::-webkit-scrollbar-thumb:hover {
         background: #4563E4;
     }
-   
+
 }
