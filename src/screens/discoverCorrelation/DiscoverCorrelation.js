@@ -118,8 +118,6 @@ function DiscoverCorrelation() {
     ];
     return (
         <>
-            <TopBar />
-            <StockPriceScroll />
             <div className='row justify-content-between m-0'>
                 <div className='col-lg-3'>
                     <LeftBox />
