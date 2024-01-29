@@ -105,13 +105,11 @@ function Dashboard() {
     };
     return (
         <>
-            <TopBar />
-            <StockPriceScroll />
-            <div className='row justify-content-between m-0'>
+            <div className='dashboardHome row justify-content-between m-0'>
                 <div className='col-lg-3'>
                     <LeftBox />
                 </div>
-                <div className='col-lg-6'>
+                <div className='col-lg-7'>
                     <div className='dashboard mt-4'>
                         <div className='dashboard-container'>
                             <p className='stories-title' style={{ marginBottom: 10 }}>Investors Stories</p>
@@ -149,7 +147,7 @@ function Dashboard() {
                         </div>
                     </div>
                 </div>
-                <div className='col-lg-3'>
+                <div className='col-lg-2'>
                     <DashboardRightBox />
                 </div>
             </div>
