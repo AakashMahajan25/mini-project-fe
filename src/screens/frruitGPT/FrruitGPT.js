@@ -7,12 +7,12 @@ function FrruitGPT() {
     return (
         <>
             <div className='row justify-content-between m-0'>
-                <div className='col-lg-3'>
+                <div className='col-lg-3 column-pad'>
                     <LeftBox />
                 </div>
-                <div className='col-lg-6'>
+                <div className='col-lg-6 column-pad'>
                 </div>
-                <div className='col-lg-3'>
+                <div className='col-lg-3 column-pad'>
                 </div>
             </div>
         </>

@@ -119,10 +119,10 @@ function DiscoverCorrelation() {
     return (
         <>
             <div className='row justify-content-between m-0'>
-                <div className='col-lg-3'>
+                <div className='col-lg-3 column-pad'>
                     <LeftBox />
                 </div>
-                <div className='col-lg-9 Discover-Correlation-css'>
+                <div className='col-lg-9 column-pad Discover-Correlation-css'>
                     <div className='Discover-Correlation-container mt-4'>
                         <div className='d-flex justify-content-between align-items-center'>
                             <div className='title' style={{ marginBottom: 20 }}>Event Explorer</div>
@@ -147,7 +147,7 @@ function DiscoverCorrelation() {
                         </div>
                         <div className='row'>
                             {eventDataList.map((eventData, index) => (
-                                <div key={index} className='col-lg-4'>
+                                <div key={index} className='col-lg-4 column-pad'>
                                     <EventExplorerCard {...eventData} />
                                 </div>
                             ))}
