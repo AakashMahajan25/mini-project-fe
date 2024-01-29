@@ -2,6 +2,7 @@ import React from 'react'
 import TopBar from '../../components/topBar/TopBar'
 import StockPriceScroll from '../../components/stockPriceScroll/StockPriceScroll'
 import LeftBox from '../../components/leftBox/LeftBox'
+import PromptsLibrary from '../../components/promptsLibrary/PromptsLibrary'
 
 function FrruitGPT() {
     return (
@@ -10,9 +11,8 @@ function FrruitGPT() {
                 <div className='col-lg-3 column-pad'>
                     <LeftBox />
                 </div>
-                <div className='col-lg-6 column-pad'>
-                </div>
-                <div className='col-lg-3 column-pad'>
+                <div className='col-lg-9 column-pad'>
+                <PromptsLibrary />
                 </div>
             </div>
         </>

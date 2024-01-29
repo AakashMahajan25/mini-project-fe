@@ -12,6 +12,7 @@ import SendIcon from '../../assets/images/send_icon.png';
 import './Dashboard.scss';
 import TrendingStocksCard from '../../components/trendingStocks/TrendingStocksCard'
 import Slider from 'react-slick'
+import { useNavigate } from 'react-router-dom'
 
 const storiesData = [
     { src: Stories1, onClick: () => handleOnClick(1) },
@@ -84,6 +85,7 @@ const promptText = [
     'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
 ]
 function Dashboard() {
+
     var settings = {
         dots: false,
         infinite: false,
@@ -92,6 +94,13 @@ function Dashboard() {
         swipeToSlide: true,
         arrows: false
     };
+
+    let navigate = useNavigate();
+    const routeChangeFrruitGPT = () => {
+      let path = `/frruit_gpt`;
+      navigate(path);
+    }
+
     return (
         <>
             <div className='dashboardHome row justify-content-between m-0'>
@@ -136,7 +145,7 @@ function Dashboard() {
                                             </div>
                                         ))}
                                     </div>
-                                    <div className='search-dashboard-main'>
+                                    <div className='search-dashboard-main' onClick={routeChangeFrruitGPT}>
                                         <div className='text-main-bg'>Type your message here</div>
                                         <img className='send-image' src={SendIcon} />
                                     </div>

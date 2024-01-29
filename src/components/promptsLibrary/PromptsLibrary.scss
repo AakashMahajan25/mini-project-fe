@@ -1,0 +1,87 @@
+.promptButton {
+    position: relative;
+
+    .radius-button {
+        position: absolute;
+        border-radius: 15px 0px 0px 15px;
+        right: 0;
+        margin-top: 6px;
+        z-index: 100;
+    }
+
+    
+    .radius-small-button {
+        border-radius: 15px 0px 0px 15px;
+        float: right;
+        margin-top: 6px;
+        z-index: 100;
+    }
+
+    .promptView {
+        position: absolute;
+        right: 0;
+        opacity: 1; /* Initially visible */
+        transition: all 1s ease-out; /* Apply transition to all properties */
+        display: flex;
+    }
+
+    .showPrompt {
+        border-right: 1px solid #E5E5E5;
+        border-bottom: 1px solid #E5E5E5;
+        border-left: 1px solid #E5E5E5;
+        background: #FFF;
+        box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.10);
+        position: static;
+        width: 413px;
+        padding: 16px 30px 16px 20px;
+        overflow-y: scroll;
+
+        .title {
+            color: #171E42;
+            font-size: 18px;
+            font-style: normal;
+            font-weight: 500;
+        }
+
+        .customPrompttabs {
+            border-radius: 50px;
+            background: #E5EAFF;
+            border: 0px;
+            padding: 5px;
+            align-items: center;
+            justify-content: space-between;
+
+        }
+
+        .nav-pills .nav-link {
+            border-radius: 50px !important;
+        }
+
+        .nav-pills .nav-link.active {
+            border: 0px !important;
+            border-radius: 50px !important;
+            background-color: #4563E4 !important;
+            color: white;
+        }
+
+        .suggest-prompts {
+            border-radius: 15px;
+            background: rgba(239, 241, 248, 0.85);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px;
+            margin-bottom: 16px;
+            cursor: pointer;
+
+            .text {
+                color: #6F7387;
+                font-size: 14px;
+                font-weight: 400;
+                margin-bottom: 0;
+                line-height: normal;
+            }
+        }
+
+    }
+}
