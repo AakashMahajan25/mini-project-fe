@@ -13,11 +13,11 @@ function TopBar() {
     navigate(path);
   }
   const routeChangeFrruitGPT = () => {
-    let path = `/frruit_gpt`;
+    let path = `/frruit-gpt`;
     navigate(path);
   }
   const routeChangeDiscoverCorrelation = () => {
-    let path = `/discover_correlation`;
+    let path = `/discover-correlation`;
     navigate(path);
   }
   const routeChangeProfile = () => {
@@ -32,8 +32,8 @@ function TopBar() {
             <img className="logo" style={{ width: 155 }} src={FrruitLogo} alt="" />
             <div className='d-flex align-items-center justify-content-between'>
               <div className={location.pathname === '/dashboard' ? 'web-nav-text-active me-5' : 'web-nav-text me-5'} onClick={routeChangeDashboard}>Dashboard</div>
-              <div className={location.pathname === '/frruit_gpt' ? 'web-nav-text-active me-5' : 'web-nav-text me-5'} onClick={routeChangeFrruitGPT}>Frruit GPT</div>
-              <div className={location.pathname === '/discover_correlation' ? 'web-nav-text-active me-5' : 'web-nav-text me-5'} onClick={routeChangeDiscoverCorrelation}>Discover Correlation</div>
+              <div className={location.pathname === '/frruit-gpt' ? 'web-nav-text-active me-5' : 'web-nav-text me-5'} onClick={routeChangeFrruitGPT}>Frruit GPT</div>
+              <div className={location.pathname === '/discover-correlation' ? 'web-nav-text-active me-5' : 'web-nav-text me-5'} onClick={routeChangeDiscoverCorrelation}>Discover Correlation</div>
               <img className="logo" onClick={routeChangeProfile} style={{ width: 42 }} src={ProfilePic} alt="" />
             </div>
           </div>

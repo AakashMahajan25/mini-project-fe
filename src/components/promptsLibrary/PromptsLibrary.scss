@@ -1,14 +1,16 @@
 .promptButton {
-    position: relative;
+    position: absolute;
+    top: 0;
+    right: 0;
 
     .radius-button {
         position: absolute;
         border-radius: 15px 0px 0px 15px;
         right: 0;
         margin-top: 6px;
-        z-index: 100;
+        z-index: 1000;
     }
-
+    
     
     .radius-small-button {
         border-radius: 15px 0px 0px 15px;
@@ -16,13 +18,14 @@
         margin-top: 6px;
         z-index: 100;
     }
-
+    
     .promptView {
         position: absolute;
         right: 0;
         opacity: 1; /* Initially visible */
         transition: all 1s ease-out; /* Apply transition to all properties */
         display: flex;
+        z-index: 1000;
     }
 
     .showPrompt {

@@ -97,7 +97,7 @@ function Dashboard() {
 
     let navigate = useNavigate();
     const routeChangeFrruitGPT = () => {
-      let path = `/frruit_gpt`;
+      let path = `/frruit-gpt`;
       navigate(path);
     }
 

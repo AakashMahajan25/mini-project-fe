@@ -1,0 +1,95 @@
+.BottomSearchBar {
+    position: absolute;
+    background-color: white;
+    padding: 20px 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    bottom: 0;
+    width: 100%;
+
+    .attachment {
+        border-radius: 15px;
+        background: #E5EAFF;
+        height: 56px;
+        padding: 6px 16px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        cursor: pointer;
+
+        &:hover {
+            background: #ced8ff;
+            transition: 0.3s ease-in;
+        }
+
+        .attach-text {
+            color: #4563E4;
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: normal;
+            margin-right: 10px;
+        }
+
+        .img-styles {
+            width: 24px;
+            height: 24px;
+            object-fit: contain;
+        }
+    }
+
+    .linkUrl {
+        border-radius: 15px;
+        background: #E9E7FD;
+        height: 56px;
+        padding: 6px 16px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        cursor: pointer;
+
+        &:hover {
+            background: rgb(207, 216, 255);
+            transition: 0.3s ease-in;
+        }
+
+        .linkUrl-text {
+            color: #7367F0;
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: normal;
+            margin-right: 10px;
+        }
+
+        .img-styles {
+            width: 24px;
+            height: 24px;
+            object-fit: contain;
+        }
+    }
+
+    .form-group {
+        width: 69%;
+
+        .form-control {
+            border-radius: 15px;
+            border: 1px solid #4563E4;
+            background: #F1F4FD;
+            height: 56px;
+            padding: 6px 16px;
+        }
+    }
+
+    .sendIcon {
+        .sendIcon-styles {
+            background: #F5F5F6;
+            width: 67px;
+            height: 56px;
+            object-fit: contain;
+            border-radius: 15px;
+            cursor: pointer;
+        }
+    }
+}
