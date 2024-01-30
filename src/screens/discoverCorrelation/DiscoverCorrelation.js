@@ -7,6 +7,7 @@ import EventExplorerCard from '../../components/eventExplorerCard/EventExplorerC
 import BackBtnArrow from '../../assets/images/back-btn-arrow.png';
 import BuySellStockCard from '../../components/buySellStockCard/BuySellStockCard';
 import { Nav, Tab, Tabs } from 'react-bootstrap'
+import DiscoverCorrelationGraph from '../../components/graph/DiscoverCorrelationGraph';
 
 function DiscoverCorrelation() {
     const itemsRef = useRef(null);
@@ -124,6 +125,32 @@ function DiscoverCorrelation() {
             buttonTextColor: '#40BC98'
         },
     ];
+    const stockData = [
+        {
+            companyName: 'TCS',
+            ltpValue: 3903,
+            percentageChange: 0.5,
+            changeInLastMonth: +41.86
+        },
+        {
+            companyName: 'Infosys',
+            ltpValue: 1850,
+            percentageChange: -0.8,
+            changeInLastMonth: -12.5
+        },
+        {
+            companyName: 'Infosys',
+            ltpValue: 1850,
+            percentageChange: -0.8,
+            changeInLastMonth: -12.5
+        },
+        {
+            companyName: 'Infosys',
+            ltpValue: 1850,
+            percentageChange: -0.8,
+            changeInLastMonth: -12.5
+        },
+    ];
     return (
         <>
             <div className='row justify-content-between m-0'>
@@ -169,7 +196,7 @@ function DiscoverCorrelation() {
                                     <button onClick={handleBackButtonClick} className='light-blue-btn me-2'><img src={BackBtnArrow} style={{ width: 7, height: 13, objectFit: 'contain', marginRight: 5, marginTop: -2 }} />Back</button>
                                     <div className='title'>Event Explorer</div>
                                 </div>
-                                <div className='box' style={{ height: window.innerHeight - 210 }}>
+                                <div className='box'>
                                     <div className='title' style={{ marginBottom: 10 }}>Indian Stocks Likely to be impacted be budget 2024</div>
                                     <div className='light-blue-btn' style={{ marginBottom: 10 }}>Regulatory Event</div>
                                     <div >
@@ -187,10 +214,25 @@ function DiscoverCorrelation() {
                                                     <div className='title-2' style={{ marginBottom: 10 }}>Stocks that get affected the most  (in %)</div>
                                                     <div className='row'>
                                                         <div className='col-lg-3'>
-                                                            <BuySellStockCard />
+                                                            <div>
+                                                                {stockData.map((stock, index) => (
+                                                                    <BuySellStockCard
+                                                                        key={index}
+                                                                        companyName={stock.companyName}
+                                                                        ltpValue={stock.ltpValue}
+                                                                        percentageChange={stock.percentageChange}
+                                                                        changeInLastMonth={stock.changeInLastMonth}
+                                                                    />
+                                                                ))}
+                                                            </div>
                                                         </div>
                                                         <div className='col-lg-9 column-pad'>
-
+                                                            <DiscoverCorrelationGraph
+                                                                graphData={{
+                                                                    labels: ['2', '4', '6', '8', '10', '12', '14', '16', '18', '20'],
+                                                                    data: [800, 650, 300, 550, 852, 157, 900, 350, 1000, 432]
+                                                                }}
+                                                            />
                                                         </div>
                                                     </div>
                                                 </Tab.Pane>
