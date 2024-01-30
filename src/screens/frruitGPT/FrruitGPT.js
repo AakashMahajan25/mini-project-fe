@@ -1,18 +1,18 @@
 import React from 'react'
 import TopBar from '../../components/topBar/TopBar'
 import StockPriceScroll from '../../components/stockPriceScroll/StockPriceScroll'
-import LeftBox from '../../components/leftBox/LeftBox'
 import PromptsLibrary from '../../components/promptsLibrary/PromptsLibrary'
+import FrruitGPTLeftBox from '../../components/FrruitGPTLeftBox/FrruitGPTLeftBox'
 
 function FrruitGPT() {
     return (
         <>
             <div className='row justify-content-between m-0'>
                 <div className='col-lg-3 column-pad'>
-                    <LeftBox />
+                    <FrruitGPTLeftBox />
                 </div>
                 <div className='col-lg-9 column-pad'>
-                <PromptsLibrary />
+                    <PromptsLibrary />
                 </div>
             </div>
         </>

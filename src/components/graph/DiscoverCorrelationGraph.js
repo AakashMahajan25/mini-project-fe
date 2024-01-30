@@ -63,7 +63,7 @@ function DiscoverCorrelationGraph(props) {
                         },
                         grid: {
                             zeroLineColor: 'transparent',
-                            tickColor:'white'
+                            tickColor: 'white'
                         },
                         title: {
                             display: true,
@@ -77,7 +77,6 @@ function DiscoverCorrelationGraph(props) {
                     x: {
                         grid: {
                             display: false,
-
                         },
                         ticks: {
                             padding: 20,
@@ -99,7 +98,7 @@ function DiscoverCorrelationGraph(props) {
     }, [graphData]);
 
     return (
-        <div className="p-3 border-grey position-relative">
+        <div className="border-grey position-relative">
             <div className='graph-dashboard'>
                 <canvas id="myChart"></canvas>
             </div>

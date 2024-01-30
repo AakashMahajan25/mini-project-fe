@@ -144,12 +144,14 @@ function DiscoverCorrelation() {
             percentageChange: -0.8,
             changeInLastMonth: -12.5
         },
-        {
-            companyName: 'Infosys',
-            ltpValue: 1850,
-            percentageChange: -0.8,
-            changeInLastMonth: -12.5
-        },
+    ];
+    const blueBoxLabels = [
+        'IT Sector in India is expected to benefit from the 2024 budget.',
+        'Telecom sectors in India is anticipated to gain from the 2024 budget.',
+        'Indias Fintech Industry is expected to see benefits from the 2024 budget.',
+        'The semiconductor Industry in India is anticipated to benefit from the 2024 budget.',
+        'The Digital Gaming Sector in India is expected to gain from the 2024 budget.',
+        'Indias EV Industry is anticipated to benefit from the 2024 budget.',
     ];
     return (
         <>
@@ -238,11 +240,20 @@ function DiscoverCorrelation() {
                                                 </Tab.Pane>
                                                 <Tab.Pane eventKey="second">
                                                     <div className='title-2' style={{ marginBottom: 10 }}>Stocks that get affected the most  (in %)</div>
+                                                    <div className='row'>
+                                                        <div className='col-lg-6'>
+                                                            {blueBoxLabels.map((label, index) => (
+                                                                <div key={index} className='blue-box-label'>{label}</div>
+                                                            ))}
+                                                        </div>
+                                                        <div className='col-lg-6'>
+
+                                                        </div>
+                                                    </div>
                                                 </Tab.Pane>
                                             </Tab.Content>
                                         </Tab.Container>
                                     </div>
-
                                 </div>
                             </>
                         }
