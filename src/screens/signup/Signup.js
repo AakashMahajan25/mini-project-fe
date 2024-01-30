@@ -55,9 +55,11 @@ function Signup() {
                                         <OtpInput
                                             value={otp}
                                             onChange={setOtp}
-                                            inputStyle={{ co }}
                                             numInputs={6}
-                                            renderInput={(props) => <input {...props} style={{ width: 56.68 }} className='verificationBox text-center me-2' />}
+                                            renderInput={(props) => <input {...props} style={{
+                                                width: 56.68,
+                                                outline: 'none',
+                                            }} className='verificationBox text-center me-2' />}
                                         />
                                     </div>
                                 </div>
