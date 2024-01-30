@@ -7,29 +7,27 @@ import './StockPriceScroll.scss'
 export default function StockPriceScroll() {
     const words = [
         { text1: "NIFTY 22097.45", text2: "0.93%" },
-        { text1: "NIFTY 22097.45", text2: "0.93%" },
         { text1: "NIFTY 22097.45", text2: "-0.93%" },
         { text1: "NIFTY 22097.45", text2: "0.93%" },
         { text1: "NIFTY 22097.45", text2: "-0.93%" },
-        { text1: "NIFTY 22097.45", text2: "0.93%" },
         { text1: "NIFTY 22097.45", text2: "0.93%" },
         { text1: "NIFTY 22097.45", text2: "-0.93%" },
     ];
 
     return (
         <div className="mt-2 stockpricescroll">
-            <div className="banner py-2" style={{ border: 'solid 1px #EDEDED' }}>
-                <Marquee key={Math.random()} velocity={20} minScale={0.7} resetAfterTries={100}>
-                    {words.map((word, index) => (
-                        <div key={index} style={{ padding: "0 25px" }}>
-                            <div className="d-flex align-items-center">
-                                <div className="text1">{word.text1}</div>
-                                <img className="mx-2" style={{ width: 24, objectFit: 'contain' }} src={word.text2 > '0' ? GreenArrow : RedArrow} />
-                                <div className={`${word.text2 > '0' ? 'text2' : 'text2red'}`}>{word.text2}</div>
-                            </div>
+            <div className="banner py-2 d-flex justify-content-between" style={{ border: 'solid 1px #EDEDED' }}>
+                {/* <Marquee key={Math.random()} velocity={50} minScale={0.7} resetAfterTries={100}> */}
+                {words.map((word, index) => (
+                    <div key={index} style={{ padding: "0 25px" }}>
+                        <div className="d-flex align-items-center">
+                            <div className="text1">{word.text1}</div>
+                            <img className="mx-2" style={{ width: 24, objectFit: 'contain' }} src={word.text2 > '0' ? GreenArrow : RedArrow} />
+                            <div className={`${word.text2 > '0' ? 'text2' : 'text2red'}`}>{word.text2}</div>
                         </div>
-                    ))}
-                </Marquee>
+                    </div>
+                ))}
+                {/* </Marquee> */}
             </div>
         </div>
     );
