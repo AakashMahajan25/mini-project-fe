@@ -1,0 +1,249 @@
+.ChatGpt {
+    position: sticky;
+    margin: 60px 30px 20px 30px;
+    overflow-y: scroll;
+
+    .rightChat {
+        display: flex;
+        align-items: flex-end;
+        flex-direction: column;
+        margin-right: 10px;
+
+        // float: right;
+
+        .profile-styles {
+            width: 57px;
+            height: 57px;
+            object-fit: contain;
+            border-radius: 50%;
+            border: 1px solid #4563E4;
+        }
+
+        .floatRight {
+            .arrow {
+                width: 14.69px;
+                height: 10px;
+                object-fit: contain;
+
+            }
+
+            .you-text {
+                color: #6F7387;
+                font-size: 16px;
+                font-weight: 400;
+                line-height: 22px;
+            }
+
+
+        }
+
+        .chat-text-container {
+            border-radius: 15px;
+            background: #F1F4FD;
+            padding: 12px 16px;
+            margin-bottom: 20px;
+
+            .chat-text {
+                color: #6F7387;
+                font-size: 14px;
+                font-weight: 600;
+                line-height: 22px;
+                margin-bottom: 0px;
+                text-align: right;
+            }
+        }
+    }
+
+    .leftChat {
+        .profile-styles {
+            width: 57px;
+            height: 57px;
+            object-fit: contain;
+
+        }
+
+        .floatLeft {
+            .arrow {
+                width: 14.69px;
+                height: 10px;
+                object-fit: contain;
+            }
+
+            .you-text {
+                color: #6F7387;
+                font-size: 16px;
+                font-weight: 400;
+                line-height: 22px;
+            }
+
+
+        }
+
+        .stock-list {
+            border-radius: 12.764px;
+            background: #F1F4FD;
+            display: flex;
+            padding: 13.615px;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 20px;
+
+            .image-stock {
+                border-radius: 8.509px;
+                border: 0.851px solid #E5E5E5;
+                background: #FFF;
+                padding: 4.255px 8.51px 3.404px 10.211px;
+
+                img {
+                    width: 60px;
+                    height: 60px;
+                    object-fit: contain;
+                }
+            }
+
+            .stock-text {
+                margin-left: 14px;
+
+                .stock-title {
+                    color: #171e42;
+                    font-size: 18px;
+                    font-style: normal;
+                    font-weight: 600;
+                }
+
+                .stock-subTitle {
+                    color: #6F7387;
+                    font-size: 14px;
+                    font-style: normal;
+                    font-weight: 400;
+                    margin-right: 8px;
+                    margin-bottom: 0px;
+                }
+
+                .stock-price-green {
+                    color: #28C76F;
+                    font-size: 14px;
+                    font-style: normal;
+                    font-weight: 400;
+                    margin-right: 8px;
+                    margin-bottom: 0px;
+                }
+
+                .stock-price-red {
+                    color: #EA5455;
+                    font-size: 14px;
+                    font-style: normal;
+                    font-weight: 400;
+                    margin-right: 8px;
+                    margin-bottom: 0px;
+                }
+
+                .arrow {
+                    width: 20px;
+                    height: 20px;
+                    object-fit: contain;
+                }
+            }
+
+            .button-stock-list {
+                display: grid;
+                gap: 8px;
+
+                .btn-green-buy {
+                    border-radius: 42.547px;
+                    background: #28C76F;
+                    padding: 4px 30px;
+                    border: 0px solid;
+                    color: white;
+                    line-height: normal;
+                    font-size: 14px;
+                }
+
+                .btn-red-sell {
+                    border-radius: 42.547px;
+                    background: #EA5455;
+                    padding: 4px 30px;
+                    border: 0px solid;
+                    color: white;
+                    line-height: normal;
+                    font-size: 14px;
+                }
+            }
+        }
+
+        .fundamental-container {
+            margin-bottom: 20px;
+
+            .fundamental-maintitle {
+                color: #171E42;
+                font-size: 14px;
+                font-style: normal;
+                font-weight: 500;
+                line-height: normal;
+            }
+
+            .fundamental {
+                border-radius: 15px;
+                background: #F1F4FD;
+                padding: 12px 16px;
+                margin-right: 5px;
+                // display: flex !important;
+                // align-items: center;
+                // justify-content: center;
+                // flex-direction: column;
+                // width: max-content !important;
+
+                .fundamental-title {
+                    color: #6F7387;
+                    font-size: 14px;
+                    font-style: normal;
+                    font-weight: 600;
+                    line-height: 22px;
+                    margin-bottom: 10px;
+                    text-align: center;
+                }
+                
+                .fundamental-value {
+                    text-align: center;
+                    color: #6F7387;
+                    font-size: 16px;
+                    font-style: normal;
+                    font-weight: 400;
+                    line-height: 22px;
+                    margin-bottom: 0px;
+                }
+            }
+        }
+
+        .chat-text-container {
+            margin-bottom: 20px;
+
+            .chat-text {
+                color: #6F7387;
+                font-size: 14px;
+                font-weight: 500;
+                line-height: normal;
+                margin-bottom: 0px;
+                text-align: left;
+            }
+        }
+    }
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #4563E4;
+    border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #4563E4;
+}
