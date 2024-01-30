@@ -3,14 +3,17 @@ import TopBar from '../../components/topBar/TopBar'
 import StockPriceScroll from '../../components/stockPriceScroll/StockPriceScroll'
 import LeftBox from '../../components/leftBox/LeftBox'
 import './DiscoverCorrelation.scss';
-import { Nav } from 'react-bootstrap';
 import EventExplorerCard from '../../components/eventExplorerCard/EventExplorerCard';
+import BackBtnArrow from '../../assets/images/back-btn-arrow.png';
+import BuySellStockCard from '../../components/buySellStockCard/BuySellStockCard';
+import { Nav, Tab, Tabs } from 'react-bootstrap'
 
 function DiscoverCorrelation() {
     const itemsRef = useRef(null);
     const [isMouseDown, setIsMouseDown] = useState(false);
     const [startX, setStartX] = useState(0);
     const [scrollLeft, setScrollLeft] = useState(0);
+    const [showEventDetails, setShowEventDetails] = useState(false);
 
     const handleMouseDown = (e) => {
         setIsMouseDown(true);
@@ -33,6 +36,13 @@ function DiscoverCorrelation() {
         const walk = (x - startX) * 2;
         itemsRef.current.scrollLeft = scrollLeft - walk;
         requestAnimationFrame(() => handleMouseMove(e));
+    };
+
+    const handleCardClick = () => {
+        setShowEventDetails(true);
+    };
+    const handleBackButtonClick = () => {
+        setShowEventDetails(false);
     };
 
     const tabData = [
@@ -113,8 +123,6 @@ function DiscoverCorrelation() {
             buttonBackgroundColor: '#40BC981A',
             buttonTextColor: '#40BC98'
         },
-
-
     ];
     return (
         <>
@@ -124,34 +132,78 @@ function DiscoverCorrelation() {
                 </div>
                 <div className='col-lg-9 column-pad Discover-Correlation-css'>
                     <div className='Discover-Correlation-container mt-4'>
-                        <div className='d-flex justify-content-between align-items-center'>
-                            <div className='title' style={{ marginBottom: 20 }}>Event Explorer</div>
-                            <div className='viewAllTeaxt' style={{ marginBottom: 20 }}>View All</div>
-                        </div>
-                        <div
-                            className='scroll-tabs-btn'
-                            style={{ marginBottom: 20 }}
-                            ref={itemsRef}
-                            onMouseDown={handleMouseDown}
-                            onMouseLeave={handleMouseLeave}
-                            onMouseUp={handleMouseUp}
-                            onMouseMove={handleMouseMove}
-                        >
-                            <Nav variant="pills" defaultActiveKey={tabData[0].label}>
-                                {tabData.map((tab, index) => (
-                                    <Nav.Item key={`${tab.label}-${index}`}>
-                                        <Nav.Link className='me-3' eventKey={tab.label}>{tab.label}</Nav.Link>
-                                    </Nav.Item>
-                                ))}
-                            </Nav>
-                        </div>
-                        <div className='row'>
-                            {eventDataList.map((eventData, index) => (
-                                <div key={index} className='col-lg-4 column-pad'>
-                                    <EventExplorerCard {...eventData} />
+                        {!showEventDetails && (
+                            <>
+                                <div className='d-flex justify-content-between align-items-center'>
+                                    <div className='title' style={{ marginBottom: 20 }}>Event Explorer</div>
+                                    <div className='viewAllTeaxt' style={{ marginBottom: 20 }}>View All</div>
                                 </div>
-                            ))}
-                        </div>
+                                <div
+                                    className='scroll-tabs-btn'
+                                    ref={itemsRef}
+                                    onMouseDown={handleMouseDown}
+                                    onMouseLeave={handleMouseLeave}
+                                    onMouseUp={handleMouseUp}
+                                    onMouseMove={handleMouseMove}
+                                >
+                                    <Nav variant="pills" defaultActiveKey={tabData[0].label}>
+                                        {tabData.map((tab, index) => (
+                                            <Nav.Item key={`${tab.label}-${index}`}>
+                                                <Nav.Link className='me-3' eventKey={tab.label}>{tab.label}</Nav.Link>
+                                            </Nav.Item>
+                                        ))}
+                                    </Nav>
+                                </div>
+                                <div className='row'>
+                                    {eventDataList.map((eventData, index) => (
+                                        <div key={index} className='col-lg-4 column-pad'>
+                                            <EventExplorerCard {...eventData} onCardClick={handleCardClick} />
+                                        </div>
+                                    ))}
+                                </div>
+                            </>
+                        )}
+                        {showEventDetails &&
+                            <>
+                                <div className='d-flex justify-content-start align-items-center' style={{ marginBottom: 20 }}>
+                                    <button onClick={handleBackButtonClick} className='light-blue-btn me-2'><img src={BackBtnArrow} style={{ width: 7, height: 13, objectFit: 'contain', marginRight: 5, marginTop: -2 }} />Back</button>
+                                    <div className='title'>Event Explorer</div>
+                                </div>
+                                <div className='box' style={{ height: window.innerHeight - 210 }}>
+                                    <div className='title' style={{ marginBottom: 10 }}>Indian Stocks Likely to be impacted be budget 2024</div>
+                                    <div className='light-blue-btn' style={{ marginBottom: 10 }}>Regulatory Event</div>
+                                    <div >
+                                        <Tab.Container defaultActiveKey="first">
+                                            <Nav className='customDiscoverCorrelationtabs' variant="pills">
+                                                <Nav.Item>
+                                                    <Nav.Link eventKey="first">Returns</Nav.Link>
+                                                </Nav.Item>
+                                                <Nav.Item>
+                                                    <Nav.Link eventKey="second">Connections</Nav.Link>
+                                                </Nav.Item>
+                                            </Nav>
+                                            <Tab.Content className='mt-3'>
+                                                <Tab.Pane eventKey="first">
+                                                    <div className='title-2' style={{ marginBottom: 10 }}>Stocks that get affected the most  (in %)</div>
+                                                    <div className='row'>
+                                                        <div className='col-lg-3'>
+                                                            <BuySellStockCard />
+                                                        </div>
+                                                        <div className='col-lg-9 column-pad'>
+
+                                                        </div>
+                                                    </div>
+                                                </Tab.Pane>
+                                                <Tab.Pane eventKey="second">
+                                                    <div className='title-2' style={{ marginBottom: 10 }}>Stocks that get affected the most  (in %)</div>
+                                                </Tab.Pane>
+                                            </Tab.Content>
+                                        </Tab.Container>
+                                    </div>
+
+                                </div>
+                            </>
+                        }
                     </div>
                 </div>
             </div>
