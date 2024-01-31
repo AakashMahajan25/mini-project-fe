@@ -23,6 +23,21 @@ function LeftBox() {
                     { name: 'TCS', price: '3903', percentage: '0.5%' },
                     { name: 'TCS', price: '3903', percentage: '-0.5%' },
                     { name: 'TCS', price: '3903', percentage: '0.5%' },
+                    { name: 'TCS', price: '3903', percentage: '0.5%' },
+                    { name: 'TCS', price: '3903', percentage: '-0.5%' },
+                    { name: 'TCS', price: '3903', percentage: '0.5%' },
+                    { name: 'TCS', price: '3903', percentage: '-0.5%' },
+                    { name: 'TCS', price: '3903', percentage: '0.5%' },
+                    { name: 'TCS', price: '3903', percentage: '0.5%' },
+                    { name: 'TCS', price: '3903', percentage: '-0.5%' },
+                    { name: 'TCS', price: '3903', percentage: '0.5%' },
+                    { name: 'TCS', price: '3903', percentage: '-0.5%' },
+                    { name: 'TCS', price: '3903', percentage: '0.5%' },
+                    { name: 'TCS', price: '3903', percentage: '0.5%' },
+                    { name: 'TCS', price: '3903', percentage: '-0.5%' },
+                    { name: 'TCS', price: '3903', percentage: '0.5%' },
+                    { name: 'TCS', price: '3903', percentage: '-0.5%' },
+                    { name: 'TCS', price: '3903', percentage: '0.5%' },
                 ];
             case 2:
                 return [
