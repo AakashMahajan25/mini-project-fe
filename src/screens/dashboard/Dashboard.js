@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import LeftBox from '../../components/leftBox/LeftBox';
 import DashboardRightBox from '../../components/dashboardRightBox/DashboardRightBox';
 import Stories1 from '../../assets/images/stories-icon-1.png';
@@ -109,6 +109,11 @@ function Dashboard() {
         'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
         'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
     ];
+    const dispatch = useDispatch()
+    const { trendingStocks } = useSelector(state => state.dashboardSlice);
+
+console.log('trendingStocks', trendingStocks)
+
 
     const settings = {
         dots: false,
@@ -139,9 +144,14 @@ function Dashboard() {
 
     const navigate = useNavigate();
     const routeChangeFrruitGPT = () => {
-        let path = `/frruit-gpt`;
-        navigate(path);
+          let path = `/frruit-gpt`;
+          navigate(path);
     };
+
+    useEffect(() => {
+        dispatch(getTrendingStocks())
+    }, [])
+
 
     return (
         <div className='dashboardHome row justify-content-between m-0'>

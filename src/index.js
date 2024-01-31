@@ -7,12 +7,18 @@ import 'bootstrap/dist/js/bootstrap.js'
 import { BrowserRouter as Router } from 'react-router-dom'
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { Provider } from 'react-redux';
+import { store } from './utils/store';
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <Router>
-    <App />
+    <Provider store={store}>
+      <App />
+    </Provider>
   </Router>
+
 );
 
 // If you want to start measuring performance in your app, pass a function
