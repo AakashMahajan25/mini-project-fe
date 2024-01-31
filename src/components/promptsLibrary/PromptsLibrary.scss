@@ -10,22 +10,21 @@
         margin-top: 6px;
         z-index: 1000;
     }
-    
-    
+
+
     .radius-small-button {
         border-radius: 15px 0px 0px 15px;
         float: right;
         margin-top: 6px;
         z-index: 100;
     }
-    
+
     .promptView {
-        position: absolute;
+        position: fixed;
         right: 0;
-        opacity: 1; /* Initially visible */
-        transition: all 1s ease-out; /* Apply transition to all properties */
+        bottom: 0;
         display: flex;
-        z-index: 1000;
+        z-index: 100;
     }
 
     .showPrompt {
@@ -86,5 +85,15 @@
             }
         }
 
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+    }
+
+    to {
+        transform: translateX(0);
     }
 }

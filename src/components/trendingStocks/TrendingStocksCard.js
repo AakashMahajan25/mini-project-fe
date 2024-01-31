@@ -4,37 +4,38 @@ import './TrendingStocksCard.scss';
 import UpArrow from '../../assets/images/up-arrow-outline.png';
 import DownArrow from '../../assets/images/down-arrow-outline.png';
 import RightWhiteArrow from '../../assets/images/white-right.png';
+import { trimText } from '../../utils/utils';
 
-function TrendingStocksCard({ stockName, ltpLabel, ltpValue, percentageChange, buyButtonText, sellButtonText, fruitButtonText }) {
-    const isPositiveChange = parseFloat(percentageChange) > 0;
+function TrendingStocksCard({ name, symbol, change, changesPercentage }) {
+    const isPositiveChange = parseFloat(changesPercentage) > 0;
 
     return (
         <div className='trendingStockCard' style={{ marginRight: 10 }}>
             <div className='card'>
                 <div className='d-flex justify-content-between align-items-center' style={{ marginBottom: 8 }}>
-                    <p className='stockname'>{stockName}</p>
+                    <p className='stockname'>{trimText(name,15)}</p>
                     <div className='d-flex align-items-center justify-content-start'>
-                        <p className='text me-2'>{ltpLabel}</p>
-                        <p className={`text2 me-2`} style={{ color: isPositiveChange ? '#28C76F' : '#EA5455' }}>{ltpValue}</p>
-                        <p className={`text2 me-2`} style={{ color: isPositiveChange ? '#28C76F' : '#EA5455' }}>{percentageChange}</p>
+                        <p className='text me-2'>{symbol}</p>
+                        <p className={`text2 me-2`} style={{ color: isPositiveChange ? '#28C76F' : '#EA5455' }}>{change}</p>
+                        <p className={`text2 me-2`} style={{ color: isPositiveChange ? '#28C76F' : '#EA5455' }}>{`${changesPercentage}%`}</p>
                         <img src={isPositiveChange ? UpArrow : DownArrow} style={{ width: 18, objectFit: 'contain' }} alt='Arrow' />
                     </div>
                 </div>
                 <div>
                     <div className='row px-2'>
-                        <div className='col-lg-4'>
+                        <div className='col-lg-4 column-pad'>
                             <div className='mx-1'>
-                                <button className='green-btn'>{buyButtonText}</button>
+                                <button className='green-btn'>{'Buy'}</button>
                             </div>
                         </div>
-                        <div className='col-lg-4'>
+                        <div className='col-lg-4 column-pad'>
                             <div className='mx-1'>
-                                <button className='red-btn'>{sellButtonText}</button>
+                                <button className='red-btn'>{'Sell'}</button>
                             </div>
                         </div>
-                        <div className='col-lg-4'>
+                        <div className='col-lg-4 column-pad'>
                             <div className='mx-1'>
-                                <button className='blue-btn  d-flex align-items-center justify-content-center'>{fruitButtonText}  <img src={RightWhiteArrow} style={{ width: 6, objectFit: 'contain', marginLeft: 5 }} /></button>
+                                <button className='blue-btn  d-flex align-items-center justify-content-center'>{'Get Frruit'}  <img src={RightWhiteArrow} style={{ width: 6, objectFit: 'contain', marginLeft: 5 }} /></button>
                             </div>
                         </div>
                     </div>
