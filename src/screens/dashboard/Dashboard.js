@@ -16,6 +16,8 @@ import TrendingStocksCard from '../../components/trendingStocks/TrendingStocksCa
 import Slider from 'react-slick';
 import { useNavigate } from 'react-router-dom';
 import Modal from 'react-bootstrap/Modal';
+import { useDispatch, useSelector } from 'react-redux';
+import { getTrendingStocks } from './slice';
 
 function Dashboard() {
     const PreviousBtn = (props) => {
@@ -53,54 +55,6 @@ function Dashboard() {
         { src: Stories3, onClick: handleShow },
         { src: Stories1, onClick: handleShow },
         { src: Stories2, onClick: handleShow },
-    ];
-
-    const trendingStocksData = [
-        {
-            stockName: 'TCS',
-            ltpLabel: 'LTP',
-            ltpValue: '3903',
-            percentageChange: '0.5%',
-            buyButtonText: 'Buy',
-            sellButtonText: 'Sell',
-            fruitButtonText: 'Get Frruit',
-        },
-        {
-            stockName: 'TCS',
-            ltpLabel: 'LTP',
-            ltpValue: '3903',
-            percentageChange: '-0.5%',
-            buyButtonText: 'Buy',
-            sellButtonText: 'Sell',
-            fruitButtonText: 'Get Frruit',
-        },
-        {
-            stockName: 'TCS',
-            ltpLabel: 'LTP',
-            ltpValue: '3903',
-            percentageChange: '0.5%',
-            buyButtonText: 'Buy',
-            sellButtonText: 'Sell',
-            fruitButtonText: 'Get Frruit',
-        },
-        {
-            stockName: 'TCS',
-            ltpLabel: 'LTP',
-            ltpValue: '3903',
-            percentageChange: '-0.5%',
-            buyButtonText: 'Buy',
-            sellButtonText: 'Sell',
-            fruitButtonText: 'Get Frruit',
-        },
-        {
-            stockName: 'TCS',
-            ltpLabel: 'LTP',
-            ltpValue: '3903',
-            percentageChange: '0.5%',
-            buyButtonText: 'Buy',
-            sellButtonText: 'Sell',
-            fruitButtonText: 'Get Frruit',
-        },
     ];
 
     const promptText = [
@@ -179,7 +133,7 @@ console.log('trendingStocks', trendingStocks)
                             <div className='dashboard-slider'>
                                 <p className='stories-title' style={{ marginBottom: 10 }}>Trending Stocks</p>
                                 <Slider {...settings}>
-                                    {trendingStocksData.map((stockData, index) => (
+                                    {trendingStocks.map((stockData, index) => (
                                         <TrendingStocksCard key={index} {...stockData} />
                                     ))}
                                 </Slider>
@@ -222,7 +176,7 @@ console.log('trendingStocks', trendingStocks)
                 <Modal.Body className="custom-modal-body">
                     <div style={{}}>
                         <div className='row position-relative justify-content-between' style={{ padding: '0px 30px', top: 20 }}>
-                            {[...new Array(storyImages.length)].map((value, index) => (
+                            {[...new Array(storyImages?.length)].map((value, index) => (
                                 <div
                                     key={index}
                                     className='col'
