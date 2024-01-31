@@ -8,6 +8,8 @@ import UpGreenArrow from '../../assets/images/up-arrow-outline.png'
 import DownRedArrow from '../../assets/images/down-arrow-outline.png'
 import Slider from 'react-slick'
 import TrendingStocksCard from '../trendingStocks/TrendingStocksCard'
+import DiscoverCorrelationGraph from '../graph/DiscoverCorrelationGraph'
+import BarChart from '../barChart/BarChart'
 
 function ChatGpt() {
     var settings = {
@@ -23,9 +25,18 @@ function ChatGpt() {
         dots: false,
         infinite: false,
         speed: 500,
-        slidesToShow: 3,
+        slidesToShow: 3.2,
         swipeToSlide: true,
         arrows: false
+    };
+
+    var graphSettings = {
+        dots: false,
+        infinite: false,
+        speed: 500,
+        slidesToShow: 1.5,
+        swipeToSlide: true,
+        arrows: false,
     };
 
     const fundamental = [
@@ -171,6 +182,40 @@ function ChatGpt() {
                     <h3 className='chat-text'>Tata Consultancy Services Limited (TCS) is an India-based company engaged in providing information technology (IT) services, consulting, and business solutions. It operates through Banking; Capital Markets; Consumer Goods and Distribution; Communications, Media, and Information Services; Education; Energy, Resources, and Utilities; Healthcare; High Tech; Insurance; Life Sciences; Manufacturing; Public Services; Retail; Travel and Logistics. </h3>
                 </div>
 
+                {
+                    <div className='graphSlider'>
+                        <Slider {...graphSettings}>
+                            <div className='chartGraph'>
+                                <h4 className='title'>Price Chart</h4>
+                                <DiscoverCorrelationGraph
+                                    index={1}
+                                    graphData={{
+                                        labels: ['2', '4', '6', '8', '10', '12', '14', '16', '18', '20'],
+                                        data: [800, 650, 300, 550, 852, 157, 900, 350, 1000, 432]
+                                    }}
+                                />
+                            </div>
+                            <div className='chartGraph'>
+                                <div className='d-flex align-items-center justify-content-between'>
+                                    <h4 className='title'>Financials</h4>
+                                    <div className='d-flex align-items-center'>
+                                        <div className='blue-btn me-3' style={{ padding: '8px 33px', cursor: 'pointer' }}>Revenue</div>
+                                        <div className='light-blue-btn me-3' style={{ padding: '8px 33px', cursor: 'pointer' }}>Profit</div>
+                                        <div className='light-blue-btn' style={{ padding: '8px 33px', cursor: 'pointer' }}>Net Worth</div>
+                                    </div>
+                                </div>
+                                <BarChart
+                                    index={2}
+                                    graphData={{
+                                        labels: ['2', '4', '6', '8', '10', '12', '14', '16', '18', '20'],
+                                        data: [800, 650, 300, 550, 852, 157, 900, 350, 1000, 432]
+                                    }}
+                                />
+                            </div>
+                        </Slider>
+                    </div>
+
+                }
                 <div className='fundamental-container'>
                     <h2 className='fundamental-maintitle'>Fundamentals</h2>
                     <Slider {...settings}>

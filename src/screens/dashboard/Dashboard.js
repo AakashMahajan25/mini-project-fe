@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import TopBar from '../../components/topBar/TopBar'
 import StockPriceScroll from '../../components/stockPriceScroll/StockPriceScroll'
 import LeftBox from '../../components/leftBox/LeftBox'
@@ -13,6 +13,9 @@ import './Dashboard.scss';
 import TrendingStocksCard from '../../components/trendingStocks/TrendingStocksCard'
 import Slider from 'react-slick'
 import { useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { getTrendingStocks } from './slice'
+import Loader from '../../components/loader/Loader'
 
 const storiesData = [
     { src: Stories1, onClick: () => handleOnClick(1) },
@@ -30,53 +33,6 @@ const storiesData = [
 function handleOnClick(storyNumber) {
     console.log(`Clicked on story ${storyNumber}`);
 }
-const trendingStocksData = [
-    {
-        stockName: 'TCS',
-        ltpLabel: 'LTP',
-        ltpValue: '3903',
-        percentageChange: '0.5%',
-        buyButtonText: 'Buy',
-        sellButtonText: 'Sell',
-        fruitButtonText: 'Get Frruit',
-    },
-    {
-        stockName: 'TCS',
-        ltpLabel: 'LTP',
-        ltpValue: '3903',
-        percentageChange: '-0.5%',
-        buyButtonText: 'Buy',
-        sellButtonText: 'Sell',
-        fruitButtonText: 'Get Frruit',
-    },
-    {
-        stockName: 'TCS',
-        ltpLabel: 'LTP',
-        ltpValue: '3903',
-        percentageChange: '0.5%',
-        buyButtonText: 'Buy',
-        sellButtonText: 'Sell',
-        fruitButtonText: 'Get Frruit',
-    },
-    {
-        stockName: 'TCS',
-        ltpLabel: 'LTP',
-        ltpValue: '3903',
-        percentageChange: '-0.5%',
-        buyButtonText: 'Buy',
-        sellButtonText: 'Sell',
-        fruitButtonText: 'Get Frruit',
-    },
-    {
-        stockName: 'TCS',
-        ltpLabel: 'LTP',
-        ltpValue: '3903',
-        percentageChange: '0.5%',
-        buyButtonText: 'Buy',
-        sellButtonText: 'Sell',
-        fruitButtonText: 'Get Frruit',
-    },
-];
 
 const promptText = [
     'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
@@ -85,6 +41,11 @@ const promptText = [
     'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
 ]
 function Dashboard() {
+    const dispatch = useDispatch()
+    const { trendingStocks } = useSelector(state => state.dashboardSlice);
+
+console.log('trendingStocks', trendingStocks)
+
 
     var settings = {
         dots: false,
@@ -97,12 +58,18 @@ function Dashboard() {
 
     let navigate = useNavigate();
     const routeChangeFrruitGPT = () => {
-      let path = `/frruit-gpt`;
-      navigate(path);
+        let path = `/frruit-gpt`;
+        navigate(path);
     }
+
+    useEffect(() => {
+        dispatch(getTrendingStocks())
+    }, [])
+
 
     return (
         <>
+        {/* <Loader/> */}
             <div className='dashboardHome row justify-content-between m-0'>
                 <div className='col-lg-3 column-pad'>
                     <LeftBox />
@@ -127,7 +94,7 @@ function Dashboard() {
                                 <div className='dashboard-slider'>
                                     <p className='stories-title' style={{ marginBottom: 10 }}>Trending Stocks</p>
                                     <Slider {...settings}>
-                                        {trendingStocksData.map((stockData, index) => (
+                                        {trendingStocks.map((stockData, index) => (
                                             <TrendingStocksCard {...stockData} />
                                         ))}
                                     </Slider>

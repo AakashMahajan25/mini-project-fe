@@ -1,20 +1,12 @@
 import React, { useEffect } from 'react';
 import Chart from 'chart.js/auto';
 
-function DiscoverCorrelationGraph(props) {
+function BarChart(props) {
     const { graphData, index } = props;
 
     useEffect(() => {
         const ctx = document.getElementById(`myChart${index}`).getContext('2d');
         const existingChart = Chart.getChart(ctx);
-
-        const gradientStroke = ctx.createLinearGradient(500, 0, 100, 0);
-        gradientStroke.addColorStop(0, 'rgba(21, 112, 239, 1)');
-        gradientStroke.addColorStop(1, 'rgba(21, 112, 239, 1)');
-
-        const gradientFill = ctx.createLinearGradient(0, 0, 0, 200);
-        gradientFill.addColorStop(0, 'rgba(21, 112, 239, 0.5)');
-        gradientFill.addColorStop(1, 'rgba(21, 112, 239, 0.05)');
 
         if (existingChart) {
             existingChart.destroy();
@@ -22,29 +14,19 @@ function DiscoverCorrelationGraph(props) {
 
         const XAxis = graphData.labels;
         const YAxis = graphData.data;
-
         new Chart(ctx, {
-            type: 'line',
+            type: 'bar',
             data: {
                 labels: XAxis,
-                datasets: [
-                    {
-                        borderColor: gradientStroke,
-                        pointBorderColor: gradientStroke,
-                        pointBackgroundColor: gradientStroke,
-                        pointHoverBackgroundColor: gradientStroke,
-                        pointHoverBorderColor: gradientStroke,
-                        pointBorderWidth: 0,
-                        pointHoverRadius: 0,
-                        pointHoverBorderWidth: 1,
-                        pointRadius: 0,
-                        fill: true,
-                        backgroundColor: gradientFill,
-                        borderWidth: 0.8,
-                        data: YAxis,
-                        tension: 0.2
-                    },
-                ],
+                datasets: [{
+                    data: YAxis,
+                    backgroundColor: [
+                        '#F1F4FD',
+                    ],
+                    borderRadius: 5,
+                    borderColor:'#4563E4',
+                    borderWidth:1
+                }],
             },
             options: {
                 plugins: {
@@ -68,7 +50,7 @@ function DiscoverCorrelationGraph(props) {
                         },
                         title: {
                             display: true,
-                            text: `Money`,
+                            text: `Users`,
                             padding: 0,
                         },
                         border: {
@@ -93,7 +75,9 @@ function DiscoverCorrelationGraph(props) {
                             display: false
                         }
                     },
+
                 },
+
             },
         });
     }, [graphData]);
@@ -107,4 +91,4 @@ function DiscoverCorrelationGraph(props) {
     )
 }
 
-export default DiscoverCorrelationGraph;
+export default BarChart;
