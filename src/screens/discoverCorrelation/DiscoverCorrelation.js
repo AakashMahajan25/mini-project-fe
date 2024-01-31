@@ -1,4 +1,7 @@
-import React, { useRef, useState } from 'react'
+import * as React from 'react';
+import TabsMui from '@mui/material/Tabs';
+import TabMui from '@mui/material/Tab';
+import Box from '@mui/material/Box';
 import TopBar from '../../components/topBar/TopBar'
 import StockPriceScroll from '../../components/stockPriceScroll/StockPriceScroll'
 import LeftBox from '../../components/leftBox/LeftBox'
@@ -10,34 +13,7 @@ import { Nav, Tab, Tabs } from 'react-bootstrap'
 import DiscoverCorrelationGraph from '../../components/graph/DiscoverCorrelationGraph';
 
 function DiscoverCorrelation() {
-    const itemsRef = useRef(null);
-    const [isMouseDown, setIsMouseDown] = useState(false);
-    const [startX, setStartX] = useState(0);
-    const [scrollLeft, setScrollLeft] = useState(0);
-    const [showEventDetails, setShowEventDetails] = useState(false);
-
-    const handleMouseDown = (e) => {
-        setIsMouseDown(true);
-        setStartX(e.pageX - itemsRef.current.offsetLeft);
-        setScrollLeft(itemsRef.current.scrollLeft);
-    };
-
-    const handleMouseLeave = () => {
-        setIsMouseDown(false);
-    };
-
-    const handleMouseUp = () => {
-        setIsMouseDown(false);
-    };
-
-    const handleMouseMove = (e) => {
-        if (!isMouseDown) return;
-        e.preventDefault();
-        const x = e.pageX - itemsRef.current.offsetLeft;
-        const walk = (x - startX) * 2;
-        itemsRef.current.scrollLeft = scrollLeft - walk;
-        requestAnimationFrame(() => handleMouseMove(e));
-    };
+    const [showEventDetails, setShowEventDetails] = React.useState(false);
 
     const handleCardClick = () => {
         setShowEventDetails(true);
@@ -153,6 +129,11 @@ function DiscoverCorrelation() {
         'The Digital Gaming Sector in India is expected to gain from the 2024 budget.',
         'Indias EV Industry is anticipated to benefit from the 2024 budget.',
     ];
+    const [value, setValue] = React.useState(0);
+
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
+    };
     return (
         <>
             <div className='row justify-content-between m-0'>
@@ -167,22 +148,19 @@ function DiscoverCorrelation() {
                                     <div className='title' style={{ marginBottom: 20 }}>Event Explorer</div>
                                     <div className='viewAllTeaxt' style={{ marginBottom: 20 }}>View All</div>
                                 </div>
-                                <div
-                                    className='scroll-tabs-btn'
-                                    ref={itemsRef}
-                                    onMouseDown={handleMouseDown}
-                                    onMouseLeave={handleMouseLeave}
-                                    onMouseUp={handleMouseUp}
-                                    onMouseMove={handleMouseMove}
-                                >
-                                    <Nav variant="pills" defaultActiveKey={tabData[0].label}>
+                                <Box marginBottom={'20px'} sx={{ maxWidth: { xs: 320, sm: 480 }, bgcolor: 'background.paper' }}>
+                                    <TabsMui
+                                        value={value}
+                                        onChange={handleChange}
+                                        variant="scrollable"
+                                        scrollButtons="auto"
+                                        aria-label="scrollable auto tabs example"
+                                    >
                                         {tabData.map((tab, index) => (
-                                            <Nav.Item key={`${tab.label}-${index}`}>
-                                                <Nav.Link className='me-3' eventKey={tab.label}>{tab.label}</Nav.Link>
-                                            </Nav.Item>
+                                            <TabMui key={index} label={tab.label} className='tab-css' />
                                         ))}
-                                    </Nav>
-                                </div>
+                                    </TabsMui>
+                                </Box>
                                 <div className='row'>
                                     {eventDataList.map((eventData, index) => (
                                         <div key={index} className='col-lg-4 column-pad'>

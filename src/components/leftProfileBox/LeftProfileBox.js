@@ -5,8 +5,8 @@ import LogOut from '../../assets/images/logout-outline.png';
 function LeftProfileBox() {
     return (
         <>
-            <div className='profile-left-box'>
-                <div className='box'>
+            <div className='profile-left-box' >
+                <div className='box' style={{ height: window.innerHeight - 130 }}>
                     <button className='side-box-light-blue-btn mb-2'>Profile</button>
                     <button className='side-box-light-blue-btn mb-2'>Help</button>
                     <button className='side-box-light-blue-btn mb-2'>Terms and condition</button>

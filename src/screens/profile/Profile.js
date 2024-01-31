@@ -19,7 +19,7 @@ function Profile() {
                     <LeftProfileBox />
                 </div>
                 <div className='col-lg-9 column-pad'>
-                    <div className='right-part'>
+                    <div className='right-part' style={{ height: window.innerHeight - 130, overflowY: 'scroll' }}>
                         <div className='welcome-text'>Welcome</div>
                         <div style={{ marginBottom: 20 }} className='user-text'>Shubham Patel!</div>
                         <div className='row m-0'>
