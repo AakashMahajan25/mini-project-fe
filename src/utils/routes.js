@@ -3,12 +3,23 @@ import DiscoverCorrelation from "../screens/discoverCorrelation/DiscoverCorrelat
 import FrruitGPT from "../screens/frruitGPT/FrruitGPT";
 import Login from "../screens/login/Login";
 import Profile from "../screens/profile/Profile";
+import Signup from "../screens/signup/Signup";
 
 export const loginRoutes = [
     {
         path: "/",
         exact: true,
-        element: <Dashboard />,
+        element: <Login />,
+    },
+    {
+        path: "/login",
+        exact: true,
+        element: <Login />,
+    },
+    {
+        path: "/signUp",
+        exact: true,
+        element: <Signup />,
     },
     {
         path: "/dashboard",
@@ -29,10 +40,5 @@ export const loginRoutes = [
         path: "/profile",
         exact: true,
         element: <Profile />,
-    },
-    {
-        path: "/login",
-        exact: true,
-        element: <Login />,
     },
 ]

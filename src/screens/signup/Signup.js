@@ -3,10 +3,16 @@ import '../login/Login.scss'
 import LoginImg from '../../assets/images/login_img.png'
 import MobileIcon from '../../assets/images/mobile-icon.png';
 import OtpInput from 'react-otp-input';
+import { useNavigate } from 'react-router';
 
 function Signup() {
     const [showCode, setShowCode] = useState(false)
     const [otp, setOtp] = useState('');
+    let navigate = useNavigate();
+    const routeChangeLogin = () => {
+        let path = `/login`;
+        navigate(path);
+    }
 
     return (
         <section className='login' style={{ height: window.innerHeight - 100 }}>
@@ -68,7 +74,7 @@ function Signup() {
                         }
                         {showCode &&
                             <div className='d-flex justify-content-center align-items-center'>
-                                <button onClick={() => setShowCode(true)} className='btnPrimary mt-5'>Signup</button>
+                                <button onClick={routeChangeLogin} className='btnPrimary mt-5'>Signup</button>
                             </div>
                         }
                         {!showCode &&
@@ -82,7 +88,7 @@ function Signup() {
                                     <div className='horizontalLine w-100'></div>
                                 </div>
                                 <div className='d-flex justify-content-center align-items-center'>
-                                    <button className='btnSecondary mt-3'>Login Using Phone Number</button>
+                                    <button onClick={routeChangeLogin} className='btnSecondary mt-3'>Login Using Phone Number</button>
                                 </div>
                             </>
                         }
