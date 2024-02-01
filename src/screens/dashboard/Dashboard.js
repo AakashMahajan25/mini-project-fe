@@ -66,7 +66,7 @@ function Dashboard() {
     const dispatch = useDispatch()
     const { trendingStocks } = useSelector(state => state.dashboardSlice);
 
-console.log('trendingStocks', trendingStocks)
+    console.log('trendingStocks', trendingStocks)
 
 
     const settings = {
@@ -98,8 +98,8 @@ console.log('trendingStocks', trendingStocks)
 
     const navigate = useNavigate();
     const routeChangeFrruitGPT = () => {
-          let path = `/frruit-gpt`;
-          navigate(path);
+        let path = `/frruit-gpt`;
+        navigate(path);
     };
 
     useEffect(() => {

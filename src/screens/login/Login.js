@@ -8,6 +8,15 @@ import { useNavigate } from 'react-router-dom';
 function Login() {
     const [showCode, setShowCode] = useState(false)
     const [otp, setOtp] = useState('');
+    let navigate = useNavigate();
+    const routeChangeSignUp = () => {
+        let path = `/signUp`;
+        navigate(path);
+    }
+    const routeChangeDashboard = () => {
+        let path = `/dashboard`;
+        navigate(path);
+    }
 
     return (
         <section className='login' style={{ height: window.innerHeight - 100 }}>
@@ -67,7 +76,7 @@ function Login() {
                         }
                         {showCode &&
                             <div className='d-flex justify-content-center align-items-center'>
-                                <button onClick={() => setShowCode(true)} className='btnPrimary mt-5'>Login</button>
+                                <button onClick={routeChangeDashboard} className='btnPrimary mt-5'>Login</button>
                             </div>
                         }
                         {!showCode &&
@@ -81,7 +90,7 @@ function Login() {
                                     <div className='horizontalLine w-100'></div>
                                 </div>
                                 <div className='d-flex justify-content-center align-items-center'>
-                                    <button className='btnSecondary mt-3'>Signup Using Phone Number</button>
+                                    <button onClick={routeChangeSignUp} className='btnSecondary mt-3'>Signup Using Phone Number</button>
                                 </div>
                             </>
                         }
