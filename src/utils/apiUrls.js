@@ -7,4 +7,5 @@ export const METHOD_TYPE = {
 
 export const API_ENDPOINTS = {
     trendingLatestStocks: 'stocks/trending',
+    trendingLatestNews: 'news/trending',
 }

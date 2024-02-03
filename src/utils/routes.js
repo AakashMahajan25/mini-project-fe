@@ -9,7 +9,7 @@ export const loginRoutes = [
     {
         path: "/",
         exact: true,
-        element: <Login />,
+        element: <Dashboard />,
     },
     {
         path: "/login",
