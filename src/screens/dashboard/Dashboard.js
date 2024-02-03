@@ -17,7 +17,7 @@ import Slider from 'react-slick';
 import { useNavigate } from 'react-router-dom';
 import Modal from 'react-bootstrap/Modal';
 import { useDispatch, useSelector } from 'react-redux';
-import { getTrendingStocks } from './slice';
+import { getTrendingNews, getTrendingStocks } from './slice';
 
 function Dashboard() {
     const PreviousBtn = (props) => {
@@ -64,9 +64,7 @@ function Dashboard() {
         'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
     ];
     const dispatch = useDispatch()
-    const { trendingStocks } = useSelector(state => state.dashboardSlice);
-
-    console.log('trendingStocks', trendingStocks)
+    const { trendingStocks, trendingNews } = useSelector(state => state.dashboardSlice);
 
 
     const settings = {
@@ -104,6 +102,7 @@ function Dashboard() {
 
     useEffect(() => {
         dispatch(getTrendingStocks())
+        dispatch(getTrendingNews())
     }, [])
 
 
@@ -161,7 +160,7 @@ function Dashboard() {
                 </div>
             </div>
             <div className='col-lg-2 column-pad'>
-                <DashboardRightBox />
+                <DashboardRightBox newsData={trendingNews} />
             </div>
             <Modal
                 show={show}

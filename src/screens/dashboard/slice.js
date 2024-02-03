@@ -3,6 +3,7 @@ import { API_ENDPOINTS, METHOD_TYPE } from "../../utils/apiUrls";
 import api from "../../utils/api";
 
 const initialState = {
+    trendingNews: [],
     trendingStocks: [],
     isLoading: false,
 }
@@ -21,6 +22,20 @@ export const getTrendingStocks = createAsyncThunk("dashboard/getTrendingStocks",
     }
 });
 
+export const getTrendingNews = createAsyncThunk("dashboard/getTrendingNews", async () => {
+    try {
+        let data = {
+            method: METHOD_TYPE.get,
+            url: API_ENDPOINTS.trendingLatestNews,
+        };
+        const response = await api(data);
+        return response.data.data;
+
+    } catch (error) {
+        throw error.response;
+    }
+});
+
 const dashboardSlice = createSlice({
     name: "dashboard",
     initialState,
@@ -34,11 +49,17 @@ const dashboardSlice = createSlice({
             .addCase(getTrendingStocks.fulfilled, (state, action) => {
                 state.trendingStocks = action.payload;
             })
+            .addCase(getTrendingNews.fulfilled, (state, action) => {
+                state.trendingNews = action.payload;
+            })
             .addMatcher(
                 (action) =>
                     action.type === getTrendingStocks.pending.type ||
                     action.type === getTrendingStocks.fulfilled.type ||
-                    action.type === getTrendingStocks.rejected.type ,
+                    action.type === getTrendingStocks.rejected.type ||
+                    action.type === getTrendingNews.pending.type ||
+                    action.type === getTrendingNews.fulfilled.type ||
+                    action.type === getTrendingNews.rejected.type,
                 handleLoading
             )
     }

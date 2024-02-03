@@ -3,41 +3,19 @@ import './DashboardRightBox.scss';
 import RightArrow from '../../assets/images/right-arrow.png';
 import NewsImg from '../../assets/images/newsImg.png';
 import NewsTime from '../../assets/images/time-clock.png';
+import { formatTimeAgo, trimText } from '../../utils/utils';
 
-function DashboardRightBox() {
+function DashboardRightBox({ newsData }) {
     const texts = [
         'Current stock ratings and targets?',
         'Another text for the second instance',
         'And one more for the third instance',
-        // 'Current stock ratings and targets?',
-        // 'Current stock ratings and targets?',
-        // 'Current stock ratings and targets?',
-    ];
-
-    const newsData = [
-        {
-            imageUrl: NewsImg,
-            title: 'Post Financial crisis fine paid by Citigroup',
-            source: 'THE WALL STREET JOURNAL...',
-            time: '1 Hr ago'
-        },
-        {
-            imageUrl: NewsImg,
-            title: 'Post Financial crisis fine paid by Citigroup',
-            source: 'THE WALL STREET JOURNAL...',
-            time: '1 Hr ago'
-        }, {
-            imageUrl: NewsImg,
-            title: 'Post Financial crisis fine paid by Citigroup',
-            source: 'THE WALL STREET JOURNAL...',
-            time: '1 Hr ago'
-        },
     ];
 
     return (
         <>
             <div className='Right-box'>
-                <div className='box'  style={{ height: window.innerHeight - 130 }}>
+                <div className='box' style={{ height: window.innerHeight - 130 }}>
                     <div className='box-content'>
                         <div className='title' style={{ marginBottom: 20 }}>Most on Frruit</div>
                         {texts.map((text, index) => (
@@ -56,20 +34,22 @@ function DashboardRightBox() {
                             <div className='title' style={{ marginBottom: 20 }}>Latest News</div>
                             <div className='viewAllTeaxt' style={{ marginBottom: 20 }}>View All</div>
                         </div>
-                        {newsData.map((newsItem, index) => (
-                            <div key={index} className='newsBox' style={{ marginBottom: 20 }}>
-                                <div className='d-flex justify-content-start'>
-                                    <img style={{ width: 60, objectFit: 'contain', marginRight: '10px' }} src={newsItem.imageUrl} />
-                                    <div>
-                                        <p className='newsTitle'>{newsItem.title}</p>
-                                        <p className='newsPara' style={{ marginBottom: '5px' }}>{newsItem.source}</p>
-                                        <div className='d-flex justify-content-start align-items-center'>
-                                            <img style={{ width: 16, objectFit: 'contain', marginRight: '5px' }} src={NewsTime} />
-                                            <p className='newsPara'>{newsItem.time}</p>
+                        {newsData?.length > 0 && newsData?.slice(0, 3).map((newsItem, index) => (
+                            <a href={newsItem?.newsLink} target='_blank' style={{ textDecoration: 'none' }}>
+                                <div key={index} className='newsBox' style={{ marginBottom: 20, cursor: 'pointer' }}>
+                                    <div className='d-flex justify-content-start'>
+                                        <img style={{ width: 60, objectFit: 'contain', marginRight: '10px' }} src={newsItem?.image} />
+                                        <div>
+                                            <p className='newsTitle'>{trimText(newsItem?.title, 60)}</p>
+                                            <p className='newsPara' style={{ marginBottom: '5px' }}>{newsItem?.source}</p>
+                                            <div className='d-flex justify-content-start align-items-center'>
+                                                <img style={{ width: 16, objectFit: 'contain', marginRight: '5px' }} src={NewsTime} />
+                                                <p className='newsPara'>{formatTimeAgo(newsItem?.timeStamp)}</p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </a>
                         ))}
                     </div>
                 </div>
