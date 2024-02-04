@@ -6,8 +6,10 @@ import LeftBox from '../../components/leftBox/LeftBox'
 import PromptsLibrary from '../../components/promptsLibrary/PromptsLibrary'
 import BottomSearchBar from '../../components/frruitGpt/BottomSearchBar'
 import ChatGpt from '../../components/frruitGpt/ChatGpt'
+import { useLocation } from 'react-router-dom'
 
 function FrruitGPT() {
+    const { state } = useLocation();
     return (
         <>
             <div className='row justify-content-between m-0'>

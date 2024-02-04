@@ -17,7 +17,8 @@ import Slider from 'react-slick';
 import { useNavigate } from 'react-router-dom';
 import Modal from 'react-bootstrap/Modal';
 import { useDispatch, useSelector } from 'react-redux';
-import { getTrendingNews, getTrendingStocks } from './slice';
+import { getMostOnFrruitGpt, getTrendingNews, getTrendingStocks } from './slice';
+import { getPromptSuggestion } from '../frruitGPT/slice';
 
 function Dashboard() {
     const PreviousBtn = (props) => {
@@ -64,7 +65,8 @@ function Dashboard() {
         'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
     ];
     const dispatch = useDispatch()
-    const { trendingStocks, trendingNews } = useSelector(state => state.dashboardSlice);
+    const { trendingStocks, trendingNews, mostOnFrruitGpt } = useSelector(state => state.dashboardSlice);
+    const { chatSuggestions } = useSelector(state => state.fruitGPTSlice);
 
 
     const settings = {
@@ -103,6 +105,8 @@ function Dashboard() {
     useEffect(() => {
         dispatch(getTrendingStocks())
         dispatch(getTrendingNews())
+        dispatch(getMostOnFrruitGpt())
+        dispatch(getPromptSuggestion())
     }, [])
 
 
@@ -160,7 +164,7 @@ function Dashboard() {
                 </div>
             </div>
             <div className='col-lg-2 column-pad'>
-                <DashboardRightBox newsData={trendingNews} />
+                <DashboardRightBox newsData={trendingNews} mostFrruitData={mostOnFrruitGpt?.rows} />
             </div>
             <Modal
                 show={show}
