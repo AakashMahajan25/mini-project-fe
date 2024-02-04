@@ -1,4 +1,4 @@
-import * as React from 'react';
+import  React, { useEffect, useState } from 'react';
 import TabsMui from '@mui/material/Tabs';
 import TabMui from '@mui/material/Tab';
 import Box from '@mui/material/Box';
@@ -11,12 +11,18 @@ import BackBtnArrow from '../../assets/images/back-btn-arrow.png';
 import BuySellStockCard from '../../components/buySellStockCard/BuySellStockCard';
 import { Nav, Tab, Tabs } from 'react-bootstrap'
 import DiscoverCorrelationGraph from '../../components/graph/DiscoverCorrelationGraph';
+import { useDispatch, useSelector } from 'react-redux';
+import { getTrendingEvents } from './slice';
 
 function DiscoverCorrelation() {
-    const [showEventDetails, setShowEventDetails] = React.useState(false);
+    const [showEventDetails, setShowEventDetails] = useState(false);
+    const [eventDetails, setEventDetails] = useState(false);
+    const dispatch = useDispatch()
+    const { trendingEvents } = useSelector(state => state.discoverCorrelationSlice);
 
-    const handleCardClick = () => {
+    const handleCardClick = (data) => {
         setShowEventDetails(true);
+        setEventDetails(data);
     };
     const handleBackButtonClick = () => {
         setShowEventDetails(false);
@@ -134,6 +140,14 @@ function DiscoverCorrelation() {
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
+    
+    
+    useEffect(() => {
+        dispatch(getTrendingEvents())
+    }, [])
+
+console.log('eventDetails', eventDetails)
+
     return (
         <>
             <div className='row justify-content-between m-0'>
@@ -162,9 +176,9 @@ function DiscoverCorrelation() {
                                     </TabsMui>
                                 </Box>
                                 <div className='row'>
-                                    {eventDataList.map((eventData, index) => (
+                                    {trendingEvents.map((eventData, index) => (
                                         <div key={index} className='col-lg-4 column-pad'>
-                                            <EventExplorerCard {...eventData} onCardClick={handleCardClick} />
+                                            <EventExplorerCard {...eventData} onCardClick={()=>handleCardClick(eventData)} />
                                         </div>
                                     ))}
                                 </div>
@@ -177,7 +191,7 @@ function DiscoverCorrelation() {
                                     <div className='title'>Event Explorer</div>
                                 </div>
                                 <div className='box'>
-                                    <div className='title' style={{ marginBottom: 10 }}>Indian Stocks Likely to be impacted be budget 2024</div>
+                                    <div className='title' style={{ marginBottom: 10 }}>{eventDetails?.question}</div>
                                     <div className='light-blue-btn' style={{ marginBottom: 10 }}>Regulatory Event</div>
                                     <div >
                                         <Tab.Container defaultActiveKey="first">
@@ -193,20 +207,20 @@ function DiscoverCorrelation() {
                                                 <Tab.Pane eventKey="first">
                                                     <div className='title-2' style={{ marginBottom: 10 }}>Stocks that get affected the most  (in %)</div>
                                                     <div className='row'>
-                                                        <div className='col-lg-3'>
+                                                        <div className='col-lg-3' style={{height:window.innerHeight - 410,overflowY:'scroll'}}>
                                                             <div>
-                                                                {stockData.map((stock, index) => (
+                                                                {eventDetails?.response?.result_tickers?.map((stock, index) => (
                                                                     <BuySellStockCard
                                                                         key={index}
-                                                                        companyName={stock.companyName}
+                                                                        companyName={stock.ticker}
                                                                         ltpValue={stock.ltpValue}
-                                                                        percentageChange={stock.percentageChange}
+                                                                        percentageChange={stock.avg_return}
                                                                         changeInLastMonth={stock.changeInLastMonth}
                                                                     />
                                                                 ))}
                                                             </div>
                                                         </div>
-                                                        <div className='col-lg-9 column-pad'>
+                                                        <div className='col-lg-9 column-pad' style={{marginTop:-50}}>
                                                             <DiscoverCorrelationGraph
                                                                 graphData={{
                                                                     labels: ['2', '4', '6', '8', '10', '12', '14', '16', '18', '20'],
@@ -219,12 +233,12 @@ function DiscoverCorrelation() {
                                                 <Tab.Pane eventKey="second">
                                                     <div className='title-2' style={{ marginBottom: 10 }}>Stocks that get affected the most  (in %)</div>
                                                     <div className='row'>
-                                                        <div className='col-lg-6'>
-                                                            {blueBoxLabels.map((label, index) => (
-                                                                <div key={index} className='blue-box-label'>{label}</div>
+                                                        <div className='col-lg-5' style={{height:window.innerHeight - 410,overflowY:'scroll'}}>
+                                                            {eventDetails?.response?.similar_dates?.map((label, index) => (
+                                                                <div key={index} className='blue-box-label'>{label?.description}</div>
                                                             ))}
                                                         </div>
-                                                        <div className='col-lg-6'>
+                                                        <div className='col-lg-7'>
 
                                                         </div>
                                                     </div>

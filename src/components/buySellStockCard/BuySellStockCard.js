@@ -6,7 +6,7 @@ import UpArrow from '../../assets/images/up-arrow-outline.png';
 import DownArrow from '../../assets/images/down-arrow-outline.png';
 
 function BuySellStockCard({ companyName, ltpValue, percentageChange, changeInLastMonth }) {
-    const isPositiveChange = percentageChange > 0;
+    // const isPositiveChange = percentageChange > 0;
 
     return (
         <div className='BuySellStockCard-css'>
@@ -16,9 +16,9 @@ function BuySellStockCard({ companyName, ltpValue, percentageChange, changeInLas
                         <div className='black-text-heading'>{companyName}</div>
                         <div className='d-flex justify-content-center align-items-center' style={{ marginBottom: 5 }}>
                             <div className='LTP-text me-2'>LTP</div>
-                            <div className={`green-text me-2`} style={{ color: isPositiveChange ? '#28C76F' : '#EA5455' }}>{ltpValue}</div>
-                            <div className={`green-text me-2`} style={{ color: isPositiveChange ? '#28C76F' : '#EA5455' }}>{percentageChange}%</div>
-                            <img src={isPositiveChange ? UpArrow : DownArrow} style={{ width: 18, objectFit: 'contain' }} alt='Arrow' />
+                            <div className={`green-text me-2`} style={{ color: percentageChange.includes('-') ? '#EA5455' : '#28C76F' }}>{ltpValue}</div>
+                            <div className={`green-text me-2`} style={{ color: percentageChange.includes('-') ? '#EA5455' : '#28C76F' }}>{percentageChange}%</div>
+                            <img src={percentageChange.includes('-') ? DownArrow : UpArrow} style={{ width: 18, objectFit: 'contain' }} alt='Arrow' />
                         </div>
                     </div>
                     <div>
