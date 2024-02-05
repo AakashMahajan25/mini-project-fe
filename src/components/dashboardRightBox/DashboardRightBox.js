@@ -42,30 +42,33 @@ function DashboardRightBox({ newsData, mostFrruitData }) {
                         </>
                     }
                     <div className='box-content'>
-
-                        {newsData?.length > 0 && newsData?.slice(0, 3).map((newsItem, index) => (
+                        {newsData?.length > 0 &&
                             <>
                                 <div className='d-flex justify-content-between align-items-center'>
                                     <div className='title' style={{ marginBottom: 20 }}>Latest News</div>
                                     <div className='viewAllTeaxt' style={{ marginBottom: 20 }}>View All</div>
                                 </div>
-                                <a href={newsItem?.newsLink} target='_blank' style={{ textDecoration: 'none' }}>
-                                    <div key={index} className='newsBox' style={{ marginBottom: 20, cursor: 'pointer' }}>
-                                        <div className='d-flex justify-content-start'>
-                                            <img style={{ width: 60, objectFit: 'contain', marginRight: '10px' }} src={newsItem?.image} />
-                                            <div>
-                                                <p className='newsTitle'>{trimText(newsItem?.title, 60)}</p>
-                                                <p className='newsPara' style={{ marginBottom: '5px' }}>{newsItem?.source}</p>
-                                                <div className='d-flex justify-content-start align-items-center'>
-                                                    <img style={{ width: 16, objectFit: 'contain', marginRight: '5px' }} src={NewsTime} />
-                                                    <p className='newsPara'>{formatTimeAgo(newsItem?.timeStamp)}</p>
+                                {
+                                    newsData?.slice(0, 3).map((newsItem, index) => (
+
+                                        <a href={newsItem?.newsLink} target='_blank' style={{ textDecoration: 'none' }}>
+                                            <div key={index} className='newsBox' style={{ marginBottom: 20, cursor: 'pointer' }}>
+                                                <div className='d-flex justify-content-start'>
+                                                    <img style={{ width: 60, objectFit: 'contain', marginRight: '10px' }} src={newsItem?.image} />
+                                                    <div>
+                                                        <p className='newsTitle'>{trimText(newsItem?.title, 60)}</p>
+                                                        <p className='newsPara' style={{ marginBottom: '5px' }}>{newsItem?.source}</p>
+                                                        <div className='d-flex justify-content-start align-items-center'>
+                                                            <img style={{ width: 16, objectFit: 'contain', marginRight: '5px' }} src={NewsTime} />
+                                                            <p className='newsPara'>{formatTimeAgo(newsItem?.timeStamp)}</p>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                </a>
+                                        </a>
+                                    ))}
                             </>
-                        ))}
+                        }
                     </div>
                 </div>
             </div>
