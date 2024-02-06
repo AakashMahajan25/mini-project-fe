@@ -53,7 +53,7 @@ function LeftBox() {
                         aria-label="scrollable auto tabs example"
                     >
                         {
-                            watchLists?.slice().reverse().map((item, index) => (
+                            watchLists?.map((item, index) => (
                                 <Tab key={index} label={item?.watchlist_name} className='tab-css' />
                             ))
                         }
