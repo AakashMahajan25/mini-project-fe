@@ -3,7 +3,7 @@ import './EventExplorerCard.scss';
 import RightArrow from '../../assets/images/right-arrow.png';
 
 function EventExplorerCard(props) {
-    const { question, eventType, buttonBackgroundColor, buttonTextColor, onCardClick } = props;
+    const { question, category, buttonBackgroundColor, buttonTextColor, onCardClick } = props;
 
     return (
         <>
@@ -14,11 +14,11 @@ function EventExplorerCard(props) {
                         className='card-blue-btn'
                         style={{
                             marginBottom: 20,
-                            backgroundColor: buttonBackgroundColor,
-                            color: buttonTextColor
+                            backgroundColor: buttonBackgroundColor ? buttonBackgroundColor : '#ECEFFC',
+                            color: buttonTextColor ? buttonTextColor : '#4563E3'
                         }}
                     >
-                        {eventType}
+                        {category}
                     </button>
                     <div onClick={onCardClick} className='d-flex justify-content-start align-items-center' style={{ cursor: 'pointer', width: 'max-content' }}>
                         <p className='knowMore-text'>{'Know More'}</p>

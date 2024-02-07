@@ -102,11 +102,18 @@ function Dashboard() {
         navigate(path);
     };
 
+    const routePromptFrruitGPT = (question) => {
+        navigate("/frruit-gpt", {
+            state: { question },
+        });
+
+    };
+
     useEffect(() => {
         dispatch(getTrendingStocks())
         dispatch(getTrendingNews())
         dispatch(getMostOnFrruitGpt())
-        dispatch(getPromptSuggestion())
+        dispatch(getPromptSuggestion(4))
     }, [])
 
 
@@ -146,10 +153,10 @@ function Dashboard() {
                             <div className='suggested-prompts-container'>
                                 <p className='stories-title' style={{ marginBottom: 15 }}>Suggested Prompts</p>
                                 <div className='row' >
-                                    {promptText.map((prompt, index) => (
-                                        <div key={index} className='col-lg-6 mb-3' style={{ cursor: 'pointer' }}>
+                                    {chatSuggestions.map((item, index) => (
+                                        <div onClick={() => { routePromptFrruitGPT(item?.prompt) }} key={index} className='col-lg-6 mb-3' style={{ cursor: 'pointer' }}>
                                             <div className='prompts-text-bg'>
-                                                <p className='prompts-text'>{prompt}</p>
+                                                <p className='prompts-text'>{item?.prompt}</p>
                                             </div>
                                         </div>
                                     ))}

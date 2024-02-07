@@ -22,5 +22,15 @@ export const formatTimeAgo = (dateString) => {
     return `${hoursAgo} ${hoursAgo === 1 ? 'Hr ago' : 'Hrs ago'}`;
 }
 
+export const capitalizeFirstLetter = (inputString) =>{
+    if (inputString?.length === 0) {
+      return inputString; // Return the input string unchanged if it's empty
+    }
+  
+    const firstLetter = inputString[0].toUpperCase();
+    const restOfString = inputString.slice(1);
+  
+    return firstLetter + restOfString;
+  }
 
 

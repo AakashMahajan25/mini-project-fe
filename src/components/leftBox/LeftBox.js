@@ -8,6 +8,7 @@ import GreenArrow from '../../assets/images/green_up-arrow.png';
 import RedArrow from '../../assets/images/red_down-arrow.png';
 import { getTickersById, getUserWatchLists } from '../../screens/dashboard/slice';
 import { useDispatch, useSelector } from 'react-redux';
+import { capitalizeFirstLetter, trimText } from '../../utils/utils';
 
 function LeftBox() {
     const [value, setValue] = useState(0);
@@ -23,15 +24,17 @@ function LeftBox() {
 
     useEffect(() => {
         dispatch(getUserWatchLists())
-        if (value === 0) {
-            const id = Number(watchLists[value]?.watchlist_id)
-            dispatch(getTickersById(id))
-        }
+        getWatchListData()
     }, [])
 
-
-
-
+    const getWatchListData = () => {
+        dispatch(getUserWatchLists())
+            .unwrap()
+            .then(res => {
+                const id = Number(res[0]?.watchlist_id)
+                dispatch(getTickersById(id))
+            })
+    }
 
 
     return (
@@ -60,10 +63,11 @@ function LeftBox() {
                     </Tabs>
                 </Box>
                 <div>
-                    {tickers?.rows?.map((stock, index) => (
+                    { tickers?.rows?.length > 0 ?
+                    tickers?.rows?.map((stock, index) => (
                         <div key={index} className='stock-price-list mb-2'>
                             <div className='d-flex justify-content-between align-items-center'>
-                                <p className='stock-name'>{stock?.ticker_name}</p>
+                                <p className='stock-name'>{trimText(stock?.ticker_name,12)}</p>
                                 <div>
                                     <div className='d-flex justify-content-end align-items-center'>
                                         <p className='ltp-text me-2'>{stock?.ticker}</p>
@@ -78,7 +82,12 @@ function LeftBox() {
                                 </div>
                             </div>
                         </div>
-                    ))}
+                    ))
+                    :
+                    <div className='d-flex align-items-center justify-content-center mt-5'>
+                    <p className='watchlistText'>{`Add Stock to ${watchLists[value]?.watchlist_name && capitalizeFirstLetter(watchLists[value]?.watchlist_name)}`}</p>
+                        </div>
+                    }
                 </div>
             </div>
         </div>
