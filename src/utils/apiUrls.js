@@ -13,4 +13,5 @@ export const API_ENDPOINTS = {
     getTickersById: 'watchlist/fetchWatchListTickerByWatchlist',
     frruitGptSuggestion: 'stocks/getPrompts?num=',
     fetchTrendingEvents: 'eventCategories/fetchtrendingEvents',
+    getPromptList: 'prompts/getPrompts',
 }

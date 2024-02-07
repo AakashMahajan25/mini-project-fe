@@ -10,6 +10,7 @@ import { useLocation } from 'react-router-dom'
 
 function FrruitGPT() {
     const { state } = useLocation();
+    console.log('state', state)
     return (
         <>
             <div className='row justify-content-between m-0'>

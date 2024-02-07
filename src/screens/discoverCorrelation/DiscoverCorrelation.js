@@ -178,7 +178,10 @@ console.log('eventDetails', eventDetails)
                                 <div className='row'>
                                     {trendingEvents.map((eventData, index) => (
                                         <div key={index} className='col-lg-4 column-pad'>
-                                            <EventExplorerCard {...eventData} onCardClick={()=>handleCardClick(eventData)} />
+                                            <EventExplorerCard 
+                                            question={eventData?.question}
+                                            category={eventData?.response?.category}
+                                            onCardClick={()=>handleCardClick(eventData)} />
                                         </div>
                                     ))}
                                 </div>
@@ -192,7 +195,7 @@ console.log('eventDetails', eventDetails)
                                 </div>
                                 <div className='box'>
                                     <div className='title' style={{ marginBottom: 10 }}>{eventDetails?.question}</div>
-                                    <div className='light-blue-btn' style={{ marginBottom: 10 }}>Regulatory Event</div>
+                                    <div className='light-blue-btn' style={{ marginBottom: 10 }}>{eventDetails?.response?.category}</div>
                                     <div >
                                         <Tab.Container defaultActiveKey="first">
                                             <Nav className='customDiscoverCorrelationtabs' variant="pills">
