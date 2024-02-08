@@ -1,0 +1,155 @@
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { API_ENDPOINTS, METHOD_TYPE } from "../../utils/apiUrls";
+import api from "../../utils/api";
+
+
+const initialState = {
+    userDetails: null,
+    userPlan: null,
+    userTopics: null,
+    userCredits: null,
+    isLoading: false,
+    error: null,
+};
+
+export const getUserDetails = createAsyncThunk("users/getUserDetails", async () => {
+    try {
+        let data = {
+            method: METHOD_TYPE.get,
+            url: API_ENDPOINTS.getUserDetails,
+        };
+        const response = await api(data);
+        return response.data.data;
+
+    } catch (error) {
+        console.log('error::::', error.response)
+        throw error.response;
+    }
+});
+
+export const updateProfile = createAsyncThunk("users/updateProfile", async (requestData) => {
+    try {
+        let data = {
+            method: METHOD_TYPE.post,
+            url: API_ENDPOINTS.updateProfile,
+            data: requestData
+        };
+        const response = await api(data);
+        return response.data;
+
+    } catch (error) {
+        console.log('error::::', error.response)
+        throw error.response;
+    }
+});
+
+export const getUserPlan = createAsyncThunk("users/getUserActivePlan", async () => {
+    try {
+        let data = {
+            method: METHOD_TYPE.get,
+            url: API_ENDPOINTS.getUserActivePlan,
+        };
+        const response = await api(data);
+        return response.data.data;
+
+    } catch (error) {
+        console.log('error::::', error.response)
+        throw error.response;
+    }
+});
+
+export const getUserTopics = createAsyncThunk("users/getUserTopics", async () => {
+    try {
+        let data = {
+            method: METHOD_TYPE.get,
+            url: API_ENDPOINTS.userTopics
+        };
+        const response = await api(data);
+        return response.data.data;
+
+    } catch (error) {
+        console.log('error::::', error.response)
+        throw error.response;
+    }
+});
+
+export const updateUserTopics = createAsyncThunk("users/updateUserTopics", async (requestData) => {
+    try {
+        let data = {
+            method: METHOD_TYPE.post,
+            url: API_ENDPOINTS.updateTopics,
+            data: requestData
+        };
+        const response = await api(data);
+        return response.data;
+
+    } catch (error) {
+        console.log('error::::', error.response)
+        throw error.response;
+    }
+});
+
+export const getAvaliableCredit = createAsyncThunk("users/getAvaliableCredit", async () => {
+    try {
+        let data = {
+            method: METHOD_TYPE.get,
+            url: API_ENDPOINTS.getAvailableCredits,
+        };
+        const response = await api(data);
+        return response.data.data;
+
+    } catch (error) {
+        console.log('error::::', error.response)
+        throw error.response;
+    }
+});
+
+
+const userSlice = createSlice({
+    name: "users",
+    initialState,
+    reducers: {
+    },
+    extraReducers: (builder) => {
+        const handleLoading = (state, action) => {
+            state.isLoading = action.meta.requestStatus === 'pending';
+        };
+
+        builder
+            .addCase(getUserDetails.fulfilled, (state, action) => {
+                state.userDetails = action.payload;
+            })
+            .addCase(getUserPlan.fulfilled, (state, action) => {
+                state.userPlan = action.payload;
+            })
+            .addCase(getUserTopics.fulfilled, (state, action) => {
+                state.userTopics = action.payload;
+            })
+            .addCase(getAvaliableCredit.fulfilled, (state, action) => {
+                state.userCredits = action.payload;
+            })
+            .addMatcher(
+                (action) =>
+                    action.type === getUserDetails.pending.type ||
+                    action.type === getUserDetails.fulfilled.type ||
+                    action.type === getUserDetails.rejected.type ||
+                    action.type === updateProfile.pending.type ||
+                    action.type === updateProfile.fulfilled.type ||
+                    action.type === updateProfile.rejected.type ||
+                    action.type === getUserPlan.pending.type ||
+                    action.type === getUserPlan.fulfilled.type ||
+                    action.type === getUserPlan.rejected.type ||
+                    action.type === updateUserTopics.pending.type ||
+                    action.type === updateUserTopics.fulfilled.type ||
+                    action.type === updateUserTopics.rejected.type ||
+                    action.type === getUserTopics.pending.type ||
+                    action.type === getUserTopics.fulfilled.type ||
+                    action.type === getUserTopics.rejected.type ,
+                handleLoading
+            )
+    }
+
+});
+
+export const { } = userSlice.actions;
+export default userSlice.reducer;

@@ -4,12 +4,13 @@ import FrruitGPT from "../screens/frruitGPT/FrruitGPT";
 import Login from "../screens/login/Login";
 import Profile from "../screens/profile/Profile";
 import Signup from "../screens/signup/Signup";
+import PrivateRoute from "./privateRoute";
 
 export const loginRoutes = [
     {
         path: "/",
         exact: true,
-        element: <Dashboard />,
+        element: <Login />,
     },
     {
         path: "/login",
@@ -24,21 +25,21 @@ export const loginRoutes = [
     {
         path: "/dashboard",
         exact: true,
-        element: <Dashboard />,
+        element: <PrivateRoute component={Dashboard} />,
     },
     {
         path: "/frruit-gpt",
         exact: true,
-        element: <FrruitGPT />,
+        element: <PrivateRoute component={FrruitGPT} />,
     },
     {
         path: "/discover-correlation",
         exact: true,
-        element: <DiscoverCorrelation />,
+        element: <PrivateRoute component={DiscoverCorrelation} />,
     },
     {
         path: "/profile",
         exact: true,
-        element: <Profile />,
+        element: <PrivateRoute component={Profile} />,
     },
 ]

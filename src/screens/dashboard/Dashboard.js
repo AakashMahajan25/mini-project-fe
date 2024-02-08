@@ -17,7 +17,7 @@ import Slider from 'react-slick';
 import { useNavigate } from 'react-router-dom';
 import Modal from 'react-bootstrap/Modal';
 import { useDispatch, useSelector } from 'react-redux';
-import { getMostOnFrruitGpt, getTrendingNews, getTrendingStocks } from './slice';
+import { getMostOnFrruitGpt, getStockIndexes, getTrendingNews, getTrendingStocks } from './slice';
 import { getPromptSuggestion } from '../frruitGPT/slice';
 
 function Dashboard() {
@@ -114,6 +114,7 @@ function Dashboard() {
         dispatch(getTrendingNews())
         dispatch(getMostOnFrruitGpt())
         dispatch(getPromptSuggestion(4))
+        dispatch(getStockIndexes())
     }, [])
 
 
