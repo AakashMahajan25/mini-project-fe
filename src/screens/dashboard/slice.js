@@ -131,7 +131,20 @@ const dashboardSlice = createSlice({
     name: "dashboard",
     initialState,
     reducers: {
+        setStoryViewed: (state, action) => {
+            const storyEnum = {
+                Topics_news: 'isTopicViewed',
+                Watchlist_news: 'isWatchListViewed',
+                Tren_stock_news: 'isStockViewed',
+                Trending_news: 'isNewsViewed'
+            }
+            state.storyViewed = {
+                ...state.storyViewed,
+                [storyEnum[action.payload]]: true
+            }
+        }
     },
+
     extraReducers: (builder) => {
         const handleLoading = (state, action) => {
             state.isLoading = action.meta.requestStatus === 'pending';
@@ -211,4 +224,5 @@ const dashboardSlice = createSlice({
             )
     }
 });
+export const { setStoryViewed } = dashboardSlice.actions;
 export default dashboardSlice.reducer;

@@ -5,7 +5,7 @@ import Stories1 from '../../assets/images/stories-icon-1.png';
 import Stories2 from '../../assets/images/stories-icon-2.png';
 import Stories3 from '../../assets/images/stories-icon-3.png';
 import Stories4 from '../../assets/images/stories-icon-4.png';
-import Stories5 from '../../assets/images/stories-icon-5.png';
+import CloseIcon from '../../assets/images/close_icon.png';
 import StoriesImg from '../../assets/images/stories-img-1.png';
 import StoriesImg2 from '../../assets/images/stories-img-2.png';
 import PrevBtn from '../../assets/images/prev-btn.png';
@@ -17,7 +17,7 @@ import Slider from 'react-slick';
 import { useNavigate } from 'react-router-dom';
 import Modal from 'react-bootstrap/Modal';
 import { useDispatch, useSelector } from 'react-redux';
-import { getInvestorStories, getMostOnFrruitGpt, getStockIndexes, getTrendingNews, getTrendingStocks } from './slice';
+import { getInvestorStories, getMostOnFrruitGpt, getStockIndexes, getTrendingNews, getTrendingStocks, setStoryViewed } from './slice';
 import { getPromptSuggestion } from '../frruitGPT/slice';
 
 
@@ -62,16 +62,17 @@ function Dashboard() {
 
     const [show, setShow] = useState(false);
     const [activeIndex, setActiveIndex] = useState(0);
-    const [storyIndex, setStoryIndex] = useState(0);
-    const [showOverlay, setShowOverlay] = useState(false);
     const [stories, setStories] = useState([]);
     const [storyType, setStoryType] = useState([]);
 
 
     const handleShow = (data) => {
-        console.log('data::::::::::', data)
         setStoryType(data)
         setShow(true);
+    };
+    const handleClose = () => {
+        setShow(false);
+        setActiveIndex(0)
     };
 
     const storiesData = [
@@ -97,21 +98,12 @@ function Dashboard() {
     };
     const storyImg = {
         dots: false,
-        infinite: true,
+        infinite: false,
         speed: 100,
         slidesToShow: 1,
         slidesToScroll: 1,
         beforeChange: (oldIndex, newIndex) => setActiveIndex(newIndex),
     };
-
-    const storyImages = [
-        { src: StoriesImg, text: 'Lorem Ipsum is simply dummy text 1' },
-        { src: StoriesImg2, text: 'Lorem Ipsum is simply dummy text 2' },
-        { src: StoriesImg, text: 'Lorem Ipsum is simply dummy text 3' },
-        { src: StoriesImg2, text: 'Lorem Ipsum is simply dummy text 4' },
-        { src: StoriesImg, text: 'Lorem Ipsum is simply dummy text 5' },
-        { src: StoriesImg2, text: 'Lorem Ipsum is simply dummy text 6' },
-    ];
 
     const navigate = useNavigate();
     const routeChangeFrruitGPT = () => {
@@ -138,6 +130,14 @@ function Dashboard() {
     useEffect(() => {
         getStoryData()
     }, [storyType])
+
+    useEffect(() => {
+        if(activeIndex === (stories?.length - 1)){
+            dispatch(setStoryViewed(storyType.storyType))
+        }
+    }, [activeIndex])
+    
+
     const shouldShowStory = useMemo(() => (
             (investorStory.topicsNews.length > 0 ||
                 investorStory.watchlistNews.length > 0 ||
@@ -151,7 +151,6 @@ function Dashboard() {
 
     const getStoryData = () => {
         const data = investorStory[storyEnum3[storyType.storyType]];
-        console.log('data', data)
         let tempData = []
         if (data?.length > 0) {
             if (storyType === 'Topics_news') {
@@ -178,13 +177,6 @@ function Dashboard() {
         }
         setStories(tempData)
     }
-
-
-
-    console.log('investorStory', investorStory)
-    console.log('stories', stories)
-    console.log('storytype', storyType)
-    console.log('storyEnum3[storyType]', storyEnum3[storyType])
 
     const colors = ['#4563E4', '#40BC98', '#023047', '#D63230', "#FB8500"]
 
@@ -260,13 +252,14 @@ function Dashboard() {
             </div>
             <Modal
                 show={show}
-                onHide={() => setShow(false)}
+                onHide={handleClose}
                 aria-labelledby="example-custom-modal-styling-title"
                 size="lg"
                 centered
                 className='custom-modal'
             >
-                <Modal.Header closeButton>
+                <Modal.Header style={{position:'absolute',right:-300,top:-40}}>
+                    <div onClick={handleClose} style={{cursor:'pointer'}}><img src={CloseIcon} style={{width:24,height:24}}/></div>
                 </Modal.Header>
                 <Modal.Body className="custom-modal-body">
                     <div style={{}}>
