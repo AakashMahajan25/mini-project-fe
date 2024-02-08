@@ -15,6 +15,9 @@
             border-radius: 15px;
             margin-bottom: 10px;
             cursor: pointer;
+            &:hover{
+                background-color: #E5EAFF;
+            }
 
             .new-chat-text {
                 font-family: 'Roboto', sans-serif;
@@ -22,6 +25,9 @@
                 font-weight: 400;
                 line-height: 22px;
                 color: #6F7387;
+                &:hover{
+                    color: #4563E4;
+                }
             }
         }
 
