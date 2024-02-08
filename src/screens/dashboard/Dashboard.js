@@ -17,7 +17,7 @@ import Slider from 'react-slick';
 import { useNavigate } from 'react-router-dom';
 import Modal from 'react-bootstrap/Modal';
 import { useDispatch, useSelector } from 'react-redux';
-import { getMostOnFrruitGpt, getStockIndexes, getTrendingNews, getTrendingStocks } from './slice';
+import { getInvestorStories, getMostOnFrruitGpt, getStockIndexes, getTrendingNews, getTrendingStocks } from './slice';
 import { getPromptSuggestion } from '../frruitGPT/slice';
 
 function Dashboard() {
@@ -65,7 +65,7 @@ function Dashboard() {
         'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
     ];
     const dispatch = useDispatch()
-    const { trendingStocks, trendingNews, mostOnFrruitGpt } = useSelector(state => state.dashboardSlice);
+    const { trendingStocks, trendingNews, mostOnFrruitGpt, storyViewed, investorStory, } = useSelector(state => state.dashboardSlice);
     const { chatSuggestions } = useSelector(state => state.fruitGPTSlice);
 
 
@@ -114,9 +114,11 @@ function Dashboard() {
         dispatch(getTrendingNews())
         dispatch(getMostOnFrruitGpt())
         dispatch(getPromptSuggestion(4))
+        dispatch(getInvestorStories())
         dispatch(getStockIndexes())
     }, [])
 
+    console.log('investorStory', investorStory)
 
     return (
         <div className='dashboardHome row justify-content-between m-0'>
