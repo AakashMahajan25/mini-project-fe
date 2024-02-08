@@ -4,10 +4,12 @@ import { Routes, Route, useLocation } from 'react-router-dom';
 import { loginRoutes } from './utils/routes';
 import TopBar from './components/topBar/TopBar';
 import Login from './screens/login/Login';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   const location = useLocation();
-  const isExcludedPage = ['/login', '/signUp'].includes(location.pathname);
+  const isExcludedPage = ['/login', '/signUp', '/'].includes(location.pathname);
   const marginTopStyle = isExcludedPage ? { marginTop: 0 } : { marginTop: 130 };
 
   return (
@@ -20,6 +22,7 @@ function App() {
           ))}
         </Routes>
       </div>
+      <ToastContainer />
     </>
   );
 }

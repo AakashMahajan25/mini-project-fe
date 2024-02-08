@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import TopBar from '../../components/topBar/TopBar'
 import StockPriceScroll from '../../components/stockPriceScroll/StockPriceScroll'
 import LeftProfileBox from '../../components/leftProfileBox/LeftProfileBox';
@@ -10,8 +10,69 @@ import InputUser from '../../assets/images/input-user.png';
 import MobileIcon from '../../assets/images/mobile-icon.png';
 import MailIcon from '../../assets/images/mail-icon.png';
 import BlueCardFrruitLogo from '../../assets/images/blue-card-frruitlogo.png';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import Loader from '../../components/loader/Loader';
+import * as yup from 'yup';
+import { Controller, useForm } from 'react-hook-form';
+import { yupResolver } from "@hookform/resolvers/yup";
+import { getAvaliableCredit, getUserDetails } from './usersSlice';
 
 function Profile() {
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    const updateProfileSchema = yup.object().shape({
+        first_name: yup.string().required("Please enter first name."),
+        last_name: yup.string().required("Please enter last name."),
+        email: yup.string().email('Please enter valid Email Id').required("Please enter Email Id."),
+        phone_number: yup.string().required("Please enter Mobile number."),
+        address: yup.string().required("Address is required."),
+    })
+
+    const { control, handleSubmit, setValue, formState:{errors} } = useForm({
+        resolver: yupResolver(updateProfileSchema)
+    })
+
+    console.log('errors', errors)
+
+    const { userCredits, isLoading, userDetails } = useSelector(state => state.userSlice)
+
+    useEffect(() => {
+       dispatch(getAvaliableCredit());
+       dispatch(getUserDetails())
+    }, [])
+
+    useEffect(() => {
+        if (userDetails) {
+            setValue('first_name', userDetails?.first_name)
+            setValue('last_name', userDetails?.last_name)
+            // setValue('address', userDetails?.address)
+            setValue('email', userDetails?.email)
+            setValue('phone_number', userDetails?.phone_number)
+        }
+    }, [userDetails])
+
+    const onSubmit = (data) => {
+        console.log('data:::::::::::::::', data)
+        // dispatch(updateProfile(data))
+        // .unwrap()
+        // .then(async(res) => {
+        //     dispatch(setUserName(`${data?.first_name} ${data?.last_name}`))
+        //     await storageSetUserName(`${data?.first_name} ${data?.last_name}`)
+        //     Toast.show({
+        //         type: 'success',
+        //         text1: res?.data || 'Profile Updated Successfully'
+        //     });
+        // })
+        // .catch((error) => {
+        //     Toast.show({
+        //         type: 'error',
+        //         text1: 'Error in updating profile'
+        //     });
+        // })
+    }
+
     return (
         <>
             <div className='row justify-content-between m-0 profile-css'>
@@ -21,7 +82,7 @@ function Profile() {
                 <div className='col-lg-9 column-pad'>
                     <div className='right-part' style={{ height: window.innerHeight - 130, overflowY: 'scroll' }}>
                         <div className='welcome-text'>Welcome</div>
-                        <div style={{ marginBottom: 20 }} className='user-text'>Shubham Patel!</div>
+                        <div style={{ marginBottom: 20 }} className='user-text'>{userDetails?.first_name+" "+userDetails?.last_name}!</div>
                         <div className='row m-0'>
                             <div className='col-lg-6 column-pad' style={{ marginBottom: 20 }}>
                                 <div className='me-2'>
@@ -35,8 +96,8 @@ function Profile() {
                                         </div>
                                         <div className='light-blue-box' style={{ width: 'fit-content', marginBottom: 28 }}>
                                             <div className='d-flex justify-content-start align-items-center'>
-                                                <div className='text-3'>621.91</div>
-                                                <div className='text-4 mt-1'>/750.00</div>
+                                                <div className='text-3'>{parseFloat(userCredits?.totalCredits - userCredits?.usedCredits).toFixed(2)}</div>
+                                                <div className='text-4 mt-1'>/{parseFloat(userCredits?.totalCredits).toFixed(2)}</div>
                                             </div>
                                         </div>
                                         <div className='text-2'>1 Credit = 1000 Tokens</div>
@@ -62,14 +123,52 @@ function Profile() {
                         </div>
                         <div className='row m-0'>
                             <div className='col-lg-6 column-pad'>
+                            <form onSubmit={handleSubmit(onSubmit)}>
                                 <div className='profile-title' style={{ marginBottom: 32 }}>Profile</div>
                                 <div className='d-flex jsutify-content-between align-items-center' style={{ marginBottom: 20 }}>
                                     <img src={UserImg} style={{ width: 82, objectFit: 'contain', marginRight: 15 }} />
                                     <div className="position-relative" style={{ width: '100%' }}>
-                                        <label className='form-control-label'>Name</label>
-                                        <input type="text" className="form-control form-control-input" placeholder='Enter Name'></input>
+                                        <label className='form-control-label'>First Name</label>
+                                        <Controller
+                                            control={control}
+                                            name="first_name"
+                                            render={({ field }) => (
+                                                <input
+                                                    type="text"
+                                                    className="form-control form-control-input"
+                                                    placeholder='Enter First Name'
+                                                    style={{color: 'black'}}
+                                                    {...field}
+                                                />
+                                            )}
+                                        />
+                                        {errors?.first_name && <p style={{ color: 'red' }}>{errors?.first_name?.message}</p>}
                                         <div className="position-absolute" style={{ left: 15, top: '50%' }}>
                                             <img src={InputUser} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} alt="Search Icon" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <label className='form-control-label'>Last Name</label>
+                                <div className='row m-0'>
+                                    <div className='col-lg-10 column-pad'>
+                                        <div className="position-relative" style={{ width: '100%', marginBottom: 20 }}>
+                                            <Controller
+                                                control={control}
+                                                name="last_name"
+                                                render={({ field }) => (
+                                                    <input
+                                                        type="text"
+                                                        className="form-control form-control-input"
+                                                        placeholder='Enter Last Name'
+                                                        style={{ color: 'black' }}
+                                                        {...field}
+                                                    />
+                                                )}
+                                            />
+                                            {errors?.last_name && <p style={{ color: 'red' }}>{errors?.last_name?.message}</p>}
+                                            <div className="position-absolute" style={{ left: 17, top: '22%' }}>
+                                                <img src={InputUser} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} alt="Search Icon" />
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -77,7 +176,7 @@ function Profile() {
                                 <div className='row m-0'>
                                     <div className='col-lg-2 column-pad'>
                                         <div className='me-2'>
-                                            <input type="text" className="form-control form-control-input" placeholder=''></input>
+                                            <input type="text" className="form-control form-control-input" placeholder='+91' defaultValue={"+91"} disabled></input>
                                         </div>
                                     </div>
                                     <div className='col-lg-10 column-pad'>
@@ -97,13 +196,17 @@ function Profile() {
                                     </div>
                                 </div>
                                 <div className='d-flex justify-content-end align-items-center'>
-                                    <button className='blue-btn'>Save and Apply</button>
+                                    <button type="submit" className='blue-btn'>Save and Apply</button>
                                 </div>
+                                </form>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            {
+                isLoading && <Loader />
+            }
         </>
     )
 }

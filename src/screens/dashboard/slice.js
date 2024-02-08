@@ -22,6 +22,8 @@ const initialState = {
         isNewsViewed: false
     },
 
+    stockIndexes: [],
+    indexLoader: false,
 }
 
 export const getTrendingStocks = createAsyncThunk("dashboard/getTrendingStocks", async () => {
@@ -109,7 +111,20 @@ export const getInvestorStories = createAsyncThunk("dashboard/getInvestorStories
     }
 });
 
+export const getStockIndexes = createAsyncThunk("watchList/getStockIndexes", async () => {
+    try {
+        let data = {
+            method: METHOD_TYPE.get,
+            url: API_ENDPOINTS.stockIndexes,
+        };
+        const response = await api(data);
+        return response.data.data;
 
+    } catch (error) {
+        console.log('error::::', error.response)
+        throw error.response;
+    }
+});
 
 
 const dashboardSlice = createSlice({
@@ -120,6 +135,9 @@ const dashboardSlice = createSlice({
     extraReducers: (builder) => {
         const handleLoading = (state, action) => {
             state.isLoading = action.meta.requestStatus === 'pending';
+        };
+        const handleIndexLoading = (state, action) => {
+            state.indexLoader = action.meta.requestStatus === 'pending';
         };
         builder
             .addCase(getTrendingStocks.fulfilled, (state, action) => {
@@ -157,6 +175,9 @@ const dashboardSlice = createSlice({
                 }
             })
 
+            .addCase(getStockIndexes.fulfilled, (state, action) => {
+                state.stockIndexes = action.payload;
+            })
             .addMatcher(
                 (action) =>
                     action.type === getTrendingStocks.pending.type ||
@@ -180,6 +201,13 @@ const dashboardSlice = createSlice({
 
 
                 handleLoading
+            )
+            .addMatcher(
+                (action) =>
+                    action.type === getStockIndexes.fulfilled.type ||
+                    action.type === getStockIndexes.pending.type ||
+                    action.type === getStockIndexes.rejected.type,
+                handleIndexLoading
             )
     }
 });

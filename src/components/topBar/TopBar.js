@@ -29,7 +29,7 @@ function TopBar() {
       <div className='web-nav'>
         <div className='top-nav-bar' style={{ width: window.innerWidth }}>
           <div className='content-nav d-flex align-items-center justify-content-between' style={{ width: window.innerWidth }}>
-            <a href='/'>
+            <a href='/dashboard'>
             <img className="logo" style={{ width: 155 }} src={FrruitLogo} alt="" />
             </a>
             <div className='d-flex align-items-center justify-content-between'>
