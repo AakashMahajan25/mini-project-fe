@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import Chart from 'chart.js/auto';
 
 function BarChart(props) {
-    const { graphData, index } = props;
+    const { graphData, index, yAxisLabel, xAxisLabel, showXAxis } = props;
 
     useEffect(() => {
         const ctx = document.getElementById(`myChart${index}`).getContext('2d');
@@ -24,8 +24,8 @@ function BarChart(props) {
                         '#F1F4FD',
                     ],
                     borderRadius: 5,
-                    borderColor:'#4563E4',
-                    borderWidth:1
+                    borderColor: '#4563E4',
+                    borderWidth: 1
                 }],
             },
             options: {
@@ -46,11 +46,11 @@ function BarChart(props) {
                         grid: {
                             zeroLineColor: 'transparent',
                             tickColor: 'white',
-                            color:'#D1E9FF'
+                            color: '#D1E9FF'
                         },
                         title: {
                             display: true,
-                            text: `Users`,
+                            text: yAxisLabel,
                             padding: 0,
                         },
                         border: {
@@ -62,18 +62,19 @@ function BarChart(props) {
                             display: false,
                         },
                         ticks: {
-                            padding: 20,
+                            padding: 10,
                             fontColor: 'rgba(0,0,0,0.5)',
                             fontStyle: 'bold',
+                            display: showXAxis
                         },
                         title: {
                             display: true,
-                            text: `Date`,
+                            text: xAxisLabel,
                             padding: 0,
                         },
                         border: {
                             display: false
-                        }
+                        },
                     },
 
                 },
