@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import LeftBox from '../../components/leftBox/LeftBox';
 import DashboardRightBox from '../../components/dashboardRightBox/DashboardRightBox';
 import Stories1 from '../../assets/images/stories-icon-1.png';
 import Stories2 from '../../assets/images/stories-icon-2.png';
 import Stories3 from '../../assets/images/stories-icon-3.png';
 import Stories4 from '../../assets/images/stories-icon-4.png';
-import Stories5 from '../../assets/images/stories-icon-5.png';
+import CloseIcon from '../../assets/images/close_icon.png';
 import StoriesImg from '../../assets/images/stories-img-1.png';
 import StoriesImg2 from '../../assets/images/stories-img-2.png';
 import PrevBtn from '../../assets/images/prev-btn.png';
@@ -17,8 +17,30 @@ import Slider from 'react-slick';
 import { useNavigate } from 'react-router-dom';
 import Modal from 'react-bootstrap/Modal';
 import { useDispatch, useSelector } from 'react-redux';
-import { getMostOnFrruitGpt, getStockIndexes, getTrendingNews, getTrendingStocks } from './slice';
+import { getInvestorStories, getMostOnFrruitGpt, getStockIndexes, getTrendingNews, getTrendingStocks, setStoryViewed } from './slice';
 import { getPromptSuggestion } from '../frruitGPT/slice';
+
+
+const storyEnum = {
+    Topics_news: 'isTopicViewed',
+    Watchlist_news: 'isWatchListViewed',
+    Tren_stock_news: 'isStockViewed',
+    Trending_news: 'isNewsViewed'
+}
+const storyEnum2 = {
+    Topics_news: 'topicsNews',
+    Watchlist_news: 'watchlistNews',
+    Tren_stock_news: 'trendingStock',
+    Trending_news: 'trendingNews'
+}
+
+const storyEnum3 = {
+    Topics_news: 'topicsNews',
+    Watchlist_news: 'watchlistNews',
+    Tren_stock_news: 'trendingStock',
+    Trending_news: 'trendingNews'
+}
+
 
 function Dashboard() {
     const PreviousBtn = (props) => {
@@ -40,32 +62,28 @@ function Dashboard() {
 
     const [show, setShow] = useState(false);
     const [activeIndex, setActiveIndex] = useState(0);
+    const [stories, setStories] = useState([]);
+    const [storyType, setStoryType] = useState([]);
 
-    const handleShow = () => {
+
+    const handleShow = (data) => {
+        setStoryType(data)
         setShow(true);
+    };
+    const handleClose = () => {
+        setShow(false);
+        setActiveIndex(0)
     };
 
     const storiesData = [
-        { src: Stories1, onClick: handleShow },
-        { src: Stories2, onClick: handleShow },
-        { src: Stories3, onClick: handleShow },
-        { src: Stories4, onClick: handleShow },
-        { src: Stories5, onClick: handleShow },
-        { src: Stories1, onClick: handleShow },
-        { src: Stories2, onClick: handleShow },
-        { src: Stories3, onClick: handleShow },
-        { src: Stories1, onClick: handleShow },
-        { src: Stories2, onClick: handleShow },
+        { src: Stories1, onClick: handleShow, storyType: 'Topics_news' },
+        { src: Stories2, onClick: handleShow, storyType: 'Watchlist_news' },
+        { src: Stories3, onClick: handleShow, storyType: 'Tren_stock_news' },
+        { src: Stories4, onClick: handleShow, storyType: 'Trending_news' },
     ];
 
-    const promptText = [
-        'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
-        'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
-        'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
-        'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
-    ];
     const dispatch = useDispatch()
-    const { trendingStocks, trendingNews, mostOnFrruitGpt } = useSelector(state => state.dashboardSlice);
+    const { trendingStocks, trendingNews, mostOnFrruitGpt, storyViewed, investorStory, } = useSelector(state => state.dashboardSlice);
     const { chatSuggestions } = useSelector(state => state.fruitGPTSlice);
 
 
@@ -80,21 +98,12 @@ function Dashboard() {
     };
     const storyImg = {
         dots: false,
-        infinite: true,
+        infinite: false,
         speed: 100,
         slidesToShow: 1,
         slidesToScroll: 1,
         beforeChange: (oldIndex, newIndex) => setActiveIndex(newIndex),
     };
-
-    const storyImages = [
-        { src: StoriesImg, text: 'Lorem Ipsum is simply dummy text 1' },
-        { src: StoriesImg2, text: 'Lorem Ipsum is simply dummy text 2' },
-        { src: StoriesImg, text: 'Lorem Ipsum is simply dummy text 3' },
-        { src: StoriesImg2, text: 'Lorem Ipsum is simply dummy text 4' },
-        { src: StoriesImg, text: 'Lorem Ipsum is simply dummy text 5' },
-        { src: StoriesImg2, text: 'Lorem Ipsum is simply dummy text 6' },
-    ];
 
     const navigate = useNavigate();
     const routeChangeFrruitGPT = () => {
@@ -114,9 +123,67 @@ function Dashboard() {
         dispatch(getTrendingNews())
         dispatch(getMostOnFrruitGpt())
         dispatch(getPromptSuggestion(4))
+        dispatch(getInvestorStories())
         dispatch(getStockIndexes())
     }, [])
 
+    useEffect(() => {
+        getStoryData()
+    }, [storyType])
+
+    useEffect(() => {
+        if(activeIndex === (stories?.length - 1)){
+            dispatch(setStoryViewed(storyType.storyType))
+        }
+    }, [activeIndex])
+    
+
+    const shouldShowStory = useMemo(() => (
+            (investorStory.topicsNews.length > 0 ||
+                investorStory.watchlistNews.length > 0 ||
+                investorStory.trendingStock.length > 0 ||
+                investorStory.trendingNews.length > 0) ?
+                ((investorStory.watchlistNews.length > 0 && !storyViewed.isWatchListViewed) ||
+                    (investorStory.trendingStock.length > 0 && !storyViewed.isStockViewed) ||
+                    (investorStory.topicsNews.length > 0 && !storyViewed.isTopicViewed) ||
+                    (investorStory.trendingNews.length > 0 && !storyViewed.isNewsViewed)) : false
+    ), [storyViewed, investorStory])
+
+    const getStoryData = () => {
+        const data = investorStory[storyEnum3[storyType.storyType]];
+        let tempData = []
+        if (data?.length > 0) {
+            if (storyType === 'Topics_news') {
+                for (const el of data) {
+                    tempData.push({
+                        themeBg: getRandomColor(),
+                        mainHeading: el['title'],
+                        storyImage: true,
+                        viewImage: el['banner_image'],
+                        bottomsubDescription: el['summary']
+                    })
+                }
+            } else {
+                for (const el of data) {
+                    tempData.push({
+                        themeBg: getRandomColor(),
+                        mainHeading: el['Headline'],
+                        storyImage: true,
+                        viewImage: el['Image URL'],
+                        bottomsubDescription: el['Summary']
+                    })
+                }
+            }
+        }
+        setStories(tempData)
+    }
+
+    const colors = ['#4563E4', '#40BC98', '#023047', '#D63230', "#FB8500"]
+
+    const getRandomColor = () => {
+        const randomIndex = Math.floor(Math.random() * colors.length);
+        return colors[randomIndex];
+    }
 
     return (
         <div className='dashboardHome row justify-content-between m-0'>
@@ -127,20 +194,29 @@ function Dashboard() {
                 <div className='dashboard mt-4'>
                     <div className='d-flex flex-column justify-content-between' style={{ height: window.innerHeight - 170 }}>
                         <div className='d-flex flex-column'>
+                            {
+                            shouldShowStory&&
                             <div className='dashboard-container'>
                                 <p className='stories-title' style={{ marginBottom: 10 }}>Investors Stories</p>
-                                <div className='d-flex justify-content-between align-items-center' style={{ marginBottom: 20 }}>
-                                    {storiesData.map((story, index) => (
-                                        <img
-                                            key={index}
-                                            style={{ width: 60, objectFit: 'contain', cursor: 'pointer' }}
-                                            src={story.src}
-                                            onClick={story.onClick}
-                                            alt={`Story ${index}`}
-                                        />
-                                    ))}
+                                <div className='d-flex align-items-center' style={{ marginBottom: 20 }}>
+                                    {storiesData.map((img, i) => {
+                                        return (
+                                            !storyViewed[storyEnum[img?.storyType]] && investorStory[storyEnum2[img?.storyType]].length > 0 ?
+                                                <img
+                                                    key={'MStories' + i}
+                                                    style={{ width: 60, objectFit: 'contain', cursor: 'pointer',marginRight: 20 }}
+                                                    src={img.src}
+                                                    onClick={()=>handleShow({ storyType: img.storyType })}
+                                                    // alt={`Story ${index}`}
+                                                />
+                                                :
+                                                null
+                                        )
+                                    }
+                                    )}
                                 </div>
                             </div>
+                            }
                             <div className='dashboard-slider'>
                                 <p className='stories-title' style={{ marginBottom: 10 }}>Trending Stocks</p>
                                 <Slider {...settings}>
@@ -176,18 +252,19 @@ function Dashboard() {
             </div>
             <Modal
                 show={show}
-                onHide={() => setShow(false)}
+                onHide={handleClose}
                 aria-labelledby="example-custom-modal-styling-title"
                 size="lg"
                 centered
                 className='custom-modal'
             >
-                <Modal.Header closeButton>
+                <Modal.Header style={{position:'absolute',right:-300,top:-40}}>
+                    <div onClick={handleClose} style={{cursor:'pointer'}}><img src={CloseIcon} style={{width:24,height:24}}/></div>
                 </Modal.Header>
                 <Modal.Body className="custom-modal-body">
                     <div style={{}}>
                         <div className='row position-relative justify-content-between' style={{ padding: '0px 30px', top: 20 }}>
-                            {[...new Array(storyImages?.length)].map((value, index) => (
+                            {[...new Array(stories?.length)].map((value, index) => (
                                 <div
                                     key={index}
                                     className='col'
@@ -195,7 +272,7 @@ function Dashboard() {
                                         top: '10px',
                                         height: 6,
                                         borderRadius: 10,
-                                        backgroundColor: index === activeIndex ? 'white' : 'blue',
+                                        backgroundColor: index === activeIndex ? 'blue' : 'white',
                                         zIndex: 10,
                                         paddingRight: 20,
                                         marginRight: 5,
@@ -206,12 +283,12 @@ function Dashboard() {
                         </div>
                         <Slider prevArrow={<PreviousBtn />}
                             nextArrow={<NextBtn />} {...storyImg}>
-                            {storyImages.map((image, index) => {
+                            {stories.map((image, index) => {
                                 return (
                                     <div className='d-flex justify-content-center'>
                                         <div key={index} style={{ position: 'relative' }}>
-                                            <img src={image.src} width={720} height={500} style={{ objectFit: 'cover', borderRadius: 25 }} />
-                                            <div className='stories-img-text'>{image.text}</div>
+                                            <img src={image.viewImage} width={720} height={500} style={{ objectFit: 'cover', borderRadius: 20, filter: 'blur(2px)' }} />
+                                            <div className='stories-img-text'>{image.bottomsubDescription}</div>
                                         </div>
                                     </div>
                                 )

@@ -5,62 +5,17 @@ import ChatIcon from '../../assets/images/new-chat-icon.png';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPromptList } from '../../screens/frruitGPT/slice';
 import { trimText } from '../../utils/utils';
+import { useNavigate } from 'react-router-dom';
 
 function FrruitGPTLeftBox() {
     const dispatch = useDispatch();
     const [searchParam, setSearchParam] = useState('');
-    const [promptHistory, setPromptHistory] = useState([])
     const {  promptList } = useSelector(state => state.fruitGPTSlice);
-
-
+    const navigate = useNavigate();
 
     useEffect(() => {
         dispatch(getPromptList())
     }, [])
-
-    console.log('promptList', promptList)
-
-    // useEffect(() => {
-    //     if (promptList?.length > 0) {
-    //         const prompt = promptList?.slice().reverse().map(el => ({
-    //             label: el?.prompt_text,
-    //             rightIcon: 'image',
-    //             desctextwidth: '53%',
-    //             link: 'FruitGptHome',
-    //             label2: moment(el?.createdAt).format('YYYY-MM-DD, hh:mm A'),
-    //             promptId: el?.prompt_id
-    //         }))
-    //         setPromptHistory(prompt)
-    //     }
-    // }, [promptList])
-
-
-    const TodaysTexts = [
-        "Recent trends for TCS",
-        "Recent trends for TCS",
-        "Recent trends for TCS",
-    ];
-    const oneMonthTexts = [
-        "Recent trends for TCS",
-        "Recent trends for TCS",
-        "Recent trends for TCS",
-        "Recent trends for TCS",
-        "Recent trends for TCS",
-        "Recent trends for TCS",
-        "Recent trends for TCS",
-        "Recent trends for TCS",
-        "Recent trends for TCS",
-        "Recent trends for TCS",
-        "Recent trends for TCS",
-        "Recent trends for TCS",
-        "Recent trends for TCS",
-        "Recent trends for TCS",
-        "Recent trends for TCS",
-        "Recent trends for TCS",
-        "Recent trends for TCS",
-        "Recent trends for TCS",
-        "Recent trends for TCS",
-    ];
     return (
         <>
             <div className='Frruit-GPT-left-box'>
@@ -88,9 +43,9 @@ function FrruitGPTLeftBox() {
                     </div> */}
                     {/* <div className='time-text'>1 Month</div> */}
                     <div>
-                        {promptList?.rows?.map((item, index) => (
+                        {promptList?.rows?.slice().reverse().map((item, index) => (
                             <div key={index} className='blue-box'>
-                                <div className='new-chat-text'>{trimText(item?.prompt_text,30)}</div>
+                                <div className='new-chat-text'>{trimText(item?.prompt_text,40)}</div>
                             </div>
                         ))}
                     </div>

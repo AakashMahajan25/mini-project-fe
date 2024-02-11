@@ -75,6 +75,8 @@
 }
 
 .custom-modal {
+    backdrop-filter: blur(2px) !important;
+
     .slick-prev {
         left: -480px !important;
     }
@@ -134,6 +136,5 @@
 }
 
 .modal-backdrop {
-    --bs-backdrop-bg: #86878c !important;
-    --bs-backdrop-opacity: 1 !important;
+    --bs-backdrop-opacity: 0.2 !important;
 }

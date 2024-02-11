@@ -9,6 +9,19 @@ const initialState = {
     mostOnFrruitGpt: [],
     watchLists: [],
     tickers: [],
+    investorStory: {
+        topicsNews:[],
+        watchlistNews: [],
+        trendingStock: [],
+        trendingNews: [],
+    },
+    storyViewed: {
+        isWatchListViewed: false,
+        isStockViewed: false,
+        isTopicViewed: false,
+        isNewsViewed: false
+    },
+
     stockIndexes: [],
     indexLoader: false,
 }
@@ -83,6 +96,21 @@ export const getTickersById = createAsyncThunk("watchList/getTickersById", async
     }
 });
 
+export const getInvestorStories = createAsyncThunk("dashboard/getInvestorStories", async () => {
+    try {
+        let data = {
+            method: METHOD_TYPE.get,
+            url:API_ENDPOINTS.getInvestorStories,
+        };
+        const response = await api(data);
+        return response.data.data;
+
+    } catch (error) {
+        console.log('error::::', error.response)
+        throw error.response;
+    }
+});
+
 export const getStockIndexes = createAsyncThunk("watchList/getStockIndexes", async () => {
     try {
         let data = {
@@ -103,7 +131,20 @@ const dashboardSlice = createSlice({
     name: "dashboard",
     initialState,
     reducers: {
+        setStoryViewed: (state, action) => {
+            const storyEnum = {
+                Topics_news: 'isTopicViewed',
+                Watchlist_news: 'isWatchListViewed',
+                Tren_stock_news: 'isStockViewed',
+                Trending_news: 'isNewsViewed'
+            }
+            state.storyViewed = {
+                ...state.storyViewed,
+                [storyEnum[action.payload]]: true
+            }
+        }
     },
+
     extraReducers: (builder) => {
         const handleLoading = (state, action) => {
             state.isLoading = action.meta.requestStatus === 'pending';
@@ -127,6 +168,26 @@ const dashboardSlice = createSlice({
             .addCase(getTickersById.fulfilled, (state, action) => {
                 state.tickers = action.payload;
             })
+            .addCase(getInvestorStories.fulfilled, (state, action) => {
+                const topicsNews =  Object.values(action.payload["Topics_news"]).flat();
+                const watchlist = Object.values(action.payload["Watchlist_news"]).flat();
+                const stocks = Object.values(action.payload["Tren_stock_news"]).flat();
+                const news = Object.values(action.payload["Trending_news"]).flat();
+
+                state.investorStory = {
+                    topicsNews: topicsNews,
+                    watchlistNews: watchlist,
+                    trendingStock: stocks,
+                    trendingNews: news
+                }; 
+                state.storyViewed = {
+                    isWatchListViewed: false,
+                    isStockViewed: false,
+                    isTopicViewed: false,
+                    isNewsViewed: false
+                }
+            })
+
             .addCase(getStockIndexes.fulfilled, (state, action) => {
                 state.stockIndexes = action.payload;
             })
@@ -146,7 +207,11 @@ const dashboardSlice = createSlice({
                     action.type === getUserWatchLists.rejected.type ||
                     action.type === getTickersById.pending.type ||
                     action.type === getTickersById.fulfilled.type ||
-                    action.type === getTickersById.rejected.type,
+                    action.type === getTickersById.rejected.type||
+                    action.type === getInvestorStories.pending.type ||
+                    action.type === getInvestorStories.fulfilled.type ||
+                    action.type === getInvestorStories.rejected.type,
+
 
                 handleLoading
             )
@@ -159,4 +224,5 @@ const dashboardSlice = createSlice({
             )
     }
 });
+export const { setStoryViewed } = dashboardSlice.actions;
 export default dashboardSlice.reducer;
