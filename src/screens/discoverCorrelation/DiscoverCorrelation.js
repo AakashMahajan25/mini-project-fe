@@ -1,4 +1,4 @@
-import  React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import TabsMui from '@mui/material/Tabs';
 import TabMui from '@mui/material/Tab';
 import Box from '@mui/material/Box';
@@ -13,6 +13,7 @@ import { Nav, Tab, Tabs } from 'react-bootstrap'
 import DiscoverCorrelationGraph from '../../components/graph/DiscoverCorrelationGraph';
 import { useDispatch, useSelector } from 'react-redux';
 import { getTrendingEvents } from './slice';
+import BarChart from '../../components/barChart/BarChart';
 
 function DiscoverCorrelation() {
     const [showEventDetails, setShowEventDetails] = useState(false);
@@ -42,71 +43,6 @@ function DiscoverCorrelation() {
         { label: 'Corporate Action Events4' },
         { label: 'Capital Market Events4' },
     ];
-    const eventDataList = [
-        {
-            title: 'Indian Stocks Likely to be impacted by budget 2024',
-            eventType: 'Regulatory Event',
-            buttonLabel: 'Know more',
-            buttonBackgroundColor: '#ECEFFC',
-            buttonTextColor: '#4563E3'
-        },
-        {
-            title: 'Indian Stocks Likely to be impacted by budget 2024',
-            eventType: 'Regulatory Event',
-            buttonLabel: 'Know more',
-            buttonBackgroundColor: '#D632301A',
-            buttonTextColor: '#D63230'
-        },
-        {
-            title: 'Indian Stocks Likely to be impacted by budget 2024',
-            eventType: 'Regulatory Event',
-            buttonLabel: 'Know more',
-            buttonBackgroundColor: '#40BC981A',
-            buttonTextColor: '#40BC98'
-        },
-        {
-            title: 'Indian Stocks Likely to be impacted by budget 2024',
-            eventType: 'Regulatory Event',
-            buttonLabel: 'Know more',
-            buttonBackgroundColor: '#ECEFFC',
-            buttonTextColor: '#4563E3'
-        },
-        {
-            title: 'Indian Stocks Likely to be impacted by budget 2024',
-            eventType: 'Regulatory Event',
-            buttonLabel: 'Know more',
-            buttonBackgroundColor: '#ECEFFC',
-            buttonTextColor: '#4563E3'
-        },
-        {
-            title: 'Indian Stocks Likely to be impacted by budget 2024',
-            eventType: 'Regulatory Event',
-            buttonLabel: 'Know more',
-            buttonBackgroundColor: '#D632301A',
-            buttonTextColor: '#D63230'
-        },
-        {
-            title: 'Indian Stocks Likely to be impacted by budget 2024',
-            eventType: 'Regulatory Event',
-            buttonLabel: 'Know more',
-            buttonBackgroundColor: '#D632301A',
-            buttonTextColor: '#D63230'
-        },
-        {
-            title: 'Indian Stocks Likely to be impacted by budget 2024',
-            eventType: 'Regulatory Event',
-            buttonLabel: 'Know more',
-            buttonBackgroundColor: '#40BC981A',
-            buttonTextColor: '#40BC98'
-        },
-        {
-            title: 'Indian Stocks Likely to be impacted by budget 2024',
-            eventType: 'Regulatory Event',
-            buttonLabel: 'Know more',
-            buttonBackgroundColor: '#40BC981A',
-            buttonTextColor: '#40BC98'
-        },
-    ];
     const stockData = [
         {
             companyName: 'TCS',
@@ -127,26 +63,35 @@ function DiscoverCorrelation() {
             changeInLastMonth: -12.5
         },
     ];
-    const blueBoxLabels = [
-        'IT Sector in India is expected to benefit from the 2024 budget.',
-        'Telecom sectors in India is anticipated to gain from the 2024 budget.',
-        'Indias Fintech Industry is expected to see benefits from the 2024 budget.',
-        'The semiconductor Industry in India is anticipated to benefit from the 2024 budget.',
-        'The Digital Gaming Sector in India is expected to gain from the 2024 budget.',
-        'Indias EV Industry is anticipated to benefit from the 2024 budget.',
-    ];
-    const [value, setValue] = React.useState(0);
+    const [value, setValue] = useState(0);
+    const [tickers, setTickers] = useState();
+    const [avgReturns, setAvgReturns] = useState();
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
-    
-    
-    useEffect(() => {
-        dispatch(getTrendingEvents())
-    }, [])
 
-console.log('eventDetails', eventDetails)
+    const graphData = () => {
+        const ticker = [];
+        const avgReturn = [];
+        const reversedTickers = eventDetails?.response?.result_tickers?.slice().reverse(); // Reverse the tickers first
+        reversedTickers.forEach(item => {
+            ticker.push(item.ticker);
+            avgReturn.push(item.avg_return.replace('%', ''));
+        });
+        setTickers(ticker);
+        setAvgReturns(avgReturn);
+    };
+
+    useEffect(() => {
+        dispatch(getTrendingEvents());
+    }, []);
+
+    useEffect(() => {
+        if (eventDetails) {
+            graphData();
+        }
+    }, [eventDetails])
 
     return (
         <>
@@ -162,7 +107,7 @@ console.log('eventDetails', eventDetails)
                                     <div className='title' style={{ marginBottom: 20 }}>Event Explorer</div>
                                     <div className='viewAllTeaxt' style={{ marginBottom: 20 }}>View All</div>
                                 </div>
-                                <Box marginBottom={'20px'} sx={{ maxWidth: { xs: 320, sm: 480 }, bgcolor: 'background.paper' }}>
+                                {/* <Box marginBottom={'20px'} sx={{ maxWidth: { xs: 320, sm: 480 }, bgcolor: 'background.paper' }}>
                                     <TabsMui
                                         value={value}
                                         onChange={handleChange}
@@ -174,14 +119,17 @@ console.log('eventDetails', eventDetails)
                                             <TabMui key={index} label={tab.label} className='tab-css' />
                                         ))}
                                     </TabsMui>
-                                </Box>
+                                </Box> */}
                                 <div className='row'>
                                     {trendingEvents.map((eventData, index) => (
                                         <div key={index} className='col-lg-4 column-pad'>
-                                            <EventExplorerCard 
-                                            question={eventData?.question}
-                                            category={eventData?.response?.category}
-                                            onCardClick={()=>handleCardClick(eventData)} />
+                                            <EventExplorerCard
+                                                question={eventData?.question}
+                                                category={eventData?.response?.category}
+                                                onCardClick={() => handleCardClick(eventData)}
+                                                buttonTextColor={index % 2 === 0 ? '#40BC98' : '#D63230'}
+                                                buttonBackgroundColor={index % 2 === 0 ? 'rgba(64, 188, 152, 0.1)' : 'rgba(214, 50, 48, 0.1)'}
+                                            />
                                         </div>
                                     ))}
                                 </div>
@@ -210,9 +158,9 @@ console.log('eventDetails', eventDetails)
                                                 <Tab.Pane eventKey="first">
                                                     <div className='title-2' style={{ marginBottom: 10 }}>Stocks that get affected the most  (in %)</div>
                                                     <div className='row'>
-                                                        <div className='col-lg-3' style={{height:window.innerHeight - 410,overflowY:'scroll'}}>
+                                                        <div className='col-lg-3' style={{ height: window.innerHeight - 410, overflowY: 'scroll',}}>
                                                             <div>
-                                                                {eventDetails?.response?.result_tickers?.map((stock, index) => (
+                                                                {eventDetails?.response?.result_tickers?.slice().reverse().map((stock, index) => (
                                                                     <BuySellStockCard
                                                                         key={index}
                                                                         companyName={stock.ticker}
@@ -223,12 +171,16 @@ console.log('eventDetails', eventDetails)
                                                                 ))}
                                                             </div>
                                                         </div>
-                                                        <div className='col-lg-9 column-pad' style={{marginTop:-50}}>
-                                                            <DiscoverCorrelationGraph
+                                                        <div className='col-lg-9 column-pad' style={{ marginTop: -50 }}>
+                                                            <BarChart
                                                                 graphData={{
-                                                                    labels: ['2', '4', '6', '8', '10', '12', '14', '16', '18', '20'],
-                                                                    data: [800, 650, 300, 550, 852, 157, 900, 350, 1000, 432]
+                                                                    labels:tickers,
+                                                                    data:avgReturns
                                                                 }}
+                                                                index={3}
+                                                                yAxisLabel={`Money`}
+                                                                xAxisLabel={`Date`}
+                                                                showXAxis={false}
                                                             />
                                                         </div>
                                                     </div>
@@ -236,8 +188,8 @@ console.log('eventDetails', eventDetails)
                                                 <Tab.Pane eventKey="second">
                                                     <div className='title-2' style={{ marginBottom: 10 }}>Stocks that get affected the most  (in %)</div>
                                                     <div className='row'>
-                                                        <div className='col-lg-5' style={{height:window.innerHeight - 410,overflowY:'scroll'}}>
-                                                            {eventDetails?.response?.similar_dates?.map((label, index) => (
+                                                        <div className='col-lg-5' style={{ height: window.innerHeight - 410, overflowY: 'scroll' }}>
+                                                            {eventDetails?.response?.similar_dates?.slice().reverse().map((label, index) => (
                                                                 <div key={index} className='blue-box-label'>{label?.description}</div>
                                                             ))}
                                                         </div>
