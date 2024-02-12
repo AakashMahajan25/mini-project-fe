@@ -13,6 +13,17 @@
         overflow-y: scroll;
     }
 
+    .search-box-menu {
+        padding: 16px;
+        background-color: #ffffff;
+        height: max-content;
+        box-shadow: 0px 2px 10px 0px #00000026;
+        border-radius: 10px;
+        position: absolute;
+        width: 100%;
+        z-index: 10;
+    }
+
     .tab-css {
         background-color: #E5EAFF;
         border-radius: 50px;
@@ -51,6 +62,7 @@
         line-height: 18.75px;
         color: #171E42;
         margin-bottom: 20px;
+        margin-top: 10px;
     }
 
     .scroll-tabs-btn {
