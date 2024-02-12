@@ -23,14 +23,14 @@ function BottomSearchBar(props) {
 
     return (
         <div className='BottomSearchBar'>
-            <div className='attachment'>
+            {/* <div className='attachment'>
                 <p className='attach-text'>Attach</p>
                 <img src={AttachIcon} className='img-styles' />
             </div>
             <div className='linkUrl'>
                 <p className='linkUrl-text'>Link URL</p>
                 <img src={LinkIcon} className='img-styles' />
-            </div>
+            </div> */}
             <div class="form-group">
                 <input
                     class="form-control"
