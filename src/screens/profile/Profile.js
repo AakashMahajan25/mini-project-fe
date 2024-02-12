@@ -176,7 +176,7 @@ function Profile() {
                                 <div className='row m-0'>
                                     <div className='col-lg-2 column-pad'>
                                         <div className='me-2'>
-                                            <input type="text" className="form-control form-control-input" placeholder='+91' defaultValue={"+91"} disabled></input>
+                                            <input style={{textIndent:'12px'}} type="text" className="form-control form-control-input" placeholder='+91' defaultValue={"+91"} disabled></input>
                                         </div>
                                     </div>
                                     <div className='col-lg-10 column-pad'>
