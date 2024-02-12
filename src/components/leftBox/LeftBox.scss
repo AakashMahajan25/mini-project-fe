@@ -64,13 +64,18 @@
         padding: 12px 24px;
         border-radius: 15px;
     }
+    .stock-price-list-menu{
+        width: 100%;
+        background-color: red !important;
+        height: 46px;
+    }
 
     .stock-name {
-        font-weight: 400;
-        font-family: 'Roboto', sans-serif;
-        font-size: 14px;
-        line-height: 22px;
-        color: #171E42;
+        font-weight: 400 !important;
+        font-family: 'Roboto', sans-serif !important;
+        font-size: 14px !important;
+        line-height: 22px !important;
+        color: #171E42 !important;
     }
 
     .ltp-text {
