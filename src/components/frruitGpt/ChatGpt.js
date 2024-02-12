@@ -185,7 +185,7 @@ function ChatGpt(props) {
                 } */}
 
                             <div className='chat-text-container'>
-                                <h3 className='chat-text' dangerouslySetInnerHTML={{__html: replaceNewlinesWithBr(chat?.text)}}></h3>
+                                <h3 className='chat-text' dangerouslySetInnerHTML={{__html: replaceNewlinesWithBr(chat?.text || '')}}></h3>
                             </div>
 
                             {/* {
