@@ -32,6 +32,7 @@ export const API_ENDPOINTS = {
     getPromptList: 'prompts/getPrompts',
     addPrompt: 'prompts/addPrompts',
     getPromptHistory: 'prompts/getPromptHistory?prompt_id=',
+    searchPrompt: 'prompts/searchPrompts?prompt=',
     triggerChatGpt: 'prompts/triggerChat',
     stockSearchByKeyword: 'stocks/getStockBySearch?keyword=',
     getUserActivePlan: 'users/getUserActivePlan',

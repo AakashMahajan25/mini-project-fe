@@ -10,8 +10,15 @@ import Slider from 'react-slick'
 import TrendingStocksCard from '../trendingStocks/TrendingStocksCard'
 import DiscoverCorrelationGraph from '../graph/DiscoverCorrelationGraph'
 import BarChart from '../barChart/BarChart'
+import { useSelector } from 'react-redux'
+import { replaceNewlinesWithBr } from '../../utils/utils'
+import { useLoading, Audio,SpinningCircles,Circles,ThreeDots } from '@agney/react-loading';
 
-function ChatGpt() {
+function ChatGpt(props) {
+    const { containerProps, indicatorEl } = useLoading({
+        loading: true,
+        indicator: <ThreeDots width="50" />,
+    });
     var settings = {
         dots: false,
         infinite: false,
@@ -132,30 +139,34 @@ function ChatGpt() {
             fruitButtonText: 'Get Frruit',
         },
     ];
+    const { containerRef } = props;
 
+    const { chatHistory } = useSelector(state => state.fruitGPTSlice);
 
     return (
-        <div className='ChatGpt' style={{ height: window.innerHeight - 290 }}>
+        <div className='ChatGpt' style={{ height: window.innerHeight - 290 }} ref={containerRef}>
+            {
+                chatHistory?.map((chat, index) =>
+                    chat?.person === 'user' ?
+                        <div className='rightChat'>
+                            {/* <img src={ProfileIcon} className='profile-styles' /> */}
+                            <div className='d-flex align-items-center my-2 floatRight'>
+                                <img src={ArrowGrey} className='arrow' />
+                                <p className='you-text'>You</p>
+                            </div>
+                            <div className='chat-text-container'>
+                                <h3 className='chat-text'>{chat?.text}</h3>
+                            </div>
+                        </div>
+                        :
+                        <div className='leftChat'>
+                            {/* <img src={LogoCircle} className='profile-styles' /> */}
+                            <div className='d-flex align-items-center my-2 floatLeft'>
+                                <img src={ArrowGrey} className='arrow' />
+                                <p className='you-text'>Frruit GPT</p>
+                            </div>
 
-            <div className='rightChat'>
-                <img src={ProfileIcon} className='profile-styles' />
-                <div className='d-flex align-items-center my-2 floatRight'>
-                    <img src={ArrowGrey} className='arrow' />
-                    <p className='you-text'>You</p>
-                </div>
-                <div className='chat-text-container'>
-                    <h3 className='chat-text'>Show me recent trends for TCSShow me recent trends for TCS Show me recent trends for TCS Show me recent trends for TCS Show me recent trends for TCS Show me recent trends for TCS  </h3>
-                </div>
-            </div>
-
-            <div className='leftChat'>
-                <img src={LogoCircle} className='profile-styles' />
-                <div className='d-flex align-items-center my-2 floatLeft'>
-                    <img src={ArrowGrey} className='arrow' />
-                    <p className='you-text'>Frruit GPT</p>
-                </div>
-
-                {
+                            {/* {
                     <div className='stock-list'>
                         <div className='d-flex align-items-center'>
                             <div className='image-stock'>
@@ -176,13 +187,13 @@ function ChatGpt() {
                             <button className='btn-red-sell'>Sell</button>
                         </div>
                     </div>
-                }
+                } */}
 
-                <div className='chat-text-container'>
-                    <h3 className='chat-text'>Tata Consultancy Services Limited (TCS) is an India-based company engaged in providing information technology (IT) services, consulting, and business solutions. It operates through Banking; Capital Markets; Consumer Goods and Distribution; Communications, Media, and Information Services; Education; Energy, Resources, and Utilities; Healthcare; High Tech; Insurance; Life Sciences; Manufacturing; Public Services; Retail; Travel and Logistics. </h3>
-                </div>
+                            <div className='chat-text-container'>
+                                <h3 className='chat-text' dangerouslySetInnerHTML={{ __html: replaceNewlinesWithBr(chat?.text || '') }}></h3>
+                            </div>
 
-                {
+                            {/* {
                     <div className='graphSlider'>
                         <Slider {...graphSettings}>
                             <div className='chartGraph'>
@@ -215,8 +226,9 @@ function ChatGpt() {
                         </Slider>
                     </div>
 
-                }
-                <div className='fundamental-container'>
+                } */}
+
+                            {/* <div className='fundamental-container'>
                     <h2 className='fundamental-maintitle'>Fundamentals</h2>
                     <Slider {...settings}>
                         {fundamental.map((fundamental) => (
@@ -229,18 +241,23 @@ function ChatGpt() {
 
                         ))}
                     </Slider>
-                </div>
-                <div className='fundamental-container'>
+                </div> */}
+
+                            {/* <div className='fundamental-container'>
                     <h2 className='fundamental-maintitle'>Similar Stocks</h2>
                     <Slider {...stocksettings}>
                         {trendingStocksData.map((stockData, index) => (
                             <TrendingStocksCard {...stockData} />
                         ))}
                     </Slider>
-                </div>
+                </div> */}
 
 
-            </div>
+                        </div>
+                )}
+            <section {...containerProps}>
+                {indicatorEl} {/* renders only while loading */}
+            </section>
         </div>
     )
 }

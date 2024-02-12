@@ -5,9 +5,17 @@ import UpArrow from '../../assets/images/up-arrow-outline.png';
 import DownArrow from '../../assets/images/down-arrow-outline.png';
 import RightWhiteArrow from '../../assets/images/white-right.png';
 import { trimText } from '../../utils/utils';
+import { useNavigate } from 'react-router-dom';
 
 function TrendingStocksCard({ name, symbol, change, changesPercentage }) {
+    const navigate = useNavigate();
     const isPositiveChange = parseFloat(changesPercentage) > 0;
+
+    const getFrruitClick = () => {
+        navigate("/frruit-gpt", {
+            state: { question: 'What is happening in ' + symbol + ' stock' },
+        });
+    }
 
     return (
         <div className='trendingStockCard' style={{ marginRight: 10 }}>
@@ -35,7 +43,7 @@ function TrendingStocksCard({ name, symbol, change, changesPercentage }) {
                         </div>
                         <div className='col-lg-4 column-pad'>
                             <div className='mx-1'>
-                                <button className='blue-btn  d-flex align-items-center justify-content-center'>{'Get Frruit'}  <img src={RightWhiteArrow} style={{ width: 6, objectFit: 'contain', marginLeft: 5 }} /></button>
+                                <button className='blue-btn  d-flex align-items-center justify-content-center' onClick={getFrruitClick}>{'Get Frruit'}  <img src={RightWhiteArrow} style={{ width: 6, objectFit: 'contain', marginLeft: 5 }} /></button>
                             </div>
                         </div>
                     </div>

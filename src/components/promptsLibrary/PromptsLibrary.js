@@ -4,9 +4,16 @@ import RightWhiteArrow from '../../assets/images/chevron-right.png'
 import LeftWhiteArrow from '../../assets/images/chevron-left.png'
 import RightBlueArrow from '../../assets/images/right-arrow.png'
 import { Nav, Tab, Tabs } from 'react-bootstrap'
+import { useSelector } from 'react-redux'
 
-function PromptsLibrary() {
+function PromptsLibrary(props) {
+    const {
+        handlePromptClick = ()=>{}
+    } = props
     const [show, setShow] = useState(false)
+
+    const { chatSuggestions } = useSelector(state => state.fruitGPTSlice);
+    
     return (
         <div className='promptButton'>
             {!show && <button onClick={() => setShow(!show)} className='blue-btn radius-button d-flex align-items-center justify-content-center' ><img src={RightWhiteArrow} style={{ width: 8, height: 13, objectFit: 'contain', marginRight: 5 }} /> PromptsLibrary</button>}
@@ -33,9 +40,9 @@ function PromptsLibrary() {
                             <Tab.Content className='mt-4'>
                                 <Tab.Pane eventKey="first">
                                     {
-                                        [1, 2, 3, 4, 5, 6, 7, 8].map(() => (
-                                            <div className='suggest-prompts'>
-                                                <h1 className='text'>Lorem Ipsum is simply dummy text of the printing...</h1>
+                                        chatSuggestions?.map((prompt) => (
+                                            <div className='suggest-prompts' onClick={()=>handlePromptClick(prompt?.description)}>
+                                                <h1 className='text'>{prompt?.description}</h1>
                                                 <img src={RightBlueArrow} style={{ width: 24, height: 24, objectFit: 'contain', marginLeft: 10 }} />
                                             </div>
                                         ))
@@ -43,9 +50,9 @@ function PromptsLibrary() {
                                 </Tab.Pane>
                                 <Tab.Pane eventKey="second">
                                     {
-                                        [1, 2, 3, 4, 5, 6, 7, 8].map(() => (
-                                            <div className='suggest-prompts'>
-                                                <h1 className='text'>Lorem Ipsum is simply dummy text of the printing...</h1>
+                                        chatSuggestions.map((prompt) => (
+                                            <div className='suggest-prompts' onClick={()=>handlePromptClick(prompt?.description)}>
+                                                <h1 className='text'>{prompt?.description}</h1>
                                                 <img src={RightBlueArrow} style={{ width: 24, height: 24, objectFit: 'contain', marginLeft: 10 }} />
                                             </div>
                                         ))
@@ -53,9 +60,9 @@ function PromptsLibrary() {
                                 </Tab.Pane>
                                 <Tab.Pane eventKey="third">
                                     {
-                                        [1, 2, 3, 4, 5, 6, 7, 8].map(() => (
-                                            <div className='suggest-prompts'>
-                                                <h1 className='text'>Lorem Ipsum is simply dummy text of the printing...</h1>
+                                        chatSuggestions.map((prompt) => (
+                                            <div className='suggest-prompts' onClick={()=>handlePromptClick(prompt?.description)}>
+                                                <h1 className='text'>{prompt?.description}</h1>
                                                 <img src={RightBlueArrow} style={{ width: 24, height: 24, objectFit: 'contain', marginLeft: 10 }} />
                                             </div>
                                         ))
