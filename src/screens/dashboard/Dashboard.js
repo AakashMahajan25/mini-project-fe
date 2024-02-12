@@ -132,21 +132,21 @@ function Dashboard() {
     }, [storyType])
 
     useEffect(() => {
-        if(activeIndex === (stories?.length - 1)){
+        if (activeIndex === (stories?.length - 1)) {
             dispatch(setStoryViewed(storyType.storyType))
         }
     }, [activeIndex])
-    
+
 
     const shouldShowStory = useMemo(() => (
-            (investorStory.topicsNews.length > 0 ||
-                investorStory.watchlistNews.length > 0 ||
-                investorStory.trendingStock.length > 0 ||
-                investorStory.trendingNews.length > 0) ?
-                ((investorStory.watchlistNews.length > 0 && !storyViewed.isWatchListViewed) ||
-                    (investorStory.trendingStock.length > 0 && !storyViewed.isStockViewed) ||
-                    (investorStory.topicsNews.length > 0 && !storyViewed.isTopicViewed) ||
-                    (investorStory.trendingNews.length > 0 && !storyViewed.isNewsViewed)) : false
+        (investorStory.topicsNews.length > 0 ||
+            investorStory.watchlistNews.length > 0 ||
+            investorStory.trendingStock.length > 0 ||
+            investorStory.trendingNews.length > 0) ?
+            ((investorStory.watchlistNews.length > 0 && !storyViewed.isWatchListViewed) ||
+                (investorStory.trendingStock.length > 0 && !storyViewed.isStockViewed) ||
+                (investorStory.topicsNews.length > 0 && !storyViewed.isTopicViewed) ||
+                (investorStory.trendingNews.length > 0 && !storyViewed.isNewsViewed)) : false
     ), [storyViewed, investorStory])
 
     const getStoryData = () => {
@@ -195,27 +195,27 @@ function Dashboard() {
                     <div className='d-flex flex-column justify-content-between' style={{ height: window.innerHeight - 170 }}>
                         <div className='d-flex flex-column'>
                             {
-                            shouldShowStory&&
-                            <div className='dashboard-container'>
-                                <p className='stories-title' style={{ marginBottom: 10 }}>Investors Stories</p>
-                                <div className='d-flex align-items-center' style={{ marginBottom: 20 }}>
-                                    {storiesData.map((img, i) => {
-                                        return (
-                                            !storyViewed[storyEnum[img?.storyType]] && investorStory[storyEnum2[img?.storyType]].length > 0 ?
-                                                <img
-                                                    key={'MStories' + i}
-                                                    style={{ width: 60, objectFit: 'contain', cursor: 'pointer',marginRight: 20 }}
-                                                    src={img.src}
-                                                    onClick={()=>handleShow({ storyType: img.storyType })}
+                                shouldShowStory &&
+                                <div className='dashboard-container'>
+                                    <p className='stories-title' style={{ marginBottom: 10 }}>Investors Stories</p>
+                                    <div className='d-flex align-items-center' style={{ marginBottom: 20 }}>
+                                        {storiesData.map((img, i) => {
+                                            return (
+                                                !storyViewed[storyEnum[img?.storyType]] && investorStory[storyEnum2[img?.storyType]].length > 0 ?
+                                                    <img
+                                                        key={'MStories' + i}
+                                                        style={{ width: 60, objectFit: 'contain', cursor: 'pointer', marginRight: 20 }}
+                                                        src={img.src}
+                                                        onClick={() => handleShow({ storyType: img.storyType })}
                                                     // alt={`Story ${index}`}
-                                                />
-                                                :
-                                                null
-                                        )
-                                    }
-                                    )}
+                                                    />
+                                                    :
+                                                    null
+                                            )
+                                        }
+                                        )}
+                                    </div>
                                 </div>
-                            </div>
                             }
                             <div className='dashboard-slider'>
                                 <p className='stories-title' style={{ marginBottom: 10 }}>Trending Stocks</p>
@@ -258,8 +258,8 @@ function Dashboard() {
                 centered
                 className='custom-modal'
             >
-                <Modal.Header style={{position:'absolute',right:-300,top:-40}}>
-                    <div onClick={handleClose} style={{cursor:'pointer'}}><img src={CloseIcon} style={{width:24,height:24}}/></div>
+                <Modal.Header style={{ position: 'absolute', right: -300, top: -40 }}>
+                    <div onClick={handleClose} style={{ cursor: 'pointer' }}><img src={CloseIcon} style={{ width: 24, height: 24 }} /></div>
                 </Modal.Header>
                 <Modal.Body className="custom-modal-body">
                     <div style={{}}>
@@ -287,7 +287,7 @@ function Dashboard() {
                                 return (
                                     <div className='d-flex justify-content-center'>
                                         <div key={index} style={{ position: 'relative' }}>
-                                            <img src={image.viewImage} width={720} height={500} style={{ objectFit: 'cover', borderRadius: 20, filter: 'blur(2px)' }} />
+                                            <img src={image.viewImage} width={720} height={500} style={{ objectFit: 'cover', borderRadius: 20, filter: 'grayscale(60%)' }} />
                                             <div className='stories-img-text'>{image.bottomsubDescription}</div>
                                         </div>
                                     </div>

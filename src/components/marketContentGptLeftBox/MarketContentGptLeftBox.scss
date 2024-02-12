@@ -1,0 +1,73 @@
+.marketContentGptLeftBox-css {
+    .box {
+        border: 1px solid #E5E5E5;
+        width: 100%;
+        border-left: 0px;
+        padding: 16px;
+        position: sticky;
+        left: 0;
+        overflow: scroll;
+        overflow-x: hiddenx;
+
+        .blue-box {
+            padding: 11px 16px;
+            background-color: #F1F4FD;
+            border-radius: 15px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            font-family: 'Roboto', sans-serif;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 22px;
+            color: #6F7387;
+
+            &:hover {
+                background-color: #E5EAFF;
+                color: #4563E4;
+            }
+
+            &:focus {
+                background-color: #E5EAFF;
+                color: #4563E4;
+            }
+
+            &:active {
+                background-color: #E5EAFF;
+                color: #4563E4;
+            }
+        }
+
+        .history-text {
+            font-family: 'Roboto', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            line-height: 19px;
+            color: #171E42;
+            margin-bottom: 20px;
+        }
+
+        .time-text {
+            font-family: 'Roboto', sans-serif;
+            font-size: 16px;
+            font-weight: 400;
+            line-height: 19px;
+            color: #6F7387;
+            margin-bottom: 10px;
+        }
+    }
+
+    ::-webkit-scrollbar {
+        width: 5px;
+    }
+
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+        background: #4563E4;
+        border-radius: 10px;
+    }
+
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+        background: #4563E4;
+    }
+}

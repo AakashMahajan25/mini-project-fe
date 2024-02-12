@@ -2,6 +2,7 @@ import Dashboard from "../screens/dashboard/Dashboard";
 import DiscoverCorrelation from "../screens/discoverCorrelation/DiscoverCorrelation";
 import FrruitGPT from "../screens/frruitGPT/FrruitGPT";
 import Login from "../screens/login/Login";
+import MarketContentGPT from "../screens/marketContentGPT/MarketContentGPT";
 import Profile from "../screens/profile/Profile";
 import Signup from "../screens/signup/Signup";
 import PrivateRoute from "./privateRoute";
@@ -41,5 +42,10 @@ export const loginRoutes = [
         path: "/profile",
         exact: true,
         element: <PrivateRoute component={Profile} />,
+    },
+    {
+        path: "/market-content-gpt",
+        exact: true,
+        element: <PrivateRoute component={MarketContentGPT} />,
     },
 ]
