@@ -8,7 +8,7 @@ import GreenArrow from '../../assets/images/green_up-arrow.png';
 import RedArrow from '../../assets/images/red_down-arrow.png';
 import StockMiniLogo from '../../assets/images/frruit-mini-logo.png';
 import AddstockBtn from '../../assets/images/add-stock-btn.png';
-import { getTickersById, getUserWatchLists } from '../../screens/dashboard/slice';
+import { getStockBySearch, getTickersById, getUserWatchLists } from '../../screens/dashboard/slice';
 import { useDispatch, useSelector } from 'react-redux';
 import { capitalizeFirstLetter, trimText } from '../../utils/utils';
 import Typography from '@mui/material/Typography';
@@ -27,7 +27,14 @@ import DiscoverCorrelationGraph from '../graph/DiscoverCorrelationGraph'
 function LeftBox() {
     const [value, setValue] = useState(0);
     const dispatch = useDispatch()
-    const { watchLists, tickers } = useSelector(state => state.dashboardSlice);
+    const { watchLists, tickers,searchStocks, } = useSelector(state => state.dashboardSlice);
+    const [anchorElNotification, setAnchorElNotification] = useState(null);
+    const [show, setShow] = useState(false);
+    const [searchParam, setSearchParam] = useState('')
+    console.log('searchParam', searchParam)
+    
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
 
     const handleChange = (event, newValue) => {
         setValue(newValue)
@@ -38,6 +45,7 @@ function LeftBox() {
 
     useEffect(() => {
         dispatch(getUserWatchLists())
+        dispatch(getStockBySearch())
         getWatchListData()
     }, [])
 
@@ -50,7 +58,6 @@ function LeftBox() {
             })
     }
 
-    const [anchorElNotification, setAnchorElNotification] = React.useState(null);
 
 
     const handleOpenNotificationMenu = (event) => {
@@ -62,10 +69,7 @@ function LeftBox() {
         setAnchorElNotification(null);
     };
 
-    const [show, setShow] = useState(false);
-
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+    
 
     const dataForMapping = [
         { text1: '0.00', text2: '0', text3: '0.00' },
@@ -158,7 +162,7 @@ function LeftBox() {
             <div className='left-box'>
                 <div className='box' style={{ height: window.innerHeight - 130 }}>
                     <div className="position-relative" style={{ marginBottom: 20 }} onClick={handleOpenNotificationMenu}>
-                        <input type="text" className="form-control form-control-search" placeholder='Search Here' />
+                        <input type="text" className="form-control form-control-search" placeholder='Search Here' value={searchParam}  onChange={text => setSearchParam(text)}/>
                         <div className="position-absolute" style={{ left: 15, top: '15%' }}>
                             <img src={SearchIcon} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} alt="Search Icon" />
                         </div>
@@ -236,7 +240,8 @@ function LeftBox() {
                         </Tabs>
                     </Box>
                     <div>
-                        {tickers?.rows?.length > 0 ?
+                        {watchLists?.length > 0 ?
+                        tickers?.rows?.length > 0 ?
                             tickers?.rows?.map((stock, index) => (
                                 <div key={index} className='stock-price-list mb-2'>
                                     <div className='d-flex justify-content-between align-items-center'>
@@ -260,6 +265,11 @@ function LeftBox() {
                             <div className='d-flex align-items-center justify-content-center mt-5'>
                                 <p className='watchlistText'>{`Add Stock to ${watchLists[value]?.watchlist_name && capitalizeFirstLetter(watchLists[value]?.watchlist_name)}`}</p>
                             </div>
+                            :
+                            <div className='d-flex align-items-center justify-content-center mt-5'>
+                                <p className='watchlistText'>{` Add new watchlist `}</p>
+                            </div>
+
                         }
                     </div>
                 </div>
