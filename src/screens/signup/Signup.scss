@@ -1,0 +1,43 @@
+.signup-css {
+    .form-control-label {
+        font-weight: 600;
+    }
+
+    .form-control-input {
+        height: 48px;
+    }
+
+    .privacyText {
+        margin-top: 24px;
+    }
+
+    .phone-number {
+        width: 15%;
+        text-indent: 13px;
+
+        @media only screen and (max-width: 500px) {
+            width: 20%;
+            text-indent: 0;
+        }
+    }
+
+    .signup-form {
+        padding: 24px 64px;
+        background-color: #F1F4FD;
+        border-radius: 45px;
+
+        @media only screen and (max-width: 500px) {
+            padding: 60px 20px !important;
+            margin: 0px;
+        }
+    }
+
+    .form-select {
+        border: 1px solid #BDC3DD;
+        background-color: #ffffff;
+        padding-right: 30px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        padding-left: 5px;
+    }
+}
