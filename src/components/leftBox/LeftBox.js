@@ -27,12 +27,12 @@ import DiscoverCorrelationGraph from '../graph/DiscoverCorrelationGraph'
 function LeftBox() {
     const [value, setValue] = useState(0);
     const dispatch = useDispatch()
-    const { watchLists, tickers,searchStocks, } = useSelector(state => state.dashboardSlice);
+    const { watchLists, tickers, searchStocks, } = useSelector(state => state.dashboardSlice);
     const [anchorElNotification, setAnchorElNotification] = useState(null);
     const [show, setShow] = useState(false);
     const [searchParam, setSearchParam] = useState('')
     console.log('searchParam', searchParam)
-    
+
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
@@ -58,18 +58,9 @@ function LeftBox() {
             })
     }
 
-
-
     const handleOpenNotificationMenu = (event) => {
         setAnchorElNotification(event.currentTarget);
     };
-
-
-    const handleCloseNotificationMenu = () => {
-        setAnchorElNotification(null);
-    };
-
-    
 
     const dataForMapping = [
         { text1: '0.00', text2: '0', text3: '0.00' },
@@ -161,68 +152,58 @@ function LeftBox() {
         <>
             <div className='left-box'>
                 <div className='box' style={{ height: window.innerHeight - 130 }}>
-                    <div className="position-relative" style={{ marginBottom: 20 }} onClick={handleOpenNotificationMenu}>
-                        <input type="text" className="form-control form-control-search" placeholder='Search Here' value={searchParam}  onChange={text => setSearchParam(text)}/>
+                    <div className="position-relative" style={{ marginBottom: 10 }} onClick={handleOpenNotificationMenu}>
+                        <input type="text" className="form-control form-control-search" placeholder='Search Here' value={searchParam} onChange={text => setSearchParam(text)} />
                         <div className="position-absolute" style={{ left: 15, top: '15%' }}>
                             <img src={SearchIcon} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} alt="Search Icon" />
                         </div>
                     </div>
-                    <Menu
-                        sx={{ mt: '45px' }}
-                        id="menu-appbar"
-                        anchorEl={anchorElNotification}
-                        anchorOrigin={{
-                            vertical: 'top',
-                            horizontal: 'left',
-                        }}
-                        keepMounted
-                        transformOrigin={{
-                            vertical: 'top',
-                            horizontal: 'right',
-                        }}
-                        open={Boolean(anchorElNotification)}
-                        onClose={handleCloseNotificationMenu}
-                        PaperProps={{
-                            style: {
-                                width: '22%',
-                                borderRadius: '10px',
-                                boxShadow: '0px 2px 10px 0px #00000026',
-                                zIndex: '0'
-                            },
-                        }}
-                    >
-                        <div className='px-2'>
-                            {tickers?.rows?.length > 0 ?
-                                tickers?.rows?.map((stock, index) => (
-                                    <div key={index} className='d-flex justify-content-between align-items-center mb-2' style={{ backgroundColor: '#F1F4FD', borderRadius: '15px', padding: 10 }}>
-                                        <div onClick={handleShow} className='d-flex justify-content-start align-items-center'>
-                                            <div className='me-2' style={{ lineHeight: '22px', fontWeight: 400, fontSize: 14, color: '#171E42', fontFamily: 'Roboto, sans-serif' }}
-                                            >{trimText(stock?.ticker_name, 12)}</div>
-                                            <div className='me-2' style={{ lineHeight: '22px', fontWeight: 400, fontSize: 14, color: '#6F7387', fontFamily: 'Roboto, sans-serif' }}
-                                            >{stock?.ticker}</div>
-                                            <div className='me-2' style={{ lineHeight: '22px', fontWeight: 400, fontSize: 14, color: stock?.ticker_change_percent.includes('-') ? '#EA5455' : '#28C76F', fontFamily: 'Roboto, sans-serif' }}
-                                            >{stock?.ticker_price}</div>
-                                            <div className='me-1' style={{ lineHeight: '22px', fontWeight: 400, fontSize: 14, color: stock?.ticker_change_percent.includes('-') ? '#EA5455' : '#28C76F', fontFamily: 'Roboto, sans-serif' }}
-                                            >{stock?.ticker_change_percent}</div>
-                                            {stock?.ticker_change_percent.includes('-') ? (
-                                                <img style={{ width: 24, objectFit: 'contain' }} src={RedArrow} alt="Red Arrow" />
-                                            ) : (
-                                                <img style={{ width: 24, objectFit: 'contain' }} src={GreenArrow} alt="Green Arrow" />
-                                            )}
-                                        </div>
-                                        <div>
-                                            <img className='me-2' style={{ width: 24, objectFit: 'contain', cursor: 'pointer' }} src={StockMiniLogo} alt="mini-logo" />
-                                            <img style={{ width: 24, objectFit: 'contain', cursor: 'pointer' }} src={AddstockBtn} alt="mini-logo" />
-                                        </div>
-                                    </div>
-                                ))
-                                :
-                                <div className='d-flex align-items-center justify-content-center mt-5'>
-                                    <p className='watchlistText'>{`Add Stock to ${watchLists[value]?.watchlist_name && capitalizeFirstLetter(watchLists[value]?.watchlist_name)}`}</p>
+                    <div style={{ position: 'relative' }}>
+                        <div className='search-box-menu'>
+                            <div className='d-flex justify-content-between align-items-center mb-2' style={{ backgroundColor: '#F1F4FD', borderRadius: '15px', padding: 10 }}>
+                                <div onClick={handleShow} className='d-flex justify-content-start align-items-center'>
+                                    <div className='me-2 stock-name'>TCS</div>
+                                    <div className='me-2 ltp-text'>LTP</div>
+                                    <div className='me-2 stock-price'>3903</div>
+                                    <div className='me-1 stock-price'>0.5%</div>
+                                    {/* <img style={{ width: 24, objectFit: 'contain' }} src={RedArrow} alt="Red Arrow" /> */}
+                                    <img style={{ width: 24, objectFit: 'contain' }} src={GreenArrow} alt="Green Arrow" />
                                 </div>
-                            }
+                                <div>
+                                    <img className='me-2' style={{ width: 24, objectFit: 'contain', cursor: 'pointer' }} src={StockMiniLogo} alt="mini-logo" />
+                                    <img style={{ width: 24, objectFit: 'contain', cursor: 'pointer' }} src={AddstockBtn} alt="mini-logo" />
+                                </div>
+                            </div>
+                            <div className='d-flex justify-content-between align-items-center mb-2' style={{ backgroundColor: '#F1F4FD', borderRadius: '15px', padding: 10 }}>
+                                <div onClick={handleShow} className='d-flex justify-content-start align-items-center'>
+                                    <div className='me-2 stock-name'>TCS</div>
+                                    <div className='me-2 ltp-text'>LTP</div>
+                                    <div className='me-2 stock-price'>3903</div>
+                                    <div className='me-1 stock-price'>0.5%</div>
+                                    {/* <img style={{ width: 24, objectFit: 'contain' }} src={RedArrow} alt="Red Arrow" /> */}
+                                    <img style={{ width: 24, objectFit: 'contain' }} src={GreenArrow} alt="Green Arrow" />
+                                </div>
+                                <div>
+                                    <img className='me-2' style={{ width: 24, objectFit: 'contain', cursor: 'pointer' }} src={StockMiniLogo} alt="mini-logo" />
+                                    <img style={{ width: 24, objectFit: 'contain', cursor: 'pointer' }} src={AddstockBtn} alt="mini-logo" />
+                                </div>
+                            </div>
+                            <div className='d-flex justify-content-between align-items-center mb-1' style={{ backgroundColor: '#F1F4FD', borderRadius: '15px', padding: 10 }}>
+                                <div onClick={handleShow} className='d-flex justify-content-start align-items-center'>
+                                    <div className='me-2 stock-name'>TCS</div>
+                                    <div className='me-2 ltp-text'>LTP</div>
+                                    <div className='me-2 stock-price'>3903</div>
+                                    <div className='me-1 stock-price'>0.5%</div>
+                                    {/* <img style={{ width: 24, objectFit: 'contain' }} src={RedArrow} alt="Red Arrow" /> */}
+                                    <img style={{ width: 24, objectFit: 'contain' }} src={GreenArrow} alt="Green Arrow" />
+                                </div>
+                                <div>
+                                    <img className='me-2' style={{ width: 24, objectFit: 'contain', cursor: 'pointer' }} src={StockMiniLogo} alt="mini-logo" />
+                                    <img style={{ width: 24, objectFit: 'contain', cursor: 'pointer' }} src={AddstockBtn} alt="mini-logo" />
+                                </div>
+                            </div>
                         </div>
-                    </Menu>
+                    </div>
                     <div className='watchlistText'>Watchlist</div>
                     <Box marginBottom={'20px'} sx={{ maxWidth: { xs: 320, sm: 480 }, bgcolor: 'background.paper' }}>
                         <Tabs
@@ -241,30 +222,30 @@ function LeftBox() {
                     </Box>
                     <div>
                         {watchLists?.length > 0 ?
-                        tickers?.rows?.length > 0 ?
-                            tickers?.rows?.map((stock, index) => (
-                                <div key={index} className='stock-price-list mb-2'>
-                                    <div className='d-flex justify-content-between align-items-center'>
-                                        <p className='stock-name'>{trimText(stock?.ticker_name, 12)}</p>
-                                        <div>
-                                            <div className='d-flex justify-content-end align-items-center'>
-                                                <p className='ltp-text me-2'>{stock?.ticker}</p>
-                                                <p className='stock-price me-2' style={{ color: stock?.ticker_change_percent.includes('-') ? '#EA5455' : '#28C76F' }}>{stock?.ticker_price}</p>
-                                                <p className='stock-price me-2' style={{ color: stock?.ticker_change_percent.includes('-') ? '#EA5455' : '#28C76F' }}>{stock?.ticker_change_percent}</p>
-                                                {stock?.ticker_change_percent.includes('-') ? (
-                                                    <img style={{ width: 24, objectFit: 'contain' }} src={RedArrow} alt="Red Arrow" />
-                                                ) : (
-                                                    <img style={{ width: 24, objectFit: 'contain' }} src={GreenArrow} alt="Green Arrow" />
-                                                )}
+                            tickers?.rows?.length > 0 ?
+                                tickers?.rows?.map((stock, index) => (
+                                    <div key={index} className='stock-price-list mb-2'>
+                                        <div className='d-flex justify-content-between align-items-center'>
+                                            <p className='stock-name'>{trimText(stock?.ticker_name, 12)}</p>
+                                            <div>
+                                                <div className='d-flex justify-content-end align-items-center'>
+                                                    <p className='ltp-text me-2'>{stock?.ticker}</p>
+                                                    <p className='stock-price me-2' style={{ color: stock?.ticker_change_percent.includes('-') ? '#EA5455' : '#28C76F' }}>{stock?.ticker_price}</p>
+                                                    <p className='stock-price me-2' style={{ color: stock?.ticker_change_percent.includes('-') ? '#EA5455' : '#28C76F' }}>{stock?.ticker_change_percent}</p>
+                                                    {stock?.ticker_change_percent.includes('-') ? (
+                                                        <img style={{ width: 24, objectFit: 'contain' }} src={RedArrow} alt="Red Arrow" />
+                                                    ) : (
+                                                        <img style={{ width: 24, objectFit: 'contain' }} src={GreenArrow} alt="Green Arrow" />
+                                                    )}
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
+                                ))
+                                :
+                                <div className='d-flex align-items-center justify-content-center mt-5'>
+                                    <p className='watchlistText'>{`Add Stock to ${watchLists[value]?.watchlist_name && capitalizeFirstLetter(watchLists[value]?.watchlist_name)}`}</p>
                                 </div>
-                            ))
-                            :
-                            <div className='d-flex align-items-center justify-content-center mt-5'>
-                                <p className='watchlistText'>{`Add Stock to ${watchLists[value]?.watchlist_name && capitalizeFirstLetter(watchLists[value]?.watchlist_name)}`}</p>
-                            </div>
                             :
                             <div className='d-flex align-items-center justify-content-center mt-5'>
                                 <p className='watchlistText'>{` Add new watchlist `}</p>
