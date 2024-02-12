@@ -34,15 +34,15 @@ function Profile() {
         resolver: yupResolver(updateProfileSchema)
     })
 
-    console.log('errors', errors)
-
+    
     const { userCredits, isLoading, userDetails } = useSelector(state => state.userSlice)
-
+    
     useEffect(() => {
-       dispatch(getAvaliableCredit());
-       dispatch(getUserDetails())
+        dispatch(getAvaliableCredit());
+        dispatch(getUserDetails())
     }, [])
-
+    
+    console.log('userDetails', userDetails)
     useEffect(() => {
         if (userDetails) {
             setValue('first_name', userDetails?.first_name)
@@ -125,7 +125,7 @@ function Profile() {
                             <div className='col-lg-6 column-pad'>
                             <form onSubmit={handleSubmit(onSubmit)}>
                                 <div className='profile-title' style={{ marginBottom: 32 }}>Profile</div>
-                                <div className='d-flex jsutify-content-between align-items-center' style={{ marginBottom: 20 }}>
+                                <div className='d-flex jsutify-content-between align-items-center mt-2  ' style={{ marginBottom: 20 }}>
                                     <img src={UserImg} style={{ width: 82, objectFit: 'contain', marginRight: 15 }} />
                                     <div className="position-relative" style={{ width: '100%' }}>
                                         <label className='form-control-label'>First Name</label>
@@ -150,7 +150,7 @@ function Profile() {
                                 </div>
                                 <label className='form-control-label'>Last Name</label>
                                 <div className='row m-0'>
-                                    <div className='col-lg-10 column-pad'>
+                                    <div className='col-lg-12 column-pad'>
                                         <div className="position-relative" style={{ width: '100%', marginBottom: 20 }}>
                                             <Controller
                                                 control={control}
@@ -174,14 +174,28 @@ function Profile() {
                                 </div>
                                 <label className='form-control-label'>Phone Number</label>
                                 <div className='row m-0'>
-                                    <div className='col-lg-2 column-pad'>
+                                    {/* <div className='col-lg-2 column-pad'>
                                         <div className='me-2'>
                                             <input style={{textIndent:'12px'}} type="text" className="form-control form-control-input" placeholder='+91' defaultValue={"+91"} disabled></input>
                                         </div>
-                                    </div>
-                                    <div className='col-lg-10 column-pad'>
+                                    </div> */}
+                                    <div className='col-lg-12 column-pad'>
                                         <div className="position-relative" style={{ width: '100%', marginBottom: 20 }}>
-                                            <input type="text" className="form-control form-control-input" placeholder='Enter Name'></input>
+                                        <Controller
+                                                control={control}
+                                                name="phone_number"
+                                                render={({ field }) => (
+                                                    <input
+                                                        type="text"
+                                                        className="form-control form-control-input"
+                                                        placeholder='Enter Phone Number'
+                                                        style={{ color: 'black' }}
+                                                        {...field}
+                                                    />
+                                                )}
+                                            />
+                                             {errors?.phone_number && <p style={{ color: 'red' }}>{errors?.phone_number?.message}</p>}
+                                            {/* <input type="text" className="form-control form-control-input" placeholder='Enter Phone Number'></input> */}
                                             <div className="position-absolute" style={{ left: 17, top: '22%' }}>
                                                 <img src={MobileIcon} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} alt="Search Icon" />
                                             </div>
@@ -190,13 +204,27 @@ function Profile() {
                                 </div>
                                 <div className="position-relative" style={{ width: '100%', marginBottom: 20 }}>
                                     <label className='form-control-label'>Email Address</label>
-                                    <input type="text" className="form-control form-control-input" placeholder='Enter Mail'></input>
+                                    <Controller
+                                                control={control}
+                                                name="email"
+                                                render={({ field }) => (
+                                                    <input
+                                                        type="email"
+                                                        className="form-control form-control-input"
+                                                        placeholder='Enter Mail'
+                                                        style={{ color: 'black' }}
+                                                        {...field}
+                                                    />
+                                                )}
+                                            />
+                                             {errors?.email && <p style={{ color: 'red' }}>{errors?.email?.message}</p>}
+                                    {/* <input type="text" className="form-control form-control-input" placeholder='Enter Mail'></input> */}
                                     <div className="position-absolute" style={{ left: 15, top: '50%' }}>
                                         <img src={MailIcon} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} alt="Search Icon" />
                                     </div>
                                 </div>
                                 <div className='d-flex justify-content-end align-items-center'>
-                                    <button type="submit" className='blue-btn'>Save and Apply</button>
+                                    <button type="submit" className='blue-btn'>Save and Continue</button>
                                 </div>
                                 </form>
                             </div>
