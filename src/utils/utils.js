@@ -31,6 +31,9 @@ export const capitalizeFirstLetter = (inputString) =>{
     const restOfString = inputString.slice(1);
   
     return firstLetter + restOfString;
-  }
+}
 
-
+export const replaceNewlinesWithBr = (text) => {
+    // Use a regular expression to replace newline characters with <br> tags
+    return text.replace(/\n/g, '</br>');
+}
