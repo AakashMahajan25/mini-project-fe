@@ -6,16 +6,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getPromptList, searchPrompt } from '../../screens/frruitGPT/slice';
 import { trimText } from '../../utils/utils';
 import { useNavigate } from 'react-router-dom';
+import Nav from 'react-bootstrap/Nav';
 
 function FrruitGPTLeftBox(props) {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const {
-        handleNewChat=()=>{},
-        handleHistory=()=>{},
+        handleNewChat = () => { },
+        handleHistory = () => { },
     } = props;
     const [searchParam, setSearchParam] = useState('');
-    const {  promptList } = useSelector(state => state.fruitGPTSlice);
+    const { promptList } = useSelector(state => state.fruitGPTSlice);
 
     useEffect(() => {
         dispatch(getPromptList())
@@ -66,9 +67,9 @@ function FrruitGPTLeftBox(props) {
                     {/* <div className='time-text'>1 Month</div> */}
                     <div>
                         {promptList?.slice().reverse().map((item, index) => (
-                            <div key={index} className='blue-box' onClick={()=>historyClick(item?.prompt_id)}>
-                                <div className='new-chat-text'>{trimText(item?.prompt_text,40)}</div>
-                            </div>
+                            <Nav.Link key={index} className='' onClick={() => historyClick(item?.prompt_id)}>
+                                <Nav.Link className='blue-box'>{trimText(item?.prompt_text, 40)}</Nav.Link>
+                            </Nav.Link>
                         ))}
                     </div>
                 </div>

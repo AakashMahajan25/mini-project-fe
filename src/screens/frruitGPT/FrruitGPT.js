@@ -51,7 +51,7 @@ function FrruitGPT() {
         dispatch(getPromptHistory(Id))
             .unwrap()
             .then(res => {
-                isNewChat.current=false
+                isNewChat.current = false
                 setSelectedChat(Id)
                 scrollToBottom();
             })
@@ -83,7 +83,7 @@ function FrruitGPT() {
             })
     }
 
-    const askFrruitGpt = async(promptId, title) => {
+    const askFrruitGpt = async (promptId, title) => {
         if (!title && !question) {
             return
         }
@@ -126,11 +126,11 @@ function FrruitGPT() {
             askFrruitGpt(null, null)
     }
 
-    const handlePromptClick=(data)=>{
+    const handlePromptClick = (data) => {
         dispatch(clearChatHistory())
         addFrruitPrompt(data)
     }
-    
+
     return (
         <>
             <div className='row justify-content-between m-0'>
@@ -144,6 +144,7 @@ function FrruitGPT() {
                     <ChatGpt
                         containerRef={gptRef}
                     />
+                    {/* <Loader2 /> */}
                     <PromptsLibrary
                         handlePromptClick={handlePromptClick}
                     />
