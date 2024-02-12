@@ -9,8 +9,11 @@ const initialState = {
     mostOnFrruitGpt: [],
     watchLists: [],
     tickers: [],
+    stockSearch: [],
+    stockSearchLoading: false,
+    stockSearchError: null,
     investorStory: {
-        topicsNews:[],
+        topicsNews: [],
         watchlistNews: [],
         trendingStock: [],
         trendingNews: [],
@@ -100,13 +103,12 @@ export const getInvestorStories = createAsyncThunk("dashboard/getInvestorStories
     try {
         let data = {
             method: METHOD_TYPE.get,
-            url:API_ENDPOINTS.getInvestorStories,
+            url: API_ENDPOINTS.getInvestorStories,
         };
         const response = await api(data);
         return response.data.data;
 
     } catch (error) {
-        console.log('error::::', error.response)
         throw error.response;
     }
 });
@@ -121,7 +123,20 @@ export const getStockIndexes = createAsyncThunk("watchList/getStockIndexes", asy
         return response.data.data;
 
     } catch (error) {
-        console.log('error::::', error.response)
+        throw error.response;
+    }
+});
+
+export const getStockBySearch = createAsyncThunk("stocks/getStockBySearch", async (keyword) => {
+    try {
+        let data = {
+            method: METHOD_TYPE.get,
+            url: API_ENDPOINTS.stockSearchByKeyword + keyword,
+        };
+        const response = await api(data);
+        return response.data.data;
+
+    } catch (error) {
         throw error.response;
     }
 });
@@ -152,6 +167,9 @@ const dashboardSlice = createSlice({
         const handleIndexLoading = (state, action) => {
             state.indexLoader = action.meta.requestStatus === 'pending';
         };
+        const handleStockSearchLoading = (state, action) => {
+            state.stockSearchLoading = action.meta.requestStatus === 'pending';
+        };
         builder
             .addCase(getTrendingStocks.fulfilled, (state, action) => {
                 state.trendingStocks = action.payload;
@@ -168,8 +186,11 @@ const dashboardSlice = createSlice({
             .addCase(getTickersById.fulfilled, (state, action) => {
                 state.tickers = action.payload;
             })
+            .addCase(getStockBySearch.fulfilled, (state, action) => {
+                state.stockSearch = action.payload; 
+            })
             .addCase(getInvestorStories.fulfilled, (state, action) => {
-                const topicsNews =  Object.values(action.payload["Topics_news"]).flat();
+                const topicsNews = Object.values(action.payload["Topics_news"]).flat();
                 const watchlist = Object.values(action.payload["Watchlist_news"]).flat();
                 const stocks = Object.values(action.payload["Tren_stock_news"]).flat();
                 const news = Object.values(action.payload["Trending_news"]).flat();
@@ -179,7 +200,7 @@ const dashboardSlice = createSlice({
                     watchlistNews: watchlist,
                     trendingStock: stocks,
                     trendingNews: news
-                }; 
+                };
                 state.storyViewed = {
                     isWatchListViewed: false,
                     isStockViewed: false,
@@ -207,7 +228,7 @@ const dashboardSlice = createSlice({
                     action.type === getUserWatchLists.rejected.type ||
                     action.type === getTickersById.pending.type ||
                     action.type === getTickersById.fulfilled.type ||
-                    action.type === getTickersById.rejected.type||
+                    action.type === getTickersById.rejected.type ||
                     action.type === getInvestorStories.pending.type ||
                     action.type === getInvestorStories.fulfilled.type ||
                     action.type === getInvestorStories.rejected.type,
@@ -222,6 +243,13 @@ const dashboardSlice = createSlice({
                     action.type === getStockIndexes.rejected.type,
                 handleIndexLoading
             )
+            .addMatcher(
+                (action) =>
+                    action.type === getStockBySearch.pending.type ||
+                    action.type === getStockBySearch.fulfilled.type ||
+                    action.type === getStockBySearch.rejected.type,
+                handleStockSearchLoading
+            );
     }
 });
 export const { setStoryViewed } = dashboardSlice.actions;
