@@ -1,3 +1,7 @@
+.css-1t3k1b1-MuiModal-root-MuiPopover-root-MuiMenu-root {
+    z-index: 0 !important;
+}
+
 .left-box {
     .box {
         border: 1px solid #E5E5E5;
@@ -64,7 +68,8 @@
         padding: 12px 24px;
         border-radius: 15px;
     }
-    .stock-price-list-menu{
+
+    .stock-price-list-menu {
         width: 100%;
         background-color: red !important;
         height: 46px;
@@ -107,5 +112,220 @@
     ::-webkit-scrollbar-thumb:hover {
         background: #4563E4;
     }
+}
 
+.left-box-modal {
+    .stock-list {
+        border-radius: 12.764px;
+        background: #F1F4FD;
+        display: flex;
+        padding: 13.615px;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        margin-bottom: 20px;
+
+        .image-stock {
+            border-radius: 8.509px;
+            border: 0.851px solid #E5E5E5;
+            background: #FFF;
+            padding: 4.255px 8.51px 3.404px 10.211px;
+
+            img {
+                width: 60px;
+                height: 60px;
+                object-fit: contain;
+            }
+        }
+
+        .stock-text {
+            margin-left: 14px;
+
+            .stock-title {
+                color: #171e42;
+                font-size: 18px;
+                font-style: normal;
+                font-weight: 600;
+            }
+
+            .stock-subTitle {
+                color: #6F7387;
+                font-size: 14px;
+                font-style: normal;
+                font-weight: 400;
+                margin-right: 8px;
+                margin-bottom: 0px;
+            }
+
+            .stock-price-green {
+                color: #28C76F;
+                font-size: 14px;
+                font-style: normal;
+                font-weight: 400;
+                margin-right: 8px;
+                margin-bottom: 0px;
+            }
+
+            .stock-price-red {
+                color: #EA5455;
+                font-size: 14px;
+                font-style: normal;
+                font-weight: 400;
+                margin-right: 8px;
+                margin-bottom: 0px;
+            }
+
+            .arrow {
+                width: 20px;
+                height: 20px;
+                object-fit: contain;
+            }
+        }
+
+        .button-stock-list {
+            display: grid;
+            gap: 8px;
+
+            .btn-green-buy {
+                border-radius: 42.547px;
+                background: #28C76F;
+                padding: 4px 30px;
+                border: 0px solid;
+                color: white;
+                line-height: normal;
+                font-size: 14px;
+            }
+
+            .btn-red-sell {
+                border-radius: 42.547px;
+                background: #EA5455;
+                padding: 4px 30px;
+                border: 0px solid;
+                color: white;
+                line-height: normal;
+                font-size: 14px;
+            }
+        }
+    }
+
+    .StockPriceNgraph {
+        .slick-slide {
+            padding-right: 10px !important;
+        }
+
+        .blackBorderBox {
+            border-radius: 25px;
+            border: 1px solid #EDEDED;
+            background: #FFF;
+            padding: 16px;
+            margin-right: 10px;
+            margin-bottom: 20px;
+            margin-left: 10px;
+
+            .title {
+                color: #171E42;
+                font-size: 14px;
+                font-style: normal;
+                font-weight: 500;
+                line-height: normal;
+            }
+
+            .stock-headtext {
+                font-family: 'Roboto', sans-serif;
+                font-size: 12px;
+                font-weight: 400;
+                line-height: 22px;
+                color: #6F7387;
+            }
+
+            .blue-priceText {
+                font-family: 'Roboto', sans-serif;
+                font-size: 14px;
+                font-weight: 400;
+                line-height: 22px;
+                color: #4563E4;
+            }
+
+            .red-priceText {
+                font-family: 'Roboto', sans-serif;
+                font-size: 14px;
+                font-weight: 400;
+                line-height: 22px;
+                color: #EA5455;
+            }
+
+            .black-box-boder {
+                border: solid 1px #E5E5E5;
+                border-radius: 15px;
+                padding: 16px;
+                text-align: center;
+                margin-top: 8px;
+                margin-bottom: 8px;
+
+                .stock-details-heading {
+                    font-family: 'Roboto', sans-serif;
+                    font-size: 14px;
+                    font-weight: 400;
+                    line-height: 22px;
+                    color: #6F7387;
+                }
+
+                .stock-details-amount {
+                    font-family: 'Roboto', sans-serif;
+                    font-size: 16px;
+                    font-weight: 600;
+                    line-height: 22px;
+                    color: #6F7387;
+                }
+            }
+        }
+    }
+
+    .fundamental-container {
+        margin-bottom: 20px;
+
+        .fundamental-maintitle {
+            color: #171E42;
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: normal;
+        }
+
+        .fundamental {
+            border-radius: 15px;
+            background: #F1F4FD;
+            padding: 12px 16px;
+            margin-right: 5px;
+
+            .fundamental-title {
+                color: #6F7387;
+                font-size: 14px;
+                font-style: normal;
+                font-weight: 600;
+                line-height: 22px;
+                margin-bottom: 10px;
+                text-align: center;
+            }
+
+            .fundamental-value {
+                text-align: center;
+                color: #6F7387;
+                font-size: 16px;
+                font-style: normal;
+                font-weight: 400;
+                line-height: 22px;
+                margin-bottom: 0px;
+            }
+        }
+    }
+
+    .modal-pera {
+        font-family: 'Roboto', sans-serif;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 16px;
+        color: #6F7387;
+        margin-bottom: 20px;
+    }
 }
