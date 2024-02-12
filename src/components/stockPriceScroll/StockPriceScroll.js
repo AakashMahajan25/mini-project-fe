@@ -11,9 +11,9 @@ export default function StockPriceScroll() {
 
     return (
         <div className="mt-2 stockpricescroll">
-            <div className="banner py-2 d-flex justify-content-between" style={{ border: 'solid 1px #EDEDED' }}>
+            <div className="banner py-2 d-flex justify-content-evenly" style={{ border: 'solid 1px #EDEDED' }}>
                 {/* <Marquee key={Math.random()} velocity={50} minScale={0.7} resetAfterTries={100}> */}
-                {stockIndexes?.slice(0, 6)?.map((stock, index) => (
+                {stockIndexes?.slice(0, 4)?.map((stock, index) => (
                     <div key={index} style={{ padding: "0 25px" }}>
                         <div className="d-flex align-items-center">
                             <div className="text1">{`${stock?.Index?.slice(0,20)} $${stock?.Value}`}</div>

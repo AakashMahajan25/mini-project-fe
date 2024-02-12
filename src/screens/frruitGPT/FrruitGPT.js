@@ -144,7 +144,6 @@ function FrruitGPT() {
                     <ChatGpt
                         containerRef={gptRef}
                     />
-                    {/* <Loader2 /> */}
                     <PromptsLibrary
                         handlePromptClick={handlePromptClick}
                     />

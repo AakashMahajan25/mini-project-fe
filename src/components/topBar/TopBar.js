@@ -24,19 +24,27 @@ function TopBar() {
     let path = `/profile`;
     navigate(path);
   }
+  const routeChangeMarketContentGPT = () => {
+    let path = `/market-content-gpt`;
+    navigate(path);
+  }
   return (
     <>
       <div className='web-nav'>
         <div className='top-nav-bar' style={{ width: window.innerWidth }}>
           <div className='content-nav d-flex align-items-center justify-content-between' style={{ width: window.innerWidth }}>
             <a href='/dashboard'>
-            <img className="logo" style={{ width: 155 }} src={FrruitLogo} alt="" />
+              <img className="logo" style={{ width: 155 }} src={FrruitLogo} alt="" />
             </a>
             <div className='d-flex align-items-center justify-content-between'>
               <div className={location.pathname === '/dashboard' ? 'web-nav-text-active me-5' : 'web-nav-text me-5'} onClick={routeChangeDashboard}>Dashboard</div>
               <div className={location.pathname === '/frruit-gpt' ? 'web-nav-text-active me-5' : 'web-nav-text me-5'} onClick={routeChangeFrruitGPT}>Frruit GPT</div>
+              <div className={location.pathname === '/market-content-gpt' ? 'web-nav-text-active me-5' : 'web-nav-text me-5'} onClick={routeChangeMarketContentGPT}>Market Content GPT</div>
               <div className={location.pathname === '/discover-correlation' ? 'web-nav-text-active me-5' : 'web-nav-text me-5'} onClick={routeChangeDiscoverCorrelation}>Discover Correlation</div>
-              <img className="logo" onClick={routeChangeProfile} style={{ width: 42 }} src={ProfilePic} alt="" />
+              {/* <img className="logo" onClick={routeChangeProfile} style={{ width: 42 }} src={ProfilePic} alt="" /> */}
+              <div onClick={routeChangeProfile} className='profile-icon'>
+                <div className='profile-name-text'>S</div>
+              </div>
             </div>
           </div>
           <StockPriceScroll />
