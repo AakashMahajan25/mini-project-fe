@@ -8,7 +8,8 @@ import BottomSearchBar from '../../components/frruitGpt/BottomSearchBar'
 import ChatGpt from '../../components/frruitGpt/ChatGpt'
 import { useLocation } from 'react-router-dom'
 import { addChatPrompt, clearChatHistory, getPromptHistory, getPromptList, getPromptSuggestion, setChatHistory, triggerFrruitGpt } from './slice'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { toast } from 'react-toastify'
 
 function FrruitGPT() {
     const dispatch = useDispatch();
@@ -19,6 +20,8 @@ function FrruitGPT() {
     const [question, setQuestion] = useState('')
     const [selectedChat, setSelectedChat] = useState(null)
     const [index, setIndex] = useState('US');
+
+    const { chatHistory } = useSelector(state => state.fruitGPTSlice);
 
     useEffect(() => {
         dispatch(getPromptSuggestion(5))
@@ -33,6 +36,11 @@ function FrruitGPT() {
             clearState()
         }
     }, [state?.question])
+
+    useEffect(() => {
+        scrollToBottom()
+    }, [chatHistory])
+    
 
     const clearState = () => {
         const updatedLocation = {
@@ -51,7 +59,7 @@ function FrruitGPT() {
         dispatch(getPromptHistory(Id))
             .unwrap()
             .then(res => {
-                isNewChat.current=false
+                isNewChat.current = false
                 setSelectedChat(Id)
                 scrollToBottom();
             })
@@ -83,7 +91,7 @@ function FrruitGPT() {
             })
     }
 
-    const askFrruitGpt = async(promptId, title) => {
+    const askFrruitGpt = async (promptId, title) => {
         if (!title && !question) {
             return
         }
@@ -112,7 +120,7 @@ function FrruitGPT() {
             })
             .catch(error => {
                 setQuestion(searchText);
-                console.log('error', error)
+                toast.error(error?.message)
             })
     }
 
@@ -126,11 +134,11 @@ function FrruitGPT() {
             askFrruitGpt(null, null)
     }
 
-    const handlePromptClick=(data)=>{
+    const handlePromptClick = (data) => {
         dispatch(clearChatHistory())
         addFrruitPrompt(data)
     }
-    
+
     return (
         <>
             <div className='row justify-content-between m-0'>
