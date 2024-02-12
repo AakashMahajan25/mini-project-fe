@@ -12,8 +12,13 @@ import DiscoverCorrelationGraph from '../graph/DiscoverCorrelationGraph'
 import BarChart from '../barChart/BarChart'
 import { useSelector } from 'react-redux'
 import { replaceNewlinesWithBr } from '../../utils/utils'
+import { useLoading, Audio,SpinningCircles,Circles,ThreeDots } from '@agney/react-loading';
 
 function ChatGpt(props) {
+    const { containerProps, indicatorEl } = useLoading({
+        loading: true,
+        indicator: <ThreeDots width="50" />,
+    });
     var settings = {
         dots: false,
         infinite: false,
@@ -185,7 +190,7 @@ function ChatGpt(props) {
                 } */}
 
                             <div className='chat-text-container'>
-                                <h3 className='chat-text' dangerouslySetInnerHTML={{__html: replaceNewlinesWithBr(chat?.text || '')}}></h3>
+                                <h3 className='chat-text' dangerouslySetInnerHTML={{ __html: replaceNewlinesWithBr(chat?.text || '') }}></h3>
                             </div>
 
                             {/* {
@@ -250,6 +255,9 @@ function ChatGpt(props) {
 
                         </div>
                 )}
+            <section {...containerProps}>
+                {indicatorEl} {/* renders only while loading */}
+            </section>
         </div>
     )
 }
