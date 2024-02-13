@@ -1,0 +1,123 @@
+.BottomBar {
+    position: absolute;
+    background-color: white;
+    padding: 20px 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    bottom: 0;
+    width: 100%;
+
+    .attachment {
+        border-radius: 15px;
+        background: #E5EAFF;
+        height: 56px;
+        padding: 6px 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        cursor: pointer;
+
+        &:hover {
+            background: #ced8ff;
+            transition: 0.3s ease-in;
+        }
+
+        .attach-text {
+            color: #4563E4;
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: normal;
+            margin-right: 10px;
+        }
+
+        .img-styles {
+            width: 24px;
+            height: 24px;
+            object-fit: contain;
+        }
+    }
+
+    .linkUrl {
+        border-radius: 15px;
+        background: #E9E7FD;
+        height: 56px;
+        padding: 6px 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        width: 100%;
+
+        &:hover {
+            background: rgb(207, 216, 255);
+            transition: 0.3s ease-in;
+        }
+
+        .linkUrl-text {
+            color: #7367F0;
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: normal;
+            margin-right: 10px;
+        }
+
+        .img-styles {
+            width: 24px;
+            height: 24px;
+            object-fit: contain;
+        }
+    }
+
+    .sendIcon {
+        .sendIcon-styles {
+            background: #F5F5F6;
+            width: 67px;
+            height: 56px;
+            object-fit: contain;
+            border-radius: 15px;
+            cursor: pointer;
+        }
+    }
+
+
+}
+
+.Attach-modal {
+    .modal-header {
+        padding-bottom: 0px;
+        .header-title {
+            color: #6F6B7D;
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: normal;
+        }
+    }
+
+    .modal-body {
+        padding-bottom: 0px;
+        .upload-img-box {
+            background-color: #F1F4FD;
+            border: 1px dashed #4563E4;
+            border-radius: 6px;
+            padding: 50px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .doc-jpg-text {
+            color: #B4B3B9;
+            font-size: 12px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: normal;
+        }
+    }
+    .modal-footer{
+    
+    }
+}
