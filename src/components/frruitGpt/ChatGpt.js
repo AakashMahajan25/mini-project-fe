@@ -143,6 +143,30 @@ function ChatGpt(props) {
 
     const { chatHistory, frruitLoader } = useSelector(state => state.fruitGPTSlice);
 
+    const renderGraph = (chartData) => {
+        const keys = Object.keys(chartData)
+        if (keys?.length > 0) {
+            let labels = chartData[keys[0]]?.years
+            let data = chartData[keys[0]]?.metric_values
+
+            if (data?.length > 0)
+                return (
+                    <div className='graphSlider' style={{ width: 600 }}>
+                        <div className='chartGraph'>
+                            <h4 className='title'>{chartData[keys[0]].metric_name}</h4>
+                            <DiscoverCorrelationGraph
+                                index={1}
+                                graphData={{
+                                    labels: [...labels].reverse(),
+                                    data: [...data].reverse()
+                                }}
+                            />
+                        </div>
+                    </div>
+                )
+        }
+    }
+
     return (
         <div className='ChatGpt' style={{ height: window.innerHeight - 290 }} ref={containerRef}>
             {
@@ -160,11 +184,21 @@ function ChatGpt(props) {
                         </div>
                         :
                         <div className='leftChat'>
+                            {
+                                chatHistory[index - 1]?.person !== "bot" &&
+                                <div className='d-flex align-items-center my-2 floatLeft'>
+                                    <img src={ArrowGrey} className='arrow' />
+                                    <p className='you-text'>Frruit GPT</p>
+                                </div>
+                            }
+                            {
+                                chat.type === 'text' ?
+                                    <div className='chat-text-container'>
+                                        <h3 className='chat-text' dangerouslySetInnerHTML={{ __html: replaceNewlinesWithBr(chat?.text || '') }}></h3>
+                                    </div>
+                                    : renderGraph(chat.text)
+                            }
                             {/* <img src={LogoCircle} className='profile-styles' /> */}
-                            <div className='d-flex align-items-center my-2 floatLeft'>
-                                <img src={ArrowGrey} className='arrow' />
-                                <p className='you-text'>Frruit GPT</p>
-                            </div>
 
                             {/* {
                     <div className='stock-list'>
@@ -189,44 +223,42 @@ function ChatGpt(props) {
                     </div>
                 } */}
 
-                            <div className='chat-text-container'>
-                                <h3 className='chat-text' dangerouslySetInnerHTML={{ __html: replaceNewlinesWithBr(chat?.text || '') }}></h3>
-                            </div>
+
 
                             {/* {
-                    <div className='graphSlider'>
-                        <Slider {...graphSettings}>
-                            <div className='chartGraph'>
-                                <h4 className='title'>Price Chart</h4>
-                                <DiscoverCorrelationGraph
-                                    index={1}
-                                    graphData={{
-                                        labels: ['2', '4', '6', '8', '10', '12', '14', '16', '18', '20'],
-                                        data: [800, 650, 300, 550, 852, 157, 900, 350, 1000, 432]
-                                    }}
-                                />
-                            </div>
-                            <div className='chartGraph'>
-                                <div className='d-flex align-items-center justify-content-between'>
-                                    <h4 className='title'>Financials</h4>
-                                    <div className='d-flex align-items-center'>
-                                        <div className='blue-btn me-3' style={{ padding: '8px 33px', cursor: 'pointer' }}>Revenue</div>
-                                        <div className='light-blue-btn me-3' style={{ padding: '8px 33px', cursor: 'pointer' }}>Profit</div>
-                                        <div className='light-blue-btn' style={{ padding: '8px 33px', cursor: 'pointer' }}>Net Worth</div>
-                                    </div>
+                                <div className='graphSlider'>
+                                    <Slider {...graphSettings}>
+                                        <div className='chartGraph'>
+                                            <h4 className='title'>Price Chart</h4>
+                                            <DiscoverCorrelationGraph
+                                                index={1}
+                                                graphData={{
+                                                    labels: ['2', '4', '6', '8', '10', '12', '14', '16', '18', '20'],
+                                                    data: [800, 650, 300, 550, 852, 157, 900, 350, 1000, 432]
+                                                }}
+                                            />
+                                        </div>
+                                        <div className='chartGraph'>
+                                            <div className='d-flex align-items-center justify-content-between'>
+                                                <h4 className='title'>Financials</h4>
+                                                <div className='d-flex align-items-center'>
+                                                    <div className='blue-btn me-3' style={{ padding: '8px 33px', cursor: 'pointer' }}>Revenue</div>
+                                                    <div className='light-blue-btn me-3' style={{ padding: '8px 33px', cursor: 'pointer' }}>Profit</div>
+                                                    <div className='light-blue-btn' style={{ padding: '8px 33px', cursor: 'pointer' }}>Net Worth</div>
+                                                </div>
+                                            </div>
+                                            <BarChart
+                                                index={2}
+                                                graphData={{
+                                                    labels: ['2', '4', '6', '8', '10', '12', '14', '16', '18', '20'],
+                                                    data: [800, 650, 300, 550, 852, 157, 900, 350, 1000, 432]
+                                                }}
+                                            />
+                                        </div>
+                                    </Slider>
                                 </div>
-                                <BarChart
-                                    index={2}
-                                    graphData={{
-                                        labels: ['2', '4', '6', '8', '10', '12', '14', '16', '18', '20'],
-                                        data: [800, 650, 300, 550, 852, 157, 900, 350, 1000, 432]
-                                    }}
-                                />
-                            </div>
-                        </Slider>
-                    </div>
 
-                } */}
+                            } */}
 
                             {/* <div className='fundamental-container'>
                     <h2 className='fundamental-maintitle'>Fundamentals</h2>
