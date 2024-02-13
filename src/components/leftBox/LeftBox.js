@@ -29,16 +29,16 @@ import UpGreenArrow from '../../assets/images/up-arrow-outline.png'
 import Slider from 'react-slick'
 import BarChart from '../barChart/BarChart'
 import DiscoverCorrelationGraph from '../graph/DiscoverCorrelationGraph'
-import { useLoading, Oval } from '@agney/react-loading';
+import { useLoading, ThreeDots } from '@agney/react-loading';
 
 function LeftBox() {
     const { containerProps, indicatorEl } = useLoading({
         loading: true,
-        indicator: <Oval width="50" color="blue" />,
+        indicator: <ThreeDots width="50" color="blue" />,
     });
     const [value, setValue] = useState(0);
     const dispatch = useDispatch()
-    const { watchLists, tickers, stockSearchData, } = useSelector(state => state.dashboardSlice);
+    const { watchLists, tickers, stockSearchData, stockSearchLoading } = useSelector(state => state.dashboardSlice);
     const [anchorElNotification, setAnchorElNotification] = useState(null);
     const [show, setShow] = useState(false);
     const [searchParam, setSearchParam] = useState('')
@@ -268,7 +268,7 @@ function LeftBox() {
                     {
                         (searchParam.length > 0 || stockSearchData.length > 0) &&
                         <div style={{ position: 'relative' }}>
-                            <div className='search-box-menu'>
+                            <div className='search-box-menu' style={{ backgroundColor: stockSearchLoading ? '#F1F4FD' : '#fff' }}>
                                 <>
                                     {
                                         stockSearchData?.map((stocks, index) => (
@@ -293,11 +293,14 @@ function LeftBox() {
                                             </div>
                                         ))
                                     }
-                                    <div className='d-flex justify-content-center align-items-center' style={{ height: 300 }}>
-                                        <section {...containerProps}>
-                                            {indicatorEl} {/* renders only while loading */}
-                                        </section>
-                                    </div>
+                                    {
+                                        stockSearchLoading &&
+                                        <div className='d-flex justify-content-center align-items-center' style={{ height: 300 }}>
+                                            <section {...containerProps}>
+                                                {indicatorEl} {/* renders only while loading */}
+                                            </section>
+                                        </div>
+                                    }
                                 </>
 
                             </div>

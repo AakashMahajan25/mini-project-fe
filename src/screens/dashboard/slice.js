@@ -156,6 +156,55 @@ export const addTickertoWatchList = createAsyncThunk("watchList/addTickertoWatch
     }
 });
 
+export const editWatchList = createAsyncThunk("watchList/editWatchList", async ({ watchlistId, watchListName }) => {
+    try {
+        let data = {
+            method: METHOD_TYPE.put,
+            url: API_ENDPOINTS.editWatchList + watchlistId,
+            data: {
+                watchlist_name: watchListName
+            }
+        };
+        const response = await api(data);
+        return response.data.data;
+
+    } catch (error) {
+        console.log('error::::', error.response)
+        throw error.response;
+    }
+});
+
+export const deleteWatchList = createAsyncThunk("watchList/deleteWatchList", async (watchlistId) => {
+    try {
+        let data = {
+            method: METHOD_TYPE.delete,
+            url:API_ENDPOINTS.deleteWatchList + watchlistId,
+        };
+        const response = await api(data);
+        return response.data.data;
+
+    } catch (error) {
+        console.log('error::::', error.response)
+        throw error.response;
+    }
+});
+
+export const addWatchList = createAsyncThunk("watchList/addWatchList", async (watchListName) => {
+    try {
+        let data = {
+            method: METHOD_TYPE.post,
+            url:API_ENDPOINTS.addWatchList,
+            data: { watchlist_name: watchListName }
+        };
+        const response = await api(data);
+        return response.data.data;
+
+    } catch (error) {
+        console.log('error::::', error.response)
+        throw error.response;
+    }
+});
+
 
 const dashboardSlice = createSlice({
     name: "dashboard",
@@ -249,9 +298,16 @@ const dashboardSlice = createSlice({
                     action.type === getInvestorStories.rejected.type ||
                     action.type === addTickertoWatchList.fulfilled.type ||
                     action.type === addTickertoWatchList.pending.type ||
-                    action.type === addTickertoWatchList.rejected.type,
-
-
+                    action.type === addTickertoWatchList.rejected.type||
+                    action.type === addWatchList.pending.type ||
+                    action.type === addWatchList.fulfilled.type ||
+                    action.type === addWatchList.rejected.type ||
+                    action.type === editWatchList.fulfilled.type ||
+                    action.type === editWatchList.rejected.type ||
+                    action.type === editWatchList.pending.type ||
+                    action.type === deleteWatchList.fulfilled.type ||
+                    action.type === deleteWatchList.pending.type ||
+                    action.type === deleteWatchList.rejected.type,
                 handleLoading
             )
             .addMatcher(
