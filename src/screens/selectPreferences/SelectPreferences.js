@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import '../selectPreferences/SelectPreferences.scss'
 import SelectMarket from '../../assets/images/selectMarket_img.png'
+import Frruit from '../../assets/images/frruit-logo.png'
 import SearchIcon from '../../assets/images/search-icon.png';
 import { Nav, Tab } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
@@ -47,6 +48,7 @@ function SelectPreferences() {
     }, [searchParam]);
 
     const onSeletTopic = (item) => {
+        console.log("clicked:::::::::::")
         const array = selected;
         const index = array?.findIndex(el => el.topic_id === item.topic_id);
 
@@ -58,14 +60,17 @@ function SelectPreferences() {
         setSelected([...array])
     }
 
+    console.log('selected::::::', selected)
+
     return (
         <div className='select-preferences-css'>
-            <div className='d-flex justify-content-center align-items-center' style={{ height: window.innerHeight - 100 }}>
-                <div className='col-xl-7'>
+            <div className='d-flex justify-content-center align-items-center vh-100 '>
+                <div className='col-xl-7' style={{ height: '100%' }}>
                     <div className='select-preferences'>
+                        <img src={Frruit} style={{ width: 108, objectFit: 'contain' }} />
                         <div>
-                            <p className='heading'>We would like to know you!</p>
-                            <p className='mt-4 text-description'>To ensure the optimization and tailored experience,
+                            <p className='heading mt-3'>Early Access</p>
+                            <p className='mt-5 text-description'>To ensure the optimization and tailored experience,
                                 we kindly request your preferences.</p>
                         </div>
                         <div className="position-relative mt-3" style={{ marginBottom: 20 }}>
@@ -76,18 +81,16 @@ function SelectPreferences() {
                         </div>
                         <p className='mt-3 text-description' style={{ fontSize: 14, fontWeight: 600 }}>Add Preferences</p>
                         <div >
-                            <Tab.Container defaultActiveKey="">
-                                <Nav variant="pills">
-                                    {
-                                        topicsList?.length > 0 &&
-                                        topicsList?.map((item, i) => (
-                                            <Nav.Item onClick={() => onSeletTopic(item)}>
-                                                <Nav.Link className='unSelected' eventKey="Block chain">{item?.topic_name}</Nav.Link>
-                                            </Nav.Item>
-                                        )
+                            <Nav variant="">
+                                {
+                                    topicsList?.length > 0 &&
+                                    topicsList?.map((item, i) => (
+                                        <div onClick={() => onSeletTopic(item)}>
+                                            <div className={selected.some(el => Number(el.topic_id) === Number(item?.topic_id)) ? 'selected' : 'unSelected'} >{item?.topic_name}</div>
+                                        </div>
+                                    )
                                     )}
-                                </Nav>
-                            </Tab.Container>
+                            </Nav>
                         </div>
                         <div className=''>
                             <button className='blue-btn mt-4 px-5'>Done</button>
@@ -96,7 +99,7 @@ function SelectPreferences() {
                 </div>
                 <div className='col-xl-5'>
                     <div className='d-flex justify-content-center align-items-center imagecontainer'>
-                        <img src={SelectMarket} style={{ objectFit: 'contain', width: '100%', height: window.innerHeight / 2.0 }} />
+                        <img src={SelectMarket} style={{ position: 'fixed', objectFit: 'contain', width: '100%', marginBottom: 100, height: window.innerHeight / 2.0, zIndex: '-10' }} alt="Market Image" />
                     </div>
                 </div>
             </div>
