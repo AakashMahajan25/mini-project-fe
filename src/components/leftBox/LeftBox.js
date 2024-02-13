@@ -11,6 +11,8 @@ import AddIcon from '../../assets/images/add-icon.png';
 import EditStock from '../../assets/images/edit-stock-name.png';
 import DeleteStock from '../../assets/images/delete-stock-img.png';
 import AddstockBtn from '../../assets/images/add-stock-btn.png';
+import CancelRed from '../../assets/images/cancel-round-red-icon.png';
+import RightGreen from '../../assets/images/right-green-circle-icon.png';
 import { getStockBySearch, getTickersById, getUserWatchLists } from '../../screens/dashboard/slice';
 import { useDispatch, useSelector } from 'react-redux';
 import { capitalizeFirstLetter, trimText } from '../../utils/utils';
@@ -175,15 +177,15 @@ function LeftBox() {
                             <img src={SearchIcon} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} alt="Search Icon" />
                         </div>
                     </div>
-                        {
+                    {
                         stockSearchData.length > 0 &&
                         <div style={{ position: 'relative' }}>
                             <div className='search-box-menu'>
                                 {
-                                    stockSearchData?.map((stocks,index) => (
+                                    stockSearchData?.map((stocks, index) => (
                                         <div className='d-flex justify-content-between align-items-center mb-2' style={{ backgroundColor: '#F1F4FD', borderRadius: '15px', padding: 10 }}>
                                             <div onClick={handleShow} className='d-flex justify-content-start align-items-center' style={{ cursor: 'pointer' }}>
-                                                <div className='me-2 stock-name'>{trimText(stocks?.name,15)}</div>
+                                                <div className='me-2 stock-name'>{trimText(stocks?.name, 15)}</div>
                                                 <div className='me-2 ltp-text'>{stocks?.symbol}</div>
                                                 {/* <div className='me-2 stock-price'>3903</div>
                                                 <div className='me-1 stock-price'>0.5%</div> */}
@@ -419,15 +421,33 @@ function LeftBox() {
                             </div>
                         </div>
                         <div className='d-flex justify-content-between align-items-center'>
-
                             <div className='blue-box'>
                                 <div className='d-flex align-items-center justify-content-between'>
                                     <div>
-                                        <input type="text" className="form-control form-control-search-custom" placeholder='Search Here' />
-                                        <div>3</div>
+                                        <input type="text" className="form-control form-control-search-custom" placeholder='Watchlist' />
+                                        <div className='watchlist-text2'>3</div>
                                     </div>
                                     <div>
-                                        <img src={EditStock} width={24} />
+                                        {/* <img src={EditStock} width={24} style={{ objectFit: 'contain', cursor: 'pointer' }} className='me-1' />
+                                        <img src={DeleteStock} width={24} style={{ objectFit: 'contain', cursor: 'pointer' }} /> */}
+                                        <img src={CancelRed} width={24} style={{ objectFit: 'contain', cursor: 'pointer' }} className='me-1' />
+                                        <img src={RightGreen} width={24} style={{ objectFit: 'contain', cursor: 'pointer' }} />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className='d-flex justify-content-between align-items-center'>
+                            <div className='blue-box'>
+                                <div className='d-flex align-items-center justify-content-between'>
+                                    <div>
+                                        <input type="text" className="form-control form-control-search-custom" placeholder='Watchlist' />
+                                        <div className='watchlist-text2'>3</div>
+                                    </div>
+                                    <div>
+                                        <img src={EditStock} width={24} style={{ objectFit: 'contain', cursor: 'pointer' }} className='me-1' />
+                                        <img src={DeleteStock} width={24} style={{ objectFit: 'contain', cursor: 'pointer' }} />
+                                        {/* <img src={CancelRed} width={24} style={{ objectFit: 'contain', cursor: 'pointer' }} className='me-1' />
+                                        <img src={RightGreen} width={24} style={{ objectFit: 'contain', cursor: 'pointer' }} /> */}
                                     </div>
                                 </div>
                             </div>
