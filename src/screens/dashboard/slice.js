@@ -141,6 +141,21 @@ export const getStockBySearch = createAsyncThunk("stocks/getStockBySearch", asyn
     }
 });
 
+export const addTickertoWatchList = createAsyncThunk("watchList/addTickertoWatchList", async (requestData) => {
+    try {
+        let data = {
+            method: METHOD_TYPE.post,
+            url: API_ENDPOINTS.addTickerToWatchList,
+            data: requestData
+        };
+        const response = await api(data);
+        return response.data.data;
+
+    } catch (error) {
+        throw error.response;
+    }
+});
+
 
 const dashboardSlice = createSlice({
     name: "dashboard",
@@ -231,7 +246,10 @@ const dashboardSlice = createSlice({
                     action.type === getTickersById.rejected.type ||
                     action.type === getInvestorStories.pending.type ||
                     action.type === getInvestorStories.fulfilled.type ||
-                    action.type === getInvestorStories.rejected.type,
+                    action.type === getInvestorStories.rejected.type||
+                    action.type === addTickertoWatchList.fulfilled.type ||
+                    action.type === addTickertoWatchList.pending.type ||
+                    action.type === addTickertoWatchList.rejected.type,
 
 
                 handleLoading
