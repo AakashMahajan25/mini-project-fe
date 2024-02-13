@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import TopBar from '../../components/topBar/TopBar'
 import StockPriceScroll from '../../components/stockPriceScroll/StockPriceScroll'
 import LeftProfileBox from '../../components/leftProfileBox/LeftProfileBox';
@@ -17,10 +17,15 @@ import * as yup from 'yup';
 import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from "@hookform/resolvers/yup";
 import { getAvaliableCredit, getUserDetails } from './usersSlice';
+import Plans from '../../components/profile/Plans';
 
 function Profile() {
+    const handleBackButtonClick = () => {
+        setShowCode(prevShowCode => !prevShowCode);
+    };
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const [showCode, setShowCode] = useState(false)
 
     const updateProfileSchema = yup.object().shape({
         first_name: yup.string().required("Please enter first name."),
@@ -80,156 +85,163 @@ function Profile() {
                     <LeftProfileBox />
                 </div>
                 <div className='col-lg-9 column-pad'>
-                    <div className='right-part' style={{ height: window.innerHeight - 130, overflowY: 'scroll' }}>
-                        <div className='welcome-text'>Welcome</div>
-                        <div style={{ marginBottom: 20 }} className='user-text'>{userDetails?.first_name + " " + userDetails?.last_name}!</div>
-                        <div className='row m-0'>
-                            <div className='col-lg-6 column-pad' style={{ marginBottom: 20 }}>
-                                <div className='me-2'>
-                                    <div className='blue-box'>
-                                        <div className='d-flex justify-content-between align-items-center' style={{ marginBottom: 10 }}>
-                                            <div className='text-1'>Available Credits</div>
-                                            <div className='d-flex align-items-center'>
-                                                <div className='text-2'>History</div>
-                                                <img src={WhiteArrow} style={{ width: 18, objectFit: 'contain' }} />
+                    {!showCode &&
+                        <div className='right-part' style={{ height: window.innerHeight - 130, overflowY: 'scroll' }}>
+                            <div className='welcome-text'>Welcome</div>
+                            <div style={{ marginBottom: 20 }} className='user-text'>{userDetails?.first_name + " " + userDetails?.last_name}!</div>
+                            <div className='row m-0'>
+                                <div className='col-lg-6 column-pad' style={{ marginBottom: 20 }}>
+                                    <div className='me-2'>
+                                        <div className='blue-box'>
+                                            <div className='d-flex justify-content-between align-items-center' style={{ marginBottom: 10 }}>
+                                                <div className='text-1'>Available Credits</div>
+                                                <div className='d-flex align-items-center'>
+                                                    <div className='text-2'>History</div>
+                                                    <img src={WhiteArrow} style={{ width: 18, objectFit: 'contain' }} />
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div className='light-blue-box' style={{ width: 'fit-content', marginBottom: 28 }}>
-                                            <div className='d-flex justify-content-start align-items-center'>
-                                                <div className='text-3'>{userCredits ? parseFloat(userCredits?.totalCredits - userCredits?.usedCredits).toFixed(2) : '00'}</div>
-                                                <div className='text-4 mt-1'>/{userCredits ? parseFloat(userCredits?.totalCredits).toFixed(2) : '00'}</div>
+                                            <div className='light-blue-box' style={{ width: 'fit-content', marginBottom: 28 }}>
+                                                <div className='d-flex justify-content-start align-items-center'>
+                                                    <div className='text-3'>{userCredits ? parseFloat(userCredits?.totalCredits - userCredits?.usedCredits).toFixed(2) : '00'}</div>
+                                                    <div className='text-4 mt-1'>/{userCredits ? parseFloat(userCredits?.totalCredits).toFixed(2) : '00'}</div>
+                                                </div>
                                             </div>
+                                            <div className='text-2'>1 Credit = 1000 Tokens</div>
                                         </div>
-                                        <div className='text-2'>1 Credit = 1000 Tokens</div>
+                                    </div>
+                                </div>
+                                <div className='col-lg-6 column-pad' style={{ marginBottom: 20 }}>
+                                    <div className='ms-2'>
+                                        <div className='blue-box'>
+                                            <div className='d-flex justify-content-start align-items-center' style={{ marginBottom: 10 }}>
+                                                <div className='text-1'>Current Plan</div>
+                                            </div>
+                                            <div className='light-blue-box' style={{ marginBottom: 10 }}>
+                                                <div className='d-flex justify-content-between align-items-center'>
+                                                    <div className='text-3'>Premium</div>
+                                                    <div className='text-4'>$14 /month</div>
+                                                </div>
+                                            </div>
+                                            <button onClick={setShowCode} className='white-btn'>Change Plan<img src={BlueArrow} style={{ objectFit: 'contain', width: 6, marginLeft: 10 }} /></button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div className='col-lg-6 column-pad' style={{ marginBottom: 20 }}>
-                                <div className='ms-2'>
-                                    <div className='blue-box'>
-                                        <div className='d-flex justify-content-start align-items-center' style={{ marginBottom: 10 }}>
-                                            <div className='text-1'>Current Plan</div>
-                                        </div>
-                                        <div className='light-blue-box' style={{ marginBottom: 10 }}>
-                                            <div className='d-flex justify-content-between align-items-center'>
-                                                <div className='text-3'>Premium</div>
-                                                <div className='text-4'>$14 /month</div>
+                            <div className='row m-0'>
+                                <div className='col-lg-6 column-pad'>
+                                    <form onSubmit={handleSubmit(onSubmit)}>
+                                        <div className='profile-title' style={{ marginBottom: 32 }}>Profile</div>
+                                        <div className='d-flex jsutify-content-between align-items-center mt-2  ' style={{ marginBottom: 20 }}>
+                                            <img src={UserImg} style={{ width: 82, objectFit: 'contain', marginRight: 15 }} />
+                                            <div className="position-relative" style={{ width: '100%' }}>
+                                                <label className='form-control-label'>First Name</label>
+                                                <Controller
+                                                    control={control}
+                                                    name="first_name"
+                                                    render={({ field }) => (
+                                                        <input
+                                                            type="text"
+                                                            className="form-control form-control-input"
+                                                            placeholder='Enter First Name'
+                                                            style={{ color: 'black' }}
+                                                            {...field}
+                                                        />
+                                                    )}
+                                                />
+                                                {errors?.first_name && <p style={{ color: 'red' }}>{errors?.first_name?.message}</p>}
+                                                <div className="position-absolute" style={{ left: 15, top: '50%' }}>
+                                                    <img src={InputUser} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} alt="Search Icon" />
+                                                </div>
                                             </div>
                                         </div>
-                                        <button className='white-btn'>Change Plan<img src={BlueArrow} style={{ objectFit: 'contain', width: 6, marginLeft: 10 }} /></button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className='row m-0'>
-                            <div className='col-lg-6 column-pad'>
-                                <form onSubmit={handleSubmit(onSubmit)}>
-                                    <div className='profile-title' style={{ marginBottom: 32 }}>Profile</div>
-                                    <div className='d-flex jsutify-content-between align-items-center mt-2  ' style={{ marginBottom: 20 }}>
-                                        <img src={UserImg} style={{ width: 82, objectFit: 'contain', marginRight: 15 }} />
-                                        <div className="position-relative" style={{ width: '100%' }}>
-                                            <label className='form-control-label'>First Name</label>
+                                        <label className='form-control-label'>Last Name</label>
+                                        <div className='row m-0'>
+                                            <div className='col-lg-12 column-pad'>
+                                                <div className="position-relative" style={{ width: '100%', marginBottom: 20 }}>
+                                                    <Controller
+                                                        control={control}
+                                                        name="last_name"
+                                                        render={({ field }) => (
+                                                            <input
+                                                                type="text"
+                                                                className="form-control form-control-input"
+                                                                placeholder='Enter Last Name'
+                                                                style={{ color: 'black' }}
+                                                                {...field}
+                                                            />
+                                                        )}
+                                                    />
+                                                    {errors?.last_name && <p style={{ color: 'red' }}>{errors?.last_name?.message}</p>}
+                                                    <div className="position-absolute" style={{ left: 17, top: '22%' }}>
+                                                        <img src={InputUser} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} alt="Search Icon" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <label className='form-control-label'>Phone Number</label>
+                                        <div className='row m-0'>
+                                            {/* <div className='col-lg-2 column-pad'>
+                                        <div className='me-2'>
+                                            <input style={{textIndent:'12px'}} type="text" className="form-control form-control-input" placeholder='+91' defaultValue={"+91"} disabled></input>
+                                        </div>
+                                    </div> */}
+                                            <div className='col-lg-12 column-pad'>
+                                                <div className="position-relative" style={{ width: '100%', marginBottom: 20 }}>
+                                                    <Controller
+                                                        control={control}
+                                                        name="phone_number"
+                                                        render={({ field }) => (
+                                                            <input
+                                                                type="text"
+                                                                className="form-control form-control-input"
+                                                                placeholder='Enter Phone Number'
+                                                                style={{ color: 'black' }}
+                                                                {...field}
+                                                            />
+                                                        )}
+                                                    />
+                                                    {errors?.phone_number && <p style={{ color: 'red' }}>{errors?.phone_number?.message}</p>}
+                                                    {/* <input type="text" className="form-control form-control-input" placeholder='Enter Phone Number'></input> */}
+                                                    <div className="position-absolute" style={{ left: 17, top: '22%' }}>
+                                                        <img src={MobileIcon} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} alt="Search Icon" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="position-relative" style={{ width: '100%', marginBottom: 20 }}>
+                                            <label className='form-control-label'>Email Address</label>
                                             <Controller
                                                 control={control}
-                                                name="first_name"
+                                                name="email"
                                                 render={({ field }) => (
                                                     <input
-                                                        type="text"
+                                                        type="email"
                                                         className="form-control form-control-input"
-                                                        placeholder='Enter First Name'
+                                                        placeholder='Enter Mail'
                                                         style={{ color: 'black' }}
                                                         {...field}
                                                     />
                                                 )}
                                             />
-                                            {errors?.first_name && <p style={{ color: 'red' }}>{errors?.first_name?.message}</p>}
+                                            {errors?.email && <p style={{ color: 'red' }}>{errors?.email?.message}</p>}
+                                            {/* <input type="text" className="form-control form-control-input" placeholder='Enter Mail'></input> */}
                                             <div className="position-absolute" style={{ left: 15, top: '50%' }}>
-                                                <img src={InputUser} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} alt="Search Icon" />
+                                                <img src={MailIcon} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} alt="Search Icon" />
                                             </div>
                                         </div>
-                                    </div>
-                                    <label className='form-control-label'>Last Name</label>
-                                    <div className='row m-0'>
-                                        <div className='col-lg-12 column-pad'>
-                                            <div className="position-relative" style={{ width: '100%', marginBottom: 20 }}>
-                                                <Controller
-                                                    control={control}
-                                                    name="last_name"
-                                                    render={({ field }) => (
-                                                        <input
-                                                            type="text"
-                                                            className="form-control form-control-input"
-                                                            placeholder='Enter Last Name'
-                                                            style={{ color: 'black' }}
-                                                            {...field}
-                                                        />
-                                                    )}
-                                                />
-                                                {errors?.last_name && <p style={{ color: 'red' }}>{errors?.last_name?.message}</p>}
-                                                <div className="position-absolute" style={{ left: 17, top: '22%' }}>
-                                                    <img src={InputUser} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} alt="Search Icon" />
-                                                </div>
-                                            </div>
+                                        <div className='d-flex justify-content-end align-items-center'>
+                                            <button type="submit" className='blue-btn'>Save and Continue</button>
                                         </div>
-                                    </div>
-                                    <label className='form-control-label'>Phone Number</label>
-                                    <div className='row m-0'>
-                                        {/* <div className='col-lg-2 column-pad'>
-                                        <div className='me-2'>
-                                            <input style={{textIndent:'12px'}} type="text" className="form-control form-control-input" placeholder='+91' defaultValue={"+91"} disabled></input>
-                                        </div>
-                                    </div> */}
-                                        <div className='col-lg-12 column-pad'>
-                                            <div className="position-relative" style={{ width: '100%', marginBottom: 20 }}>
-                                                <Controller
-                                                    control={control}
-                                                    name="phone_number"
-                                                    render={({ field }) => (
-                                                        <input
-                                                            type="text"
-                                                            className="form-control form-control-input"
-                                                            placeholder='Enter Phone Number'
-                                                            style={{ color: 'black' }}
-                                                            {...field}
-                                                        />
-                                                    )}
-                                                />
-                                                {errors?.phone_number && <p style={{ color: 'red' }}>{errors?.phone_number?.message}</p>}
-                                                {/* <input type="text" className="form-control form-control-input" placeholder='Enter Phone Number'></input> */}
-                                                <div className="position-absolute" style={{ left: 17, top: '22%' }}>
-                                                    <img src={MobileIcon} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} alt="Search Icon" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="position-relative" style={{ width: '100%', marginBottom: 20 }}>
-                                        <label className='form-control-label'>Email Address</label>
-                                        <Controller
-                                            control={control}
-                                            name="email"
-                                            render={({ field }) => (
-                                                <input
-                                                    type="email"
-                                                    className="form-control form-control-input"
-                                                    placeholder='Enter Mail'
-                                                    style={{ color: 'black' }}
-                                                    {...field}
-                                                />
-                                            )}
-                                        />
-                                        {errors?.email && <p style={{ color: 'red' }}>{errors?.email?.message}</p>}
-                                        {/* <input type="text" className="form-control form-control-input" placeholder='Enter Mail'></input> */}
-                                        <div className="position-absolute" style={{ left: 15, top: '50%' }}>
-                                            <img src={MailIcon} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} alt="Search Icon" />
-                                        </div>
-                                    </div>
-                                    <div className='d-flex justify-content-end align-items-center'>
-                                        <button type="submit" className='blue-btn'>Save and Continue</button>
-                                    </div>
-                                </form>
+                                    </form>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    }
+                    {showCode &&
+                        <div className='right-part' style={{ height: window.innerHeight - 130, overflowY: 'scroll' }}>
+                            <Plans handleBackButtonClick={handleBackButtonClick} />
+                        </div>
+                    }
                 </div>
             </div>
             {
