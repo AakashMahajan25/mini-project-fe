@@ -7,7 +7,7 @@ import PromptsLibrary from '../../components/promptsLibrary/PromptsLibrary'
 import BottomSearchBar from '../../components/frruitGpt/BottomSearchBar'
 import ChatGpt from '../../components/frruitGpt/ChatGpt'
 import { useLocation } from 'react-router-dom'
-import { addChatPrompt, clearChatHistory, getPromptHistory, getPromptList, getPromptSuggestion, setChatHistory, triggerFrruitGpt } from './slice'
+import { addChatPrompt, clearChatHistory, getPromptHistory, getPromptList, getPromptSuggestion, setChatHistory, triggerFrruitGpt, triggerFrruitGptGraph } from './slice'
 import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
 
@@ -37,9 +37,13 @@ function FrruitGPT() {
     }, [state?.question])
 
     useEffect(() => {
-        scrollToBottom();
-    }, [chatHistory])
-    
+        if (chatHistory?.length > 0) {
+            const lastChat = chatHistory[chatHistory?.length - 1]
+            if (lastChat?.person === "user") {
+                scrollToBottom();
+            }
+        }
+    }, [chatHistory])    
 
     const clearState = () => {
         const updatedLocation = {
@@ -74,13 +78,16 @@ function FrruitGPT() {
         }
     };
 
+    const scrollDown = (amount) => {
+        if (gptRef.current) {
+            gptRef.current.scrollTop += amount;
+        }
+    };
+
     const addFrruitPrompt = (title) => {
         dispatch(addChatPrompt({ prompt_text: title }))
             .unwrap()
             .then(res => {
-                // if (route?.params?.promptQuestion) {
-                //     navigation.setParams({ promptQuestion: '' })
-                // }
                 dispatch(getPromptList())
                 setSelectedChat(res.prompt_id);
                 isNewChat.current = false
@@ -112,10 +119,10 @@ function FrruitGPT() {
         dispatch(triggerFrruitGpt(requestData))
             .unwrap()
             .then(res => {
-                // if (res && res[0] && res[0]?.text !== undefined)
-                //     dispatch(triggerFrruitGptGraph(data))
+                if (res && res[0] && res[0]?.text !== undefined)
+                    dispatch(triggerFrruitGptGraph(requestData))
                 setQuestion('');
-                scrollToBottom();
+                scrollDown(250)
             })
             .catch(error => {
                 setQuestion(searchText);

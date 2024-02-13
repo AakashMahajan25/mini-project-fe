@@ -29,8 +29,13 @@ import UpGreenArrow from '../../assets/images/up-arrow-outline.png'
 import Slider from 'react-slick'
 import BarChart from '../barChart/BarChart'
 import DiscoverCorrelationGraph from '../graph/DiscoverCorrelationGraph'
+import { useLoading, Oval } from '@agney/react-loading';
 
 function LeftBox() {
+    const { containerProps, indicatorEl } = useLoading({
+        loading: true,
+        indicator: <Oval width="50" color="blue" />,
+    });
     const [value, setValue] = useState(0);
     const dispatch = useDispatch()
     const { watchLists, tickers, stockSearchData, } = useSelector(state => state.dashboardSlice);
@@ -264,28 +269,36 @@ function LeftBox() {
                         (searchParam.length > 0 || stockSearchData.length > 0) &&
                         <div style={{ position: 'relative' }}>
                             <div className='search-box-menu'>
-                                {
-                                    stockSearchData?.map((stocks, index) => (
-                                        <div className='d-flex justify-content-between align-items-center mb-2' style={{ backgroundColor: '#F1F4FD', borderRadius: '15px', padding: 10 }}>
-                                            <div onClick={handleShow} className='d-flex justify-content-start align-items-center' style={{ cursor: 'pointer' }}>
-                                                <div className='me-2 stock-name'>{trimText(stocks?.name, 15)}</div>
-                                                <div className='me-2 ltp-text'>{stocks?.symbol}</div>
-                                                {/* <div className='me-2 stock-price'>3903</div>
+                                <>
+                                    {
+                                        stockSearchData?.map((stocks, index) => (
+                                            <div className='d-flex justify-content-between align-items-center mb-2' style={{ backgroundColor: '#F1F4FD', borderRadius: '15px', padding: 10 }}>
+                                                <div onClick={handleShow} className='d-flex justify-content-start align-items-center' style={{ cursor: 'pointer' }}>
+                                                    <div className='me-2 stock-name'>{trimText(stocks?.name, 15)}</div>
+                                                    <div className='me-2 ltp-text'>{stocks?.symbol}</div>
+                                                    {/* <div className='me-2 stock-price'>3903</div>
                                                 <div className='me-1 stock-price'>0.5%</div> */}
-                                                {/* <img style={{ width: 24, objectFit: 'contain' }} src={RedArrow} alt="Red Arrow" /> */}
-                                                {/* <img style={{ width: 24, objectFit: 'contain' }} src={GreenArrow} alt="Green Arrow" /> */}
-                                            </div>
-                                            <div className='d-flex justify-content-between align-items-center'>
-                                                <div>
-                                                    <img className='me-2' style={{ width: 24, objectFit: 'contain', cursor: 'pointer' }} src={StockMiniLogo} alt="mini-logo" />
+                                                    {/* <img style={{ width: 24, objectFit: 'contain' }} src={RedArrow} alt="Red Arrow" /> */}
+                                                    {/* <img style={{ width: 24, objectFit: 'contain' }} src={GreenArrow} alt="Green Arrow" /> */}
                                                 </div>
-                                                <div>
-                                                    <img onClick={() => handleShow2(stocks)} style={{ width: 24, objectFit: 'contain', cursor: 'pointer' }} src={AddstockBtn} alt="mini-logo" />
+
+                                                <div className='d-flex justify-content-between align-items-center'>
+                                                    <div>
+                                                        <img className='me-2' style={{ width: 24, objectFit: 'contain', cursor: 'pointer' }} src={StockMiniLogo} alt="mini-logo" />
+                                                    </div>
+                                                    <div>
+                                                        <img onClick={() => handleShow2(stocks)} style={{ width: 24, objectFit: 'contain', cursor: 'pointer' }} src={AddstockBtn} alt="mini-logo" />
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    ))
-                                }
+                                        ))
+                                    }
+                                    <div className='d-flex justify-content-center align-items-center' style={{ height: 300 }}>
+                                        <section {...containerProps}>
+                                            {indicatorEl} {/* renders only while loading */}
+                                        </section>
+                                    </div>
+                                </>
 
                             </div>
                         </div>
@@ -525,8 +538,8 @@ function LeftBox() {
                             </div>}
                         {
                             watchLists.length > 0 && watchLists.map((item, index) => (
-                                <div className='d-flex justify-content-between align-items-center' style={{cursor:"pointer"}}>
-                                    <div className='blue-box' onClick={() => {setSelectedId(item?.watchlist_id);handleSave()}} style={{ border: selectedId === item?.watchlist_id ? '1px solid #4563E4' : null}}>
+                                <div className='d-flex justify-content-between align-items-center' style={{ cursor: "pointer" }}>
+                                    <div className='blue-box' onClick={() => { setSelectedId(item?.watchlist_id); handleSave() }} style={{ border: selectedId === item?.watchlist_id ? '1px solid #4563E4' : null }}>
                                         <div className='d-flex align-items-center justify-content-between'>
                                             <div className='d-flex align-items-center'>
                                                 {
