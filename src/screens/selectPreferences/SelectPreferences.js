@@ -1,13 +1,16 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import '../selectPreferences/SelectPreferences.scss'
 import SelectMarket from '../../assets/images/selectMarket_img.png'
 import Frruit from '../../assets/images/frruit-logo.png'
 import SearchIcon from '../../assets/images/search-icon.png';
 import { Nav, Tab } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllTopics, searchTopics } from '../signup/slice';
+import { addTopics, getAllTopics, searchTopics } from '../signup/slice';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 function SelectPreferences() {
+    let navigate = useNavigate();
     const dispatch = useDispatch();
     const [searchParam, setSearchParam] = useState('');
     const [selected, setSelected] = useState([]);
@@ -15,7 +18,7 @@ function SelectPreferences() {
 
     const { topics, isLoading } = useSelector(state => state.signupSlice);
 
-    console.log('topics:::::::::::', topicsList)
+    const differentElements = useMemo(() => selected.filter(itemA => !topicsList.some(itemB => Number(itemA.topic_id) === Number(itemB.topic_id))), [selected, topicsList]);
 
     useEffect(() => {
         dispatch(getAllTopics())
@@ -48,7 +51,6 @@ function SelectPreferences() {
     }, [searchParam]);
 
     const onSeletTopic = (item) => {
-        console.log("clicked:::::::::::")
         const array = selected;
         const index = array?.findIndex(el => el.topic_id === item.topic_id);
 
@@ -60,7 +62,21 @@ function SelectPreferences() {
         setSelected([...array])
     }
 
-    console.log('selected::::::', selected)
+    const onSubmitTopics = async () => {
+        if (selected.length < 10) {
+            toast.error('Please select atleast 10 preferences')
+            return;
+        }
+        const topics = await selected.map(el => Number(el?.topic_id))
+        dispatch(addTopics({ topic_id: topics }))
+            .unwrap()
+            .then(async res => {
+                navigate(`/market`);
+            })
+            .catch(error => {
+                console.log('error', error)
+            })
+    }
 
     return (
         <div className='select-preferences-css'>
@@ -83,17 +99,27 @@ function SelectPreferences() {
                         <div >
                             <Nav variant="">
                                 {
+                                    differentElements?.length > 0 &&
+                                    differentElements?.map((item, i) => (
+                                        <div onClick={() => onSeletTopic(item)}>
+                                            <div className={selected.some(el => Number(el.topic_id) === Number(item?.topic_id)) ? 'selected' : 'unSelected'} >{item?.topic_name}</div>
+                                        </div>
+                                    )
+                                )}
+                            </Nav>
+                            <Nav variant="">
+                                {
                                     topicsList?.length > 0 &&
                                     topicsList?.map((item, i) => (
                                         <div onClick={() => onSeletTopic(item)}>
                                             <div className={selected.some(el => Number(el.topic_id) === Number(item?.topic_id)) ? 'selected' : 'unSelected'} >{item?.topic_name}</div>
                                         </div>
                                     )
-                                    )}
+                                )}
                             </Nav>
                         </div>
                         <div className=''>
-                            <button className='blue-btn mt-4 px-5'>Done</button>
+                            <button className='blue-btn mt-4 px-5' onClick={onSubmitTopics}>Done</button>
                         </div>
                     </div>
                 </div>

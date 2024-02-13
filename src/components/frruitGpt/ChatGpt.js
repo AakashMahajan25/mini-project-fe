@@ -12,7 +12,7 @@ import DiscoverCorrelationGraph from '../graph/DiscoverCorrelationGraph'
 import BarChart from '../barChart/BarChart'
 import { useSelector } from 'react-redux'
 import { replaceNewlinesWithBr } from '../../utils/utils'
-import { useLoading, Audio,SpinningCircles,Circles,ThreeDots } from '@agney/react-loading';
+import { useLoading, Audio, SpinningCircles, Circles, ThreeDots } from '@agney/react-loading';
 
 function ChatGpt(props) {
     const { containerProps, indicatorEl } = useLoading({
@@ -141,7 +141,7 @@ function ChatGpt(props) {
     ];
     const { containerRef } = props;
 
-    const { chatHistory } = useSelector(state => state.fruitGPTSlice);
+    const { chatHistory, frruitLoader } = useSelector(state => state.fruitGPTSlice);
 
     return (
         <div className='ChatGpt' style={{ height: window.innerHeight - 290 }} ref={containerRef}>
@@ -255,9 +255,12 @@ function ChatGpt(props) {
 
                         </div>
                 )}
-            <section {...containerProps}>
-                {indicatorEl} {/* renders only while loading */}
-            </section>
+            {
+                frruitLoader &&
+                <section {...containerProps}>
+                    {indicatorEl} {/* renders only while loading */}
+                </section>
+            }
         </div>
     )
 }

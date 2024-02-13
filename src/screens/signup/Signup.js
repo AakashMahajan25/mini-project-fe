@@ -49,14 +49,14 @@ function Signup() {
     }
 
     const onSubmit = (data) => {
-        // dispatch(signupOtp({ email: data.email, mobile: data?.phone_number }))
-        // .unwrap()
-        // .then((res) => {
-        setShowCode(true)
-        // })
-        // .catch((error) => {
-        //     console.log('error', JSON.stringify(error, null, 2))
-        // })
+        dispatch(signupOtp({ email: data.email, mobile: "+91"+data?.phone_number }))
+            .unwrap()
+            .then((res) => {
+                setShowCode(true)
+            })
+            .catch((error) => {
+                console.log('error', JSON.stringify(error, null, 2))
+            })
     }
 
     const verifyMobileOtp = () => {
@@ -66,21 +66,21 @@ function Signup() {
             return;
         }
 
-        // const data = {
-        //     otp,
-        //     type: 'mobile',
-        //     email: allValues?.email,
-        //     mobile: allValues?.phone_number,
-        // }
-        // dispatch(verifyOtp(data))
-        //     .unwrap()
-        //     .then((res) => {
-        setShowCode1(true)
-        // })
-        // .catch((error) => {
-        //     console.log('error', JSON.stringify(error, null, 2))
-        //     toast.error(error.message)
-        // })
+        const data = {
+            otp,
+            type: 'mobile',
+            email: allValues?.email,
+            mobile: "+91"+allValues?.phone_number,
+        }
+        dispatch(verifyOtp(data))
+            .unwrap()
+            .then((res) => {
+                setShowCode1(true)
+            })
+            .catch((error) => {
+                console.log('error', JSON.stringify(error, null, 2))
+                toast.error(error.message)
+            })
     }
 
     const verifyEmailId = () => {
@@ -90,36 +90,31 @@ function Signup() {
             return;
         }
 
-        // const data = {
-        //     otp,
-        //     type: 'email',
-        //     email: allValues?.email,
-        //     mobile: allValues?.phone_number,
-        // }
-        // dispatch(verifyOtp(data))
-        //     .unwrap()
-        //     .then((res) => {
-        //         dispatch(signupUser(allValues))
-        //             .unwrap()
-        //             .then(async (res) => {
-        //                 // dispatch(setUserName(`${res?.data?.first_name} ${res?.data?.last_name}`))
-        //                 // await storageSetUserName(`${res?.data?.first_name} ${res?.data?.last_name}`)
-        //                 // await setToken(res.data.token)
-        //                 // navigation.navigate(Routes.PlanListScreen.name)
-        // localStorage.setItem('token', res.data.token)
-        localStorage.setItem('token', "ahdchjjjjjjjjjjjjjjjjjjjjjjjjjjjc")
-        let path = `/topics`;
-        navigate(path);
-        //                 toast.success(res.message)
-        //             })
-        //             .catch((error) => {
-        //                 console.log('error', JSON.stringify(error, null, 2))
-        //                 toast.error(error.message)
-        //             })
-        //     })
-        //     .catch((error) => {
-        //         toast.error(error.message)
-        //     })
+        const data = {
+            otp: emailOtp,
+            type: 'email',
+            email: allValues?.email,
+            mobile: "+91"+allValues?.phone_number,
+        }
+        dispatch(verifyOtp(data))
+            .unwrap()
+            .then((res) => {
+                dispatch(signupUser({...allValues, phone_number: "+91"+allValues?.phone_number}))
+                    .unwrap()
+                    .then(async (res) => {
+                        localStorage.setItem('token', res.data.token)
+                        let path = `/topics`;
+                        navigate(path);
+                        toast.success(res.message)
+                    })
+                    .catch((error) => {
+                        console.log('error', JSON.stringify(error, null, 2))
+                        toast.error(error.message)
+                    })
+            })
+            .catch((error) => {
+                toast.error(error.message)
+            })
     }
 
     return (
@@ -320,7 +315,7 @@ function Signup() {
                                     </div>
                                     <p className='privacyText mt-0' style={{ fontSize: 15 }}>Didn't get the code? <a style={{ fontSize: 15, textDecoration: 'underline', color: 'blue' }} >Resend</a></p>
                                     <div className='d-flex justify-content-center align-items-center'>
-                                        <button onClick={verifyMobileOtp} className='btnPrimary mt-5'>Verify</button>
+                                        <button type='button' onClick={verifyMobileOtp} className='btnPrimary mt-5'>Verify</button>
                                     </div>
                                 </>
                             }
@@ -355,7 +350,7 @@ function Signup() {
                                     </div>
                                     <p className='privacyText mt-0' style={{ fontSize: 15 }}>Didn't get the code? <a style={{ fontSize: 15, textDecoration: 'underline', color: 'blue' }}>Resend</a></p>
                                     <div className='d-flex justify-content-center align-items-center'>
-                                        <button className='btnPrimary mt-5' onClick={verifyEmailId}>Verify and Signup</button>
+                                        <button type='button' className='btnPrimary mt-5' onClick={verifyEmailId}>Verify and Signup</button>
                                     </div>
                                 </>
                             }

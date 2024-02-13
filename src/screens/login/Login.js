@@ -32,13 +32,16 @@ function Login() {
     };
 
     const handleGetOtp = () => {
+        if(!phoneNumber){
+            toast.error("Please enter Phone number")
+            if (numberRef?.current) {
+                numberRef?.current.focus()
+            }
+            return;
+        }
         const data = {
             type: 'mobile',
             mobile: "+91"+phoneNumber
-        }
-        if(!phoneNumber){
-            toast.error("Please enter Phone number")
-            return;
         }
         dispatch(loginOtp(data))
             .unwrap()
@@ -68,7 +71,7 @@ function Login() {
             .unwrap()
             .then(async (res) => {
                 localStorage.setItem('token', res.data.token)
-                let path = `/dashboard`;
+                let path = `/market`;
                 navigate(path);               
                 toast.success("Logged In Successfully")
             })

@@ -19,7 +19,6 @@ function FrruitGPT() {
     const gptRef = useRef(null)
     const [question, setQuestion] = useState('')
     const [selectedChat, setSelectedChat] = useState(null)
-    const [index, setIndex] = useState('US');
 
     const { chatHistory } = useSelector(state => state.fruitGPTSlice);
 
@@ -53,6 +52,7 @@ function FrruitGPT() {
     const handleNewChat = () => {
         isNewChat.current = true
         dispatch(clearChatHistory())
+        setSelectedChat(null)
     }
 
     const handleHistory = (Id) => {
@@ -95,12 +95,13 @@ function FrruitGPT() {
         if (!title && !question) {
             return
         }
+        const market = localStorage.getItem('marketType')
         const searchText = question
         setQuestion('');
         const requestData = {
             message: title ? title : question,
             prompt_id: promptId ? Number(promptId) : Number(selectedChat),
-            market: index
+            market
         }
         dispatch(setChatHistory([{
             person: "user",
@@ -144,6 +145,7 @@ function FrruitGPT() {
                     <FrruitGPTLeftBox
                         handleNewChat={handleNewChat}
                         handleHistory={handleHistory}
+                        selectedChat={selectedChat}
                     />
                 </div>
                 <div className='col-lg-9 column-pad position-relative'>
