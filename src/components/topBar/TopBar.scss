@@ -34,6 +34,23 @@
                 width: 154px;
                 cursor: pointer;
             }
+            .profile-icon{
+                width: 42px;
+                height: 42px;
+                background-color: #4F6CE8;
+                border-radius: 50%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                cursor: pointer;
+            }
+            .profile-name-text{
+                font-family: 'Roboto', sans-serif;
+                font-weight: 500;
+                color: #ffffff;
+                font-size: 25px;
+                line-height: 30px;
+            }
         }
 
     }

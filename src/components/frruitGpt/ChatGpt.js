@@ -17,7 +17,7 @@ import { useLoading, Audio,SpinningCircles,Circles,ThreeDots } from '@agney/reac
 function ChatGpt(props) {
     const { containerProps, indicatorEl } = useLoading({
         loading: true,
-        indicator: <ThreeDots width="50" />,
+        indicator: <ThreeDots width="50" color="blue" />,
     });
     var settings = {
         dots: false,

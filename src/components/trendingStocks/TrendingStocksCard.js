@@ -21,7 +21,7 @@ function TrendingStocksCard({ name, symbol, change, changesPercentage }) {
         <div className='trendingStockCard' style={{ marginRight: 10 }}>
             <div className='card'>
                 <div className='d-flex justify-content-between align-items-center' style={{ marginBottom: 8 }}>
-                    <p className='stockname'>{trimText(name,15)}</p>
+                    <p className='stockname'>{trimText(name,11)}</p>
                     <div className='d-flex align-items-center justify-content-start'>
                         <p className='text me-2'>{symbol}</p>
                         <p className={`text2 me-2`} style={{ color: isPositiveChange ? '#28C76F' : '#EA5455' }}>{change}</p>
