@@ -7,6 +7,9 @@ import Box from '@mui/material/Box';
 import GreenArrow from '../../assets/images/green_up-arrow.png';
 import RedArrow from '../../assets/images/red_down-arrow.png';
 import StockMiniLogo from '../../assets/images/frruit-mini-logo.png';
+import AddIcon from '../../assets/images/add-icon.png';
+import EditStock from '../../assets/images/edit-stock-name.png';
+import DeleteStock from '../../assets/images/delete-stock-img.png';
 import AddstockBtn from '../../assets/images/add-stock-btn.png';
 import { getStockBySearch, getTickersById, getUserWatchLists } from '../../screens/dashboard/slice';
 import { useDispatch, useSelector } from 'react-redux';
@@ -36,6 +39,10 @@ function LeftBox() {
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+
+    const [show2, setShow2] = useState(false);
+    const handleClose2 = () => setShow2(false);
+    const handleShow2 = () => setShow2(true);
 
     const handleChange = (event, newValue) => {
         setValue(newValue)
@@ -190,7 +197,7 @@ function LeftBox() {
                                                     <img className='me-2' style={{ width: 24, objectFit: 'contain', cursor: 'pointer' }} src={StockMiniLogo} alt="mini-logo" />
                                                 </div>
                                                 <div>
-                                                    <img style={{ width: 24, objectFit: 'contain', cursor: 'pointer' }} src={AddstockBtn} alt="mini-logo" />
+                                                    <img onClick={handleShow2} style={{ width: 24, objectFit: 'contain', cursor: 'pointer' }} src={AddstockBtn} alt="mini-logo" />
                                                 </div>
                                             </div>
                                         </div>
@@ -397,6 +404,38 @@ function LeftBox() {
                 <Modal.Footer>
 
                 </Modal.Footer>
+            </Modal>
+            <Modal show={show2}
+                onHide={handleClose2}
+                size='sm'
+                className='search-modal'
+                scrollable
+            >
+                <Modal.Body>
+                    <div>
+                        <div className='d-flex justify-content-between align-items-center mb-2'>
+                            <div className='watchlist-text'>Watchlist</div>
+                            <div className='d-flex align-items-center' style={{ cursor: 'pointer' }}>
+                                <img src={AddIcon} className='me-1' width={12} style={{ objectFit: 'contain' }} />
+                                <div className='add-text'>add</div>
+                            </div>
+                        </div>
+                        <div className='d-flex justify-content-between align-items-center'>
+
+                            <div className='blue-box'>
+                                <div className='d-flex align-items-center justify-content-between'>
+                                    <div>
+                                        <input type="text" className="form-control form-control-search-custom" placeholder='Search Here' />
+                                        <div>3</div>
+                                    </div>
+                                    <div>
+                                        <img src={EditStock} width={24} />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </Modal.Body>
             </Modal>
         </>
     );
