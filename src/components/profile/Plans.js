@@ -57,7 +57,7 @@ function Plans(props) {
                         <div className='col-lg-3'>
                             <PlansCard
                                 cardBackground="linear-gradient(194.74deg, rgba(95, 125, 255, 0.7) 0%, rgba(63, 90, 209, 0.7) 94.44%)"
-                                showStarIcon={true}
+                                showStarIcon={false}
                                 forText=''
                                 applyMargin={true}
                                 title="Basic"
