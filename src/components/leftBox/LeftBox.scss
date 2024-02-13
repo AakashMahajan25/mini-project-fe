@@ -22,6 +22,8 @@
         position: absolute;
         width: 100%;
         z-index: 10;
+        height: 350px;
+        overflow-y: scroll;
     }
 
     .tab-css {
@@ -340,4 +342,85 @@
         color: #6F7387;
         margin-bottom: 20px;
     }
+}
+
+.search-modal {
+    .modal-dialog-scrollable .modal-content {
+        right: 80%;
+        top: 26%;
+        border: 0px;
+        box-shadow: 0px 2px 10px 0px #00000026;
+
+    }
+
+    .watchlist-text {
+        font-family: 'Roboto', sans-serif;
+        font-size: 16px;
+        font-weight: 500;
+        line-height: normal;
+        color: #171E42;
+    }
+
+    .add-text {
+        font-family: 'Roboto', sans-serif;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: normal;
+        color: #4563E4;
+    }
+
+    .blue-box {
+        padding: 8px 8px;
+        background-color: #F1F4FD;
+        border-radius: 15px;
+        width: 100%;
+        margin-bottom: 2.5px;
+        margin-top: 2.5px;
+    }
+
+    .watchlist-text2 {
+        font-family: 'Roboto', sans-serif;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: normal;
+        color: #171E42;
+        padding-left: 8px;
+    }
+
+    .form-control-search-custom {
+        border-radius: 20px !important;
+        padding: 8px;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: normal;
+        border: 0px;
+        background-color: #F1F4FD;
+        color: #6F7387;
+        font-family: 'Roboto', sans-serif;
+        height: 20px;
+    }
+
+    .form-control-search-custom:focus {
+        box-shadow: none !important;
+        border: 0px;
+
+    }
+
+    .form-control-search-custom:focus-visible {
+        box-shadow: none !important;
+        border: 0px;
+
+
+    }
+
+
+    // .modal-dialog {
+    //     margin-left: 0px;
+    //     margin-right: 0px;
+    // }
+
+    // .modal-dialog-scrollable {
+    //     height: 100px;
+    // }
+
 }

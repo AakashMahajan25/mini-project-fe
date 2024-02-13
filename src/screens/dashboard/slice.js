@@ -9,7 +9,7 @@ const initialState = {
     mostOnFrruitGpt: [],
     watchLists: [],
     tickers: [],
-    stockSearch: [],
+    stockSearchData: [],
     stockSearchLoading: false,
     stockSearchError: null,
     investorStory: {
@@ -141,6 +141,21 @@ export const getStockBySearch = createAsyncThunk("stocks/getStockBySearch", asyn
     }
 });
 
+export const addTickertoWatchList = createAsyncThunk("watchList/addTickertoWatchList", async (requestData) => {
+    try {
+        let data = {
+            method: METHOD_TYPE.post,
+            url: API_ENDPOINTS.addTickerToWatchList,
+            data: requestData
+        };
+        const response = await api(data);
+        return response.data.data;
+
+    } catch (error) {
+        throw error.response;
+    }
+});
+
 
 const dashboardSlice = createSlice({
     name: "dashboard",
@@ -187,7 +202,7 @@ const dashboardSlice = createSlice({
                 state.tickers = action.payload;
             })
             .addCase(getStockBySearch.fulfilled, (state, action) => {
-                state.stockSearch = action.payload; 
+                state.stockSearchData = action.payload;
             })
             .addCase(getInvestorStories.fulfilled, (state, action) => {
                 const topicsNews = Object.values(action.payload["Topics_news"]).flat();
@@ -231,7 +246,10 @@ const dashboardSlice = createSlice({
                     action.type === getTickersById.rejected.type ||
                     action.type === getInvestorStories.pending.type ||
                     action.type === getInvestorStories.fulfilled.type ||
-                    action.type === getInvestorStories.rejected.type,
+                    action.type === getInvestorStories.rejected.type ||
+                    action.type === addTickertoWatchList.fulfilled.type ||
+                    action.type === addTickertoWatchList.pending.type ||
+                    action.type === addTickertoWatchList.rejected.type,
 
 
                 handleLoading
@@ -245,8 +263,8 @@ const dashboardSlice = createSlice({
             )
             .addMatcher(
                 (action) =>
-                    action.type === getStockBySearch.pending.type ||
                     action.type === getStockBySearch.fulfilled.type ||
+                    action.type === getStockBySearch.pending.type ||
                     action.type === getStockBySearch.rejected.type,
                 handleStockSearchLoading
             );

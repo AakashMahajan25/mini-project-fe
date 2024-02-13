@@ -7,7 +7,12 @@ import Box from '@mui/material/Box';
 import GreenArrow from '../../assets/images/green_up-arrow.png';
 import RedArrow from '../../assets/images/red_down-arrow.png';
 import StockMiniLogo from '../../assets/images/frruit-mini-logo.png';
+import AddIcon from '../../assets/images/add-icon.png';
+import EditStock from '../../assets/images/edit-stock-name.png';
+import DeleteStock from '../../assets/images/delete-stock-img.png';
 import AddstockBtn from '../../assets/images/add-stock-btn.png';
+import CancelRed from '../../assets/images/cancel-round-red-icon.png';
+import RightGreen from '../../assets/images/right-green-circle-icon.png';
 import { getStockBySearch, getTickersById, getUserWatchLists } from '../../screens/dashboard/slice';
 import { useDispatch, useSelector } from 'react-redux';
 import { capitalizeFirstLetter, trimText } from '../../utils/utils';
@@ -27,14 +32,17 @@ import DiscoverCorrelationGraph from '../graph/DiscoverCorrelationGraph'
 function LeftBox() {
     const [value, setValue] = useState(0);
     const dispatch = useDispatch()
-    const { watchLists, tickers, searchStocks, } = useSelector(state => state.dashboardSlice);
+    const { watchLists, tickers, stockSearchData, } = useSelector(state => state.dashboardSlice);
     const [anchorElNotification, setAnchorElNotification] = useState(null);
     const [show, setShow] = useState(false);
     const [searchParam, setSearchParam] = useState('')
-    console.log('searchParam', searchParam)
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+
+    const [show2, setShow2] = useState(false);
+    const handleClose2 = () => setShow2(false);
+    const handleShow2 = () => setShow2(true);
 
     const handleChange = (event, newValue) => {
         setValue(newValue)
@@ -45,9 +53,19 @@ function LeftBox() {
 
     useEffect(() => {
         dispatch(getUserWatchLists())
-        dispatch(getStockBySearch())
         getWatchListData()
     }, [])
+
+    useEffect(() => {
+        const debounceSearch = setTimeout(() => {
+            if (searchParam) {
+                dispatch(getStockBySearch(searchParam));
+            }
+        }, 500);
+        return () => {
+            clearTimeout(debounceSearch);
+        };
+    }, [searchParam]);
 
     const getWatchListData = () => {
         dispatch(getUserWatchLists())
@@ -153,57 +171,42 @@ function LeftBox() {
             <div className='left-box'>
                 <div className='box' style={{ height: window.innerHeight - 130 }}>
                     <div className="position-relative" style={{ marginBottom: 10 }} onClick={handleOpenNotificationMenu}>
-                        <input type="text" className="form-control form-control-search" placeholder='Search Here' value={searchParam} onChange={text => setSearchParam(text)} />
+                        <input type="text" className="form-control form-control-search" placeholder='Search Here' value={searchParam}
+                            onChange={event => setSearchParam(event.target.value)} />
                         <div className="position-absolute" style={{ left: 15, top: '15%' }}>
                             <img src={SearchIcon} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} alt="Search Icon" />
                         </div>
                     </div>
-                    <div style={{ position: 'relative' }}>
-                        <div className='search-box-menu'>
-                            <div className='d-flex justify-content-between align-items-center mb-2' style={{ backgroundColor: '#F1F4FD', borderRadius: '15px', padding: 10 }}>
-                                <div onClick={handleShow} className='d-flex justify-content-start align-items-center'>
-                                    <div className='me-2 stock-name'>TCS</div>
-                                    <div className='me-2 ltp-text'>LTP</div>
-                                    <div className='me-2 stock-price'>3903</div>
-                                    <div className='me-1 stock-price'>0.5%</div>
-                                    {/* <img style={{ width: 24, objectFit: 'contain' }} src={RedArrow} alt="Red Arrow" /> */}
-                                    <img style={{ width: 24, objectFit: 'contain' }} src={GreenArrow} alt="Green Arrow" />
-                                </div>
-                                <div>
-                                    <img className='me-2' style={{ width: 24, objectFit: 'contain', cursor: 'pointer' }} src={StockMiniLogo} alt="mini-logo" />
-                                    <img style={{ width: 24, objectFit: 'contain', cursor: 'pointer' }} src={AddstockBtn} alt="mini-logo" />
-                                </div>
-                            </div>
-                            <div className='d-flex justify-content-between align-items-center mb-2' style={{ backgroundColor: '#F1F4FD', borderRadius: '15px', padding: 10 }}>
-                                <div onClick={handleShow} className='d-flex justify-content-start align-items-center'>
-                                    <div className='me-2 stock-name'>TCS</div>
-                                    <div className='me-2 ltp-text'>LTP</div>
-                                    <div className='me-2 stock-price'>3903</div>
-                                    <div className='me-1 stock-price'>0.5%</div>
-                                    {/* <img style={{ width: 24, objectFit: 'contain' }} src={RedArrow} alt="Red Arrow" /> */}
-                                    <img style={{ width: 24, objectFit: 'contain' }} src={GreenArrow} alt="Green Arrow" />
-                                </div>
-                                <div>
-                                    <img className='me-2' style={{ width: 24, objectFit: 'contain', cursor: 'pointer' }} src={StockMiniLogo} alt="mini-logo" />
-                                    <img style={{ width: 24, objectFit: 'contain', cursor: 'pointer' }} src={AddstockBtn} alt="mini-logo" />
-                                </div>
-                            </div>
-                            <div className='d-flex justify-content-between align-items-center mb-1' style={{ backgroundColor: '#F1F4FD', borderRadius: '15px', padding: 10 }}>
-                                <div onClick={handleShow} className='d-flex justify-content-start align-items-center'>
-                                    <div className='me-2 stock-name'>TCS</div>
-                                    <div className='me-2 ltp-text'>LTP</div>
-                                    <div className='me-2 stock-price'>3903</div>
-                                    <div className='me-1 stock-price'>0.5%</div>
-                                    {/* <img style={{ width: 24, objectFit: 'contain' }} src={RedArrow} alt="Red Arrow" /> */}
-                                    <img style={{ width: 24, objectFit: 'contain' }} src={GreenArrow} alt="Green Arrow" />
-                                </div>
-                                <div>
-                                    <img className='me-2' style={{ width: 24, objectFit: 'contain', cursor: 'pointer' }} src={StockMiniLogo} alt="mini-logo" />
-                                    <img style={{ width: 24, objectFit: 'contain', cursor: 'pointer' }} src={AddstockBtn} alt="mini-logo" />
-                                </div>
+                    {
+                        stockSearchData.length > 0 &&
+                        <div style={{ position: 'relative' }}>
+                            <div className='search-box-menu'>
+                                {
+                                    stockSearchData?.map((stocks, index) => (
+                                        <div className='d-flex justify-content-between align-items-center mb-2' style={{ backgroundColor: '#F1F4FD', borderRadius: '15px', padding: 10 }}>
+                                            <div onClick={handleShow} className='d-flex justify-content-start align-items-center' style={{ cursor: 'pointer' }}>
+                                                <div className='me-2 stock-name'>{trimText(stocks?.name, 15)}</div>
+                                                <div className='me-2 ltp-text'>{stocks?.symbol}</div>
+                                                {/* <div className='me-2 stock-price'>3903</div>
+                                                <div className='me-1 stock-price'>0.5%</div> */}
+                                                {/* <img style={{ width: 24, objectFit: 'contain' }} src={RedArrow} alt="Red Arrow" /> */}
+                                                {/* <img style={{ width: 24, objectFit: 'contain' }} src={GreenArrow} alt="Green Arrow" /> */}
+                                            </div>
+                                            <div className='d-flex justify-content-between align-items-center'>
+                                                <div>
+                                                    <img className='me-2' style={{ width: 24, objectFit: 'contain', cursor: 'pointer' }} src={StockMiniLogo} alt="mini-logo" />
+                                                </div>
+                                                <div>
+                                                    <img onClick={handleShow2} style={{ width: 24, objectFit: 'contain', cursor: 'pointer' }} src={AddstockBtn} alt="mini-logo" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ))
+                                }
+
                             </div>
                         </div>
-                    </div>
+                    }
                     <div className='watchlistText'>Watchlist</div>
                     <Box marginBottom={'20px'} sx={{ maxWidth: { xs: 320, sm: 480 }, bgcolor: 'background.paper' }}>
                         <Tabs
@@ -401,6 +404,56 @@ function LeftBox() {
                 <Modal.Footer>
 
                 </Modal.Footer>
+            </Modal>
+            <Modal show={show2}
+                onHide={handleClose2}
+                size='sm'
+                className='search-modal'
+                scrollable
+            >
+                <Modal.Body>
+                    <div>
+                        <div className='d-flex justify-content-between align-items-center mb-2'>
+                            <div className='watchlist-text'>Watchlist</div>
+                            <div className='d-flex align-items-center' style={{ cursor: 'pointer' }}>
+                                <img src={AddIcon} className='me-1' width={12} style={{ objectFit: 'contain' }} />
+                                <div className='add-text'>add</div>
+                            </div>
+                        </div>
+                        <div className='d-flex justify-content-between align-items-center'>
+                            <div className='blue-box'>
+                                <div className='d-flex align-items-center justify-content-between'>
+                                    <div>
+                                        <input type="text" className="form-control form-control-search-custom" placeholder='Watchlist' />
+                                        <div className='watchlist-text2'>3</div>
+                                    </div>
+                                    <div>
+                                        {/* <img src={EditStock} width={24} style={{ objectFit: 'contain', cursor: 'pointer' }} className='me-1' />
+                                        <img src={DeleteStock} width={24} style={{ objectFit: 'contain', cursor: 'pointer' }} /> */}
+                                        <img src={CancelRed} width={24} style={{ objectFit: 'contain', cursor: 'pointer' }} className='me-1' />
+                                        <img src={RightGreen} width={24} style={{ objectFit: 'contain', cursor: 'pointer' }} />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className='d-flex justify-content-between align-items-center'>
+                            <div className='blue-box'>
+                                <div className='d-flex align-items-center justify-content-between'>
+                                    <div>
+                                        <input type="text" className="form-control form-control-search-custom" placeholder='Watchlist' />
+                                        <div className='watchlist-text2'>3</div>
+                                    </div>
+                                    <div>
+                                        <img src={EditStock} width={24} style={{ objectFit: 'contain', cursor: 'pointer' }} className='me-1' />
+                                        <img src={DeleteStock} width={24} style={{ objectFit: 'contain', cursor: 'pointer' }} />
+                                        {/* <img src={CancelRed} width={24} style={{ objectFit: 'contain', cursor: 'pointer' }} className='me-1' />
+                                        <img src={RightGreen} width={24} style={{ objectFit: 'contain', cursor: 'pointer' }} /> */}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </Modal.Body>
             </Modal>
         </>
     );
