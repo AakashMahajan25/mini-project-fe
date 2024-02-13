@@ -13,7 +13,8 @@ import DeleteStock from '../../assets/images/delete-stock-img.png';
 import AddstockBtn from '../../assets/images/add-stock-btn.png';
 import CancelRed from '../../assets/images/cancel-round-red-icon.png';
 import RightGreen from '../../assets/images/right-green-circle-icon.png';
-import { getStockBySearch, getTickersById, getUserWatchLists } from '../../screens/dashboard/slice';
+import BlueTick from '../../assets/images/charm_tick.png';
+import { addTickertoWatchList, addWatchList, deleteWatchList, editWatchList, getStockBySearch, getTickersById, getUserWatchLists } from '../../screens/dashboard/slice';
 import { useDispatch, useSelector } from 'react-redux';
 import { capitalizeFirstLetter, trimText } from '../../utils/utils';
 import Typography from '@mui/material/Typography';
@@ -28,26 +29,42 @@ import UpGreenArrow from '../../assets/images/up-arrow-outline.png'
 import Slider from 'react-slick'
 import BarChart from '../barChart/BarChart'
 import DiscoverCorrelationGraph from '../graph/DiscoverCorrelationGraph'
-import { useLoading, Oval } from '@agney/react-loading';
+import { useLoading, ThreeDots } from '@agney/react-loading';
 
 function LeftBox() {
     const { containerProps, indicatorEl } = useLoading({
         loading: true,
-        indicator: <Oval width="50" color="blue" />,
+        indicator: <ThreeDots width="50" color="blue" />,
     });
     const [value, setValue] = useState(0);
     const dispatch = useDispatch()
-    const { watchLists, tickers, stockSearchData, } = useSelector(state => state.dashboardSlice);
+    const { watchLists, tickers, stockSearchData, stockSearchLoading } = useSelector(state => state.dashboardSlice);
     const [anchorElNotification, setAnchorElNotification] = useState(null);
     const [show, setShow] = useState(false);
     const [searchParam, setSearchParam] = useState('')
+    const [show2, setShow2] = useState(false);
+    const [editIndex, setEditIndex] = useState(null);
+    const [changedName, setChangedName] = useState('');
+    const [isEdit, setIsEdit] = useState(false)
+    const [addNew, setAddNew] = useState(false);
+    const [addName, setAddName] = useState('');
+    const [selectedId, setSelectedId] = useState('');
+    const [tickerSymbol, setTickerSymbol] = useState('');
+    const [tickerName, setTickerName] = useState('');
 
     const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
 
-    const [show2, setShow2] = useState(false);
     const handleClose2 = () => setShow2(false);
-    const handleShow2 = () => setShow2(true);
+
+    const handleShow = () => {
+        setShow(true);
+    }
+
+    const handleShow2 = (stocks) => {
+        setShow2(true);
+        setTickerSymbol(stocks.symbol);
+        setTickerName(stocks.name);
+    }
 
     const handleChange = (event, newValue) => {
         setValue(newValue)
@@ -84,6 +101,72 @@ function LeftBox() {
     const handleOpenNotificationMenu = (event) => {
         setAnchorElNotification(event.currentTarget);
     };
+
+
+    const handleEdit = (index, name) => {
+        setIsEdit(true)
+        setChangedName(name)
+        setEditIndex(index);
+    }
+
+    const handleDelete = (index, name) => {
+        setEditIndex(index);
+        setChangedName(name)
+    }
+
+    const handleCancel = () => {
+        setIsEdit(false)
+        setChangedName('')
+        setEditIndex(null);
+    }
+
+    const handleOkClick = () => {
+        if (isEdit) {
+            dispatch(editWatchList({ watchlistId: watchLists[editIndex]?.watchlist_id, watchListName: changedName }))
+                .then(res => {
+                    setIsEdit(false)
+                    setChangedName('')
+                    dispatch(getUserWatchLists())
+                    setEditIndex(null);
+                })
+                .catch(error => console.log('error', error))
+        } else {
+            dispatch(deleteWatchList(watchLists[editIndex]?.watchlist_id))
+                .then(res => {
+                    setEditIndex(null);
+                    dispatch(getUserWatchLists())
+                    setChangedName('')
+                })
+                .catch(error => console.log('error', error))
+        }
+    }
+
+    const handleAddNew = () => {
+        dispatch(addWatchList(addName))
+            .then(res => {
+                setChangedName('')
+                setAddNew(false)
+                setAddName('');
+                dispatch(getUserWatchLists())
+                setEditIndex(null);
+            })
+            .catch(error => console.log('error', error))
+    }
+
+    const handleSave = () => {
+        const data = {
+            watchlist_id: selectedId,
+            ticker: tickerSymbol,
+            ticker_name: tickerName
+        }
+        dispatch(addTickertoWatchList(data))
+            .then(res => {
+                setSelectedId('')
+                handleClose2()
+                dispatch(getUserWatchLists());
+
+            })
+    }
 
     const dataForMapping = [
         { text1: '0.00', text2: '0', text3: '0.00' },
@@ -183,9 +266,9 @@ function LeftBox() {
                         </div>
                     </div>
                     {
-                        stockSearchData.length > 0 &&
+                        (searchParam.length > 0 || stockSearchData.length > 0) &&
                         <div style={{ position: 'relative' }}>
-                            <div className='search-box-menu'>
+                            <div className='search-box-menu' style={{ backgroundColor: stockSearchLoading ? '#F1F4FD' : '#fff' }}>
                                 <>
                                     {
                                         stockSearchData?.map((stocks, index) => (
@@ -198,22 +281,26 @@ function LeftBox() {
                                                     {/* <img style={{ width: 24, objectFit: 'contain' }} src={RedArrow} alt="Red Arrow" /> */}
                                                     {/* <img style={{ width: 24, objectFit: 'contain' }} src={GreenArrow} alt="Green Arrow" /> */}
                                                 </div>
+
                                                 <div className='d-flex justify-content-between align-items-center'>
                                                     <div>
                                                         <img className='me-2' style={{ width: 24, objectFit: 'contain', cursor: 'pointer' }} src={StockMiniLogo} alt="mini-logo" />
                                                     </div>
                                                     <div>
-                                                        <img onClick={handleShow2} style={{ width: 24, objectFit: 'contain', cursor: 'pointer' }} src={AddstockBtn} alt="mini-logo" />
+                                                        <img onClick={() => handleShow2(stocks)} style={{ width: 24, objectFit: 'contain', cursor: 'pointer' }} src={AddstockBtn} alt="mini-logo" />
                                                     </div>
                                                 </div>
                                             </div>
                                         ))
                                     }
-                                    <div className='d-flex justify-content-center align-items-center' style={{ height: 300 }}>
-                                        <section {...containerProps}>
-                                            {indicatorEl} {/* renders only while loading */}
-                                        </section>
-                                    </div>
+                                    {
+                                        stockSearchLoading &&
+                                        <div className='d-flex justify-content-center align-items-center' style={{ height: 300 }}>
+                                            <section {...containerProps}>
+                                                {indicatorEl} {/* renders only while loading */}
+                                            </section>
+                                        </div>
+                                    }
                                 </>
 
                             </div>
@@ -427,43 +514,70 @@ function LeftBox() {
                     <div>
                         <div className='d-flex justify-content-between align-items-center mb-2'>
                             <div className='watchlist-text'>Watchlist</div>
-                            <div className='d-flex align-items-center' style={{ cursor: 'pointer' }}>
+                            <div onClick={() => setAddNew(true)} className='d-flex align-items-center' style={{ cursor: 'pointer' }}>
                                 <img src={AddIcon} className='me-1' width={12} style={{ objectFit: 'contain' }} />
                                 <div className='add-text'>add</div>
                             </div>
                         </div>
-                        <div className='d-flex justify-content-between align-items-center'>
-                            <div className='blue-box'>
-                                <div className='d-flex align-items-center justify-content-between'>
-                                    <div>
-                                        <input type="text" className="form-control form-control-search-custom" placeholder='Watchlist' />
-                                        <div className='watchlist-text2'>3</div>
-                                    </div>
-                                    <div>
-                                        {/* <img src={EditStock} width={24} style={{ objectFit: 'contain', cursor: 'pointer' }} className='me-1' />
-                                        <img src={DeleteStock} width={24} style={{ objectFit: 'contain', cursor: 'pointer' }} /> */}
-                                        <img src={CancelRed} width={24} style={{ objectFit: 'contain', cursor: 'pointer' }} className='me-1' />
-                                        <img src={RightGreen} width={24} style={{ objectFit: 'contain', cursor: 'pointer' }} />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className='d-flex justify-content-between align-items-center'>
-                            <div className='blue-box'>
-                                <div className='d-flex align-items-center justify-content-between'>
-                                    <div>
-                                        <input type="text" className="form-control form-control-search-custom" placeholder='Watchlist' />
-                                        <div className='watchlist-text2'>3</div>
-                                    </div>
-                                    <div>
-                                        <img src={EditStock} width={24} style={{ objectFit: 'contain', cursor: 'pointer' }} className='me-1' />
-                                        <img src={DeleteStock} width={24} style={{ objectFit: 'contain', cursor: 'pointer' }} />
-                                        {/* <img src={CancelRed} width={24} style={{ objectFit: 'contain', cursor: 'pointer' }} className='me-1' />
-                                        <img src={RightGreen} width={24} style={{ objectFit: 'contain', cursor: 'pointer' }} /> */}
+                        {
+                            addNew === true &&
+                            <div className='d-flex justify-content-between align-items-center'>
+                                <div className='blue-box'>
+                                    <div className='d-flex align-items-center justify-content-between'>
+                                        <div>
+                                            <input type="text" className="form-control form-control-search-custom" placeholder='Add Wacthlist' value={addName} onChange={event => setAddName(event.target.value)} />
+                                            <div className='watchlist-text2'>{'0'}</div>
+                                        </div>
+                                        <div className='d-flex justify-content-between align-items-center'>
+                                            <div onClick={() => { setAddNew(false); setAddName('') }}>
+                                                <img src={CancelRed} width={24} style={{ objectFit: 'contain', cursor: 'pointer' }} className='me-1' />
+                                            </div>
+                                            <div onClick={handleAddNew}>
+                                                <img src={RightGreen} width={24} style={{ objectFit: 'contain', cursor: 'pointer' }} />
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
+                            </div>}
+                        {
+                            watchLists.length > 0 && watchLists.map((item, index) => (
+                                <div className='d-flex justify-content-between align-items-center' style={{ cursor: "pointer" }}>
+                                    <div className='blue-box' onClick={() => { setSelectedId(item?.watchlist_id); handleSave() }} style={{ border: selectedId === item?.watchlist_id ? '1px solid #4563E4' : null }}>
+                                        <div className='d-flex align-items-center justify-content-between'>
+                                            <div className='d-flex align-items-center'>
+                                                {
+                                                    selectedId === item?.watchlist_id &&
+                                                    <img src={BlueTick} style={{ marginRight: 0, objectFit: 'contain', height: 18, width: 18 }} />
+                                                }
+                                                <div>
+                                                    <input type="text" className="form-control form-control-search-custom" value={editIndex === index ? changedName : item?.watchlist_name} disabled={editIndex === index ? false : true} onChange={event => setChangedName(event.target.value)} />
+                                                    <div className='watchlist-text2'>{item?.stockcount}</div>
+                                                </div>
+                                            </div>
+                                            {
+                                                editIndex === index ?
+                                                    <div className='d-flex justify-content-between align-items-center'>
+                                                        <div onClick={handleCancel}>
+                                                            <img src={CancelRed} width={24} style={{ objectFit: 'contain', cursor: 'pointer' }} className='me-1' />
+                                                        </div>
+                                                        <div onClick={handleOkClick}>
+                                                            <img src={RightGreen} width={24} style={{ objectFit: 'contain', cursor: 'pointer' }} />
+                                                        </div>
+                                                    </div>
+                                                    :
+                                                    <div className='d-flex justify-content-between align-items-center'>
+                                                        <div onClick={() => handleEdit(index, item?.watchlist_name)}>
+                                                            <img src={EditStock} width={24} style={{ objectFit: 'contain', cursor: 'pointer' }} className='me-1' />
+                                                        </div>
+                                                        <div onClick={() => handleDelete(index, item?.watchlist_name)}>
+                                                            <img src={DeleteStock} width={24} style={{ objectFit: 'contain', cursor: 'pointer' }} />
+                                                        </div>
+                                                    </div>}
+                                        </div>
+                                    </div>
+                                </div>
+                            ))
+                        }
                     </div>
                 </Modal.Body>
             </Modal>
