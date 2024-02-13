@@ -21,20 +21,32 @@
             line-height: 22px;
             color: #6F7387;
 
-            &:hover {
-                background-color: #E5EAFF;
-                color: #4563E4;
-            }
+            // &:hover {
+            //     background-color: #E5EAFF;
+            //     color: #4563E4;
+            // }
 
-            &:focus {
-                background-color: #E5EAFF;
-                color: #4563E4;
-            }
+            // &:focus {
+            //     background-color: #E5EAFF;
+            //     color: #4563E4;
+            // }
 
-            &:active {
-                background-color: #E5EAFF;
-                color: #4563E4;
-            }
+            // &:active {
+            //     background-color: #E5EAFF;
+            //     color: #4563E4;
+            // }
+        }
+        .blue-box-active {
+            padding: 11px 16px;
+            background-color: #4563E4;
+            border-radius: 15px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            font-family: 'Roboto', sans-serif;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 22px;
+            color: #E5EAFF;
         }
 
         .history-text {

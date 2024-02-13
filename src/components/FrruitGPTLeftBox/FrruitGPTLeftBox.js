@@ -68,8 +68,8 @@ function FrruitGPTLeftBox(props) {
                     {/* <div className='time-text'>1 Month</div> */}
                     <div>
                         {promptList?.slice().reverse().map((item, index) => (
-                            <Nav.Link key={index} className={selectedChat === item.prompt_id ? 'blue-box selected' : ''} onClick={() => historyClick(item?.prompt_id)}>
-                                <Nav.Link className='blue-box'>{trimText(item?.prompt_text, 40)}</Nav.Link>
+                            <Nav.Link key={index} className={selectedChat === item.prompt_id ? 'blue-box-active' : 'blue-box'} onClick={() => historyClick(item?.prompt_id)}>
+                                <Nav.Link className=''>{trimText(item?.prompt_text, 40)}</Nav.Link>
                             </Nav.Link>
                         ))}
                     </div>
