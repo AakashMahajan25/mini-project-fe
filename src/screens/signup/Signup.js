@@ -6,15 +6,120 @@ import MobileIcon from '../../assets/images/mobile-icon.png';
 import OtpInput from 'react-otp-input';
 import { useNavigate } from 'react-router';
 import MailIcon from '../../assets/images/mail-icon.png';
+import * as yup from 'yup';
+import { Controller, useForm } from 'react-hook-form';
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useDispatch } from 'react-redux';
+import { signupOtp, signupUser, verifyOtp } from './slice';
+import { toast } from 'react-toastify';
 
 function Signup() {
+    let navigate = useNavigate();
+    const dispatch = useDispatch();
     const [showCode, setShowCode] = useState(false)
     const [showCode1, setShowCode1] = useState(false)
     const [otp, setOtp] = useState('');
-    let navigate = useNavigate();
+    const [emailOtp, setEmailOtp] = useState('')
+
+    const signupSchema = yup.object().shape({
+        first_name: yup.string().required("Please enter first name."),
+        last_name: yup.string().required("Please enter last name."),
+        email: yup.string().email('Please enter valid Email Id').required("Please enter Email Id."),
+        phone_number: yup.string().matches(/^\d+$/, 'Please enter proper phone number.').required("Please enter phone number."),
+        country: yup.string().required("Please enter country."),
+        broker: yup.string().required("Please select broker."),
+    })
+
+    const { control, handleSubmit, formState: { errors }, watch } = useForm({
+        resolver: yupResolver(signupSchema)
+    })
+
+    const allValues  = watch()
+
     const routeChangeLogin = () => {
         let path = `/login`;
         navigate(path);
+    }
+
+    const useDifferentClick = () => {
+        setShowCode(false); 
+        setShowCode1(false);
+        setOtp('');
+        setEmailOtp('');
+    }
+
+    const onSubmit = (data) => {
+        // dispatch(signupOtp({ email: data.email, mobile: data?.phone_number }))
+        // .unwrap()
+        // .then((res) => {
+            setShowCode(true)
+        // })
+        // .catch((error) => {
+        //     console.log('error', JSON.stringify(error, null, 2))
+        // })
+    }
+
+    const verifyMobileOtp = () => {
+        const regex = /^[0-9]{0,6}$/; // Regular expression to match 6 digits
+        if (!regex.test(otp) || otp?.length < 6) {
+            toast.error("Please enter valid otp")
+            return;
+        }
+
+        // const data = {
+        //     otp,
+        //     type: 'mobile',
+        //     email: allValues?.email,
+        //     mobile: allValues?.phone_number,
+        // }
+        // dispatch(verifyOtp(data))
+        //     .unwrap()
+        //     .then((res) => {
+                setShowCode1(true)
+            // })
+            // .catch((error) => {
+            //     console.log('error', JSON.stringify(error, null, 2))
+            //     toast.error(error.message)
+            // })
+    }
+
+    const verifyEmailId = () => {
+        const regex = /^[0-9]{0,6}$/; // Regular expression to match 6 digits
+        if (!regex.test(emailOtp) || emailOtp?.length < 6) {
+            toast.error("Please enter valid otp")
+            return;
+        }
+
+        // const data = {
+        //     otp,
+        //     type: 'email',
+        //     email: allValues?.email,
+        //     mobile: allValues?.phone_number,
+        // }
+        // dispatch(verifyOtp(data))
+        //     .unwrap()
+        //     .then((res) => {
+        //         dispatch(signupUser(allValues))
+        //             .unwrap()
+        //             .then(async (res) => {
+        //                 // dispatch(setUserName(`${res?.data?.first_name} ${res?.data?.last_name}`))
+        //                 // await storageSetUserName(`${res?.data?.first_name} ${res?.data?.last_name}`)
+        //                 // await setToken(res.data.token)
+        //                 // navigation.navigate(Routes.PlanListScreen.name)
+                        // localStorage.setItem('token', res.data.token)
+                        localStorage.setItem('token', "ahdchjjjjjjjjjjjjjjjjjjjjjjjjjjjc")
+                        let path = `/topics`;
+                        navigate(path); 
+        //                 toast.success(res.message)
+        //             })
+        //             .catch((error) => {
+        //                 console.log('error', JSON.stringify(error, null, 2))
+        //                 toast.error(error.message)
+        //             })
+        //     })
+        //     .catch((error) => {
+        //         toast.error(error.message)
+        //     })
     }
 
     return (
@@ -27,140 +132,230 @@ function Signup() {
                 </div>
                 <div className={showCode ? 'col-xl-7 login-form1' : 'col-xl-7 signup-form'} style={{ height: '100%' }}>
                     <p className='loginText text-center m-0 '>Signup</p>
-                    <div className="form-outline mt-4">
-                        {!showCode && !showCode1 &&
-                            <>
-                                <label className='form-control-label'>First Name</label>
-                                <div className='w-100 mb-3'>
-                                    <input type="text" className="form-control form-control-input" style={{ textIndent: 0 }} placeholder='Yaksh'></input>
-                                </div>
-                                <label className='form-control-label'>Last Name</label>
-                                <div className='w-100 mb-3'>
-                                    <input type="text" className="form-control form-control-input" style={{ textIndent: 0 }} placeholder='Rathod'></input>
-                                </div>
-                                <div className="position-relative" style={{ width: '100%', marginBottom: 20 }}>
-                                    <label className='form-control-label'>E-mail</label>
-                                    <input type="text" className="form-control form-control-input" placeholder='yaksh@airrchip.com'></input>
-                                    <div className="position-absolute" style={{ left: 15, top: '53%' }}>
-                                        <img src={MailIcon} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} alt="Search Icon" />
+                    <form onSubmit={handleSubmit(onSubmit)}>
+                        <div className="form-outline mt-4">
+                            {!showCode && !showCode1 &&
+                                <>
+                                    <label className='form-control-label'>First Name</label>
+                                    <div className='w-100 mb-3'>
+                                        <Controller
+                                            control={control}
+                                            name="first_name"
+                                            render={({ field }) => (
+                                                <input
+                                                    type="text"
+                                                    className="form-control form-control-input"
+                                                    placeholder='Enter First Name'
+                                                    style={{ color: 'black', textIndent: 0 }}
+                                                    {...field}
+                                                />
+                                            )}
+                                        />
+                                        {
+                                            errors?.first_name && <p>{errors?.first_name?.message}</p>
+                                        }
                                     </div>
-                                </div>
-                                <div className="position-relative" style={{ width: '100%', marginBottom: 20 }}>
-                                    <label className='form-control-label'>Phone Number</label>
+                                    <label className='form-control-label'>Last Name</label>
+                                    <div className='w-100 mb-3'>
+                                        <Controller
+                                            control={control}
+                                            name="last_name"
+                                            render={({ field }) => (
+                                                <input
+                                                    type="text"
+                                                    className="form-control form-control-input"
+                                                    placeholder='Enter Last Name'
+                                                    style={{ color: 'black', textIndent: 0 }}
+                                                    {...field}
+                                                />
+                                            )}
+                                        />
+                                    </div>
+                                    <div className="position-relative" style={{ width: '100%', marginBottom: 20 }}>
+                                        <label className='form-control-label'>E-mail</label>
+                                        <Controller
+                                            control={control}
+                                            name="email"
+                                            render={({ field }) => (
+                                                <input
+                                                    type="text"
+                                                    className="form-control form-control-input"
+                                                    placeholder='Enter Email'
+                                                    style={{ color: 'black' }}
+                                                    {...field}
+                                                />
+                                            )}
+                                        />
+                                        <div className="position-absolute" style={{ left: 15, top: '53%' }}>
+                                            <img src={MailIcon} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} alt="Search Icon" />
+                                        </div>
+                                    </div>
+                                    <div className="position-relative" style={{ width: '100%', marginBottom: 20 }}>
+                                        <label className='form-control-label'>Phone Number</label>
+                                        <div className='d-flex justify-content-between align-items-center'>
+                                            <input
+                                                type="text"
+                                                className="form-control form-control-input me-3"
+                                                placeholder='+91'
+                                                style={{ width: '12%', textIndent: 13, color: 'black' }}
+                                                defaultValue="+91"
+                                                disabled
+                                            />
+                                            <div className="position-relative" style={{ width: '100%' }}>
+                                                <Controller
+                                                    control={control}
+                                                    name="phone_number"
+                                                    render={({ field }) => (
+                                                        <input
+                                                            type="text"
+                                                            className="form-control form-control-input"
+                                                            placeholder='Enter Phone Number'
+                                                            style={{ color: 'black' }}
+                                                            {...field}
+                                                        />
+                                                    )}
+                                                />
+                                                <div className="position-absolute" style={{ left: 15, top: '24%' }}>
+                                                    <img src={MobileIcon} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <label className='form-control-label'>Country</label>
+                                    <div className='w-100 mb-3'>
+                                        <Controller
+                                            control={control}
+                                            name="country"
+                                            render={({ field }) => (
+                                                <input
+                                                    type="text"
+                                                    className="form-control form-control-input"
+                                                    placeholder='Enter Country'
+                                                    style={{ color: 'black', textIndent: 0 }}
+                                                    {...field}
+                                                />
+                                            )}
+                                        />
+                                    </div>
+                                    <div className="form-group">
+                                        <label className="form-control-label" htmlFor="exampleInputEmail1">Select My Broker</label>
+                                        <Controller
+                                            name="broker"
+                                            control={control}
+                                            defaultValue=""
+                                            rules={{ required: 'Please select your broker' }}
+                                            render={({ field }) => (
+                                                <select
+                                                    {...field}
+                                                    id="statusDropdown"
+                                                    className="form-control form-select form-control-input"
+                                                    style={{ textIndent: 13, fontSize: 14 }}
+                                                >
+                                                    <option value="" disabled>Select</option>
+                                                    <option>I am new to Investement</option>
+                                                    <option>Zerodha </option>
+                                                    <option>Upstox</option>
+                                                    <option>Groww</option>
+                                                    <option>Angel one</option>
+                                                    <option>Kotak Securities</option>
+                                                    <option>HDFC Securities</option>
+                                                    <option>5 Paisa</option>
+                                                    <option>Motilal Oswal Financial Services</option>
+                                                </select>
+                                            )}
+                                        />
+                                    </div>
+                                </>
+                            }
+                            {showCode && !showCode1 &&
+                                <>
+                                    <div>
+                                        <p className='p-0 mt-5' style={{ fontWeight: 600, color: '#171E42' }}>Mobile number Verification</p>
+                                        <p className='p-0 m-0 privacyText'>Lorem Ipsum is simply dummy text of the printing and typesetting industry</p>
+                                    </div>
+                                    <label className='form-control-label mt-3'>Phone Number</label>
                                     <div className='d-flex justify-content-between align-items-center'>
+                                        <input type="text" className="form-control form-control-input me-3 phone-number" placeholder='+91' defaultValue={"+91"} disabled></input>
                                         <div className="position-relative" style={{ width: '100%' }}>
-                                            <input type="text" className="form-control form-control-input" placeholder='0000000000'></input>
-                                            <div className="position-absolute" style={{ left: 15, top: '24%' }}>
+                                            <input type="text" className="form-control form-control-input" placeholder='99999 99999' defaultValue={allValues?.phone_number} disabled></input>
+
+                                            <div className="position-absolute" style={{ left: 18, top: '23%' }}>
                                                 <img src={MobileIcon} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} />
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div className="form-group">
-                                    <label className="form-control-label" htmlFor="exampleInputEmail1">Select My Broker</label>
-                                    <select id="statusDropdown" className="form-control form-select form-control-input" style={{ textIndent: 13, fontSize: 14 }} >
-                                        <option selected disabled value="">Select</option>
-                                        <option>I am new to Investement</option>
-                                        <option>Zerodha </option>
-                                        <option>Upstox</option>
-                                        <option>Groww</option>
-                                        <option>Angel one</option>
-                                        <option>Kotak Securities</option>
-                                        <option>HDFC Securities</option>
-                                        <option>5 Paisa</option>
-                                        <option>Motilal Oswal Financial Services</option>
-                                    </select>
-                                </div>
-                            </>
-                        }
-                        {showCode && !showCode1 &&
-                            <>
-                                <div>
-                                    <p className='p-0 mt-5' style={{ fontWeight: 600, color: '#171E42' }}>Mobile number Verification</p>
-                                    <p className='p-0 m-0 privacyText'>Lorem Ipsum is simply dummy text of the printing and typesetting industry</p>
-                                </div>
-                                <label className='form-control-label mt-3'>Phone Number</label>
-                                <div className='d-flex justify-content-between align-items-center'>
-                                    <input type="text" className="form-control form-control-input me-3 phone-number" placeholder='+91'></input>
-                                    <div className="position-relative" style={{ width: '100%' }}>
-                                        <input type="text" className="form-control form-control-input" placeholder='99999 99999'></input>
+                                    <a style={{ fontSize: 15, textDecoration: 'underline', color: 'blue' }} onClick={useDifferentClick}>Use a different Number</a>
 
-                                        <div className="position-absolute" style={{ left: 18, top: '23%' }}>
-                                            <img src={MobileIcon} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} />
+                                    <div className="form-outline verification">
+                                        <label className="form-label my-2">Type your 6 digit security code</label>
+                                        <div className='d-flex'>
+                                            <OtpInput
+                                                value={otp}
+                                                onChange={setOtp}
+                                                numInputs={6}
+                                                renderInput={(props) => <input {...props} style={{
+                                                    width: 56.68,
+                                                    outline: 'none',
+                                                }} className='verificationBox text-center me-2' />}
+                                            />
                                         </div>
                                     </div>
-                                </div>
-                                <a href='' style={{ fontSize: 15 }}>Use a different Number</a>
-
-                                <div className="form-outline verification">
-                                    <label className="form-label my-2">Type your 6 digit security code</label>
-                                    <div className='d-flex'>
-                                        <OtpInput
-                                            value={otp}
-                                            onChange={setOtp}
-                                            numInputs={6}
-                                            renderInput={(props) => <input {...props} style={{
-                                                width: 56.68,
-                                                outline: 'none',
-                                            }} className='verificationBox text-center me-2' />}
-                                        />
+                                    <p className='privacyText mt-0' style={{ fontSize: 15 }}>Didn't get the code? <a style={{ fontSize: 15, textDecoration: 'underline', color: 'blue' }} >Resend</a></p>
+                                    <div className='d-flex justify-content-center align-items-center'>
+                                        <button onClick={verifyMobileOtp} className='btnPrimary mt-5'>Verify</button>
                                     </div>
-                                </div>
-                                <p className='privacyText mt-0' style={{ fontSize: 15 }}>Didn't get the code? <a href=''>Resend</a></p>
-                                <div className='d-flex justify-content-center align-items-center'>
-                                    <button onClick={() => setShowCode1(true)} className='btnPrimary mt-5'>Verify</button>
-                                </div>
-                            </>
-                        }
-                        {showCode && showCode1 &&
-                            <>
-                                <div>
-                                    <p className='p-0 mt-5' style={{ fontWeight: 600, color: '#171E42' }}>Email Verification</p>
-                                    <p className='p-0 m-0 mb-3 privacyText'>Lorem Ipsum is simply dummy text of the printing and typesetting industry</p>
-                                </div>
-                                <div className="position-relative" style={{ width: '100%' }}>
-                                    <label className='form-control-label mb-1'>E-mail</label>
-                                    <input type="text" className="form-control form-control-input" placeholder='yaksh@airrchip.com'></input>
-                                    <div className="position-absolute" style={{ left: 15, top: '50%' }}>
-                                        <img src={MailIcon} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} alt="Search Icon" />
+                                </>
+                            }
+                            {showCode && showCode1 &&
+                                <>
+                                    <div>
+                                        <p className='p-0 mt-5' style={{ fontWeight: 600, color: '#171E42' }}>Email Verification</p>
+                                        <p className='p-0 m-0 mb-3 privacyText'>Lorem Ipsum is simply dummy text of the printing and typesetting industry</p>
                                     </div>
-                                </div>
-                                <a href='' style={{ fontSize: 15 }}>Use a different e-mail</a>
-
-                                <div className="form-outline verification">
-                                    <label className="form-label my-2">Type your 6 digit security code</label>
-                                    <div className='d-flex'>
-                                        <OtpInput
-                                            value={otp}
-                                            onChange={setOtp}
-                                            numInputs={6}
-                                            renderInput={(props) => <input {...props} style={{
-                                                width: 56.68,
-                                                outline: 'none',
-                                            }} className='verificationBox text-center me-2' />}
-                                        />
+                                    <div className="position-relative" style={{ width: '100%' }}>
+                                        <label className='form-control-label mb-1'>E-mail</label>
+                                        <input type="text" className="form-control form-control-input" placeholder='yaksh@airrchip.com' defaultValue={allValues?.email} disabled></input>
+                                        <div className="position-absolute" style={{ left: 15, top: '50%' }}>
+                                            <img src={MailIcon} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} alt="Search Icon" />
+                                        </div>
                                     </div>
-                                </div>
-                                <p className='privacyText mt-0' style={{ fontSize: 15 }}>Didn't get the code? <a href=''>Resend</a></p>
-                                <div className='d-flex justify-content-center align-items-center'>
-                                    <button className='btnPrimary mt-5'>Verify and Signup</button>
-                                </div>
-                            </>
-                        }
+                                    <a style={{ fontSize: 15, textDecoration: 'underline', color: 'blue' }} onClick={useDifferentClick}>Use a different e-mail</a>
 
-                        {!showCode && !showCode1 &&
-                            <>
-                                <div className='d-flex justify-content-center align-items-center'>
-                                    <button onClick={() => setShowCode(true)} className='btnPrimary mt-4'>Proceed and Verify</button>
-                                </div>
-                                <div className='d-flex justify-content-center align-items-center'>
-                                    <button onClick={routeChangeLogin} className='btnSecondary mt-3'>Login Using Phone Number</button>
-                                </div>
-                            </>
-                        }
-                        <p className='privacyText text-center'>By signing up, you accept our <a style={{ textDecoration: 'none' }} href=''> Terms and Conditions</a></p>
-                        <p className='privacyText text-center mt-0'>See our <a style={{ textDecoration: 'none' }} href=''> Privacy Policy</a></p>
-                    </div>
+                                    <div className="form-outline verification">
+                                        <label className="form-label my-2">Type your 6 digit security code</label>
+                                        <div className='d-flex'>
+                                            <OtpInput
+                                                value={emailOtp}
+                                                onChange={setEmailOtp}
+                                                numInputs={6}
+                                                renderInput={(props) => <input {...props} style={{
+                                                    width: 56.68,
+                                                    outline: 'none',
+                                                }} className='verificationBox text-center me-2' />}
+                                            />
+                                        </div>
+                                    </div>
+                                    <p className='privacyText mt-0' style={{ fontSize: 15 }}>Didn't get the code? <a style={{ fontSize: 15, textDecoration: 'underline', color: 'blue' }}>Resend</a></p>
+                                    <div className='d-flex justify-content-center align-items-center'>
+                                        <button className='btnPrimary mt-5' onClick={verifyEmailId}>Verify and Signup</button>
+                                    </div>
+                                </>
+                            }
+
+                            {!showCode && !showCode1 &&
+                                <>
+                                    <div className='d-flex justify-content-center align-items-center'>
+                                        <button type='submit' className='btnPrimary mt-4'>Proceed and Verify</button>
+                                    </div>
+                                    <div className='d-flex justify-content-center align-items-center'>
+                                        <button onClick={routeChangeLogin} className='btnSecondary mt-3'>Login Using Phone Number</button>
+                                    </div>
+                                </>
+                            }
+                            <p className='privacyText text-center'>By signing up, you accept our <a style={{ textDecoration: 'none', color: 'blue' }} > Terms and Conditions</a></p>
+                            <p className='privacyText text-center mt-0'>See our <a style={{ textDecoration: 'none', color: 'blue' }} > Privacy Policy</a></p>
+                        </div>
+                    </form>
                 </div>
             </div>
         </section>

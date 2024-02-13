@@ -96,8 +96,8 @@ function Profile() {
                                         </div>
                                         <div className='light-blue-box' style={{ width: 'fit-content', marginBottom: 28 }}>
                                             <div className='d-flex justify-content-start align-items-center'>
-                                                <div className='text-3'>{parseFloat(userCredits?.totalCredits - userCredits?.usedCredits).toFixed(2)}</div>
-                                                <div className='text-4 mt-1'>/{parseFloat(userCredits?.totalCredits).toFixed(2)}</div>
+                                                <div className='text-3'>{userCredits ? parseFloat(userCredits?.totalCredits - userCredits?.usedCredits).toFixed(2) : '00'}</div>
+                                                <div className='text-4 mt-1'>/{userCredits ? parseFloat(userCredits?.totalCredits).toFixed(2) : '00'}</div>
                                             </div>
                                         </div>
                                         <div className='text-2'>1 Credit = 1000 Tokens</div>

@@ -33,8 +33,8 @@ function TopBar() {
       <div className='web-nav'>
         <div className='top-nav-bar' style={{ width: window.innerWidth }}>
           <div className='content-nav d-flex align-items-center justify-content-between' style={{ width: window.innerWidth }}>
-            <a href='/dashboard'>
-              <img className="logo" style={{ width: 155 }} src={FrruitLogo} alt="" />
+            <a onClick={routeChangeDashboard}>
+            <img className="logo" style={{ width: 155 }} src={FrruitLogo} alt="" />
             </a>
             <div className='d-flex align-items-center justify-content-between'>
               <div className={location.pathname === '/dashboard' ? 'web-nav-text-active me-5' : 'web-nav-text me-5'} onClick={routeChangeDashboard}>Dashboard</div>

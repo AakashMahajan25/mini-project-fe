@@ -9,7 +9,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   const location = useLocation();
-  const isExcludedPage = ['/login', '/signUp', '/'].includes(location.pathname);
+  const isExcludedPage = ['/login', '/signUp', '/', '/topics', '/market'].includes(location.pathname);
   const marginTopStyle = isExcludedPage ? { marginTop: 0 } : { marginTop: 130 };
 
   return (
