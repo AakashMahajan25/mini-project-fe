@@ -27,12 +27,10 @@ import DiscoverCorrelationGraph from '../graph/DiscoverCorrelationGraph'
 function LeftBox() {
     const [value, setValue] = useState(0);
     const dispatch = useDispatch()
-    const { watchLists, tickers, searchStocks, } = useSelector(state => state.dashboardSlice);
+    const { watchLists, tickers, stockSearchData, } = useSelector(state => state.dashboardSlice);
     const [anchorElNotification, setAnchorElNotification] = useState(null);
     const [show, setShow] = useState(false);
     const [searchParam, setSearchParam] = useState('')
-
-    console.log('searchStocks', searchStocks)
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -170,20 +168,20 @@ function LeftBox() {
                             <img src={SearchIcon} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} alt="Search Icon" />
                         </div>
                     </div>
-                    {
-                        searchParam.length > 0 &&
+                        {
+                        stockSearchData.length > 0 &&
                         <div style={{ position: 'relative' }}>
                             <div className='search-box-menu'>
                                 {
-                                    [1, 2, 3, 4].map(() => (
+                                    stockSearchData?.map((stocks,index) => (
                                         <div className='d-flex justify-content-between align-items-center mb-2' style={{ backgroundColor: '#F1F4FD', borderRadius: '15px', padding: 10 }}>
                                             <div onClick={handleShow} className='d-flex justify-content-start align-items-center' style={{ cursor: 'pointer' }}>
-                                                <div className='me-2 stock-name'>TCS</div>
-                                                <div className='me-2 ltp-text'>LTP</div>
-                                                <div className='me-2 stock-price'>3903</div>
-                                                <div className='me-1 stock-price'>0.5%</div>
+                                                <div className='me-2 stock-name'>{trimText(stocks?.name,15)}</div>
+                                                <div className='me-2 ltp-text'>{stocks?.symbol}</div>
+                                                {/* <div className='me-2 stock-price'>3903</div>
+                                                <div className='me-1 stock-price'>0.5%</div> */}
                                                 {/* <img style={{ width: 24, objectFit: 'contain' }} src={RedArrow} alt="Red Arrow" /> */}
-                                                <img style={{ width: 24, objectFit: 'contain' }} src={GreenArrow} alt="Green Arrow" />
+                                                {/* <img style={{ width: 24, objectFit: 'contain' }} src={GreenArrow} alt="Green Arrow" /> */}
                                             </div>
                                             <div className='d-flex justify-content-between align-items-center'>
                                                 <div>
