@@ -5,6 +5,8 @@ import Login from "../screens/login/Login";
 import Profile from "../screens/profile/Profile";
 import Signup from "../screens/signup/Signup";
 import PrivateRoute from "./privateRoute";
+import Topics from "../screens/selectPreferences/SelectPreferences";
+import Market from "../screens/makeSelection/MakeSelection"
 
 export const loginRoutes = [
     {
@@ -41,5 +43,15 @@ export const loginRoutes = [
         path: "/profile",
         exact: true,
         element: <PrivateRoute component={Profile} />,
+    },
+    {
+        path: "/topics",
+        exact: true,
+        element: <PrivateRoute component={Topics} />,
+    },
+    {
+        path: "/market",
+        exact: true,
+        element: <PrivateRoute component={Market} />,
     },
 ]

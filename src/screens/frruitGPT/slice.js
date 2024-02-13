@@ -108,7 +108,7 @@ export const triggerFrruitGpt = createAsyncThunk("fruitGpt/triggerFrruitGpt", as
         if (!error.response?.data.status) {
             toast.error(error?.response?.data?.message)
         }
-        throw error.response;
+        throw error.response.data;
     }
 });
 

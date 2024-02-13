@@ -38,7 +38,7 @@ function FrruitGPT() {
     }, [state?.question])
 
     useEffect(() => {
-        scrollToBottom()
+        scrollToBottom();
     }, [chatHistory])
     
 
@@ -108,8 +108,6 @@ function FrruitGPT() {
             type: "text"
         }]))
 
-        scrollToBottom();
-
         dispatch(triggerFrruitGpt(requestData))
             .unwrap()
             .then(res => {
@@ -152,7 +150,6 @@ function FrruitGPT() {
                     <ChatGpt
                         containerRef={gptRef}
                     />
-                    {/* <Loader2 /> */}
                     <PromptsLibrary
                         handlePromptClick={handlePromptClick}
                     />
