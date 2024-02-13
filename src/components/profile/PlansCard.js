@@ -27,9 +27,9 @@ function PlansCard({ features }) {
                             <div className='checkPara'>{feature}</div>
                         </div>
                     ))}
-                    <div>
-                        <button>Upgrade</button>
-                    </div>
+                   
+                        <button style={{ position: 'absolute', bottom: 18,right:'25%',width:'50%' }} className='White-btn'>Upgrade</button>
+                    
                 </div>
             </div>
         </>
