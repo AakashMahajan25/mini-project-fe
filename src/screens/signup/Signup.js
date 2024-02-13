@@ -34,7 +34,7 @@ function Signup() {
         resolver: yupResolver(signupSchema)
     })
 
-    const allValues  = watch()
+    const allValues = watch()
 
     const routeChangeLogin = () => {
         let path = `/login`;
@@ -42,21 +42,21 @@ function Signup() {
     }
 
     const useDifferentClick = () => {
-        setShowCode(false); 
+        setShowCode(false);
         setShowCode1(false);
         setOtp('');
         setEmailOtp('');
     }
 
     const onSubmit = (data) => {
-        // dispatch(signupOtp({ email: data.email, mobile: data?.phone_number }))
-        // .unwrap()
-        // .then((res) => {
-            setShowCode(true)
-        // })
-        // .catch((error) => {
-        //     console.log('error', JSON.stringify(error, null, 2))
-        // })
+        dispatch(signupOtp({ email: data.email, mobile: "+91"+data?.phone_number }))
+            .unwrap()
+            .then((res) => {
+                setShowCode(true)
+            })
+            .catch((error) => {
+                console.log('error', JSON.stringify(error, null, 2))
+            })
     }
 
     const verifyMobileOtp = () => {
@@ -66,21 +66,21 @@ function Signup() {
             return;
         }
 
-        // const data = {
-        //     otp,
-        //     type: 'mobile',
-        //     email: allValues?.email,
-        //     mobile: allValues?.phone_number,
-        // }
-        // dispatch(verifyOtp(data))
-        //     .unwrap()
-        //     .then((res) => {
+        const data = {
+            otp,
+            type: 'mobile',
+            email: allValues?.email,
+            mobile: "+91"+allValues?.phone_number,
+        }
+        dispatch(verifyOtp(data))
+            .unwrap()
+            .then((res) => {
                 setShowCode1(true)
-            // })
-            // .catch((error) => {
-            //     console.log('error', JSON.stringify(error, null, 2))
-            //     toast.error(error.message)
-            // })
+            })
+            .catch((error) => {
+                console.log('error', JSON.stringify(error, null, 2))
+                toast.error(error.message)
+            })
     }
 
     const verifyEmailId = () => {
@@ -90,42 +90,37 @@ function Signup() {
             return;
         }
 
-        // const data = {
-        //     otp,
-        //     type: 'email',
-        //     email: allValues?.email,
-        //     mobile: allValues?.phone_number,
-        // }
-        // dispatch(verifyOtp(data))
-        //     .unwrap()
-        //     .then((res) => {
-        //         dispatch(signupUser(allValues))
-        //             .unwrap()
-        //             .then(async (res) => {
-        //                 // dispatch(setUserName(`${res?.data?.first_name} ${res?.data?.last_name}`))
-        //                 // await storageSetUserName(`${res?.data?.first_name} ${res?.data?.last_name}`)
-        //                 // await setToken(res.data.token)
-        //                 // navigation.navigate(Routes.PlanListScreen.name)
-                        // localStorage.setItem('token', res.data.token)
-                        localStorage.setItem('token', "ahdchjjjjjjjjjjjjjjjjjjjjjjjjjjjc")
+        const data = {
+            otp: emailOtp,
+            type: 'email',
+            email: allValues?.email,
+            mobile: "+91"+allValues?.phone_number,
+        }
+        dispatch(verifyOtp(data))
+            .unwrap()
+            .then((res) => {
+                dispatch(signupUser({...allValues, phone_number: "+91"+allValues?.phone_number}))
+                    .unwrap()
+                    .then(async (res) => {
+                        localStorage.setItem('token', res.data.token)
                         let path = `/topics`;
-                        navigate(path); 
-        //                 toast.success(res.message)
-        //             })
-        //             .catch((error) => {
-        //                 console.log('error', JSON.stringify(error, null, 2))
-        //                 toast.error(error.message)
-        //             })
-        //     })
-        //     .catch((error) => {
-        //         toast.error(error.message)
-        //     })
+                        navigate(path);
+                        toast.success(res.message)
+                    })
+                    .catch((error) => {
+                        console.log('error', JSON.stringify(error, null, 2))
+                        toast.error(error.message)
+                    })
+            })
+            .catch((error) => {
+                toast.error(error.message)
+            })
     }
 
     return (
         <section className='login signup-css' style={{ overflow: 'hidden' }}>
-            <div style={{ overflow: 'hidden' }} className={`row justify-content-center align-items-center login-page ${window.innerWidth < 500 ? '' : ''}`} >
-                <div className='col-xl-5' style={{ overflow: 'hidden' }}>
+            <div className={`row justify-content-center align-items-center login-page`} >
+                <div className='col-xl-5'>
                     <div className='d-flex justify-content-center align-items-center imagecontainer'>
                         <img src={LoginImg} style={{ objectFit: 'contain', width: '100%', height: window.innerHeight / 2.5 }} />
                     </div>
@@ -144,7 +139,7 @@ function Signup() {
                                             render={({ field }) => (
                                                 <input
                                                     type="text"
-                                                    className="form-control form-control-input"
+                                                    className={errors?.first_name ? "form-control form-control-input error-feild" : "form-control form-control-input"}
                                                     placeholder='Enter First Name'
                                                     style={{ color: 'black', textIndent: 0 }}
                                                     {...field}
@@ -152,7 +147,7 @@ function Signup() {
                                             )}
                                         />
                                         {
-                                            errors?.first_name && <p>{errors?.first_name?.message}</p>
+                                            errors?.first_name && <p className='errorText'>{errors?.first_name?.message}</p>
                                         }
                                     </div>
                                     <label className='form-control-label'>Last Name</label>
@@ -163,13 +158,16 @@ function Signup() {
                                             render={({ field }) => (
                                                 <input
                                                     type="text"
-                                                    className="form-control form-control-input"
+                                                    className={errors?.last_name ? "form-control form-control-input error-feild" : "form-control form-control-input"}
                                                     placeholder='Enter Last Name'
                                                     style={{ color: 'black', textIndent: 0 }}
                                                     {...field}
                                                 />
                                             )}
                                         />
+                                        {
+                                            errors?.last_name && <p className='errorText'>{errors?.last_name?.message}</p>
+                                        }
                                     </div>
                                     <div className="position-relative" style={{ width: '100%', marginBottom: 20 }}>
                                         <label className='form-control-label'>E-mail</label>
@@ -179,16 +177,22 @@ function Signup() {
                                             render={({ field }) => (
                                                 <input
                                                     type="text"
-                                                    className="form-control form-control-input"
+                                                    className={errors?.email ? "form-control form-control-input error-feild" : "form-control form-control-input"}
                                                     placeholder='Enter Email'
                                                     style={{ color: 'black' }}
                                                     {...field}
                                                 />
                                             )}
                                         />
-                                        <div className="position-absolute" style={{ left: 15, top: '53%' }}>
-                                            <img src={MailIcon} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} alt="Search Icon" />
+                                        {
+                                            errors?.email && <p className='errorText'>{errors?.email?.message}</p>
+                                        }
+                                        <div className={errors?.email ? "email-error-img" : "email-img"}>
+                                            <img src={MailIcon} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} />
                                         </div>
+                                        {/* <div className="position-absolute" style={{ left: 15, top: '53%' }}>
+                                            <img src={MailIcon} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} alt="Search Icon" />
+                                        </div> */}
                                     </div>
                                     <div className="position-relative" style={{ width: '100%', marginBottom: 20 }}>
                                         <label className='form-control-label'>Phone Number</label>
@@ -197,7 +201,7 @@ function Signup() {
                                                 type="text"
                                                 className="form-control form-control-input me-3"
                                                 placeholder='+91'
-                                                style={{ width: '12%', textIndent: 13, color: 'black' }}
+                                                style={{ width: '12%', textIndent: 7, color: 'black' }}
                                                 defaultValue="+91"
                                                 disabled
                                             />
@@ -208,7 +212,7 @@ function Signup() {
                                                     render={({ field }) => (
                                                         <input
                                                             type="text"
-                                                            className="form-control form-control-input"
+                                                            className={errors?.phone_number ? "form-control form-control-input error-feild" : "form-control form-control-input"}
                                                             placeholder='Enter Phone Number'
                                                             style={{ color: 'black' }}
                                                             {...field}
@@ -220,6 +224,9 @@ function Signup() {
                                                 </div>
                                             </div>
                                         </div>
+                                        {
+                                            errors?.phone_number && <p className='errorText'>{errors?.phone_number?.message}</p>
+                                        }
                                     </div>
                                     <label className='form-control-label'>Country</label>
                                     <div className='w-100 mb-3'>
@@ -229,13 +236,16 @@ function Signup() {
                                             render={({ field }) => (
                                                 <input
                                                     type="text"
-                                                    className="form-control form-control-input"
+                                                    className={errors?.country ? "form-control form-control-input error-feild" : "form-control form-control-input"}
                                                     placeholder='Enter Country'
                                                     style={{ color: 'black', textIndent: 0 }}
                                                     {...field}
                                                 />
                                             )}
                                         />
+                                        {
+                                            errors?.country && <p className='errorText'>{errors?.country?.message}</p>
+                                        }
                                     </div>
                                     <div className="form-group">
                                         <label className="form-control-label" htmlFor="exampleInputEmail1">Select My Broker</label>
@@ -248,7 +258,7 @@ function Signup() {
                                                 <select
                                                     {...field}
                                                     id="statusDropdown"
-                                                    className="form-control form-select form-control-input"
+                                                    className={errors?.broker ? "form-control form-control-input error-feild" : "form-control form-control-input"}
                                                     style={{ textIndent: 13, fontSize: 14 }}
                                                 >
                                                     <option value="" disabled>Select</option>
@@ -264,6 +274,9 @@ function Signup() {
                                                 </select>
                                             )}
                                         />
+                                        {
+                                            errors?.broker && <p className='errorText'>{errors?.broker?.message}</p>
+                                        }
                                     </div>
                                 </>
                             }
@@ -302,7 +315,7 @@ function Signup() {
                                     </div>
                                     <p className='privacyText mt-0' style={{ fontSize: 15 }}>Didn't get the code? <a style={{ fontSize: 15, textDecoration: 'underline', color: 'blue' }} >Resend</a></p>
                                     <div className='d-flex justify-content-center align-items-center'>
-                                        <button onClick={verifyMobileOtp} className='btnPrimary mt-5'>Verify</button>
+                                        <button type='button' onClick={verifyMobileOtp} className='btnPrimary mt-5'>Verify</button>
                                     </div>
                                 </>
                             }
@@ -337,7 +350,7 @@ function Signup() {
                                     </div>
                                     <p className='privacyText mt-0' style={{ fontSize: 15 }}>Didn't get the code? <a style={{ fontSize: 15, textDecoration: 'underline', color: 'blue' }}>Resend</a></p>
                                     <div className='d-flex justify-content-center align-items-center'>
-                                        <button className='btnPrimary mt-5' onClick={verifyEmailId}>Verify and Signup</button>
+                                        <button type='button' className='btnPrimary mt-5' onClick={verifyEmailId}>Verify and Signup</button>
                                     </div>
                                 </>
                             }

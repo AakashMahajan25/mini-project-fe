@@ -14,6 +14,7 @@ function FrruitGPTLeftBox(props) {
     const {
         handleNewChat = () => { },
         handleHistory = () => { },
+        selectedChat
     } = props;
     const [searchParam, setSearchParam] = useState('');
     const { promptList } = useSelector(state => state.fruitGPTSlice);
@@ -67,7 +68,7 @@ function FrruitGPTLeftBox(props) {
                     {/* <div className='time-text'>1 Month</div> */}
                     <div>
                         {promptList?.slice().reverse().map((item, index) => (
-                            <Nav.Link key={index} className='' onClick={() => historyClick(item?.prompt_id)}>
+                            <Nav.Link key={index} className={selectedChat === item.prompt_id ? 'blue-box selected' : ''} onClick={() => historyClick(item?.prompt_id)}>
                                 <Nav.Link className='blue-box'>{trimText(item?.prompt_text, 40)}</Nav.Link>
                             </Nav.Link>
                         ))}
