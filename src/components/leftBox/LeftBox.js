@@ -14,7 +14,7 @@ import AddstockBtn from '../../assets/images/add-stock-btn.png';
 import CancelRed from '../../assets/images/cancel-round-red-icon.png';
 import RightGreen from '../../assets/images/right-green-circle-icon.png';
 import BlueTick from '../../assets/images/charm_tick.png';
-import { addTickertoWatchList, addWatchList, deleteWatchList, editWatchList, getStockBySearch, getTickersById, getUserWatchLists } from '../../screens/dashboard/slice';
+import { addTickertoWatchList, addWatchList, deleteWatchList, editWatchList, getGraphDetail, getStockBySearch, getStockStatistics, getStocksCompanyDetail, getTickersById, getUserWatchLists } from '../../screens/dashboard/slice';
 import { useDispatch, useSelector } from 'react-redux';
 import { capitalizeFirstLetter, trimText } from '../../utils/utils';
 import Typography from '@mui/material/Typography';
@@ -30,6 +30,7 @@ import Slider from 'react-slick'
 import BarChart from '../barChart/BarChart'
 import DiscoverCorrelationGraph from '../graph/DiscoverCorrelationGraph'
 import { useLoading, ThreeDots } from '@agney/react-loading';
+import moment from 'moment';
 
 function LeftBox() {
     const { containerProps, indicatorEl } = useLoading({
@@ -38,7 +39,7 @@ function LeftBox() {
     });
     const [value, setValue] = useState(0);
     const dispatch = useDispatch()
-    const { watchLists, tickers, stockSearchData, stockSearchLoading } = useSelector(state => state.dashboardSlice);
+    const { watchLists, tickers, stockSearchData, stockSearchLoading, companyDetails, companyStatistics, graphDetails } = useSelector(state => state.dashboardSlice);
     const [anchorElNotification, setAnchorElNotification] = useState(null);
     const [show, setShow] = useState(false);
     const [searchParam, setSearchParam] = useState('')
@@ -51,15 +52,29 @@ function LeftBox() {
     const [selectedId, setSelectedId] = useState('');
     const [tickerSymbol, setTickerSymbol] = useState('');
     const [tickerName, setTickerName] = useState('');
+    const [currentDate, setCurrentDate] = useState(new Date());
+    const last7Days = new Date(currentDate);
+    last7Days.setDate(currentDate.getDate() - 30);
 
     const handleClose = () => setShow(false);
 
     const handleClose2 = () => setShow2(false);
 
-    const handleShow = () => {
+    const handleShow = (stocks) => {
+        console.log('stocks===============', stocks)
         setShow(true);
+        setTickerSymbol(stocks.ticker);
+        setTickerName(stocks.ticker_name);
+        const queryParams = `?symbol=${tickerSymbol}`
+        dispatch(getStocksCompanyDetail(queryParams))
+        dispatch(getStockStatistics(queryParams))
+        dispatch(getGraphDetail({ symbol: tickerSymbol, multiplier: 1, timespan: 'day', from: moment(last7Days).format('YYYY-MM-DD'), to: moment(currentDate).format('YYYY-MM-DD'), limit: 120 }))
     }
 
+    console.log('companyDetails', companyDetails)
+    console.log('companyStatistics', companyStatistics)
+    console.log('graphDetails', graphDetails)
+    
     const handleShow2 = (stocks) => {
         setShow2(true);
         setTickerSymbol(stocks.symbol);
@@ -271,9 +286,10 @@ function LeftBox() {
                             <div className='search-box-menu' style={{ backgroundColor: stockSearchLoading ? '#F1F4FD' : '#fff' }}>
                                 <>
                                     {
+                                        stockSearchData.length > 0 ?
                                         stockSearchData?.map((stocks, index) => (
                                             <div className='d-flex justify-content-between align-items-center mb-2' style={{ backgroundColor: '#F1F4FD', borderRadius: '15px', padding: 10 }}>
-                                                <div onClick={handleShow} className='d-flex justify-content-start align-items-center' style={{ cursor: 'pointer' }}>
+                                                <div onClick={() => handleShow(stocks)} className='d-flex justify-content-start align-items-center' style={{ cursor: 'pointer' }}>
                                                     <div className='me-2 stock-name'>{trimText(stocks?.name, 15)}</div>
                                                     <div className='me-2 ltp-text'>{stocks?.symbol}</div>
                                                     {/* <div className='me-2 stock-price'>3903</div>
@@ -292,6 +308,10 @@ function LeftBox() {
                                                 </div>
                                             </div>
                                         ))
+                                        :
+                                        <div className='d-flex justify-content-center align-items-center' style={{ height: 300 }}>
+                                            <div className='me-2 stock-name'>{`No data Found`}</div>
+                                        </div>
                                     }
                                     {
                                         stockSearchLoading &&
@@ -326,7 +346,7 @@ function LeftBox() {
                         {watchLists?.length > 0 ?
                             tickers?.rows?.length > 0 ?
                                 tickers?.rows?.map((stock, index) => (
-                                    <div key={index} className='stock-price-list mb-2'>
+                                    <div key={index} onClick={() => handleShow(stock)} className='stock-price-list mb-2' style={{ cursor: 'pointer' }}>
                                         <div className='d-flex justify-content-between align-items-center'>
                                             <p className='stock-name'>{trimText(stock?.ticker_name, 12)}</p>
                                             <div>

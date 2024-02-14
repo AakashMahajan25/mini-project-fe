@@ -27,6 +27,9 @@ const initialState = {
 
     stockIndexes: [],
     indexLoader: false,
+    companyDetails: [],
+    companyStatistics: [],
+    graphDetails: [],
 }
 
 export const getTrendingStocks = createAsyncThunk("dashboard/getTrendingStocks", async () => {
@@ -205,6 +208,50 @@ export const addWatchList = createAsyncThunk("watchList/addWatchList", async (wa
     }
 });
 
+export const getStocksCompanyDetail = createAsyncThunk("watchList/getStocksCompanyDetail", async (symbol) => {
+    try {
+        let data = {
+            method: METHOD_TYPE.get,
+            url:API_ENDPOINTS.getCompanyDetail + symbol,
+        };
+        const response = await api(data);
+        return response.data.data;
+
+    } catch (error) {
+        console.log('error::::', error.response)
+        throw error.response;
+    }
+});
+export const getStockStatistics = createAsyncThunk("watchList/getStockStatistics", async (symbol) => {
+    try {
+        let data = {
+            method: METHOD_TYPE.get,
+            url: API_ENDPOINTS.getStockStatistics + symbol,
+        };
+        const response = await api(data);
+        return response.data.data;
+
+    } catch (error) {
+        console.log('error::::', error.response)
+        throw error.response;
+    }
+});
+
+export const getGraphDetail = createAsyncThunk("watchList/getGraphDetail", async ({ symbol, multiplier, timespan, from, to, limit }) => {
+    try {
+        let data = {
+            method: METHOD_TYPE.get,
+            url: `${API_ENDPOINTS.getGraphDetail}?stocksTicker=${symbol}&multiplier=${multiplier}&timespan=${timespan}&from=${from}&to=${to}&adjusted=false&sort=asc&limit=${limit}`,
+        };
+        const response = await api(data);
+        return response.data.data;
+
+    } catch (error) {
+        console.log('error::::', error.response)
+        throw error.response;
+    }
+});
+
 
 const dashboardSlice = createSlice({
     name: "dashboard",
@@ -252,6 +299,15 @@ const dashboardSlice = createSlice({
             })
             .addCase(getStockBySearch.fulfilled, (state, action) => {
                 state.stockSearchData = action.payload;
+            })
+            .addCase(getStocksCompanyDetail.fulfilled, (state, action) => {
+                state.companyDetails = action.payload;
+            })
+            .addCase(getStockStatistics.fulfilled, (state, action) => {
+                state.companyStatistics = action.payload;
+            })
+            .addCase(getGraphDetail.fulfilled, (state, action) => {
+                state.graphDetails = action.payload;
             })
             .addCase(getInvestorStories.fulfilled, (state, action) => {
                 const topicsNews = Object.values(action.payload["Topics_news"]).flat();
@@ -307,7 +363,16 @@ const dashboardSlice = createSlice({
                     action.type === editWatchList.pending.type ||
                     action.type === deleteWatchList.fulfilled.type ||
                     action.type === deleteWatchList.pending.type ||
-                    action.type === deleteWatchList.rejected.type,
+                    action.type === deleteWatchList.rejected.type||
+                    action.type === getStocksCompanyDetail.fulfilled.type ||
+                    action.type === getStocksCompanyDetail.pending.type ||
+                    action.type === getStocksCompanyDetail.rejected.type||
+                    action.type === getStockStatistics.fulfilled.type ||
+                    action.type === getStockStatistics.pending.type ||
+                    action.type === getStockStatistics.rejected.type||
+                    action.type === getGraphDetail.fulfilled.type ||
+                    action.type === getGraphDetail.pending.type ||
+                    action.type === getGraphDetail.rejected.type,
                 handleLoading
             )
             .addMatcher(
