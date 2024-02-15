@@ -3,7 +3,7 @@
     background-color: white;
     padding: 20px 20px;
     display: flex;
-    align-items: center;
+    align-items: end;
     gap: 15px;
     bottom: 0;
     width: 100%;
@@ -11,17 +11,42 @@
     .attachment {
         border-radius: 15px;
         background: #E5EAFF;
-        height: 56px;
         padding: 6px 16px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
         width: 100%;
         cursor: pointer;
 
         &:hover {
             background: #ced8ff;
             transition: 0.3s ease-in;
+        }
+
+        .attached-document-text {
+            color: #6F7387;
+            font-size: 10px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: normal;
+            margin-bottom: 4px;
+        }
+
+        .attached-doc-white-box {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #fff;
+            border-radius: 15px;
+            padding: 5px 10px;
+            width: max-content;
+            margin-right: 5px;
+            margin-bottom: 5px;
+
+            .pdf-name {
+                font-family: Roboto;
+                font-size: 14px;
+                font-weight: 400;
+                line-height: 16px;
+                color: #4563E4;
+            }
         }
 
         .attach-text {
@@ -43,17 +68,42 @@
     .linkUrl {
         border-radius: 15px;
         background: #E9E7FD;
-        height: 56px;
         padding: 6px 16px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
         cursor: pointer;
         width: 100%;
 
         &:hover {
             background: rgb(207, 216, 255);
             transition: 0.3s ease-in;
+        }
+
+        .url-text {
+            color: #6F7387;
+            font-size: 10px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: normal;
+            margin-bottom: 4px;
+        }
+
+        .url-white-box {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #fff;
+            border-radius: 15px;
+            padding: 5px 10px;
+            width: max-content;
+            margin-right: 5px;
+            margin-bottom: 33px;
+
+            .url-name {
+                font-family: Roboto;
+                font-size: 14px;
+                font-weight: 400;
+                line-height: 16px;
+                color: #4563E4;
+            }
         }
 
         .linkUrl-text {
@@ -89,6 +139,7 @@
 .Attach-modal {
     .modal-header {
         padding-bottom: 0px;
+
         .header-title {
             color: #6F6B7D;
             font-size: 14px;
@@ -100,6 +151,7 @@
 
     .modal-body {
         padding-bottom: 0px;
+
         .upload-img-box {
             background-color: #F1F4FD;
             border: 1px dashed #4563E4;
@@ -116,8 +168,5 @@
             font-weight: 400;
             line-height: normal;
         }
-    }
-    .modal-footer{
-    
     }
 }
