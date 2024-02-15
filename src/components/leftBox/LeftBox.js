@@ -74,7 +74,7 @@ function LeftBox() {
     console.log('companyDetails', companyDetails)
     console.log('companyStatistics', companyStatistics)
     console.log('graphDetails', graphDetails)
-    
+
     const handleShow2 = (stocks) => {
         setShow2(true);
         setTickerSymbol(stocks.symbol);
@@ -273,45 +273,45 @@ function LeftBox() {
         <>
             <div className='left-box'>
                 <div className='box' style={{ height: window.innerHeight - 130 }}>
-                    <div className="position-relative" style={{ marginBottom: 10,padding:'0px 16px' }} onClick={handleOpenNotificationMenu}>
+                    <div className="position-relative" style={{ marginBottom: 10, padding: '0px 16px' }} onClick={handleOpenNotificationMenu}>
                         <input type="text" className="form-control form-control-search" placeholder='Search Here' value={searchParam}
                             onChange={event => setSearchParam(event.target.value)} />
-                        <div className="position-absolute" style={{ left: 27, top: '15%' }}>
+                        <div className="position-absolute" style={{ left: 31, top: '15%' }}>
                             <img src={SearchIcon} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} alt="Search Icon" />
                         </div>
                     </div>
                     {
                         (searchParam.length > 0 || stockSearchData.length > 0) &&
-                        <div style={{ position: 'relative' }}>
+                        <div style={{ position: 'relative',margin:'0px 16px' }}>
                             <div className='search-box-menu' style={{ backgroundColor: stockSearchLoading ? '#F1F4FD' : '#fff' }}>
                                 <>
                                     {
                                         stockSearchData.length > 0 ?
-                                        stockSearchData?.map((stocks, index) => (
-                                            <div className='d-flex justify-content-between align-items-center mb-2' style={{ backgroundColor: '#F1F4FD', borderRadius: '15px', padding: 10 }}>
-                                                <div onClick={() => handleShow(stocks)} className='d-flex justify-content-start align-items-center' style={{ cursor: 'pointer' }}>
-                                                    <div className='me-2 stock-name'>{trimText(stocks?.name, 15)}</div>
-                                                    <div className='me-2 ltp-text'>{stocks?.symbol}</div>
-                                                    {/* <div className='me-2 stock-price'>3903</div>
+                                            stockSearchData?.map((stocks, index) => (
+                                                <div className='d-flex justify-content-between align-items-center mb-2' style={{ backgroundColor: '#F1F4FD', borderRadius: '15px', padding: 10 }}>
+                                                    <div onClick={() => handleShow(stocks)} className='d-flex justify-content-start align-items-center' style={{ cursor: 'pointer' }}>
+                                                        <div className='me-2 stock-name'>{trimText(stocks?.name, 15)}</div>
+                                                        <div className='me-2 ltp-text'>{stocks?.symbol}</div>
+                                                        {/* <div className='me-2 stock-price'>3903</div>
                                                 <div className='me-1 stock-price'>0.5%</div> */}
-                                                    {/* <img style={{ width: 24, objectFit: 'contain' }} src={RedArrow} alt="Red Arrow" /> */}
-                                                    {/* <img style={{ width: 24, objectFit: 'contain' }} src={GreenArrow} alt="Green Arrow" /> */}
-                                                </div>
+                                                        {/* <img style={{ width: 24, objectFit: 'contain' }} src={RedArrow} alt="Red Arrow" /> */}
+                                                        {/* <img style={{ width: 24, objectFit: 'contain' }} src={GreenArrow} alt="Green Arrow" /> */}
+                                                    </div>
 
-                                                <div className='d-flex justify-content-between align-items-center'>
-                                                    <div>
-                                                        <img className='me-2' style={{ width: 24, objectFit: 'contain', cursor: 'pointer' }} src={StockMiniLogo} alt="mini-logo" />
-                                                    </div>
-                                                    <div>
-                                                        <img onClick={() => handleShow2(stocks)} style={{ width: 24, objectFit: 'contain', cursor: 'pointer' }} src={AddstockBtn} alt="mini-logo" />
+                                                    <div className='d-flex justify-content-between align-items-center'>
+                                                        <div>
+                                                            <img className='me-2' style={{ width: 24, objectFit: 'contain', cursor: 'pointer' }} src={StockMiniLogo} alt="mini-logo" />
+                                                        </div>
+                                                        <div>
+                                                            <img onClick={() => handleShow2(stocks)} style={{ width: 24, objectFit: 'contain', cursor: 'pointer' }} src={AddstockBtn} alt="mini-logo" />
+                                                        </div>
                                                     </div>
                                                 </div>
+                                            ))
+                                            :
+                                            <div className='d-flex justify-content-center align-items-center' style={{ height: 300 }}>
+                                                <div className='me-2 stock-name'>{`No data Found`}</div>
                                             </div>
-                                        ))
-                                        :
-                                        <div className='d-flex justify-content-center align-items-center' style={{ height: 300 }}>
-                                            <div className='me-2 stock-name'>{`No data Found`}</div>
-                                        </div>
                                     }
                                     {
                                         stockSearchLoading &&
@@ -342,7 +342,7 @@ function LeftBox() {
                             }
                         </Tabs>
                     </Box>
-                    <div style={{padding:'0px 16px'}}>
+                    <div style={{ padding: '0px 16px' }}>
                         {watchLists?.length > 0 ?
                             tickers?.rows?.length > 0 ?
                                 tickers?.rows?.map((stock, index) => (
