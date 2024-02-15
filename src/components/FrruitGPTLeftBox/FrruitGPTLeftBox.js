@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react'
 import './FrruitGPTLeftBox.scss';
 import SearchIcon from '../../assets/images/search-icon.png';
 import ChatIcon from '../../assets/images/new-chat-icon.png';
+import RightWhiteArrow from '../../assets/images/chevron-right.png'
+import LeftWhiteArrow from '../../assets/images/chevron-left.png'
+import RightBlueArrow from '../../assets/images/right-arrow.png'
 import { useDispatch, useSelector } from 'react-redux';
 import { getPromptList, searchPrompt } from '../../screens/frruitGPT/slice';
 import { trimText } from '../../utils/utils';
@@ -10,6 +13,7 @@ import Nav from 'react-bootstrap/Nav';
 
 function FrruitGPTLeftBox(props) {
     const navigate = useNavigate();
+    const [show, setShow] = useState(false)
     const dispatch = useDispatch();
     const {
         handleNewChat = () => { },
@@ -41,8 +45,10 @@ function FrruitGPTLeftBox(props) {
     }
 
     return (
-        <>
-            <div className='Frruit-GPT-left-box'>
+
+        <div className='Frruit-GPT-left-box'>
+            {!show && <button onClick={() => setShow(!show)} className='blue-btn radius-button d-flex align-items-center justify-content-center' >Chat History<img src={LeftWhiteArrow} style={{ width: 8, height: 13, objectFit: 'contain', marginLeft: 5 }} /></button>}
+            {show && <div className='promptView' style={{ animation: show ? 'slideHistoryInRight 0.3s ease-in-out' : 'none' }}>
                 <div className='box' style={{ height: window.innerHeight - 130 }}>
                     <div className="position-relative" style={{ marginBottom: 20 }}>
                         <input type="text" className="form-control form-control-search" placeholder='Search Here' value={searchParam} onChange={(e) => setSearchParam(e.target.value)} />
@@ -74,8 +80,10 @@ function FrruitGPTLeftBox(props) {
                         ))}
                     </div>
                 </div>
-            </div>
-        </>
+                <button onClick={() => setShow(!show)} className='blue-btn radius-small-button d-flex align-items-center justify-content-center' style={{ height: 40 }} ><img src={RightWhiteArrow} style={{ width: 8, height: 13, objectFit: 'contain' }} /></button>
+            </div>}
+        </div>
+
     )
 }
 
