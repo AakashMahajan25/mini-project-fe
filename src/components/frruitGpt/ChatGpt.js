@@ -172,7 +172,7 @@ function ChatGpt(props) {
     return (
         <>
             <div className='ChatGpt' style={{ height: window.innerHeight - 290 }} ref={containerRef}>
-                {/* <div className='default-screens-content'>
+                <div className='default-screens-content'>
                     <div className='text-center'>
                         <img src={LogoCircle} width={57} style={{ objectFit: 'contain' }} />
                         <div className='help-text'>How can I help you today ?</div>
@@ -186,14 +186,14 @@ function ChatGpt(props) {
                             ))}
                         </div>
                     </div>
-                </div> */}
-                <div className='default-screens-content'>
+                </div>
+                {/* <div className='default-screens-content'>
                     <div className='text-center'>
                         <img src={DefaultImg} width={251.5} height={198.42} style={{ objectFit: 'contain' }} />
                         <div className='help-text'>How can I help you today ?</div>
                         <div className='default-para-text'>Supercharge your investment decisions : Attach documents or YouTube links on capital markets for GPT-driven insights!</div>
                     </div>
-                </div>
+                </div> */}
                 {
                     chatHistory?.map((chat, index) =>
                         chat?.person === 'user' ?
