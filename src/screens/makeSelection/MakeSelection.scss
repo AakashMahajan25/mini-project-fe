@@ -25,37 +25,100 @@
             color: #6F7387;
             margin-top: 20px;
         }
-    }
 
-    .showPrompt {
-        margin-top: 20px;
-        width: 290px;
-        margin-bottom: 20px;
+        .showPrompt {
+            margin-top: 20px;
+            width: 290px;
+            margin-bottom: 20px;
 
-        .customPrompttabs {
-            border: 1px solid #4563E4;
-            border-radius: 50px;
-            background: #E5EAFF;
-            border: 0px;
-            padding: 5px;
-            align-items: center;
-            justify-content: space-between;
+            .customPrompttabs {
+                border: 1px solid #4563E4;
+                border-radius: 50px;
+                background: #E5EAFF;
+                border: 0px;
+                padding: 5px;
+                align-items: center;
+                justify-content: space-between;
+            }
+
+            .nav-pills {
+                border: 1px solid #4563E4
+            }
+
+            .nav-pills .nav-link {
+                padding: 10px 50px;
+                border-radius: 50px !important;
+            }
+
+            .nav-pills .nav-link.active {
+                border: 0px !important;
+                border-radius: 50px !important;
+                background-color: #4563E4 !important;
+                color: white;
+            }
         }
 
-        .nav-pills {
-            border: 1px solid #4563E4
-        }
+        .white-box-make-selection {
+            background-color: #fff;
+            border: 1px solid #DCDCDC;
+            box-shadow: 0px 2px 10px 0px #0000001A;
+            padding: 16px;
+            border-radius: 10px;
+            width: max-content;
+            margin-bottom: 32px;
+            width: 57%;
 
-        .nav-pills .nav-link {
-            padding: 10px 50px;
-            border-radius: 50px !important;
-        }
+            .earlyAccessText {
+                font-weight: 500;
+                font-family: 'Roboto', sans-serif;
+                font-size: 20px;
+                line-height: 23.44px;
+                color: #171E42;
+                margin-bottom: 5px;
+            }
 
-        .nav-pills .nav-link.active {
-            border: 0px !important;
-            border-radius: 50px !important;
-            background-color: #4563E4 !important;
-            color: white;
+            .peraText {
+                font-weight: 400;
+                font-family: 'Roboto', sans-serif;
+                font-size: 16px;
+                line-height: 18.75px;
+                color: #6F7387;
+                margin-bottom: 5px;
+            }
+
+            .blueBG {
+                background-color: #EAEEFF;
+                padding: 4px 12px;
+                border-radius: 10px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 10px;
+
+                .CreditText25 {
+                    font-weight: 600;
+                    font-family: 'Roboto', sans-serif;
+                    font-size: 24px;
+                    line-height: 28.13px;
+                    color: #4563E4;
+                }
+
+                .tokens-text {
+                    font-weight: 400;
+                    font-family: 'Roboto', sans-serif;
+                    font-size: 16px;
+                    line-height: 18.75px;
+                    color: #4563E4;
+                }
+            }
+
+            .points-text {
+                font-weight: 500;
+                font-family: 'Roboto', sans-serif;
+                font-size: 12px;
+                line-height: normal;
+                color: #6F7387;
+            }
         }
     }
 
@@ -65,6 +128,7 @@
         font-size: 16px;
         line-height: 18.75px;
         color: #171E42;
+        margin-bottom: 32px;
 
         .nifty-text {
             font-weight: 700;
@@ -72,6 +136,7 @@
             font-size: 16px;
             line-height: 18.75px;
             color: #4563E4;
+
         }
     }
 
@@ -82,13 +147,15 @@
         color: #171E42;
         margin-bottom: 8px;
     }
-    .disclaimer-para{
+
+    .disclaimer-para {
         font-size: 16px;
-            font-weight: 400;
-            line-height: 19px;
-            letter-spacing: 0em;
-            text-align: left;
-            color: #6F7387;
+        font-weight: 400;
+        line-height: 19px;
+        letter-spacing: 0em;
+        text-align: left;
+        color: #6F7387;
+        margin-bottom: 32px;
     }
 
 
