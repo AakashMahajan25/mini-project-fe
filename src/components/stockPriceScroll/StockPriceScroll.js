@@ -11,7 +11,7 @@ export default function StockPriceScroll() {
 
     useEffect(() => {
         if (stockIndexes?.length > 0) {
-            const targetIndexNames = [ "S&P 500", "Dow Jones Industrial Average", "Nasdaq Composite" ];
+            const targetIndexNames = ["S&P 500", "Dow Jones Industrial Average", "Nasdaq Composite"];
             const filteredData = stockIndexes.filter(item => targetIndexNames.some(target => item.Index.includes(target)));
             // const filteredObject = {};
             // filteredData.forEach(item => {
@@ -31,7 +31,7 @@ export default function StockPriceScroll() {
 
     return (
         <div className="mt-2 stockpricescroll">
-            <div className="banner py-2 d-flex justify-content-evenly" style={{ border: 'solid 1px #EDEDED' }}>
+            <div className="banner py-2 d-flex justify-content-evenly" style={{ border: 'solid 1px #EDEDED', minHeight: 40 }}>
                 {/* <Marquee key={Math.random()} velocity={50} minScale={0.7} resetAfterTries={100}> */}
                 {indexesData?.map((stock, index) => (
                     <div key={index} style={{ padding: "0 25px" }}>
