@@ -3,6 +3,51 @@
     margin: 60px 30px 20px 30px;
     overflow-y: scroll;
 
+    .default-screens-content {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0px 200px;
+
+        .help-text {
+            font-family: Roboto;
+            font-size: 16px;
+            font-weight: 600;
+            line-height: 19px;
+            color: #171E42;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+        .prompts-text-bg {
+            border-radius: 15px;
+            background: #F5F5F6;
+            padding: 16px;
+            margin-left: 5px;
+            margin-right: 5px;
+            margin-bottom: 10px;
+            min-height: 68px;
+        }
+
+        .prompts-text {
+            color: #6F7387;
+            font-size: 12px;
+            font-style: normal;
+            font-weight: 400;
+            text-align: left;
+
+        }
+        .default-para-text{
+            color: #6F7387;
+            font-size: 16px;
+            font-style: normal;
+            font-weight: 400;
+            text-align: center;
+            line-height: 18.75px;
+            padding: 0px 100px;
+        }
+    }
+
     .slick-track {
         margin-left: inherit;
     }

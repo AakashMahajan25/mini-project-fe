@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import './MarketContentGPT.scss';
 import MarketContentGptLeftBox from '../../components/marketContentGptLeftBox/MarketContentGptLeftBox';
 import BottomBar from '../../components/marketContentGPT/BottomBar';
+import ChatGpt from '../../components/frruitGpt/ChatGpt';
 
 function MarketContentGPT() {
     return (
@@ -12,6 +13,7 @@ function MarketContentGPT() {
                         <MarketContentGptLeftBox />
                     </div>
                     <div className='col-lg-9 column-pad position-relative'>
+                        <ChatGpt />
                         <BottomBar />
                     </div>
                 </div>
