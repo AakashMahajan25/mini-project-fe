@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import '../makeSelection/MakeSelection.scss'
 import { Nav, Tab, Tabs } from 'react-bootstrap'
 import SelectMarket from '../../assets/images/selectMarket_img.png'
+import SideImg from '../../assets/images/login-side-img.png'
+import FrruitLogo from '../../assets/images/frruit-logo.png'
 import GreenRightIcon from '../../assets/images/right-green-circle-icon.png'
 import { useNavigate } from 'react-router-dom'
 
@@ -84,7 +86,12 @@ function MakeSelection() {
                 </div>
                 <div className='col-xl-5'>
                     <div className='d-flex justify-content-center align-items-center imagecontainer'>
-                        <img src={SelectMarket} style={{ objectFit: 'contain', width: '100%', height: window.innerHeight / 2.0 }} />
+                        <div>
+                            <div className='d-flex justify-content-center'>
+                                <img src={FrruitLogo} width={196} />
+                            </div>
+                            <img src={SideImg} style={{ objectFit: 'contain', width: '100%', height: window.innerHeight / 1.8 }} />
+                        </div>
                     </div>
                 </div>
             </div>

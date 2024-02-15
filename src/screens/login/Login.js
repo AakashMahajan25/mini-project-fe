@@ -1,6 +1,8 @@
 import React, { useState, useRef } from 'react'
 import '../login/Login.scss'
 import LoginImg from '../../assets/images/login_img.png'
+import LoginImg2 from '../../assets/images/login-side-img.png'
+import FrruitLogo from '../../assets/images/frruit-logo.png'
 import MobileIcon from '../../assets/images/mobile-icon.png';
 import OtpInput from 'react-otp-input';
 import { useNavigate } from 'react-router-dom';
@@ -86,11 +88,16 @@ function Login() {
             <div className='d-flex justify-content-center align-items-center login-page'>
                 <div className='col-xl-5'>
                     <div className='d-flex justify-content-center align-items-center h-100 imagecontainer'>
-                        <img src={LoginImg} style={{ objectFit: 'contain', width: '100%', height: window.innerHeight / 2.5 }} />
+                        <img src={LoginImg2} style={{ objectFit: 'contain', width: '100%', height: window.innerHeight / 2 }} />
                     </div>
                 </div>
                 <div className={showCode ? 'col-xl-7 login-form1' : 'col-xl-7 login-form'}>
+                    <div style={{position:'relative'}}>
                     <p className='loginText text-center m-0 '>Login</p>
+                    <div>
+                        <img src={FrruitLogo} width={108} style={{position:'absolute',top:-5}} />
+                    </div>
+                    </div>
                     <div className="form-outline mt-4">
                         {!showCode &&
                             <>
