@@ -131,26 +131,33 @@ function Profile() {
                                 <div className='col-lg-6 column-pad'>
                                     <form onSubmit={handleSubmit(onSubmit)}>
                                         <div className='profile-title' style={{ marginBottom: 32 }}>Profile</div>
-                                        <div className='d-flex jsutify-content-between align-items-center mt-2  ' style={{ marginBottom: 20 }}>
-                                            <img src={UserImg} style={{ width: 82, objectFit: 'contain', marginRight: 15 }} />
-                                            <div className="position-relative" style={{ width: '100%' }}>
-                                                <label className='form-control-label'>First Name</label>
-                                                <Controller
-                                                    control={control}
-                                                    name="first_name"
-                                                    render={({ field }) => (
-                                                        <input
-                                                            type="text"
-                                                            className="form-control form-control-input"
-                                                            placeholder='Enter First Name'
-                                                            style={{ color: 'black' }}
-                                                            {...field}
-                                                        />
-                                                    )}
-                                                />
-                                                {errors?.first_name && <p style={{ color: 'red' }}>{errors?.first_name?.message}</p>}
-                                                <div className="position-absolute" style={{ left: 15, top: '50%' }}>
-                                                    <img src={InputUser} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} alt="Search Icon" />
+                                        <div className='row align-items-center mt-2  ' style={{ marginBottom: 20 }}>
+                                            {/* <img src={UserImg} style={{ width: 82, objectFit: 'contain', marginRight: 15 }} /> */}
+                                            <div className='col-lg-2'>
+                                                <div className='user-profile-circle'>
+                                                    <div className='user-profile-circle-text'>S</div>
+                                                </div>
+                                            </div>
+                                            <div className='col-lg-10'>
+                                                <div className="position-relative" style={{ width: '100%' }}>
+                                                    <label className='form-control-label'>First Name</label>
+                                                    <Controller
+                                                        control={control}
+                                                        name="first_name"
+                                                        render={({ field }) => (
+                                                            <input
+                                                                type="text"
+                                                                className="form-control form-control-input"
+                                                                placeholder='Enter First Name'
+                                                                style={{ color: 'black' }}
+                                                                {...field}
+                                                            />
+                                                        )}
+                                                    />
+                                                    {errors?.first_name && <p style={{ color: 'red' }}>{errors?.first_name?.message}</p>}
+                                                    <div className="position-absolute" style={{ left: 15, top: '50%' }}>
+                                                        <img src={InputUser} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} alt="Search Icon" />
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
