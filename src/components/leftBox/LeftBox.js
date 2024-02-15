@@ -273,10 +273,10 @@ function LeftBox() {
         <>
             <div className='left-box'>
                 <div className='box' style={{ height: window.innerHeight - 130 }}>
-                    <div className="position-relative" style={{ marginBottom: 10 }} onClick={handleOpenNotificationMenu}>
+                    <div className="position-relative" style={{ marginBottom: 10,padding:'0px 16px' }} onClick={handleOpenNotificationMenu}>
                         <input type="text" className="form-control form-control-search" placeholder='Search Here' value={searchParam}
                             onChange={event => setSearchParam(event.target.value)} />
-                        <div className="position-absolute" style={{ left: 15, top: '15%' }}>
+                        <div className="position-absolute" style={{ left: 27, top: '15%' }}>
                             <img src={SearchIcon} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} alt="Search Icon" />
                         </div>
                     </div>
@@ -342,7 +342,7 @@ function LeftBox() {
                             }
                         </Tabs>
                     </Box>
-                    <div>
+                    <div style={{padding:'0px 16px'}}>
                         {watchLists?.length > 0 ?
                             tickers?.rows?.length > 0 ?
                                 tickers?.rows?.map((stock, index) => (

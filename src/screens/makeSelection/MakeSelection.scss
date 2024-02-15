@@ -4,7 +4,7 @@
     .selectMarket {
         background-color: #F1F4FD;
         border-radius: 45px;
-        padding: 65px;
+        padding: 25px;
         margin: 0 25px;
 
         .heading {
@@ -23,16 +23,17 @@
             letter-spacing: 0em;
             text-align: left;
             color: #6F7387;
+            margin-top: 20px;
         }
     }
 
     .showPrompt {
         margin-top: 20px;
         width: 290px;
+        margin-bottom: 20px;
 
         .customPrompttabs {
             border: 1px solid #4563E4;
-
             border-radius: 50px;
             background: #E5EAFF;
             border: 0px;
@@ -58,12 +59,36 @@
         }
     }
 
+    .beta-text {
+        font-weight: 400;
+        font-family: 'Roboto', sans-serif;
+        font-size: 16px;
+        line-height: 18.75px;
+        color: #171E42;
+
+        .nifty-text {
+            font-weight: 700;
+            font-family: 'Roboto', sans-serif;
+            font-size: 16px;
+            line-height: 18.75px;
+            color: #4563E4;
+        }
+    }
+
     .disclaimer {
         font-size: 18px;
         font-weight: 600;
         line-height: 21px;
         color: #171E42;
         margin-bottom: 8px;
+    }
+    .disclaimer-para{
+        font-size: 16px;
+            font-weight: 400;
+            line-height: 19px;
+            letter-spacing: 0em;
+            text-align: left;
+            color: #6F7387;
     }
 
 

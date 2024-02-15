@@ -2,6 +2,7 @@ import React from 'react'
 import './ChatGpt.scss'
 import ProfileIcon from '../../assets/images/profile_image.png'
 import ArrowGrey from '../../assets/images/arrow-right-grey.png'
+import DefaultImg from '../../assets/images/market-content-default-img.png'
 import LogoCircle from '../../assets/images/frruit-logo-circle.png'
 import TataLogo from '../../assets/images/Tata_Consultancy_Services_Logo.png'
 import UpGreenArrow from '../../assets/images/up-arrow-outline.png'
@@ -15,6 +16,7 @@ import { replaceNewlinesWithBr } from '../../utils/utils'
 import { useLoading, Audio, SpinningCircles, Circles, ThreeDots } from '@agney/react-loading';
 
 function ChatGpt(props) {
+    const { chatSuggestions } = useSelector(state => state.fruitGPTSlice);
     const { containerProps, indicatorEl } = useLoading({
         loading: true,
         indicator: <ThreeDots width="50" color="blue" />,
@@ -168,39 +170,62 @@ function ChatGpt(props) {
     }
 
     return (
-        <div className='ChatGpt' style={{ height: window.innerHeight - 290 }} ref={containerRef}>
-            {
-                chatHistory?.map((chat, index) =>
-                    chat?.person === 'user' ?
-                        <div className='rightChat'>
-                            {/* <img src={ProfileIcon} className='profile-styles' /> */}
-                            <div className='d-flex align-items-center my-2 floatRight'>
-                                <img src={ArrowGrey} className='arrow' />
-                                <p className='you-text'>You</p>
-                            </div>
-                            <div className='chat-text-container'>
-                                <h3 className='chat-text'>{chat?.text}</h3>
-                            </div>
-                        </div>
-                        :
-                        <div className='leftChat'>
-                            {
-                                chatHistory[index - 1]?.person !== "bot" &&
-                                <div className='d-flex align-items-center my-2 floatLeft'>
-                                    <img src={ArrowGrey} className='arrow' />
-                                    <p className='you-text'>Frruit GPT</p>
-                                </div>
-                            }
-                            {
-                                chat.type === 'text' ?
-                                    <div className='chat-text-container'>
-                                        <h3 className='chat-text' dangerouslySetInnerHTML={{ __html: replaceNewlinesWithBr(chat?.text || '') }}></h3>
+        <>
+            <div className='ChatGpt' style={{ height: window.innerHeight - 290 }} ref={containerRef}>
+                {/* <div className='default-screens-content'>
+                    <div className='text-center'>
+                        <img src={LogoCircle} width={57} style={{ objectFit: 'contain' }} />
+                        <div className='help-text'>How can I help you today ?</div>
+                        <div className='row'>
+                            {chatSuggestions.map((item, index) => (
+                                <div key={index} className='col-lg-6 column-pad' style={{ cursor: 'pointer' }}>
+                                    <div className='prompts-text-bg'>
+                                        <p className='prompts-text'>{item?.prompt}</p>
                                     </div>
-                                    : renderGraph(chat.text)
-                            }
-                            {/* <img src={LogoCircle} className='profile-styles' /> */}
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div> */}
+                <div className='default-screens-content'>
+                    <div className='text-center'>
+                        <img src={DefaultImg} width={251.5} height={198.42} style={{ objectFit: 'contain' }} />
+                        <div className='help-text'>How can I help you today ?</div>
+                        <div className='default-para-text'>Supercharge your investment decisions : Attach documents or YouTube links on capital markets for GPT-driven insights!</div>
+                    </div>
+                </div>
+                {
+                    chatHistory?.map((chat, index) =>
+                        chat?.person === 'user' ?
+                            <div className='rightChat'>
+                                {/* <img src={ProfileIcon} className='profile-styles' /> */}
+                                <div className='d-flex align-items-center my-2 floatRight'>
+                                    <img src={ArrowGrey} className='arrow' />
+                                    <p className='you-text'>You</p>
+                                </div>
+                                <div className='chat-text-container'>
+                                    <h3 className='chat-text'>{chat?.text}</h3>
+                                </div>
+                            </div>
+                            :
+                            <div className='leftChat'>
+                                {
+                                    chatHistory[index - 1]?.person !== "bot" &&
+                                    <div className='d-flex align-items-center my-2 floatLeft'>
+                                        <img src={ArrowGrey} className='arrow' />
+                                        <p className='you-text'>Frruit GPT</p>
+                                    </div>
+                                }
+                                {
+                                    chat.type === 'text' ?
+                                        <div className='chat-text-container'>
+                                            <h3 className='chat-text' dangerouslySetInnerHTML={{ __html: replaceNewlinesWithBr(chat?.text || '') }}></h3>
+                                        </div>
+                                        : renderGraph(chat.text)
+                                }
+                                {/* <img src={LogoCircle} className='profile-styles' /> */}
 
-                            {/* {
+                                {/* {
                     <div className='stock-list'>
                         <div className='d-flex align-items-center'>
                             <div className='image-stock'>
@@ -225,7 +250,7 @@ function ChatGpt(props) {
 
 
 
-                            {/* {
+                                {/* {
                                 <div className='graphSlider'>
                                     <Slider {...graphSettings}>
                                         <div className='chartGraph'>
@@ -260,7 +285,7 @@ function ChatGpt(props) {
 
                             } */}
 
-                            {/* <div className='fundamental-container'>
+                                {/* <div className='fundamental-container'>
                     <h2 className='fundamental-maintitle'>Fundamentals</h2>
                     <Slider {...settings}>
                         {fundamental.map((fundamental) => (
@@ -275,7 +300,7 @@ function ChatGpt(props) {
                     </Slider>
                 </div> */}
 
-                            {/* <div className='fundamental-container'>
+                                {/* <div className='fundamental-container'>
                     <h2 className='fundamental-maintitle'>Similar Stocks</h2>
                     <Slider {...stocksettings}>
                         {trendingStocksData.map((stockData, index) => (
@@ -285,15 +310,16 @@ function ChatGpt(props) {
                 </div> */}
 
 
-                        </div>
-                )}
-            {
-                frruitLoader &&
-                <section {...containerProps}>
-                    {indicatorEl} {/* renders only while loading */}
-                </section>
-            }
-        </div>
+                            </div>
+                    )}
+                {
+                    frruitLoader &&
+                    <section {...containerProps}>
+                        {indicatorEl} {/* renders only while loading */}
+                    </section>
+                }
+            </div>
+        </>
     )
 }
 
