@@ -1,13 +1,113 @@
 .Frruit-GPT-left-box {
-    .box {
-        border: 1px solid #E5E5E5;
-        width: 100%;
-        border-left: 0px;
-        padding: 16px;
-        position: sticky;
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    .radius-button {
+        position: absolute;
+        border-radius: 0px 15px 15px 0px;
         left: 0;
-        overflow: scroll;
-        overflow-x: hiddenx;
+        margin-top: 6px;
+        z-index: 1000;
+        width: max-content;
+    }
+
+
+    .radius-small-button {
+        border-radius: 0px 15px 15px 0px;
+        float: left;
+        margin-top: 6px;
+        z-index: 100;
+    }
+
+    .promptView {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        display: flex;
+        z-index: 100;
+    }
+
+    .showPrompt {
+        border-right: 1px solid #E5E5E5;
+        border-bottom: 1px solid #E5E5E5;
+        border-left: 1px solid #E5E5E5;
+        background: #FFF;
+        box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.10);
+        position: static;
+        width: 413px;
+        padding: 16px 30px 16px 20px;
+        overflow-y: scroll;
+
+        .title {
+            color: #171E42;
+            font-size: 18px;
+            font-style: normal;
+            font-weight: 500;
+        }
+
+        .customPrompttabs {
+            border-radius: 50px;
+            background: #E5EAFF;
+            border: 0px;
+            padding: 5px;
+            align-items: center;
+            justify-content: space-between;
+
+        }
+
+        .nav-pills .nav-link {
+            border-radius: 50px !important;
+        }
+
+        .nav-pills .nav-link.active {
+            border: 0px !important;
+            border-radius: 50px !important;
+            background-color: #4563E4 !important;
+            color: white;
+        }
+
+        .suggest-prompts {
+            border-radius: 15px;
+            background: rgba(239, 241, 248, 0.85);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px;
+            margin-bottom: 16px;
+            cursor: pointer;
+
+            .text {
+                color: #6F7387;
+                font-size: 14px;
+                font-weight: 400;
+                margin-bottom: 0;
+                line-height: normal;
+            }
+        }
+
+    }
+
+    .box {
+        // border: 1px solid #E5E5E5;
+        // width: 100%;
+        // border-left: 0px;
+        // padding: 16px;
+        // position: sticky;
+        // left: 0;
+        // overflow: scroll;
+        // overflow-x: hiddenx;
+
+        border-right: 1px solid #E5E5E5;
+        border-bottom: 1px solid #E5E5E5;
+        border-left: 1px solid #E5E5E5;
+        background: #FFF;
+        box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.10);
+        position: static;
+        width: 413px;
+        padding: 16px 30px 16px 20px;
+        overflow-y: scroll;
+
 
         .blue-box {
             padding: 11px 16px;
@@ -36,6 +136,7 @@
             //     color: #4563E4;
             // }
         }
+
         .blue-box-active {
             padding: 11px 16px;
             background-color: #4563E4;
@@ -81,5 +182,15 @@
     /* Handle on hover */
     ::-webkit-scrollbar-thumb:hover {
         background: #4563E4;
+    }
+}
+
+@keyframes slideHistoryInRight {
+
+    from {
+        transform: translateX(-100%);
+    }
+    to {
+        transform: translateX(0);
     }
 }

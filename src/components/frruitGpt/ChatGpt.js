@@ -171,8 +171,8 @@ function ChatGpt(props) {
 
     return (
         <>
-            <div className='ChatGpt' style={{ height: window.innerHeight - 290 }} ref={containerRef}>
-                <div className='default-screens-content'>
+            <div className='ChatGpt' style={{ height: window.innerHeight - 210 }} ref={containerRef}>
+                <div className='default-screens-content mt-4'>
                     <div className='text-center'>
                         <img src={LogoCircle} width={57} style={{ objectFit: 'contain' }} />
                         <div className='help-text'>How can I help you today ?</div>
