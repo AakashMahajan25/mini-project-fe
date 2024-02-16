@@ -15,7 +15,7 @@ function LeftProfileBox({ handlePreferencesClick, handleProfileClick, isPreferen
     return (
         <>
             <div className='profile-left-box' >
-                <div className='box' style={{ height: window.innerHeight - 130 }}>
+                <div className='box' style={{ height: window.innerHeight - 105 }}>
                     <div className={`mb-2 ${isshowCodeActive ? 'side-box-light-blue-btn' : 'side-box-light-blue-btn-active'}`} onClick={handleProfileClick}>Profile</div>
                     <div className={`mb-2 ${isPreferencesActive ? 'side-box-light-blue-btn' : 'side-box-light-blue-btn-active'}`} onClick={handlePreferencesClick}>Preferences</div>
                     <div className='mb-2 side-box-light-blue-btn'>Help</div>

@@ -24,7 +24,7 @@ function DashboardRightBox({ newsData, mostFrruitData }) {
     return (
         <>
             <div className='Right-box'>
-                <div className='box' style={{ height: window.innerHeight - 130 }}>
+                <div className='box' style={{ height: window.innerHeight - 105 }}>
                     {mostFrruitData?.length > 0 &&
                         <>
                             <div className='box-content'>
