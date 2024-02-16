@@ -49,7 +49,7 @@ function FrruitGPTLeftBox(props) {
         <div className='Frruit-GPT-left-box'>
             {!show && <button onClick={() => setShow(!show)} className='blue-btn radius-button d-flex align-items-center justify-content-center' >Chat History<img src={LeftWhiteArrow} style={{ width: 8, height: 13, objectFit: 'contain', marginLeft: 5 }} /></button>}
             {show && <div className='promptView' style={{ animation: show ? 'slideHistoryInRight 0.3s ease-in-out' : 'none' }}>
-                <div className='box' style={{ height: window.innerHeight - 130 }}>
+                <div className='box' style={{ height: window.innerHeight - 105 }}>
                     <div className="position-relative" style={{ marginBottom: 20 }}>
                         <input type="text" className="form-control form-control-search" placeholder='Search Here' value={searchParam} onChange={(e) => setSearchParam(e.target.value)} />
                         <div className="position-absolute" style={{ left: 15, top: '15%' }}>

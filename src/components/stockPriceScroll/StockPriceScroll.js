@@ -30,7 +30,7 @@ export default function StockPriceScroll() {
     }, [stockIndexes])
 
     return (
-        <div className="mt-2 stockpricescroll">
+        <div className="stockpricescroll">
             <div className="banner py-2 d-flex justify-content-evenly" style={{ border: 'solid 1px #EDEDED', minHeight: 40 }}>
                 {/* <Marquee key={Math.random()} velocity={50} minScale={0.7} resetAfterTries={100}> */}
                 {indexesData?.map((stock, index) => (

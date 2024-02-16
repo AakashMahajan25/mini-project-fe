@@ -28,7 +28,7 @@ function MarketContentGptLeftBox() {
     return (
         <>
             <div className='marketContentGptLeftBox-css'>
-                <div className='box' style={{ height: window.innerHeight - 130 }}>
+                <div className='box' style={{ height: window.innerHeight - 105 }}>
                     <div className="position-relative" style={{ marginBottom: 20 }}>
                         <input type="text" className="form-control form-control-search" placeholder='Search Here' />
                         <div className="position-absolute" style={{ left: 15, top: '15%' }}>
