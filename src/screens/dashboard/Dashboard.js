@@ -293,7 +293,8 @@ function Dashboard() {
                                     return (
                                         <div className='d-flex justify-content-center'>
                                             <div key={index} style={{ position: 'relative' }}>
-                                                <img src={image.viewImage} width={720} height={500} style={{ objectFit: 'cover', borderRadius: 20, filter: 'grayscale(60%)' }} />
+                                                <img src={image.viewImage} width={720} height={500} style={{ objectFit: 'cover', borderRadius: 20, filter: 'grayscale(50%)' }} />
+                                                <div className='layer-bg'></div>
                                                 <div className='stories-img-text'>{image.bottomsubDescription}</div>
                                             </div>
                                         </div>

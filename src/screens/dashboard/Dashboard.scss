@@ -125,6 +125,19 @@
         left: 30px;
     }
 
+    .layer-bg {
+        position: absolute;
+        top: 0px;
+        z-index: 5;
+        width: 100% !important;
+        height: 100%;
+        left: 0px;
+        // background: -webkit-linear-gradient(rgba(29, 38, 113, 0.8), rgba(195, 55, 100, 0.8));
+        background: linear-gradient(rgba(23, 35, 205, 0.3), rgba(23, 35, 205, 0.3));
+        border-radius: 20px;
+        backdrop-filter: blur(1px);
+    }
+
     .image-number-border {
         border: solid 3px #fff;
         border-radius: 5px;
