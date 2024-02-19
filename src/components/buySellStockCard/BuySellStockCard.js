@@ -2,8 +2,8 @@ import React from 'react';
 import './BuySellStockCard.scss';
 import BuyIcon from '../../assets/images/buy-icon.png';
 import SellIcon from '../../assets/images/sell-icon.png';
-import UpArrow from '../../assets/images/up-arrow-outline.png';
-import DownArrow from '../../assets/images/down-arrow-outline.png';
+import UpArrow from '../../assets/images/green_up-arrow.png'
+import DownArrow from '../../assets/images/red_down-arrow.png'
 
 function BuySellStockCard({ companyName, ltpValue, percentageChange, changeInLastMonth }) {
     // const isPositiveChange = percentageChange > 0;

@@ -1,11 +1,17 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import './TopBar.scss';
 import FrruitLogo from '../../assets/images/frruit-logo.png'
 import ProfilePic from '../../assets/images/profile.png'
 import { useLocation, useNavigate } from 'react-router-dom';
 import StockPriceScroll from '../stockPriceScroll/StockPriceScroll';
+import { useDispatch, useSelector } from 'react-redux';
+import { getUserDetails } from '../../screens/profile/usersSlice';
 
 function TopBar() {
+  const dispatch = useDispatch();
+  const { userDetails } = useSelector(state => state.userSlice)
+
+  console.log('userDetails', userDetails)
   const location = useLocation()
   let navigate = useNavigate();
   const routeChangeDashboard = () => {
@@ -28,13 +34,17 @@ function TopBar() {
     let path = `/market-content-gpt`;
     navigate(path);
   }
+
+  useEffect(() => {
+    dispatch(getUserDetails())
+  }, [])
   return (
     <>
       <div className='web-nav'>
         <div className='top-nav-bar' style={{ width: window.innerWidth }}>
           <div className='content-nav d-flex align-items-center justify-content-between' style={{ width: window.innerWidth }}>
             <a onClick={routeChangeDashboard}>
-            <img className="logo" style={{ width: 155 }} src={FrruitLogo} alt="" />
+              <img className="logo" style={{ width: 155 }} src={FrruitLogo} alt="" />
             </a>
             <div className='d-flex align-items-center justify-content-between'>
               <div className={location.pathname === '/dashboard' ? 'web-nav-text-active me-5' : 'web-nav-text me-5'} onClick={routeChangeDashboard}>Dashboard</div>
@@ -43,7 +53,7 @@ function TopBar() {
               <div className={location.pathname === '/discover-correlation' ? 'web-nav-text-active me-5' : 'web-nav-text me-5'} onClick={routeChangeDiscoverCorrelation}>Discover Correlation</div>
               {/* <img className="logo" onClick={routeChangeProfile} style={{ width: 42 }} src={ProfilePic} alt="" /> */}
               <div onClick={routeChangeProfile} className='profile-icon'>
-                <div className='profile-name-text'>S</div>
+                <div className='profile-name-text'>{userDetails?.first_name?.slice(0, 1)}</div>
               </div>
             </div>
           </div>

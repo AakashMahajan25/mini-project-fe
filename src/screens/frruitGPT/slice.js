@@ -34,7 +34,7 @@ export const getPromptList = createAsyncThunk("fruitGpt/getPromptList", async ()
             url: API_ENDPOINTS.getPromptList,
         };
         const response = await api(data);
-        return response.data.data.rows;
+        return response.data;
 
     } catch (error) {
         throw error.response;

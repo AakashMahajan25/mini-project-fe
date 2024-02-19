@@ -12,7 +12,7 @@ function Loader() {
         </div> */}
         <div className='white-box'>
           <div className='wait-text'>Please Wait while we are</div>
-          <div className='data-text'>Fetching the Data...</div>
+          <div className='data-text mt-2'>Fetching the Data...</div>
           <BarLoader
             color={'#4563E4'}
             loading={true}

@@ -21,6 +21,7 @@ import { getInvestorStories, getMostOnFrruitGpt, getStockIndexes, getTrendingNew
 import { getPromptSuggestion } from '../frruitGPT/slice';
 import Loader from '../../components/loader/Loader';
 import RightWhiteArrow from '../../assets/images/white-right.png';
+import { getUserDetails } from '../profile/usersSlice';
 
 
 const storyEnum = {
@@ -87,6 +88,7 @@ function Dashboard() {
     const dispatch = useDispatch()
     const { trendingStocks, trendingNews, mostOnFrruitGpt, storyViewed, investorStory, isLoading } = useSelector(state => state.dashboardSlice);
     const { chatSuggestions } = useSelector(state => state.fruitGPTSlice);
+    const { userDetails } = useSelector(state => state.userSlice)
 
 
     const settings = {
@@ -127,6 +129,7 @@ function Dashboard() {
         dispatch(getPromptSuggestion(4))
         dispatch(getInvestorStories())
         dispatch(getStockIndexes())
+        dispatch(getUserDetails())
     }, [])
 
     useEffect(() => {
@@ -192,13 +195,9 @@ function Dashboard() {
             // state: { question: 'What is happening in ' + symbol + ' stock' },
         });
     }
-
+    
     return (
         <>
-            {/* {
-                !getStockIndexes  &&
-                <Loader />
-            } */}
             <div className='dashboardHome row justify-content-between m-0'>
                 <div className='col-lg-3 column-pad'>
                     <LeftBox />
@@ -234,7 +233,7 @@ function Dashboard() {
                                     <p className='stories-title' style={{ marginBottom: 10 }}>Trending Stocks</p>
                                     <Slider {...settings}>
                                         {trendingStocks.map((stockData, index) => (
-                                            <TrendingStocksCard key={index} {...stockData} />
+                                            <TrendingStocksCard key={index} {...stockData} country={userDetails?.country}/>
                                         ))}
                                     </Slider>
                                 </div>

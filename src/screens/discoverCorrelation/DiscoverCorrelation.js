@@ -14,6 +14,7 @@ import DiscoverCorrelationGraph from '../../components/graph/DiscoverCorrelation
 import { useDispatch, useSelector } from 'react-redux';
 import { getTrendingEvents } from './slice';
 import BarChart from '../../components/barChart/BarChart';
+import { getStockIndexes } from '../dashboard/slice';
 
 function DiscoverCorrelation() {
     const [showEventDetails, setShowEventDetails] = useState(false);
@@ -85,6 +86,7 @@ function DiscoverCorrelation() {
 
     useEffect(() => {
         dispatch(getTrendingEvents());
+        dispatch(getStockIndexes())
     }, []);
 
     useEffect(() => {

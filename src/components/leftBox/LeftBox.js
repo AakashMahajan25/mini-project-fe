@@ -16,7 +16,7 @@ import RightGreen from '../../assets/images/right-green-circle-icon.png';
 import BlueTick from '../../assets/images/charm_tick.png';
 import { addTickertoWatchList, addWatchList, deleteWatchList, editWatchList, getGraphDetail, getStockBySearch, getStockStatistics, getStocksCompanyDetail, getTickersById, getUserWatchLists } from '../../screens/dashboard/slice';
 import { useDispatch, useSelector } from 'react-redux';
-import { capitalizeFirstLetter, trimText } from '../../utils/utils';
+import { capitalizeFirstLetter, formatPrice, trimText } from '../../utils/utils';
 import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
 import Tooltip from '@mui/material/Tooltip';
@@ -31,6 +31,8 @@ import BarChart from '../barChart/BarChart'
 import DiscoverCorrelationGraph from '../graph/DiscoverCorrelationGraph'
 import { useLoading, ThreeDots } from '@agney/react-loading';
 import moment from 'moment';
+import { toast } from 'react-toastify';
+import { getUserDetails } from '../../screens/profile/usersSlice';
 
 function LeftBox() {
     const { containerProps, indicatorEl } = useLoading({
@@ -40,6 +42,7 @@ function LeftBox() {
     const [value, setValue] = useState(0);
     const dispatch = useDispatch()
     const { watchLists, tickers, stockSearchData, stockSearchLoading, companyDetails, companyStatistics, graphDetails } = useSelector(state => state.dashboardSlice);
+    const { userDetails } = useSelector(state => state.userSlice)
     const [anchorElNotification, setAnchorElNotification] = useState(null);
     const [show, setShow] = useState(false);
     const [searchParam, setSearchParam] = useState('')
@@ -88,6 +91,7 @@ function LeftBox() {
 
     useEffect(() => {
         dispatch(getUserWatchLists())
+        dispatch(getUserDetails())
         getWatchListData()
     }, [])
 
@@ -171,12 +175,13 @@ function LeftBox() {
         console.log('id', id)
         if(id){
             const data = {
-                watchlist_id: selectedId,
+                watchlist_id: id,
                 ticker: tickerSymbol,
                 ticker_name: tickerName
             }
             dispatch(addTickertoWatchList(data))
                 .then(res => {
+                    toast(res?.message)
                     setSelectedId('')
                     handleClose2()
                     dispatch(getUserWatchLists());
@@ -337,7 +342,7 @@ function LeftBox() {
                         // </div>
                     }
                     <div className='watchlistText'>Watchlist</div>
-                    <Box marginBottom={'20px'} sx={{ maxWidth: { xs: 320, sm: 480 }, bgcolor: 'background.paper' }}>
+                    <Box marginBottom={'20px'} sx={{ maxWidth: { xs: 320, sm: 480 }, bgcolor: 'background.paper' }} style={{paddingLeft:watchLists?.length > 3 ? 0 : 16}}>
                         <Tabs
                             value={value}
                             onChange={handleChange}
@@ -358,12 +363,12 @@ function LeftBox() {
                                 tickers?.rows?.map((stock, index) => (
                                     <div key={index} onClick={() => handleShow(stock)} className='stock-price-list mb-2' style={{ cursor: 'pointer' }}>
                                         <div className='d-flex justify-content-between align-items-center'>
-                                            <p className='stock-name'>{trimText(stock?.ticker_name, 12)}</p>
+                                            {/* <p className='stock-name'>{trimText(stock?.ticker_name, 12)}</p> */}
+                                                    <p className='stock-name me-2' >{stock?.ticker}</p>
                                             <div>
                                                 <div className='d-flex justify-content-end align-items-center'>
-                                                    <p className='ltp-text me-2'>{stock?.ticker}</p>
-                                                    <p className='stock-price me-2' style={{ color: stock?.ticker_change_percent.includes('-') ? '#EA5455' : '#28C76F' }}>{stock?.ticker_price}</p>
-                                                    <p className='stock-price me-2' style={{ color: stock?.ticker_change_percent.includes('-') ? '#EA5455' : '#28C76F' }}>{stock?.ticker_change_percent}</p>
+                                                    <p className='stock-price me-2' style={{ color: stock?.ticker_change_percent.includes('-') ? '#EA5455' : '#28C76F' }}>{formatPrice(stock?.ticker_price,userDetails?.country)}</p>
+                                                    <p className='stock-price me-2' style={{ color: stock?.ticker_change_percent.includes('-') ? '#EA5455' : '#28C76F' }}>{parseFloat(stock?.ticker_change_percent).toFixed(2)}</p>
                                                     {stock?.ticker_change_percent.includes('-') ? (
                                                         <img style={{ width: 24, objectFit: 'contain' }} src={RedArrow} alt="Red Arrow" />
                                                     ) : (
