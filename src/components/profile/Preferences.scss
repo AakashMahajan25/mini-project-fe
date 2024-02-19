@@ -1,0 +1,44 @@
+.select-preferences-profile-css {
+
+    .heading {
+        font-size: 24px;
+        font-weight: 600;
+        line-height: 28px;
+        letter-spacing: 0px;
+        text-align: left;
+        color: #4563E4;
+    }
+
+    .text-description {
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 19px;
+        letter-spacing: 0em;
+        text-align: left;
+        color: #6F7387;
+    }
+
+
+    .unSelected {
+        padding: 8px 10px;
+        border: 1px solid #4563E4;
+        border-radius: 22.4px;
+        font-size: 10px;
+        font-weight: 700;
+        margin: 10px 10px 0 0;
+        color: black;
+        cursor: pointer;
+    }
+
+    .selected {
+        padding: 8px 10px;
+        border: 1px solid #4563E4;
+        border-radius: 22.4px;
+        font-size: 10px;
+        font-weight: 700;
+        margin: 10px 10px 0 0;
+        color: white;
+        background-color: #4563E4;
+        cursor: pointer;
+    }
+}

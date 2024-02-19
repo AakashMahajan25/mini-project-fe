@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import '../login/Login.scss'
 import '../signup/Signup.scss'
 import LoginImg from '../../assets/images/login_img.png'
+import LoginImg2 from '../../assets/images/login-side-img.png'
+import FrruitLogo from '../../assets/images/frruit-logo.png'
 import MobileIcon from '../../assets/images/mobile-icon.png';
 import OtpInput from 'react-otp-input';
 import { useNavigate } from 'react-router';
@@ -49,7 +51,7 @@ function Signup() {
     }
 
     const onSubmit = (data) => {
-        dispatch(signupOtp({ email: data.email, mobile: "+91"+data?.phone_number }))
+        dispatch(signupOtp({ email: data.email, mobile: "+91" + data?.phone_number }))
             .unwrap()
             .then((res) => {
                 setShowCode(true)
@@ -70,7 +72,7 @@ function Signup() {
             otp,
             type: 'mobile',
             email: allValues?.email,
-            mobile: "+91"+allValues?.phone_number,
+            mobile: "+91" + allValues?.phone_number,
         }
         dispatch(verifyOtp(data))
             .unwrap()
@@ -94,12 +96,12 @@ function Signup() {
             otp: emailOtp,
             type: 'email',
             email: allValues?.email,
-            mobile: "+91"+allValues?.phone_number,
+            mobile: "+91" + allValues?.phone_number,
         }
         dispatch(verifyOtp(data))
             .unwrap()
             .then((res) => {
-                dispatch(signupUser({...allValues, phone_number: "+91"+allValues?.phone_number}))
+                dispatch(signupUser({ ...allValues, phone_number: "+91" + allValues?.phone_number }))
                     .unwrap()
                     .then(async (res) => {
                         localStorage.setItem('token', res.data.token)
@@ -122,11 +124,16 @@ function Signup() {
             <div className={`row justify-content-center align-items-center login-page`} >
                 <div className='col-xl-5'>
                     <div className='d-flex justify-content-center align-items-center imagecontainer'>
-                        <img src={LoginImg} style={{ objectFit: 'contain', width: '100%', height: window.innerHeight / 2.5 }} />
+                        <img src={LoginImg2} style={{ objectFit: 'contain', width: '100%', height: window.innerHeight / 2 }} />
                     </div>
                 </div>
                 <div className={showCode ? 'col-xl-7 login-form1' : 'col-xl-7 signup-form'} style={{ height: '100%' }}>
-                    <p className='loginText text-center m-0 '>Signup</p>
+                    <div style={{ position: 'relative' }}>
+                        <p className='loginText text-center m-0 '>Signup</p>
+                        <div>
+                            <img src={FrruitLogo} width={108} style={{ position: 'absolute', top: -5 }} />
+                        </div>
+                    </div>
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <div className="form-outline mt-4">
                             {!showCode && !showCode1 &&

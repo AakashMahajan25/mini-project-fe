@@ -72,4 +72,21 @@
         line-height: 21.09px;
         color: #171E42;
     }
+
+    .user-profile-circle {
+        background-color: #E5EAFF;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 75px;
+        width: 75px;
+
+        .user-profile-circle-text {
+            font-family: 'Roboto', sans-serif;
+            font-weight: 500;
+            color: #4563E4;
+            font-size: 40px;
+        }
+    }
 }

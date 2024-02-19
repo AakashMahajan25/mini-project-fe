@@ -1,6 +1,7 @@
 .ChatGpt {
     position: sticky;
-    margin: 60px 30px 20px 30px;
+    // margin: 60px 30px 20px 30px;
+    margin: 60px 0px 20px 0px;
     overflow-y: scroll;
 
     .default-screens-content {
@@ -37,7 +38,8 @@
             text-align: left;
 
         }
-        .default-para-text{
+
+        .default-para-text {
             color: #6F7387;
             font-size: 16px;
             font-style: normal;
@@ -56,7 +58,8 @@
         display: flex;
         align-items: flex-end;
         flex-direction: column;
-        margin-right: 10px;
+        // margin-right: 10px;
+        margin-right: 20px;
 
         // float: right;
 
@@ -104,6 +107,8 @@
     }
 
     .leftChat {
+        margin-left: 20px;
+
         .profile-styles {
             width: 57px;
             height: 57px;

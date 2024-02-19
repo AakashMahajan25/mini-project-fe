@@ -276,7 +276,7 @@ function LeftBox() {
     return (
         <>
             <div className='left-box'>
-                <div className='box' style={{ height: window.innerHeight - 130 }}>
+                <div className='box' style={{ height: window.innerHeight - 105 }}>
                     <div className="position-relative" style={{ marginBottom: 10, padding: '0px 16px' }} onClick={handleOpenNotificationMenu}>
                         <input type="text" className="form-control form-control-search" placeholder='Search Here' value={searchParam}
                             onChange={event => setSearchParam(event.target.value)} />

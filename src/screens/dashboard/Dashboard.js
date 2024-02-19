@@ -205,7 +205,7 @@ function Dashboard() {
                 </div>
                 <div className='col-lg-7 column-pad'>
                     <div className='dashboard mt-4'>
-                        <div className='d-flex flex-column justify-content-between' style={{ height: window.innerHeight - 170 }}>
+                        <div className='d-flex flex-column justify-content-between' style={{ height: window.innerHeight - 140 }}>
                             <div className='d-flex flex-column'>
                                 {
                                     shouldShowStory &&
@@ -243,7 +243,7 @@ function Dashboard() {
                                 <div className='suggested-prompts-container'>
                                     <p className='stories-title' style={{ marginBottom: 15 }}>Suggested Prompts</p>
                                     <div className='row' >
-                                        {chatSuggestions.map((item, index) => (
+                                        {chatSuggestions.slice(0, 4).map((item, index) => (
                                             <div onClick={() => { routePromptFrruitGPT(item?.prompt) }} key={index} className='col-lg-6 mb-3' style={{ cursor: 'pointer' }}>
                                                 <div className='prompts-text-bg'>
                                                     <p className='prompts-text'>{item?.prompt}</p>

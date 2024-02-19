@@ -18,14 +18,29 @@ import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from "@hookform/resolvers/yup";
 import { getAvaliableCredit, getUserDetails } from './usersSlice';
 import Plans from '../../components/profile/Plans';
+import Preferences from '../../components/profile/Preferences';
 
 function Profile() {
     const handleBackButtonClick = () => {
         setShowCode(prevShowCode => !prevShowCode);
     };
+    const [showPreferences, setShowPreferences] = useState(false);
+    const [showProfile, setShowProfile] = useState(false);
+
+    const handleProfileClick = () => {
+
+        setShowProfile(true);
+        setShowPreferences(false);
+    };
+
+    const handlePreferencesClick = () => {
+
+        setShowProfile(false);
+        setShowPreferences(true);
+    };
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const [showCode, setShowCode] = useState(false)
+    const [showCode, setShowCode] = useState(false);
 
     const updateProfileSchema = yup.object().shape({
         first_name: yup.string().required("Please enter first name."),
@@ -82,10 +97,15 @@ function Profile() {
         <>
             <div className='row justify-content-between m-0 profile-css'>
                 <div className='col-lg-3 column-pad'>
-                    <LeftProfileBox />
+                    <LeftProfileBox
+                        handlePreferencesClick={handlePreferencesClick}
+                        handleProfileClick={handleProfileClick}
+                        isPreferencesActive={!showPreferences}
+                        isshowCodeActive={showPreferences}
+                    />
                 </div>
                 <div className='col-lg-9 column-pad'>
-                    {!showCode &&
+                    {!showCode && !showPreferences &&
                         <div className='right-part' style={{ height: window.innerHeight - 130, overflowY: 'scroll' }}>
                             <div className='welcome-text'>Welcome</div>
                             <div style={{ marginBottom: 20 }} className='user-text'>{userDetails?.first_name + " " + userDetails?.last_name}!</div>
@@ -131,26 +151,33 @@ function Profile() {
                                 <div className='col-lg-6 column-pad'>
                                     <form onSubmit={handleSubmit(onSubmit)}>
                                         <div className='profile-title' style={{ marginBottom: 32 }}>Profile</div>
-                                        <div className='d-flex jsutify-content-between align-items-center mt-2  ' style={{ marginBottom: 20 }}>
-                                            <img src={UserImg} style={{ width: 82, objectFit: 'contain', marginRight: 15 }} />
-                                            <div className="position-relative" style={{ width: '100%' }}>
-                                                <label className='form-control-label'>First Name</label>
-                                                <Controller
-                                                    control={control}
-                                                    name="first_name"
-                                                    render={({ field }) => (
-                                                        <input
-                                                            type="text"
-                                                            className="form-control form-control-input"
-                                                            placeholder='Enter First Name'
-                                                            style={{ color: 'black' }}
-                                                            {...field}
-                                                        />
-                                                    )}
-                                                />
-                                                {errors?.first_name && <p style={{ color: 'red' }}>{errors?.first_name?.message}</p>}
-                                                <div className="position-absolute" style={{ left: 15, top: '50%' }}>
-                                                    <img src={InputUser} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} alt="Search Icon" />
+                                        <div className='row align-items-center mt-2  ' style={{ marginBottom: 20 }}>
+                                            {/* <img src={UserImg} style={{ width: 82, objectFit: 'contain', marginRight: 15 }} /> */}
+                                            <div className='col-lg-2'>
+                                                <div className='user-profile-circle'>
+                                                    <div className='user-profile-circle-text'>S</div>
+                                                </div>
+                                            </div>
+                                            <div className='col-lg-10'>
+                                                <div className="position-relative" style={{ width: '100%' }}>
+                                                    <label className='form-control-label'>First Name</label>
+                                                    <Controller
+                                                        control={control}
+                                                        name="first_name"
+                                                        render={({ field }) => (
+                                                            <input
+                                                                type="text"
+                                                                className="form-control form-control-input"
+                                                                placeholder='Enter First Name'
+                                                                style={{ color: 'black' }}
+                                                                {...field}
+                                                            />
+                                                        )}
+                                                    />
+                                                    {errors?.first_name && <p style={{ color: 'red' }}>{errors?.first_name?.message}</p>}
+                                                    <div className="position-absolute" style={{ left: 15, top: '50%' }}>
+                                                        <img src={InputUser} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} alt="Search Icon" />
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -242,6 +269,12 @@ function Profile() {
                             <Plans handleBackButtonClick={handleBackButtonClick} />
                         </div>
                     }
+                    {showPreferences && (
+                        // Show the Preferences component
+                        <div className='right-part' style={{ height: window.innerHeight - 130, overflowY: 'scroll' }}>
+                            <Preferences />
+                        </div>
+                    )}
                 </div>
             </div>
             {/* {
