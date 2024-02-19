@@ -20,6 +20,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getInvestorStories, getMostOnFrruitGpt, getStockIndexes, getTrendingNews, getTrendingStocks, setStoryViewed } from './slice';
 import { getPromptSuggestion } from '../frruitGPT/slice';
 import Loader from '../../components/loader/Loader';
+import RightWhiteArrow from '../../assets/images/white-right.png';
 
 
 const storyEnum = {
@@ -186,12 +187,18 @@ function Dashboard() {
         return colors[randomIndex];
     }
 
+    const getFrruitClick = () => {
+        navigate("/frruit-gpt", {
+            // state: { question: 'What is happening in ' + symbol + ' stock' },
+        });
+    }
+
     return (
         <>
-            {
-                isLoading &&
+            {/* {
+                !getStockIndexes  &&
                 <Loader />
-            }
+            } */}
             <div className='dashboardHome row justify-content-between m-0'>
                 <div className='col-lg-3 column-pad'>
                     <LeftBox />
@@ -292,10 +299,15 @@ function Dashboard() {
                                 {stories.map((image, index) => {
                                     return (
                                         <div className='d-flex justify-content-center'>
-                                            <div key={index} style={{ position: 'relative' }}>
-                                                <img src={image.viewImage} width={720} height={500} style={{ objectFit: 'cover', borderRadius: 20, filter: 'grayscale(50%)' }} />
-                                                <div className='layer-bg'></div>
+                                            <div key={index} style={{ position: 'relative',width:800,height:550,background:image. themeBg,borderRadius: 20,padding:20}}>
+                                                <div  style={{ background:'white',borderRadius: 20,padding:16,width:'100%',marginTop:20,height:250}}>
+                                                <img src={image.viewImage} style={{ objectFit: 'cover', borderRadius: 20, filter: 'grayscale(60%)',width:'100%',height:220 }} />
+                                                </div>
                                                 <div className='stories-img-text'>{image.bottomsubDescription}</div>
+                                                <div className='d-flex justify-content-between align-items-center'>
+                                                <button className='blue-btn  d-flex align-items-center justify-content-center' onClick={getFrruitClick}>{'Get Frruit'}  <img src={RightWhiteArrow} style={{ width: 6, objectFit: 'contain', marginLeft: 5 }} /></button>
+                                                <a className='secondary-btn' href='' target='_blank'> {'View More'}  </a>
+                                                </div>
                                             </div>
                                         </div>
                                     )

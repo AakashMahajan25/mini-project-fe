@@ -58,10 +58,12 @@ function LeftBox() {
 
     const handleClose = () => setShow(false);
 
-    const handleClose2 = () => setShow2(false);
+    const handleClose2 = () =>{
+        setShow2(false);
+        setSelectedId('')
+    } 
 
     const handleShow = (stocks) => {
-        console.log('stocks===============', stocks)
         setShow(true);
         setTickerSymbol(stocks.ticker);
         setTickerName(stocks.ticker_name);
@@ -70,15 +72,11 @@ function LeftBox() {
         dispatch(getStockStatistics(queryParams))
         dispatch(getGraphDetail({ symbol: tickerSymbol, multiplier: 1, timespan: 'day', from: moment(last7Days).format('YYYY-MM-DD'), to: moment(currentDate).format('YYYY-MM-DD'), limit: 120 }))
     }
-
-    console.log('companyDetails', companyDetails)
-    console.log('companyStatistics', companyStatistics)
-    console.log('graphDetails', graphDetails)
-
     const handleShow2 = (stocks) => {
         setShow2(true);
         setTickerSymbol(stocks.symbol);
         setTickerName(stocks.name);
+
     }
 
     const handleChange = (event, newValue) => {
@@ -168,20 +166,26 @@ function LeftBox() {
             .catch(error => console.log('error', error))
     }
 
-    const handleSave = () => {
-        const data = {
-            watchlist_id: selectedId,
-            ticker: tickerSymbol,
-            ticker_name: tickerName
+    const handleSave = (id) => {
+        setSelectedId(id)
+        console.log('id', id)
+        if(id){
+            const data = {
+                watchlist_id: selectedId,
+                ticker: tickerSymbol,
+                ticker_name: tickerName
+            }
+            dispatch(addTickertoWatchList(data))
+                .then(res => {
+                    setSelectedId('')
+                    handleClose2()
+                    dispatch(getUserWatchLists());
+    
+                })
         }
-        dispatch(addTickertoWatchList(data))
-            .then(res => {
-                setSelectedId('')
-                handleClose2()
-                dispatch(getUserWatchLists());
-
-            })
     }
+
+    console.log('selectedId', selectedId)
 
     const dataForMapping = [
         { text1: '0.00', text2: '0', text3: '0.00' },
@@ -281,12 +285,13 @@ function LeftBox() {
                         </div>
                     </div>
                     {
-                        (searchParam.length > 0 || stockSearchData.length > 0) &&
+                        // (searchParam?.length > 0 && stockSearchData?.length > 0) &&
+                        searchParam.length > 0  &&
                         <div style={{ position: 'relative',margin:'0px 16px' }}>
                             <div className='search-box-menu' style={{ backgroundColor: stockSearchLoading ? '#F1F4FD' : '#fff' }}>
                                 <>
                                     {
-                                        stockSearchData.length > 0 ?
+                                        stockSearchData.length > 0 &&
                                             stockSearchData?.map((stocks, index) => (
                                                 <div className='d-flex justify-content-between align-items-center mb-2' style={{ backgroundColor: '#F1F4FD', borderRadius: '15px', padding: 10 }}>
                                                     <div onClick={() => handleShow(stocks)} className='d-flex justify-content-start align-items-center' style={{ cursor: 'pointer' }}>
@@ -308,10 +313,10 @@ function LeftBox() {
                                                     </div>
                                                 </div>
                                             ))
-                                            :
-                                            <div className='d-flex justify-content-center align-items-center' style={{ height: 300 }}>
-                                                <div className='me-2 stock-name'>{`No data Found`}</div>
-                                            </div>
+                                            // :
+                                            // <div className='d-flex justify-content-center align-items-center' style={{ height: 300 }}>
+                                            //     <div className='me-2 stock-name'>{`No data Found`}</div>
+                                            // </div>
                                     }
                                     {
                                         stockSearchLoading &&
@@ -325,6 +330,11 @@ function LeftBox() {
 
                             </div>
                         </div>
+                        // <div style={{ position: 'relative',margin:'0px 16px' }}>
+                        //     <div className='search-box-menu-nodata d-flex justify-content-center align-items-center' style={{ backgroundColor: stockSearchLoading ? '#F1F4FD' : '#fff' }}>
+                        //     <div className='me-2 stock-name' style={{fontSize:'700'}}>{`No data Found`}</div>
+                        //     </div>
+                        // </div>
                     }
                     <div className='watchlistText'>Watchlist</div>
                     <Box marginBottom={'20px'} sx={{ maxWidth: { xs: 320, sm: 480 }, bgcolor: 'background.paper' }}>
@@ -562,7 +572,7 @@ function LeftBox() {
                         {
                             watchLists.length > 0 && watchLists.map((item, index) => (
                                 <div className='d-flex justify-content-between align-items-center' style={{ cursor: "pointer" }}>
-                                    <div className='blue-box' onClick={() => { setSelectedId(item?.watchlist_id); handleSave() }} style={{ border: selectedId === item?.watchlist_id ? '1px solid #4563E4' : null }}>
+                                    <div className='blue-box' onClick={() => handleSave(item?.watchlist_id)} style={{ border: selectedId === item?.watchlist_id ? '1px solid #4563E4' : null }}>
                                         <div className='d-flex align-items-center justify-content-between'>
                                             <div className='d-flex align-items-center'>
                                                 {
