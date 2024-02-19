@@ -37,3 +37,13 @@ export const replaceNewlinesWithBr = (text) => {
     // Use a regular expression to replace newline characters with <br> tags
     return text.replace(/\n/g, '</br>');
 }
+
+export const formatPrice = (price, country) => {
+    if (country === 'India') {
+        return '₹ ' + price; // Rupee symbol for India
+    } else if (country === 'US') {
+        return '$ ' + price; // Dollar symbol for US
+    } else {
+      return price; // No specific formatting for other countries
+    }
+  }

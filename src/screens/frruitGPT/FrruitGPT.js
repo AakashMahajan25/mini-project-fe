@@ -10,6 +10,7 @@ import { useLocation } from 'react-router-dom'
 import { addChatPrompt, clearChatHistory, getPromptHistory, getPromptList, getPromptSuggestion, setChatHistory, triggerFrruitGpt, triggerFrruitGptGraph } from './slice'
 import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
+import { getStockIndexes } from '../dashboard/slice'
 
 function FrruitGPT() {
     const dispatch = useDispatch();
@@ -26,6 +27,7 @@ function FrruitGPT() {
         dispatch(getPromptSuggestion(5))
         dispatch(getPromptList())
         dispatch(clearChatHistory())
+        dispatch(getStockIndexes())
     }, [])
 
     useEffect(() => {
@@ -167,11 +169,13 @@ function FrruitGPT() {
                     <PromptsLibrary
                         handlePromptClick={handlePromptClick}
                     />
+                    <div className='d-flex align-items-center w-100'>
                     <BottomSearchBar
                         setQuestion={setQuestion}
                         question={question}
                         handleAskPress={handleAskPress}
                     />
+                    </div>
                 </div>
             </div>
         </>

@@ -19,6 +19,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { getAvaliableCredit, getUserDetails } from './usersSlice';
 import Plans from '../../components/profile/Plans';
 import Preferences from '../../components/profile/Preferences';
+import { getStockIndexes } from '../dashboard/slice';
 
 function Profile() {
     const handleBackButtonClick = () => {
@@ -60,6 +61,7 @@ function Profile() {
     useEffect(() => {
         dispatch(getAvaliableCredit());
         dispatch(getUserDetails())
+        dispatch(getStockIndexes())
     }, [])
 
     console.log('userDetails', userDetails)
@@ -155,7 +157,7 @@ function Profile() {
                                             {/* <img src={UserImg} style={{ width: 82, objectFit: 'contain', marginRight: 15 }} /> */}
                                             <div className='col-lg-2'>
                                                 <div className='user-profile-circle'>
-                                                    <div className='user-profile-circle-text'>S</div>
+                                                    <div className='user-profile-circle-text'>{userDetails?.first_name?.slice(0,1)}</div>
                                                 </div>
                                             </div>
                                             <div className='col-lg-10'>

@@ -6,7 +6,9 @@
     align-items: center;
     gap: 15px;
     bottom: 0;
-    width: 100%;
+    width: 50%;
+    left: 50%;
+    transform: translate(-50%, 0%);
 
     .attachment {
         border-radius: 15px;

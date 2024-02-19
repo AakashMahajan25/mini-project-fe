@@ -10,6 +10,7 @@ import { getPromptList, searchPrompt } from '../../screens/frruitGPT/slice';
 import { trimText } from '../../utils/utils';
 import { useNavigate } from 'react-router-dom';
 import Nav from 'react-bootstrap/Nav';
+import moment from 'moment';
 
 function FrruitGPTLeftBox(props) {
     const navigate = useNavigate();
@@ -71,12 +72,20 @@ function FrruitGPTLeftBox(props) {
                             </div>
                         ))}
                     </div> */}
-                    {/* <div className='time-text'>1 Month</div> */}
                     <div>
-                        {promptList?.slice().reverse().map((item, index) => (
-                            <Nav.Link key={index} className={selectedChat === item.prompt_id ? 'blue-box-active' : 'blue-box'} onClick={() => historyClick(item?.prompt_id)}>
-                                <Nav.Link className=''>{trimText(item?.prompt_text, 40)}</Nav.Link>
-                            </Nav.Link>
+                        {promptList?.data?.map((item, index) => (
+                            <>
+                                <div className='time-text' style={{ fontWeight: '500' }}>{
+                                    moment(item?.date).isSame(moment(), 'day')
+                                        ? "Today"
+                                        : moment(item?.date).format('DD MMM YYYY')
+                                }</div>
+                                {item?.data?.slice().reverse().map((item, index, array) => (
+                                    <Nav.Link key={index} className={selectedChat === item.prompt_id ? 'blue-box-active' : 'blue-box'} onClick={() => { historyClick(item?.prompt_id); setShow(!show) }} style={{ marginBottom: index === array.length - 1 ? 20 : 10 }}>
+                                        <Nav.Link className=''>{trimText(item?.prompt_text, 40)}</Nav.Link>
+                                    </Nav.Link>
+                                ))}
+                            </>
                         ))}
                     </div>
                 </div>
