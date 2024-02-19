@@ -26,6 +26,18 @@
         height: 350px;
         overflow-y: scroll;
     }
+    .search-box-menu-nodata{
+        padding: 16px;
+        background-color: #ffffff;
+        height: max-content;
+        box-shadow: 0px 2px 10px 0px #00000026;
+        border-radius: 10px;
+        position: absolute;
+        width: 100%;
+        z-index: 10;
+        height: 100px;
+        overflow-y: scroll;
+    }
 
     .tab-css {
         background-color: #E5EAFF;

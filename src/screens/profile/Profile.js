@@ -244,9 +244,9 @@ function Profile() {
                     }
                 </div>
             </div>
-            {
+            {/* {
                 isLoading && <Loader />
-            }
+            } */}
         </>
     )
 }
