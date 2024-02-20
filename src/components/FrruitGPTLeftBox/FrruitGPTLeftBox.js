@@ -73,7 +73,7 @@ function FrruitGPTLeftBox(props) {
                         ))}
                     </div> */}
                     <div>
-                        {promptList?.data?.map((item, index) => (
+                        {promptList?.map((item, index) => (
                             <>
                                 <div className='time-text' style={{ fontWeight: '500' }}>{
                                     moment(item?.date).isSame(moment(), 'day')

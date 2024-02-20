@@ -170,13 +170,11 @@ function FrruitGPT() {
                     <PromptsLibrary
                         handlePromptClick={handlePromptClick}
                     />
-                    <div className='d-flex align-items-center w-100'>
                     <BottomSearchBar
                         setQuestion={setQuestion}
                         question={question}
                         handleAskPress={handleAskPress}
                     />
-                    </div>
                 </div>
             </div>
         </>
