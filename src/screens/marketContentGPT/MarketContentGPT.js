@@ -6,7 +6,6 @@ import ChatGpt from '../../components/frruitGpt/ChatGpt';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { clearChatHistory, setChatHistory, triggerContentPrompt } from './slice';
-import { getStockIndexes } from '../dashboard/slice';
 
 function MarketContentGPT() {
     const dispatch = useDispatch();
@@ -19,7 +18,6 @@ function MarketContentGPT() {
 
     useEffect(() => {
         dispatch(clearChatHistory())
-        dispatch(getStockIndexes())
     }, [])
 
 
