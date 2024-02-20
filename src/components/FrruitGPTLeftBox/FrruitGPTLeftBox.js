@@ -57,7 +57,7 @@ function FrruitGPTLeftBox(props) {
                             <img src={SearchIcon} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} alt="Search Icon" />
                         </div>
                     </div>
-                    <div className="position-relative blue-box" style={{ marginBottom: 20, cursor: 'pointer' }} onClick={handleNewChat}>
+                    <div className="position-relative blue-box" style={{ marginBottom: 20, cursor: 'pointer' }} onClick={()=>{handleNewChat(); setShow(!show)}}>
                         <div className='new-chat-text'>New Chat</div>
                         <div className="position-absolute" style={{ right: 14, top: '19%' }}>
                             <img src={ChatIcon} style={{ width: 24, objectFit: 'contain', cursor: 'pointer' }} alt="Search Icon" />

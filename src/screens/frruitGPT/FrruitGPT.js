@@ -164,6 +164,7 @@ function FrruitGPT() {
                         selectedChat={selectedChat}
                     />
                     <ChatGpt
+                        isNewChat={isNewChat.current}
                         containerRef={gptRef}
                     />
                     <PromptsLibrary
