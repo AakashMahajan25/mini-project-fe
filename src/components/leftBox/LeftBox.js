@@ -120,24 +120,28 @@ function LeftBox() {
     };
 
 
-    const handleEdit = (index, name) => {
+    const handleEdit = (event,index, name) => {
+        event.stopPropagation();
         setIsEdit(true)
         setChangedName(name)
         setEditIndex(index);
     }
 
-    const handleDelete = (index, name) => {
+    const handleDelete = (event,index, name) => {
+        event.stopPropagation();
         setEditIndex(index);
         setChangedName(name)
     }
 
-    const handleCancel = () => {
+    const handleCancel = ( event ) => {
+        event.stopPropagation();
         setIsEdit(false)
         setChangedName('')
         setEditIndex(null);
     }
 
-    const handleOkClick = () => {
+    const handleOkClick = (event) => {
+        event.stopPropagation();
         if (isEdit) {
             dispatch(editWatchList({ watchlistId: watchLists[editIndex]?.watchlist_id, watchListName: changedName }))
                 .then(res => {
@@ -560,7 +564,7 @@ function LeftBox() {
                                 <div className='blue-box'>
                                     <div className='d-flex align-items-center justify-content-between'>
                                         <div>
-                                            <input type="text" className="form-control form-control-search-custom" placeholder='Add Wacthlist' value={addName} onChange={event => setAddName(event.target.value)} />
+                                            <input type="text" className="form-control form-control-search-custom" placeholder='Add Wacthlist' value={addName} onChange={event => setAddName(event.target.value)}/>
                                             <div className='watchlist-text2'>{'0'}</div>
                                         </div>
                                         <div className='d-flex justify-content-between align-items-center'>
@@ -585,7 +589,7 @@ function LeftBox() {
                                                     <img src={BlueTick} style={{ marginRight: 0, objectFit: 'contain', height: 18, width: 18 }} />
                                                 }
                                                 <div>
-                                                    <input type="text" className="form-control form-control-search-custom" value={editIndex === index ? changedName : item?.watchlist_name} disabled={editIndex === index ? false : true} onChange={event => setChangedName(event.target.value)} />
+                                                    <input type="text" className="form-control form-control-search-custom" value={editIndex === index ? changedName : item?.watchlist_name} disabled={editIndex === index ? false : true} onChange={event => setChangedName(event.target.value)} onClick={event => event.stopPropagation()}/>
                                                     <div className='watchlist-text2'>{item?.stockcount}</div>
                                                 </div>
                                             </div>
@@ -601,10 +605,10 @@ function LeftBox() {
                                                     </div>
                                                     :
                                                     <div className='d-flex justify-content-between align-items-center'>
-                                                        <div onClick={() => handleEdit(index, item?.watchlist_name)}>
+                                                        <div onClick={(event) => handleEdit(event,index, item?.watchlist_name)}>
                                                             <img src={EditStock} width={24} style={{ objectFit: 'contain', cursor: 'pointer' }} className='me-1' />
                                                         </div>
-                                                        <div onClick={() => handleDelete(index, item?.watchlist_name)}>
+                                                        <div onClick={(event) => handleDelete(event,index, item?.watchlist_name)}>
                                                             <img src={DeleteStock} width={24} style={{ objectFit: 'contain', cursor: 'pointer' }} />
                                                         </div>
                                                     </div>}
