@@ -51,4 +51,5 @@ export const API_ENDPOINTS = {
     getStockBySearch: 'stocks/getStockBySearch',
     getInvestorStories: 'users/getInvestorStories',
     triggerGPTGraph: 'prompts/triggerGraph',
+    triggerContentPrompt: 'contentPrompt/triggerContentPrompt',
 }

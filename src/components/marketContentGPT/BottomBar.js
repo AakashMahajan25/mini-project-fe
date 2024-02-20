@@ -8,19 +8,48 @@ import CloseIcon from '../../assets/images/close_icon.png'
 import UploadDocImg from '../../assets/images/doc-img.png'
 import Modal from 'react-bootstrap/Modal';
 
-function BottomBar() {
+function BottomBar(props) {
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     const [show2, setShow2] = useState(false);
     const handleClose2 = () => setShow2(false);
     const handleShow2 = () => setShow2(true);
+    const [inputValue, setInputValue] = useState('');
+    
+    const {
+        setQuestion=()=>{},
+        question='',
+        handleAskPress=()=>{}
+    } = props
+    
+    const handleInputChange = (event) => {
+        setInputValue(event.target.value);
+    };
+
+    const handleDone = (e) => {
+        handleClose2()
+        setQuestion(inputValue)
+        setInputValue('')
+    }
+
+    const handleRemove = (event) => {
+        event.stopPropagation();
+        setQuestion('')
+    }
+    
+    const handleKeyPress = (e) => {
+        if (e.key === 'Enter') {
+            handleAskPress();
+        }
+    };
+
     return (
         <>
             <div className='BottomBar'>
                 <div className='attachment' onClick={handleShow}>
                     <div>
-                        <div>
+                        {/* <div>
                             <div className='attached-document-text'>Attached Document</div>
                             <div className='d-flex'>
                                 <div className='attached-doc-white-box'>
@@ -29,7 +58,7 @@ function BottomBar() {
                                     <img src={CloseIcon} width={16} style={{ objectFit: 'contain', cursor: 'pointer' }} />
                                 </div>
                             </div>
-                        </div>
+                        </div> */}
                         <div className='d-flex justify-content-center align-items-center' style={{ minHeight: 44 }}>
                             <div className='d-flex justify-content-center align-items-center'>
                                 <p className='attach-text'>Attach</p>
@@ -40,15 +69,16 @@ function BottomBar() {
                 </div>
                 <div className='linkUrl' onClick={handleShow2}>
                     <div>
+                        {question && 
                         <div>
                             <div className='url-text'>URL</div>
                             <div className='d-flex'>
                                 <div className='url-white-box'>
-                                    <div className='url-name me-2'>https://www.youtube.com/watch?v=_SkmYu84zIw&ab_channel</div>
-                                    <img src={CloseIcon} width={16} style={{ objectFit: 'contain', cursor: 'pointer' }} />
+                                    <div className='url-name me-2'>{question}</div>
+                                    <img src={CloseIcon} width={16} style={{ objectFit: 'contain', cursor: 'pointer' }} onClick={handleRemove}/>
                                 </div>
                             </div>
-                        </div>
+                        </div>}
                         <div className='d-flex justify-content-center align-items-center' style={{ minHeight: 44 }}>
                             <div className='d-flex justify-content-center align-items-center'>
                                 <p className='linkUrl-text'>Link URL</p>
@@ -57,7 +87,7 @@ function BottomBar() {
                         </div>
                     </div>
                 </div>
-                <div className='sendIcon'>
+                <div className='sendIcon' onClick={handleAskPress}>
                     <img src={SendIcon} className='sendIcon-styles' />
                 </div>
             </div>
@@ -100,11 +130,14 @@ function BottomBar() {
                         className="form-control form-control-input"
                         placeholder='URL'
                         style={{ color: 'black', textIndent: 5 }}
+                        value={inputValue}
+                        onChange={handleInputChange}
+                        onKeyDown={handleKeyPress}
                     />
                 </Modal.Body>
                 <Modal.Footer>
                     <div className='d-flex justify-content-end align-items-center'>
-                        <button onClick={handleClose2} type="submit" className='blue-btn'>Done</button>
+                        <button onClick={handleDone} type="submit" className='blue-btn'>Done</button>
                     </div>
                 </Modal.Footer>
             </Modal>
