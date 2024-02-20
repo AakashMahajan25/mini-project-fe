@@ -25,6 +25,7 @@ const initialState = {
         isNewsViewed: false
     },
     investorStoryLoading: false,
+    watchlistLoading: false,
     stockIndexes: [],
     indexLoader: false,
     companyDetails: [],
@@ -284,6 +285,9 @@ const dashboardSlice = createSlice({
         const handleStockSearchLoading = (state, action) => {
             state.stockSearchLoading = action.meta.requestStatus === 'pending';
         };
+        const handleWatchlistLoading = (state, action) => {
+            state.watchlistLoading = action.meta.requestStatus === 'pending';
+        };
         builder
             .addCase(getTrendingStocks.fulfilled, (state, action) => {
                 state.trendingStocks = action.payload;
@@ -346,12 +350,6 @@ const dashboardSlice = createSlice({
                     action.type === getMostOnFrruitGpt.pending.type ||
                     action.type === getMostOnFrruitGpt.fulfilled.type ||
                     action.type === getMostOnFrruitGpt.rejected.type ||
-                    action.type === getUserWatchLists.pending.type ||
-                    action.type === getUserWatchLists.fulfilled.type ||
-                    action.type === getUserWatchLists.rejected.type ||
-                    action.type === getTickersById.pending.type ||
-                    action.type === getTickersById.fulfilled.type ||
-                    action.type === getTickersById.rejected.type ||
                     action.type === addTickertoWatchList.fulfilled.type ||
                     action.type === addTickertoWatchList.pending.type ||
                     action.type === addTickertoWatchList.rejected.type||
@@ -381,6 +379,17 @@ const dashboardSlice = createSlice({
                     action.type === getStockIndexes.pending.type ||
                     action.type === getStockIndexes.rejected.type,
                 handleIndexLoading
+            )
+            .addMatcher(
+                (action) =>
+                    action.type === getUserWatchLists.fulfilled.type ||
+                    action.type === getUserWatchLists.pending.type ||
+                    action.type === getUserWatchLists.rejected.type||
+                    action.type === getTickersById.pending.type ||
+                    action.type === getTickersById.fulfilled.type ||
+                    action.type === getTickersById.rejected.type ,
+                    
+                handleWatchlistLoading
             )
             .addMatcher(
                 (action) =>

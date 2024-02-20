@@ -44,12 +44,14 @@
         border-radius: 50px;
         color: #4563E4;
         margin-right: 10px;
+        text-transform: capitalize !important;
     }
 
     .css-1h9z7r5-MuiButtonBase-root-MuiTab-root.Mui-selected {
-        background-color: #4563E4;
-        border-radius: 50px;
-        color: #fff;
+        background-color: #4563E4 !important;
+        border-radius: 50px !important;
+        color: #fff !important;
+        text-transform: capitalize !important;
     }
 
     .css-1aquho2-MuiTabs-indicator {
