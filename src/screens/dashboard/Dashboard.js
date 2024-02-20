@@ -20,7 +20,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getInvestorStories, getMostOnFrruitGpt, getStockIndexes, getTrendingNews, getTrendingStocks, setStoryViewed } from './slice';
 import { getPromptSuggestion } from '../frruitGPT/slice';
 import Loader from '../../components/loader/Loader';
-import RightWhiteArrow from '../../assets/images/white-right.png';
+import RightWhiteArrow from '../../assets/images/right-arrow.png';
 import { getUserDetails } from '../profile/usersSlice';
 
 
@@ -86,8 +86,8 @@ function Dashboard() {
     ];
 
     const dispatch = useDispatch()
-    const { trendingStocks, trendingNews, mostOnFrruitGpt, storyViewed, investorStory, isLoading } = useSelector(state => state.dashboardSlice);
-    const { chatSuggestions } = useSelector(state => state.fruitGPTSlice);
+    const { trendingStocks, trendingNews, mostOnFrruitGpt, storyViewed, investorStory, isLoading,investorStoryLoading,indexLoader,stockIndexes } = useSelector(state => state.dashboardSlice);
+    const { chatSuggestions,suggestionLoader } = useSelector(state => state.fruitGPTSlice);
     const { userDetails } = useSelector(state => state.userSlice)
 
 
@@ -137,11 +137,10 @@ function Dashboard() {
     }, [storyType])
 
     useEffect(() => {
-        if (activeIndex === (stories?.length - 1)) {
-            dispatch(setStoryViewed(storyType.storyType))
+        if (activeIndex === (stories?.length - 1) || (stories?.length === 1 && activeIndex === 0)) {
+            dispatch(setStoryViewed(storyType.storyType));
         }
-    }, [activeIndex])
-
+    }, [activeIndex, stories]);
 
     const shouldShowStory = useMemo(() => (
         (investorStory.topicsNews.length > 0 ||
@@ -165,7 +164,8 @@ function Dashboard() {
                         mainHeading: el['title'],
                         storyImage: true,
                         viewImage: el['banner_image'],
-                        bottomsubDescription: el['summary']
+                        bottomsubDescription: el['summary'],
+                        url: el['URL']
                     })
                 }
             } else {
@@ -175,7 +175,8 @@ function Dashboard() {
                         mainHeading: el['Headline'],
                         storyImage: true,
                         viewImage: el['Image URL'],
-                        bottomsubDescription: el['Summary']
+                        bottomsubDescription: el['Summary'],
+                        url: el['URL']
                     })
                 }
             }
@@ -198,6 +199,10 @@ function Dashboard() {
     
     return (
         <>
+            {
+                (indexLoader || isLoading) &&
+                <Loader />
+            }
             <div className='dashboardHome row justify-content-between m-0'>
                 <div className='col-lg-3 column-pad'>
                     <LeftBox />
@@ -295,17 +300,17 @@ function Dashboard() {
                             </div>
                             <Slider prevArrow={<PreviousBtn />}
                                 nextArrow={<NextBtn />} {...storyImg}>
-                                {stories.map((image, index) => {
+                                {stories.map((story, index) => {
                                     return (
                                         <div className='d-flex justify-content-center'>
-                                            <div key={index} style={{ position: 'relative',width:800,height:550,background:image. themeBg,borderRadius: 20,padding:20}}>
+                                            <div key={index} style={{ position: 'relative',width:800,height:550,background:story. themeBg,borderRadius: 20,padding:20}}>
                                                 <div  style={{ background:'white',borderRadius: 20,padding:16,width:'100%',marginTop:20,height:250}}>
-                                                <img src={image.viewImage} style={{ objectFit: 'cover', borderRadius: 20, filter: 'grayscale(60%)',width:'100%',height:220 }} />
+                                                <img src={story.viewImage} style={{ objectFit: 'cover', borderRadius: 20, filter: 'grayscale(60%)',width:'100%',height:220 }} />
                                                 </div>
-                                                <div className='stories-img-text'>{image.bottomsubDescription}</div>
-                                                <div className='d-flex justify-content-between align-items-center'>
-                                                <button className='blue-btn  d-flex align-items-center justify-content-center' onClick={getFrruitClick}>{'Get Frruit'}  <img src={RightWhiteArrow} style={{ width: 6, objectFit: 'contain', marginLeft: 5 }} /></button>
-                                                <a className='secondary-btn' href='' target='_blank'> {'View More'}  </a>
+                                                <div className='stories-img-text'>{story.mainHeading}</div>
+                                                <div className='d-flex justify-content-between align-items-center mt-2'>
+                                                <button className='white-btn-main  d-flex align-items-center justify-content-center' onClick={getFrruitClick} style={{width:'48%'}}>{'Get Frruit'}  <img src={RightWhiteArrow} style={{ width: 20, objectFit: 'contain', marginLeft: 5 }} /></button>
+                                                <a className='secondary-btn' href={story.url} target='_blank' style={{textDecoration:'none',textAlign:'center',width:'48%'}}> {'View More'}  </a>
                                                 </div>
                                             </div>
                                         </div>

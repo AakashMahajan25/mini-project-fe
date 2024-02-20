@@ -24,7 +24,7 @@ const initialState = {
         isTopicViewed: false,
         isNewsViewed: false
     },
-
+    investorStoryLoading: false,
     stockIndexes: [],
     indexLoader: false,
     companyDetails: [],
@@ -278,6 +278,9 @@ const dashboardSlice = createSlice({
         const handleIndexLoading = (state, action) => {
             state.indexLoader = action.meta.requestStatus === 'pending';
         };
+        const handleInvestoryStoriesLoading = (state, action) => {
+            state.investorStoryLoading = action.meta.requestStatus === 'pending';
+        };
         const handleStockSearchLoading = (state, action) => {
             state.stockSearchLoading = action.meta.requestStatus === 'pending';
         };
@@ -349,9 +352,6 @@ const dashboardSlice = createSlice({
                     action.type === getTickersById.pending.type ||
                     action.type === getTickersById.fulfilled.type ||
                     action.type === getTickersById.rejected.type ||
-                    action.type === getInvestorStories.pending.type ||
-                    action.type === getInvestorStories.fulfilled.type ||
-                    action.type === getInvestorStories.rejected.type ||
                     action.type === addTickertoWatchList.fulfilled.type ||
                     action.type === addTickertoWatchList.pending.type ||
                     action.type === addTickertoWatchList.rejected.type||
@@ -381,6 +381,13 @@ const dashboardSlice = createSlice({
                     action.type === getStockIndexes.pending.type ||
                     action.type === getStockIndexes.rejected.type,
                 handleIndexLoading
+            )
+            .addMatcher(
+                (action) =>
+                action.type === getInvestorStories.pending.type ||
+                action.type === getInvestorStories.fulfilled.type ||
+                action.type === getInvestorStories.rejected.type ,
+                    handleInvestoryStoriesLoading
             )
             .addMatcher(
                 (action) =>

@@ -4,7 +4,6 @@ import GreenArrow from '../../assets/images/green_up-arrow.png'
 import RedArrow from '../../assets/images/red_down-arrow.png'
 import './StockPriceScroll.scss'
 import { useSelector } from "react-redux";
-import Loader from "../loader/Loader";
 
 export default function StockPriceScroll() {
     const [indexesData, setIndexesData] = useState([])
@@ -32,10 +31,6 @@ export default function StockPriceScroll() {
 
     return (
         <>
-            {
-                stockIndexes.length === 0 &&
-                <Loader />
-            }
             <div className="stockpricescroll">
                 <div className="banner py-2 d-flex justify-content-evenly" style={{ border: 'solid 1px #EDEDED', minHeight: 40 }}>
                     {/* <Marquee key={Math.random()} velocity={50} minScale={0.7} resetAfterTries={100}> */}
