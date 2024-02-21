@@ -49,7 +49,7 @@ function DashboardRightBox({ newsData, mostFrruitData }) {
                                     <div className='viewAllTeaxt' style={{ marginBottom: 20 }}>View All</div>
                                 </div>
                                 {
-                                    newsData?.slice(0, 3).map((newsItem, index) => (
+                                    newsData?.slice(0, 2).map((newsItem, index) => (
 
                                         <a href={newsItem?.newsLink} target='_blank' style={{ textDecoration: 'none' }}>
                                             <div key={index} className='newsBox' style={{ marginBottom: 20, cursor: 'pointer' }}>
