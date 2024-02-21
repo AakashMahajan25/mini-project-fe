@@ -182,7 +182,7 @@ export const deleteWatchList = createAsyncThunk("watchList/deleteWatchList", asy
     try {
         let data = {
             method: METHOD_TYPE.delete,
-            url:API_ENDPOINTS.deleteWatchList + watchlistId,
+            url: API_ENDPOINTS.deleteWatchList + watchlistId,
         };
         const response = await api(data);
         return response.data.data;
@@ -197,7 +197,7 @@ export const addWatchList = createAsyncThunk("watchList/addWatchList", async (wa
     try {
         let data = {
             method: METHOD_TYPE.post,
-            url:API_ENDPOINTS.addWatchList,
+            url: API_ENDPOINTS.addWatchList,
             data: { watchlist_name: watchListName }
         };
         const response = await api(data);
@@ -213,7 +213,7 @@ export const getStocksCompanyDetail = createAsyncThunk("watchList/getStocksCompa
     try {
         let data = {
             method: METHOD_TYPE.get,
-            url:API_ENDPOINTS.getCompanyDetail + symbol,
+            url: API_ENDPOINTS.getCompanyDetail + symbol,
         };
         const response = await api(data);
         return response.data.data;
@@ -350,24 +350,12 @@ const dashboardSlice = createSlice({
                     action.type === getMostOnFrruitGpt.pending.type ||
                     action.type === getMostOnFrruitGpt.fulfilled.type ||
                     action.type === getMostOnFrruitGpt.rejected.type ||
-                    action.type === addTickertoWatchList.fulfilled.type ||
-                    action.type === addTickertoWatchList.pending.type ||
-                    action.type === addTickertoWatchList.rejected.type||
-                    action.type === addWatchList.pending.type ||
-                    action.type === addWatchList.fulfilled.type ||
-                    action.type === addWatchList.rejected.type ||
-                    action.type === editWatchList.fulfilled.type ||
-                    action.type === editWatchList.rejected.type ||
-                    action.type === editWatchList.pending.type ||
-                    action.type === deleteWatchList.fulfilled.type ||
-                    action.type === deleteWatchList.pending.type ||
-                    action.type === deleteWatchList.rejected.type||
                     action.type === getStocksCompanyDetail.fulfilled.type ||
                     action.type === getStocksCompanyDetail.pending.type ||
-                    action.type === getStocksCompanyDetail.rejected.type||
+                    action.type === getStocksCompanyDetail.rejected.type ||
                     action.type === getStockStatistics.fulfilled.type ||
                     action.type === getStockStatistics.pending.type ||
-                    action.type === getStockStatistics.rejected.type||
+                    action.type === getStockStatistics.rejected.type ||
                     action.type === getGraphDetail.fulfilled.type ||
                     action.type === getGraphDetail.pending.type ||
                     action.type === getGraphDetail.rejected.type,
@@ -384,19 +372,31 @@ const dashboardSlice = createSlice({
                 (action) =>
                     action.type === getUserWatchLists.fulfilled.type ||
                     action.type === getUserWatchLists.pending.type ||
-                    action.type === getUserWatchLists.rejected.type||
+                    action.type === getUserWatchLists.rejected.type ||
                     action.type === getTickersById.pending.type ||
                     action.type === getTickersById.fulfilled.type ||
-                    action.type === getTickersById.rejected.type ,
-                    
+                    action.type === getTickersById.rejected.type ||
+                    action.type === addWatchList.pending.type ||
+                    action.type === addWatchList.fulfilled.type ||
+                    action.type === addWatchList.rejected.type ||
+                    action.type === editWatchList.fulfilled.type ||
+                    action.type === editWatchList.rejected.type ||
+                    action.type === editWatchList.pending.type ||
+                    action.type === deleteWatchList.fulfilled.type ||
+                    action.type === deleteWatchList.pending.type ||
+                    action.type === deleteWatchList.rejected.type ||
+                    action.type === addTickertoWatchList.fulfilled.type ||
+                    action.type === addTickertoWatchList.pending.type ||
+                    action.type === addTickertoWatchList.rejected.type,
+
                 handleWatchlistLoading
             )
             .addMatcher(
                 (action) =>
-                action.type === getInvestorStories.pending.type ||
-                action.type === getInvestorStories.fulfilled.type ||
-                action.type === getInvestorStories.rejected.type ,
-                    handleInvestoryStoriesLoading
+                    action.type === getInvestorStories.pending.type ||
+                    action.type === getInvestorStories.fulfilled.type ||
+                    action.type === getInvestorStories.rejected.type,
+                handleInvestoryStoriesLoading
             )
             .addMatcher(
                 (action) =>
