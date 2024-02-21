@@ -48,23 +48,21 @@ function FrruitGPTLeftBox(props) {
     return (
 
         <div className='Frruit-GPT-left-box'>
-            {!show && <button onClick={() => setShow(!show)} className='blue-btn radius-button d-flex align-items-center justify-content-center' >Chat History<img src={LeftWhiteArrow} style={{ width: 8, height: 13, objectFit: 'contain', marginLeft: 5 }} /></button>}
-            {show && <div className='promptView' style={{ animation: show ? 'slideHistoryInRight 0.3s ease-in-out' : 'none' }}>
-                <div className='box' style={{ height: window.innerHeight - 105 }}>
-                    <div className="position-relative" style={{ marginBottom: 20 }}>
-                        <input type="text" className="form-control form-control-search" placeholder='Search Here' value={searchParam} onChange={(e) => setSearchParam(e.target.value)} />
-                        <div className="position-absolute" style={{ left: 15, top: '15%' }}>
-                            <img src={SearchIcon} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} alt="Search Icon" />
-                        </div>
+            <div className='box' style={{ height: window.innerHeight - 105 }}>
+                <div className="position-relative" style={{ marginBottom: 20 }}>
+                    <input type="text" className="form-control form-control-search" placeholder='Search Here' value={searchParam} onChange={(e) => setSearchParam(e.target.value)} />
+                    <div className="position-absolute" style={{ left: 15, top: '15%' }}>
+                        <img src={SearchIcon} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} alt="Search Icon" />
                     </div>
-                    <div className="position-relative blue-box" style={{ marginBottom: 20, cursor: 'pointer' }} onClick={handleNewChat}>
-                        <div className='new-chat-text'>New Chat</div>
-                        <div className="position-absolute" style={{ right: 14, top: '19%' }}>
-                            <img src={ChatIcon} style={{ width: 24, objectFit: 'contain', cursor: 'pointer' }} alt="Search Icon" />
-                        </div>
+                </div>
+                <div className="position-relative blue-box" style={{ marginBottom: 20, cursor: 'pointer' }} onClick={handleNewChat}>
+                    <div className='new-chat-text'>New Chat</div>
+                    <div className="position-absolute" style={{ right: 14, top: '19%' }}>
+                        <img src={ChatIcon} style={{ width: 24, objectFit: 'contain', cursor: 'pointer' }} alt="Search Icon" />
                     </div>
-                    <div className='history-text'>History</div>
-                    {/* <div className='time-text'>Today</div>
+                </div>
+                <div className='history-text'>History</div>
+                {/* <div className='time-text'>Today</div>
                     <div>
                         {TodaysTexts.map((text, index) => (
                             <div key={index} className='blue-box'>
@@ -72,27 +70,24 @@ function FrruitGPTLeftBox(props) {
                             </div>
                         ))}
                     </div> */}
-                    <div>
-                        {promptList?.map((item, index) => (
-                            <>
-                                <div className='time-text' style={{ fontWeight: '500' }}>{
-                                    moment(item?.date).isSame(moment(), 'day')
-                                        ? "Today"
-                                        : moment(item?.date).format('DD MMM YYYY')
-                                }</div>
-                                {item?.data?.slice().reverse().map((item, index, array) => (
-                                    <Nav.Link key={index} className={selectedChat === item.prompt_id ? 'blue-box-active' : 'blue-box'} onClick={() => { historyClick(item?.prompt_id); setShow(!show) }} style={{ marginBottom: index === array.length - 1 ? 20 : 10 }}>
-                                        <Nav.Link className=''>{trimText(item?.prompt_text, 40)}</Nav.Link>
-                                    </Nav.Link>
-                                ))}
-                            </>
-                        ))}
-                    </div>
+                <div>
+                    {promptList?.map((item, index) => (
+                        <>
+                            <div className='time-text' style={{ fontWeight: '500' }}>{
+                                moment(item?.date).isSame(moment(), 'day')
+                                    ? "Today"
+                                    : moment(item?.date).format('DD MMM YYYY')
+                            }</div>
+                            {item?.data?.slice().reverse().map((item, index, array) => (
+                                <Nav.Link key={index} className={selectedChat === item.prompt_id ? 'blue-box-active' : 'blue-box'} onClick={() => { historyClick(item?.prompt_id); setShow(!show) }} style={{ marginBottom: index === array.length - 1 ? 20 : 10 }}>
+                                    <Nav.Link className=''>{trimText(item?.prompt_text, 40)}</Nav.Link>
+                                </Nav.Link>
+                            ))}
+                        </>
+                    ))}
                 </div>
-                <button onClick={() => setShow(!show)} className='blue-btn radius-small-button d-flex align-items-center justify-content-center' style={{ height: 40 }} ><img src={RightWhiteArrow} style={{ width: 8, height: 13, objectFit: 'contain' }} /></button>
-            </div>}
+            </div>
         </div>
-
     )
 }
 
