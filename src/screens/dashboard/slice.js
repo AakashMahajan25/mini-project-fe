@@ -61,11 +61,11 @@ export const getTrendingNews = createAsyncThunk("dashboard/getTrendingNews", asy
     }
 });
 
-export const getMostOnFrruitGpt = createAsyncThunk("dashboard/getMostOnFrruitGpt", async () => {
+export const getMostOnFrruitGpt = createAsyncThunk("dashboard/getMostOnFrruitGpt", async (limit) => {
     try {
         let data = {
             method: METHOD_TYPE.get,
-            url: API_ENDPOINTS.getMostFrruitGpt,
+            url: API_ENDPOINTS.getMostFrruitGpt + limit,
         };
         const response = await api(data);
         return response.data.data;

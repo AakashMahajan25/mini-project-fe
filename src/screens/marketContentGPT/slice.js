@@ -7,7 +7,7 @@ import axios from "axios";
 const initialState = {
     isLoading: false,
     contentChatHistory: [],
-    attactmentUrl: [],
+    contentPromptList: [],
     error: null
 }
 
@@ -16,7 +16,7 @@ export const triggerContentPrompt = createAsyncThunk("contentGpt/triggerContentP
     try {
         let data = {
             method: METHOD_TYPE.post,
-            url: API_ENDPOINTS.triggerContentPrompt ,
+            url: API_ENDPOINTS.triggerContentPrompt,
             data: requestData
         };
         const response = await api(data);
@@ -90,7 +90,7 @@ export const triggerDocumentChat = createAsyncThunk("contentGpt/triggerDocumentC
     try {
         let data = {
             method: METHOD_TYPE.post,
-            url: API_ENDPOINTS.triggerDocumentChat ,
+            url: API_ENDPOINTS.triggerDocumentChat,
             data: requestData
         };
         const response = await api(data);
@@ -112,9 +112,34 @@ export const triggerDocumentChat = createAsyncThunk("contentGpt/triggerDocumentC
     }
 });
 
+export const getContentPromptList = createAsyncThunk("fruitGpt/getContentPromptList", async (filterType) => {
+    try {
+        let data = {
+            method: METHOD_TYPE.get,
+            url: API_ENDPOINTS.getContentPromptList + filterType,
+        };
+        const response = await api(data);
+        return response.data.data;
 
+    } catch (error) {
+        throw error.response;
+    }
+});
 
+export const getContentPromptHistory = createAsyncThunk("fruitGpt/getContentPromptHistory", async (Id) => {
+    try {
+        let data = {
+            method: METHOD_TYPE.get,
+            url: `${API_ENDPOINTS.getContentPromptHistory}${Id}`,
+        };
+        const response = await api(data);
+        return response.data.data;
 
+    } catch (error) {
+        console.log('error::::', error.response)
+        throw error.response;
+    }
+});
 
 
 
@@ -141,37 +166,50 @@ const contentGPTSlice = createSlice({
         };
 
         builder
+            .addCase(getContentPromptHistory.fulfilled, (state, action) => {
+                const history = action.payload.map(row => (row.type === 'link' && row.person === 'bot') ? ({ ...row, text: JSON.parse(row.text) }) : row)
+                state.contentChatHistory = history;
+            })
             .addCase(triggerContentPrompt.fulfilled, (state, action) => {
-                if(action.payload !== undefined)
-                state.contentChatHistory = [...state?.contentChatHistory, ...action.payload];
+                if (action.payload !== undefined)
+                    state.contentChatHistory = [...state?.contentChatHistory, ...action.payload];
             })
             .addCase(triggerDocumentChat.fulfilled, (state, action) => {
-                if(action.payload !== undefined)
-                state.contentChatHistory = [...state?.contentChatHistory, ...action.payload];
+                if (action.payload !== undefined)
+                    state.contentChatHistory = [...state?.contentChatHistory, ...action.payload];
             })
-            // .addCase(getUploadURL.fulfilled, (state, action) => {
-            //     state.attactmentUrl = action.payload;
-            // })
+            .addCase(getContentPromptList.fulfilled, (state, action) => {
+                state.contentPromptList = action.payload;
+            })
             .addMatcher(
                 (action) =>
-                    action.type === triggerContentPrompt.pending.type ||
-                    action.type === triggerContentPrompt.fulfilled.type ||
-                    action.type === triggerContentPrompt.rejected.type ||
                     action.type === getUploadURL.pending.type ||
                     action.type === getUploadURL.fulfilled.type ||
                     action.type === getUploadURL.rejected.type ||
                     action.type === updateUploadURL.pending.type ||
                     action.type === updateUploadURL.fulfilled.type ||
                     action.type === updateUploadURL.rejected.type ||
+                    action.type === getContentPromptList.pending.type ||
+                    action.type === getContentPromptList.fulfilled.type ||
+                    action.type === getContentPromptList.rejected.type ||
+                    action.type === getContentPromptHistory.pending.type ||
+                    action.type === getContentPromptHistory.fulfilled.type ||
+                    action.type === getContentPromptHistory.rejected.type,
+                handleLoading
+            )
+            .addMatcher(
+                (action) =>
+                    action.type === triggerContentPrompt.pending.type ||
+                    action.type === triggerContentPrompt.fulfilled.type ||
+                    action.type === triggerContentPrompt.rejected.type ||
                     action.type === triggerDocumentChat.pending.type ||
                     action.type === triggerDocumentChat.fulfilled.type ||
-                    action.type === triggerDocumentChat.rejected.type ,
-
-                    handlefrruitLoading
+                    action.type === triggerDocumentChat.rejected.type,
+                handlefrruitLoading
             )
-          
+
     }
 });
 
-export const { setChatHistory, clearContentChatHistory,clearAttactmentUrl } = contentGPTSlice.actions;
+export const { setChatHistory, clearContentChatHistory, clearAttactmentUrl } = contentGPTSlice.actions;
 export default contentGPTSlice.reducer;

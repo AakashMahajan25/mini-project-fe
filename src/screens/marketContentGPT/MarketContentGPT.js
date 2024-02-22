@@ -5,7 +5,7 @@ import BottomBar from '../../components/marketContentGPT/BottomBar';
 import ChatGpt from '../../components/frruitGpt/ChatGpt';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-import { addDocument, clearAttactmentUrl, clearContentChatHistory, getUploadURL, setChatHistory, triggerContentPrompt, triggerDocumentChat, updateUploadURL } from './slice';
+import { addDocument, clearAttactmentUrl, clearContentChatHistory, getContentPromptHistory, getContentPromptList, getUploadURL, setChatHistory, triggerContentPrompt, triggerDocumentChat, updateUploadURL } from './slice';
 import { clearChatHistory } from '../frruitGPT/slice';
 
 function MarketContentGPT() {
@@ -13,27 +13,28 @@ function MarketContentGPT() {
     const gptRef = useRef(null)
     const [question, setQuestion] = useState('')
     const isNewChat = useRef(true)
-    const { chatHistory } = useSelector(state => state.contentGPTSlice);
+    const { contentChatHistory } = useSelector(state => state.contentGPTSlice);
     const [selectedChat, setSelectedChat] = useState(null)
     const [selectedFile, setSelectedFile] = useState(null);
     const [showQuestion, setShowQuestion] = useState(false);
-    const [promptId, setPromptId] = useState(null);
+    const [selectedType, setSelectedType] = useState(null);
 
 
     useEffect(() => {
         dispatch(clearContentChatHistory())
+        dispatch(getContentPromptList())
         dispatch(clearChatHistory())
     }, [])
 
 
     useEffect(() => {
-        if (chatHistory?.length > 0) {
-            const lastChat = chatHistory[chatHistory?.length - 1]
+        if (contentChatHistory?.length > 0) {
+            const lastChat = contentChatHistory[contentChatHistory?.length - 1]
             if (lastChat?.person === "user") {
                 scrollToBottom();
             }
         }
-    }, [chatHistory])
+    }, [contentChatHistory])
 
     const askContentGpt = async (promptId, title) => {
         // const searchText = question
@@ -50,6 +51,7 @@ function MarketContentGPT() {
         dispatch(triggerContentPrompt(requestData))
             .unwrap()
             .then(res => {
+                dispatch(getContentPromptList('link'))
                 setQuestion('');
                 scrollDown(250)
             })
@@ -59,9 +61,11 @@ function MarketContentGPT() {
             })
     }
 
+    
+    console.log('selectedType', selectedType)
     const getUrlOfAttchment = async () => {
-        if (promptId) {
-            askAttachmentContentGpt(promptId,question)
+        if (selectedChat) {
+            askAttachmentContentGpt(selectedChat, question)
         }
         else {
             dispatch(getUploadURL(selectedFile))
@@ -74,7 +78,7 @@ function MarketContentGPT() {
                     dispatch(setChatHistory([{
                         person: "user",
                         text: selectedFile?.name,
-                        type: "attachment"
+                        type: "attach"
                     }]))
                     setShowQuestion(true)
                     dispatch(updateUploadURL(data))
@@ -89,9 +93,10 @@ function MarketContentGPT() {
                                 dispatch(addDocument(requestData))
                                     .unwrap()
                                     .then(res => {
-                                        setPromptId(res?.prompt_id)
-                                        askAttachmentContentGpt(promptId)
+                                        setSelectedChat(res?.prompt_id)
+                                        askAttachmentContentGpt(res?.prompt_id)
                                         setQuestion('');
+                                        dispatch(getContentPromptList('attachment'))
                                         // setSelectedFile(null)
                                     })
                                     .catch(error => {
@@ -108,18 +113,18 @@ function MarketContentGPT() {
     }
 
     const askAttachmentContentGpt = async (promptId, title) => {
-        setQuestion('');
-        if(question){
+        // setQuestion('');
+        if (question) {
             const requestData = {
                 prompt_id: promptId,
-                message: title?title:question,
+                message: title ? title : question,
             }
             dispatch(setChatHistory([{
                 person: "user",
                 text: requestData?.message,
                 type: "text"
             }]))
-    
+
             dispatch(triggerDocumentChat(requestData))
                 .unwrap()
                 .then(res => {
@@ -130,8 +135,7 @@ function MarketContentGPT() {
                     setQuestion('');
                     toast.error(error?.message)
                 })
-        }else{
-            
+        } else {
             dispatch(setChatHistory([{
                 person: "bot",
                 text: "Please ask the question about your Document",
@@ -142,14 +146,13 @@ function MarketContentGPT() {
 
     const handleAskPress = (type) => {
         if (type === 'link') {
-            handleNewChat()
             if (!question) {
                 return;
             }
             // if (isNewChat.current)
-            // handleLinkClick()
+            // handleNewChat()
             else
-                askContentGpt(null, null)
+            askContentGpt(null, null)
         }
         else if (type === 'attachment') {
             setQuestion(selectedFile?.name)
@@ -165,22 +168,23 @@ function MarketContentGPT() {
         isNewChat.current = true
         dispatch(clearContentChatHistory())
         setSelectedChat(null)
-        setPromptId(null)
         setShowQuestion(false)
         setSelectedFile(null)
     }
 
-    const handleHistory = (Id) => {
-        // dispatch(getPromptHistory(Id))
-        //     .unwrap()
-        //     .then(res => {
-        //         isNewChat.current = false
-        //         setSelectedChat(Id)
-        //         scrollToBottom();
-        //     })
-        //     .catch(error => {
-        //         console.log('error', error)
-        //     })
+    const handleHistory = (Id,type) => {
+        dispatch(getContentPromptHistory(Id))
+            .unwrap()
+            .then(res => {
+                isNewChat.current = false
+                setSelectedChat(Id)
+                scrollToBottom();
+                setShowQuestion(true)
+                setSelectedType(type)
+            })
+            .catch(error => {
+                console.log('error', error)
+            })
     }
 
     const scrollToBottom = () => {
