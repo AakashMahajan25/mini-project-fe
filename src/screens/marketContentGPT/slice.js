@@ -2,14 +2,12 @@ import { createAsyncThunk, createSlice, isAnyOf } from "@reduxjs/toolkit";
 import { API_ENDPOINTS, METHOD_TYPE } from "../../utils/apiUrls";
 import api from "../../utils/api";
 import { toast } from "react-toastify";
+import axios from "axios";
 
 const initialState = {
-    chatSuggestions: [],
-    promptList: [],
-    contentChatHistory: [],
     isLoading: false,
-    suggestionLoader: false,
-    contentGPTLoader: false,
+    contentChatHistory: [],
+    attactmentUrl: [],
     error: null
 }
 
@@ -41,6 +39,84 @@ export const triggerContentPrompt = createAsyncThunk("contentGpt/triggerContentP
 });
 
 
+export const getUploadURL = createAsyncThunk("contentGpt/getUploadURL", async (fileDetail) => {
+    try {
+        let data = {
+            method: METHOD_TYPE.get,
+            url: `${API_ENDPOINTS.get_uploadUrl}?fileName=${fileDetail.name}&fileType=${fileDetail.type}`,
+        };
+        const response = await api(data);
+        return response.data;
+
+    } catch (error) {
+        console.log('error::::', error.response)
+        throw error.response;
+    }
+});
+
+export const updateUploadURL = createAsyncThunk("contentGpt/updateUploadURL", async ({ url, file }) => {
+    try {
+        const config = {
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
+        };
+        const response = await axios.put(url, file, config);
+        return response;
+    } catch (error) {
+        console.log('error::::', error);
+        throw error;
+    }
+});
+
+export const addDocument = createAsyncThunk("contentGpt/addDocument", async (requestData) => {
+    try {
+        let data = {
+            method: METHOD_TYPE.post,
+            url: API_ENDPOINTS.addDocument,
+            data: requestData,
+        };
+        const response = await api(data);
+        return response.data.data;
+
+    } catch (error) {
+        console.log('error::::', error.response)
+        throw error.response;
+    }
+});
+
+
+export const triggerDocumentChat = createAsyncThunk("contentGpt/triggerDocumentChat", async (requestData) => {
+    try {
+        let data = {
+            method: METHOD_TYPE.post,
+            url: API_ENDPOINTS.triggerDocumentChat ,
+            data: requestData
+        };
+        const response = await api(data);
+        if (!response.data.status) {
+            toast.error(response.data.message)
+        }
+        const chatData = [{
+            person: "bot",
+            text: response.data.data,
+            type: "attachment"
+        }]
+        return chatData;
+
+    } catch (error) {
+        if (!error.response?.data.status) {
+            toast.error(error?.response?.data?.message)
+        }
+        throw error.response.data;
+    }
+});
+
+
+
+
+
+
 
 const contentGPTSlice = createSlice({
     name: "contentGPT",
@@ -49,8 +125,11 @@ const contentGPTSlice = createSlice({
         setChatHistory: (state, action) => {
             state.contentChatHistory = [...state?.contentChatHistory, ...action.payload];
         },
-        clearChatHistory: (state, action) => {
+        clearContentChatHistory: (state, action) => {
             state.contentChatHistory = [];
+        },
+        clearAttactmentUrl: (state, action) => {
+            state.attactmentUrl = [];
         }
     },
     extraReducers: (builder) => {
@@ -66,11 +145,27 @@ const contentGPTSlice = createSlice({
                 if(action.payload !== undefined)
                 state.contentChatHistory = [...state?.contentChatHistory, ...action.payload];
             })
+            .addCase(triggerDocumentChat.fulfilled, (state, action) => {
+                if(action.payload !== undefined)
+                state.contentChatHistory = [...state?.contentChatHistory, ...action.payload];
+            })
+            // .addCase(getUploadURL.fulfilled, (state, action) => {
+            //     state.attactmentUrl = action.payload;
+            // })
             .addMatcher(
                 (action) =>
                     action.type === triggerContentPrompt.pending.type ||
                     action.type === triggerContentPrompt.fulfilled.type ||
-                    action.type === triggerContentPrompt.rejected.type ,
+                    action.type === triggerContentPrompt.rejected.type ||
+                    action.type === getUploadURL.pending.type ||
+                    action.type === getUploadURL.fulfilled.type ||
+                    action.type === getUploadURL.rejected.type ||
+                    action.type === updateUploadURL.pending.type ||
+                    action.type === updateUploadURL.fulfilled.type ||
+                    action.type === updateUploadURL.rejected.type ||
+                    action.type === triggerDocumentChat.pending.type ||
+                    action.type === triggerDocumentChat.fulfilled.type ||
+                    action.type === triggerDocumentChat.rejected.type ,
 
                     handlefrruitLoading
             )
@@ -78,5 +173,5 @@ const contentGPTSlice = createSlice({
     }
 });
 
-export const { setChatHistory, clearChatHistory } = contentGPTSlice.actions;
+export const { setChatHistory, clearContentChatHistory,clearAttactmentUrl } = contentGPTSlice.actions;
 export default contentGPTSlice.reducer;
