@@ -103,6 +103,25 @@
                 margin-bottom: 0px;
                 text-align: right;
             }
+            .attached-doc-white-box {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background-color: #fff;
+                border-radius: 15px;
+                padding: 5px 10px;
+                width: max-content;
+                margin-right: 5px;
+                margin-bottom: 5px;
+    
+                .pdf-name {
+                    font-family: Roboto;
+                    font-size: 14px;
+                    font-weight: 400;
+                    line-height: 16px;
+                    color: #4563E4;
+                }
+            }
         }
     }
 

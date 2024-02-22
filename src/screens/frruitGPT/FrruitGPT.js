@@ -11,6 +11,7 @@ import { addChatPrompt, clearChatHistory, getPromptHistory, getPromptList, getPr
 import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
 import { getStockIndexes } from '../dashboard/slice'
+import { clearContentChatHistory } from '../marketContentGPT/slice'
 
 function FrruitGPT() {
     const dispatch = useDispatch();
@@ -28,6 +29,7 @@ function FrruitGPT() {
         dispatch(getPromptList())
         dispatch(clearChatHistory())
         dispatch(getStockIndexes())
+        dispatch(clearContentChatHistory())
     }, [])
 
     useEffect(() => {

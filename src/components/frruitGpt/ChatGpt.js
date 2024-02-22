@@ -15,6 +15,7 @@ import { useSelector } from 'react-redux'
 import { replaceNewlinesWithBr } from '../../utils/utils'
 import { useLoading, Audio, SpinningCircles, Circles, ThreeDots } from '@agney/react-loading';
 import { useLocation } from 'react-router'
+import UploadDocImg from '../../assets/images/doc-img.png'
 
 function ChatGpt(props) {
     const { chatSuggestions } = useSelector(state => state.fruitGPTSlice);
@@ -172,10 +173,12 @@ function ChatGpt(props) {
         }
     }
 
+
+    // console.log('contentChatHistory===============', contentChatHistory)
     return (
         <>
             <div className='ChatGpt' style={{ height: window.innerHeight - 190 }} ref={containerRef}>
-               {!path && <div className='default-screens-content mt-4'>
+                {!path && <div className='default-screens-content mt-4'>
                     <div className='text-center'>
                         <img src={LogoCircle} width={57} style={{ objectFit: 'contain' }} />
                         <div className='help-text'>How can I help you today ?</div>
@@ -334,16 +337,35 @@ function ChatGpt(props) {
                 {
                     contentChatHistory?.map((chat, index) =>
                         chat?.person === 'user' ?
-                            <div className='rightChat'>
-                                {/* <img src={ProfileIcon} className='profile-styles' /> */}
-                                <div className='d-flex align-items-center my-2 floatRight'>
-                                    <img src={ArrowGrey} className='arrow' />
-                                    <p className='you-text'>You</p>
+
+                            chat.type === 'text' ?
+                                <div className='rightChat' style={{ marginTop: -90 }}>
+                                    {/* <img src={ProfileIcon} className='profile-styles' /> */}
+                                    <div className='d-flex align-items-center my-2 floatRight'>
+                                        <img src={ArrowGrey} className='arrow' />
+                                        <p className='you-text'>You</p>
+                                    </div>
+                                    <div className='chat-text-container'>
+                                        <h3 className='chat-text'>{chat?.text}</h3>
+                                    </div>
                                 </div>
-                                <div className='chat-text-container'>
-                                    <h3 className='chat-text'>{chat?.text}</h3>
+                                :
+                                <div className='rightChat'>
+                                    {/* <img src={ProfileIcon} className='profile-styles' /> */}
+                                    <div className='d-flex align-items-center my-2 floatRight'>
+                                        <img src={ArrowGrey} className='arrow' />
+                                        <p className='you-text'>You</p>
+                                    </div>
+                                    <div className='chat-text-container'>
+                                        <div className='d-flex'>
+                                            <div className='attached-doc-white-box'>
+                                                <img src={UploadDocImg} width={44} style={{ objectFit: 'contain' }} />
+                                                <div className='pdf-name me-2'>{chat?.text}</div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
+
                             :
                             <div className='leftChat'>
                                 {
@@ -354,23 +376,27 @@ function ChatGpt(props) {
                                     </div>
                                 }
                                 {
-                                    chat.type === 'link' &&
-                                    <div className='chat-text-container' style={{marginBottom:100}}>
-                                        <h3 className='chat-text' style={{fontWeight:'700'}}>Key Points:-</h3>
-                                        <h3 className='chat-text mt-1' dangerouslySetInnerHTML={{ __html: replaceNewlinesWithBr(chat?.text?.Response?.Key_points || '') }}></h3>
-                                        <h3 className='chat-text mt-2' style={{fontWeight:'700'}}>Summary:-</h3>
-                                        <h3 className='chat-text mt-1' dangerouslySetInnerHTML={{ __html: replaceNewlinesWithBr(chat?.text?.Response?.summary || '') }}></h3>
-                                        <h3 className='chat-text mt-2' style={{fontWeight:'700'}}>Sentiment:-</h3>
-                                        <h3 className='chat-text mt-1' dangerouslySetInnerHTML={{ __html: replaceNewlinesWithBr(chat?.text?.Response?.sentiment || '') }}></h3>
-                                    </div>
+                                    chat.type === 'link' ?
+                                        <div className='chat-text-container' style={{ marginBottom: 100 }}>
+                                            <h3 className='chat-text' style={{ fontWeight: '700' }}>Key Points:-</h3>
+                                            <h3 className='chat-text mt-1' dangerouslySetInnerHTML={{ __html: replaceNewlinesWithBr(chat?.text?.Response?.Key_points || '') }}></h3>
+                                            <h3 className='chat-text mt-2' style={{ fontWeight: '700' }}>Summary:-</h3>
+                                            <h3 className='chat-text mt-1' dangerouslySetInnerHTML={{ __html: replaceNewlinesWithBr(chat?.text?.Response?.summary || '') }}></h3>
+                                            <h3 className='chat-text mt-2' style={{ fontWeight: '700' }}>Sentiment:-</h3>
+                                            <h3 className='chat-text mt-1' dangerouslySetInnerHTML={{ __html: replaceNewlinesWithBr(chat?.text?.Response?.sentiment || '') }}></h3>
+                                        </div>
+                                        :
+                                        <div className='chat-text-container' style={{ marginBottom: 90 }}>
+                                            <h3 className='chat-text mt-1' dangerouslySetInnerHTML={{ __html: replaceNewlinesWithBr(chat?.text || '') }}></h3>
+                                        </div>
 
                                 }
-                    
+
                             </div>
                     )}
                 {
                     (frruitLoader || contentGPTLoader) &&
-                    <section {...containerProps} style={{marginLeft:20}}>
+                    <section {...containerProps} style={{ marginLeft: 20 }}>
                         {indicatorEl} {/* renders only while loading */}
                     </section>
                 }

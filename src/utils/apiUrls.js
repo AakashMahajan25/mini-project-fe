@@ -52,4 +52,7 @@ export const API_ENDPOINTS = {
     getInvestorStories: 'users/getInvestorStories',
     triggerGPTGraph: 'prompts/triggerGraph',
     triggerContentPrompt: 'contentPrompt/triggerContentPrompt',
+    get_uploadUrl: '/contentPrompt/getSignedUrl',
+    triggerDocumentChat: 'contentPrompt/triggerDocumentChat',
+    addDocument: 'contentPrompt/addDocument',
 }
