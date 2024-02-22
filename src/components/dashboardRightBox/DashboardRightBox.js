@@ -54,7 +54,7 @@ function DashboardRightBox({ newsData, mostFrruitData, onViewAllClick }) {
                         </>
                     }
                     <div className='box-content'>
-                        {/* {newsData?.length > 0 && */}
+                        {newsData?.length > 0 &&
                         <>
                             <div className='d-flex justify-content-between align-items-center'>
                                 <div className='title' style={{ marginBottom: 20 }}>Latest News</div>
@@ -79,7 +79,7 @@ function DashboardRightBox({ newsData, mostFrruitData, onViewAllClick }) {
                                     </a>
                                 ))}
                         </>
-                        {/* } */}
+}
                     </div>
                 </div>
                 <Modal show={show}
