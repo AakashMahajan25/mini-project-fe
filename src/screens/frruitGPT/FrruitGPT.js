@@ -47,7 +47,7 @@ function FrruitGPT() {
                 scrollToBottom();
             }
         }
-    }, [chatHistory])    
+    }, [chatHistory])
 
     const clearState = () => {
         const updatedLocation = {
@@ -151,20 +151,23 @@ function FrruitGPT() {
 
     return (
         <>
-            <div className='row justify-content-between m-0'>
-                {/* <div className='col-lg-3 column-pad'>
+            {/* <div className=''> */}
+            {/* <div className='col-lg-3 column-pad'>
                     <FrruitGPTLeftBox
                         handleNewChat={handleNewChat}
                         handleHistory={handleHistory}
                         selectedChat={selectedChat}
                     />
                 </div> */}
-                <div className='col-lg-12 column-pad position-relative'>
-                <FrruitGPTLeftBox
+            <div className='row justify-content-between m-0 column-pad position-relative'>
+                <div className='col-xl-3 p-0'>
+                    <FrruitGPTLeftBox
                         handleNewChat={handleNewChat}
                         handleHistory={handleHistory}
                         selectedChat={selectedChat}
                     />
+                </div>
+                <div className='col-xl-9 p-0'>
                     <ChatGpt
                         containerRef={gptRef}
                     />
@@ -178,6 +181,7 @@ function FrruitGPT() {
                     />
                 </div>
             </div>
+            {/* </div> */}
         </>
     )
 }

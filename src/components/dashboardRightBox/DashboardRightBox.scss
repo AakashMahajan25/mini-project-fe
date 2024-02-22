@@ -66,5 +66,23 @@
             }
         }
     }
+}
 
+.viewModal {
+    .header-text {
+        font-family: Roboto;
+        font-size: 16px;
+        font-weight: 600;
+        color: #171E42;
+    }
+
+    .blue-box {
+        padding: 8px 8px;
+        background-color: #F1F4FD;
+        color: #6F7387;
+        border-radius: 15px;
+        width: 100%;
+        margin-bottom: 5px;
+        margin-top: 5px;
+    }
 }

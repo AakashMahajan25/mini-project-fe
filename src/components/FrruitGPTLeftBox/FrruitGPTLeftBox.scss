@@ -89,24 +89,23 @@
     }
 
     .box {
-        // border: 1px solid #E5E5E5;
-        // width: 100%;
-        // border-left: 0px;
-        // padding: 16px;
+        border: 1px solid #E5E5E5;
+        width: 100%;
+        border-left: 0px;
+        padding: 16px;
         // position: sticky;
-        // left: 0;
-        // overflow: scroll;
-        // overflow-x: hiddenx;
+        overflow: scroll;
+        overflow-x: hiddenx;
 
-        border-right: 1px solid #E5E5E5;
-        border-bottom: 1px solid #E5E5E5;
-        border-left: 1px solid #E5E5E5;
-        background: #FFF;
-        box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.10);
-        position: static;
-        width: 413px;
-        padding: 16px 30px 16px 20px;
-        overflow-y: scroll;
+        // border-right: 1px solid #E5E5E5;
+        // border-bottom: 1px solid #E5E5E5;
+        // border-left: 1px solid #E5E5E5;
+        // background: #FFF;
+        // box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.10);
+        // position: static;
+        // width: 413px;
+        // padding: 16px 30px 16px 20px;
+        // overflow-y: scroll;
 
 
         .blue-box {
@@ -190,6 +189,7 @@
     from {
         transform: translateX(-100%);
     }
+
     to {
         transform: translateX(0);
     }
