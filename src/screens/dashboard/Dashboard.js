@@ -22,6 +22,7 @@ import { getPromptSuggestion } from '../frruitGPT/slice';
 import Loader from '../../components/loader/Loader';
 import RightWhiteArrow from '../../assets/images/right-arrow.png';
 import { getUserDetails } from '../profile/usersSlice';
+import NewsViewAll from '../../components/dashboard/NewsViewAll';
 
 
 const storyEnum = {
@@ -200,6 +201,9 @@ function Dashboard() {
     const handleViewAllClick = () => {
         setShowAllContent(!showAllContent);
     };
+    const toggleShowAllContent = () => {
+        setShowAllContent(prevState => !prevState);
+    };
     const [showAllContent, setShowAllContent] = useState(true);
 
     return (
@@ -279,7 +283,7 @@ function Dashboard() {
                     }
                     {!showAllContent &&
                         <div className='col-lg-9 column-pad'>
-                          
+                            <NewsViewAll backBtnClick={toggleShowAllContent} />
                         </div>
                     }
                 </>
