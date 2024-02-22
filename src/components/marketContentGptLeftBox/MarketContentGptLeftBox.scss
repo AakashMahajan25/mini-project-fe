@@ -9,6 +9,21 @@
         overflow: scroll;
         overflow-x: hiddenx;
 
+        .customDiscoverCorrelationtabs {
+            border-radius: 50px;
+            background: #E5EAFF;
+            border: 0px;
+            padding: 5px;
+            align-items: center;
+            justify-content: space-between;
+            width: max-content;
+            margin-bottom: 15px;
+        }
+
+        .nav-pills .nav-link {
+            border-radius: 50px !important;
+        }
+
         .blue-box {
             padding: 11px 16px;
             background-color: #F1F4FD;
