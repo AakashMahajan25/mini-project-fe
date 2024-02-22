@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react'
 import './MarketContentGptLeftBox.scss';
 import SearchIcon from '../../assets/images/search-icon.png';
 import ChatIcon from '../../assets/images/new-chat-icon.png';
-import Nav from 'react-bootstrap/Nav';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPromptList, searchPrompt } from '../../screens/frruitGPT/slice';
 import moment from 'moment';
 import { trimText } from '../../utils/utils';
+import { Nav, Tab, Tabs } from 'react-bootstrap'
 
 function MarketContentGptLeftBox(props) {
     const [show, setShow] = useState(false)
@@ -78,24 +78,42 @@ function MarketContentGptLeftBox(props) {
                             <img src={ChatIcon} style={{ width: 24, objectFit: 'contain', cursor: 'pointer' }} alt="Search Icon" />
                         </div>
                     </div>
-                    <div className='history-text'>Document / Link History</div>
+                    {/* <div className='history-text'>Document / Link History</div> */}
                     <div>
-                    <div>
-                        {promptList?.map((item, index) => (
-                            <>
-                                <div className='time-text' style={{ fontWeight: '500' }}>{
-                                    moment(item?.date).isSame(moment(), 'day')
-                                        ? "Today"
-                                        : moment(item?.date).format('DD MMM YYYY')
-                                }</div>
-                                {item?.data?.slice().reverse().map((item, index, array) => (
-                                    <Nav.Link key={index} className={selectedChat === item.prompt_id ? 'blue-box-active' : 'blue-box'} onClick={() => { historyClick(item?.prompt_id); setShow(!show) }} style={{ marginBottom: index === array.length - 1 ? 20 : 10 }}>
-                                        <Nav.Link className=''>{trimText(item?.prompt_text, 40)}</Nav.Link>
-                                    </Nav.Link>
-                                ))}
-                            </>
-                        ))}
+                        <Tab.Container defaultActiveKey="first">
+                            <Nav className='customDiscoverCorrelationtabs' variant="pills">
+                                <Nav.Item>
+                                    <Nav.Link eventKey="first">Document</Nav.Link>
+                                </Nav.Item>
+                                <Nav.Item>
+                                    <Nav.Link eventKey="second">Link History</Nav.Link>
+                                </Nav.Item>
+                            </Nav>
+                            <Tab.Content className='mt-3'>
+                                <Tab.Pane eventKey="first">
+                                </Tab.Pane>
+                                <Tab.Pane eventKey="second">
+                                </Tab.Pane>
+                            </Tab.Content>
+                        </Tab.Container>
                     </div>
+                    <div>
+                        <div>
+                            {promptList?.map((item, index) => (
+                                <>
+                                    <div className='time-text' style={{ fontWeight: '500' }}>{
+                                        moment(item?.date).isSame(moment(), 'day')
+                                            ? "Today"
+                                            : moment(item?.date).format('DD MMM YYYY')
+                                    }</div>
+                                    {item?.data?.slice().reverse().map((item, index, array) => (
+                                        <Nav.Link key={index} className={selectedChat === item.prompt_id ? 'blue-box-active' : 'blue-box'} onClick={() => { historyClick(item?.prompt_id); setShow(!show) }} style={{ marginBottom: index === array.length - 1 ? 20 : 10 }}>
+                                            <Nav.Link className=''>{trimText(item?.prompt_text, 40)}</Nav.Link>
+                                        </Nav.Link>
+                                    ))}
+                                </>
+                            ))}
+                        </div>
                     </div>
                 </div>
             </div>
