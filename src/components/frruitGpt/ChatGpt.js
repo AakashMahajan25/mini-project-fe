@@ -174,35 +174,41 @@ function ChatGpt(props) {
     }
 
 
-    // console.log('contentChatHistory===============', contentChatHistory)
+
     return (
         <>
-            <div className='ChatGpt' style={{ height: window.innerHeight - 190 }} ref={containerRef}>
-                {!path && <div className='default-screens-content mt-4'>
-                    <div className='text-center'>
-                        <img src={LogoCircle} width={57} style={{ objectFit: 'contain' }} />
-                        <div className='help-text'>How can I help you today ?</div>
-                        <div className='row'>
-                            {chatSuggestions.map((item, index) => (
-                                <div key={index} className='col-lg-6 column-pad' style={{ cursor: 'pointer' }}>
-                                    <div className='prompts-text-bg'>
-                                        <p className='prompts-text'>{item?.prompt}</p>
-                                    </div>
+            <div className='ChatGpt' style={{ height: path ? window.innerHeight - 200 : 190,paddingBottom:path ? 50 : 96, marginTop:path ? 10:60,marginBottom:20 }} ref={containerRef}>
+                {
+                    chatHistory.length === 0 ?
+                        !path && <div className='default-screens-content mt-4'>
+                            <div className='text-center'>
+                                <img src={LogoCircle} width={57} style={{ objectFit: 'contain' }} />
+                                <div className='help-text'>How can I help you today ?</div>
+                                <div className='row'>
+                                    {chatSuggestions.map((item, index) => (
+                                        <div key={index} className='col-lg-6 column-pad' style={{ cursor: 'pointer' }}>
+                                            <div className='prompts-text-bg'>
+                                                <p className='prompts-text'>{item?.prompt}</p>
+                                            </div>
+                                        </div>
+                                    ))}
                                 </div>
-                            ))}
+                            </div>
                         </div>
-                    </div>
-                </div>}
-                {contentChatHistory.length === 0 ?
-                    path && <div className='default-screens-content'>
-                        <div className='text-center'>
-                            <img src={DefaultImg} width={251.5} height={198.42} style={{ objectFit: 'contain' }} />
-                            <div className='help-text'>How can I help you today ?</div>
-                            <div className='default-para-text'>Supercharge your investment decisions : Attach documents or YouTube links on capital markets for GPT-driven insights!</div>
+                        :
+                        null
+                }
+                {
+                    contentChatHistory.length === 0 ?
+                        path && <div className='default-screens-content'>
+                            <div className='text-center'>
+                                <img src={DefaultImg} width={251.5} height={198.42} style={{ objectFit: 'contain' }} />
+                                <div className='help-text'>How can I help you today ?</div>
+                                <div className='default-para-text'>Supercharge your investment decisions : Attach documents or YouTube links on capital markets for GPT-driven insights!</div>
+                            </div>
                         </div>
-                    </div>
-                    :
-                    null
+                        :
+                        null
                 }
                 {
                     chatHistory?.map((chat, index) =>
@@ -338,18 +344,7 @@ function ChatGpt(props) {
                     contentChatHistory?.map((chat, index) =>
                         chat?.person === 'user' ?
 
-                            chat.type === 'text' ?
-                                <div className='rightChat' style={{ marginTop: -90 }}>
-                                    {/* <img src={ProfileIcon} className='profile-styles' /> */}
-                                    <div className='d-flex align-items-center my-2 floatRight'>
-                                        <img src={ArrowGrey} className='arrow' />
-                                        <p className='you-text'>You</p>
-                                    </div>
-                                    <div className='chat-text-container'>
-                                        <h3 className='chat-text'>{chat?.text}</h3>
-                                    </div>
-                                </div>
-                                :
+                            chat.type === 'attach' ?
                                 <div className='rightChat'>
                                     {/* <img src={ProfileIcon} className='profile-styles' /> */}
                                     <div className='d-flex align-items-center my-2 floatRight'>
@@ -366,6 +361,19 @@ function ChatGpt(props) {
                                     </div>
                                 </div>
 
+                                :
+                                <div className='rightChat' style={{ marginTop: 0 }}>
+                                    {/* <img src={ProfileIcon} className='profile-styles' /> */}
+                                    <div className='d-flex align-items-center my-2 floatRight'>
+                                        <img src={ArrowGrey} className='arrow' />
+                                        <p className='you-text'>You</p>
+                                    </div>
+                                    <div className='chat-text-container'>
+                                        <h3 className='chat-text'>{chat?.text}</h3>
+                                    </div>
+                                </div>
+
+
                             :
                             <div className='leftChat'>
                                 {
@@ -377,16 +385,16 @@ function ChatGpt(props) {
                                 }
                                 {
                                     chat.type === 'link' ?
-                                        <div className='chat-text-container' style={{ marginBottom: 100 }}>
+                                        <div className='chat-text-container'>
                                             <h3 className='chat-text' style={{ fontWeight: '700' }}>Key Points:-</h3>
-                                            <h3 className='chat-text mt-1' dangerouslySetInnerHTML={{ __html: replaceNewlinesWithBr(chat?.text?.Response?.Key_points || '') }}></h3>
+                                            <h3 className='chat-text mt-1' dangerouslySetInnerHTML={{ __html: replaceNewlinesWithBr(chat?.text?.Key_points || '') }}></h3>
                                             <h3 className='chat-text mt-2' style={{ fontWeight: '700' }}>Summary:-</h3>
-                                            <h3 className='chat-text mt-1' dangerouslySetInnerHTML={{ __html: replaceNewlinesWithBr(chat?.text?.Response?.summary || '') }}></h3>
+                                            <h3 className='chat-text mt-1' dangerouslySetInnerHTML={{ __html: replaceNewlinesWithBr(chat?.text?.summary || '') }}></h3>
                                             <h3 className='chat-text mt-2' style={{ fontWeight: '700' }}>Sentiment:-</h3>
-                                            <h3 className='chat-text mt-1' dangerouslySetInnerHTML={{ __html: replaceNewlinesWithBr(chat?.text?.Response?.sentiment || '') }}></h3>
+                                            <h3 className='chat-text mt-1' dangerouslySetInnerHTML={{ __html: replaceNewlinesWithBr(chat?.text?.sentiment || '') }}></h3>
                                         </div>
                                         :
-                                        <div className='chat-text-container' style={{ marginBottom: 90 }}>
+                                        <div className='chat-text-container'>
                                             <h3 className='chat-text mt-1' dangerouslySetInnerHTML={{ __html: replaceNewlinesWithBr(chat?.text || '') }}></h3>
                                         </div>
 

@@ -41,7 +41,7 @@ function DashboardRightBox({ newsData, mostFrruitData, onViewAllClick }) {
                                     <div onClick={handleShow} style={{ cursor: 'pointer', color: '#4563E4', fontWeight: 600 }}>View All</div>
                                 </div>
                                 {/* <div className='title' style={{ marginBottom: 20 }}>Most on Frruit</div> */}
-                                {mostFrruitData?.map((text, index) => (
+                                {mostFrruitData?.slice(0, 3).map((text, index) => (
                                     <div onClick={() => { routeChangeFrruitGPT(text?.question) }} key={index} className='mostOnFrruitBox mb-2'>
                                         <div className='d-flex justify-content-between align-items-center'>
                                             <p className='text'>{text?.question}</p>
@@ -101,7 +101,7 @@ function DashboardRightBox({ newsData, mostFrruitData, onViewAllClick }) {
                         <div className='viewModal'>
                             <div>
                                 {mostFrruitData?.map((text, index) => (
-                                    <div key={index} className='d-flex justify-content-between align-items-center blue-box'>
+                                    <div onClick={() => { routeChangeFrruitGPT(text?.question) }} key={index} className='d-flex justify-content-between align-items-center blue-box mb-2' style={{cursor:'pointer'}}>
                                         <div>{text?.question}</div>
                                         <img src={RightBlueArrow} className='me-1' width={10} style={{ objectFit: 'contain' }} />
                                     </div>

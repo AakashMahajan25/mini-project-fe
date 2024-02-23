@@ -3,14 +3,18 @@ import './MarketContentGptLeftBox.scss';
 import SearchIcon from '../../assets/images/search-icon.png';
 import ChatIcon from '../../assets/images/new-chat-icon.png';
 import { useDispatch, useSelector } from 'react-redux';
-import { getPromptList, searchPrompt } from '../../screens/frruitGPT/slice';
 import moment from 'moment';
 import { trimText } from '../../utils/utils';
 import { Nav, Tab, Tabs } from 'react-bootstrap'
+import { getContentPromptList, searchContentPrompt } from '../../screens/marketContentGPT/slice';
 
 function MarketContentGptLeftBox(props) {
     const [show, setShow] = useState(false)
+    const [showDocumentContent, setShowDocumentContent] = useState(true);
+    const [showLinkHistoryContent, setShowLinkHistoryContent] = useState(false);
     const dispatch = useDispatch();
+    const [selected, setSelected] = useState('link')
+
     const {
         handleNewChat = () => { },
         handleHistory = () => { },
@@ -19,59 +23,54 @@ function MarketContentGptLeftBox(props) {
     const [searchParam, setSearchParam] = useState('');
 
 
-    const { promptList } = useSelector(state => state.fruitGPTSlice);
+    const { contentPromptList } = useSelector(state => state.contentGPTSlice);
 
-    useEffect(() => {
-        dispatch(getPromptList())
-    }, [])
+
+    const handleTab = (key) => {
+        switch (key) {
+            case 'link':
+                dispatch(getContentPromptList(key))
+                setShowDocumentContent(true);
+                setShowLinkHistoryContent(false);
+                setSelected(key)
+                break;
+            case 'attachment':
+                dispatch(getContentPromptList(key))
+                setShowDocumentContent(false);
+                setShowLinkHistoryContent(true);
+                setSelected(key)
+                break;
+            default:
+                break;
+        }
+    }
 
     useEffect(() => {
         const debounceSearch = setTimeout(() => {
             if (searchParam) {
-                dispatch(searchPrompt(searchParam));
+                const data = {
+                    type : selected,
+                    search : searchParam
+                }
+                dispatch(searchContentPrompt(data));
             } else if (searchParam?.length === 0) {
-                dispatch(getPromptList())
+                dispatch(getContentPromptList(selected))
             }
         }, 500);
         return () => {
             clearTimeout(debounceSearch);
         };
-    }, [searchParam]);
+    }, [searchParam,selected]);
 
-    const historyClick = (prompt_id) => {
-        handleHistory(prompt_id)
+    const historyClick = (content_prompt_id) => {
+        handleHistory(content_prompt_id,selected)
     }
 
-    const linkTexts = [
-        "https://www.youtube.com/",
-        "https://www.example.com/",
-        "https://www.openai.com/",
-        "https://www.youtube.com/",
-        "https://www.example.com/",
-        "https://www.openai.com/",
-        "https://www.youtube.com/",
-        "https://www.example.com/",
-        "https://www.openai.com/",
-        "https://www.youtube.com/",
-        "https://www.example.com/",
-        "https://www.openai.com/",
-        "https://www.youtube.com/",
-        "https://www.example.com/",
-        "https://www.openai.com/",
-        "https://www.youtube.com/",
-        "https://www.example.com/",
-        "https://www.openai.com/",
-    ];
     return (
         <>
             <div className='marketContentGptLeftBox-css'>
                 <div className='box' style={{ height: window.innerHeight - 105 }}>
-                    <div className="position-relative" style={{ marginBottom: 20 }}>
-                        <input type="text" className="form-control form-control-search" placeholder='Search Here' />
-                        <div className="position-absolute" style={{ left: 15, top: '15%' }}>
-                            <img src={SearchIcon} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} alt="Search Icon" />
-                        </div>
-                    </div>
+                   
                     <div className="position-relative blue-box" style={{ marginBottom: 20, cursor: 'pointer' }} onClick={handleNewChat}>
                         <div className='new-chat-text'>New Chat</div>
                         <div className="position-absolute" style={{ right: 14, top: '19%' }}>
@@ -79,41 +78,71 @@ function MarketContentGptLeftBox(props) {
                         </div>
                     </div>
                     {/* <div className='history-text'>Document / Link History</div> */}
-                    <div>
-                        <Tab.Container defaultActiveKey="first">
-                            <Nav className='customDiscoverCorrelationtabs' variant="pills">
-                                <Nav.Item>
-                                    <Nav.Link eventKey="first">Document</Nav.Link>
-                                </Nav.Item>
-                                <Nav.Item>
-                                    <Nav.Link eventKey="second">Link History</Nav.Link>
-                                </Nav.Item>
-                            </Nav>
-                            <Tab.Content className='mt-3'>
-                                <Tab.Pane eventKey="first">
-                                </Tab.Pane>
-                                <Tab.Pane eventKey="second">
-                                </Tab.Pane>
-                            </Tab.Content>
-                        </Tab.Container>
+                    <div className=''>
+                        
+                        <div className='custom-tab-css'>
+                            <div className='d-flex align-items-center'>
+                                <div
+                                    className={`tab-css me-2`}
+                                    style={{ backgroundColor: showDocumentContent ? '#4563E4' : '#E5EAFF', color: showDocumentContent ? '#fff' : '#4563E4' }}
+                                    onClick={() => handleTab('link')}
+                                >
+                                    Link 
+                                    
+                                </div>
+                                <div
+                                    className={`tab-css`}
+                                    style={{ backgroundColor: showLinkHistoryContent ? '#4563E4' : '#E5EAFF', color: showLinkHistoryContent ? '#fff' : '#4563E4' }}
+                                    onClick={() => handleTab('attachment')}
+                                >
+                                   Document 
+                                </div>
+                            </div>
+                        </div>
+                        <div className="position-relative" style={{ marginBottom: 20 }}>
+                        <input type="text" className="form-control form-control-search" placeholder='Search Here' value={searchParam} onChange={(e) => setSearchParam(e.target.value)} />
+                        <div className="position-absolute" style={{ left: 15, top: '15%' }}>
+                            <img src={SearchIcon} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} alt="Search Icon" />
+                        </div>
+                    </div>
                     </div>
                     <div>
-                        <div>
-                            {promptList?.map((item, index) => (
-                                <>
-                                    <div className='time-text' style={{ fontWeight: '500' }}>{
-                                        moment(item?.date).isSame(moment(), 'day')
-                                            ? "Today"
-                                            : moment(item?.date).format('DD MMM YYYY')
-                                    }</div>
-                                    {item?.data?.slice().reverse().map((item, index, array) => (
-                                        <Nav.Link key={index} className={selectedChat === item.prompt_id ? 'blue-box-active' : 'blue-box'} onClick={() => { historyClick(item?.prompt_id); setShow(!show) }} style={{ marginBottom: index === array.length - 1 ? 20 : 10 }}>
-                                            <Nav.Link className=''>{trimText(item?.prompt_text, 40)}</Nav.Link>
-                                        </Nav.Link>
+                        {showDocumentContent && (
+                            <div>
+                                {contentPromptList?.map((item, index) => (
+                                        <>
+                                            <div className='time-text' style={{ fontWeight: '500' }}>{
+                                                moment(item?.date).isSame(moment(), 'day')
+                                                    ? "Today"
+                                                    : moment(item?.date).format('DD MMM YYYY')
+                                            }</div>
+                                            {item?.data?.slice().reverse().map((item, index, array) => (
+                                                <Nav.Link key={index} className={selectedChat === item.content_prompt_id ? 'blue-box-active' : 'blue-box'} onClick={() => { historyClick(item?.content_prompt_id); setShow(!show) }} style={{ marginBottom: index === array.length - 1 ? 20 : 10 }}>
+                                                    <Nav.Link className=''>{trimText(item?.content_prompt_text, 40)}</Nav.Link>
+                                                </Nav.Link>
+                                            ))}
+                                        </>
                                     ))}
-                                </>
-                            ))}
-                        </div>
+                            </div>
+                        )}
+                        {showLinkHistoryContent && (
+                            <div>
+                                {contentPromptList?.map((item, index) => (
+                                        <>
+                                            <div className='time-text' style={{ fontWeight: '500' }}>{
+                                                moment(item?.date).isSame(moment(), 'day')
+                                                    ? "Today"
+                                                    : moment(item?.date).format('DD MMM YYYY')
+                                            }</div>
+                                            {item?.data?.slice().reverse().map((item, index, array) => (
+                                                <Nav.Link key={index} className={selectedChat === item.content_prompt_id ? 'blue-box-active' : 'blue-box'} onClick={() => { historyClick(item?.content_prompt_id); setShow(!show) }} style={{ marginBottom: index === array.length - 1 ? 20 : 10 }}>
+                                                    <Nav.Link className=''>{trimText(item?.content_prompt_text, 40)}</Nav.Link>
+                                                </Nav.Link>
+                                            ))}
+                                        </>
+                                    ))}
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>
