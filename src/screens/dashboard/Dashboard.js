@@ -126,7 +126,7 @@ function Dashboard() {
     useEffect(() => {
         dispatch(getTrendingStocks())
         dispatch(getTrendingNews())
-        dispatch(getMostOnFrruitGpt())
+        dispatch(getMostOnFrruitGpt(20))
         dispatch(getPromptSuggestion(4))
         dispatch(getInvestorStories())
         dispatch(getStockIndexes())
@@ -283,7 +283,7 @@ function Dashboard() {
                     }
                     {!showAllContent &&
                         <div className='col-lg-9 column-pad'>
-                            <NewsViewAll backBtnClick={toggleShowAllContent} />
+                            <NewsViewAll backBtnClick={toggleShowAllContent} newsData={trendingNews}/>
                         </div>
                     }
                 </>

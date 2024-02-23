@@ -141,6 +141,21 @@ export const getContentPromptHistory = createAsyncThunk("fruitGpt/getContentProm
     }
 });
 
+export const searchContentPrompt = createAsyncThunk("fruitGpt/searchContentPrompt", async ({ type, search }) => {
+    try {
+        let data = {
+            method: METHOD_TYPE.get,
+            url: `${API_ENDPOINTS.searchContentPrompt}?type=${type}&prompt=${search}`,
+        };
+        let response = await api(data);
+        return response.data.data;
+
+    } catch (error) {
+        throw error.response;
+    }
+});
+
+
 
 
 const contentGPTSlice = createSlice({
@@ -181,6 +196,9 @@ const contentGPTSlice = createSlice({
             .addCase(getContentPromptList.fulfilled, (state, action) => {
                 state.contentPromptList = action.payload;
             })
+            .addCase(searchContentPrompt.fulfilled, (state, action) => {
+                state.contentPromptList = action.payload;
+            })
             .addMatcher(
                 (action) =>
                     action.type === getUploadURL.pending.type ||
@@ -194,7 +212,10 @@ const contentGPTSlice = createSlice({
                     action.type === getContentPromptList.rejected.type ||
                     action.type === getContentPromptHistory.pending.type ||
                     action.type === getContentPromptHistory.fulfilled.type ||
-                    action.type === getContentPromptHistory.rejected.type,
+                    action.type === getContentPromptHistory.rejected.type||
+                    action.type === searchContentPrompt.pending.type ||
+                    action.type === searchContentPrompt.fulfilled.type ||
+                    action.type === searchContentPrompt.rejected.type,
                 handleLoading
             )
             .addMatcher(

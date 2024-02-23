@@ -26,6 +26,24 @@ function MarketContentGPT() {
         dispatch(clearChatHistory())
     }, [])
 
+    const scrollToBottom = () => {
+        if (gptRef.current) {
+            gptRef.current.scrollTop = gptRef.current.scrollHeight;
+        }
+    };
+    
+    const scrollDown = (amount) => {
+        if (gptRef.current) {
+            gptRef.current.scrollTop += amount;
+        }
+    };
+    
+    const clearQuestionAndToastError = (error) => {
+        setQuestion('');
+        toast.error(error?.message);
+    };
+    
+
 
     useEffect(() => {
         if (contentChatHistory?.length > 0) {
@@ -37,7 +55,6 @@ function MarketContentGPT() {
     }, [contentChatHistory])
 
     const askContentGpt = async (promptId, title) => {
-        // const searchText = question
         setQuestion('');
         const requestData = {
             link: question
@@ -53,7 +70,7 @@ function MarketContentGPT() {
             .then(res => {
                 dispatch(getContentPromptList('link'))
                 setQuestion('');
-                scrollDown(250)
+                scrollDown(500)
             })
             .catch(error => {
                 setQuestion('');
@@ -61,108 +78,76 @@ function MarketContentGPT() {
             })
     }
 
-    
-    console.log('selectedType', selectedType)
+
     const getUrlOfAttchment = async () => {
-        if (selectedChat) {
-            askAttachmentContentGpt(selectedChat, question)
-        }
-        else {
-            dispatch(getUploadURL(selectedFile))
-                .unwrap()
-                .then(res => {
-                    const data = {
-                        url: res?.data,
-                        file: selectedFile
-                    }
-                    dispatch(setChatHistory([{
-                        person: "user",
-                        text: selectedFile?.name,
-                        type: "attach"
-                    }]))
-                    setShowQuestion(true)
-                    dispatch(updateUploadURL(data))
-                        .unwrap()
-                        .then(res => {
-                            if (res.status === 200) {
-                                dispatch(clearAttactmentUrl())
-                                const requestData = {
-                                    object_key: selectedFile?.name,
-                                    file_name: selectedFile?.name,
-                                }
-                                dispatch(addDocument(requestData))
-                                    .unwrap()
-                                    .then(res => {
-                                        setSelectedChat(res?.prompt_id)
-                                        askAttachmentContentGpt(res?.prompt_id)
-                                        setQuestion('');
-                                        dispatch(getContentPromptList('attachment'))
-                                        // setSelectedFile(null)
-                                    })
-                                    .catch(error => {
-                                        setQuestion('');
-                                        toast.error(error?.message)
-                                    })
-                            }
-                        })
-                })
-                .catch(error => {
-                    toast.error(error?.message)
-                })
-        }
+        if (!selectedFile) return;
+        try {
+            const res = await dispatch(getUploadURL(selectedFile)).unwrap();
+            const data = { url: res.data, file: selectedFile };
+            dispatch(setChatHistory([{ person: "user", text: selectedFile.name, type: "attach" }]));
+            setShowQuestion(true);
+            const updateRes = await dispatch(updateUploadURL(data)).unwrap();
+            if (updateRes.status === 200) {
+                dispatch(clearAttactmentUrl());
+                const requestData = {
+                    object_key: selectedFile?.name,
+                    file_name: selectedFile?.name,
+                };
+                const documentRes = await dispatch(addDocument(requestData)).unwrap();
+                setSelectedChat(documentRes?.prompt_id);
+                askAttachmentContentGpt(documentRes?.prompt_id);
+                setQuestion('');
+                dispatch(getContentPromptList('attachment'));
+                isNewChat.current = false;
+            }
+        } catch (error) {
+            clearQuestionAndToastError(error);
+        } 
     }
 
     const askAttachmentContentGpt = async (promptId, title) => {
-        // setQuestion('');
-        if (question) {
-            const requestData = {
-                prompt_id: promptId,
-                message: title ? title : question,
-            }
-            dispatch(setChatHistory([{
-                person: "user",
-                text: requestData?.message,
-                type: "text"
-            }]))
-
-            dispatch(triggerDocumentChat(requestData))
-                .unwrap()
-                .then(res => {
-                    setQuestion('');
-                    scrollDown(250)
-                })
-                .catch(error => {
-                    setQuestion('');
-                    toast.error(error?.message)
-                })
-        } else {
+        setQuestion('');
+        if (!question) {
             dispatch(setChatHistory([{
                 person: "bot",
                 text: "Please ask the question about your Document",
                 type: "attachment"
-            }]))
+            }]));
+            return;
+        }
+        const requestData = {
+            prompt_id: promptId,
+            message: title ? title : question,
+        };
+        dispatch(setChatHistory([{
+            person: "user",
+            text: requestData.message,
+            type: "text"
+        }]));
+        try {
+            dispatch(triggerDocumentChat(requestData)).unwrap()
+            .then(res => {
+                setQuestion('');
+                scrollDown(250);
+            });
+        } catch (error) {
+            clearQuestionAndToastError(error);
         }
     }
 
-    const handleAskPress = (type) => {
+    const handleAskPress = async (type) => {
         if (type === 'link') {
-            if (!question) {
-                return;
+            if (!question) return;
+            handleNewChat()
+            askContentGpt(null, null);
+        } else if (type === 'attachment' || selectedType === 'attachment') {
+            if (isNewChat.current) {
+                await getUrlOfAttchment();
+            } else {
+                askAttachmentContentGpt(selectedChat, question);
             }
-            // if (isNewChat.current)
-            // handleNewChat()
-            else
-            askContentGpt(null, null)
         }
-        else if (type === 'attachment') {
-            setQuestion(selectedFile?.name)
-            if (!selectedFile?.name) {
-                return;
-            }
-            else
-                getUrlOfAttchment(null, null)
-        }
-    }
+    };
 
     const handleNewChat = () => {
         isNewChat.current = true
@@ -172,7 +157,7 @@ function MarketContentGPT() {
         setSelectedFile(null)
     }
 
-    const handleHistory = (Id,type) => {
+    const handleHistory = (Id, type) => {
         dispatch(getContentPromptHistory(Id))
             .unwrap()
             .then(res => {
@@ -186,19 +171,6 @@ function MarketContentGPT() {
                 console.log('error', error)
             })
     }
-
-    const scrollToBottom = () => {
-        if (gptRef.current) {
-            gptRef.current.scrollTop = gptRef.current.scrollHeight;
-        }
-    };
-
-    const scrollDown = (amount) => {
-        if (gptRef.current) {
-            gptRef.current.scrollTop += amount;
-        }
-    };
-
 
     return (
         <>
@@ -220,6 +192,7 @@ function MarketContentGPT() {
                             setSelectedFile={setSelectedFile}
                             selectedFile={selectedFile}
                             showQuestion={showQuestion}
+                            selectedType={selectedType}
                             handleAskPress={handleAskPress}
                         />
                     </div>

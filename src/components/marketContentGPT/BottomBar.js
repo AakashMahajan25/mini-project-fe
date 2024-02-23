@@ -48,9 +48,6 @@ function BottomBar(props) {
     const handleAttachDone = (e) => {
         handleClose()
         setType('attachment')
-        if(selectedFile){
-            // setQuestion(selectedFile?.name)
-        }
     }
 
     const handleRemove = (event) => {

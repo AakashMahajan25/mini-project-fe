@@ -3,11 +3,10 @@ import './MarketContentGptLeftBox.scss';
 import SearchIcon from '../../assets/images/search-icon.png';
 import ChatIcon from '../../assets/images/new-chat-icon.png';
 import { useDispatch, useSelector } from 'react-redux';
-import { searchPrompt } from '../../screens/frruitGPT/slice';
 import moment from 'moment';
 import { trimText } from '../../utils/utils';
 import { Nav, Tab, Tabs } from 'react-bootstrap'
-import { getContentPromptList } from '../../screens/marketContentGPT/slice';
+import { getContentPromptList, searchContentPrompt } from '../../screens/marketContentGPT/slice';
 
 function MarketContentGptLeftBox(props) {
     const [show, setShow] = useState(false)
@@ -49,7 +48,11 @@ function MarketContentGptLeftBox(props) {
     useEffect(() => {
         const debounceSearch = setTimeout(() => {
             if (searchParam) {
-                dispatch(searchPrompt(searchParam));
+                const data = {
+                    type : selected,
+                    search : searchParam
+                }
+                dispatch(searchContentPrompt(data));
             } else if (searchParam?.length === 0) {
                 dispatch(getContentPromptList(selected))
             }
@@ -57,7 +60,7 @@ function MarketContentGptLeftBox(props) {
         return () => {
             clearTimeout(debounceSearch);
         };
-    }, [searchParam]);
+    }, [searchParam,selected]);
 
     const historyClick = (content_prompt_id) => {
         handleHistory(content_prompt_id,selected)
@@ -67,12 +70,7 @@ function MarketContentGptLeftBox(props) {
         <>
             <div className='marketContentGptLeftBox-css'>
                 <div className='box' style={{ height: window.innerHeight - 105 }}>
-                    <div className="position-relative" style={{ marginBottom: 20 }}>
-                        <input type="text" className="form-control form-control-search" placeholder='Search Here' />
-                        <div className="position-absolute" style={{ left: 15, top: '15%' }}>
-                            <img src={SearchIcon} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} alt="Search Icon" />
-                        </div>
-                    </div>
+                   
                     <div className="position-relative blue-box" style={{ marginBottom: 20, cursor: 'pointer' }} onClick={handleNewChat}>
                         <div className='new-chat-text'>New Chat</div>
                         <div className="position-absolute" style={{ right: 14, top: '19%' }}>
@@ -81,6 +79,7 @@ function MarketContentGptLeftBox(props) {
                     </div>
                     {/* <div className='history-text'>Document / Link History</div> */}
                     <div className=''>
+                        
                         <div className='custom-tab-css'>
                             <div className='d-flex align-items-center'>
                                 <div
@@ -100,6 +99,12 @@ function MarketContentGptLeftBox(props) {
                                 </div>
                             </div>
                         </div>
+                        <div className="position-relative" style={{ marginBottom: 20 }}>
+                        <input type="text" className="form-control form-control-search" placeholder='Search Here' value={searchParam} onChange={(e) => setSearchParam(e.target.value)} />
+                        <div className="position-absolute" style={{ left: 15, top: '15%' }}>
+                            <img src={SearchIcon} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} alt="Search Icon" />
+                        </div>
+                    </div>
                     </div>
                     <div>
                         {showDocumentContent && (

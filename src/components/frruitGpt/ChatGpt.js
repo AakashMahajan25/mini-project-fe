@@ -177,7 +177,7 @@ function ChatGpt(props) {
 
     return (
         <>
-            <div className='ChatGpt' style={{ height: window.innerHeight - 190 }} ref={containerRef}>
+            <div className='ChatGpt' style={{ height: path ? window.innerHeight - 200 : 190,paddingBottom:path ? 50 : 96, marginTop:path ? 10:60,marginBottom:20 }} ref={containerRef}>
                 {
                     chatHistory.length === 0 ?
                         !path && <div className='default-screens-content mt-4'>
