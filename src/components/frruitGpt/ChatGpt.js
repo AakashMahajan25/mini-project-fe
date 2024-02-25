@@ -177,10 +177,15 @@ function ChatGpt(props) {
 
     return (
         <>
-            <div className='ChatGpt' style={{ height: path ? window.innerHeight - 200 : 190,paddingBottom:path ? 50 : 96, marginTop:path ? 10:60,marginBottom:20 }} ref={containerRef}>
+            <div className='ChatGpt' style={{
+                height: path ? window.innerHeight - 200 : window.innerHeight - 250,
+                paddingBottom: chatHistory.length === 0 && !path ? 0 : 50,
+                marginTop: path ? (contentChatHistory.length === 0 ? 60 : 10) : 60,
+                marginBottom: 20,
+            }} ref={containerRef}>
                 {
                     chatHistory.length === 0 ?
-                        !path && <div className='default-screens-content mt-4'>
+                        !path && <div className='default-screens-content mt-4' style={{ height: window.innerHeight - 310 }}>
                             <div className='text-center'>
                                 <img src={LogoCircle} width={57} style={{ objectFit: 'contain' }} />
                                 <div className='help-text'>How can I help you today ?</div>
@@ -200,7 +205,7 @@ function ChatGpt(props) {
                 }
                 {
                     contentChatHistory.length === 0 ?
-                        path && <div className='default-screens-content'>
+                        path && <div className='default-screens-content' style={{ height: window.innerHeight - 310 }}>
                             <div className='text-center'>
                                 <img src={DefaultImg} width={251.5} height={198.42} style={{ objectFit: 'contain' }} />
                                 <div className='help-text'>How can I help you today ?</div>
