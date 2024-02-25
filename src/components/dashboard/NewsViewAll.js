@@ -7,8 +7,8 @@ import NewsImg2 from '../../assets/images/news-img-2.png';
 import RightArrow from '../../assets/images/right-arrow.png';
 import { formatTimeAgo, trimText } from '../../utils/utils';
 
-function NewsViewAll({ backBtnClick, newsData}) {
-   
+function NewsViewAll({ backBtnClick, newsData }) {
+
 
     return (
         <>
@@ -19,6 +19,7 @@ function NewsViewAll({ backBtnClick, newsData}) {
                         Back
                     </button>
                 </div>
+
                 <div>
                     <div className='headline-text'>Today’s Headline</div>
                     <div className='row m-0'>
@@ -26,11 +27,11 @@ function NewsViewAll({ backBtnClick, newsData}) {
                             <div key={index} className='col-lg-4 column-pad'>
                                 <a href={item?.newsLink} target='_blank' style={{ textDecoration: 'none' }}>
                                     <div className='headline-news-card'>
-                                        <div className='row m-0'>
-                                            <div className='col-lg-3 column-pad'>
-                                                <img src={item.image} width={85} height={85} style={{ objectFit: 'contain' }} />
+                                        <div className='d-flex align-items-center m-0'>
+                                            <div className=''>
+                                                <img src={item.image} width={85} style={{ objectFit: 'contain',padding:'0px 7px',borderRadius:22 }} />
                                             </div>
-                                            <div className='col-lg-9 column-pad'>
+                                            <div className=''>
                                                 <div className='text-area'>
                                                     <div className='news-title'>{trimText(item?.title, 40)}</div>
                                                     <div className='news-info'>{item.source}</div>
@@ -53,7 +54,7 @@ function NewsViewAll({ backBtnClick, newsData}) {
                         {newsData?.slice(6, 10).map((item, index) => (
                             <div key={index} className='col-lg-3 column-pad'>
                                 <div className='Featured-News-card'>
-                                    <img src={item.image} width={'100%'} style={{ objectFit: 'contain',height:283 }} />
+                                    <img src={item.image} width={'100%'} style={{ objectFit: 'contain', height: 283 }} />
                                     <div className='inner-card'>
                                         <div className='inner-card-2'>
                                             <div className='Featured-News-title'>{trimText(item?.title, 50)}</div>
