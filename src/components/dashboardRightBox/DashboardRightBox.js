@@ -50,7 +50,7 @@ function DashboardRightBox({ newsData, mostFrruitData, onViewAllClick }) {
                                     </div>
                                 ))}
                             </div>
-                            <div style={{ backgroundColor: '#E5E5E5', width: '100%', height: 1, marginBottom: 16 }} />
+                            <div style={{ backgroundColor: '#E5E5E5', width: '100%', height: 1, marginBottom: 5 }} />
                         </>
                     }
                     <div className='box-content'>
@@ -67,10 +67,10 @@ function DashboardRightBox({ newsData, mostFrruitData, onViewAllClick }) {
                                                 <div className='d-flex justify-content-start'>
                                                     <img style={{ width: 60, objectFit: 'contain', marginRight: '10px' }} src={newsItem?.image} />
                                                     <div>
-                                                        <p className='newsTitle'>{trimText(newsItem?.title, 30)}</p>
+                                                        <p className='newsTitle'>{trimText(newsItem?.title, 20)}</p>
                                                         <p className='newsPara' style={{ marginBottom: '5px' }}>{newsItem?.source}</p>
                                                         <div className='d-flex justify-content-start align-items-center'>
-                                                            <img style={{ width: 16, objectFit: 'contain', marginRight: '5px' }} src={NewsTime} />
+                                                            <img height={16} style={{ width: 16, objectFit: 'cover', marginRight: '5px'}} src={NewsTime} />
                                                             <p className='newsPara'>{formatTimeAgo(newsItem?.timeStamp)}</p>
                                                         </div>
                                                     </div>

@@ -29,7 +29,7 @@ function NewsViewAll({ backBtnClick, newsData }) {
                                     <div className='headline-news-card'>
                                         <div className='d-flex align-items-center m-0'>
                                             <div className=''>
-                                                <img src={item.image} width={85} style={{ objectFit: 'contain',padding:'0px 7px',borderRadius:22 }} />
+                                                <img src={item.image} className='mx-2' width={60} height={60} style={{ objectFit: 'fill', borderRadius: 10 }} />
                                             </div>
                                             <div className=''>
                                                 <div className='text-area'>
@@ -54,7 +54,7 @@ function NewsViewAll({ backBtnClick, newsData }) {
                         {newsData?.slice(6, 10).map((item, index) => (
                             <div key={index} className='col-lg-3 column-pad'>
                                 <div className='Featured-News-card'>
-                                    <img src={item.image} width={'100%'} style={{ objectFit: 'contain', height: 283 }} />
+                                    <img src={item.image} width={'100%'} style={{ objectFit: 'cover', height: 283, borderRadius: 10, border: 'solid 1px #EDEDED' }} />
                                     <div className='inner-card'>
                                         <div className='inner-card-2'>
                                             <div className='Featured-News-title'>{trimText(item?.title, 50)}</div>
