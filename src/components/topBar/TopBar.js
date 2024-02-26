@@ -58,7 +58,7 @@ function TopBar() {
               <div className={location.pathname === '/market-content-gpt' ? 'web-nav-text-active me-5' : 'web-nav-text me-5'} onClick={routeChangeMarketContentGPT}>Market Content GPT</div>
               <div className={location.pathname === '/discover-correlation' ? 'web-nav-text-active me-5' : 'web-nav-text me-5'} onClick={routeChangeDiscoverCorrelation}>Discover Correlation</div>
               {/* <img className="logo" onClick={routeChangeProfile} style={{ width: 42 }} src={ProfilePic} alt="" /> */}
-              <div onClick={routeChangeProfile} className='profile-icon me-3'>
+              <div onClick={routeChangeProfile} className='profile-icon me-5'>
                 <div className='profile-name-text'>{userDetails?.first_name?.slice(0, 1)}</div>
               </div>
               <div className='logout-nav-bar' onClick={handleLogout}>
