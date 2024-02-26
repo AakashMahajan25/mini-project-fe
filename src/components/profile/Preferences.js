@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addTopics, getAllTopics, searchTopics } from '../../screens/signup/slice';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import { getUserTopics, updateUserTopics } from '../../screens/profile/usersSlice';
 
 function Preferences() {
     let navigate = useNavigate();
@@ -19,20 +20,33 @@ function Preferences() {
     const [topicsList, setTopicsList] = useState([]);
 
     const { topics, isLoading } = useSelector(state => state.signupSlice);
-
-    const differentElements = useMemo(() => selected.filter(itemA => !topicsList.some(itemB => Number(itemA.topic_id) === Number(itemB.topic_id))), [selected, topicsList]);
+    const { userTopics } = useSelector(state => state?.userSlice)
 
     useEffect(() => {
+        dispatch(getUserTopics());
         dispatch(getAllTopics())
     }, [])
 
     useEffect(() => {
+        if (userTopics?.length > 0) {
+            const data = userTopics.map(el => ({
+                topic_id: el.topic_id,
+                topic_name: el?.topic_name
+            }))
+            setSelected([...data])
+        }
+
+    }, [userTopics])
+
+    useEffect(() => {
         if (topics?.length > 0) {
             if (searchParam?.length > 0) {
-                setTopicsList(topics)
+                const filterTopics = topics.filter(el => !selected.some(el2 => Number(el.topic_id) === Number(el2.topic_id)))
+                setTopicsList(filterTopics)
             } else {
                 const allTopics = topics.flatMap(category => category?.topics);
-                setTopicsList(allTopics)
+                const filterTopics = allTopics.filter(el => !selected.some(el2 => Number(el.topic_id) === Number(el2.topic_id)))
+                setTopicsList(filterTopics)
             }
         } else {
             setTopicsList([])
@@ -52,6 +66,10 @@ function Preferences() {
         };
     }, [searchParam]);
 
+    const otherSelectedTopics = useMemo(() => selected.filter(itemA =>
+        !topicsList.some(itemB => Number(itemA.topic_id) === Number(itemB.topic_id)) && !userTopics.some(itemB => Number(itemA.topic_id) === Number(itemB.topic_id))
+    ), [selected, topicsList]);
+
     const onSeletTopic = (item) => {
         const array = selected;
         const index = array?.findIndex(el => el.topic_id === item.topic_id);
@@ -64,21 +82,24 @@ function Preferences() {
         setSelected([...array])
     }
 
-    const onSubmitTopics = async () => {
+    const onUpdateTopics = async () => {
         if (selected.length < 10) {
-            toast.error('Please select atleast 10 preferences')
+            toast.error("Please select atleast 10 preferences")
             return;
         }
         const topics = await selected.map(el => Number(el?.topic_id))
-        dispatch(addTopics({ topic_id: topics }))
+        dispatch(updateUserTopics({ topic_id: topics }))
             .unwrap()
             .then(async res => {
-                navigate(`/market`);
+                toast.success("Preferences updated successfully")
+                dispatch(getUserTopics());
+                setSearchParam('')
             })
             .catch(error => {
-                console.log('error', error)
+                toast.error("Error in updating preferences")
             })
     }
+
     return (
         <>
             <div className='select-preferences-profile-css'>
@@ -88,17 +109,30 @@ function Preferences() {
                         <img src={SearchIcon} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} alt="Search Icon" />
                     </div>
                 </div>
-                <p className='mt-3 text-description' style={{ fontSize: 14, fontWeight: 600 }}>Add Preferences</p>
+                <p className='mt-3 text-description' style={{ fontSize: 14, fontWeight: 600 }}>Added Preferences</p>
                 <div >
                     <Nav variant="">
                         {
-                            differentElements?.length > 0 &&
-                            differentElements?.map((item, i) => (
+                            userTopics?.length > 0 &&
+                            userTopics?.map((item, i) => (
                                 <div onClick={() => onSeletTopic(item)}>
                                     <div className={selected.some(el => Number(el.topic_id) === Number(item?.topic_id)) ? 'selected' : 'unSelected'} >{item?.topic_name}</div>
                                 </div>
                             )
-                            )}
+                        )}
+                    </Nav>
+                </div>
+                <p className='mt-3 text-description' style={{ fontSize: 14, fontWeight: 600 }}>Add Preferences</p>
+                <div >
+                    <Nav variant="">
+                        {
+                            otherSelectedTopics?.length > 0 &&
+                            otherSelectedTopics?.map((item, i) => (
+                                <div onClick={() => onSeletTopic(item)}>
+                                    <div className={selected.some(el => Number(el.topic_id) === Number(item?.topic_id)) ? 'selected' : 'unSelected'} >{item?.topic_name}</div>
+                                </div>
+                            ))
+                        }
                     </Nav>
                     <Nav variant="">
                         {
@@ -107,12 +141,12 @@ function Preferences() {
                                 <div onClick={() => onSeletTopic(item)}>
                                     <div className={selected.some(el => Number(el.topic_id) === Number(item?.topic_id)) ? 'selected' : 'unSelected'} >{item?.topic_name}</div>
                                 </div>
-                            )
-                            )}
+                            ))
+                        }
                     </Nav>
                 </div>
                 <div className=''>
-                    <button className='blue-btn mt-4 px-5' onClick={onSubmitTopics}>Done</button>
+                    <button className='blue-btn mt-4 px-5' onClick={onUpdateTopics}>Done</button>
                 </div>
             </div>
         </>

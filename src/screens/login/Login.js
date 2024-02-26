@@ -120,6 +120,7 @@ function Login() {
                                             style={{ color: 'black' }}
                                             onChange={(event)=> setPhoneNumber(event.target.value)}
                                             ref={numberRef}
+                                            onKeyDown={(event) => event?.key === 'Enter' && handleGetOtp()}
                                         />
                                         <div className="position-absolute" style={{ left: 20, top: '28%' }}>
                                             <img src={MobileIcon} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} />
@@ -156,6 +157,7 @@ function Login() {
                                                 className='verificationBox text-center me-2' 
                                                 pattern="[0-9]*"
                                                 inputMode="numeric"
+                                                onKeyDown={event=> event?.key === 'Enter' && handleLogin()}
                                             />}
                                         />
                                     </div>

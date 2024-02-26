@@ -169,6 +169,7 @@ function FrruitGPT() {
                 </div>
                 <div className='col-xl-9 column-pad'>
                     <ChatGpt
+                        isNewChat={isNewChat.current}
                         containerRef={gptRef}
                     />
                     <PromptsLibrary

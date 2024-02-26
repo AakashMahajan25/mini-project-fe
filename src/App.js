@@ -6,11 +6,13 @@ import TopBar from './components/topBar/TopBar';
 import Login from './screens/login/Login';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import InactivityTimer from './utils/InactivityTimer';
 
 function App() {
   const location = useLocation();
   const isExcludedPage = ['/login', '/signUp', '/', '/topics', '/market'].includes(location.pathname);
   const marginTopStyle = isExcludedPage ? { marginTop: 0 } : { marginTop: 105 };
+  const isAuthenticated = localStorage.getItem('token');
 
   return (
     <>
@@ -23,6 +25,9 @@ function App() {
         </Routes>
       </div>
       <ToastContainer />
+      {
+        isAuthenticated && <InactivityTimer />
+      }
     </>
   );
 }
