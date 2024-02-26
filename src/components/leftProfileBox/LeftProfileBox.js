@@ -7,10 +7,6 @@ import { Nav } from 'react-bootstrap';
 function LeftProfileBox({ handlePreferencesClick, handleProfileClick, isPreferencesActive, isshowCodeActive }) {
     const navigate = useNavigate();
 
-    const handleLogout = () => {
-        localStorage.clear();
-        navigate('/login');
-    }
 
     return (
         <>
@@ -21,7 +17,6 @@ function LeftProfileBox({ handlePreferencesClick, handleProfileClick, isPreferen
                     <div className='mb-2 side-box-light-blue-btn'>Help</div>
                     <div className='mb-2 side-box-light-blue-btn'>Terms and condition</div>
                     <div className='mb-5 side-box-light-blue-btn'>Privacy Policy</div>
-                    <div style={{ color: '#4563E4' }} className='side-box-light-blue-btn mb-2 text-center' onClick={handleLogout}>Logout<img src={LogOut} style={{ width: 24, objectFit: 'contain', marginLeft: 5 }} /></div>
                 </div>
             </div>
         </>

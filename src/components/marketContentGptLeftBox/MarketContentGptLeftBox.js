@@ -18,6 +18,7 @@ function MarketContentGptLeftBox(props) {
     const {
         handleNewChat = () => { },
         handleHistory = () => { },
+        setShowQuestion = () => { },
         selectedChat
     } = props;
     const [searchParam, setSearchParam] = useState('');
@@ -33,6 +34,7 @@ function MarketContentGptLeftBox(props) {
                 setShowDocumentContent(true);
                 setShowLinkHistoryContent(false);
                 setSelected(key)
+                setShowQuestion(false);
                 break;
             case 'attachment':
                 dispatch(getContentPromptList(key))
@@ -49,8 +51,8 @@ function MarketContentGptLeftBox(props) {
         const debounceSearch = setTimeout(() => {
             if (searchParam) {
                 const data = {
-                    type : selected,
-                    search : searchParam
+                    type: selected,
+                    search: searchParam
                 }
                 dispatch(searchContentPrompt(data));
             } else if (searchParam?.length === 0) {
@@ -60,17 +62,17 @@ function MarketContentGptLeftBox(props) {
         return () => {
             clearTimeout(debounceSearch);
         };
-    }, [searchParam,selected]);
+    }, [searchParam, selected]);
 
     const historyClick = (content_prompt_id) => {
-        handleHistory(content_prompt_id,selected)
+        handleHistory(content_prompt_id, selected)
     }
 
     return (
         <>
             <div className='marketContentGptLeftBox-css'>
                 <div className='box' style={{ height: window.innerHeight - 105 }}>
-                   
+
                     <div className="position-relative blue-box" style={{ marginBottom: 20, cursor: 'pointer' }} onClick={handleNewChat}>
                         <div className='new-chat-text'>New Chat</div>
                         <div className="position-absolute" style={{ right: 14, top: '19%' }}>
@@ -79,7 +81,7 @@ function MarketContentGptLeftBox(props) {
                     </div>
                     {/* <div className='history-text'>Document / Link History</div> */}
                     <div className=''>
-                        
+
                         <div className='custom-tab-css'>
                             <div className='d-flex align-items-center'>
                                 <div
@@ -87,60 +89,60 @@ function MarketContentGptLeftBox(props) {
                                     style={{ backgroundColor: showDocumentContent ? '#4563E4' : '#E5EAFF', color: showDocumentContent ? '#fff' : '#4563E4' }}
                                     onClick={() => handleTab('link')}
                                 >
-                                    Link 
-                                    
+                                    Link
+
                                 </div>
                                 <div
                                     className={`tab-css`}
                                     style={{ backgroundColor: showLinkHistoryContent ? '#4563E4' : '#E5EAFF', color: showLinkHistoryContent ? '#fff' : '#4563E4' }}
                                     onClick={() => handleTab('attachment')}
                                 >
-                                   Document 
+                                    Document
                                 </div>
                             </div>
                         </div>
                         <div className="position-relative" style={{ marginBottom: 20 }}>
-                        <input type="text" className="form-control form-control-search" placeholder='Search Here' value={searchParam} onChange={(e) => setSearchParam(e.target.value)} />
-                        <div className="position-absolute" style={{ left: 15, top: '15%' }}>
-                            <img src={SearchIcon} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} alt="Search Icon" />
+                            <input type="text" className="form-control form-control-search" placeholder='Search Here' value={searchParam} onChange={(e) => setSearchParam(e.target.value)} />
+                            <div className="position-absolute" style={{ left: 15, top: '15%' }}>
+                                <img src={SearchIcon} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} alt="Search Icon" />
+                            </div>
                         </div>
-                    </div>
                     </div>
                     <div>
                         {showDocumentContent && (
                             <div>
                                 {contentPromptList?.map((item, index) => (
-                                        <>
-                                            <div className='time-text' style={{ fontWeight: '500' }}>{
-                                                moment(item?.date).isSame(moment(), 'day')
-                                                    ? "Today"
-                                                    : moment(item?.date).format('DD MMM YYYY')
-                                            }</div>
-                                            {item?.data?.slice().reverse().map((item, index, array) => (
-                                                <Nav.Link key={index} className={selectedChat === item.content_prompt_id ? 'blue-box-active' : 'blue-box'} onClick={() => { historyClick(item?.content_prompt_id); setShow(!show) }} style={{ marginBottom: index === array.length - 1 ? 20 : 10 }}>
-                                                    <Nav.Link className=''>{trimText(item?.content_prompt_text, 40)}</Nav.Link>
-                                                </Nav.Link>
-                                            ))}
-                                        </>
-                                    ))}
+                                    <>
+                                        <div className='time-text' style={{ fontWeight: '500' }}>{
+                                            moment(item?.date).isSame(moment(), 'day')
+                                                ? "Today"
+                                                : moment(item?.date).format('DD MMM YYYY')
+                                        }</div>
+                                        {item?.data?.slice().reverse().map((item, index, array) => (
+                                            <Nav.Link key={index} className={selectedChat === item.content_prompt_id ? 'blue-box-active' : 'blue-box'} onClick={() => { historyClick(item?.content_prompt_id); setShow(!show) }} style={{ marginBottom: index === array.length - 1 ? 20 : 10 }}>
+                                                <Nav.Link className=''>{trimText(item?.content_prompt_text, 40)}</Nav.Link>
+                                            </Nav.Link>
+                                        ))}
+                                    </>
+                                ))}
                             </div>
                         )}
                         {showLinkHistoryContent && (
                             <div>
                                 {contentPromptList?.map((item, index) => (
-                                        <>
-                                            <div className='time-text' style={{ fontWeight: '500' }}>{
-                                                moment(item?.date).isSame(moment(), 'day')
-                                                    ? "Today"
-                                                    : moment(item?.date).format('DD MMM YYYY')
-                                            }</div>
-                                            {item?.data?.slice().reverse().map((item, index, array) => (
-                                                <Nav.Link key={index} className={selectedChat === item.content_prompt_id ? 'blue-box-active' : 'blue-box'} onClick={() => { historyClick(item?.content_prompt_id); setShow(!show) }} style={{ marginBottom: index === array.length - 1 ? 20 : 10 }}>
-                                                    <Nav.Link className=''>{trimText(item?.content_prompt_text, 40)}</Nav.Link>
-                                                </Nav.Link>
-                                            ))}
-                                        </>
-                                    ))}
+                                    <>
+                                        <div className='time-text' style={{ fontWeight: '500' }}>{
+                                            moment(item?.date).isSame(moment(), 'day')
+                                                ? "Today"
+                                                : moment(item?.date).format('DD MMM YYYY')
+                                        }</div>
+                                        {item?.data?.slice().reverse().map((item, index, array) => (
+                                            <Nav.Link key={index} className={selectedChat === item.content_prompt_id ? 'blue-box-active' : 'blue-box'} onClick={() => { historyClick(item?.content_prompt_id); setShow(!show) }} style={{ marginBottom: index === array.length - 1 ? 20 : 10 }}>
+                                                <Nav.Link className=''>{trimText(item?.content_prompt_text, 40)}</Nav.Link>
+                                            </Nav.Link>
+                                        ))}
+                                    </>
+                                ))}
                             </div>
                         )}
                     </div>

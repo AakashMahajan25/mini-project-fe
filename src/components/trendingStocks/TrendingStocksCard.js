@@ -9,9 +9,10 @@ import DownArrow from '../../assets/images/red_down-arrow.png'
 import { formatPrice, trimText } from '../../utils/utils';
 import { useNavigate } from 'react-router-dom';
 
-function TrendingStocksCard({ name, symbol, change, changesPercentage, country }) {
+function TrendingStocksCard({ name, symbol, change, changesPercentage,price }) {
     const navigate = useNavigate();
     const isPositiveChange = parseFloat(changesPercentage) > 0;
+    const country = localStorage.getItem('marketType')
 
     const getFrruitClick = () => {
         navigate("/frruit-gpt", {
@@ -20,13 +21,15 @@ function TrendingStocksCard({ name, symbol, change, changesPercentage, country }
     }
 
     return (
-        <div className='trendingStockCard' style={{ marginRight: 10 }}>
+        <div>
+ <div className='trendingStockCard' style={{ marginRight: 10 }}>
             <div className='card'>
                 <div className='d-flex align-items-center justify-content-between' style={{ marginBottom: 8 }}>
                     <p className='text me-2'>{symbol}</p>
                     <div className='d-flex justify-content-between align-items-center' >
-                        <p className={`text2 me-2`} style={{ color: isPositiveChange ? '#28C76F' : '#EA5455' }}>{formatPrice(change, country)}</p>
-                        <p className={`text2 me-2`} style={{ color: isPositiveChange ? '#28C76F' : '#EA5455' }}>{parseFloat(changesPercentage).toFixed(2) + '%'}</p>
+                        <p className={`text2 me-2`} style={{ color: isPositiveChange ? '#28C76F' : '#EA5455' }}>{formatPrice(price, country)}</p>
+                        <p className={`text2 me-2`} style={{ color: isPositiveChange ? '#28C76F' : '#EA5455' }}>{`${isPositiveChange ?'+' + change : change}`}</p>
+                        <p className={`text2`} style={{ color: isPositiveChange ? '#28C76F' : '#EA5455' }}>{`(${parseFloat(changesPercentage).toFixed(2) + '%'})`}</p>
                         <img src={isPositiveChange ? UpArrow : DownArrow} style={{ width: 18, objectFit: 'contain' }} alt='Arrow' />
                     </div>
                 </div>
@@ -51,6 +54,8 @@ function TrendingStocksCard({ name, symbol, change, changesPercentage, country }
                     </div>
                 </div>
             </div>
+        </div>
+       
         </div>
     );
 }

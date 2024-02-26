@@ -88,7 +88,6 @@ function MarketContentGPT() {
             setShowQuestion(true);
             const updateRes = await dispatch(updateUploadURL(data)).unwrap();
             if (updateRes.status === 200) {
-                dispatch(clearAttactmentUrl());
                 const requestData = {
                     object_key: selectedFile?.name,
                     file_name: selectedFile?.name,
@@ -164,13 +163,15 @@ function MarketContentGPT() {
                 isNewChat.current = false
                 setSelectedChat(Id)
                 scrollToBottom();
-                setShowQuestion(true)
+                if(type === 'attachment'){
+                    setShowQuestion(true)
+                }
                 setSelectedType(type)
             })
             .catch(error => {
                 console.log('error', error)
             })
-    }
+        }
 
     return (
         <>
@@ -181,6 +182,7 @@ function MarketContentGPT() {
                             handleNewChat={handleNewChat}
                             handleHistory={handleHistory}
                             selectedChat={selectedChat}
+                            setShowQuestion={setShowQuestion}
                         />
                     </div>
                     <div className='col-lg-9 column-pad position-relative'>

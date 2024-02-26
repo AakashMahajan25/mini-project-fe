@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './LeftBox.scss';
 import SearchIcon from '../../assets/images/search-icon.png';
 import Tabs from '@mui/material/Tabs';
@@ -32,7 +32,6 @@ import DiscoverCorrelationGraph from '../graph/DiscoverCorrelationGraph'
 import { useLoading, ThreeDots } from '@agney/react-loading';
 import moment from 'moment';
 import { toast } from 'react-toastify';
-import { getUserDetails } from '../../screens/profile/usersSlice';
 
 function LeftBox() {
     const { containerProps, indicatorEl } = useLoading({
@@ -42,7 +41,7 @@ function LeftBox() {
     const [value, setValue] = useState(0);
     const dispatch = useDispatch()
     const { watchLists, tickers, stockSearchData, stockSearchLoading, companyDetails, companyStatistics, graphDetails } = useSelector(state => state.dashboardSlice);
-    const { userDetails } = useSelector(state => state.userSlice)
+    const country = localStorage.getItem('marketType')
     const [anchorElNotification, setAnchorElNotification] = useState(null);
     const [show, setShow] = useState(false);
     const [searchParam, setSearchParam] = useState('')
@@ -58,8 +57,34 @@ function LeftBox() {
     const [currentDate, setCurrentDate] = useState(new Date());
     const last7Days = new Date(currentDate);
     last7Days.setDate(currentDate.getDate() - 30);
-
     const handleClose = () => setShow(false);
+    const [showSearchResults, setShowSearchResults] = useState(false);
+    const searchBoxRef = useRef(null);
+
+    useEffect(() => {
+        // Function to handle clicks outside the search box
+        function handleClickOutside(event) {
+          if (searchBoxRef.current && !searchBoxRef.current.contains(event.target)) {
+            // Clicked outside the search box, hide the search results
+            setSearchParam('');
+            setShowSearchResults(false);
+          }
+        }
+    
+        // Attach the event listener when the search results are shown
+        if (showSearchResults) {
+          document.addEventListener('click', handleClickOutside);
+        } else {
+          // Remove the event listener when the search results are hidden
+          document.removeEventListener('click', handleClickOutside);
+        }
+    
+        // Cleanup function to remove event listener on component unmount
+        return () => {
+          document.removeEventListener('click', handleClickOutside);
+        };
+      }, [showSearchResults]);
+
 
     const handleClose2 = () =>{
         setShow2(false);
@@ -91,7 +116,6 @@ function LeftBox() {
 
     useEffect(() => {
         dispatch(getUserWatchLists())
-        dispatch(getUserDetails())
         getWatchListData()
     }, [])
 
@@ -114,11 +138,6 @@ function LeftBox() {
                 dispatch(getTickersById(id))
             })
     }
-
-    const handleOpenNotificationMenu = (event) => {
-        setAnchorElNotification(event.currentTarget);
-    };
-
 
     const handleEdit = (event,index, name) => {
         event.stopPropagation();
@@ -286,16 +305,17 @@ function LeftBox() {
         <>
             <div className='left-box'>
                 <div className='box' style={{ height: window.innerHeight - 105 }}>
-                    <div className="position-relative" style={{ marginBottom: 10, padding: '0px 16px' }} onClick={handleOpenNotificationMenu}>
+                    <div className="position-relative" style={{ marginBottom: 10, padding: '0px 16px' }}>
                         <input type="text" className="form-control form-control-search" placeholder='Search Here' value={searchParam}
-                            onChange={event => setSearchParam(event.target.value)} />
+                            onChange={event => setSearchParam(event.target.value)}  ref={searchBoxRef}
+                            onClick={() => setShowSearchResults(true)}/>
                         <div className="position-absolute" style={{ left: 31, top: '15%' }}>
                             <img src={SearchIcon} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} alt="Search Icon" />
                         </div>
                     </div>
                     {
                         // (searchParam?.length > 0 && stockSearchData?.length > 0) &&
-                        searchParam.length > 0  &&
+                        (showSearchResults && searchParam.length > 0 )  &&
                         <div style={{ position: 'relative',margin:'0px 16px' }}>
                             <div className='search-box-menu' style={{ backgroundColor: stockSearchLoading ? '#F1F4FD' : '#fff' }}>
                                 <>
@@ -347,7 +367,10 @@ function LeftBox() {
                     }
                     <div className='d-flex align-items-center justify-content-between'>
                     <div className='watchlistText'>Watchlist</div>
-                    <div className='watchlistText' onClick={handleShow2} style={{cursor:'pointer',color:'#4563E4'}}>Add New</div>
+                    <div className='d-flex align-items-center'>
+                    <div className='watchlistText' onClick={handleShow2} style={{cursor:'pointer',color:'#4563E4',paddingRight:10}}>View All</div>
+                    <div className='watchlistText' onClick={handleShow2} style={{cursor:'pointer',color:'#4563E4',border:'1px solid',padding:'3px 12px',fontSize:14,borderRadius:20,marginRight:16}}>+ Watchlist</div>
+                    </div>
                     </div>
                     <Box marginBottom={'20px'} sx={{ maxWidth: { xs: 320, sm: 480 }, bgcolor: 'background.paper' }} style={{paddingLeft:watchLists?.length > 3 ? 0 : 16}}>
                         <Tabs
@@ -374,7 +397,8 @@ function LeftBox() {
                                                     <p className='stock-name me-2' >{stock?.ticker}</p>
                                             <div>
                                                 <div className='d-flex justify-content-end align-items-center'>
-                                                    <p className='stock-price me-2' style={{ color: stock?.ticker_change_percent.includes('-') ? '#EA5455' : '#28C76F' }}>{formatPrice(stock?.ticker_price,userDetails?.country)}</p>
+                                                    <p className='stock-price me-2' style={{ color: stock?.ticker_change_percent.includes('-') ? '#EA5455' : '#28C76F' }}>{formatPrice(stock?.ticker_price,country)}</p>
+                                                    <p className='stock-price me-2' style={{ color: stock?.ticker_change_percent.includes('-') ? '#EA5455' : '#28C76F' }}>{`${stock?.ticker_change_percent.includes('-') ?stock?.ticker_change : '+' + stock?.ticker_change}`}</p>
                                                     <p className='stock-price me-2' style={{ color: stock?.ticker_change_percent.includes('-') ? '#EA5455' : '#28C76F' }}>{parseFloat(stock?.ticker_change_percent).toFixed(2)}</p>
                                                     {stock?.ticker_change_percent.includes('-') ? (
                                                         <img style={{ width: 24, objectFit: 'contain' }} src={RedArrow} alt="Red Arrow" />
