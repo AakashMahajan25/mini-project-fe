@@ -16,7 +16,7 @@ import Loader from '../../components/loader/Loader';
 import * as yup from 'yup';
 import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from "@hookform/resolvers/yup";
-import { getAvaliableCredit, getUserDetails } from './usersSlice';
+import { getAvaliableCredit, getUserDetails, updateProfile } from './usersSlice';
 import Plans from '../../components/profile/Plans';
 import Preferences from '../../components/profile/Preferences';
 import { getStockIndexes } from '../dashboard/slice';
@@ -36,6 +36,7 @@ function Profile() {
 
     const handlePreferencesClick = () => {
 
+        setShowCode(false)
         setShowProfile(false);
         setShowPreferences(true);
     };
@@ -144,7 +145,7 @@ function Profile() {
                                                     <div className='text-4'>$14 /month</div>
                                                 </div>
                                             </div>
-                                            <button onClick={setShowCode} className='white-btn'>Change Plan<img src={BlueArrow} style={{ objectFit: 'contain', width: 6, marginLeft: 10 }} /></button>
+                                            <button onClick={setShowCode} className='white-btn'>View Plans<img src={BlueArrow} style={{ objectFit: 'contain', width: 6, marginLeft: 10 }} /></button>
                                         </div>
                                     </div>
                                 </div>
