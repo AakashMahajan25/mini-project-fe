@@ -8,7 +8,7 @@ export const METHOD_TYPE = {
 export const API_ENDPOINTS = {
     trendingLatestStocks: 'stocks/trending',
     trendingLatestNews: 'news/trending',
-    getMostFrruitGpt: 'users/getMostOnFruitGPT',
+    getMostFrruitGpt: 'users/getMostOnFruitGPT?limit=',
     getUserWatchList: 'watchlist/fetchWatchList',
     getTickersById: 'watchlist/fetchWatchListTickerByWatchlist',
     frruitGptSuggestion: 'stocks/getPrompts?num=',
@@ -51,4 +51,11 @@ export const API_ENDPOINTS = {
     getStockBySearch: 'stocks/getStockBySearch',
     getInvestorStories: 'users/getInvestorStories',
     triggerGPTGraph: 'prompts/triggerGraph',
+    triggerContentPrompt: 'contentPrompt/triggerContentPrompt',
+    get_uploadUrl: '/contentPrompt/getSignedUrl',
+    triggerDocumentChat: 'contentPrompt/triggerDocumentChat',
+    addDocument: 'contentPrompt/addDocument',
+    getContentPromptList: 'contentPrompt/getContentPromptHistory?type=',
+    getContentPromptHistory: 'contentPrompt/getContentPromptHistoryByContentPromptId?content_prompt_id=',
+    searchContentPrompt: 'contentPrompt/searchContentPrompts',
 }

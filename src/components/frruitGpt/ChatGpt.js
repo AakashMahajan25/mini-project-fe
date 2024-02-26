@@ -14,9 +14,13 @@ import BarChart from '../barChart/BarChart'
 import { useSelector } from 'react-redux'
 import { replaceNewlinesWithBr } from '../../utils/utils'
 import { useLoading, Audio, SpinningCircles, Circles, ThreeDots } from '@agney/react-loading';
+import { useLocation } from 'react-router'
+import UploadDocImg from '../../assets/images/doc-img.png'
 
 function ChatGpt(props) {
     const { chatSuggestions } = useSelector(state => state.fruitGPTSlice);
+    const location = useLocation()
+    const path = location.pathname === '/market-content-gpt'
     const { containerProps, indicatorEl } = useLoading({
         loading: true,
         indicator: <ThreeDots width="50" color="blue" />,
@@ -144,7 +148,7 @@ function ChatGpt(props) {
     const { containerRef } = props;
 
     const { chatHistory, frruitLoader } = useSelector(state => state.fruitGPTSlice);
-
+    const { contentChatHistory, contentGPTLoader } = useSelector(state => state.contentGPTSlice);
     const renderGraph = (chartData) => {
         const keys = Object.keys(chartData)
         if (keys?.length > 0) {
@@ -169,31 +173,48 @@ function ChatGpt(props) {
         }
     }
 
+
+
     return (
         <>
-            <div className='ChatGpt' style={{ height: window.innerHeight - 190 }} ref={containerRef}>
-                <div className='default-screens-content mt-4'>
-                    <div className='text-center'>
-                        <img src={LogoCircle} width={57} style={{ objectFit: 'contain' }} />
-                        <div className='help-text'>How can I help you today ?</div>
-                        <div className='row'>
-                            {chatSuggestions.map((item, index) => (
-                                <div key={index} className='col-lg-6 column-pad' style={{ cursor: 'pointer' }}>
-                                    <div className='prompts-text-bg'>
-                                        <p className='prompts-text'>{item?.prompt}</p>
-                                    </div>
+            <div className='ChatGpt' style={{
+                height: path ? window.innerHeight - 200 : window.innerHeight - 250,
+                paddingBottom: chatHistory.length === 0 && !path ? 0 : 50,
+                marginTop: path ? (contentChatHistory.length === 0 ? 60 : 10) : 60,
+                marginBottom: 20,
+            }} ref={containerRef}>
+                {
+                    chatHistory.length === 0 ?
+                        !path && <div className='default-screens-content mt-4' style={{ height: window.innerHeight - 310 }}>
+                            <div className='text-center'>
+                                <img src={LogoCircle} width={57} style={{ objectFit: 'contain' }} />
+                                <div className='help-text'>How can I help you today ?</div>
+                                <div className='row'>
+                                    {chatSuggestions.map((item, index) => (
+                                        <div key={index} className='col-lg-6 column-pad' style={{ cursor: 'pointer' }}>
+                                            <div className='prompts-text-bg'>
+                                                <p className='prompts-text'>{item?.prompt}</p>
+                                            </div>
+                                        </div>
+                                    ))}
                                 </div>
-                            ))}
+                            </div>
                         </div>
-                    </div>
-                </div>
-                {/* <div className='default-screens-content'>
-                    <div className='text-center'>
-                        <img src={DefaultImg} width={251.5} height={198.42} style={{ objectFit: 'contain' }} />
-                        <div className='help-text'>How can I help you today ?</div>
-                        <div className='default-para-text'>Supercharge your investment decisions : Attach documents or YouTube links on capital markets for GPT-driven insights!</div>
-                    </div>
-                </div> */}
+                        :
+                        null
+                }
+                {
+                    contentChatHistory.length === 0 ?
+                        path && <div className='default-screens-content' style={{ height: window.innerHeight - 310 }}>
+                            <div className='text-center'>
+                                <img src={DefaultImg} width={251.5} height={198.42} style={{ objectFit: 'contain' }} />
+                                <div className='help-text'>How can I help you today ?</div>
+                                <div className='default-para-text'>Supercharge your investment decisions : Attach documents or YouTube links on capital markets for GPT-driven insights!</div>
+                            </div>
+                        </div>
+                        :
+                        null
+                }
                 {
                     chatHistory?.map((chat, index) =>
                         chat?.person === 'user' ?
@@ -222,6 +243,18 @@ function ChatGpt(props) {
                                             <h3 className='chat-text' dangerouslySetInnerHTML={{ __html: replaceNewlinesWithBr(chat?.text || '') }}></h3>
                                         </div>
                                         : renderGraph(chat.text)
+                                }
+                                {
+                                    chat.type === 'link' &&
+                                    <div className='chat-text-container'>
+                                        <h3 className='chat-text' >Key Points</h3>
+                                        <h3 className='chat-text mt-1' dangerouslySetInnerHTML={{ __html: replaceNewlinesWithBr(chat?.text?.Response?.Key_points || '') }}></h3>
+                                        <h3 className='chat-text mt-2' >Summary</h3>
+                                        <h3 className='chat-text' dangerouslySetInnerHTML={{ __html: replaceNewlinesWithBr(chat?.text?.Response?.summary || '') }}></h3>
+                                        <h3 className='chat-text mt-2' >Sentiment</h3>
+                                        <h3 className='chat-text' dangerouslySetInnerHTML={{ __html: replaceNewlinesWithBr(chat?.text?.Response?.sentiment || '') }}></h3>
+                                    </div>
+
                                 }
                                 {/* <img src={LogoCircle} className='profile-styles' /> */}
 
@@ -313,8 +346,70 @@ function ChatGpt(props) {
                             </div>
                     )}
                 {
-                    frruitLoader &&
-                    <section {...containerProps}>
+                    contentChatHistory?.map((chat, index) =>
+                        chat?.person === 'user' ?
+
+                            chat.type === 'attach' ?
+                                <div className='rightChat'>
+                                    {/* <img src={ProfileIcon} className='profile-styles' /> */}
+                                    <div className='d-flex align-items-center my-2 floatRight'>
+                                        <img src={ArrowGrey} className='arrow' />
+                                        <p className='you-text'>You</p>
+                                    </div>
+                                    <div className='chat-text-container'>
+                                        <div className='d-flex'>
+                                            <div className='attached-doc-white-box'>
+                                                <img src={UploadDocImg} width={44} style={{ objectFit: 'contain' }} />
+                                                <div className='pdf-name me-2'>{chat?.text}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                :
+                                <div className='rightChat' style={{ marginTop: 0 }}>
+                                    {/* <img src={ProfileIcon} className='profile-styles' /> */}
+                                    <div className='d-flex align-items-center my-2 floatRight'>
+                                        <img src={ArrowGrey} className='arrow' />
+                                        <p className='you-text'>You</p>
+                                    </div>
+                                    <div className='chat-text-container'>
+                                        <h3 className='chat-text'>{chat?.text}</h3>
+                                    </div>
+                                </div>
+
+
+                            :
+                            <div className='leftChat'>
+                                {
+                                    contentChatHistory[index - 1]?.person !== "bot" &&
+                                    <div className='d-flex align-items-center my-2 floatLeft'>
+                                        <img src={ArrowGrey} className='arrow' />
+                                        <p className='you-text'>Market Content GPT</p>
+                                    </div>
+                                }
+                                {
+                                    chat.type === 'link' ?
+                                        <div className='chat-text-container'>
+                                            <h3 className='chat-text' style={{ fontWeight: '700' }}>Key Points:-</h3>
+                                            <h3 className='chat-text mt-1' dangerouslySetInnerHTML={{ __html: replaceNewlinesWithBr(chat?.text?.Key_points || '') }}></h3>
+                                            <h3 className='chat-text mt-2' style={{ fontWeight: '700' }}>Summary:-</h3>
+                                            <h3 className='chat-text mt-1' dangerouslySetInnerHTML={{ __html: replaceNewlinesWithBr(chat?.text?.summary || '') }}></h3>
+                                            <h3 className='chat-text mt-2' style={{ fontWeight: '700' }}>Sentiment:-</h3>
+                                            <h3 className='chat-text mt-1' dangerouslySetInnerHTML={{ __html: replaceNewlinesWithBr(chat?.text?.sentiment || '') }}></h3>
+                                        </div>
+                                        :
+                                        <div className='chat-text-container'>
+                                            <h3 className='chat-text mt-1' dangerouslySetInnerHTML={{ __html: replaceNewlinesWithBr(chat?.text || '') }}></h3>
+                                        </div>
+
+                                }
+
+                            </div>
+                    )}
+                {
+                    (frruitLoader || contentGPTLoader) &&
+                    <section {...containerProps} style={{ marginLeft: 20 }}>
                         {indicatorEl} {/* renders only while loading */}
                     </section>
                 }

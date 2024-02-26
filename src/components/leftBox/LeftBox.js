@@ -345,7 +345,10 @@ function LeftBox() {
                         //     </div>
                         // </div>
                     }
+                    <div className='d-flex align-items-center justify-content-between'>
                     <div className='watchlistText'>Watchlist</div>
+                    <div className='watchlistText' onClick={handleShow2} style={{cursor:'pointer',color:'#4563E4'}}>Add New</div>
+                    </div>
                     <Box marginBottom={'20px'} sx={{ maxWidth: { xs: 320, sm: 480 }, bgcolor: 'background.paper' }} style={{paddingLeft:watchLists?.length > 3 ? 0 : 16}}>
                         <Tabs
                             value={value}

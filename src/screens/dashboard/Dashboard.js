@@ -22,6 +22,7 @@ import { getPromptSuggestion } from '../frruitGPT/slice';
 import Loader from '../../components/loader/Loader';
 import RightWhiteArrow from '../../assets/images/right-arrow.png';
 import { getUserDetails } from '../profile/usersSlice';
+import NewsViewAll from '../../components/dashboard/NewsViewAll';
 
 
 const storyEnum = {
@@ -86,8 +87,8 @@ function Dashboard() {
     ];
 
     const dispatch = useDispatch()
-    const { trendingStocks, trendingNews, mostOnFrruitGpt, storyViewed, investorStory, isLoading,investorStoryLoading,indexLoader,stockIndexes } = useSelector(state => state.dashboardSlice);
-    const { chatSuggestions,suggestionLoader } = useSelector(state => state.fruitGPTSlice);
+    const { trendingStocks, trendingNews, mostOnFrruitGpt, storyViewed, investorStory, isLoading, investorStoryLoading, indexLoader, stockIndexes } = useSelector(state => state.dashboardSlice);
+    const { chatSuggestions, suggestionLoader } = useSelector(state => state.fruitGPTSlice);
     const { userDetails } = useSelector(state => state.userSlice)
 
 
@@ -125,7 +126,7 @@ function Dashboard() {
     useEffect(() => {
         dispatch(getTrendingStocks())
         dispatch(getTrendingNews())
-        dispatch(getMostOnFrruitGpt())
+        dispatch(getMostOnFrruitGpt(20))
         dispatch(getPromptSuggestion(4))
         dispatch(getInvestorStories())
         dispatch(getStockIndexes())
@@ -196,7 +197,15 @@ function Dashboard() {
             // state: { question: 'What is happening in ' + symbol + ' stock' },
         });
     }
-    
+
+    const handleViewAllClick = () => {
+        setShowAllContent(!showAllContent);
+    };
+    const toggleShowAllContent = () => {
+        setShowAllContent(prevState => !prevState);
+    };
+    const [showAllContent, setShowAllContent] = useState(true);
+
     return (
         <>
             {
@@ -207,66 +216,77 @@ function Dashboard() {
                 <div className='col-lg-3 column-pad'>
                     <LeftBox />
                 </div>
-                <div className='col-lg-7 column-pad'>
-                    <div className='dashboard mt-4'>
-                        <div className='d-flex flex-column justify-content-between' style={{ height: window.innerHeight - 140 }}>
-                            <div className='d-flex flex-column'>
-                                {
-                                    shouldShowStory &&
-                                    <div className='dashboard-container'>
-                                        <p className='stories-title' style={{ marginBottom: 10 }}>Investors Stories</p>
-                                        <div className='d-flex align-items-center' style={{ marginBottom: 20 }}>
-                                            {storiesData.map((img, i) => {
-                                                return (
-                                                    !storyViewed[storyEnum[img?.storyType]] && investorStory[storyEnum2[img?.storyType]].length > 0 ?
-                                                        <img
-                                                            key={'MStories' + i}
-                                                            style={{ width: 60, objectFit: 'contain', cursor: 'pointer', marginRight: 20 }}
-                                                            src={img.src}
-                                                            onClick={() => handleShow({ storyType: img.storyType })}
-                                                        // alt={`Story ${index}`}
-                                                        />
-                                                        :
-                                                        null
-                                                )
-                                            }
-                                            )}
-                                        </div>
-                                    </div>
-                                }
-                                <div className='dashboard-slider'>
-                                    <p className='stories-title' style={{ marginBottom: 10 }}>Trending Stocks</p>
-                                    <Slider {...settings}>
-                                        {trendingStocks.map((stockData, index) => (
-                                            <TrendingStocksCard key={index} {...stockData} country={userDetails?.country}/>
-                                        ))}
-                                    </Slider>
-                                </div>
-                            </div>
-                            <div className='dashboard-container'>
-                                <div className='suggested-prompts-container'>
-                                    <p className='stories-title' style={{ marginBottom: 15 }}>Suggested Prompts</p>
-                                    <div className='row' >
-                                        {chatSuggestions.slice(0, 4).map((item, index) => (
-                                            <div onClick={() => { routePromptFrruitGPT(item?.prompt) }} key={index} className='col-lg-6 mb-3' style={{ cursor: 'pointer' }}>
-                                                <div className='prompts-text-bg'>
-                                                    <p className='prompts-text'>{item?.prompt}</p>
+                <>
+                    {showAllContent &&
+                        <div className='col-lg-7 column-pad'>
+                            <div className='dashboard mt-4'>
+                                <div className='d-flex flex-column justify-content-between' style={{ height: window.innerHeight - 140 }}>
+                                    <div className='d-flex flex-column'>
+                                        {
+                                            shouldShowStory &&
+                                            <div className='dashboard-container'>
+                                                <p className='stories-title' style={{ marginBottom: 10 }}>Investors Stories</p>
+                                                <div className='d-flex align-items-center' style={{ marginBottom: 20 }}>
+                                                    {storiesData.map((img, i) => {
+                                                        return (
+                                                            !storyViewed[storyEnum[img?.storyType]] && investorStory[storyEnum2[img?.storyType]].length > 0 ?
+                                                                <img
+                                                                    key={'MStories' + i}
+                                                                    style={{ width: 60, objectFit: 'contain', cursor: 'pointer', marginRight: 20 }}
+                                                                    src={img.src}
+                                                                    onClick={() => handleShow({ storyType: img.storyType })}
+                                                                // alt={`Story ${index}`}
+                                                                />
+                                                                :
+                                                                null
+                                                        )
+                                                    }
+                                                    )}
                                                 </div>
                                             </div>
-                                        ))}
+                                        }
+                                        <div className='dashboard-slider'>
+                                            <p className='stories-title' style={{ marginBottom: 10 }}>Trending Stocks</p>
+                                            <Slider {...settings}>
+                                                {trendingStocks.map((stockData, index) => (
+                                                    <TrendingStocksCard key={index} {...stockData} country={userDetails?.country} />
+                                                ))}
+                                            </Slider>
+                                        </div>
                                     </div>
-                                    <div className='search-dashboard-main' onClick={routeChangeFrruitGPT}>
-                                        <div className='text-main-bg'>Type your message here</div>
-                                        <img className='send-image' src={SendIcon} alt='Send' />
+                                    <div className='dashboard-container'>
+                                        <div className='suggested-prompts-container'>
+                                            <p className='stories-title' style={{ marginBottom: 15 }}>Suggested Prompts</p>
+                                            <div className='row' >
+                                                {chatSuggestions.slice(0, 4).map((item, index) => (
+                                                    <div onClick={() => { routePromptFrruitGPT(item?.prompt) }} key={index} className='col-lg-6 mb-3' style={{ cursor: 'pointer' }}>
+                                                        <div className='prompts-text-bg'>
+                                                            <p className='prompts-text'>{item?.prompt}</p>
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                            <div className='search-dashboard-main' onClick={routeChangeFrruitGPT}>
+                                                <div className='text-main-bg'>Type your message here</div>
+                                                <img className='send-image' src={SendIcon} alt='Send' />
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div className='col-lg-2 column-pad'>
-                    <DashboardRightBox newsData={trendingNews} mostFrruitData={mostOnFrruitGpt?.rows} />
-                </div>
+                    }
+                    {showAllContent &&
+                        <div className='col-lg-2 column-pad'>
+                            <DashboardRightBox newsData={trendingNews} mostFrruitData={mostOnFrruitGpt?.rows} onViewAllClick={handleViewAllClick} />
+                        </div>
+                    }
+                    {!showAllContent &&
+                        <div className='col-lg-9 column-pad'>
+                            <NewsViewAll backBtnClick={toggleShowAllContent} newsData={trendingNews}/>
+                        </div>
+                    }
+                </>
                 <Modal
                     show={show}
                     onHide={handleClose}
@@ -303,14 +323,14 @@ function Dashboard() {
                                 {stories.map((story, index) => {
                                     return (
                                         <div className='d-flex justify-content-center'>
-                                            <div key={index} style={{ position: 'relative',width:800,height:550,background:story. themeBg,borderRadius: 20,padding:20}}>
-                                                <div  style={{ background:'white',borderRadius: 20,padding:16,width:'100%',marginTop:20,height:250}}>
-                                                <img src={story.viewImage} style={{ objectFit: 'cover', borderRadius: 20, filter: 'grayscale(60%)',width:'100%',height:220 }} />
+                                            <div key={index} style={{ position: 'relative', width: 800, height: 550, background: story.themeBg, borderRadius: 20, padding: 20 }}>
+                                                <div style={{ background: 'white', borderRadius: 20, padding: 16, width: '100%', marginTop: 20, height: 250 }}>
+                                                    <img src={story.viewImage} style={{ objectFit: 'cover', borderRadius: 20, filter: 'grayscale(60%)', width: '100%', height: 220 }} />
                                                 </div>
                                                 <div className='stories-img-text'>{story.mainHeading}</div>
                                                 <div className='d-flex justify-content-between align-items-center mt-2'>
-                                                <button className='white-btn-main  d-flex align-items-center justify-content-center' onClick={getFrruitClick} style={{width:'48%'}}>{'Get Frruit'}  <img src={RightWhiteArrow} style={{ width: 20, objectFit: 'contain', marginLeft: 5 }} /></button>
-                                                <a className='secondary-btn' href={story.url} target='_blank' style={{textDecoration:'none',textAlign:'center',width:'48%'}}> {'View More'}  </a>
+                                                    <button className='white-btn-main  d-flex align-items-center justify-content-center' onClick={getFrruitClick} style={{ width: '48%' }}>{'Get Frruit'}  <img src={RightWhiteArrow} style={{ width: 20, objectFit: 'contain', marginLeft: 5 }} /></button>
+                                                    <a className='secondary-btn' href={story.url} target='_blank' style={{ textDecoration: 'none', textAlign: 'center', width: '48%' }}> {'View More'}  </a>
                                                 </div>
                                             </div>
                                         </div>

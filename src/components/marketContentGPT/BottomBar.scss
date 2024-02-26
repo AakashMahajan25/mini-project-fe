@@ -121,6 +121,17 @@
             object-fit: contain;
         }
     }
+    .form-group {
+        width: 130%;
+
+        .form-control {
+            border-radius: 15px;
+            border: 1px solid #4563E4;
+            background: #F1F4FD;
+            height: 56px;
+            padding: 6px 16px;
+        }
+    }
 
     .sendIcon {
         .sendIcon-styles {
