@@ -94,6 +94,7 @@ function BottomBar(props) {
     return (
         <>
             <div className='BottomBar'>
+                {!showQuestion &&
                 <div className='attachment' onClick={handleShow}>
                     <div>
                        { (selectedFile && !show &&!showQuestion) && <div>
@@ -114,6 +115,7 @@ function BottomBar(props) {
                         </div>
                     </div>
                 </div>
+                }
                 {showQuestion && <div class="form-group">
                     <input
                         class="form-control"

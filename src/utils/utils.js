@@ -39,7 +39,7 @@ export const replaceNewlinesWithBr = (text) => {
 }
 
 export const formatPrice = (price, country) => {
-    if (country === 'India') {
+    if (country === 'IND') {
         return '₹ ' + price; // Rupee symbol for India
     } else if (country === 'US') {
         return '$ ' + price; // Dollar symbol for US

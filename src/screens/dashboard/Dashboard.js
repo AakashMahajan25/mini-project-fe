@@ -21,7 +21,6 @@ import { getInvestorStories, getMostOnFrruitGpt, getStockIndexes, getTrendingNew
 import { getPromptSuggestion } from '../frruitGPT/slice';
 import Loader from '../../components/loader/Loader';
 import RightWhiteArrow from '../../assets/images/right-arrow.png';
-import { getUserDetails } from '../profile/usersSlice';
 import NewsViewAll from '../../components/dashboard/NewsViewAll';
 
 
@@ -89,17 +88,18 @@ function Dashboard() {
     const dispatch = useDispatch()
     const { trendingStocks, trendingNews, mostOnFrruitGpt, storyViewed, investorStory, isLoading, investorStoryLoading, indexLoader, stockIndexes } = useSelector(state => state.dashboardSlice);
     const { chatSuggestions, suggestionLoader } = useSelector(state => state.fruitGPTSlice);
-    const { userDetails } = useSelector(state => state.userSlice)
 
 
     const settings = {
         dots: false,
-        infinite: false,
+        infinite: true,
         speed: 500,
         slidesToShow: 2.3,
         swipeToSlide: true,
         arrows: false,
         beforeChange: (oldIndex, newIndex) => setActiveIndex(newIndex),
+        autoplay: true,
+        autoplaySpeed: 2000
     };
     const storyImg = {
         dots: false,
@@ -130,7 +130,6 @@ function Dashboard() {
         dispatch(getPromptSuggestion(4))
         dispatch(getInvestorStories())
         dispatch(getStockIndexes())
-        dispatch(getUserDetails())
     }, [])
 
     useEffect(() => {
@@ -246,10 +245,13 @@ function Dashboard() {
                                             </div>
                                         }
                                         <div className='dashboard-slider'>
+                                            <div className='d-flex align-items-center justify-content-between'>
                                             <p className='stories-title' style={{ marginBottom: 10 }}>Trending Stocks</p>
+                                            <p className='stories-title' style={{ marginBottom: 10,color:'#4563E4',cursor:'pointer',marginRight:16 }}>View All</p>
+                                            </div>
                                             <Slider {...settings}>
-                                                {trendingStocks.map((stockData, index) => (
-                                                    <TrendingStocksCard key={index} {...stockData} country={userDetails?.country} />
+                                                {trendingStocks?.slice(0,10).map((stockData, index) => (
+                                                    <TrendingStocksCard key={index} {...stockData}/>
                                                 ))}
                                             </Slider>
                                         </div>
