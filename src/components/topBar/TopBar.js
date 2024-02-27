@@ -6,6 +6,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import StockPriceScroll from '../stockPriceScroll/StockPriceScroll';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUserDetails } from '../../screens/profile/usersSlice';
+import LogOut from '../../assets/images/logout-outline.png';
 
 function TopBar() {
   const dispatch = useDispatch();
@@ -38,6 +39,11 @@ function TopBar() {
   useEffect(() => {
     dispatch(getUserDetails())
   }, [])
+  const handleLogout = () => {
+    localStorage.clear();
+    navigate('/login');
+}
+
   return (
     <>
       <div className='web-nav'>
@@ -52,8 +58,12 @@ function TopBar() {
               <div className={location.pathname === '/market-content-gpt' ? 'web-nav-text-active me-5' : 'web-nav-text me-5'} onClick={routeChangeMarketContentGPT}>Market Content GPT</div>
               <div className={location.pathname === '/discover-correlation' ? 'web-nav-text-active me-5' : 'web-nav-text me-5'} onClick={routeChangeDiscoverCorrelation}>Discover Correlation</div>
               {/* <img className="logo" onClick={routeChangeProfile} style={{ width: 42 }} src={ProfilePic} alt="" /> */}
-              <div onClick={routeChangeProfile} className='profile-icon'>
+              <div onClick={routeChangeProfile} className='profile-icon me-5'>
                 <div className='profile-name-text'>{userDetails?.first_name?.slice(0, 1)}</div>
+              </div>
+              <div className='logout-nav-bar' onClick={handleLogout}>
+                <div className='logout-text'>Logout</div>
+                <img src={LogOut} style={{ width: 24, objectFit: 'contain', marginLeft: 5 }} />
               </div>
             </div>
           </div>

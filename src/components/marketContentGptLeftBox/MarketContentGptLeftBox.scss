@@ -9,6 +9,41 @@
         overflow: scroll;
         overflow-x: hiddenx;
 
+        .custom-tab-css{
+            width: 100%;
+            background-color: #E5EAFF;
+            border-radius: 50px;
+            min-height: 30px;
+            padding: 5px;
+            margin-bottom: 20px;
+            .tab-css{
+                border-radius: 50px;
+                padding: 5px 10px;
+                cursor: pointer;
+                font-family: 'Roboto', sans-serif;
+                font-size: 14px;
+                font-weight: 400;
+                width: 48%;
+                text-align: center;
+            }
+           
+        }
+
+        // .customDiscoverCorrelationtabs {
+        //     border-radius: 50px;
+        //     background: #E5EAFF;
+        //     border: 0px;
+        //     padding: 5px;
+        //     align-items: center;
+        //     justify-content: space-between;
+        //     width: max-content;
+        //     margin-bottom: 15px;
+        // }
+
+        // .nav-pills .nav-link {
+        //     border-radius: 50px !important;
+        // }
+
         .blue-box {
             padding: 11px 16px;
             background-color: #F1F4FD;
@@ -35,6 +70,19 @@
                 background-color: #E5EAFF;
                 color: #4563E4;
             }
+        }
+
+        .blue-box-active {
+            padding: 11px 16px;
+            background-color: #4563E4;
+            border-radius: 15px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            font-family: 'Roboto', sans-serif;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 22px;
+            color: #E5EAFF;
         }
 
         .history-text {

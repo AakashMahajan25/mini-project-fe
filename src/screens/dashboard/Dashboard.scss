@@ -31,13 +31,16 @@
                 border-radius: 15px;
                 background: #F5F5F6;
                 padding: 16px;
+                height: 68px;
+                display: flex;
+                align-items: center;
             }
 
             .prompts-text {
                 color: #6F7387;
                 font-size: 12px;
                 font-style: normal;
-                font-weight: 400;
+                font-weight: 600;
 
             }
 

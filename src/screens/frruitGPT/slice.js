@@ -10,7 +10,8 @@ const initialState = {
     isLoading: false,
     suggestionLoader: false,
     frruitLoader: false,
-    error: null
+    error: null,
+    promptLibraryList: [],
 }
 
 export const getPromptSuggestion = createAsyncThunk("fruitGpt/getPromptSuggestion", async (number) => {
@@ -134,6 +135,21 @@ export const triggerFrruitGptGraph = createAsyncThunk("fruitGpt/triggerFrruitGpt
     }
 });
 
+export const getPromptsLibrary = createAsyncThunk("fruitGpt/getPromptsLibrary", async (queryParam) => {
+    try {
+        let data = {
+            method: METHOD_TYPE.get,
+            url: API_ENDPOINTS.getPromptsLibrary + queryParam,
+        };
+        let response = await api(data);
+        return response.data.data;
+
+    } catch (error) {
+        throw error.response;
+    }
+});
+
+
 
 const fruitGPTSlice = createSlice({
     name: "fruitGPT",
@@ -179,7 +195,10 @@ const fruitGPTSlice = createSlice({
             .addCase(triggerFrruitGptGraph.fulfilled, (state, action) => {
                 if(action.payload !== undefined)
                 state.chatHistory = [...state?.chatHistory, ...action.payload];
-            })
+        })
+        .addCase(getPromptsLibrary.fulfilled, (state, action) => {
+            state.promptLibraryList = action.payload;
+        })
             .addMatcher(
                 (action) =>
                     action.type === getPromptHistory.pending.type ||
@@ -190,7 +209,10 @@ const fruitGPTSlice = createSlice({
                     action.type === getPromptList.rejected.type ||
                     action.type === searchPrompt.pending.type ||
                     action.type === searchPrompt.fulfilled.type ||
-                    action.type === searchPrompt.rejected.type,
+                    action.type === searchPrompt.rejected.type||
+                    action.type === getPromptsLibrary.pending.type ||
+                    action.type === getPromptsLibrary.fulfilled.type ||
+                    action.type === getPromptsLibrary.rejected.type,
 
                 handleLoading
             )
