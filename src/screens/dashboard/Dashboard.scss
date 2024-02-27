@@ -23,6 +23,51 @@
         .dashboard-slider {
             padding-left: 20px;
         }
+        .form-group {
+            width: 100%;
+    
+            .form-control {
+                border-radius: 15px;
+                border: 1px solid #4563E4;
+                background: #F1F4FD;
+                height: 56px;
+                padding: 6px 16px;
+            }
+        }
+        .box-content {
+            .mostOnFrruitBox {
+                background-color: #E8ECFB99;
+                padding: 12px 24px;
+                border-radius: 15px;
+                cursor: pointer;
+                margin-right: 10px;
+            }
+    
+            .text {
+                font-weight: 400;
+                font-family: 'Roboto', sans-serif;
+                font-size: 12px;
+                line-height: 14.06px;
+                color: #6F7387;
+            }
+    
+            .title {
+                font-weight: 500;
+                font-family: 'Roboto', sans-serif;
+                font-size: 16px;
+                line-height: 18.75px;
+                color: #171E42;
+            }
+    
+            .viewAllTeaxt {
+                font-weight: 500;
+                font-family: 'Roboto', sans-serif;
+                font-size: 14px;
+                line-height: 16.41px;
+                color: #4563E4;
+                cursor: pointer;
+            }
+        }
 
         .suggested-prompts-container {
             margin-top: 20px;

@@ -33,14 +33,13 @@ function DashboardRightBox({ newsData, mostFrruitData, onViewAllClick }) {
         <>
             <div className='Right-box'>
                 <div className='box' style={{ height: window.innerHeight - 105 }}>
-                    {mostFrruitData?.length > 0 &&
+                    {/* {mostFrruitData?.length > 0 &&
                         <>
                             <div className='box-content'>
                                 <div className='d-flex align-items-center justify-content-between mb-3'>
                                     <div className='title'>Most on Frruit</div>
                                     <div onClick={handleShow} style={{ cursor: 'pointer', color: '#4563E4', fontWeight: 600 }}>View All</div>
                                 </div>
-                                {/* <div className='title' style={{ marginBottom: 20 }}>Most on Frruit</div> */}
                                 {mostFrruitData?.slice(0, 3).map((text, index) => (
                                     <div onClick={() => { routeChangeFrruitGPT(text?.question) }} key={index} className='mostOnFrruitBox mb-2'>
                                         <div className='d-flex justify-content-between align-items-center'>
@@ -52,7 +51,7 @@ function DashboardRightBox({ newsData, mostFrruitData, onViewAllClick }) {
                             </div>
                             <div style={{ backgroundColor: '#E5E5E5', width: '100%', height: 1, marginBottom: 5 }} />
                         </>
-                    }
+                    } */}
                     <div className='box-content'>
                         {newsData?.length > 0 &&
                             <>
@@ -61,7 +60,7 @@ function DashboardRightBox({ newsData, mostFrruitData, onViewAllClick }) {
                                     <div className='viewAllTeaxt' onClick={onViewAllClick} style={{ marginBottom: 20 }}>View All</div>
                                 </div>
                                 {
-                                    newsData?.slice(0, 2).map((newsItem, index) => (
+                                    newsData?.slice(0, 6).map((newsItem, index) => (
                                         <a href={newsItem?.newsLink} target='_blank' style={{ textDecoration: 'none' }}>
                                             <div key={index} className='newsBox' style={{ marginBottom: 20, cursor: 'pointer' }}>
                                                 <div className='d-flex justify-content-start'>
