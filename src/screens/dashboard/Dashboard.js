@@ -140,6 +140,11 @@ function Dashboard() {
             });
         }
     };
+    const routeNews = (src) => {
+            navigate("/news", {
+                state: { src },
+            });
+    };
 
     useEffect(() => {
         // dispatch(getTrendingStocks())
