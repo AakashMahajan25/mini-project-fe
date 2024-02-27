@@ -23,6 +23,11 @@ function DashboardRightBox({ newsData, mostFrruitData, onViewAllClick }) {
             state: { question },
         });
     };
+    const routeNews = (src) => {
+        navigate("/news", {
+            state: { src },
+        });
+    };
     const [show, setShow] = useState(false);
 
     const handleShow = () => setShow(true);
@@ -61,21 +66,19 @@ function DashboardRightBox({ newsData, mostFrruitData, onViewAllClick }) {
                                 </div>
                                 {
                                     newsData?.slice(0, 6).map((newsItem, index) => (
-                                        <a href={newsItem?.newsLink} target='_blank' style={{ textDecoration: 'none' }}>
-                                            <div key={index} className='newsBox' style={{ marginBottom: 20, cursor: 'pointer' }}>
-                                                <div className='d-flex justify-content-start'>
-                                                    <img style={{ width: 60, objectFit: 'contain', marginRight: '10px' }} src={newsItem?.image} />
-                                                    <div>
-                                                        <p className='newsTitle'>{trimText(newsItem?.title, 20)}</p>
-                                                        <p className='newsPara' style={{ marginBottom: '5px' }}>{newsItem?.source}</p>
-                                                        <div className='d-flex justify-content-start align-items-center'>
-                                                            <img height={16} style={{ width: 16, objectFit: 'cover', marginRight: '5px'}} src={NewsTime} />
-                                                            <p className='newsPara'>{formatTimeAgo(newsItem?.timeStamp)}</p>
-                                                        </div>
+                                        <div key={index} className='newsBox' style={{ marginBottom: 20, cursor: 'pointer' }} onClick={() => routeNews(newsItem?.newsLink)}>
+                                            <div className='d-flex justify-content-start'>
+                                                <img style={{ width: 60, objectFit: 'contain', marginRight: '10px' }} src={newsItem?.image} />
+                                                <div>
+                                                    <p className='newsTitle'>{trimText(newsItem?.title, 20)}</p>
+                                                    <p className='newsPara' style={{ marginBottom: '5px' }}>{newsItem?.source}</p>
+                                                    <div className='d-flex justify-content-start align-items-center'>
+                                                        <img height={16} style={{ width: 16, objectFit: 'cover', marginRight: '5px' }} src={NewsTime} />
+                                                        <p className='newsPara'>{formatTimeAgo(newsItem?.timeStamp)}</p>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </a>
+                                        </div>
                                     ))}
                             </>
                         }

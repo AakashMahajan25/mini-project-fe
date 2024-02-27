@@ -8,6 +8,7 @@ import Signup from "../screens/signup/Signup";
 import PrivateRoute from "./privateRoute";
 import Topics from "../screens/selectPreferences/SelectPreferences";
 import Market from "../screens/makeSelection/MakeSelection"
+import NewsIframe from "../screens/news/NewsIframe";
 
 export const loginRoutes = [
     {
@@ -59,5 +60,10 @@ export const loginRoutes = [
         path: "/market-content-gpt",
         exact: true,
         element: <PrivateRoute component={MarketContentGPT} />,
+    },
+    {
+        path: "/news",
+        exact: true,
+        element: <PrivateRoute component={NewsIframe} />,
     },
 ]
