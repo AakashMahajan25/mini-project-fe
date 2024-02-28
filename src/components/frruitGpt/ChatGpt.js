@@ -17,6 +17,7 @@ import { useLoading, Audio, SpinningCircles, Circles, ThreeDots } from '@agney/r
 import { useLocation } from 'react-router'
 import UploadDocImg from '../../assets/images/doc-img.png'
 import { useNavigate } from 'react-router-dom';
+import quesIcon from '../../assets/images/i-icon.png';
 
 function ChatGpt(props) {
     const { chatSuggestions } = useSelector(state => state.fruitGPTSlice);
@@ -196,9 +197,12 @@ function ChatGpt(props) {
                                 <div className='help-text'>How can I help you today ?</div>
                                 <div className='row'>
                                     {chatSuggestions.map((item, index) => (
-                                        <div key={index} className='col-lg-6 column-pad' style={{ cursor: 'pointer' }} onClick={()=> routeChangeFrruitGPT(item?.prompt)}>
+                                        <div key={index} className='col-lg-6 column-pad' style={{ cursor: 'pointer' }} onClick={() => routeChangeFrruitGPT(item?.prompt)}>
                                             <div className='prompts-text-bg'>
-                                                <p className='prompts-text'>{item?.prompt}</p>
+                                                <div className=' d-flex justify-content-between align-items-center w-100' >
+                                                    <p className='prompts-text'>{item?.prompt}</p>
+                                                    <img style={{ width: 24, objectFit: 'contain' }} src={quesIcon} />
+                                                </div>
                                             </div>
                                         </div>
                                     ))}
