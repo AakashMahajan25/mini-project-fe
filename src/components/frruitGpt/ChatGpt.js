@@ -147,7 +147,7 @@ function ChatGpt(props) {
             fruitButtonText: 'Get Frruit',
         },
     ];
-    const { containerRef, docStatus = false, docName = '', newChat } = props;
+    const { containerRef, docStatus = false, docName = '', newChat, selectedType } = props;
 
     const { chatHistory, frruitLoader } = useSelector(state => state.fruitGPTSlice);
     const { contentChatHistory, contentGPTLoader } = useSelector(state => state.contentGPTSlice);
@@ -350,7 +350,7 @@ function ChatGpt(props) {
                             </div>
                     )}
 
-                {(contentChatHistory.length > 0 && docStatus) && <div className='rightChat'>
+                {(contentChatHistory.length > 0 && docStatus && selectedType === 'attachment') && <div className='rightChat'>
                     {/* <img src={ProfileIcon} className='profile-styles' /> */}
                     <div className='d-flex align-items-center my-2 floatRight'>
                         <img src={ArrowGrey} className='arrow' />
