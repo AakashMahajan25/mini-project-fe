@@ -25,6 +25,7 @@ const initialState = {
         isNewsViewed: false
     },
     investorStoryLoading: false,
+    investorStoryError: false,
     watchlistLoading: false,
     stockIndexes: [],
     indexLoader: false,
@@ -316,6 +317,9 @@ const dashboardSlice = createSlice({
             .addCase(getGraphDetail.fulfilled, (state, action) => {
                 state.graphDetails = action.payload;
             })
+            .addCase(getInvestorStories.rejected, (state, action) => {
+                state.investorStoryError = true;
+            })
             .addCase(getInvestorStories.fulfilled, (state, action) => {
                 const topicsNews = Object.values(action.payload["Topics_news"]).flat();
                 const watchlist = Object.values(action.payload["Watchlist_news"]).flat();
@@ -334,6 +338,7 @@ const dashboardSlice = createSlice({
                     isTopicViewed: false,
                     isNewsViewed: false
                 }
+                state.investorStoryError = false;
             })
 
             .addCase(getStockIndexes.fulfilled, (state, action) => {

@@ -70,6 +70,7 @@ function MarketContentGPT() {
             .unwrap()
             .then(res => {
                 dispatch(getContentPromptList('link'))
+                setSelectedChat(res.prompt_id)
                 setQuestion('');
                 scrollDown(500)
             })
