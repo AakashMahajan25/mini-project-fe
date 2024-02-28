@@ -411,7 +411,7 @@ function LeftBox() {
                                                     ) : (
                                                         <img style={{ width: 24, objectFit: 'contain' }} src={GreenArrow} alt="Green Arrow" />
                                                     )}
-                                                      <img className='me-2' onClick={()=>getFrruitClick(stock?.ticker)} style={{ width: 24, objectFit: 'contain', cursor: 'pointer' }} src={StockMiniLogo} alt="mini-logo" />
+                                                      <img className='ms-2' onClick={()=>getFrruitClick(stock?.ticker)} style={{ width: 24, objectFit: 'contain', cursor: 'pointer' }} src={StockMiniLogo} alt="mini-logo" />
                                                 </div>
                                             </div>
                                         </div>
