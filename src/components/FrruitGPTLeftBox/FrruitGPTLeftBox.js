@@ -78,7 +78,7 @@ function FrruitGPTLeftBox(props) {
                                     ? "Today"
                                     : moment(item?.date).format('DD MMM YYYY')
                             }</div>
-                            {item?.data?.slice().reverse().map((item, index, array) => (
+                            {item?.data?.map((item, index, array) => (
                                 <Nav.Link key={index} className={selectedChat === item.prompt_id ? 'blue-box-active' : 'blue-box'} onClick={() => { historyClick(item?.prompt_id); setShow(!show) }} style={{ marginBottom: index === array.length - 1 ? 20 : 10 }}>
                                     <Nav.Link className=''>{trimText(item?.prompt_text, 40)}</Nav.Link>
                                 </Nav.Link>

@@ -117,7 +117,7 @@ function MarketContentGptLeftBox(props) {
                                                 ? "Today"
                                                 : moment(item?.date).format('DD MMM YYYY')
                                         }</div>
-                                        {item?.data?.slice().reverse().map((item, index, array) => (
+                                        {item?.data?.map((item, index, array) => (
                                             <Nav.Link key={index} className={selectedChat === item.content_prompt_id ? 'blue-box-active' : 'blue-box'} onClick={() => { historyClick(item?.content_prompt_id); setShow(!show) }} style={{ marginBottom: index === array.length - 1 ? 20 : 10 }}>
                                                 <Nav.Link className=''>{trimText(item?.content_prompt_text, 40)}</Nav.Link>
                                             </Nav.Link>
@@ -135,7 +135,7 @@ function MarketContentGptLeftBox(props) {
                                                 ? "Today"
                                                 : moment(item?.date).format('DD MMM YYYY')
                                         }</div>
-                                        {item?.data?.slice().reverse().map((item, index, array) => (
+                                        {item?.data?.map((item, index, array) => (
                                             <Nav.Link key={index} className={selectedChat === item.content_prompt_id ? 'blue-box-active' : 'blue-box'} onClick={() => { historyClick(item?.content_prompt_id, item?.contentS3Path); setShow(!show) }} style={{ marginBottom: index === array.length - 1 ? 20 : 10 }}>
                                                 <Nav.Link className=''>{trimText(item?.content_prompt_text, 40)}</Nav.Link>
                                             </Nav.Link>

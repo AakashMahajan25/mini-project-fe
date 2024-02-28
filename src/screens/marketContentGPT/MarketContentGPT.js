@@ -86,6 +86,7 @@ function MarketContentGPT() {
             const res = await dispatch(getUploadURL(selectedFile)).unwrap();
             const data = { url: res.data, file: selectedFile };
             setShowQuestion(true);
+            setFileName(selectedFile?.name)
             const updateRes = await dispatch(updateUploadURL(data)).unwrap();
             if (updateRes.status === 200) {
                 const requestData = {
@@ -105,26 +106,32 @@ function MarketContentGPT() {
 
     const askAttachmentContentGpt = async (promptId, title) => {
         setQuestion('');
-        if (question) {
-            const requestData = {
-                prompt_id: promptId,
-                message: title ? title : question,
-            };
+        if (!question) {
             dispatch(setChatHistory([{
-                person: "user",
-                text: requestData.message,
-                type: "text"
+                person: "bot",
+                text: "Please ask the question about your Document",
+                type: "attachment"
             }]));
-            try {
-                dispatch(triggerDocumentChat(requestData)).unwrap()
-                    .then(res => {
-                        setQuestion('');
-                        scrollDown(250);
-                        setSelectedFile(null)
-                    });
-            } catch (error) {
-                clearQuestionAndToastError(error);
-            }
+            return;
+        }
+        const requestData = {
+            prompt_id: promptId,
+            message: title ? title : question,
+        };
+        dispatch(setChatHistory([{
+            person: "user",
+            text: requestData.message,
+            type: "text"
+        }]));
+        try {
+            dispatch(triggerDocumentChat(requestData)).unwrap()
+                .then(res => {
+                    setQuestion('');
+                    scrollDown(250);
+                    setSelectedFile(null)
+                });
+        } catch (error) {
+            clearQuestionAndToastError(error);
         }
     }
 
@@ -134,8 +141,8 @@ function MarketContentGPT() {
             handleNewChat()
             askContentGpt(null, null);
         } else if (type === 'attachment' || selectedType === 'attachment') {
+            setSelectedType(type)
             if (isNewChat.current) {
-                setFileName(selectedFile?.name)
                 await getUrlOfAttchment();
             } else {
                 askAttachmentContentGpt(selectedChat, question);
@@ -184,7 +191,7 @@ function MarketContentGPT() {
                         />
                     </div>
                     <div className='col-lg-9 column-pad position-relative'>
-                        <ChatGpt containerRef={gptRef} newChat={isNewChat.current} docStatus={true} docName={fileName} />
+                        <ChatGpt containerRef={gptRef} newChat={isNewChat.current} docStatus={true} docName={fileName} selectedType={selectedType}/>
                         <BottomBar
                             handleNewChat={handleNewChat}
                             setQuestion={setQuestion}
