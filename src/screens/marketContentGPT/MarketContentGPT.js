@@ -71,6 +71,7 @@ function MarketContentGPT() {
             .then(res => {
                 dispatch(getContentPromptList('link'))
                 setSelectedChat(res.prompt_id)
+                isNewChat.current = false
                 setQuestion('');
                 scrollDown(500)
             })
