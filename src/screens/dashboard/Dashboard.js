@@ -367,7 +367,7 @@ function Dashboard() {
                                                             {chatSuggestions.slice(0, 4).map((item, index) => (
                                                                 <div onClick={() => { routePromptFrruitGPT(item?.prompt) }} key={index} className='col-lg-6 mb-3' style={{ cursor: 'pointer' }}>
                                                                     <div className='prompts-text-bg' style={{ marginRight: 10, cursor: 'pointer' }}>
-                                                                        <div className=' justify-content-between' >
+                                                                        <div className=' d-flex justify-content-between align-items-center w-100' >
                                                                             <p className='prompts-text'>{item?.prompt}</p>
                                                                             <img style={{ width: 24, objectFit: 'contain' }} src={quesIcon} />
                                                                         </div>
