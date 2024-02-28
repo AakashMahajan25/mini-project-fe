@@ -9,6 +9,7 @@ const initialState = {
     chatHistory: [],
     isLoading: false,
     suggestionLoader: false,
+    suggestionError: false,
     frruitLoader: false,
     error: null,
     promptLibraryList: [],
@@ -178,6 +179,10 @@ const fruitGPTSlice = createSlice({
         builder
             .addCase(getPromptSuggestion.fulfilled, (state, action) => {
                 state.chatSuggestions = action.payload;
+                state.suggestionError = false;
+            })
+            .addCase(getPromptSuggestion.rejected, (state, action) => {
+                state.suggestionError = true;
             })
             .addCase(getPromptList.fulfilled, (state, action) => {
                 state.promptList = action.payload;

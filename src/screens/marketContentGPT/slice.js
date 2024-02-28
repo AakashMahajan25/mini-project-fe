@@ -23,12 +23,8 @@ export const triggerContentPrompt = createAsyncThunk("contentGpt/triggerContentP
         if (!response.data.status) {
             toast.error(response.data.message)
         }
-        const chatData = [{
-            person: "bot",
-            text: response.data.data,
-            type: "link"
-        }]
-        return chatData;
+
+        return response.data.data;
 
     } catch (error) {
         if (!error.response?.data.status) {
@@ -186,8 +182,14 @@ const contentGPTSlice = createSlice({
                 state.contentChatHistory = history;
             })
             .addCase(triggerContentPrompt.fulfilled, (state, action) => {
-                if (action.payload !== undefined)
-                    state.contentChatHistory = [...state?.contentChatHistory, ...action.payload];
+                if (action.payload !== undefined){
+                    const chatData = [{
+                        person: "bot",
+                        text: action.payload.data,
+                        type: "link"
+                    }]
+                    state.contentChatHistory = [...state?.contentChatHistory, ...chatData];
+                }
             })
             .addCase(triggerDocumentChat.fulfilled, (state, action) => {
                 if (action.payload !== undefined)

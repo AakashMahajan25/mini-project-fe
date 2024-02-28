@@ -139,8 +139,8 @@ function Dashboard() {
     ];
 
     const dispatch = useDispatch()
-    const { trendingStocks, trendingNews, mostOnFrruitGpt, storyViewed, investorStory, isLoading, investorStoryLoading, indexLoader, stockIndexes } = useSelector(state => state.dashboardSlice);
-    const { chatSuggestions, suggestionLoader } = useSelector(state => state.fruitGPTSlice);
+    const { trendingStocks, trendingNews, mostOnFrruitGpt, storyViewed, investorStory, isLoading, investorStoryLoading, indexLoader, stockIndexes, investorStoryError } = useSelector(state => state.dashboardSlice);
+    const { chatSuggestions, suggestionLoader, suggestionError } = useSelector(state => state.fruitGPTSlice);
 
 
     const settings = {
@@ -277,10 +277,16 @@ function Dashboard() {
             routePromptFrruitGPT(question);
         }
     };
+
+    const isData = useMemo(() => {
+        return ((stockIndexes?.length > 0 && ((investorStory?.topicsNews?.length > 0 || investorStory?.watchlistNews?.length > 0 || investorStory?.trendingStock?.length > 0 || investorStory?.trendingNews?.length > 0) || investorStoryError ) && (chatSuggestions?.length > 0 || suggestionError) ))
+    }, [investorStory, stockIndexes, chatSuggestions])
+
+
     return (
         <>
             {
-                (indexLoader || isLoading) &&
+                ((indexLoader || investorStoryLoading || suggestionLoader) && !isData) &&
                 <Loader />
             }
             <div className='dashboardHome row justify-content-between m-0'>
