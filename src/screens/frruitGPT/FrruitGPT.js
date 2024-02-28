@@ -169,7 +169,7 @@ function FrruitGPT() {
                 </div>
                 <div className='col-xl-9 column-pad'>
                     <ChatGpt
-                        isNewChat={isNewChat.current}
+                        newChat={isNewChat.current}
                         containerRef={gptRef}
                     />
                     <PromptsLibrary
