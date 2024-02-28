@@ -139,10 +139,10 @@ function Profile() {
                                         <div className='blue-box'>
                                             <div className='d-flex justify-content-between align-items-center' style={{ marginBottom: 10 }}>
                                                 <div className='text-1'>Available Credits</div>
-                                                <div className='d-flex align-items-center'>
+                                                {/* <div className='d-flex align-items-center'>
                                                     <div className='text-2'>History</div>
                                                     <img src={WhiteArrow} style={{ width: 18, objectFit: 'contain' }} />
-                                                </div>
+                                                </div> */}
                                             </div>
                                             <div className='light-blue-box' style={{ width: 'fit-content', marginBottom: 28 }}>
                                                 <div className='d-flex justify-content-start align-items-center'>
@@ -162,7 +162,7 @@ function Profile() {
                                             </div>
                                             <div className='light-blue-box' style={{ marginBottom: 10 }}>
                                                 <div className='d-flex justify-content-between align-items-center'>
-                                                    <div className='text-3'>Premium</div>
+                                                    <div className='text-3'>BETA</div>
                                                     <div className='text-4'>$14 /month</div>
                                                 </div>
                                             </div>

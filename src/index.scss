@@ -353,6 +353,22 @@ p {
   color: #171E42;
 }
 
+.accordion-button::after {
+  flex-shrink: 0;
+  width: var(--bs-accordion-btn-icon-width);
+  height: var(--bs-accordion-btn-icon-width);
+  margin-left: auto;
+  content: "";
+  background-image: url('../src/assets/images/accordiun-down-arrow.png');
+  background-repeat: no-repeat;
+  background-size: var(--bs-accordion-btn-icon-width);
+  transition: var(--bs-accordion-btn-icon-transition);
+}
+.accordion-button:not(.collapsed)::after {
+   background-image: url('../src/assets/images/accordiun-down-arrow.png');
+  transform: var(--bs-accordion-btn-icon-transform);
+}
+
 .accordion-button:not(.collapsed) {
   color: #171E42;
   font-family: Roboto;
