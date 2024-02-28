@@ -7,9 +7,10 @@ import DocImg from '../../assets/images/file-upload-img.png'
 import CloseIcon from '../../assets/images/close_icon.png'
 import UploadDocImg from '../../assets/images/doc-img.png'
 import Modal from 'react-bootstrap/Modal';
-import {  clearAttactmentUrl } from '../../screens/marketContentGPT/slice'
+import { clearAttactmentUrl } from '../../screens/marketContentGPT/slice'
 import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
+import CloseImg from '../../assets/images/close_icon.png';
 
 function BottomBar(props) {
     const [show, setShow] = useState(false);
@@ -23,16 +24,16 @@ function BottomBar(props) {
     const [type, setType] = useState(null);
     const dispatch = useDispatch();
 
-    
+
     const {
-        setQuestion=()=>{},
-        question='',
-        showQuestion=null,
-        selectedFile=null,
-        setSelectedFile=()=>{},
-        handleAskPress=()=>{}
+        setQuestion = () => { },
+        question = '',
+        showQuestion = null,
+        selectedFile = null,
+        setSelectedFile = () => { },
+        handleAskPress = () => { }
     } = props
-    
+
 
     const handleInputChange = (event) => {
         setInputValue(event.target.value);
@@ -56,7 +57,7 @@ function BottomBar(props) {
         setSelectedFile(null);
         dispatch(clearAttactmentUrl())
     }
-    
+
     const handleKeyPress = (e) => {
         if (e.key === 'Enter') {
             handleAskPress();
@@ -66,7 +67,7 @@ function BottomBar(props) {
     const handleUploadButtonClick = () => {
         fileInputRef.current.click();
     };
-    
+
     const handleFileChange = (event) => {
         const file = event.target.files[0];
         if (file) {
@@ -85,8 +86,8 @@ function BottomBar(props) {
         const extension = parts.pop();
         const newName = `${parts.join('.')}_${timestamp}.${extension}`;
         return newName;
-      };
-      const handleChange = (e) => {
+    };
+    const handleChange = (e) => {
         setQuestion(e.target.value)
     }
 
@@ -95,26 +96,28 @@ function BottomBar(props) {
         <>
             <div className='BottomBar'>
                 {!showQuestion &&
-                <div className='attachment' onClick={handleShow}>
-                    <div>
-                       { (selectedFile && !show &&!showQuestion) && <div>
-                            <div className='attached-document-text'>Attached Document</div>
-                            <div className='d-flex'>
-                                <div className='attached-doc-white-box'>
-                                    <img src={UploadDocImg} width={44} style={{ objectFit: 'contain' }} />
-                                    <div className='pdf-name me-2'>{selectedFile?.name}</div>
-                                    <img src={CloseIcon} width={16} style={{ objectFit: 'contain', cursor: 'pointer' }} onClick={handleRemove}/>
+                    <div className='attachment' onClick={handleShow}>
+                        <div>
+                            {(selectedFile && !show && !showQuestion) && <div>
+                                <div className='attached-document-text'>Attached Document</div>
+                                <div className='d-flex'>
+                                    <div className='attached-doc-white-box'>
+                                        <img src={UploadDocImg} width={44} style={{ objectFit: 'contain' }} />
+                                        <div className='pdf-name me-2'>{selectedFile?.name}</div>
+                                        <img src={CloseIcon} width={16} style={{ objectFit: 'contain', cursor: 'pointer' }} onClick={handleRemove} />
+                                    </div>
                                 </div>
-                            </div>
-                        </div>}
-                        <div className='d-flex justify-content-center align-items-center' style={{ minHeight: 44 }}>
-                            <div className='d-flex justify-content-center align-items-center'>
-                                <p className='attach-text'>Attach</p>
-                                <img src={AttachIcon} className='img-styles' />
+                                <div className='select-text-css'>Summary</div>
+                                <div className='bottom-boder-css'></div>
+                            </div>}
+                            <div className='d-flex justify-content-center align-items-center' style={{ minHeight: 44 }}>
+                                <div className='d-flex justify-content-center align-items-center'>
+                                    <p className='attach-text'>Attach</p>
+                                    <img src={AttachIcon} className='img-styles' />
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
                 }
                 {showQuestion && <div class="form-group">
                     <input
@@ -125,18 +128,18 @@ function BottomBar(props) {
                         onKeyDown={handleKeyPress}
                     />
                 </div>}
-               {!showQuestion && <div className='linkUrl' onClick={handleShow2}>
+                {!showQuestion && <div className='linkUrl' onClick={handleShow2}>
                     <div>
-                        {(question && type === 'link') && 
-                        <div>
-                            <div className='url-text'>URL</div>
-                            <div className='d-flex'>
-                                <div className='url-white-box'>
-                                    <div className='url-name me-2'>{question}</div>
-                                    <img src={CloseIcon} width={16} style={{ objectFit: 'contain', cursor: 'pointer' }} onClick={handleRemove}/>
+                        {(question && type === 'link') &&
+                            <div>
+                                <div className='url-text'>URL</div>
+                                <div className='d-flex'>
+                                    <div className='url-white-box'>
+                                        <div className='url-name me-2'>{question}</div>
+                                        <img src={CloseIcon} width={16} style={{ objectFit: 'contain', cursor: 'pointer' }} onClick={handleRemove} />
+                                    </div>
                                 </div>
-                            </div>
-                        </div>}
+                            </div>}
                         <div className='d-flex justify-content-center align-items-center' style={{ minHeight: 44 }}>
                             <div className='d-flex justify-content-center align-items-center'>
                                 <p className='linkUrl-text'>Link URL</p>
@@ -145,7 +148,7 @@ function BottomBar(props) {
                         </div>
                     </div>
                 </div>}
-                <div className='sendIcon' onClick={()=>handleAskPress(type)}>
+                <div className='sendIcon' onClick={() => handleAskPress(type)}>
                     <img src={SendIcon} className='sendIcon-styles' />
                 </div>
             </div>
@@ -156,8 +159,13 @@ function BottomBar(props) {
                 className='Attach-modal'
                 scrollable
             >
-                <Modal.Header closeButton>
-                    <div className='header-title'>Attach Documents</div>
+                <Modal.Header>
+                    <div className='d-flex justify-content-between align-items-center mb-2'>
+                        <div className='header-text'>Attach Documents</div>
+                        <div onClick={() => handleClose()} className=' align-items-center' style={{ cursor: 'pointer' }}>
+                            <img src={CloseImg} className='me-1' width={32} style={{ objectFit: 'contain' }} />
+                        </div>
+                    </div>
                 </Modal.Header>
                 <Modal.Body>
                     {selectedFile ? <div className='upload-img-box' onClick={handleUploadButtonClick}>
@@ -190,6 +198,13 @@ function BottomBar(props) {
                     }
                 </Modal.Body>
                 <Modal.Footer>
+                    <div className='footer-header-text'>Select the following to get the data about the Document: </div>
+                    <div className='select-btn-class'>
+                        <div className='selected'>Summary</div>
+                        <div className='unSelected'>Key Highlights</div>
+                        <div className='unSelected'>Sentiments</div>
+                        <div className='unSelected'>Select All</div>
+                    </div>
                     <div className='d-flex justify-content-end align-items-center'>
                         <button onClick={handleAttachDone} type="submit" className='blue-btn'>Done</button>
                     </div>
@@ -202,8 +217,13 @@ function BottomBar(props) {
                 className='Attach-modal'
                 scrollable
             >
-                <Modal.Header closeButton>
-                    <div className='header-title'>Paste youtube link here</div>
+                <Modal.Header>
+                    <div className='d-flex justify-content-between align-items-center mb-2'>
+                        <div className='header-text'>Paste youtube link here</div>
+                        <div onClick={() => handleClose2()} className=' align-items-center' style={{ cursor: 'pointer' }}>
+                            <img src={CloseImg} className='me-1' width={32} style={{ objectFit: 'contain' }} />
+                        </div>
+                    </div>
                 </Modal.Header>
                 <Modal.Body>
                     <input
