@@ -71,16 +71,16 @@ function Dashboard() {
     const PreviousBtn2 = (props) => {
         const { className, onClick } = props
         return (
-            <div className={className} onClick={onClick}>
-                <img src={LeftBtn} style={{ width: 40, position: 'absolute', top: 33, right: -813 }} />
+            <div className={className} onClick={onClick} style={{ position: 'relative' }}>
+                <img src={LeftBtn} style={{ width: 40, position: 'absolute', top: -20, right: -150 }} />
             </div>
         )
     }
     const NextBtn2 = (props) => {
         const { className, onClick } = props
         return (
-            <div className={className} onClick={onClick}>
-                <img src={RightBtn} style={{ width: 40, position: 'absolute', top: 33, right: 35 }} />
+            <div className={className} onClick={onClick} style={{ position: 'relative' }}>
+                <img src={RightBtn} style={{ width: 40, position: 'absolute', top: -100, right: -140 }} />
             </div>
         )
     }
@@ -183,9 +183,9 @@ function Dashboard() {
         }
     };
     const routeNews = (src) => {
-            navigate("/news", {
-                state: { src },
-            });
+        navigate("/news", {
+            state: { src },
+        });
     };
 
     useEffect(() => {
@@ -338,8 +338,8 @@ function Dashboard() {
                                         <div className='suggested-prompts-container'>
                                             {mostOnFrruitGpt?.rows?.length > 0 &&
                                                 <>
-                                                    <div className='box-content position-relative' style={{ marginBottom: 28 }}>
-                                                        <div className='d-flex align-items-center justify-content-between mb-3'>
+                                                    <div className='box-content position-relative'>
+                                                        <div className='d-flex align-items-center justify-content-between'>
                                                             <div className='title'>Most on Frruit</div>
                                                             <div onClick={handleShow2} style={{ cursor: 'pointer', color: '#4563E4', fontWeight: 600 }}>View All</div>
                                                         </div>
@@ -511,7 +511,7 @@ function Dashboard() {
                     </Modal.Header>
                     <Modal.Body>
                         <div className='viewModal2'>
-                            <div className='row' style={{marginLeft:0}}>
+                            <div className='row' style={{ marginLeft: 0 }}>
 
                                 {trendingStocks?.slice(0, 10).map((stockData, index) => (
                                     <div className='col-lg-6 column-pad mb-3'>

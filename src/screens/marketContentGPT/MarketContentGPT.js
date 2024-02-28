@@ -18,6 +18,7 @@ function MarketContentGPT() {
     const [selectedFile, setSelectedFile] = useState(null);
     const [showQuestion, setShowQuestion] = useState(false);
     const [selectedType, setSelectedType] = useState(null);
+    const [fileName, setFileName] = useState('');
 
 
     useEffect(() => {
@@ -31,18 +32,18 @@ function MarketContentGPT() {
             gptRef.current.scrollTop = gptRef.current.scrollHeight;
         }
     };
-    
+
     const scrollDown = (amount) => {
         if (gptRef.current) {
             gptRef.current.scrollTop += amount;
         }
     };
-    
+
     const clearQuestionAndToastError = (error) => {
         setQuestion('');
         toast.error(error?.message);
     };
-    
+
 
 
     useEffect(() => {
@@ -54,7 +55,7 @@ function MarketContentGPT() {
         }
     }, [contentChatHistory])
 
-    const askContentGpt = async (promptId, title) => {
+    const askContentGpt = async () => {
         setQuestion('');
         const requestData = {
             link: question
@@ -78,13 +79,11 @@ function MarketContentGPT() {
             })
     }
 
-
     const getUrlOfAttchment = async () => {
         if (!selectedFile) return;
         try {
             const res = await dispatch(getUploadURL(selectedFile)).unwrap();
             const data = { url: res.data, file: selectedFile };
-            dispatch(setChatHistory([{ person: "user", text: selectedFile.name, type: "attach" }]));
             setShowQuestion(true);
             const updateRes = await dispatch(updateUploadURL(data)).unwrap();
             if (updateRes.status === 200) {
@@ -94,43 +93,37 @@ function MarketContentGPT() {
                 };
                 const documentRes = await dispatch(addDocument(requestData)).unwrap();
                 setSelectedChat(documentRes?.prompt_id);
-                askAttachmentContentGpt(documentRes?.prompt_id);
-                setQuestion('');
+                askAttachmentContentGpt(documentRes?.prompt_id, question);
                 dispatch(getContentPromptList('attachment'));
                 isNewChat.current = false;
             }
         } catch (error) {
             clearQuestionAndToastError(error);
-        } 
+        }
     }
 
     const askAttachmentContentGpt = async (promptId, title) => {
         setQuestion('');
-        if (!question) {
+        if (question) {
+            const requestData = {
+                prompt_id: promptId,
+                message: title ? title : question,
+            };
             dispatch(setChatHistory([{
-                person: "bot",
-                text: "Please ask the question about your Document",
-                type: "attachment"
+                person: "user",
+                text: requestData.message,
+                type: "text"
             }]));
-            return;
-        }
-        const requestData = {
-            prompt_id: promptId,
-            message: title ? title : question,
-        };
-        dispatch(setChatHistory([{
-            person: "user",
-            text: requestData.message,
-            type: "text"
-        }]));
-        try {
-            dispatch(triggerDocumentChat(requestData)).unwrap()
-            .then(res => {
-                setQuestion('');
-                scrollDown(250);
-            });
-        } catch (error) {
-            clearQuestionAndToastError(error);
+            try {
+                dispatch(triggerDocumentChat(requestData)).unwrap()
+                    .then(res => {
+                        setQuestion('');
+                        scrollDown(250);
+                        setSelectedFile(null)
+                    });
+            } catch (error) {
+                clearQuestionAndToastError(error);
+            }
         }
     }
 
@@ -141,6 +134,7 @@ function MarketContentGPT() {
             askContentGpt(null, null);
         } else if (type === 'attachment' || selectedType === 'attachment') {
             if (isNewChat.current) {
+                setFileName(selectedFile?.name)
                 await getUrlOfAttchment();
             } else {
                 askAttachmentContentGpt(selectedChat, question);
@@ -156,14 +150,17 @@ function MarketContentGPT() {
         setSelectedFile(null)
     }
 
-    const handleHistory = (Id, type) => {
+    const handleHistory = (Id, type, name) => {
         dispatch(getContentPromptHistory(Id))
             .unwrap()
             .then(res => {
                 isNewChat.current = false
                 setSelectedChat(Id)
                 scrollToBottom();
-                if(type === 'attachment'){
+                if (name) {
+                    setFileName(name)
+                }
+                if (type === 'attachment') {
                     setShowQuestion(true)
                 }
                 setSelectedType(type)
@@ -171,7 +168,7 @@ function MarketContentGPT() {
             .catch(error => {
                 console.log('error', error)
             })
-        }
+    }
 
     return (
         <>
@@ -186,7 +183,7 @@ function MarketContentGPT() {
                         />
                     </div>
                     <div className='col-lg-9 column-pad position-relative'>
-                        <ChatGpt containerRef={gptRef} />
+                        <ChatGpt containerRef={gptRef} newChat={isNewChat.current} docStatus={true} docName={fileName} />
                         <BottomBar
                             handleNewChat={handleNewChat}
                             setQuestion={setQuestion}

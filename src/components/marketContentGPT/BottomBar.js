@@ -23,8 +23,8 @@ function BottomBar(props) {
     const fileInputRef = useRef(null);
     const [type, setType] = useState(null);
     const dispatch = useDispatch();
-
-
+    const [selectedButton, setSelectedButton] = useState('');
+    
     const {
         setQuestion = () => { },
         question = '',
@@ -49,6 +49,9 @@ function BottomBar(props) {
     const handleAttachDone = (e) => {
         handleClose()
         setType('attachment')
+        if(selectedFile){
+            setQuestion(`${selectedButton} the entire document in detail?`)
+        }
     }
 
     const handleRemove = (event) => {
@@ -56,12 +59,14 @@ function BottomBar(props) {
         setQuestion('')
         setSelectedFile(null);
         dispatch(clearAttactmentUrl())
+        setSelectedButton('')
     }
 
     const handleKeyPress = (e) => {
         if (e.key === 'Enter') {
             handleAskPress();
         }
+        setSelectedButton('')
     };
 
     const handleUploadButtonClick = () => {
@@ -71,7 +76,6 @@ function BottomBar(props) {
     const handleFileChange = (event) => {
         const file = event.target.files[0];
         if (file) {
-            // setSelectedFile(file);
             const modifiedName = addTimestampToFileName(file.name);
             const modifiedFile = new File([file], modifiedName, { type: file.type });
             setSelectedFile(modifiedFile);
@@ -91,6 +95,9 @@ function BottomBar(props) {
         setQuestion(e.target.value)
     }
 
+    const handleSelectClick = (buttonName) => {
+        setSelectedButton(buttonName);
+      };
 
     return (
         <>
@@ -107,7 +114,7 @@ function BottomBar(props) {
                                         <img src={CloseIcon} width={16} style={{ objectFit: 'contain', cursor: 'pointer' }} onClick={handleRemove} />
                                     </div>
                                 </div>
-                                <div className='select-text-css'>Summary</div>
+                                <div className='select-text-css'>{selectedButton}</div>
                                 <div className='bottom-boder-css'></div>
                             </div>}
                             <div className='d-flex justify-content-center align-items-center' style={{ minHeight: 44 }}>
@@ -200,13 +207,12 @@ function BottomBar(props) {
                 <Modal.Footer>
                     <div className='footer-header-text'>Select the following to get the data about the Document: </div>
                     <div className='select-btn-class'>
-                        <div className='selected'>Summary</div>
-                        <div className='unSelected'>Key Highlights</div>
-                        <div className='unSelected'>Sentiments</div>
-                        <div className='unSelected'>Select All</div>
+                        <div className={selectedButton === 'Summary' ? 'selected' : 'unSelected'} onClick={() => handleSelectClick('Summary')}>Summary</div>
+                        <div className={selectedButton === 'Key Highlights' ? 'selected' : 'unSelected'} onClick={() => handleSelectClick('Key Highlights')}>Key Highlights</div>
+                        <div className={selectedButton === 'Sentiments' ? 'selected' : 'unSelected'} onClick={() => handleSelectClick('Sentiments')}>Sentiments</div>
                     </div>
                     <div className='d-flex justify-content-end align-items-center'>
-                        <button onClick={handleAttachDone} type="submit" className='blue-btn'>Done</button>
+                        <button disabled={!selectedButton} onClick={handleAttachDone} type="submit" className='blue-btn'>Done</button>
                     </div>
                 </Modal.Footer>
             </Modal>

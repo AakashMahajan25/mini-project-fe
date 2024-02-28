@@ -26,7 +26,6 @@ function MarketContentGptLeftBox(props) {
 
     const { contentPromptList } = useSelector(state => state.contentGPTSlice);
 
-
     const handleTab = (key) => {
         switch (key) {
             case 'link':
@@ -64,8 +63,8 @@ function MarketContentGptLeftBox(props) {
         };
     }, [searchParam, selected]);
 
-    const historyClick = (content_prompt_id) => {
-        handleHistory(content_prompt_id, selected)
+    const historyClick = (content_prompt_id,name) => {
+        handleHistory(content_prompt_id, selected,name)
     }
 
     return (
@@ -137,7 +136,7 @@ function MarketContentGptLeftBox(props) {
                                                 : moment(item?.date).format('DD MMM YYYY')
                                         }</div>
                                         {item?.data?.slice().reverse().map((item, index, array) => (
-                                            <Nav.Link key={index} className={selectedChat === item.content_prompt_id ? 'blue-box-active' : 'blue-box'} onClick={() => { historyClick(item?.content_prompt_id); setShow(!show) }} style={{ marginBottom: index === array.length - 1 ? 20 : 10 }}>
+                                            <Nav.Link key={index} className={selectedChat === item.content_prompt_id ? 'blue-box-active' : 'blue-box'} onClick={() => { historyClick(item?.content_prompt_id, item?.contentS3Path); setShow(!show) }} style={{ marginBottom: index === array.length - 1 ? 20 : 10 }}>
                                                 <Nav.Link className=''>{trimText(item?.content_prompt_text, 40)}</Nav.Link>
                                             </Nav.Link>
                                         ))}

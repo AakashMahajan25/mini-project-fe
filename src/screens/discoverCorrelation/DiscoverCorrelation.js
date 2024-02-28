@@ -102,7 +102,7 @@ function DiscoverCorrelation() {
                     <LeftBox />
                 </div>
                 <div className='col-lg-9 column-pad Discover-Correlation-css'>
-                    <div className='Discover-Correlation-container mt-4'>
+                    <div className='Discover-Correlation-container' style={{ height: window.innerHeight - 130, overflowY: 'scroll', paddingTop: 20 }}>
                         {!showEventDetails && (
                             <>
                                 <div className='d-flex justify-content-between align-items-center'>
@@ -160,7 +160,7 @@ function DiscoverCorrelation() {
                                                 <Tab.Pane eventKey="first">
                                                     <div className='title-2' style={{ marginBottom: 10 }}>Stocks that get affected the most  (in %)</div>
                                                     <div className='row'>
-                                                        <div className='col-lg-3' style={{ height: window.innerHeight - 410, overflowY: 'scroll',}}>
+                                                        <div className='col-lg-3' style={{ height: window.innerHeight - 320, overflowY: 'scroll', }}>
                                                             <div>
                                                                 {eventDetails?.response?.result_tickers?.slice().reverse().map((stock, index) => (
                                                                     <BuySellStockCard
@@ -176,8 +176,8 @@ function DiscoverCorrelation() {
                                                         <div className='col-lg-9 column-pad' style={{ marginTop: -50 }}>
                                                             <BarChart
                                                                 graphData={{
-                                                                    labels:tickers,
-                                                                    data:avgReturns
+                                                                    labels: tickers,
+                                                                    data: avgReturns
                                                                 }}
                                                                 index={3}
                                                                 yAxisLabel={`Money`}

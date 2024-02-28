@@ -20,29 +20,48 @@ import { getAvaliableCredit, getUserDetails, updateProfile } from './usersSlice'
 import Plans from '../../components/profile/Plans';
 import Preferences from '../../components/profile/Preferences';
 import { getStockIndexes } from '../dashboard/slice';
+import HelpFAQ from '../../components/profile/helpFAQ/HelpFAQ';
 
 function Profile() {
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
     const handleBackButtonClick = () => {
         setShowCode(prevShowCode => !prevShowCode);
     };
     const [showPreferences, setShowPreferences] = useState(false);
     const [showProfile, setShowProfile] = useState(false);
+    const [showHelpFAQ, setShowHelpFAQ] = useState(false);
+    const [showCode, setShowCode] = useState(false);
+    const [isShowCodeActiveColor, setShowCodeActiveColor] = useState(true);
+    const [isHelpActive, setIsHelpActive] = useState(false);
+    const [isPreferencesActiveColor, setPreferencesActiveColor] = useState(false);
 
     const handleProfileClick = () => {
-
         setShowProfile(true);
         setShowPreferences(false);
+        setShowHelpFAQ(false);
+        setIsHelpActive(false);
+        setShowCodeActiveColor(true);
+        setPreferencesActiveColor(false);
     };
 
     const handlePreferencesClick = () => {
-
         setShowCode(false)
         setShowProfile(false);
         setShowPreferences(true);
+        setIsHelpActive(false);
+        setShowCodeActiveColor(false);
+        setPreferencesActiveColor(true);
     };
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
-    const [showCode, setShowCode] = useState(false);
+    const handleHelpClick = () => {
+        setShowHelpFAQ(true);
+        setShowCode(false)
+        setShowProfile(false);
+        setShowPreferences(false);
+        setIsHelpActive(true);
+        setShowCodeActiveColor(false);
+        setPreferencesActiveColor(false);
+    };
 
     const updateProfileSchema = yup.object().shape({
         first_name: yup.string().required("Please enter first name."),
@@ -103,12 +122,14 @@ function Profile() {
                     <LeftProfileBox
                         handlePreferencesClick={handlePreferencesClick}
                         handleProfileClick={handleProfileClick}
-                        isPreferencesActive={!showPreferences}
-                        isshowCodeActive={showPreferences}
+                        handleHelpClick={handleHelpClick}
+                        isPreferencesActive={isPreferencesActiveColor}
+                        isshowCodeActive={isShowCodeActiveColor}
+                        isHelpActive={isHelpActive}
                     />
                 </div>
                 <div className='col-lg-9 column-pad'>
-                    {!showCode && !showPreferences &&
+                    {!showCode && !showPreferences && !showHelpFAQ &&
                         <div className='right-part' style={{ height: window.innerHeight - 130, overflowY: 'scroll' }}>
                             <div className='welcome-text'>Welcome</div>
                             <div style={{ marginBottom: 20 }} className='user-text'>{userDetails?.first_name + " " + userDetails?.last_name}!</div>
@@ -158,7 +179,7 @@ function Profile() {
                                             {/* <img src={UserImg} style={{ width: 82, objectFit: 'contain', marginRight: 15 }} /> */}
                                             <div className='col-lg-2'>
                                                 <div className='user-profile-circle'>
-                                                    <div className='user-profile-circle-text'>{userDetails?.first_name?.slice(0,1)}</div>
+                                                    <div className='user-profile-circle-text'>{userDetails?.first_name?.slice(0, 1)}</div>
                                                 </div>
                                             </div>
                                             <div className='col-lg-10'>
@@ -276,6 +297,11 @@ function Profile() {
                         // Show the Preferences component
                         <div className='right-part' style={{ height: window.innerHeight - 130, overflowY: 'scroll' }}>
                             <Preferences />
+                        </div>
+                    )}
+                    {showHelpFAQ && !showPreferences && (
+                        <div className='right-part' style={{ height: window.innerHeight - 130, overflowY: 'scroll' }}>
+                            <HelpFAQ />
                         </div>
                     )}
                 </div>

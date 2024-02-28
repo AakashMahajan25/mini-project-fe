@@ -147,7 +147,7 @@ function ChatGpt(props) {
             fruitButtonText: 'Get Frruit',
         },
     ];
-    const { containerRef } = props;
+    const { containerRef, docStatus = false, docName = '', newChat } = props;
 
     const { chatHistory, frruitLoader } = useSelector(state => state.fruitGPTSlice);
     const { contentChatHistory, contentGPTLoader } = useSelector(state => state.contentGPTSlice);
@@ -190,8 +190,7 @@ function ChatGpt(props) {
                 marginBottom: 20,
             }} ref={containerRef}>
                 {
-                    chatHistory.length === 0 ?
-                        !path && <div className='default-screens-content mt-4' style={{ height: window.innerHeight - 310 }}>
+                    (newChat && !path) && <div className='default-screens-content mt-4' style={{ height: window.innerHeight - 310 }}>
                             <div className='text-center'>
                                 <img src={LogoCircle} width={57} style={{ objectFit: 'contain' }} />
                                 <div className='help-text'>How can I help you today ?</div>
@@ -209,20 +208,16 @@ function ChatGpt(props) {
                                 </div>
                             </div>
                         </div>
-                        :
-                        null
                 }
                 {
-                    contentChatHistory.length === 0 ?
-                        path && <div className='default-screens-content' style={{ height: window.innerHeight - 310 }}>
+                   (newChat && path) && <div className='default-screens-content' style={{ height: window.innerHeight - 310 }}>
                             <div className='text-center'>
                                 <img src={DefaultImg} width={251.5} height={198.42} style={{ objectFit: 'contain' }} />
                                 <div className='help-text'>How can I help you today ?</div>
                                 <div className='default-para-text'>Supercharge your investment decisions : Attach documents or YouTube links on capital markets for GPT-driven insights!</div>
                             </div>
                         </div>
-                        :
-                        null
+                       
                 }
                 {
                     chatHistory?.map((chat, index) =>
@@ -354,38 +349,36 @@ function ChatGpt(props) {
 
                             </div>
                     )}
+
+                {(contentChatHistory.length > 0 && docStatus) && <div className='rightChat'>
+                    {/* <img src={ProfileIcon} className='profile-styles' /> */}
+                    <div className='d-flex align-items-center my-2 floatRight'>
+                        <img src={ArrowGrey} className='arrow' />
+                        <p className='you-text'>You</p>
+                    </div>
+                    <div className='chat-text-container'>
+                        <div className='d-flex'>
+                            <div className='attached-doc-white-box'>
+                                <img src={UploadDocImg} width={44} style={{ objectFit: 'contain' }} />
+                                <div className='pdf-name me-2'>{docName}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>}
                 {
                     contentChatHistory?.map((chat, index) =>
                         chat?.person === 'user' ?
 
-                            chat.type === 'attach' ?
-                                <div className='rightChat'>
-                                    {/* <img src={ProfileIcon} className='profile-styles' /> */}
-                                    <div className='d-flex align-items-center my-2 floatRight'>
-                                        <img src={ArrowGrey} className='arrow' />
-                                        <p className='you-text'>You</p>
-                                    </div>
-                                    <div className='chat-text-container'>
-                                        <div className='d-flex'>
-                                            <div className='attached-doc-white-box'>
-                                                <img src={UploadDocImg} width={44} style={{ objectFit: 'contain' }} />
-                                                <div className='pdf-name me-2'>{chat?.text}</div>
-                                            </div>
-                                        </div>
-                                    </div>
+                            <div className='rightChat' style={{ marginTop: 0 }}>
+                                {/* <img src={ProfileIcon} className='profile-styles' /> */}
+                                <div className='d-flex align-items-center my-2 floatRight'>
+                                    <img src={ArrowGrey} className='arrow' />
+                                    <p className='you-text'>You</p>
                                 </div>
-
-                                :
-                                <div className='rightChat' style={{ marginTop: 0 }}>
-                                    {/* <img src={ProfileIcon} className='profile-styles' /> */}
-                                    <div className='d-flex align-items-center my-2 floatRight'>
-                                        <img src={ArrowGrey} className='arrow' />
-                                        <p className='you-text'>You</p>
-                                    </div>
-                                    <div className='chat-text-container'>
-                                        <h3 className='chat-text'>{chat?.text}</h3>
-                                    </div>
+                                <div className='chat-text-container'>
+                                    <h3 className='chat-text'>{chat?.text}</h3>
                                 </div>
+                            </div>
 
 
                             :
