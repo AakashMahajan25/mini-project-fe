@@ -8,8 +8,11 @@ import Stories4 from '../../assets/images/stories-icon-4.png';
 import CloseIcon from '../../assets/images/close_icon.png';
 import StoriesImg from '../../assets/images/stories-img-1.png';
 import StoriesImg2 from '../../assets/images/stories-img-2.png';
+import quesIcon from '../../assets/images/i-icon.png';
 import PrevBtn from '../../assets/images/prev-btn.png';
 import NextBtnicon from '../../assets/images/next-btn.png';
+import LeftBtn from '../../assets/images/left-slider-btn.png';
+import RightBtn from '../../assets/images/right-slider-btn.png';
 import SendIcon from '../../assets/images/send_icon.png';
 import './Dashboard.scss';
 import TrendingStocksCard from '../../components/trendingStocks/TrendingStocksCard';
@@ -60,14 +63,47 @@ function Dashboard() {
     const NextBtn = (props) => {
         const { className, onClick } = props
         return (
-            <div className={className} onClick={onClick}>
+            <div className={className} onClick={onClick} style={{ position: 'relative' }}>
                 <img src={NextBtnicon} style={{ width: 44, position: 'absolute', top: -110, right: 225 }} />
+            </div>
+        )
+    }
+    const PreviousBtn2 = (props) => {
+        const { className, onClick } = props
+        return (
+            <div className={className} onClick={onClick}>
+                <img src={LeftBtn} style={{ width: 40, position: 'absolute', top: 33, right: -813 }} />
+            </div>
+        )
+    }
+    const NextBtn2 = (props) => {
+        const { className, onClick } = props
+        return (
+            <div className={className} onClick={onClick}>
+                <img src={RightBtn} style={{ width: 40, position: 'absolute', top: 33, right: 35 }} />
+            </div>
+        )
+    }
+    const PreviousBtn3 = (props) => {
+        const { className, onClick } = props
+        return (
+            <div className={className} onClick={onClick}>
+                <img src={LeftBtn} style={{ width: 40, position: 'absolute', top: 40, right: -827 }} />
+            </div>
+        )
+    }
+    const NextBtn3 = (props) => {
+        const { className, onClick } = props
+        return (
+            <div className={className} onClick={onClick}>
+                <img src={RightBtn} style={{ width: 40, position: 'absolute', top: 40, right: 45 }} />
             </div>
         )
     }
 
     const [show, setShow] = useState(false);
     const [show2, setShow2] = useState(false);
+    const [show3, setShow3] = useState(false);
     const [activeIndex, setActiveIndex] = useState(0);
     const [stories, setStories] = useState([]);
     const [storyType, setStoryType] = useState([]);
@@ -87,6 +123,12 @@ function Dashboard() {
     };
     const handleClose2 = () => {
         setShow2(false);
+    };
+    const handleShow3 = (data) => {
+        setShow3(true);
+    };
+    const handleClose3 = () => {
+        setShow3(false);
     };
 
     const storiesData = [
@@ -118,7 +160,7 @@ function Dashboard() {
         speed: 500,
         slidesToShow: 2,
         swipeToSlide: true,
-        arrows: false,
+        // arrows: false,
         autoplay: false,
         autoplaySpeed: 2000,
     };
@@ -134,7 +176,7 @@ function Dashboard() {
     const navigate = useNavigate();
 
     const routePromptFrruitGPT = (question) => {
-        if(question){
+        if (question) {
             navigate("/frruit-gpt", {
                 state: { question },
             });
@@ -142,12 +184,12 @@ function Dashboard() {
     };
 
     useEffect(() => {
-        // dispatch(getTrendingStocks())
-        // dispatch(getTrendingNews())
+        dispatch(getTrendingStocks())
+        dispatch(getTrendingNews())
         dispatch(getMostOnFrruitGpt(20))
         dispatch(getPromptSuggestion(4))
-        // dispatch(getInvestorStories())
-        // dispatch(getStockIndexes())
+        dispatch(getInvestorStories())
+        dispatch(getStockIndexes())
     }, [])
 
     useEffect(() => {
@@ -271,12 +313,12 @@ function Dashboard() {
                                         }
                                         <div className='dashboard-slider'>
                                             <div className='d-flex align-items-center justify-content-between'>
-                                            <p className='stories-title' style={{ marginBottom: 10 }}>Trending Stocks</p>
-                                            <p className='stories-title' style={{ marginBottom: 10,color:'#4563E4',cursor:'pointer',marginRight:16 }}>View All</p>
+                                                <p className='stories-title' style={{ marginBottom: 10 }}>Trending Stocks</p>
+                                                <p className='stories-title' style={{ marginBottom: 10, color: '#4563E4', cursor: 'pointer', marginRight: 16 }} onClick={handleShow3}>View All</p>
                                             </div>
                                             <Slider {...settings}>
-                                                {trendingStocks?.slice(0,10).map((stockData, index) => (
-                                                    <TrendingStocksCard key={index} {...stockData}/>
+                                                {trendingStocks?.slice(0, 10).map((stockData, index) => (
+                                                    <TrendingStocksCard key={index} {...stockData} />
                                                 ))}
                                             </Slider>
                                         </div>
@@ -285,36 +327,45 @@ function Dashboard() {
                                         <div className='suggested-prompts-container'>
                                             {mostOnFrruitGpt?.rows?.length > 0 &&
                                                 <>
-                                                    <div className='box-content position-relative' style={{marginBottom:28}}>
+                                                    <div className='box-content position-relative' style={{ marginBottom: 28 }}>
                                                         <div className='d-flex align-items-center justify-content-between mb-3'>
                                                             <div className='title'>Most on Frruit</div>
                                                             <div onClick={handleShow2} style={{ cursor: 'pointer', color: '#4563E4', fontWeight: 600 }}>View All</div>
                                                         </div>
-                                                    <Slider {...suggestionSettings} 
-                                                    >
-                                                        {mostOnFrruitGpt?.rows?.slice(0, 4).map((text, index) => (
-                                                            <div onClick={() => { routePromptFrruitGPT(text?.question) }} key={index} className='col-lg-6'>
-                                                                <div className='mostOnFrruitBox mb-2'style={{marginRight:10}}>
-                                                                <div className='d-flex justify-content-between align-items-center' >
-                                                                    <p className='text'>{text?.question}</p>
-                                                                    <img style={{ width: 24, objectFit: 'contain' }} src={RightArrow} alt={`Arrow ${index}`} />
+                                                        <Slider
+                                                            prevArrow={<PreviousBtn2 />}
+                                                            nextArrow={<NextBtn2 />}
+                                                            {...suggestionSettings}
+                                                        >
+                                                            {mostOnFrruitGpt?.rows?.slice(0, 4).map((text, index) => (
+                                                                <div onClick={() => { routePromptFrruitGPT(text?.question) }} key={index} className='col-lg-6'>
+                                                                    <div className='mostOnFrruitBox mb-2' style={{ marginRight: 10 }}>
+                                                                        <div className='d-flex justify-content-between align-items-center' >
+                                                                            <p className='text'>{text?.question}</p>
+                                                                            <img style={{ width: 24, objectFit: 'contain' }} src={RightArrow} alt={`Arrow ${index}`} />
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
-                                                                </div>
-                                                            </div>
-                                                        ))}
-                                                    </Slider>
+                                                            ))}
+                                                        </Slider>
                                                     </div>
                                                 </>
                                             }
                                             {chatSuggestions.length > 0 &&
                                                 <>
                                                     <p className='stories-title' style={{ marginBottom: 15 }}>Suggested Prompts</p>
-                                                    <div className='row' >
-                                                        <Slider {...suggestionSettings}>
+                                                    <div className='row mb-4' >
+                                                        <Slider
+                                                            prevArrow={<PreviousBtn3 />}
+                                                            nextArrow={<NextBtn3 />}
+                                                            {...suggestionSettings}>
                                                             {chatSuggestions.slice(0, 4).map((item, index) => (
                                                                 <div onClick={() => { routePromptFrruitGPT(item?.prompt) }} key={index} className='col-lg-6 mb-3' style={{ cursor: 'pointer' }}>
                                                                     <div className='prompts-text-bg' style={{ marginRight: 10, cursor: 'pointer' }}>
-                                                                        <p className='prompts-text'>{item?.prompt}</p>
+                                                                        <div className=' justify-content-between' >
+                                                                            <p className='prompts-text'>{item?.prompt}</p>
+                                                                            <img style={{ width: 24, objectFit: 'contain' }} src={quesIcon} />
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             ))}
@@ -332,7 +383,7 @@ function Dashboard() {
                                                         onKeyDown={handleKeyPress}
                                                     />
                                                 </div>
-                                                <img className='send-image' src={SendIcon} alt='Send' onClick={() =>  routePromptFrruitGPT(question) } />
+                                                <img className='send-image' src={SendIcon} alt='Send' onClick={() => routePromptFrruitGPT(question)} />
                                             </div>
                                         </div>
                                     </div>
@@ -347,7 +398,7 @@ function Dashboard() {
                     }
                     {!showAllContent &&
                         <div className='col-lg-9 column-pad'>
-                            <NewsViewAll backBtnClick={toggleShowAllContent} newsData={trendingNews}/>
+                            <NewsViewAll backBtnClick={toggleShowAllContent} newsData={trendingNews} />
                         </div>
                     }
                 </>
@@ -426,6 +477,34 @@ function Dashboard() {
                                     <div onClick={() => { routePromptFrruitGPT(text?.question) }} key={index} className='d-flex justify-content-between align-items-center blue-box mb-2' style={{ cursor: 'pointer' }}>
                                         <div>{text?.question}</div>
                                         <img src={RightBlueArrow} className='me-1' width={10} style={{ objectFit: 'contain' }} />
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </Modal.Body>
+                </Modal>
+                <Modal show={show3}
+                    onHide={handleClose3}
+                    size='lg'
+                    className='viewModal2'
+                    scrollable
+                    centered
+                >
+                    <Modal.Header>
+                        <div className='d-flex justify-content-between align-items-center mb-2'>
+                            <div className='header-text'>Trending Stocks</div>
+                            <div onClick={() => handleClose3()} className=' align-items-center' style={{ cursor: 'pointer' }}>
+                                <img src={CloseImg} className='me-1' width={32} style={{ objectFit: 'contain' }} />
+                            </div>
+                        </div>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <div className='viewModal2'>
+                            <div className='row' style={{marginLeft:0}}>
+
+                                {trendingStocks?.slice(0, 10).map((stockData, index) => (
+                                    <div className='col-lg-6 column-pad mb-3'>
+                                        <TrendingStocksCard key={index} {...stockData} />
                                     </div>
                                 ))}
                             </div>

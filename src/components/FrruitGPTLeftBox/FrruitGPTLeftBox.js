@@ -50,8 +50,8 @@ function FrruitGPTLeftBox(props) {
         <div className='Frruit-GPT-left-box'>
             <div className='box' style={{ height: window.innerHeight - 105 }}>
                 <div className="position-relative" style={{ marginBottom: 20 }}>
-                    <input type="text" className="form-control form-control-search" placeholder='Search Here' value={searchParam} onChange={(e) => setSearchParam(e.target.value)} />
-                    <div className="position-absolute" style={{ left: 15, top: '15%' }}>
+                    <input type="text" style={{marginBottom:20}} className="form-control form-control-search" placeholder='Search Here' value={searchParam} onChange={(e) => setSearchParam(e.target.value)} />
+                    <div className="position-absolute" style={{ left: 15, top: '6%' }}>
                         <img src={SearchIcon} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} alt="Search Icon" />
                     </div>
                     <div className="position-relative blue-box" style={{ marginBottom: 20, cursor: 'pointer' }} onClick={()=>{handleNewChat(); setShow(!show)}}>
