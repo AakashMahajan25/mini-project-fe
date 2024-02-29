@@ -160,7 +160,7 @@ p {
   font-weight: 400;
   line-height: 22px;
   font-family: 'Roboto', sans-serif;
-  border-radius: 50px;
+  border-radius: 50px !important;
 }
 
 .white-btn-main {
@@ -214,6 +214,18 @@ p {
   font-family: 'Roboto', sans-serif;
   border-radius: 50px;
   width: max-content;
+}
+
+.light-blue-btn2 {
+  background-color: #E5EAFF;
+  padding: 11px 16px;
+  border: 0px;
+  color: #4563E4;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 22px;
+  font-family: 'Roboto', sans-serif;
+  border-radius: 50px !important;
 }
 
 //light-blue-btn-end
