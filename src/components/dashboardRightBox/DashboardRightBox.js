@@ -68,7 +68,7 @@ function DashboardRightBox({ newsData, mostFrruitData, onViewAllClick }) {
                                     newsData?.slice(0, 6).map((newsItem, index) => (
                                         <div key={index} className='newsBox' style={{ marginBottom: 20, cursor: 'pointer' }} onClick={() => routeNews(newsItem?.newsLink)}>
                                             <div className='d-flex justify-content-start'>
-                                                <img style={{ width: 60, objectFit: 'contain', marginRight: '10px' }} src={newsItem?.image} />
+                                                <img style={{ width: 60, objectFit: 'cover', marginRight: '10px',borderRadius:10,border: 'solid 1px #e5e5e5' }} src={newsItem?.image} />
                                                 <div>
                                                     <p className='newsTitle'>{trimText(newsItem?.title, 20)}</p>
                                                     <p className='newsPara' style={{ marginBottom: '5px' }}>{newsItem?.source}</p>
