@@ -4,6 +4,7 @@ import SelectMarket from '../../assets/images/selectMarket_img.png'
 import Frruit from '../../assets/images/frruit-logo.png'
 import SearchIcon from '../../assets/images/search-icon.png';
 import LoginImg2 from '../../assets/images/login-side-img.png'
+import LoginImg3 from '../../assets/images/login_img3.png'
 import FrruitLogo from '../../assets/images/frruit-logo.png'
 import { Nav, Tab } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
@@ -127,7 +128,7 @@ function SelectPreferences() {
                 </div>
                 <div className='col-xl-5'>
                     <div className='d-flex justify-content-center align-items-center imagecontainer'>
-                        <img src={LoginImg2} style={{ position: 'fixed', objectFit: 'contain', width: '100%', marginBottom: 100, height: window.innerHeight / 2.0, zIndex: '-10' }} alt="Market Image" />
+                        <img src={LoginImg3} style={{ position: 'fixed', objectFit: 'contain', width: '100%', marginBottom: 100, height: window.innerHeight / 2.0, zIndex: '-10' }} alt="Market Image" />
                     </div>
                 </div>
             </div>
