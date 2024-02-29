@@ -10,8 +10,13 @@ import { getContentPromptList, searchContentPrompt } from '../../screens/marketC
 import DeleteRedIcon from '../../assets/images/delete-red-icon.png';
 import DeleteGrayIcon from '../../assets/images/delete-gray-icon.png';
 import DeleteWhiteIcon from '../../assets/images/delete-white-icon.png';
+import Modal from 'react-bootstrap/Modal';
+import CloseImg from '../../assets/images/close_icon.png';
 
 function MarketContentGptLeftBox(props) {
+    const [show2, setShow2] = useState(false);
+    const handleClose2 = () => setShow2(false);
+    const handleShow2 = () => setShow2(true);
     const [hoveredItem, setHoveredItem] = useState(null);
     const [show, setShow] = useState(false)
     const [showDocumentContent, setShowDocumentContent] = useState(true);
@@ -130,6 +135,7 @@ function MarketContentGptLeftBox(props) {
                                                     style={{ objectFit: 'contain' }}
                                                     onMouseEnter={() => setHoveredItem(item.content_prompt_id)}
                                                     onMouseLeave={() => setHoveredItem(null)}
+                                                    onClick={handleShow2}
                                                 />
                                             </Nav.Link>
                                         ))}
@@ -155,6 +161,7 @@ function MarketContentGptLeftBox(props) {
                                                     style={{ objectFit: 'contain' }}
                                                     onMouseEnter={() => setHoveredItem(item.content_prompt_id)}
                                                     onMouseLeave={() => setHoveredItem(null)}
+                                                    onClick={handleShow2}
                                                 />
                                             </Nav.Link>
                                         ))}
@@ -165,6 +172,32 @@ function MarketContentGptLeftBox(props) {
                     </div>
                 </div>
             </div>
+            <Modal show={show2}
+                onHide={handleClose2}
+                size='md'
+                centered
+                className='marketGpt-left-box-modal'
+               
+            >
+                <Modal.Header>
+                    <div className='d-flex justify-content-between align-items-center mb-2'>
+                        <div className='header-text'>Are you sure you want to Delete ?</div>
+                        <div onClick={() => handleClose2()} className=' align-items-center' style={{ cursor: 'pointer' }}>
+                            <img src={CloseImg} className='me-1' width={32} style={{ objectFit: 'contain' }} />
+                        </div>
+                    </div>
+                </Modal.Header>
+                <Modal.Body>
+                    <div className='body-text-css'>Lorem Ipsum is simply dummy text of the printing
+                        and typesetting industry</div>
+                </Modal.Body>
+                <Modal.Footer>
+                    <div className='d-flex justify-content-center align-items-center'>
+                        <button onClick={handleClose2} type="submit" className='light-blue-btn2 mx-2 px-5'>Cancel</button>
+                        <button onClick={handleClose2} type="submit" className='blue-btn mx-2 px-5'>Delete</button>
+                    </div>
+                </Modal.Footer>
+            </Modal>
         </>
     )
 }
