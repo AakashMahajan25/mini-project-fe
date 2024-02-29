@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import { trimText } from '../../utils/utils';
 import { Nav, Tab, Tabs } from 'react-bootstrap'
-import { getContentPromptList, searchContentPrompt } from '../../screens/marketContentGPT/slice';
+import { deleteContentPrompt, getContentPromptList, searchContentPrompt } from '../../screens/marketContentGPT/slice';
 import DeleteRedIcon from '../../assets/images/delete-red-icon.png';
 import DeleteGrayIcon from '../../assets/images/delete-gray-icon.png';
 import DeleteWhiteIcon from '../../assets/images/delete-white-icon.png';
@@ -23,6 +23,7 @@ function MarketContentGptLeftBox(props) {
         handleNewChat = () => { },
         handleHistory = () => { },
         setShowQuestion = () => { },
+        handleDeleteChat = () => { },
         selectedChat
     } = props;
     const [searchParam, setSearchParam] = useState('');
