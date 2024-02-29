@@ -116,7 +116,7 @@ function Login() {
                                         <input
                                             type="text"
                                             className="form-control form-control-input"
-                                            placeholder='00000 00000'
+                                            placeholder='0000000000'
                                             value={phoneNumber}
                                             style={{ color: 'black' }}
                                             onChange={(event)=> setPhoneNumber(event.target.value)}

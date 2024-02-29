@@ -18,16 +18,13 @@ import Modal from 'react-bootstrap/Modal';
 import CloseImg from '../../assets/images/close_icon.png';
 
 function FrruitGPTLeftBox(props) {
-    const [show2, setShow2] = useState(false);
-    const handleClose2 = () => setShow2(false);
-    const handleShow2 = () => setShow2(true);
     const [hoveredItem, setHoveredItem] = useState(null);
     const navigate = useNavigate();
-    const [show, setShow] = useState(false)
     const dispatch = useDispatch();
     const {
         handleNewChat = () => { },
         handleHistory = () => { },
+        handleShow2 = () => { },
         selectedChat
     } = props;
     const [searchParam, setSearchParam] = useState('');
@@ -63,7 +60,7 @@ function FrruitGPTLeftBox(props) {
                         <div className="position-absolute" style={{ left: 15, top: '6%' }}>
                             <img src={SearchIcon} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} alt="Search Icon" />
                         </div>
-                        <div className="position-relative blue-box" style={{ marginBottom: 20, cursor: 'pointer' }} onClick={() => { handleNewChat(); setShow(!show) }}>
+                        <div className="position-relative blue-box" style={{ marginBottom: 20, cursor: 'pointer' }} onClick={() => handleNewChat()}>
                             <div className='new-chat-text'>New Chat</div>
                             <div className="position-absolute" style={{ right: 14, top: '19%' }}>
                                 <img src={ChatIcon} style={{ width: 24, objectFit: 'contain', cursor: 'pointer' }} alt="Search Icon" />
@@ -88,7 +85,7 @@ function FrruitGPTLeftBox(props) {
                                         : moment(item?.date).format('DD MMM YYYY')
                                 }</div>
                                 {item?.data?.map((item, index, array) => (
-                                    <Nav.Link key={index} className={selectedChat === item.prompt_id ? 'blue-box-active' : 'blue-box'} onClick={() => { historyClick(item?.prompt_id); setShow(!show) }} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: index === array.length - 1 ? 20 : 10 }}>
+                                    <Nav.Link key={index} className={selectedChat === item.prompt_id ? 'blue-box-active' : 'blue-box'} onClick={() => historyClick(item?.prompt_id)} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: index === array.length - 1 ? 20 : 10 }}>
                                         <Nav.Link className=''>{trimText(item?.prompt_text, 40)}</Nav.Link>
                                         <img
                                             className='imagehover'
@@ -97,7 +94,7 @@ function FrruitGPTLeftBox(props) {
                                             style={{ objectFit: 'contain' }}
                                             onMouseEnter={() => setHoveredItem(item.prompt_id)}
                                             onMouseLeave={() => setHoveredItem(null)}
-                                            onClick={handleShow2}
+                                            onClick={(event) => handleShow2(event, item?.prompt_id)}
                                         />
                                     </Nav.Link>
                                 ))}
@@ -106,32 +103,6 @@ function FrruitGPTLeftBox(props) {
                     </div>
                 </div>
             </div>
-            <Modal show={show2}
-                onHide={handleClose2}
-                size='md'
-                centered
-                className='frruitGPT-left-box-modal'
-               
-            >
-                <Modal.Header>
-                    <div className='d-flex justify-content-between align-items-center mb-2'>
-                        <div className='header-text'>Are you sure you want to Delete ?</div>
-                        <div onClick={() => handleClose2()} className=' align-items-center' style={{ cursor: 'pointer' }}>
-                            <img src={CloseImg} className='me-1' width={32} style={{ objectFit: 'contain' }} />
-                        </div>
-                    </div>
-                </Modal.Header>
-                <Modal.Body>
-                    <div className='body-text-css'>Lorem Ipsum is simply dummy text of the printing
-                        and typesetting industry</div>
-                </Modal.Body>
-                <Modal.Footer>
-                    <div className='d-flex justify-content-center align-items-center'>
-                        <button onClick={handleClose2} type="submit" className='light-blue-btn2 mx-2 px-5'>Cancel</button>
-                        <button onClick={handleClose2} type="submit" className='blue-btn mx-2 px-5'>Delete</button>
-                    </div>
-                </Modal.Footer>
-            </Modal>
         </>
     )
 }
