@@ -3,6 +3,7 @@ import '../makeSelection/MakeSelection.scss'
 import { Nav, Tab, Tabs } from 'react-bootstrap'
 import SelectMarket from '../../assets/images/selectMarket_img.png'
 import SideImg from '../../assets/images/login-side-img.png'
+import LoginImg3 from '../../assets/images/login_img3.png'
 import FrruitLogo from '../../assets/images/frruit-logo.png'
 import GreenRightIcon from '../../assets/images/right-green-circle-icon.png'
 import { useNavigate } from 'react-router-dom'
@@ -88,9 +89,9 @@ function MakeSelection() {
                     <div className='d-flex justify-content-center align-items-center imagecontainer'>
                         <div>
                             <div className='d-flex justify-content-center'>
-                                <img src={FrruitLogo} width={196} />
+                                <img src={FrruitLogo} width={196} className='mb-5' />
                             </div>
-                            <img src={SideImg} style={{ objectFit: 'contain', width: '100%', height: window.innerHeight / 1.8 }} />
+                            <img src={LoginImg3} style={{ objectFit: 'contain', width: '100%', height: window.innerHeight / 1.8 }} />
                         </div>
                     </div>
                 </div>
