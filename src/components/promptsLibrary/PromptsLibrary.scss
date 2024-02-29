@@ -5,7 +5,7 @@
 
     .radius-button {
         position: absolute;
-        border-radius: 15px 0px 0px 15px;
+        border-radius: 15px 0px 0px 15px !important;
         right: 0;
         margin-top: 6px;
         z-index: 1000;
@@ -13,7 +13,7 @@
 
 
     .radius-small-button {
-        border-radius: 15px 0px 0px 15px;
+        border-radius: 15px 0px 0px 15px !important;
         float: right;
         margin-top: 6px;
         z-index: 100;
