@@ -7,8 +7,12 @@ import moment from 'moment';
 import { trimText } from '../../utils/utils';
 import { Nav, Tab, Tabs } from 'react-bootstrap'
 import { getContentPromptList, searchContentPrompt } from '../../screens/marketContentGPT/slice';
+import DeleteRedIcon from '../../assets/images/delete-red-icon.png';
+import DeleteGrayIcon from '../../assets/images/delete-gray-icon.png';
+import DeleteWhiteIcon from '../../assets/images/delete-white-icon.png';
 
 function MarketContentGptLeftBox(props) {
+    const [hoveredItem, setHoveredItem] = useState(null);
     const [show, setShow] = useState(false)
     const [showDocumentContent, setShowDocumentContent] = useState(true);
     const [showLinkHistoryContent, setShowLinkHistoryContent] = useState(false);
@@ -63,8 +67,8 @@ function MarketContentGptLeftBox(props) {
         };
     }, [searchParam, selected]);
 
-    const historyClick = (content_prompt_id,name) => {
-        handleHistory(content_prompt_id, selected,name)
+    const historyClick = (content_prompt_id, name) => {
+        handleHistory(content_prompt_id, selected, name)
     }
 
     return (
@@ -118,8 +122,15 @@ function MarketContentGptLeftBox(props) {
                                                 : moment(item?.date).format('DD MMM YYYY')
                                         }</div>
                                         {item?.data?.map((item, index, array) => (
-                                            <Nav.Link key={index} className={selectedChat === item.content_prompt_id ? 'blue-box-active' : 'blue-box'} onClick={() => { historyClick(item?.content_prompt_id); setShow(!show) }} style={{ marginBottom: index === array.length - 1 ? 20 : 10 }}>
-                                                <Nav.Link className=''>{trimText(item?.content_prompt_text, 40)}</Nav.Link>
+                                            <Nav.Link key={index} className={selectedChat === item.content_prompt_id ? 'blue-box-active' : 'blue-box'} onClick={() => { historyClick(item?.content_prompt_id); setShow(!show) }} style={{ marginBottom: index === array.length - 1 ? 20 : 10, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                                                <Nav.Link className=''>{trimText(item?.link_title, 35)}</Nav.Link>
+                                                <img
+                                                    src={hoveredItem === item.content_prompt_id ? DeleteRedIcon : selectedChat === item.content_prompt_id ? DeleteWhiteIcon : DeleteGrayIcon}
+                                                    width={20}
+                                                    style={{ objectFit: 'contain' }}
+                                                    onMouseEnter={() => setHoveredItem(item.content_prompt_id)}
+                                                    onMouseLeave={() => setHoveredItem(null)}
+                                                />
                                             </Nav.Link>
                                         ))}
                                     </>
@@ -136,8 +147,15 @@ function MarketContentGptLeftBox(props) {
                                                 : moment(item?.date).format('DD MMM YYYY')
                                         }</div>
                                         {item?.data?.map((item, index, array) => (
-                                            <Nav.Link key={index} className={selectedChat === item.content_prompt_id ? 'blue-box-active' : 'blue-box'} onClick={() => { historyClick(item?.content_prompt_id, item?.contentS3Path); setShow(!show) }} style={{ marginBottom: index === array.length - 1 ? 20 : 10 }}>
+                                            <Nav.Link key={index} className={selectedChat === item.content_prompt_id ? 'blue-box-active' : 'blue-box'} onClick={() => { historyClick(item?.content_prompt_id, item?.contentS3Path); setShow(!show) }} style={{ marginBottom: index === array.length - 1 ? 20 : 10, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                                                 <Nav.Link className=''>{trimText(item?.content_prompt_text, 40)}</Nav.Link>
+                                                <img
+                                                    src={hoveredItem === item.content_prompt_id ? DeleteRedIcon : selectedChat === item.content_prompt_id ? DeleteWhiteIcon : DeleteGrayIcon}
+                                                    width={20}
+                                                    style={{ objectFit: 'contain' }}
+                                                    onMouseEnter={() => setHoveredItem(item.content_prompt_id)}
+                                                    onMouseLeave={() => setHoveredItem(null)}
+                                                />
                                             </Nav.Link>
                                         ))}
                                     </>

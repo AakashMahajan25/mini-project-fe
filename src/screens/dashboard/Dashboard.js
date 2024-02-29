@@ -63,7 +63,7 @@ function Dashboard() {
     const NextBtn = (props) => {
         const { className, onClick } = props
         return (
-            <div className={className} onClick={onClick} style={{ position: 'relative' }}>
+            <div className={className} onClick={onClick}>
                 <img src={NextBtnicon} style={{ width: 44, position: 'absolute', top: -110, right: 225 }} />
             </div>
         )
@@ -87,16 +87,16 @@ function Dashboard() {
     const PreviousBtn3 = (props) => {
         const { className, onClick } = props
         return (
-            <div className={className} onClick={onClick}>
-                <img src={LeftBtn} style={{ width: 40, position: 'absolute', top: 40, right: -827 }} />
+            <div className={className} onClick={onClick} style={{ position: 'relative' }}>
+                <img src={LeftBtn} style={{ width: 40, position: 'absolute', top: -70, right: -190 }} />
             </div>
         )
     }
     const NextBtn3 = (props) => {
         const { className, onClick } = props
         return (
-            <div className={className} onClick={onClick}>
-                <img src={RightBtn} style={{ width: 40, position: 'absolute', top: 40, right: 45 }} />
+            <div className={className} onClick={onClick} style={{ position: 'relative' }}>
+                <img src={RightBtn} style={{ width: 40, position: 'absolute', top: -158, right: -180  }} />
             </div>
         )
     }
@@ -364,14 +364,14 @@ function Dashboard() {
                                             }
                                             {chatSuggestions.length > 0 &&
                                                 <>
-                                                    <p className='stories-title' style={{ marginBottom: 15 }}>Suggested Prompts</p>
-                                                    <div className='row mb-4' >
+                                                    <p className='stories-title'>Suggested Prompts</p>
+                                                    <div className='row' >
                                                         <Slider
                                                             prevArrow={<PreviousBtn3 />}
                                                             nextArrow={<NextBtn3 />}
                                                             {...suggestionSettings}>
                                                             {chatSuggestions.slice(0, 4).map((item, index) => (
-                                                                <div onClick={() => { routePromptFrruitGPT(item?.prompt) }} key={index} className='col-lg-6 mb-3' style={{ cursor: 'pointer' }}>
+                                                                <div onClick={() => { routePromptFrruitGPT(item?.prompt) }} key={index} className='col-lg-6' style={{ cursor: 'pointer' }}>
                                                                     <div className='prompts-text-bg' style={{ marginRight: 10, cursor: 'pointer' }}>
                                                                         <div className=' d-flex justify-content-between align-items-center w-100' >
                                                                             <p className='prompts-text'>{item?.prompt}</p>

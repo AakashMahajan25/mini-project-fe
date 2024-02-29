@@ -117,10 +117,10 @@
             line-height: 22px;
             color: #6F7387;
 
-            // &:hover {
-            //     background-color: #E5EAFF;
-            //     color: #4563E4;
-            // }
+            &:hover {
+                background-color: #E5EAFF;
+                color: #4563E4;
+            }
 
             // &:focus {
             //     background-color: #E5EAFF;
@@ -131,6 +131,9 @@
             //     background-color: #E5EAFF;
             //     color: #4563E4;
             // }
+            .delete-icon-css{
+                // background-image: url('../../assets/images/delete-gray-icon.png');
+            }
         }
 
         .blue-box-active {

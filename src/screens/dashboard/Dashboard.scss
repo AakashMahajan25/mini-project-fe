@@ -18,10 +18,12 @@
             font-size: 16px;
             line-height: 18.75px;
             color: #171E42;
+           
         }
 
         .dashboard-slider {
             padding-left: 20px;
+           
         }
         .form-group {
             width: 100%;
@@ -94,6 +96,8 @@
                 display: flex;
                 align-items: center;
                 cursor: pointer;
+                z-index: 10;
+                position: relative;
 
                 .text-main-bg {
                     display: flex;
@@ -122,6 +126,9 @@
     }
 
 }
+// .slick-next:before {
+//     content: none !important;
+// }
 
 .custom-modal {
     backdrop-filter: blur(2px) !important;
