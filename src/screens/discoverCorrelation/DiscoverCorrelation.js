@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getTrendingEvents } from './slice';
 import BarChart from '../../components/barChart/BarChart';
 import { getStockIndexes } from '../dashboard/slice';
+import { Graph } from "react-d3-graph";
 
 function DiscoverCorrelation() {
     const [showEventDetails, setShowEventDetails] = useState(false);
@@ -94,6 +95,62 @@ function DiscoverCorrelation() {
             graphData();
         }
     }, [eventDetails])
+    const colors = ['#00E7F2', '#FDD8FF', '#D2F9BD', "#FFBCAB", "#D7B69F"]
+
+    const getRandomColor = () => {
+        const randomIndex = Math.floor(Math.random() * colors.length);
+        return colors[randomIndex];
+    }
+    const data = {
+        nodes: [
+            { id: 1, name: 'Airrchip', color: '#4563E4', },
+            { id: 2, name: 'zaheer', color: getRandomColor(), },
+            { id: 3, name: 'govind', color: getRandomColor(), },
+            { id: 4, name: 'amit', color: getRandomColor(), },
+            { id: 5, name: 'shasikant', color: getRandomColor(), },
+            { id: 6, name: 'shubam', color: getRandomColor(), },
+            { id: 7, name: 'hitesh', color: getRandomColor(), },
+            { id: 8, name: 'yaksh', color: getRandomColor(), },
+        ],
+        links: [
+            { source: 1, target: 2,label : "employee" },
+            { source: 1, target: 3,label : "employee"  },
+            { source: 1, target: 4,label : "employee"  },
+            { source: 1, target: 5,label : "employee"  },
+            { source: 1, target: 6,label : "employee"  },
+            { source: 1, target: 7,label : "employee"  },
+            { source: 1, target: 8,label : "employee"  },
+        ],
+    };
+
+      const myConfig = {
+        nodeHighlightBehavior: true,
+        linkHighlightBehavior: true,
+        height:400,
+        node: {
+          size: 500,
+          highlightStrokeColor: "#4563E4",
+          renderLabel:true,
+          labelProperty:'name',
+          fontSize:14,
+          highlightFontSize:14,
+        },
+        link: {
+          highlightColor: "#4563E4",
+          strokeLinecap:'round',
+          renderLabel:true,
+          fontSize:12,
+          highlightFontSize:12,
+        },
+      };
+      
+    //   const onClickNode = function(nodeId) {
+    //     window.alert(`Clicked node ${nodeId}`);
+    //   };
+      
+    //   const onClickLink = function(source, target) {
+    //     window.alert(`Clicked link between ${source} and ${target}`);
+    //   };
 
     return (
         <>
@@ -195,8 +252,14 @@ function DiscoverCorrelation() {
                                                                 <div key={index} className='blue-box-label'>{label?.description}</div>
                                                             ))}
                                                         </div>
-                                                        <div className='col-lg-7'>
-
+                                                        <div className='col-lg-7' style={{overflow: 'hidden',marginTop:-50}}>
+                                                        {/* <Graph
+                                                            id="graph-id" // id is mandatory
+                                                            data={data}
+                                                            config={myConfig}
+                                                            // onClickNode={onClickNode}
+                                                            // onClickLink={onClickLink}
+                                                        /> */}
                                                         </div>
                                                     </div>
                                                 </Tab.Pane>
