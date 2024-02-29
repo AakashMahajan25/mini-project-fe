@@ -60,6 +60,7 @@ function MarketContentGPT() {
         const requestData = {
             link: question
         }
+        isNewChat.current = false
         dispatch(setChatHistory([{
             person: "user",
             text: requestData?.link,
@@ -71,7 +72,6 @@ function MarketContentGPT() {
             .then(res => {
                 dispatch(getContentPromptList('link'))
                 setSelectedChat(res.prompt_id)
-                isNewChat.current = false
                 setQuestion('');
                 scrollDown(500)
             })
@@ -84,6 +84,7 @@ function MarketContentGPT() {
     const getUrlOfAttchment = async () => {
         if (!selectedFile) return;
         try {
+            isNewChat.current = false;
             const res = await dispatch(getUploadURL(selectedFile)).unwrap();
             const data = { url: res.data, file: selectedFile };
             setShowQuestion(true);
@@ -98,7 +99,6 @@ function MarketContentGPT() {
                 setSelectedChat(documentRes?.prompt_id);
                 askAttachmentContentGpt(documentRes?.prompt_id, question);
                 dispatch(getContentPromptList('attachment'));
-                isNewChat.current = false;
             }
         } catch (error) {
             clearQuestionAndToastError(error);

@@ -21,6 +21,7 @@ import Plans from '../../components/profile/Plans';
 import Preferences from '../../components/profile/Preferences';
 import { getStockIndexes } from '../dashboard/slice';
 import HelpFAQ from '../../components/profile/helpFAQ/HelpFAQ';
+import { toast } from 'react-toastify';
 
 function Profile() {
     const navigate = useNavigate();
@@ -68,7 +69,7 @@ function Profile() {
         last_name: yup.string().required("Please enter last name."),
         email: yup.string().email('Please enter valid Email Id').required("Please enter Email Id."),
         phone_number: yup.string().required("Please enter Mobile number."),
-        address: yup.string().required("Address is required."),
+        // address: yup.string().required("Address is required."),
     })
 
     const { control, handleSubmit, setValue, formState: { errors } } = useForm({
@@ -81,7 +82,7 @@ function Profile() {
     useEffect(() => {
         dispatch(getAvaliableCredit());
         dispatch(getUserDetails())
-        dispatch(getStockIndexes())
+        // dispatch(getStockIndexes())
     }, [])
 
     console.log('userDetails', userDetails)
@@ -96,23 +97,14 @@ function Profile() {
     }, [userDetails])
 
     const onSubmit = (data) => {
-        console.log('data:::::::::::::::', data)
-        // dispatch(updateProfile(data))
-        // .unwrap()
-        // .then(async(res) => {
-        //     dispatch(setUserName(`${data?.first_name} ${data?.last_name}`))
-        //     await storageSetUserName(`${data?.first_name} ${data?.last_name}`)
-        //     Toast.show({
-        //         type: 'success',
-        //         text1: res?.data || 'Profile Updated Successfully'
-        //     });
-        // })
-        // .catch((error) => {
-        //     Toast.show({
-        //         type: 'error',
-        //         text1: 'Error in updating profile'
-        //     });
-        // })
+        dispatch(updateProfile(data))
+        .unwrap()
+        .then(async(res) => {
+            toast.success("Profile Updated Successfully")
+        })
+        .catch((error) => {
+            toast.error("Error in updating profile")
+        })
     }
 
     return (
