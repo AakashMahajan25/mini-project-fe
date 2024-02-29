@@ -150,6 +150,20 @@ export const getPromptsLibrary = createAsyncThunk("fruitGpt/getPromptsLibrary", 
     }
 });
 
+export const deletePrompt = createAsyncThunk("watchList/deletePrompt", async (promptId) => {
+    try {
+        let data = {
+            method: METHOD_TYPE.delete,
+            url: API_ENDPOINTS.deletePrompt + promptId,
+        };
+        const response = await api(data);
+        return response.data.data;
+
+    } catch (error) {
+        console.log('error::::', error.response)
+        throw error.response;
+    }
+});
 
 
 const fruitGPTSlice = createSlice({
@@ -217,7 +231,10 @@ const fruitGPTSlice = createSlice({
                     action.type === searchPrompt.rejected.type||
                     action.type === getPromptsLibrary.pending.type ||
                     action.type === getPromptsLibrary.fulfilled.type ||
-                    action.type === getPromptsLibrary.rejected.type,
+                    action.type === getPromptsLibrary.rejected.type||
+                    action.type === deletePrompt.pending.type ||
+                    action.type === deletePrompt.fulfilled.type ||
+                    action.type === deletePrompt.rejected.type,
 
                 handleLoading
             )

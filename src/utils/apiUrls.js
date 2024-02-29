@@ -59,4 +59,6 @@ export const API_ENDPOINTS = {
     getContentPromptHistory: 'contentPrompt/getContentPromptHistoryByContentPromptId?content_prompt_id=',
     searchContentPrompt: 'contentPrompt/searchContentPrompts',
     getPromptsLibrary: 'promptlibrary/getPrompts',
+    deleteContentPrompt: 'contentPrompt/deleteContentPrompt?promptId=',
+    deletePrompt: 'prompts/deletePrompt?promptId=',
 }
