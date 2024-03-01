@@ -164,9 +164,13 @@ function FrruitGPT() {
         setDeleteId(id)
     }
     const handleDeleteChat = async () => {
+        setShow2(false);
         await dispatch(deletePrompt(deleteId))
         await dispatch(getPromptList())
-        setShow2(false);
+        if(deleteId === selectedChat){
+        isNewChat.current = true
+        dispatch(clearChatHistory())
+        }
     }
 
     return (

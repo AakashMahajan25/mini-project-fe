@@ -155,7 +155,7 @@ function BottomBar(props) {
                         </div>
                     </div>
                 </div>}
-                <div className='sendIcon' onClick={() => handleAskPress(type)}>
+                <div className='sendIcon' onClick={() => {handleAskPress(type);setSelectedButton('')}}>
                     <img src={SendIcon} className='sendIcon-styles' />
                 </div>
             </div>
