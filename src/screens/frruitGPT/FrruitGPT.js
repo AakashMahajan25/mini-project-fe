@@ -11,9 +11,10 @@ import { addChatPrompt, clearChatHistory, deletePrompt, getPromptHistory, getPro
 import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
 import { getStockIndexes } from '../dashboard/slice'
-import { clearContentChatHistory } from '../marketContentGPT/slice'
+import { clearContentChatHistory, setCancelTokens } from '../marketContentGPT/slice'
 import Modal from 'react-bootstrap/Modal';
 import CloseImg from '../../assets/images/close_icon.png';
+import axios from 'axios';
 
 function FrruitGPT() {
     const dispatch = useDispatch();
@@ -27,6 +28,7 @@ function FrruitGPT() {
     const [deleteId, setDeleteId] = useState(null);
 
     const { chatHistory } = useSelector(state => state.fruitGPTSlice);
+    const { cancelTokens } = useSelector(state => state.contentGPTSlice);
 
     useEffect(() => {
         dispatch(getPromptSuggestion(5))
@@ -62,12 +64,17 @@ function FrruitGPT() {
     }
 
     const handleNewChat = () => {
+        if(cancelTokens)
+            cancelTokens.cancel("cancelled")
         isNewChat.current = true
         dispatch(clearChatHistory())
         setSelectedChat(null)
+        setQuestion('')
     }
 
     const handleHistory = (Id) => {
+        if(cancelTokens)
+            cancelTokens.cancel("cancelled")
         dispatch(getPromptHistory(Id))
             .unwrap()
             .then(res => {
@@ -124,17 +131,24 @@ function FrruitGPT() {
             type: "text"
         }]))
 
-        dispatch(triggerFrruitGpt(requestData))
+        const token = axios.CancelToken.source()
+        dispatch(setCancelTokens(token))
+
+        dispatch(triggerFrruitGpt({requestData, cancelToken: token}))
             .unwrap()
             .then(res => {
-                if (res && res[0] && res[0]?.text !== undefined)
-                    dispatch(triggerFrruitGptGraph(requestData))
+                if (res && res[0] && res[0]?.text !== undefined){
+                    const token = axios.CancelToken.source()
+                    dispatch(setCancelTokens(token))
+                    dispatch(triggerFrruitGptGraph({requestData, cancelToken: token}))
+                }
                 setQuestion('');
                 scrollDown(250)
             })
             .catch(error => {
                 setQuestion(searchText);
-                toast.error(error?.message)
+                if(error?.code != "ERR_CANCELED")
+                    toast.error(error?.message)
             })
     }
 

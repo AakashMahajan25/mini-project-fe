@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice, isAnyOf } from "@reduxjs/toolkit";
 import { API_ENDPOINTS, METHOD_TYPE } from "../../utils/apiUrls";
 import api from "../../utils/api";
 import { toast } from "react-toastify";
+import { setCancelTokens } from "../marketContentGPT/slice";
 
 const initialState = {
     chatSuggestions: [],
@@ -88,11 +89,12 @@ export const getPromptHistory = createAsyncThunk("fruitGpt/getPromptHistory", as
     }
 });
 
-export const triggerFrruitGpt = createAsyncThunk("fruitGpt/triggerFrruitGpt", async (requestData, { dispatch }) => {
+export const triggerFrruitGpt = createAsyncThunk("fruitGpt/triggerFrruitGpt", async ({requestData, cancelToken}, { dispatch }) => {
     try {
         let data = {
             method: METHOD_TYPE.post,
             url: API_ENDPOINTS.triggerChatGpt,
+            cancelToken: cancelToken.token,
             data: requestData
         };
         const response = await api(data);
@@ -104,21 +106,25 @@ export const triggerFrruitGpt = createAsyncThunk("fruitGpt/triggerFrruitGpt", as
             text: response.data.data,
             type: "text"
         }]
+        dispatch(setCancelTokens(null))
         return chatData;
 
     } catch (error) {
-        if (!error.response?.data.status) {
-            toast.error(error?.response?.data?.message)
-        }
-        throw error.response.data;
+        const message = error?.response?.data?.message
+        dispatch(setCancelTokens(null))
+        // if (!error.response?.data.status) {
+        //     toast.error(error?.response?.data?.message)
+        // }
+        throw {message, code: error?.code};
     }
 });
 
-export const triggerFrruitGptGraph = createAsyncThunk("fruitGpt/triggerFrruitGptGraph", async (requestData, { dispatch }) => {
+export const triggerFrruitGptGraph = createAsyncThunk("fruitGpt/triggerFrruitGptGraph", async ({requestData, cancelToken}, { dispatch }) => {
     try {
         let data = {
             method: METHOD_TYPE.post,
             url: API_ENDPOINTS.triggerGPTGraph,
+            cancelToken: cancelToken?.token,
             data: requestData
         };
         const response = await api(data);
@@ -130,7 +136,9 @@ export const triggerFrruitGptGraph = createAsyncThunk("fruitGpt/triggerFrruitGpt
             }]
             return chatData;
         }
+        dispatch(setCancelTokens(null))
     } catch (error) {
+        dispatch(setCancelTokens(null))
         console.log('error::::', error.response)
         throw error.response;
     }

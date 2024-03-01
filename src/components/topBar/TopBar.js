@@ -11,6 +11,8 @@ import LogOut from '../../assets/images/logout-outline.png';
 function TopBar() {
   const dispatch = useDispatch();
   const { userDetails } = useSelector(state => state.userSlice)
+  const { cancelTokens } = useSelector(state => state.contentGPTSlice);
+
 
   console.log('userDetails', userDetails)
   const location = useLocation()
@@ -20,6 +22,8 @@ function TopBar() {
     navigate(path);
   }
   const routeChangeFrruitGPT = () => {
+    if(cancelTokens)
+      cancelTokens.cancel("cancelled")
     let path = `/frruit-gpt`;
     navigate(path);
   }
@@ -32,6 +36,8 @@ function TopBar() {
     navigate(path);
   }
   const routeChangeMarketContentGPT = () => {
+    if(cancelTokens)
+      cancelTokens.cancel("cancelled")
     let path = `/market-content-gpt`;
     navigate(path);
   }

@@ -5,7 +5,7 @@ import BottomBar from '../../components/marketContentGPT/BottomBar';
 import ChatGpt from '../../components/frruitGpt/ChatGpt';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-import { addDocument, clearContentChatHistory, deleteContentPrompt, getContentPromptHistory, getContentPromptList, getUploadURL, setChatHistory, triggerContentPrompt, triggerDocumentChat, updateUploadURL } from './slice';
+import { addDocument, clearContentChatHistory, deleteContentPrompt, getContentPromptHistory, getContentPromptList, getUploadURL, setCancelTokens, setChatHistory, triggerContentPrompt, triggerDocumentChat, updateUploadURL } from './slice';
 import { clearChatHistory } from '../frruitGPT/slice';
 import Modal from 'react-bootstrap/Modal';
 import CloseImg from '../../assets/images/close_icon.png';
@@ -16,7 +16,7 @@ function MarketContentGPT() {
     const gptRef = useRef(null)
     const [question, setQuestion] = useState('')
     const isNewChat = useRef(true)
-    const { contentChatHistory } = useSelector(state => state.contentGPTSlice);
+    const { contentChatHistory, cancelTokens } = useSelector(state => state.contentGPTSlice);
     const [selectedChat, setSelectedChat] = useState(null)
     const [selectedFile, setSelectedFile] = useState(null);
     const [showQuestion, setShowQuestion] = useState(false);
@@ -70,8 +70,10 @@ function MarketContentGPT() {
             text: requestData?.link,
             type: "text"
         }]))
+        const token = axios.CancelToken.source()
+        dispatch(setCancelTokens(token))
 
-        dispatch(triggerContentPrompt(requestData))
+        dispatch(triggerContentPrompt({requestData, cancelToken: token}))
             .unwrap()
             .then(res => {
                 dispatch(getContentPromptList('link'))
@@ -81,7 +83,9 @@ function MarketContentGPT() {
             })
             .catch(error => {
                 setQuestion('');
-                toast.error(error?.message)
+                if(error?.code != "ERR_CANCELED"){
+                    toast.error(error?.message)
+                }
             })
     }
 
@@ -110,6 +114,7 @@ function MarketContentGPT() {
     }
 
     const askAttachmentContentGpt = async (promptId, title) => {
+        const token = axios.CancelToken.source()
         setQuestion('');
         if (!question) {
             dispatch(setChatHistory([{
@@ -128,15 +133,17 @@ function MarketContentGPT() {
             text: requestData.message,
             type: "text"
         }]));
+        dispatch(setCancelTokens(token))
         try {
-            dispatch(triggerDocumentChat(requestData)).unwrap()
+            dispatch(triggerDocumentChat({requestData, cancelToken: token })).unwrap()
                 .then(res => {
                     setQuestion('');
                     scrollDown(250);
                     setSelectedFile(null)
                 });
         } catch (error) {
-            clearQuestionAndToastError(error);
+            if(error?.code != "ERR_CANCELED")
+                clearQuestionAndToastError(error);
         }
     }
 
@@ -164,6 +171,8 @@ function MarketContentGPT() {
     }
 
     const handleHistory = (Id, type, name) => {
+        if(cancelTokens)
+            cancelTokens.cancel("cancelled")
         dispatch(getContentPromptHistory(Id))
             .unwrap()
             .then(res => {

@@ -16,7 +16,7 @@ import Loader from '../../components/loader/Loader';
 import * as yup from 'yup';
 import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from "@hookform/resolvers/yup";
-import { getAvaliableCredit, getUserDetails, updateProfile } from './usersSlice';
+import { getAvaliableCredit, getUserDetails, getUserPlan, updateProfile } from './usersSlice';
 import Plans from '../../components/profile/Plans';
 import Preferences from '../../components/profile/Preferences';
 import { getStockIndexes } from '../dashboard/slice';
@@ -77,15 +77,15 @@ function Profile() {
     })
 
 
-    const { userCredits, isLoading, userDetails } = useSelector(state => state.userSlice)
+    const { userCredits, isLoading, userDetails, userPlan } = useSelector(state => state.userSlice)
 
     useEffect(() => {
         dispatch(getAvaliableCredit());
         dispatch(getUserDetails())
+        dispatch(getUserPlan());
         // dispatch(getStockIndexes())
     }, [])
 
-    console.log('userDetails', userDetails)
     useEffect(() => {
         if (userDetails) {
             setValue('first_name', userDetails?.first_name)
@@ -154,8 +154,12 @@ function Profile() {
                                             </div>
                                             <div className='light-blue-box' style={{ marginBottom: 10 }}>
                                                 <div className='d-flex justify-content-between align-items-center'>
-                                                    <div className='text-3'>BETA</div>
-                                                    <div className='text-4'>$14 /month</div>
+                                                    {
+                                                        userPlan && <>
+                                                            <div className='text-3'>{userPlan?.plan_name?.toUpperCase()}</div>
+                                                            <div className='text-4'>{userPlan?.subsciption_type === "free" ? `${userPlan.credits_offered} Credits` : `$${userPlan?.price} /month`}</div>
+                                                        </>
+                                                    }
                                                 </div>
                                             </div>
                                             <button onClick={setShowCode} className='white-btn'>View Plans<img src={BlueArrow} style={{ objectFit: 'contain', width: 6, marginLeft: 10 }} /></button>

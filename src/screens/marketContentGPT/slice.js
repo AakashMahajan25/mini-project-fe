@@ -8,15 +8,17 @@ const initialState = {
     isLoading: false,
     contentChatHistory: [],
     contentPromptList: [],
-    error: null
+    error: null,
+    cancelTokens: null
 }
 
 
-export const triggerContentPrompt = createAsyncThunk("contentGpt/triggerContentPrompt", async (requestData) => {
+export const triggerContentPrompt = createAsyncThunk("contentGpt/triggerContentPrompt", async ({requestData, cancelToken}) => {
     try {
         let data = {
             method: METHOD_TYPE.post,
             url: API_ENDPOINTS.triggerContentPrompt,
+            cancelToken: cancelToken.token,
             data: requestData
         };
         const response = await api(data);
@@ -30,7 +32,8 @@ export const triggerContentPrompt = createAsyncThunk("contentGpt/triggerContentP
         if (!error.response?.data.status) {
             toast.error(error?.response?.data?.message)
         }
-        throw error.response.data;
+        const message = error?.response?.data?.message
+        throw {message, code: error?.code}
     }
 });
 
@@ -82,11 +85,12 @@ export const addDocument = createAsyncThunk("contentGpt/addDocument", async (req
 });
 
 
-export const triggerDocumentChat = createAsyncThunk("contentGpt/triggerDocumentChat", async (requestData) => {
+export const triggerDocumentChat = createAsyncThunk("contentGpt/triggerDocumentChat", async ({requestData, cancelToken}) => {
     try {
         let data = {
             method: METHOD_TYPE.post,
             url: API_ENDPOINTS.triggerDocumentChat,
+            cancelToken: cancelToken.token,
             data: requestData
         };
         const response = await api(data);
@@ -104,7 +108,8 @@ export const triggerDocumentChat = createAsyncThunk("contentGpt/triggerDocumentC
         if (!error.response?.data.status) {
             toast.error(error?.response?.data?.message)
         }
-        throw error.response.data;
+        const message = error?.response?.data?.message
+        throw {message, code: error?.code};
     }
 });
 
@@ -180,6 +185,9 @@ const contentGPTSlice = createSlice({
         },
         clearAttactmentUrl: (state, action) => {
             state.attactmentUrl = [];
+        },
+        setCancelTokens: (state, action) => {
+            state.cancelTokens = action.payload
         }
     },
     extraReducers: (builder) => {
@@ -204,10 +212,18 @@ const contentGPTSlice = createSlice({
                     }]
                     state.contentChatHistory = [...state?.contentChatHistory, ...chatData];
                 }
+                state.cancelTokens = null
+            })
+            .addCase(triggerContentPrompt.rejected, (state, action) => {
+                state.cancelTokens = null
             })
             .addCase(triggerDocumentChat.fulfilled, (state, action) => {
                 if (action.payload !== undefined)
                     state.contentChatHistory = [...state?.contentChatHistory, ...action.payload];
+                    state.cancelTokens = null
+            })
+            .addCase(triggerDocumentChat.rejected, (state, action) => {
+                state.cancelTokens = null
             })
             .addCase(getContentPromptList.fulfilled, (state, action) => {
                 state.contentPromptList = action.payload;
@@ -251,5 +267,5 @@ const contentGPTSlice = createSlice({
     }
 });
 
-export const { setChatHistory, clearContentChatHistory, clearAttactmentUrl } = contentGPTSlice.actions;
+export const { setChatHistory, clearContentChatHistory, clearAttactmentUrl, setCancelTokens } = contentGPTSlice.actions;
 export default contentGPTSlice.reducer;
