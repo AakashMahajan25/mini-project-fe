@@ -248,18 +248,6 @@ function ChatGpt(props) {
                                         </div>
                                         : renderGraph(chat.text)
                                 }
-                                {
-                                    chat.type === 'link' &&
-                                    <div className='chat-text-container'>
-                                        <h3 className='chat-text' >Key Points</h3>
-                                        <h3 className='chat-text mt-1' dangerouslySetInnerHTML={{ __html: replaceNewlinesWithBr(chat?.text?.Response?.Key_points || '') }}></h3>
-                                        <h3 className='chat-text mt-2' >Summary</h3>
-                                        <h3 className='chat-text' dangerouslySetInnerHTML={{ __html: replaceNewlinesWithBr(chat?.text?.Response?.summary || '') }}></h3>
-                                        <h3 className='chat-text mt-2' >Sentiment</h3>
-                                        <h3 className='chat-text' dangerouslySetInnerHTML={{ __html: replaceNewlinesWithBr(chat?.text?.Response?.sentiment || '') }}></h3>
-                                    </div>
-
-                                }
                                 {/* <img src={LogoCircle} className='profile-styles' /> */}
 
                                 {/* {
