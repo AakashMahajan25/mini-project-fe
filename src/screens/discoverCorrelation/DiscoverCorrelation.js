@@ -9,18 +9,25 @@ import './DiscoverCorrelation.scss';
 import EventExplorerCard from '../../components/eventExplorerCard/EventExplorerCard';
 import BackBtnArrow from '../../assets/images/back-btn-arrow.png';
 import BuySellStockCard from '../../components/buySellStockCard/BuySellStockCard';
-import { Nav, Tab, Tabs } from 'react-bootstrap'
+import { Modal, Nav, Tab, Tabs } from 'react-bootstrap'
 import DiscoverCorrelationGraph from '../../components/graph/DiscoverCorrelationGraph';
 import { useDispatch, useSelector } from 'react-redux';
 import { getTrendingEvents } from './slice';
 import BarChart from '../../components/barChart/BarChart';
 import { getStockIndexes } from '../dashboard/slice';
+import { Graph } from "react-d3-graph";
+import FullScreenIcon from '../../assets/images/ic_baseline_fullscreen.png'
 
 function DiscoverCorrelation() {
     const [showEventDetails, setShowEventDetails] = useState(false);
     const [eventDetails, setEventDetails] = useState(false);
     const dispatch = useDispatch()
     const { trendingEvents } = useSelector(state => state.discoverCorrelationSlice);
+    const [show, setShow] = useState(false);
+    const [value, setValue] = useState(0);
+    const [tickers, setTickers] = useState();
+    const [avgReturns, setAvgReturns] = useState();
+
 
     const handleCardClick = (data) => {
         setShowEventDetails(true);
@@ -64,10 +71,7 @@ function DiscoverCorrelation() {
             changeInLastMonth: -12.5
         },
     ];
-    const [value, setValue] = useState(0);
-    const [tickers, setTickers] = useState();
-    const [avgReturns, setAvgReturns] = useState();
-
+   
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
@@ -94,7 +98,84 @@ function DiscoverCorrelation() {
             graphData();
         }
     }, [eventDetails])
+    const colors = ['#00E7F2', '#FDD8FF', '#D2F9BD', "#FFBCAB", "#D7B69F"]
 
+    const getRandomColor = () => {
+        const randomIndex = Math.floor(Math.random() * colors.length);
+        return colors[randomIndex];
+    }
+    const data = {
+        nodes: [
+            { id: 1, name: 'Airrchip', color: '#4563E4', },
+            { id: 2, name: 'zaheer', color: getRandomColor(), },
+            { id: 3, name: 'govind', color: getRandomColor(), },
+            { id: 4, name: 'amit', color: getRandomColor(), },
+            { id: 5, name: 'shasikant', color: getRandomColor(), },
+            { id: 6, name: 'shubam', color: getRandomColor(), },
+            { id: 7, name: 'hitesh', color: getRandomColor(), },
+            { id: 8, name: 'yaksh', color: getRandomColor(), },
+        ],
+        links: [
+            { source: 1, target: 2 },
+            { source: 1, target: 3  },
+            { source: 1, target: 4  },
+            { source: 1, target: 5  },
+            { source: 1, target: 6  },
+            { source: 1, target: 7  },
+            { source: 1, target: 8  },
+        ],
+    };
+
+      const myConfig = {
+        nodeHighlightBehavior: true,
+        linkHighlightBehavior: true,
+        height:420,
+        node: {
+          size: 500,
+          highlightStrokeColor: "#4563E4",
+          renderLabel:true,
+          labelProperty:'name',
+          fontSize:14,
+          highlightFontSize:14,
+        },
+        link: {
+          highlightColor: "#4563E4",
+          strokeLinecap:'round',
+          fontSize:12,
+          highlightFontSize:12,
+        },
+      };
+      const myConfigModal = {
+        nodeHighlightBehavior: true,
+        linkHighlightBehavior: true,
+        height:window.innerHeight-70,
+        width:window.innerWidth,
+        node: {
+          size: 500,
+          highlightStrokeColor: "#4563E4",
+          labelProperty:'name',
+          fontSize:14,
+          highlightFontSize:14,
+        },
+        link: {
+          highlightColor: "#4563E4",
+          strokeLinecap:'round',
+          renderLabel:true,
+          fontSize:12,
+          highlightFontSize:12,
+        },
+      };
+      
+    //   const onClickNode = function(nodeId) {
+    //     window.alert(`Clicked node ${nodeId}`);
+    //   };
+      
+    //   const onClickLink = function(source, target) {
+    //     window.alert(`Clicked link between ${source} and ${target}`);
+    //   };
+    const handleShow = () => {
+        setShow(true);
+    }
     return (
         <>
             <div className='row justify-content-between m-0'>
@@ -187,19 +268,29 @@ function DiscoverCorrelation() {
                                                         </div>
                                                     </div>
                                                 </Tab.Pane>
-                                                <Tab.Pane eventKey="second">
-                                                    <div className='title-2' style={{ marginBottom: 10 }}>Stocks that get affected the most  (in %)</div>
-                                                    <div className='row'>
-                                                        <div className='col-lg-5' style={{ height: window.innerHeight - 410, overflowY: 'scroll' }}>
-                                                            {eventDetails?.response?.similar_dates?.slice().reverse().map((label, index) => (
-                                                                <div key={index} className='blue-box-label'>{label?.description}</div>
-                                                            ))}
-                                                        </div>
-                                                        <div className='col-lg-7'>
-
-                                                        </div>
+                                            <Tab.Pane eventKey="second">
+                                                <div className='title-2' style={{ marginBottom: 10 }}>Stocks that get affected the most  (in %)</div>
+                                                <div className='row'>
+                                                    <div className='col-lg-5' style={{ height: window.innerHeight - 410, overflowY: 'scroll' }}>
+                                                        {eventDetails?.response?.similar_dates?.slice().reverse().map((label, index) => (
+                                                            <div key={index} className='blue-box-label'>{label?.description}</div>
+                                                        ))}
                                                     </div>
-                                                </Tab.Pane>
+                                                    <div className='col-lg-7' style={{ overflow: 'hidden', marginTop: -50, position: 'relative'  }}>
+                                                        {/* <div style={{ position: 'absolute', right: 20, top: 0, display: 'flex', alignItems: 'center' }}>
+                                                            <div style={{ color: '#4563E4' }}>Full Screen</div>
+                                                            <img onClick={handleShow} src={FullScreenIcon} width={24} top={24} style={{ cursor: 'pointer' }} />
+                                                        </div> */}
+                                                        {/* <Graph
+                                                            id="graph-id" // id is mandatory
+                                                            data={data}
+                                                            config={myConfig}
+                                                        // onClickNode={onClickNode}
+                                                        // onClickLink={onClickLink}
+                                                        /> */}
+                                                    </div>
+                                                </div>
+                                            </Tab.Pane>
                                             </Tab.Content>
                                         </Tab.Container>
                                     </div>
@@ -209,6 +300,19 @@ function DiscoverCorrelation() {
                     </div>
                 </div>
             </div>
+
+            <Modal show={show} fullscreen={true} onHide={() => setShow(false)} style={{backgroundColor:'#fefefe'}}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Relation Graph</Modal.Title>
+                </Modal.Header>
+                <Graph
+                    id="graph-id2" // id is mandatory
+                    data={data}
+                    config={myConfigModal}
+            // onClickNode={onClickNode}
+            // onClickLink={onClickLink}
+                                                        />
+            </Modal>
         </>
     )
 }

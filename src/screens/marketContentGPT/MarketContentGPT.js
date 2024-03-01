@@ -202,9 +202,14 @@ function MarketContentGPT() {
         setDeleteId(id)
     }
     const handleDeleteChat = async () => {
+        setShow2(false);
         await dispatch(deleteContentPrompt(deleteId))
         await dispatch(getContentPromptList(selectedType ? selectedType : 'link'))
-        setShow2(false);
+        if(deleteId === selectedChat){
+            isNewChat.current = true
+            dispatch(clearContentChatHistory())
+            setShowQuestion(false)
+        }
     }
 
     return (

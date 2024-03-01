@@ -28,7 +28,8 @@ import NewsViewAll from '../../components/dashboard/NewsViewAll';
 import RightArrow from '../../assets/images/right-arrow.png';
 import RightBlueArrow from '../../assets/images/blue-right-arrow.png';
 import CloseImg from '../../assets/images/close_icon.png';
-
+import { Tooltip } from 'react-tooltip'
+import 'react-tooltip/dist/react-tooltip.css'
 
 const storyEnum = {
     Topics_news: 'isTopicViewed',
@@ -375,8 +376,8 @@ function Dashboard() {
                                                                     <div className='prompts-text-bg' style={{ marginRight: 10, cursor: 'pointer' }}>
                                                                         <div className=' d-flex justify-content-between align-items-center w-100' >
                                                                             <p className='prompts-text'>{item?.prompt}</p>
-                                                                            <img style={{ width: 24, objectFit: 'contain' }} src={quesIcon} />
-                                                                        </div>
+                                                                               <img style={{ width: 24, objectFit: 'contain' }} src={quesIcon} />
+                                                                               </div>
                                                                     </div>
                                                                 </div>
                                                             ))}
