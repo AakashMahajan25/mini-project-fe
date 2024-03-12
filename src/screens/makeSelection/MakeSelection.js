@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom'
 
 function MakeSelection() {
     const navigate = useNavigate();
-    const [selected, setSelected] = useState('US')
+    const [selected, setSelected] = useState('IND')
 
     const verifyProceed = () => {
         localStorage.setItem('marketType', selected)
@@ -26,12 +26,12 @@ function MakeSelection() {
                             <p className='heading p-0'>Select Market</p>
                             <p className='text-description'>Lorem Ipsum is simply dummy text of the printing and typesetting industry</p>
                         </div>
-                        <div className='showPrompt'>
+                        <div className='showPrompt' style={{width: 'fit-content'}}>
                             <Tab.Container defaultActiveKey={selected} onSelect={(e) => setSelected(e)}>
                                 <Nav className='customPrompttabs' variant="pills">
-                                    <Nav.Item>
-                                        <Nav.Link eventKey="US">{'USA'}</Nav.Link>
-                                    </Nav.Item>
+                                    {/* <Nav.Item >
+                                        <Nav.Link eventKey="US" disabled >{'USA'}</Nav.Link>
+                                    </Nav.Item> */}
                                     <Nav.Item>
                                         <Nav.Link eventKey="IND">{`India`}</Nav.Link>
                                     </Nav.Item>
