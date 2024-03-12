@@ -58,14 +58,15 @@ function Signup() {
                 setShowCode(true)
             })
             .catch((error) => {
-                console.log('error', JSON.stringify(error, null, 2))
+                console.log('error', JSON.stringify(error, null, 2));
+                toast.error(error.message || "Unable to proceed");
             })
     }
 
     const verifyMobileOtp = () => {
         const regex = /^[0-9]{0,6}$/; // Regular expression to match 6 digits
         if (!regex.test(otp) || otp?.length < 6) {
-            toast.error("Please enter valid otp")
+            toast.error("Please enter valid otp");
             return;
         }
 
@@ -82,14 +83,14 @@ function Signup() {
             })
             .catch((error) => {
                 console.log('error', JSON.stringify(error, null, 2))
-                toast.error(error.message)
+                toast.error(error.message || 'Failed to verify otp');
             })
     }
 
     const verifyEmailId = () => {
         const regex = /^[0-9]{0,6}$/; // Regular expression to match 6 digits
         if (!regex.test(emailOtp) || emailOtp?.length < 6) {
-            toast.error("Please enter valid otp")
+            toast.error("Please enter valid otp");
             return;
         }
 
