@@ -153,7 +153,6 @@ function Dashboard() {
         arrows: false,
         autoplay: true,
         autoplaySpeed: 2000,
-        beforeChange: (oldIndex, newIndex) => setActiveIndex(newIndex),
     };
     const suggestionSettings = {
         dots: false,
@@ -455,9 +454,11 @@ function Dashboard() {
                                                     <img src={story.viewImage} style={{ objectFit: 'cover', borderRadius: 20, filter: 'grayscale(60%)', width: '100%', height: 220 }} />
                                                 </div>
                                                 <div className='stories-img-text'>{story.mainHeading}</div>
-                                                <div className='d-flex justify-content-between align-items-center mt-2'>
-                                                    <button className='white-btn-main  d-flex align-items-center justify-content-center' onClick={getFrruitClick} style={{ width: '48%' }}>{'Get Frruit'}  <img src={RightWhiteArrow} style={{ width: 20, objectFit: 'contain', marginLeft: 5 }} /></button>
-                                                    <a className='secondary-btn' href={story.url} target='_blank' style={{ textDecoration: 'none', textAlign: 'center', width: '48%' }}> {'View More'}  </a>
+                                                <div className='d-flex justify-content-between align-items-center mt-3'>
+                                                    {/* <button className='white-btn-main  d-flex align-items-center justify-content-center' onClick={getFrruitClick} style={{ width: '48%' }}>{'Get Frruit'}  <img src={RightWhiteArrow} style={{ width: 20, objectFit: 'contain', marginLeft: 5 }} /></button> */}
+                                                    <div onClick={()=> routeNews(story.url)} style={{width:'100%',cursor:'pointer'}}>
+                                                    <p className='secondary-btn' style={{ textDecoration: 'none', textAlign: 'center', width: '48%' }}> {'View More'}  </p>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
