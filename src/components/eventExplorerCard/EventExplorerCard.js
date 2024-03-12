@@ -8,7 +8,7 @@ function EventExplorerCard(props) {
     return (
         <>
             <div className='m-2'>
-                <div className='eventExplorerCard-css'>
+                <div className='eventExplorerCard-css' onClick={onCardClick}>
                     <p className='title'>{question}</p>
                     <button
                         className='card-blue-btn'
