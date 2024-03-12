@@ -96,6 +96,7 @@ function MarketContentGPT() {
             const res = await dispatch(getUploadURL(selectedFile)).unwrap();
             const data = { url: res.data, file: selectedFile };
             setFileName(selectedFile?.name)
+            setShowQuestion(true);
             const updateRes = await dispatch(updateUploadURL(data)).unwrap();
             if (updateRes.status === 200) {
                 const requestData = {
@@ -103,9 +104,8 @@ function MarketContentGPT() {
                     file_name: selectedFile?.name,
                 };
                 const documentRes = await dispatch(addDocument(requestData)).unwrap();
-                setShowQuestion(true);
-                setSelectedFile(null)
                 setSelectedChat(documentRes?.prompt_id);
+                setSelectedFile(null)
                 askAttachmentContentGpt(documentRes?.prompt_id, question);
                 dispatch(getContentPromptList('attachment'));
             }
