@@ -14,10 +14,8 @@ import CloseImg from '../../assets/images/close_icon.png';
 
 function BottomBar(props) {
     const [show, setShow] = useState(false);
-    const handleShow = () => setShow(true);
     const [show2, setShow2] = useState(false);
     const handleClose2 = () => setShow2(false);
-    const handleShow2 = () => setShow2(true);
     const [inputValue, setInputValue] = useState('');
     const fileInputRef = useRef(null);
     const [type, setType] = useState(null);
@@ -32,15 +30,25 @@ function BottomBar(props) {
         setSelectedFile = () => { },
         handleAskPress = () => { }
     } = props
-
-
+    
+    const handleShow = () => {
+        setShow(true)
+        setType('attachment')
+    }
+    const handleShow2 = () => {
+        setShow2(true)
+        setType('link')
+    }
     const handleInputChange = (event) => {
         setInputValue(event.target.value);
     };
     const handleClose = () => {
         setShow(false)
-        if(selectedFile){
-            setType('link')
+        if(selectedFile && selectedButton){
+            setQuestion(`${selectedButton} the entire document in detail?`)
+        }
+        if(!selectedButton){
+            setSelectedFile(null);
         }
     }
 
@@ -217,7 +225,7 @@ function BottomBar(props) {
                         <div className={selectedButton === 'Sentiments' ? 'selected' : 'unSelected'} onClick={() => handleSelectClick('Sentiments')}>Sentiments</div>
                     </div>
                     <div className='d-flex justify-content-end align-items-center'>
-                        <button onClick={handleAttachDone} type="submit" className='blue-btn'>Done</button>
+                        <button disabled={!selectedButton} onClick={handleAttachDone} type="submit" className={selectedButton?'blue-btn':'blue-btn-disable'}>Done</button>
                     </div>
                 </Modal.Footer>
             </Modal>
@@ -249,7 +257,7 @@ function BottomBar(props) {
                 </Modal.Body>
                 <Modal.Footer>
                     <div className='d-flex justify-content-end align-items-center'>
-                        <button onClick={handleDone} type="submit" className='blue-btn'>Done</button>
+                        <button disabled={!inputValue} onClick={handleDone} type="submit"className={inputValue?'blue-btn':'blue-btn-disable'}>Done</button>
                     </div>
                 </Modal.Footer>
             </Modal>

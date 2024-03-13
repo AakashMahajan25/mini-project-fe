@@ -10,6 +10,7 @@ import { clearChatHistory } from '../frruitGPT/slice';
 import Modal from 'react-bootstrap/Modal';
 import CloseImg from '../../assets/images/close_icon.png';
 import axios from 'axios';
+import { replaceSpaceWithUnderscore } from '../../utils/utils';
 
 function MarketContentGPT() {
     const dispatch = useDispatch();
@@ -96,14 +97,14 @@ function MarketContentGPT() {
             const res = await dispatch(getUploadURL(selectedFile)).unwrap();
             const data = { url: res.data, file: selectedFile };
             setFileName(selectedFile?.name)
-            setShowQuestion(true);
             const updateRes = await dispatch(updateUploadURL(data)).unwrap();
             if (updateRes.status === 200) {
                 const requestData = {
-                    object_key: selectedFile?.name,
-                    file_name: selectedFile?.name,
+                    object_key: replaceSpaceWithUnderscore(selectedFile?.name),
+                    file_name: replaceSpaceWithUnderscore(selectedFile?.name),
                 };
                 const documentRes = await dispatch(addDocument(requestData)).unwrap();
+                setShowQuestion(true);
                 setSelectedChat(documentRes?.prompt_id);
                 setSelectedFile(null)
                 askAttachmentContentGpt(documentRes?.prompt_id, question);
@@ -111,6 +112,7 @@ function MarketContentGPT() {
             }
         } catch (error) {
             clearQuestionAndToastError(error);
+            setSelectedFile(null)
         }
     }
 
