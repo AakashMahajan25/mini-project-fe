@@ -156,7 +156,7 @@ function Profile() {
                                                 <div className='d-flex justify-content-between align-items-center'>
                                                     {
                                                         userPlan && <>
-                                                            <div className='text-3'>{userPlan?.plan_name?.toUpperCase()}</div>
+                                                            <div className='text-3' style={{fontSize:24}}>{userPlan?.plan_name}</div>
                                                             <div className='text-4'>{userPlan?.subsciption_type === "free" ? `${userPlan.credits_offered} Credits` : `$${userPlan?.price} /month`}</div>
                                                         </>
                                                     }
