@@ -7,7 +7,7 @@ import SearchIcon from '../../../assets/images/search-icon.png';
 import FAQImg from '../../../assets/images/faq-img.png';
 import Accordion from 'react-bootstrap/Accordion';
 
-function HelpFAQ() {
+function HelpFAQ({faqs}) {
     return (
         <>
             <section className='helpFAQcss'>
@@ -50,30 +50,16 @@ function HelpFAQ() {
                             </div>
                             <div>
                                 <Accordion>
-                                    <Accordion.Item eventKey="0">
-                                        <Accordion.Header>Does Frruit give Financial Advices?</Accordion.Header>
-                                        <Accordion.Body>
-                                            While Frruit serves as a robust investment research assistant, it's crucial to understand it doesn't offer financial advice. Instead, Frruit provides comprehensive market data, insights, and analysis, empowering you to draw your own conclusions about investments. While Frruit enhances your investment know-how, it's essential not to depend solely on it for making financial decisions.
-                                        </Accordion.Body>
-                                    </Accordion.Item>
-                                    <Accordion.Item eventKey="1">
-                                        <Accordion.Header>Does Frruit give Financial Advices?</Accordion.Header>
-                                        <Accordion.Body>
-                                            While Frruit serves as a robust investment research assistant, it's crucial to understand it doesn't offer financial advice. Instead, Frruit provides comprehensive market data, insights, and analysis, empowering you to draw your own conclusions about investments. While Frruit enhances your investment know-how, it's essential not to depend solely on it for making financial decisions.
-                                        </Accordion.Body>
-                                    </Accordion.Item>
-                                    <Accordion.Item eventKey="2">
-                                        <Accordion.Header>Does Frruit give Financial Advices?</Accordion.Header>
-                                        <Accordion.Body>
-                                            While Frruit serves as a robust investment research assistant, it's crucial to understand it doesn't offer financial advice. Instead, Frruit provides comprehensive market data, insights, and analysis, empowering you to draw your own conclusions about investments. While Frruit enhances your investment know-how, it's essential not to depend solely on it for making financial decisions.
-                                        </Accordion.Body>
-                                    </Accordion.Item>
-                                    <Accordion.Item eventKey="3">
-                                        <Accordion.Header>Does Frruit give Financial Advices?</Accordion.Header>
-                                        <Accordion.Body>
-                                            While Frruit serves as a robust investment research assistant, it's crucial to understand it doesn't offer financial advice. Instead, Frruit provides comprehensive market data, insights, and analysis, empowering you to draw your own conclusions about investments. While Frruit enhances your investment know-how, it's essential not to depend solely on it for making financial decisions.
-                                        </Accordion.Body>
-                                    </Accordion.Item>
+                                    {
+                                        faqs.map((item, index) => {
+                                            return <Accordion.Item eventKey={index.toString()}>
+                                                <Accordion.Header>{item?.question}</Accordion.Header>
+                                                <Accordion.Body>
+                                                    {item?.answer}
+                                                </Accordion.Body>
+                                            </Accordion.Item>
+                                        })
+                                    }
                                 </Accordion>
                             </div>
                         </div>

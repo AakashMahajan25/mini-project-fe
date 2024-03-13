@@ -1,13 +1,16 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { API_ENDPOINTS, METHOD_TYPE } from "../../utils/apiUrls";
 import api from "../../utils/api";
+import axios from "axios";
 
 
 const initialState = {
+    activePlanList: [],
     userDetails: null,
     userPlan: null,
     userTopics: null,
     userCredits: null,
+    faqs : null,
     isLoading: false,
     error: null,
 };
@@ -104,6 +107,35 @@ export const getAvaliableCredit = createAsyncThunk("users/getAvaliableCredit", a
     }
 });
 
+export const getAllActivePlans = createAsyncThunk("users/getAllActivePlans", async () => {
+    try {
+        let data = {
+            method: METHOD_TYPE.get,
+            url: API_ENDPOINTS.getPlans,
+        };
+        const response = await api(data);
+        return response.data.data;
+
+    } catch (error) {
+        throw error.response;
+    }
+});
+
+export const getFaqs = createAsyncThunk("users/getFaqs", async () => {
+    try {
+        let data = {
+            method: METHOD_TYPE.get,
+            url: 'https://frruit.co/api/getfaqs',
+        };
+        const response = await axios(data);
+        return response.data.result;
+
+    } catch (error) {
+        console.log('error::::', error.response)
+        throw error.response;
+    }
+});
+
 
 const userSlice = createSlice({
     name: "users",
@@ -128,6 +160,12 @@ const userSlice = createSlice({
             .addCase(getAvaliableCredit.fulfilled, (state, action) => {
                 state.userCredits = action.payload;
             })
+            .addCase(getAllActivePlans.fulfilled, (state, action) => {
+                state.activePlanList = action.payload;
+            })
+            .addCase(getFaqs.fulfilled, (state, action) => {
+                state.faqs = action.payload;
+            })
             .addMatcher(
                 (action) =>
                     action.type === getUserDetails.pending.type ||
@@ -144,7 +182,12 @@ const userSlice = createSlice({
                     action.type === updateUserTopics.rejected.type ||
                     action.type === getUserTopics.pending.type ||
                     action.type === getUserTopics.fulfilled.type ||
-                    action.type === getUserTopics.rejected.type ,
+                    action.type === getUserTopics.rejected.type ||
+                    action.type === getAllActivePlans.pending.type ||
+                    action.type === getAllActivePlans.rejected.type ||
+                    action.type === getFaqs.rejected.type ||
+                    action.type === getFaqs.pending.type ||
+                    action.type === getFaqs.fulfilled.type,
                 handleLoading
             )
     }
