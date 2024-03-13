@@ -1,9 +1,12 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import './Plans.scss'
 import BackBtnArrow from '../../assets/images/back-btn-arrow.png';
 import PlansCard from './PlansCard';
+import { getAllActivePlans } from '../../screens/profile/usersSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 function Plans(props) {
+    const dispatch = useDispatch();
     const Basic = [
         'News headlines & Investors Stories',
         'Summarise news and get TLDRs',
@@ -44,6 +47,13 @@ function Plans(props) {
         'Analysts Podcasts',
         'Document & Youtube video processing',
     ];
+
+    const { activePlanList } = useSelector(state => state.userSlice);
+
+    useEffect(() => {
+        dispatch(getAllActivePlans());
+    }, [])
+
     return (
         <>
             <div className='plans-css'>
@@ -54,7 +64,7 @@ function Plans(props) {
                 <div className='pera'>Lorem Ipsum is simply dummy text of the printing and typesetting industry</div>
                 <div>
                     <div className='row'>
-                        <div className='col-lg-3'>
+                        {/* <div className='col-lg-3'>
                             <PlansCard
                                 cardBackground="linear-gradient(194.74deg, rgba(95, 125, 255, 0.7) 0%, rgba(63, 90, 209, 0.7) 94.44%)"
                                 showStarIcon={false}
@@ -93,7 +103,23 @@ function Plans(props) {
                                 features={FinanceProfessionals}
                                 buttonText="Upgrade"
                             />
-                        </div>
+                        </div> */}
+                        {activePlanList &&
+                        activePlanList.map((plan, i)=>(
+                            <div className='col-lg-3' key={'planlist'+i}>
+                                <PlansCard
+                                    cardBackground="linear-gradient(194.74deg, rgba(95, 125, 255, 0.9) 0%, rgba(63, 90, 209, 0.9) 94.44%)"
+                                    showStarIcon={(plan?.price === 0) ?false:true}
+                                    forText={(plan?.price === 0) ?'':'For'}
+                                    title={plan?.plan_name}
+                                    pricingText={`₹${plan?.price}/month`}
+                                    creditsText={`${plan?.credits_offered} ${(plan?.validity === 30 || plan?.price === 0) ?'credits per month':  'credits per ' + plan?.validity + ' days'}`}
+                                    benefitsText="Get access to real-time market data through generative AI on"
+                                    features={(plan?.highlights).split(" | ")}
+                                    buttonText="Upgrade"
+                                />
+                            </div>
+                        ))}
                         <div className='col-lg-3'>
                             <PlansCard
                                 cardBackground="linear-gradient(194.74deg, #5F7DFF 0%, #3F5AD1 94.44%)"
