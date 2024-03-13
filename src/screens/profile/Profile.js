@@ -16,7 +16,7 @@ import Loader from '../../components/loader/Loader';
 import * as yup from 'yup';
 import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from "@hookform/resolvers/yup";
-import { getAvaliableCredit, getUserDetails, getUserPlan, updateProfile } from './usersSlice';
+import { getAvaliableCredit, getFaqs, getUserDetails, getUserPlan, updateProfile } from './usersSlice';
 import Plans from '../../components/profile/Plans';
 import Preferences from '../../components/profile/Preferences';
 import { getStockIndexes } from '../dashboard/slice';
@@ -55,6 +55,7 @@ function Profile() {
         setPreferencesActiveColor(true);
     };
     const handleHelpClick = () => {
+        dispatch(getFaqs());
         setShowHelpFAQ(true);
         setShowCode(false)
         setShowProfile(false);
@@ -77,7 +78,7 @@ function Profile() {
     })
 
 
-    const { userCredits, isLoading, userDetails, userPlan } = useSelector(state => state.userSlice)
+    const { userCredits, isLoading, userDetails, userPlan, faqs } = useSelector(state => state.userSlice)
 
     useEffect(() => {
         dispatch(getAvaliableCredit());
@@ -295,9 +296,9 @@ function Profile() {
                             <Preferences />
                         </div>
                     )}
-                    {showHelpFAQ && !showPreferences && (
+                    {showHelpFAQ && !showPreferences && faqs && (
                         <div className='right-part' style={{ height: window.innerHeight - 130, overflowY: 'scroll' }}>
-                            <HelpFAQ />
+                            <HelpFAQ faqs={faqs}/>
                         </div>
                     )}
                 </div>
