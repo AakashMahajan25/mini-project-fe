@@ -12,11 +12,12 @@ import BuySellStockCard from '../../components/buySellStockCard/BuySellStockCard
 import { Modal, Nav, Tab, Tabs } from 'react-bootstrap'
 import DiscoverCorrelationGraph from '../../components/graph/DiscoverCorrelationGraph';
 import { useDispatch, useSelector } from 'react-redux';
-import { getTrendingEvents } from './slice';
+import { deductEventCredits, getTrendingEvents } from './slice';
 import BarChart from '../../components/barChart/BarChart';
 import { getStockIndexes } from '../dashboard/slice';
 import { Graph } from "react-d3-graph";
 import FullScreenIcon from '../../assets/images/ic_baseline_fullscreen.png'
+import { toast } from 'react-toastify';
 
 function DiscoverCorrelation() {
     const [showEventDetails, setShowEventDetails] = useState(false);
@@ -29,9 +30,13 @@ function DiscoverCorrelation() {
     const [avgReturns, setAvgReturns] = useState();
 
 
-    const handleCardClick = (data) => {
-        setShowEventDetails(true);
-        setEventDetails(data);
+    const handleCardClick = async(data) => {
+        dispatch(deductEventCredits(`?event_id=${data?.id}`)).unwrap().then(res => {
+            setShowEventDetails(true);
+            setEventDetails(data);
+        }).catch(error => {
+            toast.error(error.message || 'Event click validation Error')
+        })
     };
     const handleBackButtonClick = () => {
         setShowEventDetails(false);

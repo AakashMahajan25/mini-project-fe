@@ -61,4 +61,5 @@ export const API_ENDPOINTS = {
     getPromptsLibrary: 'promptlibrary/getPrompts',
     deleteContentPrompt: 'contentPrompt/deleteContentPrompt?promptId=',
     deletePrompt: 'prompts/deletePrompt?promptId=',
+    deductEventCredits: 'users/deductEventCredits'
 }
