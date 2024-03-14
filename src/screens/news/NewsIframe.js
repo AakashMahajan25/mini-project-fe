@@ -36,7 +36,9 @@ console.log('state', state)
                        <p className='description'>Get News SummaryGet News SummaryGet News SummaryGet News SummaryGet News SummaryGet News SummaryGet News SummaryGet News SummaryGet News SummaryGet News SummaryGet News SummaryGet News Summary</p>
                     </div>
                 }
-                <iframe style={{ width: '100%', height: window.innerHeight-175 }} src={state?.src} />
+                {state?.src &&
+                    <iframe style={{ width: '100%', height: window.innerHeight - 175 }} src={state?.src} />
+                }
             </div>
         </div>
     )
