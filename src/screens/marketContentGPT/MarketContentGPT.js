@@ -85,7 +85,7 @@ function MarketContentGPT() {
             .catch(error => {
                 setQuestion('');
                 if(error?.code != "ERR_CANCELED"){
-                    toast.error(error?.message)
+                    // toast.error(error?.message)
                 }
             })
     }
