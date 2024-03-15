@@ -116,7 +116,7 @@ function Plans(props) {
                                     creditsText={`${plan?.credits_offered} ${(plan?.validity === 30 || plan?.price === 0) ?'credits per month':  'credits per ' + plan?.validity + ' days'}`}
                                     benefitsText="Get access to real-time market data through generative AI on"
                                     features={(plan?.highlights).split(" | ")}
-                                    buttonText="Upgrade"
+                                    buttonText="" //"Upgrade"
                                 />
                             </div>
                         ))}
@@ -131,6 +131,7 @@ function Plans(props) {
                                 benefitsText="Get access to real-time market data through generative AI on"
                                 features={APIAccessPlan}
                                 buttonText="Contact us"
+                                type="custom"
                             />
                         </div>
                     </div>
