@@ -379,7 +379,7 @@ function Dashboard() {
                                                                                </div>
                                                                             
                                                                     </div>
-                                                                    <Tooltip anchorSelect={`.my-anchor-element-${index}`} place="top">
+                                                                    <Tooltip anchorSelect={`.my-anchor-element-${index}`} place="top" className="bg-primary">
                                                                         {item?.tooltipText ? item?.tooltipText : item?.prompt}
                                                                     </Tooltip>
                                                                 </div>
