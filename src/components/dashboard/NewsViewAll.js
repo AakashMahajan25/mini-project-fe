@@ -6,9 +6,15 @@ import Time from '../../assets/images/time-clock.png';
 import NewsImg2 from '../../assets/images/news-img-2.png';
 import RightArrow from '../../assets/images/right-arrow.png';
 import { formatTimeAgo, trimText } from '../../utils/utils';
+import { useNavigate } from 'react-router-dom';
 
 function NewsViewAll({ backBtnClick, newsData }) {
-
+    const navigate = useNavigate();
+    const routeNews = (src) => {
+        navigate("/news", {
+            state: { src },
+        });
+    };
 
     return (
         <>
@@ -25,7 +31,7 @@ function NewsViewAll({ backBtnClick, newsData }) {
                     <div className='row m-0'>
                         {newsData?.slice(0, 6).map((item, index) => (
                             <div key={index} className='col-lg-4 column-pad'>
-                                <a href={item?.newsLink} target='_blank' style={{ textDecoration: 'none' }}>
+                                <a onClick={()=>routeNews(item?.newsLink)} target='_blank' style={{ textDecoration: 'none', cursor:'pointer' }}>
                                     <div className='headline-news-card'>
                                         <div className='d-flex align-items-center m-0'>
                                             <div className=''>
@@ -64,7 +70,7 @@ function NewsViewAll({ backBtnClick, newsData }) {
                                                     <img src={Time} width={16} style={{ objectFit: 'contain', marginRight: 5 }} />
                                                     <div className='time-info2'>{formatTimeAgo(item?.timeStamp)}</div>
                                                 </div>
-                                                <a href={item?.newsLink} target='_blank' style={{ textDecoration: 'none' }}>
+                                                <a onClick={()=>routeNews(item?.newsLink)} target='_blank' style={{ textDecoration: 'none', cursor:'pointer' }}>
                                                     <div className='know-more-text'>Know more <img src={RightArrow} width={24} style={{ objectFit: 'contain' }} /></div>
                                                 </a>
                                             </div>
