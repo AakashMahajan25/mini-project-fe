@@ -375,9 +375,13 @@ function Dashboard() {
                                                                     <div className='prompts-text-bg' style={{ marginRight: 10, cursor: 'pointer' }}>
                                                                         <div className=' d-flex justify-content-between align-items-center w-100' >
                                                                             <p className='prompts-text'>{item?.prompt}</p>
-                                                                               <img style={{ width: 24, objectFit: 'contain' }} src={quesIcon} />
+                                                                               <img style={{ width: 24, objectFit: 'contain' }} src={quesIcon} className={`my-anchor-element-${index}`}/>
                                                                                </div>
+                                                                            
                                                                     </div>
+                                                                    <Tooltip anchorSelect={`.my-anchor-element-${index}`} place="top">
+                                                                        {item?.tooltipText ? item?.tooltipText : item?.prompt}
+                                                                    </Tooltip>
                                                                 </div>
                                                             ))}
                                                         </Slider>
