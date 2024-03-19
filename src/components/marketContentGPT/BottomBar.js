@@ -11,6 +11,7 @@ import { clearAttactmentUrl } from '../../screens/marketContentGPT/slice'
 import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
 import CloseImg from '../../assets/images/close_icon.png';
+import { replaceSpaceWithUnderscore } from '../../utils/utils'
 
 function BottomBar(props) {
     const [show, setShow] = useState(false);
@@ -89,7 +90,7 @@ function BottomBar(props) {
     const handleFileChange = (event) => {
         const file = event.target.files[0];
         if (file) {
-            const modifiedName = addTimestampToFileName(file.name);
+            const modifiedName = addTimestampToFileName(replaceSpaceWithUnderscore(file.name));
             const modifiedFile = new File([file], modifiedName, { type: file.type });
             setSelectedFile(modifiedFile);
         } else {
