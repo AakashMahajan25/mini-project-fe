@@ -100,8 +100,7 @@ function MarketContentGPT() {
             const updateRes = await dispatch(updateUploadURL(data)).unwrap();
             if (updateRes.status === 200) {
                 const requestData = {
-                    object_key: replaceSpaceWithUnderscore(selectedFile?.name),
-                    file_name: replaceSpaceWithUnderscore(selectedFile?.name),
+                    object_key:selectedFile?.name,
                 };
                 const documentRes = await dispatch(addDocument(requestData)).unwrap();
                 setShowQuestion(true);
