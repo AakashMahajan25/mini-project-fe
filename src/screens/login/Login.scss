@@ -84,9 +84,17 @@
     .horizontalLine {
         border: 1px solid #C6C6C6
     }
+    .nineone-input{
+        width: 15%;
+        text-indent: 13px;
+        color: black;
+        @media only screen and (max-width: 786px) {
+            text-indent: 0px;
+        }
+    }
 
     .imagecontainer {
-        @media only screen and (max-width: 500px) {
+        @media only screen and (max-width: 786px) {
             display: none !important;
         }
     }

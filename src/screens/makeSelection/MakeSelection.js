@@ -85,7 +85,7 @@ function MakeSelection() {
                         <button className='blue-btn' onClick={verifyProceed}>Continue</button>
                     </div>
                 </div>
-                <div className='col-xl-5'>
+                <div className='col-xl-5 makeselection-right-side'>
                     <div className='d-flex justify-content-center align-items-center imagecontainer'>
                         <div>
                             <div className='d-flex justify-content-center'>
