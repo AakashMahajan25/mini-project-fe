@@ -299,6 +299,12 @@ function LeftBox() {
             value: '129497.95'
         },
     ]
+    const navigate = useNavigate();
+    const getFrruitClick = (symbol) => {
+        navigate("/frruit-gpt", {
+            state: { question: 'What is happening in ' + symbol + ' stock' },
+        });
+    }
 
 
     return (
@@ -334,7 +340,7 @@ function LeftBox() {
 
                                                     <div className='d-flex justify-content-between align-items-center'>
                                                         <div>
-                                                            <img className='me-2' style={{ width: 24, objectFit: 'contain', cursor: 'pointer' }} src={StockMiniLogo} alt="mini-logo" />
+                                                            <img className='me-2' onClick={()=>getFrruitClick(stocks?.symbol)} style={{ width: 24, objectFit: 'contain', cursor: 'pointer' }} src={StockMiniLogo} alt="mini-logo" />
                                                         </div>
                                                         <div>
                                                             <img onClick={() => handleShow2(stocks)} style={{ width: 24, objectFit: 'contain', cursor: 'pointer' }} src={AddstockBtn} alt="mini-logo" />
@@ -405,6 +411,7 @@ function LeftBox() {
                                                     ) : (
                                                         <img style={{ width: 24, objectFit: 'contain' }} src={GreenArrow} alt="Green Arrow" />
                                                     )}
+                                                      <img className='ms-2' onClick={()=>getFrruitClick(stock?.ticker)} style={{ width: 24, objectFit: 'contain', cursor: 'pointer' }} src={StockMiniLogo} alt="mini-logo" />
                                                 </div>
                                             </div>
                                         </div>

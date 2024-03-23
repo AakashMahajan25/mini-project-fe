@@ -7,7 +7,7 @@ function EventExplorerCard(props) {
 
     return (
         <>
-            <div className='m-2'>
+            <div className='m-2' onClick={onCardClick} style={{ cursor: 'pointer'}}>
                 <div className='eventExplorerCard-css'>
                     <p className='title'>{question}</p>
                     <button
@@ -20,7 +20,7 @@ function EventExplorerCard(props) {
                     >
                         {category}
                     </button>
-                    <div onClick={onCardClick} className='d-flex justify-content-start align-items-center' style={{ cursor: 'pointer', width: 'max-content' }}>
+                    <div className='d-flex justify-content-start align-items-center' style={{ cursor: 'pointer', width: 'max-content' }}>
                         <p className='knowMore-text'>{'Know More'}</p>
                         <img style={{ width: 18, objectFit: 'contain' }} src={RightArrow} alt="Right Arrow" />
                     </div>

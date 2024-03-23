@@ -28,6 +28,17 @@
             line-height: normal;
             margin-bottom: 4px;
         }
+        .select-text-css{
+            color: #6F7387;
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: normal;
+            margin-bottom: 10px;
+        }
+        .bottom-boder-css{
+            border-bottom: solid 1px #8692D05E;
+        }
 
         .attached-doc-white-box {
             display: flex;
@@ -121,6 +132,7 @@
             object-fit: contain;
         }
     }
+
     .form-group {
         width: 130%;
 
@@ -150,6 +162,7 @@
 .Attach-modal {
     .modal-header {
         padding-bottom: 0px;
+        display: block;
 
         .header-title {
             color: #6F6B7D;
@@ -178,6 +191,54 @@
             font-style: normal;
             font-weight: 400;
             line-height: normal;
+        }
+    }
+
+    .modal-footer {
+        display: flow-root;
+
+        .footer-header-text {
+            font-family: Roboto;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 16px;
+            color: #6F6B7D;
+        }
+
+        .select-btn-class {
+            display: flex;
+            justify-content: start;
+            align-items: center;
+
+            .unSelected {
+                padding: 8px 10px;
+                border: 1px solid #4563E4;
+                border-radius: 22.4px;
+                font-size: 10px;
+                font-weight: 600;
+                margin: 10px 7px 0 0;
+                color: black;
+                cursor: pointer;
+                min-width: 100px;
+                text-align: center;
+            }
+            .unSelected:hover{
+                background-color: #F1F4FD;
+            }
+
+            .selected {
+                padding: 8px 10px;
+                border: 1px solid #4563E4;
+                border-radius: 22.4px;
+                font-size: 10px;
+                font-weight: 600;
+                margin: 10px 7px 0 0;
+                color: white;
+                background-color: #4563E4;
+                cursor: pointer;
+                min-width: 100px;
+                text-align: center;
+            }
         }
     }
 }

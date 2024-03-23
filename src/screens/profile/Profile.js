@@ -16,40 +16,61 @@ import Loader from '../../components/loader/Loader';
 import * as yup from 'yup';
 import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from "@hookform/resolvers/yup";
-import { getAvaliableCredit, getUserDetails, updateProfile } from './usersSlice';
+import { getAvaliableCredit, getFaqs, getUserDetails, getUserPlan, updateProfile } from './usersSlice';
 import Plans from '../../components/profile/Plans';
 import Preferences from '../../components/profile/Preferences';
 import { getStockIndexes } from '../dashboard/slice';
+import HelpFAQ from '../../components/profile/helpFAQ/HelpFAQ';
+import { toast } from 'react-toastify';
 
 function Profile() {
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
     const handleBackButtonClick = () => {
         setShowCode(prevShowCode => !prevShowCode);
     };
     const [showPreferences, setShowPreferences] = useState(false);
     const [showProfile, setShowProfile] = useState(false);
+    const [showHelpFAQ, setShowHelpFAQ] = useState(false);
+    const [showCode, setShowCode] = useState(false);
+    const [isShowCodeActiveColor, setShowCodeActiveColor] = useState(true);
+    const [isHelpActive, setIsHelpActive] = useState(false);
+    const [isPreferencesActiveColor, setPreferencesActiveColor] = useState(false);
 
     const handleProfileClick = () => {
-
         setShowProfile(true);
         setShowPreferences(false);
+        setShowHelpFAQ(false);
+        setIsHelpActive(false);
+        setShowCodeActiveColor(true);
+        setPreferencesActiveColor(false);
     };
 
     const handlePreferencesClick = () => {
-
         setShowCode(false)
         setShowProfile(false);
         setShowPreferences(true);
+        setIsHelpActive(false);
+        setShowCodeActiveColor(false);
+        setPreferencesActiveColor(true);
     };
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
-    const [showCode, setShowCode] = useState(false);
+    const handleHelpClick = () => {
+        dispatch(getFaqs());
+        setShowHelpFAQ(true);
+        setShowCode(false)
+        setShowProfile(false);
+        setShowPreferences(false);
+        setIsHelpActive(true);
+        setShowCodeActiveColor(false);
+        setPreferencesActiveColor(false);
+    };
 
     const updateProfileSchema = yup.object().shape({
         first_name: yup.string().required("Please enter first name."),
         last_name: yup.string().required("Please enter last name."),
         email: yup.string().email('Please enter valid Email Id').required("Please enter Email Id."),
         phone_number: yup.string().required("Please enter Mobile number."),
-        address: yup.string().required("Address is required."),
+        // address: yup.string().required("Address is required."),
     })
 
     const { control, handleSubmit, setValue, formState: { errors } } = useForm({
@@ -57,15 +78,15 @@ function Profile() {
     })
 
 
-    const { userCredits, isLoading, userDetails } = useSelector(state => state.userSlice)
+    const { userCredits, isLoading, userDetails, userPlan, faqs } = useSelector(state => state.userSlice)
 
     useEffect(() => {
         dispatch(getAvaliableCredit());
         dispatch(getUserDetails())
-        dispatch(getStockIndexes())
+        dispatch(getUserPlan());
+        // dispatch(getStockIndexes())
     }, [])
 
-    console.log('userDetails', userDetails)
     useEffect(() => {
         if (userDetails) {
             setValue('first_name', userDetails?.first_name)
@@ -77,23 +98,14 @@ function Profile() {
     }, [userDetails])
 
     const onSubmit = (data) => {
-        console.log('data:::::::::::::::', data)
-        // dispatch(updateProfile(data))
-        // .unwrap()
-        // .then(async(res) => {
-        //     dispatch(setUserName(`${data?.first_name} ${data?.last_name}`))
-        //     await storageSetUserName(`${data?.first_name} ${data?.last_name}`)
-        //     Toast.show({
-        //         type: 'success',
-        //         text1: res?.data || 'Profile Updated Successfully'
-        //     });
-        // })
-        // .catch((error) => {
-        //     Toast.show({
-        //         type: 'error',
-        //         text1: 'Error in updating profile'
-        //     });
-        // })
+        dispatch(updateProfile(data))
+        .unwrap()
+        .then(async(res) => {
+            toast.success("Profile Updated Successfully")
+        })
+        .catch((error) => {
+            toast.error("Error in updating profile")
+        })
     }
 
     return (
@@ -103,12 +115,14 @@ function Profile() {
                     <LeftProfileBox
                         handlePreferencesClick={handlePreferencesClick}
                         handleProfileClick={handleProfileClick}
-                        isPreferencesActive={!showPreferences}
-                        isshowCodeActive={showPreferences}
+                        handleHelpClick={handleHelpClick}
+                        isPreferencesActive={isPreferencesActiveColor}
+                        isshowCodeActive={isShowCodeActiveColor}
+                        isHelpActive={isHelpActive}
                     />
                 </div>
                 <div className='col-lg-9 column-pad'>
-                    {!showCode && !showPreferences &&
+                    {!showCode && !showPreferences && !showHelpFAQ &&
                         <div className='right-part' style={{ height: window.innerHeight - 130, overflowY: 'scroll' }}>
                             <div className='welcome-text'>Welcome</div>
                             <div style={{ marginBottom: 20 }} className='user-text'>{userDetails?.first_name + " " + userDetails?.last_name}!</div>
@@ -118,10 +132,10 @@ function Profile() {
                                         <div className='blue-box'>
                                             <div className='d-flex justify-content-between align-items-center' style={{ marginBottom: 10 }}>
                                                 <div className='text-1'>Available Credits</div>
-                                                <div className='d-flex align-items-center'>
+                                                {/* <div className='d-flex align-items-center'>
                                                     <div className='text-2'>History</div>
                                                     <img src={WhiteArrow} style={{ width: 18, objectFit: 'contain' }} />
-                                                </div>
+                                                </div> */}
                                             </div>
                                             <div className='light-blue-box' style={{ width: 'fit-content', marginBottom: 28 }}>
                                                 <div className='d-flex justify-content-start align-items-center'>
@@ -141,8 +155,12 @@ function Profile() {
                                             </div>
                                             <div className='light-blue-box' style={{ marginBottom: 10 }}>
                                                 <div className='d-flex justify-content-between align-items-center'>
-                                                    <div className='text-3'>Premium</div>
-                                                    <div className='text-4'>$14 /month</div>
+                                                    {
+                                                        userPlan && <>
+                                                            <div className='text-3'style={{fontSize:24}}>{userPlan?.plan_name}</div>
+                                                            <div className='text-4'>{userPlan?.subsciption_type === "free" ? `${userPlan.credits_offered} Credits` : `₹${userPlan?.price} /month`}</div>
+                                                        </>
+                                                    }
                                                 </div>
                                             </div>
                                             <button onClick={setShowCode} className='white-btn'>View Plans<img src={BlueArrow} style={{ objectFit: 'contain', width: 6, marginLeft: 10 }} /></button>
@@ -158,7 +176,7 @@ function Profile() {
                                             {/* <img src={UserImg} style={{ width: 82, objectFit: 'contain', marginRight: 15 }} /> */}
                                             <div className='col-lg-2'>
                                                 <div className='user-profile-circle'>
-                                                    <div className='user-profile-circle-text'>{userDetails?.first_name?.slice(0,1)}</div>
+                                                    <div className='user-profile-circle-text'>{userDetails?.first_name?.slice(0, 1)}</div>
                                                 </div>
                                             </div>
                                             <div className='col-lg-10'>
@@ -276,6 +294,11 @@ function Profile() {
                         // Show the Preferences component
                         <div className='right-part' style={{ height: window.innerHeight - 130, overflowY: 'scroll' }}>
                             <Preferences />
+                        </div>
+                    )}
+                    {showHelpFAQ && !showPreferences && faqs && (
+                        <div className='right-part' style={{ height: window.innerHeight - 130, overflowY: 'scroll' }}>
+                            <HelpFAQ faqs={faqs}/>
                         </div>
                     )}
                 </div>

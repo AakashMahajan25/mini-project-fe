@@ -5,7 +5,7 @@ import { reducers } from "./combineReducer";
 export const store = configureStore({
     reducer: reducers,
     middleware: (getDefaultMiddleware) => {
-        return getDefaultMiddleware().concat(logger);
+        return getDefaultMiddleware().concat(); // concat(logger);
     },
     devTools: true,
 });

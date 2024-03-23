@@ -80,9 +80,7 @@ function DiscoverCorrelationGraph(props) {
                             display: false,
                         },
                         ticks: {
-                            padding: 20,
-                            fontColor: 'rgba(0,0,0,0.5)',
-                            fontStyle: 'bold',
+                            display: false,
                         },
                         title: {
                             display: true,

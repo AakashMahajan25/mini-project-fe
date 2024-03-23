@@ -7,11 +7,14 @@ import PromptsLibrary from '../../components/promptsLibrary/PromptsLibrary'
 import BottomSearchBar from '../../components/frruitGpt/BottomSearchBar'
 import ChatGpt from '../../components/frruitGpt/ChatGpt'
 import { useLocation } from 'react-router-dom'
-import { addChatPrompt, clearChatHistory, getPromptHistory, getPromptList, getPromptSuggestion, setChatHistory, triggerFrruitGpt, triggerFrruitGptGraph } from './slice'
+import { addChatPrompt, clearChatHistory, deletePrompt, getPromptHistory, getPromptList, getPromptSuggestion, setChatHistory, triggerFrruitGpt, triggerFrruitGptGraph } from './slice'
 import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
 import { getStockIndexes } from '../dashboard/slice'
-import { clearContentChatHistory } from '../marketContentGPT/slice'
+import { clearContentChatHistory, setCancelTokens } from '../marketContentGPT/slice'
+import Modal from 'react-bootstrap/Modal';
+import CloseImg from '../../assets/images/close_icon.png';
+import axios from 'axios';
 
 function FrruitGPT() {
     const dispatch = useDispatch();
@@ -21,8 +24,11 @@ function FrruitGPT() {
     const gptRef = useRef(null)
     const [question, setQuestion] = useState('')
     const [selectedChat, setSelectedChat] = useState(null)
+    const [show2, setShow2] = useState(false);
+    const [deleteId, setDeleteId] = useState(null);
 
     const { chatHistory } = useSelector(state => state.fruitGPTSlice);
+    const { cancelTokens } = useSelector(state => state.contentGPTSlice);
 
     useEffect(() => {
         dispatch(getPromptSuggestion(5))
@@ -58,12 +64,17 @@ function FrruitGPT() {
     }
 
     const handleNewChat = () => {
+        if(cancelTokens)
+            cancelTokens.cancel("cancelled")
         isNewChat.current = true
         dispatch(clearChatHistory())
         setSelectedChat(null)
+        setQuestion('')
     }
 
     const handleHistory = (Id) => {
+        if(cancelTokens)
+            cancelTokens.cancel("cancelled")
         dispatch(getPromptHistory(Id))
             .unwrap()
             .then(res => {
@@ -120,17 +131,24 @@ function FrruitGPT() {
             type: "text"
         }]))
 
-        dispatch(triggerFrruitGpt(requestData))
+        const token = axios.CancelToken.source()
+        dispatch(setCancelTokens(token))
+
+        dispatch(triggerFrruitGpt({requestData, cancelToken: token}))
             .unwrap()
             .then(res => {
-                if (res && res[0] && res[0]?.text !== undefined)
-                    dispatch(triggerFrruitGptGraph(requestData))
+                if (res && res[0] && res[0]?.text !== undefined){
+                    const token = axios.CancelToken.source()
+                    dispatch(setCancelTokens(token))
+                    dispatch(triggerFrruitGptGraph({requestData, cancelToken: token}))
+                }
                 setQuestion('');
                 scrollDown(250)
             })
             .catch(error => {
                 setQuestion(searchText);
-                toast.error(error?.message)
+                if(error?.code != "ERR_CANCELED")
+                    toast.error(error?.message)
             })
     }
 
@@ -149,6 +167,26 @@ function FrruitGPT() {
         addFrruitPrompt(data)
     }
 
+    const handleClose2 = () => {
+        setShow2(false);
+        setDeleteId(null)
+    }
+
+    const handleShow2 = (event, id) => {
+        event.stopPropagation();
+        setShow2(true);
+        setDeleteId(id)
+    }
+    const handleDeleteChat = async () => {
+        setShow2(false);
+        await dispatch(deletePrompt(deleteId))
+        await dispatch(getPromptList())
+        if(deleteId === selectedChat){
+        isNewChat.current = true
+        dispatch(clearChatHistory())
+        }
+    }
+
     return (
         <>
             {/* <div className=''> */}
@@ -165,11 +203,12 @@ function FrruitGPT() {
                         handleNewChat={handleNewChat}
                         handleHistory={handleHistory}
                         selectedChat={selectedChat}
+                        handleShow2={handleShow2}
                     />
                 </div>
                 <div className='col-xl-9 column-pad'>
                     <ChatGpt
-                        isNewChat={isNewChat.current}
+                        newChat={isNewChat.current}
                         containerRef={gptRef}
                     />
                     <PromptsLibrary
@@ -183,6 +222,33 @@ function FrruitGPT() {
                 </div>
             </div>
             {/* </div> */}
+
+            <Modal show={show2}
+                onHide={handleClose2}
+                size='md'
+                centered
+                className='marketGpt-left-box-modal'
+
+            >
+                <Modal.Header>
+                    <div className='d-flex justify-content-between align-items-center mb-2'>
+                        <div className='header-text'>Are you sure you want to Delete ?</div>
+                        <div onClick={() => handleClose2()} className=' align-items-center' style={{ cursor: 'pointer' }}>
+                            <img src={CloseImg} className='me-1' width={32} style={{ objectFit: 'contain' }} />
+                        </div>
+                    </div>
+                </Modal.Header>
+                <Modal.Body>
+                    <div className='body-text-css'>Lorem Ipsum is simply dummy text of the printing
+                        and typesetting industry</div>
+                </Modal.Body>
+                <Modal.Footer>
+                    <div className='d-flex justify-content-center align-items-center'>
+                        <button onClick={handleClose2} type="submit" className='light-blue-btn2 mx-2 px-5'>Cancel</button>
+                        <button onClick={handleDeleteChat} type="submit" className='blue-btn mx-2 px-5'>Delete</button>
+                    </div>
+                </Modal.Footer>
+            </Modal>
         </>
     )
 }

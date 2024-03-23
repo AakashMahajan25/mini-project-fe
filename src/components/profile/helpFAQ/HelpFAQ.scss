@@ -1,0 +1,62 @@
+.helpFAQcss {
+    .needSupportDiv {
+        display: flex;
+        justify-content: start;
+        align-items: start;
+        margin-bottom: 20px;
+
+        .need-help-text {
+            font-size: 20px;
+            font-weight: 600;
+            line-height: 23.44px;
+            font-family: 'Roboto', sans-serif;
+            color: #171E42;
+            margin-bottom: 5px;
+        }
+
+        .Getintouch-text {
+            font-size: 16px;
+            font-weight: 500;
+            line-height: 18.75px;
+            font-family: 'Roboto', sans-serif;
+            color: #6F7387;
+        }
+    }
+
+    .contact-details {
+        margin-bottom: 20px;
+
+        .contact-blue-box {
+            background: linear-gradient(194.74deg, rgba(95, 125, 255, 0.15) 0%, rgba(63, 90, 209, 0.15) 94.44%);
+            padding: 16px;
+            border-radius: 15px;
+            margin: 0px 10px;
+            display: flex;
+            justify-content: start;
+            align-items: center;
+
+            .blue-box-text {
+                font-size: 18px;
+                font-weight: 500;
+                line-height: normal;
+                font-family: 'Roboto', sans-serif;
+                color: #4563E4;
+            }
+        }
+    }
+
+    .gray-boder {
+        border-bottom: solid 1px #DCDCDC;
+        margin-bottom: 20px;
+    }
+
+    .faq-section {
+        .faq-text {
+            font-size: 20px;
+            font-weight: 600;
+            line-height: 23.44px;
+            font-family: 'Roboto', sans-serif;
+            color: #171E42;
+        }
+    }
+}

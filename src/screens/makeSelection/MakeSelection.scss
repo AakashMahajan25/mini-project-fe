@@ -1,6 +1,12 @@
 .selectmarket-css {
     margin: 50px;
 
+    .makeselection-right-side {
+        @media only screen and (max-width: 786px) {
+            display: none !important;
+        }
+    }
+
     .selectMarket {
         background-color: #F1F4FD;
         border-radius: 45px;

@@ -5,20 +5,26 @@ import BottomBar from '../../components/marketContentGPT/BottomBar';
 import ChatGpt from '../../components/frruitGpt/ChatGpt';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-import { addDocument, clearAttactmentUrl, clearContentChatHistory, getContentPromptHistory, getContentPromptList, getUploadURL, setChatHistory, triggerContentPrompt, triggerDocumentChat, updateUploadURL } from './slice';
+import { addDocument, clearContentChatHistory, deleteContentPrompt, getContentPromptHistory, getContentPromptList, getUploadURL, setCancelTokens, setChatHistory, triggerContentPrompt, triggerDocumentChat, updateUploadURL } from './slice';
 import { clearChatHistory } from '../frruitGPT/slice';
+import Modal from 'react-bootstrap/Modal';
+import CloseImg from '../../assets/images/close_icon.png';
+import axios from 'axios';
+import { replaceSpaceWithUnderscore } from '../../utils/utils';
 
 function MarketContentGPT() {
     const dispatch = useDispatch();
     const gptRef = useRef(null)
     const [question, setQuestion] = useState('')
     const isNewChat = useRef(true)
-    const { contentChatHistory } = useSelector(state => state.contentGPTSlice);
+    const { contentChatHistory, cancelTokens } = useSelector(state => state.contentGPTSlice);
     const [selectedChat, setSelectedChat] = useState(null)
     const [selectedFile, setSelectedFile] = useState(null);
     const [showQuestion, setShowQuestion] = useState(false);
     const [selectedType, setSelectedType] = useState(null);
-
+    const [fileName, setFileName] = useState('');
+    const [show2, setShow2] = useState(false);
+    const [deleteId, setDeleteId] = useState(null);
 
     useEffect(() => {
         dispatch(clearContentChatHistory())
@@ -31,18 +37,18 @@ function MarketContentGPT() {
             gptRef.current.scrollTop = gptRef.current.scrollHeight;
         }
     };
-    
+
     const scrollDown = (amount) => {
         if (gptRef.current) {
             gptRef.current.scrollTop += amount;
         }
     };
-    
+
     const clearQuestionAndToastError = (error) => {
         setQuestion('');
         toast.error(error?.message);
     };
-    
+
 
 
     useEffect(() => {
@@ -54,57 +60,63 @@ function MarketContentGPT() {
         }
     }, [contentChatHistory])
 
-    const askContentGpt = async (promptId, title) => {
+    const askContentGpt = async () => {
         setQuestion('');
         const requestData = {
             link: question
         }
+        isNewChat.current = false
         dispatch(setChatHistory([{
             person: "user",
             text: requestData?.link,
             type: "text"
         }]))
+        const token = axios.CancelToken.source()
+        dispatch(setCancelTokens(token))
 
-        dispatch(triggerContentPrompt(requestData))
+        dispatch(triggerContentPrompt({requestData, cancelToken: token}))
             .unwrap()
             .then(res => {
                 dispatch(getContentPromptList('link'))
+                setSelectedChat(res.prompt_id)
                 setQuestion('');
                 scrollDown(500)
             })
             .catch(error => {
                 setQuestion('');
-                toast.error(error?.message)
+                if(error?.code != "ERR_CANCELED"){
+                    // toast.error(error?.message)
+                }
             })
     }
-
 
     const getUrlOfAttchment = async () => {
         if (!selectedFile) return;
         try {
+            isNewChat.current = false;
             const res = await dispatch(getUploadURL(selectedFile)).unwrap();
             const data = { url: res.data, file: selectedFile };
-            dispatch(setChatHistory([{ person: "user", text: selectedFile.name, type: "attach" }]));
-            setShowQuestion(true);
+            setFileName(selectedFile?.name)
             const updateRes = await dispatch(updateUploadURL(data)).unwrap();
             if (updateRes.status === 200) {
                 const requestData = {
-                    object_key: selectedFile?.name,
-                    file_name: selectedFile?.name,
+                    object_key:selectedFile?.name,
                 };
                 const documentRes = await dispatch(addDocument(requestData)).unwrap();
+                setShowQuestion(true);
                 setSelectedChat(documentRes?.prompt_id);
-                askAttachmentContentGpt(documentRes?.prompt_id);
-                setQuestion('');
+                setSelectedFile(null)
+                askAttachmentContentGpt(documentRes?.prompt_id, question);
                 dispatch(getContentPromptList('attachment'));
-                isNewChat.current = false;
             }
         } catch (error) {
             clearQuestionAndToastError(error);
-        } 
+            setSelectedFile(null)
+        }
     }
 
     const askAttachmentContentGpt = async (promptId, title) => {
+        const token = axios.CancelToken.source()
         setQuestion('');
         if (!question) {
             dispatch(setChatHistory([{
@@ -123,14 +135,17 @@ function MarketContentGPT() {
             text: requestData.message,
             type: "text"
         }]));
+        dispatch(setCancelTokens(token))
         try {
-            dispatch(triggerDocumentChat(requestData)).unwrap()
-            .then(res => {
-                setQuestion('');
-                scrollDown(250);
-            });
+            dispatch(triggerDocumentChat({requestData, cancelToken: token })).unwrap()
+                .then(res => {
+                    setQuestion('');
+                    scrollDown(250);
+                    setSelectedFile(null)
+                });
         } catch (error) {
-            clearQuestionAndToastError(error);
+            if(error?.code != "ERR_CANCELED")
+                clearQuestionAndToastError(error);
         }
     }
 
@@ -140,6 +155,7 @@ function MarketContentGPT() {
             handleNewChat()
             askContentGpt(null, null);
         } else if (type === 'attachment' || selectedType === 'attachment') {
+            setSelectedType(type)
             if (isNewChat.current) {
                 await getUrlOfAttchment();
             } else {
@@ -156,14 +172,19 @@ function MarketContentGPT() {
         setSelectedFile(null)
     }
 
-    const handleHistory = (Id, type) => {
+    const handleHistory = (Id, type, name) => {
+        if(cancelTokens)
+            cancelTokens.cancel("cancelled")
         dispatch(getContentPromptHistory(Id))
             .unwrap()
             .then(res => {
                 isNewChat.current = false
                 setSelectedChat(Id)
                 scrollToBottom();
-                if(type === 'attachment'){
+                if (name) {
+                    setFileName(name)
+                }
+                if (type === 'attachment') {
                     setShowQuestion(true)
                 }
                 setSelectedType(type)
@@ -171,7 +192,27 @@ function MarketContentGPT() {
             .catch(error => {
                 console.log('error', error)
             })
+    }
+    const handleClose2 = () => {
+        setShow2(false);
+        setDeleteId(null)
+    }
+
+    const handleShow2 = (event, id) => {
+        event.stopPropagation();
+        setShow2(true);
+        setDeleteId(id)
+    }
+    const handleDeleteChat = async () => {
+        setShow2(false);
+        await dispatch(deleteContentPrompt(deleteId))
+        await dispatch(getContentPromptList(selectedType ? selectedType : 'link'))
+        if(deleteId === selectedChat){
+            isNewChat.current = true
+            dispatch(clearContentChatHistory())
+            setShowQuestion(false)
         }
+    }
 
     return (
         <>
@@ -183,10 +224,11 @@ function MarketContentGPT() {
                             handleHistory={handleHistory}
                             selectedChat={selectedChat}
                             setShowQuestion={setShowQuestion}
+                            handleShow2={handleShow2}
                         />
                     </div>
                     <div className='col-lg-9 column-pad position-relative'>
-                        <ChatGpt containerRef={gptRef} />
+                        <ChatGpt containerRef={gptRef} newChat={isNewChat.current} docStatus={true} docName={fileName} selectedType={selectedType} />
                         <BottomBar
                             handleNewChat={handleNewChat}
                             setQuestion={setQuestion}
@@ -200,6 +242,33 @@ function MarketContentGPT() {
                     </div>
                 </div>
             </div>
+
+            <Modal show={show2}
+                onHide={handleClose2}
+                size='md'
+                centered
+                className='marketGpt-left-box-modal'
+
+            >
+                <Modal.Header>
+                    <div className='d-flex justify-content-between align-items-center mb-2'>
+                        <div className='header-text'>Are you sure you want to Delete ?</div>
+                        <div onClick={() => handleClose2()} className=' align-items-center' style={{ cursor: 'pointer' }}>
+                            <img src={CloseImg} className='me-1' width={32} style={{ objectFit: 'contain' }} />
+                        </div>
+                    </div>
+                </Modal.Header>
+                <Modal.Body>
+                    <div className='body-text-css'>Lorem Ipsum is simply dummy text of the printing
+                        and typesetting industry</div>
+                </Modal.Body>
+                <Modal.Footer>
+                    <div className='d-flex justify-content-center align-items-center'>
+                        <button onClick={handleClose2} type="submit" className='light-blue-btn2 mx-2 px-5'>Cancel</button>
+                        <button onClick={handleDeleteChat} type="submit" className='blue-btn mx-2 px-5'>Delete</button>
+                    </div>
+                </Modal.Footer>
+            </Modal>
         </>
     )
 }

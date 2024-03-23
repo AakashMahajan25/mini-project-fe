@@ -38,6 +38,12 @@ export const replaceNewlinesWithBr = (text) => {
     return text.replace(/\n/g, '</br>');
 }
 
+export const replaceSpaceWithUnderscore = (text) => {
+    // Use a regular expression to replace newline characters with <br> tags
+    return text.replace(/ /g, '_');
+}
+
+
 export const formatPrice = (price, country) => {
     if (country === 'IND') {
         return '₹ ' + price; // Rupee symbol for India

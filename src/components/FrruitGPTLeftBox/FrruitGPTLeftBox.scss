@@ -117,10 +117,10 @@
             line-height: 22px;
             color: #6F7387;
 
-            // &:hover {
-            //     background-color: #E5EAFF;
-            //     color: #4563E4;
-            // }
+            &:hover {
+                background-color: #E5EAFF;
+                color: #4563E4;
+            }
 
             // &:focus {
             //     background-color: #E5EAFF;
@@ -131,6 +131,9 @@
             //     background-color: #E5EAFF;
             //     color: #4563E4;
             // }
+            .delete-icon-css {
+                // background-image: url('../../assets/images/delete-gray-icon.png');
+            }
         }
 
         .blue-box-active {
@@ -189,5 +192,35 @@
 
     to {
         transform: translateX(0);
+    }
+}
+
+.frruitGPT-left-box-modal {
+    .modal-header {
+        padding-bottom: 0px;
+        display: block;
+
+        .header-text {
+            color: #171E42;
+            font-size: 20px;
+            font-style: Roboto;
+            font-weight: 500;
+            line-height: 23.44px;
+        }
+    }
+
+    .modal-body {
+        .body-text-css {
+            color: #6F7387;
+            font-size: 16px;
+            font-style: Roboto;
+            font-weight: 400;
+            line-height: 18.75px;
+            text-align: center;
+        }
+    }
+
+    .modal-footer {
+        display: flow-root;
     }
 }

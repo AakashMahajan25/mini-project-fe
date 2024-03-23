@@ -3,13 +3,14 @@ import '../makeSelection/MakeSelection.scss'
 import { Nav, Tab, Tabs } from 'react-bootstrap'
 import SelectMarket from '../../assets/images/selectMarket_img.png'
 import SideImg from '../../assets/images/login-side-img.png'
+import LoginImg3 from '../../assets/images/login_img3.png'
 import FrruitLogo from '../../assets/images/frruit-logo.png'
 import GreenRightIcon from '../../assets/images/right-green-circle-icon.png'
 import { useNavigate } from 'react-router-dom'
 
 function MakeSelection() {
     const navigate = useNavigate();
-    const [selected, setSelected] = useState('US')
+    const [selected, setSelected] = useState('IND')
 
     const verifyProceed = () => {
         localStorage.setItem('marketType', selected)
@@ -25,12 +26,12 @@ function MakeSelection() {
                             <p className='heading p-0'>Select Market</p>
                             <p className='text-description'>Lorem Ipsum is simply dummy text of the printing and typesetting industry</p>
                         </div>
-                        <div className='showPrompt'>
+                        <div className='showPrompt' style={{width: 'fit-content'}}>
                             <Tab.Container defaultActiveKey={selected} onSelect={(e) => setSelected(e)}>
                                 <Nav className='customPrompttabs' variant="pills">
-                                    <Nav.Item>
-                                        <Nav.Link eventKey="US">{'USA'}</Nav.Link>
-                                    </Nav.Item>
+                                    {/* <Nav.Item >
+                                        <Nav.Link eventKey="US" disabled >{'USA'}</Nav.Link>
+                                    </Nav.Item> */}
                                     <Nav.Item>
                                         <Nav.Link eventKey="IND">{`India`}</Nav.Link>
                                     </Nav.Item>
@@ -84,13 +85,13 @@ function MakeSelection() {
                         <button className='blue-btn' onClick={verifyProceed}>Continue</button>
                     </div>
                 </div>
-                <div className='col-xl-5'>
+                <div className='col-xl-5 makeselection-right-side'>
                     <div className='d-flex justify-content-center align-items-center imagecontainer'>
                         <div>
                             <div className='d-flex justify-content-center'>
-                                <img src={FrruitLogo} width={196} />
+                                <img src={FrruitLogo} width={196} className='mb-5' />
                             </div>
-                            <img src={SideImg} style={{ objectFit: 'contain', width: '100%', height: window.innerHeight / 1.8 }} />
+                            <img src={LoginImg3} style={{ objectFit: 'contain', width: '100%', height: window.innerHeight / 1.8 }} />
                         </div>
                     </div>
                 </div>

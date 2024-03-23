@@ -8,8 +8,11 @@ import Stories4 from '../../assets/images/stories-icon-4.png';
 import CloseIcon from '../../assets/images/close_icon.png';
 import StoriesImg from '../../assets/images/stories-img-1.png';
 import StoriesImg2 from '../../assets/images/stories-img-2.png';
+import quesIcon from '../../assets/images/i-icon.png';
 import PrevBtn from '../../assets/images/prev-btn.png';
 import NextBtnicon from '../../assets/images/next-btn.png';
+import LeftBtn from '../../assets/images/left-slider-btn.png';
+import RightBtn from '../../assets/images/right-slider-btn.png';
 import SendIcon from '../../assets/images/send_icon.png';
 import './Dashboard.scss';
 import TrendingStocksCard from '../../components/trendingStocks/TrendingStocksCard';
@@ -22,7 +25,11 @@ import { getPromptSuggestion } from '../frruitGPT/slice';
 import Loader from '../../components/loader/Loader';
 import RightWhiteArrow from '../../assets/images/right-arrow.png';
 import NewsViewAll from '../../components/dashboard/NewsViewAll';
-
+import RightArrow from '../../assets/images/right-arrow.png';
+import RightBlueArrow from '../../assets/images/blue-right-arrow.png';
+import CloseImg from '../../assets/images/close_icon.png';
+import { Tooltip } from 'react-tooltip'
+import 'react-tooltip/dist/react-tooltip.css'
 
 const storyEnum = {
     Topics_news: 'isTopicViewed',
@@ -62,11 +69,46 @@ function Dashboard() {
             </div>
         )
     }
+    const PreviousBtn2 = (props) => {
+        const { className, onClick } = props
+        return (
+            <div className={className} onClick={onClick} style={{ position: 'relative' }}>
+                <img src={LeftBtn} style={{ width: 40, position: 'absolute', top: -20, right: -150 }} />
+            </div>
+        )
+    }
+    const NextBtn2 = (props) => {
+        const { className, onClick } = props
+        return (
+            <div className={className} onClick={onClick} style={{ position: 'relative' }}>
+                <img src={RightBtn} style={{ width: 40, position: 'absolute', top: -100, right: -140 }} />
+            </div>
+        )
+    }
+    const PreviousBtn3 = (props) => {
+        const { className, onClick } = props
+        return (
+            <div className={className} onClick={onClick} style={{ position: 'relative' }}>
+                <img src={LeftBtn} style={{ width: 40, position: 'absolute', top: -70, right: -190 }} />
+            </div>
+        )
+    }
+    const NextBtn3 = (props) => {
+        const { className, onClick } = props
+        return (
+            <div className={className} onClick={onClick} style={{ position: 'relative' }}>
+                <img src={RightBtn} style={{ width: 40, position: 'absolute', top: -158, right: -180  }} />
+            </div>
+        )
+    }
 
     const [show, setShow] = useState(false);
+    const [show2, setShow2] = useState(false);
+    const [show3, setShow3] = useState(false);
     const [activeIndex, setActiveIndex] = useState(0);
     const [stories, setStories] = useState([]);
     const [storyType, setStoryType] = useState([]);
+    const [question, setQuestion] = useState('');
 
 
     const handleShow = (data) => {
@@ -77,6 +119,18 @@ function Dashboard() {
         setShow(false);
         setActiveIndex(0)
     };
+    const handleShow2 = (data) => {
+        setShow2(true);
+    };
+    const handleClose2 = () => {
+        setShow2(false);
+    };
+    const handleShow3 = (data) => {
+        setShow3(true);
+    };
+    const handleClose3 = () => {
+        setShow3(false);
+    };
 
     const storiesData = [
         { src: Stories1, onClick: handleShow, storyType: 'Topics_news' },
@@ -86,20 +140,29 @@ function Dashboard() {
     ];
 
     const dispatch = useDispatch()
-    const { trendingStocks, trendingNews, mostOnFrruitGpt, storyViewed, investorStory, isLoading, investorStoryLoading, indexLoader, stockIndexes } = useSelector(state => state.dashboardSlice);
-    const { chatSuggestions, suggestionLoader } = useSelector(state => state.fruitGPTSlice);
+    const { trendingStocks, trendingNews, mostOnFrruitGpt, storyViewed, investorStory, isLoading, investorStoryLoading, indexLoader, stockIndexes, investorStoryError } = useSelector(state => state.dashboardSlice);
+    const { chatSuggestions, suggestionLoader, suggestionError } = useSelector(state => state.fruitGPTSlice);
 
 
     const settings = {
         dots: false,
         infinite: true,
         speed: 500,
-        slidesToShow: 2.3,
+        slidesToShow: 2,
         swipeToSlide: true,
         arrows: false,
-        beforeChange: (oldIndex, newIndex) => setActiveIndex(newIndex),
         autoplay: true,
-        autoplaySpeed: 2000
+        autoplaySpeed: 2000,
+    };
+    const suggestionSettings = {
+        dots: false,
+        infinite: false,
+        speed: 500,
+        slidesToShow: 2,
+        swipeToSlide: true,
+        // arrows: false,
+        autoplay: false,
+        autoplaySpeed: 2000,
     };
     const storyImg = {
         dots: false,
@@ -111,16 +174,18 @@ function Dashboard() {
     };
 
     const navigate = useNavigate();
-    const routeChangeFrruitGPT = () => {
-        let path = `/frruit-gpt`;
-        navigate(path);
-    };
 
     const routePromptFrruitGPT = (question) => {
-        navigate("/frruit-gpt", {
-            state: { question },
+        if (question) {
+            navigate("/frruit-gpt", {
+                state: { question },
+            });
+        }
+    };
+    const routeNews = (src) => {
+        navigate("/news", {
+            state: { src },
         });
-
     };
 
     useEffect(() => {
@@ -204,11 +269,24 @@ function Dashboard() {
         setShowAllContent(prevState => !prevState);
     };
     const [showAllContent, setShowAllContent] = useState(true);
+    const handleChange = (e) => {
+        setQuestion(e.target.value)
+    }
+    const handleKeyPress = (e) => {
+        if (e.key === 'Enter') {
+            routePromptFrruitGPT(question);
+        }
+    };
+
+    const isData = useMemo(() => {
+        return ((stockIndexes?.length > 0 && ((investorStory?.topicsNews?.length > 0 || investorStory?.watchlistNews?.length > 0 || investorStory?.trendingStock?.length > 0 || investorStory?.trendingNews?.length > 0) || investorStoryError ) && (chatSuggestions?.length > 0 || suggestionError) ))
+    }, [investorStory, stockIndexes, chatSuggestions])
+
 
     return (
         <>
             {
-                (indexLoader || isLoading) &&
+                ((indexLoader || investorStoryLoading || suggestionLoader) && !isData) &&
                 <Loader />
             }
             <div className='dashboardHome row justify-content-between m-0'>
@@ -246,31 +324,81 @@ function Dashboard() {
                                         }
                                         <div className='dashboard-slider'>
                                             <div className='d-flex align-items-center justify-content-between'>
-                                            <p className='stories-title' style={{ marginBottom: 10 }}>Trending Stocks</p>
-                                            <p className='stories-title' style={{ marginBottom: 10,color:'#4563E4',cursor:'pointer',marginRight:16 }}>View All</p>
+                                                <p className='stories-title' style={{ marginBottom: 10 }}>Trending Stocks</p>
+                                                <p className='stories-title' style={{ marginBottom: 10, color: '#4563E4', cursor: 'pointer', marginRight: 16 }} onClick={handleShow3}>View All</p>
                                             </div>
                                             <Slider {...settings}>
-                                                {trendingStocks?.slice(0,10).map((stockData, index) => (
-                                                    <TrendingStocksCard key={index} {...stockData}/>
+                                                {trendingStocks?.slice(0, 10).map((stockData, index) => (
+                                                    <TrendingStocksCard key={index} {...stockData} />
                                                 ))}
                                             </Slider>
                                         </div>
                                     </div>
                                     <div className='dashboard-container'>
                                         <div className='suggested-prompts-container'>
-                                            <p className='stories-title' style={{ marginBottom: 15 }}>Suggested Prompts</p>
-                                            <div className='row' >
-                                                {chatSuggestions.slice(0, 4).map((item, index) => (
-                                                    <div onClick={() => { routePromptFrruitGPT(item?.prompt) }} key={index} className='col-lg-6 mb-3' style={{ cursor: 'pointer' }}>
-                                                        <div className='prompts-text-bg'>
-                                                            <p className='prompts-text'>{item?.prompt}</p>
+                                            {mostOnFrruitGpt?.rows?.length > 0 &&
+                                                <>
+                                                    <div className='box-content position-relative'>
+                                                        <div className='d-flex align-items-center justify-content-between'>
+                                                            <div className='title'>Most on Frruit</div>
+                                                            <div onClick={handleShow2} style={{ cursor: 'pointer', color: '#4563E4', fontWeight: 600 }}>View All</div>
                                                         </div>
+                                                        <Slider
+                                                            prevArrow={<PreviousBtn2 />}
+                                                            nextArrow={<NextBtn2 />}
+                                                            {...suggestionSettings}
+                                                        >
+                                                            {mostOnFrruitGpt?.rows?.slice(0, 4).map((text, index) => (
+                                                                <div onClick={() => { routePromptFrruitGPT(text?.question) }} key={index} className='col-lg-6'>
+                                                                    <div className='mostOnFrruitBox mb-2' style={{ marginRight: 10 }}>
+                                                                        <div className='d-flex justify-content-between align-items-center' >
+                                                                            <p className='text'>{text?.question}</p>
+                                                                            <img style={{ width: 24, objectFit: 'contain' }} src={RightArrow} alt={`Arrow ${index}`} />
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            ))}
+                                                        </Slider>
                                                     </div>
-                                                ))}
-                                            </div>
-                                            <div className='search-dashboard-main' onClick={routeChangeFrruitGPT}>
-                                                <div className='text-main-bg'>Type your message here</div>
-                                                <img className='send-image' src={SendIcon} alt='Send' />
+                                                </>
+                                            }
+                                            {chatSuggestions.length > 0 &&
+                                                <>
+                                                    <p className='stories-title'>Suggested Prompts</p>
+                                                    <div className='row' >
+                                                        <Slider
+                                                            prevArrow={<PreviousBtn3 />}
+                                                            nextArrow={<NextBtn3 />}
+                                                            {...suggestionSettings}>
+                                                            {chatSuggestions.slice(0, 4).map((item, index) => (
+                                                                <div onClick={() => { routePromptFrruitGPT(item?.prompt) }} key={index} className='col-lg-6' style={{ cursor: 'pointer' }}>
+                                                                    <div className='prompts-text-bg' style={{ marginRight: 10, cursor: 'pointer' }}>
+                                                                        <div className=' d-flex justify-content-between align-items-center w-100' >
+                                                                            <p className='prompts-text'>{item?.prompt}</p>
+                                                                               <img style={{ width: 24, objectFit: 'contain' }} src={quesIcon} className={`my-anchor-element-${index}`}/>
+                                                                               </div>
+                                                                            
+                                                                    </div>
+                                                                    <Tooltip anchorSelect={`.my-anchor-element-${index}`} place="top" className="bg-primary">
+                                                                        {item?.tooltipText ? item?.tooltipText : item?.prompt}
+                                                                    </Tooltip>
+                                                                </div>
+                                                            ))}
+                                                        </Slider>
+                                                    </div>
+                                                </>
+                                            }
+                                            <div className='search-dashboard-main'>
+                                                <div class="form-group">
+                                                    <input
+                                                        class="form-control"
+                                                        value={question}
+                                                        onChange={handleChange}
+                                                        placeholder="Type your message here"
+                                                        onKeyDown={handleKeyPress}
+                                                    />
+                                                </div>
+                                                <img className='send-image' src={SendIcon} alt='Send' onClick={() => routePromptFrruitGPT(question)} />
                                             </div>
                                         </div>
                                     </div>
@@ -285,7 +413,7 @@ function Dashboard() {
                     }
                     {!showAllContent &&
                         <div className='col-lg-9 column-pad'>
-                            <NewsViewAll backBtnClick={toggleShowAllContent} newsData={trendingNews}/>
+                            <NewsViewAll backBtnClick={toggleShowAllContent} newsData={trendingNews} />
                         </div>
                     }
                 </>
@@ -330,15 +458,73 @@ function Dashboard() {
                                                     <img src={story.viewImage} style={{ objectFit: 'cover', borderRadius: 20, filter: 'grayscale(60%)', width: '100%', height: 220 }} />
                                                 </div>
                                                 <div className='stories-img-text'>{story.mainHeading}</div>
-                                                <div className='d-flex justify-content-between align-items-center mt-2'>
-                                                    <button className='white-btn-main  d-flex align-items-center justify-content-center' onClick={getFrruitClick} style={{ width: '48%' }}>{'Get Frruit'}  <img src={RightWhiteArrow} style={{ width: 20, objectFit: 'contain', marginLeft: 5 }} /></button>
-                                                    <a className='secondary-btn' href={story.url} target='_blank' style={{ textDecoration: 'none', textAlign: 'center', width: '48%' }}> {'View More'}  </a>
+                                                <div className='d-flex justify-content-between align-items-center mt-3'>
+                                                    {/* <button className='white-btn-main  d-flex align-items-center justify-content-center' onClick={getFrruitClick} style={{ width: '48%' }}>{'Get Frruit'}  <img src={RightWhiteArrow} style={{ width: 20, objectFit: 'contain', marginLeft: 5 }} /></button> */}
+                                                    <div onClick={()=> routeNews(story.url)} style={{width:'100%',cursor:'pointer'}}>
+                                                    <p className='secondary-btn' style={{ textDecoration: 'none', textAlign: 'center', width: '48%' }}> {'View More'}  </p>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     )
                                 })}
                             </Slider>
+                        </div>
+                    </Modal.Body>
+                </Modal>
+                <Modal show={show2}
+                    onHide={handleClose2}
+                    size='lg'
+                    className='viewModal'
+                    scrollable
+                    centered
+                >
+                    <Modal.Header>
+                        <div className='d-flex justify-content-between align-items-center mb-2'>
+                            <div className='header-text'>Most on Frruit</div>
+                            <div onClick={() => handleClose2()} className=' align-items-center' style={{ cursor: 'pointer' }}>
+                                <img src={CloseImg} className='me-1' width={32} style={{ objectFit: 'contain' }} />
+                            </div>
+                        </div>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <div className='viewModal'>
+                            <div>
+                                {mostOnFrruitGpt?.rows?.map((text, index) => (
+                                    <div onClick={() => { routePromptFrruitGPT(text?.question) }} key={index} className='d-flex justify-content-between align-items-center blue-box mb-2' style={{ cursor: 'pointer' }}>
+                                        <div>{text?.question}</div>
+                                        <img src={RightBlueArrow} className='me-1' width={10} style={{ objectFit: 'contain' }} />
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </Modal.Body>
+                </Modal>
+                <Modal show={show3}
+                    onHide={handleClose3}
+                    size='lg'
+                    className='viewModal2'
+                    scrollable
+                    centered
+                >
+                    <Modal.Header>
+                        <div className='d-flex justify-content-between align-items-center mb-2'>
+                            <div className='header-text'>Trending Stocks</div>
+                            <div onClick={() => handleClose3()} className=' align-items-center' style={{ cursor: 'pointer' }}>
+                                <img src={CloseImg} className='me-1' width={32} style={{ objectFit: 'contain' }} />
+                            </div>
+                        </div>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <div className='viewModal2'>
+                            <div className='row' style={{ marginLeft: 0 }}>
+
+                                {trendingStocks?.slice(0, 10).map((stockData, index) => (
+                                    <div className='col-lg-6 column-pad mb-3'>
+                                        <TrendingStocksCard key={index} {...stockData} />
+                                    </div>
+                                ))}
+                            </div>
                         </div>
                     </Modal.Body>
                 </Modal>

@@ -23,6 +23,11 @@ function DashboardRightBox({ newsData, mostFrruitData, onViewAllClick }) {
             state: { question },
         });
     };
+    const routeNews = (src) => {
+        navigate("/news", {
+            state: { src },
+        });
+    };
     const [show, setShow] = useState(false);
 
     const handleShow = () => setShow(true);
@@ -33,14 +38,13 @@ function DashboardRightBox({ newsData, mostFrruitData, onViewAllClick }) {
         <>
             <div className='Right-box'>
                 <div className='box' style={{ height: window.innerHeight - 105 }}>
-                    {mostFrruitData?.length > 0 &&
+                    {/* {mostFrruitData?.length > 0 &&
                         <>
                             <div className='box-content'>
                                 <div className='d-flex align-items-center justify-content-between mb-3'>
                                     <div className='title'>Most on Frruit</div>
                                     <div onClick={handleShow} style={{ cursor: 'pointer', color: '#4563E4', fontWeight: 600 }}>View All</div>
                                 </div>
-                                {/* <div className='title' style={{ marginBottom: 20 }}>Most on Frruit</div> */}
                                 {mostFrruitData?.slice(0, 3).map((text, index) => (
                                     <div onClick={() => { routeChangeFrruitGPT(text?.question) }} key={index} className='mostOnFrruitBox mb-2'>
                                         <div className='d-flex justify-content-between align-items-center'>
@@ -52,7 +56,7 @@ function DashboardRightBox({ newsData, mostFrruitData, onViewAllClick }) {
                             </div>
                             <div style={{ backgroundColor: '#E5E5E5', width: '100%', height: 1, marginBottom: 5 }} />
                         </>
-                    }
+                    } */}
                     <div className='box-content'>
                         {newsData?.length > 0 &&
                             <>
@@ -61,22 +65,20 @@ function DashboardRightBox({ newsData, mostFrruitData, onViewAllClick }) {
                                     <div className='viewAllTeaxt' onClick={onViewAllClick} style={{ marginBottom: 20 }}>View All</div>
                                 </div>
                                 {
-                                    newsData?.slice(0, 2).map((newsItem, index) => (
-                                        <a href={newsItem?.newsLink} target='_blank' style={{ textDecoration: 'none' }}>
-                                            <div key={index} className='newsBox' style={{ marginBottom: 20, cursor: 'pointer' }}>
-                                                <div className='d-flex justify-content-start'>
-                                                    <img style={{ width: 60, objectFit: 'contain', marginRight: '10px' }} src={newsItem?.image} />
-                                                    <div>
-                                                        <p className='newsTitle'>{trimText(newsItem?.title, 20)}</p>
-                                                        <p className='newsPara' style={{ marginBottom: '5px' }}>{newsItem?.source}</p>
-                                                        <div className='d-flex justify-content-start align-items-center'>
-                                                            <img height={16} style={{ width: 16, objectFit: 'cover', marginRight: '5px'}} src={NewsTime} />
-                                                            <p className='newsPara'>{formatTimeAgo(newsItem?.timeStamp)}</p>
-                                                        </div>
+                                    newsData?.slice(0, 6).map((newsItem, index) => (
+                                        <div key={index} className='newsBox' style={{ marginBottom: 20, cursor: 'pointer' }} onClick={() => routeNews(newsItem?.newsLink)}>
+                                            <div className='d-flex justify-content-start'>
+                                                <img style={{ width: 60, objectFit: 'cover', marginRight: '10px',borderRadius:10,border: 'solid 1px #e5e5e5' }} src={newsItem?.image} />
+                                                <div>
+                                                    <p className='newsTitle'>{trimText(newsItem?.title, 20)}</p>
+                                                    <p className='newsPara' style={{ marginBottom: '5px' }}>{newsItem?.source}</p>
+                                                    <div className='d-flex justify-content-start align-items-center'>
+                                                        <img height={16} style={{ width: 16, objectFit: 'cover', marginRight: '5px' }} src={NewsTime} />
+                                                        <p className='newsPara'>{formatTimeAgo(newsItem?.timeStamp)}</p>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </a>
+                                        </div>
                                     ))}
                             </>
                         }

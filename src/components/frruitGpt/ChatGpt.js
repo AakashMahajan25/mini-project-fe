@@ -16,6 +16,9 @@ import { replaceNewlinesWithBr } from '../../utils/utils'
 import { useLoading, Audio, SpinningCircles, Circles, ThreeDots } from '@agney/react-loading';
 import { useLocation } from 'react-router'
 import UploadDocImg from '../../assets/images/doc-img.png'
+import { useNavigate } from 'react-router-dom';
+import quesIcon from '../../assets/images/i-icon.png';
+import { Tooltip } from 'react-tooltip'
 
 function ChatGpt(props) {
     const { chatSuggestions } = useSelector(state => state.fruitGPTSlice);
@@ -145,7 +148,7 @@ function ChatGpt(props) {
             fruitButtonText: 'Get Frruit',
         },
     ];
-    const { containerRef } = props;
+    const { containerRef, docStatus = false, docName = '', newChat, selectedType } = props;
 
     const { chatHistory, frruitLoader } = useSelector(state => state.fruitGPTSlice);
     const { contentChatHistory, contentGPTLoader } = useSelector(state => state.contentGPTSlice);
@@ -172,8 +175,12 @@ function ChatGpt(props) {
                 )
         }
     }
-
-
+    const navigate = useNavigate();
+    const routeChangeFrruitGPT = (question) => {
+        navigate("/frruit-gpt", {
+            state: { question },
+        });
+    };
 
     return (
         <>
@@ -184,36 +191,37 @@ function ChatGpt(props) {
                 marginBottom: 20,
             }} ref={containerRef}>
                 {
-                    chatHistory.length === 0 ?
-                        !path && <div className='default-screens-content mt-4' style={{ height: window.innerHeight - 310 }}>
+                    (newChat && !path) && <div className='default-screens-content mt-4' style={{ height: window.innerHeight - 310 }}>
                             <div className='text-center'>
                                 <img src={LogoCircle} width={57} style={{ objectFit: 'contain' }} />
                                 <div className='help-text'>How can I help you today ?</div>
                                 <div className='row'>
-                                    {chatSuggestions.map((item, index) => (
-                                        <div key={index} className='col-lg-6 column-pad' style={{ cursor: 'pointer' }}>
+                                {chatSuggestions.map((item, index) => (
+                                        <div key={index} className='col-lg-6 column-pad' style={{ cursor: 'pointer' }} onClick={() => routeChangeFrruitGPT(item?.prompt)}>
                                             <div className='prompts-text-bg'>
-                                                <p className='prompts-text'>{item?.prompt}</p>
+                                                <div className=' d-flex justify-content-between align-items-center w-100' >
+                                                    <p className='prompts-text'>{item?.prompt}</p>
+                                                    <img style={{ width: 24, objectFit: 'contain' }} className={`my-anchor-element-${index}`} src={quesIcon} />
+                                                </div>
                                             </div>
+                                            <Tooltip anchorSelect={`.my-anchor-element-${index}`} place="top" className="bg-primary">
+                                                {item?.tooltipText ? item?.tooltipText : item?.prompt}
+                                            </Tooltip>
                                         </div>
                                     ))}
                                 </div>
                             </div>
                         </div>
-                        :
-                        null
                 }
                 {
-                    contentChatHistory.length === 0 ?
-                        path && <div className='default-screens-content' style={{ height: window.innerHeight - 310 }}>
+                   (newChat && path) && <div className='default-screens-content' style={{ height: window.innerHeight - 310 }}>
                             <div className='text-center'>
                                 <img src={DefaultImg} width={251.5} height={198.42} style={{ objectFit: 'contain' }} />
                                 <div className='help-text'>How can I help you today ?</div>
                                 <div className='default-para-text'>Supercharge your investment decisions : Attach documents or YouTube links on capital markets for GPT-driven insights!</div>
                             </div>
                         </div>
-                        :
-                        null
+                       
                 }
                 {
                     chatHistory?.map((chat, index) =>
@@ -243,18 +251,6 @@ function ChatGpt(props) {
                                             <h3 className='chat-text' dangerouslySetInnerHTML={{ __html: replaceNewlinesWithBr(chat?.text || '') }}></h3>
                                         </div>
                                         : renderGraph(chat.text)
-                                }
-                                {
-                                    chat.type === 'link' &&
-                                    <div className='chat-text-container'>
-                                        <h3 className='chat-text' >Key Points</h3>
-                                        <h3 className='chat-text mt-1' dangerouslySetInnerHTML={{ __html: replaceNewlinesWithBr(chat?.text?.Response?.Key_points || '') }}></h3>
-                                        <h3 className='chat-text mt-2' >Summary</h3>
-                                        <h3 className='chat-text' dangerouslySetInnerHTML={{ __html: replaceNewlinesWithBr(chat?.text?.Response?.summary || '') }}></h3>
-                                        <h3 className='chat-text mt-2' >Sentiment</h3>
-                                        <h3 className='chat-text' dangerouslySetInnerHTML={{ __html: replaceNewlinesWithBr(chat?.text?.Response?.sentiment || '') }}></h3>
-                                    </div>
-
                                 }
                                 {/* <img src={LogoCircle} className='profile-styles' /> */}
 
@@ -345,38 +341,36 @@ function ChatGpt(props) {
 
                             </div>
                     )}
+
+                {(contentChatHistory.length > 0 && docStatus && selectedType === 'attachment') && <div className='rightChat'>
+                    {/* <img src={ProfileIcon} className='profile-styles' /> */}
+                    <div className='d-flex align-items-center my-2 floatRight'>
+                        <img src={ArrowGrey} className='arrow' />
+                        <p className='you-text'>You</p>
+                    </div>
+                    <div className='chat-text-container'>
+                        <div className='d-flex'>
+                            <div className='attached-doc-white-box'>
+                                <img src={UploadDocImg} width={44} style={{ objectFit: 'contain' }} />
+                                <div className='pdf-name me-2'>{docName}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>}
                 {
                     contentChatHistory?.map((chat, index) =>
                         chat?.person === 'user' ?
 
-                            chat.type === 'attach' ?
-                                <div className='rightChat'>
-                                    {/* <img src={ProfileIcon} className='profile-styles' /> */}
-                                    <div className='d-flex align-items-center my-2 floatRight'>
-                                        <img src={ArrowGrey} className='arrow' />
-                                        <p className='you-text'>You</p>
-                                    </div>
-                                    <div className='chat-text-container'>
-                                        <div className='d-flex'>
-                                            <div className='attached-doc-white-box'>
-                                                <img src={UploadDocImg} width={44} style={{ objectFit: 'contain' }} />
-                                                <div className='pdf-name me-2'>{chat?.text}</div>
-                                            </div>
-                                        </div>
-                                    </div>
+                            <div className='rightChat' style={{ marginTop: 0 }}>
+                                {/* <img src={ProfileIcon} className='profile-styles' /> */}
+                                <div className='d-flex align-items-center my-2 floatRight'>
+                                    <img src={ArrowGrey} className='arrow' />
+                                    <p className='you-text'>You</p>
                                 </div>
-
-                                :
-                                <div className='rightChat' style={{ marginTop: 0 }}>
-                                    {/* <img src={ProfileIcon} className='profile-styles' /> */}
-                                    <div className='d-flex align-items-center my-2 floatRight'>
-                                        <img src={ArrowGrey} className='arrow' />
-                                        <p className='you-text'>You</p>
-                                    </div>
-                                    <div className='chat-text-container'>
-                                        <h3 className='chat-text'>{chat?.text}</h3>
-                                    </div>
+                                <div className='chat-text-container'>
+                                    <h3 className='chat-text'>{chat?.text}</h3>
                                 </div>
+                            </div>
 
 
                             :

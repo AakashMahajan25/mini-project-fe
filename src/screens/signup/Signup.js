@@ -3,6 +3,7 @@ import '../login/Login.scss'
 import '../signup/Signup.scss'
 import LoginImg from '../../assets/images/login_img.png'
 import LoginImg2 from '../../assets/images/login-side-img.png'
+import LoginImg3 from '../../assets/images/login_img3.png'
 import FrruitLogo from '../../assets/images/frruit-logo.png'
 import MobileIcon from '../../assets/images/mobile-icon.png';
 import OtpInput from 'react-otp-input';
@@ -57,14 +58,15 @@ function Signup() {
                 setShowCode(true)
             })
             .catch((error) => {
-                console.log('error', JSON.stringify(error, null, 2))
+                console.log('error', JSON.stringify(error, null, 2));
+                toast.error(error.message || "Unable to proceed");
             })
     }
 
     const verifyMobileOtp = () => {
         const regex = /^[0-9]{0,6}$/; // Regular expression to match 6 digits
         if (!regex.test(otp) || otp?.length < 6) {
-            toast.error("Please enter valid otp")
+            toast.error("Please enter valid otp");
             return;
         }
 
@@ -81,14 +83,14 @@ function Signup() {
             })
             .catch((error) => {
                 console.log('error', JSON.stringify(error, null, 2))
-                toast.error(error.message)
+                toast.error(error.message || 'Failed to verify otp');
             })
     }
 
     const verifyEmailId = () => {
         const regex = /^[0-9]{0,6}$/; // Regular expression to match 6 digits
         if (!regex.test(emailOtp) || emailOtp?.length < 6) {
-            toast.error("Please enter valid otp")
+            toast.error("Please enter valid otp");
             return;
         }
 
@@ -124,7 +126,7 @@ function Signup() {
             <div className={`row justify-content-center align-items-center login-page`} >
                 <div className='col-xl-5'>
                     <div className='d-flex justify-content-center align-items-center imagecontainer'>
-                        <img src={LoginImg2} style={{ objectFit: 'contain', width: '100%', height: window.innerHeight / 2 }} />
+                        <img src={LoginImg3} style={{ objectFit: 'contain', width: '100%', height: window.innerHeight / 2 }} />
                     </div>
                 </div>
                 <div className={showCode ? 'col-xl-7 login-form1' : 'col-xl-7 signup-form'} style={{ height: '100%' }}>

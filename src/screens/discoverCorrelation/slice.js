@@ -4,6 +4,7 @@ import api from "../../utils/api";
 
 const initialState = {
     trendingEvents: [],
+    isLoading: false
 }
 
 export const getTrendingEvents = createAsyncThunk("marketIntelligence/getTrendingEvents", async () => {
@@ -21,6 +22,20 @@ export const getTrendingEvents = createAsyncThunk("marketIntelligence/getTrendin
     }
 });
 
+export const deductEventCredits = createAsyncThunk("user/deductEventCredits", async (params) => {
+    try {
+        let data = {
+            method: METHOD_TYPE.get,
+            url:API_ENDPOINTS.deductEventCredits + params,
+        };
+        const response = await api(data);
+        return response.data.data;
+
+    } catch (error) {
+        throw error.response.data;
+    }
+});
+
 
 const discoverCorrelationSlice = createSlice({
     name: "discoverCorrelation",
@@ -35,12 +50,16 @@ const discoverCorrelationSlice = createSlice({
             .addCase(getTrendingEvents.fulfilled, (state, action) => {
                 state.trendingEvents = action.payload;
             })
+            .addCase(deductEventCredits.fulfilled, (state, action) => {
+                state.isLoading = false;
+            })
 
             .addMatcher(
                 (action) =>
                     action.type === getTrendingEvents.pending.type ||
-                    action.type === getTrendingEvents.fulfilled.type ||
-                    action.type === getTrendingEvents.rejected.type,
+                    action.type === getTrendingEvents.rejected.type ||
+                    action.type === deductEventCredits.pending.type ||
+                    action.type === deductEventCredits.rejected.type,
 
                 handleLoading
             )

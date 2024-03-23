@@ -8,33 +8,32 @@ const initialState = {
     isLoading: false,
     contentChatHistory: [],
     contentPromptList: [],
-    error: null
+    error: null,
+    cancelTokens: null
 }
 
 
-export const triggerContentPrompt = createAsyncThunk("contentGpt/triggerContentPrompt", async (requestData) => {
+export const triggerContentPrompt = createAsyncThunk("contentGpt/triggerContentPrompt", async ({requestData, cancelToken}) => {
     try {
         let data = {
             method: METHOD_TYPE.post,
             url: API_ENDPOINTS.triggerContentPrompt,
+            cancelToken: cancelToken.token,
             data: requestData
         };
         const response = await api(data);
         if (!response.data.status) {
             toast.error(response.data.message)
         }
-        const chatData = [{
-            person: "bot",
-            text: response.data.data,
-            type: "link"
-        }]
-        return chatData;
+
+        return response.data.data;
 
     } catch (error) {
         if (!error.response?.data.status) {
             toast.error(error?.response?.data?.message)
         }
-        throw error.response.data;
+        const message = error?.response?.data?.message
+        throw {message, code: error?.code}
     }
 });
 
@@ -86,11 +85,12 @@ export const addDocument = createAsyncThunk("contentGpt/addDocument", async (req
 });
 
 
-export const triggerDocumentChat = createAsyncThunk("contentGpt/triggerDocumentChat", async (requestData) => {
+export const triggerDocumentChat = createAsyncThunk("contentGpt/triggerDocumentChat", async ({requestData, cancelToken}) => {
     try {
         let data = {
             method: METHOD_TYPE.post,
             url: API_ENDPOINTS.triggerDocumentChat,
+            cancelToken: cancelToken.token,
             data: requestData
         };
         const response = await api(data);
@@ -108,7 +108,8 @@ export const triggerDocumentChat = createAsyncThunk("contentGpt/triggerDocumentC
         if (!error.response?.data.status) {
             toast.error(error?.response?.data?.message)
         }
-        throw error.response.data;
+        const message = error?.response?.data?.message
+        throw {message, code: error?.code};
     }
 });
 
@@ -155,6 +156,20 @@ export const searchContentPrompt = createAsyncThunk("fruitGpt/searchContentPromp
     }
 });
 
+export const deleteContentPrompt = createAsyncThunk("watchList/deleteContentPrompt", async (promptId) => {
+    try {
+        let data = {
+            method: METHOD_TYPE.delete,
+            url: API_ENDPOINTS.deleteContentPrompt + promptId,
+        };
+        const response = await api(data);
+        return response.data.data;
+
+    } catch (error) {
+        console.log('error::::', error.response)
+        throw error.response;
+    }
+});
 
 
 
@@ -170,6 +185,9 @@ const contentGPTSlice = createSlice({
         },
         clearAttactmentUrl: (state, action) => {
             state.attactmentUrl = [];
+        },
+        setCancelTokens: (state, action) => {
+            state.cancelTokens = action.payload
         }
     },
     extraReducers: (builder) => {
@@ -186,12 +204,26 @@ const contentGPTSlice = createSlice({
                 state.contentChatHistory = history;
             })
             .addCase(triggerContentPrompt.fulfilled, (state, action) => {
-                if (action.payload !== undefined)
-                    state.contentChatHistory = [...state?.contentChatHistory, ...action.payload];
+                if (action.payload !== undefined){
+                    const chatData = [{
+                        person: "bot",
+                        text: action.payload.data,
+                        type: "link"
+                    }]
+                    state.contentChatHistory = [...state?.contentChatHistory, ...chatData];
+                }
+                state.cancelTokens = null
+            })
+            .addCase(triggerContentPrompt.rejected, (state, action) => {
+                state.cancelTokens = null
             })
             .addCase(triggerDocumentChat.fulfilled, (state, action) => {
                 if (action.payload !== undefined)
                     state.contentChatHistory = [...state?.contentChatHistory, ...action.payload];
+                    state.cancelTokens = null
+            })
+            .addCase(triggerDocumentChat.rejected, (state, action) => {
+                state.cancelTokens = null
             })
             .addCase(getContentPromptList.fulfilled, (state, action) => {
                 state.contentPromptList = action.payload;
@@ -215,7 +247,10 @@ const contentGPTSlice = createSlice({
                     action.type === getContentPromptHistory.rejected.type||
                     action.type === searchContentPrompt.pending.type ||
                     action.type === searchContentPrompt.fulfilled.type ||
-                    action.type === searchContentPrompt.rejected.type,
+                    action.type === searchContentPrompt.rejected.type||
+                    action.type === deleteContentPrompt.pending.type ||
+                    action.type === deleteContentPrompt.fulfilled.type ||
+                    action.type === deleteContentPrompt.rejected.type,
                 handleLoading
             )
             .addMatcher(
@@ -232,5 +267,5 @@ const contentGPTSlice = createSlice({
     }
 });
 
-export const { setChatHistory, clearContentChatHistory, clearAttactmentUrl } = contentGPTSlice.actions;
+export const { setChatHistory, clearContentChatHistory, clearAttactmentUrl, setCancelTokens } = contentGPTSlice.actions;
 export default contentGPTSlice.reducer;

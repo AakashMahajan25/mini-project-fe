@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice, isAnyOf } from "@reduxjs/toolkit";
 import { API_ENDPOINTS, METHOD_TYPE } from "../../utils/apiUrls";
 import api from "../../utils/api";
 import { toast } from "react-toastify";
+import { setCancelTokens } from "../marketContentGPT/slice";
 
 const initialState = {
     chatSuggestions: [],
@@ -9,6 +10,7 @@ const initialState = {
     chatHistory: [],
     isLoading: false,
     suggestionLoader: false,
+    suggestionError: false,
     frruitLoader: false,
     error: null,
     promptLibraryList: [],
@@ -87,11 +89,12 @@ export const getPromptHistory = createAsyncThunk("fruitGpt/getPromptHistory", as
     }
 });
 
-export const triggerFrruitGpt = createAsyncThunk("fruitGpt/triggerFrruitGpt", async (requestData, { dispatch }) => {
+export const triggerFrruitGpt = createAsyncThunk("fruitGpt/triggerFrruitGpt", async ({requestData, cancelToken}, { dispatch }) => {
     try {
         let data = {
             method: METHOD_TYPE.post,
             url: API_ENDPOINTS.triggerChatGpt,
+            cancelToken: cancelToken.token,
             data: requestData
         };
         const response = await api(data);
@@ -103,21 +106,25 @@ export const triggerFrruitGpt = createAsyncThunk("fruitGpt/triggerFrruitGpt", as
             text: response.data.data,
             type: "text"
         }]
+        dispatch(setCancelTokens(null))
         return chatData;
 
     } catch (error) {
-        if (!error.response?.data.status) {
-            toast.error(error?.response?.data?.message)
-        }
-        throw error.response.data;
+        const message = error?.response?.data?.message
+        dispatch(setCancelTokens(null))
+        // if (!error.response?.data.status) {
+        //     toast.error(error?.response?.data?.message)
+        // }
+        throw {message, code: error?.code};
     }
 });
 
-export const triggerFrruitGptGraph = createAsyncThunk("fruitGpt/triggerFrruitGptGraph", async (requestData, { dispatch }) => {
+export const triggerFrruitGptGraph = createAsyncThunk("fruitGpt/triggerFrruitGptGraph", async ({requestData, cancelToken}, { dispatch }) => {
     try {
         let data = {
             method: METHOD_TYPE.post,
             url: API_ENDPOINTS.triggerGPTGraph,
+            cancelToken: cancelToken?.token,
             data: requestData
         };
         const response = await api(data);
@@ -129,7 +136,9 @@ export const triggerFrruitGptGraph = createAsyncThunk("fruitGpt/triggerFrruitGpt
             }]
             return chatData;
         }
+        dispatch(setCancelTokens(null))
     } catch (error) {
+        dispatch(setCancelTokens(null))
         console.log('error::::', error.response)
         throw error.response;
     }
@@ -149,6 +158,20 @@ export const getPromptsLibrary = createAsyncThunk("fruitGpt/getPromptsLibrary", 
     }
 });
 
+export const deletePrompt = createAsyncThunk("watchList/deletePrompt", async (promptId) => {
+    try {
+        let data = {
+            method: METHOD_TYPE.delete,
+            url: API_ENDPOINTS.deletePrompt + promptId,
+        };
+        const response = await api(data);
+        return response.data.data;
+
+    } catch (error) {
+        console.log('error::::', error.response)
+        throw error.response;
+    }
+});
 
 
 const fruitGPTSlice = createSlice({
@@ -178,6 +201,10 @@ const fruitGPTSlice = createSlice({
         builder
             .addCase(getPromptSuggestion.fulfilled, (state, action) => {
                 state.chatSuggestions = action.payload;
+                state.suggestionError = false;
+            })
+            .addCase(getPromptSuggestion.rejected, (state, action) => {
+                state.suggestionError = true;
             })
             .addCase(getPromptList.fulfilled, (state, action) => {
                 state.promptList = action.payload;
@@ -212,7 +239,10 @@ const fruitGPTSlice = createSlice({
                     action.type === searchPrompt.rejected.type||
                     action.type === getPromptsLibrary.pending.type ||
                     action.type === getPromptsLibrary.fulfilled.type ||
-                    action.type === getPromptsLibrary.rejected.type,
+                    action.type === getPromptsLibrary.rejected.type||
+                    action.type === deletePrompt.pending.type ||
+                    action.type === deletePrompt.fulfilled.type ||
+                    action.type === deletePrompt.rejected.type,
 
                 handleLoading
             )
