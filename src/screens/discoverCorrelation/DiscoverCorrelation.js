@@ -18,6 +18,7 @@ import { getStockIndexes } from '../dashboard/slice';
 import { Graph } from "react-d3-graph";
 import FullScreenIcon from '../../assets/images/ic_baseline_fullscreen.png'
 import { toast } from 'react-toastify';
+import NetworkGraph from '../../components/networkGraph/NetworkGraph';
 
 function DiscoverCorrelation() {
     const [showEventDetails, setShowEventDetails] = useState(false);
@@ -28,9 +29,11 @@ function DiscoverCorrelation() {
     const [value, setValue] = useState(0);
     const [tickers, setTickers] = useState();
     const [avgReturns, setAvgReturns] = useState();
+    const [showReturns, setShowReturns] = useState(true);
+    const [showConnections, setShowConnections] = useState(false);
 
 
-    const handleCardClick = async(data) => {
+    const handleCardClick = async (data) => {
         dispatch(deductEventCredits(`?event_id=${data?.id}`)).unwrap().then(res => {
             setShowEventDetails(true);
             setEventDetails(data);
@@ -76,7 +79,7 @@ function DiscoverCorrelation() {
             changeInLastMonth: -12.5
         },
     ];
-   
+
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
@@ -110,77 +113,246 @@ function DiscoverCorrelation() {
         return colors[randomIndex];
     }
     const data = {
-        nodes: [
-            { id: 1, name: 'Airrchip', color: '#4563E4', },
-            { id: 2, name: 'zaheer', color: getRandomColor(), },
-            { id: 3, name: 'govind', color: getRandomColor(), },
-            { id: 4, name: 'amit', color: getRandomColor(), },
-            { id: 5, name: 'shasikant', color: getRandomColor(), },
-            { id: 6, name: 'shubam', color: getRandomColor(), },
-            { id: 7, name: 'hitesh', color: getRandomColor(), },
-            { id: 8, name: 'yaksh', color: getRandomColor(), },
-        ],
-        links: [
-            { source: 1, target: 2 },
-            { source: 1, target: 3  },
-            { source: 1, target: 4  },
-            { source: 1, target: 5  },
-            { source: 1, target: 6  },
-            { source: 1, target: 7  },
-            { source: 1, target: 8  },
-        ],
+        nodes:  [
+            {
+              "id": "Nvidia",
+              "type": "Organization",
+              "label": "Nvidia"
+            },
+            {
+              "id": "S&P 500",
+              "type": "Index",
+              "label": "S&P 500"
+            },
+            {
+              "id": "Dan H",
+              "type": "Person",
+              "label": "Dan H"
+            },
+            {
+              "id": "Josh Schaer",
+              "type": "Person",
+              "label": "Josh Schaer"
+            },
+            {
+              "id": "Amd",
+              "type": "Organization",
+              "label": "Amd"
+            },
+            {
+              "id": "Intel",
+              "type": "Organization",
+              "label": "Intel"
+            },
+            {
+              "id": "Options Ai",
+              "type": "Organization",
+              "label": "Options Ai"
+            },
+            {
+              "id": "Microsoft",
+              "type": "Organization",
+              "label": "Microsoft"
+            },
+            {
+              "id": "Google",
+              "type": "Organization",
+              "label": "Google"
+            },
+            {
+              "id": "Azure",
+              "type": "Product",
+              "label": "Azure"
+            },
+            {
+              "id": "Gemma",
+              "type": "Product",
+              "label": "Gemma"
+            }
+          ],
+        edges: [
+            {
+              "from": "Nvidia",
+              "to": "S&P 500",
+              "label": "CONTRIBUTED_TO",
+              "overall_sentiment": "Negative",
+              "overall_score": -0.7,
+              "colour": "red"
+            },
+            {
+              "from": "Dan H",
+              "to": "Nvidia",
+              "label": "DISCUSSES",
+              "overall_sentiment": "Neutral",
+              "overall_score": 0.0,
+              "colour": "blue"
+            },
+            {
+              "from": "Josh Schaer",
+              "to": "Nvidia",
+              "label": "DISCUSSES",
+              "overall_sentiment": "Neutral",
+              "overall_score": 0.0,
+              "colour": "blue"
+            },
+            {
+              "from": "Amd",
+              "to": "Nvidia",
+              "label": "COMPETITOR",
+              "overall_sentiment": "Neutral",
+              "overall_score": 0.0,
+              "colour": "blue"
+            },
+            {
+              "from": "Intel",
+              "to": "Nvidia",
+              "label": "COMPETITOR",
+              "overall_sentiment": "Neutral",
+              "overall_score": 0.0,
+              "colour": "blue"
+            },
+            {
+              "from": "Options Ai",
+              "to": "Nvidia",
+              "label": "ANALYSES",
+              "overall_sentiment": "Neutral",
+              "overall_score": 0.0,
+              "colour": "blue"
+            },
+            {
+              "from": "Microsoft",
+              "to": "Azure",
+              "label": "OWNS",
+              "overall_sentiment": "Neutral",
+              "overall_score": 0.0,
+              "colour": "blue"
+            },
+            {
+              "from": "Google",
+              "to": "Gemma",
+              "label": "OWNS",
+              "overall_sentiment": "Neutral",
+              "overall_score": 0.0,
+              "colour": "blue"
+            }
+          ],
     };
 
-      const myConfig = {
-        nodeHighlightBehavior: true,
+
+    data.nodes.forEach(node => {
+        node.shape = "circle";
+        node.color = getRandomColor();
+    });
+
+
+    const myConfig = {
+        automaticRearrangeAfterDropNode: true,
+        collapsible: true,
+        directed: true,
+        focusAnimationDuration: 0.75,
+        focusZoom: 1,
+        freezeAllDragEvents: false,
+        highlightDegree: 2,
+        highlightOpacity: 0.2,
         linkHighlightBehavior: true,
-        height:420,
+        maxZoom: 12,
+        minZoom: 0.05,
+        nodeHighlightBehavior: true,
+        panAndZoom: false,
+        staticGraph: false,
+        staticGraphWithDragAndDrop: false,
+        d3: {
+            alphaTarget: 0.05,
+            gravity: -100,
+            linkLength: 100,
+            linkStrength: 2,
+            disableLinkForce: false
+        },
         node: {
-          size: 500,
-          highlightStrokeColor: "#4563E4",
-          renderLabel:true,
-          labelProperty:'name',
-          fontSize:14,
-          highlightFontSize:14,
+            color: "#d3d3d3",
+            fontColor: "black",
+            fontSize: 13,
+            fontWeight: "normal",
+            highlightColor: "#4563E4",
+            highlightFontSize: 15,
+            highlightFontWeight: "bold",
+            highlightStrokeColor: "#4563E4",
+            highlightStrokeWidth: 1.5,
+            labelPosition: "",
+            mouseCursor: "crosshair",
+            opacity: 0.9,
+            renderLabel: true,
+            size: 200,
+            strokeColor: "none",
+            strokeWidth: 1.5,
+            svg: "",
+            symbolType: "circle",
+            viewGenerator: null,
+            labelProperty: 'name',
         },
         link: {
-          highlightColor: "#4563E4",
-          strokeLinecap:'round',
-          fontSize:12,
-          highlightFontSize:12,
-        },
-      };
-      const myConfigModal = {
+            color: "lightgray",
+            fontColor: "black",
+            fontSize: 10,
+            fontWeight: "normal",
+            highlightColor: "#4563E4",
+            highlightFontSize: 13,
+            highlightFontWeight: "normal",
+            labelProperty: "label",
+            mouseCursor: "pointer",
+            opacity: 1,
+            renderLabel: true,
+            semanticStrokeWidth: true,
+            strokeWidth: 2,
+            markerHeight: 2,
+            markerWidth: 2,
+            type: "STRAIGHT",
+            selfLinkDirection: "TOP_RIGHT",
+            strokeDasharray: 0,
+            strokeDashoffset: 0,
+            strokeLinecap: "butt"
+        }
+    };
+    const myConfigModal = {
         nodeHighlightBehavior: true,
         linkHighlightBehavior: true,
-        height:window.innerHeight-70,
-        width:window.innerWidth,
+        height: window.innerHeight - 70,
+        width: window.innerWidth,
         node: {
-          size: 500,
-          highlightStrokeColor: "#4563E4",
-          labelProperty:'name',
-          fontSize:14,
-          highlightFontSize:14,
+            size: 500,
+            highlightStrokeColor: "#4563E4",
+            labelProperty: 'name',
+            fontSize: 14,
+            highlightFontSize: 14,
         },
         link: {
-          highlightColor: "#4563E4",
-          strokeLinecap:'round',
-          renderLabel:true,
-          fontSize:12,
-          highlightFontSize:12,
+            highlightColor: "#4563E4",
+            strokeLinecap: 'round',
+            renderLabel: true,
+            fontSize: 12,
+            highlightFontSize: 12,
         },
-      };
-      
+    };
+
     //   const onClickNode = function(nodeId) {
     //     window.alert(`Clicked node ${nodeId}`);
     //   };
-      
+
     //   const onClickLink = function(source, target) {
     //     window.alert(`Clicked link between ${source} and ${target}`);
     //   };
     const handleShow = () => {
         setShow(true);
     }
+    const returnClick = () => {
+        setShowConnections(false);
+        setShowReturns(true);
+    }
+    const connectionsClick = () => {
+        setShowConnections(true);
+        setShowReturns(false);
+    }
+    
     return (
         <>
             <div className='row justify-content-between m-0'>
@@ -209,7 +381,7 @@ function DiscoverCorrelation() {
                                     </TabsMui>
                                 </Box> */}
                                 <div className='row'>
-                                    {trendingEvents.map((eventData, index) => (
+                                    {trendingEvents?.map((eventData, index) => (
                                         <div key={index} className='col-lg-4 column-pad'>
                                             <EventExplorerCard
                                                 question={eventData?.question}
@@ -233,47 +405,53 @@ function DiscoverCorrelation() {
                                     <div className='title' style={{ marginBottom: 10 }}>{eventDetails?.question}</div>
                                     <div className='light-blue-btn' style={{ marginBottom: 10 }}>{eventDetails?.response?.category}</div>
                                     <div >
-                                        <Tab.Container defaultActiveKey="first">
-                                            <Nav className='customDiscoverCorrelationtabs' variant="pills">
-                                                <Nav.Item>
-                                                    <Nav.Link eventKey="first">Returns</Nav.Link>
-                                                </Nav.Item>
-                                                <Nav.Item>
-                                                    <Nav.Link eventKey="second">Connections</Nav.Link>
-                                                </Nav.Item>
-                                            </Nav>
-                                            <Tab.Content className='mt-3'>
-                                                <Tab.Pane eventKey="first">
-                                                    <div className='title-2' style={{ marginBottom: 10 }}>Stocks that get affected the most  (in %)</div>
-                                                    <div className='row'>
-                                                        <div className='col-lg-3' style={{ height: window.innerHeight - 320, overflowY: 'scroll', }}>
-                                                            <div>
-                                                                {eventDetails?.response?.result_tickers?.slice().reverse().map((stock, index) => (
-                                                                    <BuySellStockCard
-                                                                        key={index}
-                                                                        companyName={stock.ticker}
-                                                                        ltpValue={stock.ltpValue}
-                                                                        percentageChange={stock.avg_return}
-                                                                        changeInLastMonth={stock.changeInLastMonth}
-                                                                    />
-                                                                ))}
-                                                            </div>
-                                                        </div>
-                                                        <div className='col-lg-9 column-pad' style={{ marginTop: -50 }}>
-                                                            <BarChart
-                                                                graphData={{
-                                                                    labels: tickers,
-                                                                    data: avgReturns
-                                                                }}
-                                                                index={3}
-                                                                yAxisLabel={`Money`}
-                                                                xAxisLabel={`Date`}
-                                                                showXAxis={false}
-                                                            />
+                                        <div className='custom-tab-css'>
+                                            <div className='d-flex align-items-center'>
+                                                <div className={`tab-css me-2`} style={{ backgroundColor: showReturns ? '#4563E4' : '#E5EAFF', color: showReturns ? '#fff' : '#4563E4' }}
+                                                    onClick={returnClick}
+                                                > Return </div>
+                                                <div className={`tab-css`} style={{ backgroundColor: showConnections ? '#4563E4' : '#E5EAFF', color: showConnections ? '#fff' : '#4563E4' }}
+                                                    onClick={connectionsClick}
+                                                > Connections </div>
+                                            </div>
+                                        </div>
+                                        {
+                                            showReturns &&
+                                            <>
+                                                <div className='title-2' style={{ marginBottom: 10 }}>Stocks that get affected the most  (in %)</div>
+                                                <div className='row'>
+                                                    <div className='col-lg-3' style={{ height: window.innerHeight - 320, overflowY: 'scroll', }}>
+                                                        <div>
+                                                            {eventDetails?.response?.result_tickers?.slice().reverse().map((stock, index) => (
+                                                                <BuySellStockCard
+                                                                    key={index}
+                                                                    companyName={stock.ticker}
+                                                                    ltpValue={stock.ltpValue}
+                                                                    percentageChange={stock.avg_return}
+                                                                    changeInLastMonth={stock.changeInLastMonth}
+                                                                />
+                                                            ))}
                                                         </div>
                                                     </div>
-                                                </Tab.Pane>
-                                            <Tab.Pane eventKey="second">
+                                                    <div className='col-lg-9 column-pad' style={{ marginTop: -30 }}>
+                                                        <DiscoverCorrelationGraph
+                                                            graphData={{
+                                                                labels: tickers,
+                                                                data: avgReturns
+                                                            }}
+                                                            index={3}
+                                                            yAxisLabel={`Money`}
+                                                            xAxisLabel={`Date`}
+                                                            showXAxis={false}
+                                                        />
+                                                    </div>
+                                                </div>
+                                            </>
+                                        }
+                                        {
+                                            showConnections &&
+                                            <>
+
                                                 <div className='title-2' style={{ marginBottom: 10 }}>Stocks that get affected the most  (in %)</div>
                                                 <div className='row'>
                                                     <div className='col-lg-5' style={{ height: window.innerHeight - 410, overflowY: 'scroll' }}>
@@ -281,23 +459,21 @@ function DiscoverCorrelation() {
                                                             <div key={index} className='blue-box-label'>{label?.description}</div>
                                                         ))}
                                                     </div>
-                                                    <div className='col-lg-7' style={{ overflow: 'hidden', marginTop: -50, position: 'relative'  }}>
-                                                        {/* <div style={{ position: 'absolute', right: 20, top: 0, display: 'flex', alignItems: 'center' }}>
-                                                            <div style={{ color: '#4563E4' }}>Full Screen</div>
-                                                            <img onClick={handleShow} src={FullScreenIcon} width={24} top={24} style={{ cursor: 'pointer' }} />
-                                                        </div> */}
-                                                        {/* <Graph
-                                                            id="graph-id" // id is mandatory
-                                                            data={data}
-                                                            config={myConfig}
-                                                        // onClickNode={onClickNode}
-                                                        // onClickLink={onClickLink}
-                                                        /> */}
-                                                    </div>
+                                                    {/* <div className='col-lg-7' style={{ overflow: 'hidden', marginTop: -50, position: 'relative' }}>
+                                                        <div style={{ position: 'relative', border: '1px solid #4563E4', borderRadius: 8, padding: 10 }}>
+                                                            <div onClick={handleShow} style={{ position: 'absolute', right: 20, top: 0, display: 'flex', alignItems: 'center', cursor: 'pointer', backgroundColor: "white", padding: 5, zIndex: 100 }}>
+                                                                <div style={{ color: '#4563E4' }}>Full Screen</div>
+                                                                <img src={FullScreenIcon} width={24} top={24} />
+                                                            </div>
+                                                            <NetworkGraph height={'400px'} 
+                                                            nodes={data.nodes}
+                                                            edges={data.edges}
+                                                            />
+                                                        </div>
+                                                    </div> */}
                                                 </div>
-                                            </Tab.Pane>
-                                            </Tab.Content>
-                                        </Tab.Container>
+                                            </>
+                                        }
                                     </div>
                                 </div>
                             </>
@@ -305,18 +481,15 @@ function DiscoverCorrelation() {
                     </div>
                 </div>
             </div>
-
-            <Modal show={show} fullscreen={true} onHide={() => setShow(false)} style={{backgroundColor:'#fefefe'}}>
+            <Modal show={show} fullscreen={true} onHide={() => setShow(false)} style={{ backgroundColor: '#fefefe' }}>
                 <Modal.Header closeButton>
                     <Modal.Title>Relation Graph</Modal.Title>
                 </Modal.Header>
-                <Graph
-                    id="graph-id2" // id is mandatory
-                    data={data}
-                    config={myConfigModal}
-            // onClickNode={onClickNode}
-            // onClickLink={onClickLink}
-                                                        />
+                <NetworkGraph
+                    height={window.innerHeight - 50}
+                    nodes={data.nodes}
+                    edges={data.edges}
+                />
             </Modal>
         </>
     )
