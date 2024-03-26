@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import LeftBox from '../../components/leftBox/LeftBox'
 import './styles.scss'
 import BackArrow from '../../assets/images/back-btn-arrow.png';
@@ -9,6 +9,15 @@ function NewsIframe() {
     const navigate = useNavigate();
     const {state} = useLocation();
     const [showSummary, setShowSummary] = useState(false)
+    const [showLeftBox, setShowLeftBox] = useState(true);
+    useEffect(() => {
+        const handleResize = () => {
+            setShowLeftBox(window.innerWidth >= 769);
+        };
+        window.addEventListener('resize', handleResize);
+        handleResize();
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
 
 console.log('state', state)
     const goBack = () => {
@@ -16,9 +25,11 @@ console.log('state', state)
     }
     return (
         <div className='dashboardHome row justify-content-between m-0'>
+              {showLeftBox && (
             <div className='col-lg-3 column-pad'>
                 <LeftBox />
             </div>
+              )}
             <div className='col-lg-9 column-pad'>
                 <div className='news_iframe'>
                     <div className='d-flex align-items-center back-click' onClick={goBack}>

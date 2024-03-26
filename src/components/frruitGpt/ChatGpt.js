@@ -197,7 +197,7 @@ function ChatGpt(props) {
                                 <div className='help-text'>How can I help you today ?</div>
                                 <div className='row'>
                                 {chatSuggestions.map((item, index) => (
-                                        <div key={index} className='col-lg-6 column-pad' style={{ cursor: 'pointer' }} onClick={() => routeChangeFrruitGPT(item?.prompt)}>
+                                        <div key={index} className='col-lg-6 col-md-12 column-pad' style={{ cursor: 'pointer' }} onClick={() => routeChangeFrruitGPT(item?.prompt)}>
                                             <div className='prompts-text-bg'>
                                                 <div className=' d-flex justify-content-between align-items-center w-100' >
                                                     <p className='prompts-text'>{item?.prompt}</p>

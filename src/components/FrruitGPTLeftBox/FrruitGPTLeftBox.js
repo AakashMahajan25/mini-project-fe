@@ -50,11 +50,12 @@ function FrruitGPTLeftBox(props) {
     const historyClick = (prompt_id) => {
         handleHistory(prompt_id)
     }
+    const leftPartHeight = window.innerHeight < 768 ? window.innerHeight - 105 : window.innerHeight - 57;
 
     return (
         <>
             <div className='Frruit-GPT-left-box'>
-                <div className='box' style={{ height: window.innerHeight - 105 }}>
+                <div className='box' style={{ height: leftPartHeight }}>
                     <div className="position-relative" style={{ marginBottom: 20 }}>
                         <input type="text" style={{ marginBottom: 20 }} className="form-control form-control-search" placeholder='Search Here' value={searchParam} onChange={(e) => setSearchParam(e.target.value)} />
                         <div className="position-absolute" style={{ left: 15, top: '6%' }}>
