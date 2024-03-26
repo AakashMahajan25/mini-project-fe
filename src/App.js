@@ -11,13 +11,12 @@ import InactivityTimer from './utils/InactivityTimer';
 function App() {
   const location = useLocation();
   const isExcludedPage = ['/login', '/signUp', '/', '/topics', '/market'].includes(location.pathname);
-  const marginTopStyle = isExcludedPage ? { marginTop: 0 } : { marginTop: 105 };
   const isAuthenticated = localStorage.getItem('token');
 
   return (
     <>
-      {isExcludedPage ? null : <TopBar />}
-      <div style={marginTopStyle}>
+      {!isExcludedPage && <TopBar />}
+      <div className={isExcludedPage ? 'no-margin-top' : 'with-margin-top'}>
         <Routes>
           {loginRoutes.map((route, key) => (
             <Route key={key} {...route} />

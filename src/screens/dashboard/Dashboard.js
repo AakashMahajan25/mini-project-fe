@@ -50,14 +50,17 @@ const storyEnum3 = {
     Tren_stock_news: 'trendingStock',
     Trending_news: 'trendingNews'
 }
-
+const leftPosition = window.innerWidth < 768 ? 370 : 370;
+const rightPosition = window.innerWidth < 768 ? 370 : 370;
+const rightPositionModal = window.innerWidth < 768 ? -80 : -80;
+const topPositionModal = window.innerWidth < 768 ? -10: -10;
 
 function Dashboard() {
     const PreviousBtn = (props) => {
         const { className, onClick } = props
         return (
             <div className={className} onClick={onClick}>
-                <img src={PrevBtn} style={{ width: 44, position: 'absolute', top: -110, left: 225 }} />
+                <img src={PrevBtn} style={{ width: 44, position: 'absolute', top: -110, left: leftPosition }} />
             </div>
         )
     }
@@ -65,7 +68,7 @@ function Dashboard() {
         const { className, onClick } = props
         return (
             <div className={className} onClick={onClick}>
-                <img src={NextBtnicon} style={{ width: 44, position: 'absolute', top: -110, right: 225 }} />
+                <img src={NextBtnicon} style={{ width: 44, position: 'absolute', top: -110, right: rightPosition }} />
             </div>
         )
     }
@@ -97,7 +100,7 @@ function Dashboard() {
         const { className, onClick } = props
         return (
             <div className={className} onClick={onClick} style={{ position: 'relative' }}>
-                <img src={RightBtn} style={{ width: 40, position: 'absolute', top: -158, right: -180  }} />
+                <img src={RightBtn} style={{ width: 40, position: 'absolute', top: -158, right: -180 }} />
             </div>
         )
     }
@@ -142,6 +145,15 @@ function Dashboard() {
     const dispatch = useDispatch()
     const { trendingStocks, trendingNews, mostOnFrruitGpt, storyViewed, investorStory, isLoading, investorStoryLoading, indexLoader, stockIndexes, investorStoryError } = useSelector(state => state.dashboardSlice);
     const { chatSuggestions, suggestionLoader, suggestionError } = useSelector(state => state.fruitGPTSlice);
+    const [showLeftBox, setShowLeftBox] = useState(true);
+    useEffect(() => {
+        const handleResize = () => {
+            setShowLeftBox(window.innerWidth >= 769);
+        };
+        window.addEventListener('resize', handleResize);
+        handleResize();
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
 
 
     const settings = {
@@ -279,7 +291,7 @@ function Dashboard() {
     };
 
     const isData = useMemo(() => {
-        return ((stockIndexes?.length > 0 && ((investorStory?.topicsNews?.length > 0 || investorStory?.watchlistNews?.length > 0 || investorStory?.trendingStock?.length > 0 || investorStory?.trendingNews?.length > 0) || investorStoryError ) && (chatSuggestions?.length > 0 || suggestionError) ))
+        return ((stockIndexes?.length > 0 && ((investorStory?.topicsNews?.length > 0 || investorStory?.watchlistNews?.length > 0 || investorStory?.trendingStock?.length > 0 || investorStory?.trendingNews?.length > 0) || investorStoryError) && (chatSuggestions?.length > 0 || suggestionError)))
     }, [investorStory, stockIndexes, chatSuggestions])
 
 
@@ -290,14 +302,16 @@ function Dashboard() {
                 <Loader />
             }
             <div className='dashboardHome row justify-content-between m-0'>
-                <div className='col-lg-3 column-pad'>
-                    <LeftBox />
-                </div>
+                {showLeftBox && (
+                    <div className='col-lg-3 column-pad dashboardLeftboxHideClass'>
+                        <LeftBox />
+                    </div>
+                )}
                 <>
                     {showAllContent &&
                         <div className='col-lg-7 column-pad'>
                             <div className='dashboard mt-4'>
-                                <div className='d-flex flex-column justify-content-between' style={{ height: window.innerHeight - 140 }}>
+                                <div className='d-flex flex-column justify-content-between' style={{ height: window.innerHeight < 768 ? window.innerHeight - 140 : window.innerHeight - 100 }}>
                                     <div className='d-flex flex-column'>
                                         {
                                             shouldShowStory &&
@@ -375,9 +389,9 @@ function Dashboard() {
                                                                     <div className='prompts-text-bg' style={{ marginRight: 10, cursor: 'pointer' }}>
                                                                         <div className=' d-flex justify-content-between align-items-center w-100' >
                                                                             <p className='prompts-text'>{item?.prompt}</p>
-                                                                               <img style={{ width: 24, objectFit: 'contain' }} src={quesIcon} className={`my-anchor-element-${index}`}/>
-                                                                               </div>
-                                                                            
+                                                                            <img style={{ width: 24, objectFit: 'contain' }} src={quesIcon} className={`my-anchor-element-${index}`} />
+                                                                        </div>
+
                                                                     </div>
                                                                     <Tooltip anchorSelect={`.my-anchor-element-${index}`} place="top" className="bg-primary">
                                                                         {item?.tooltipText ? item?.tooltipText : item?.prompt}
@@ -407,7 +421,7 @@ function Dashboard() {
                         </div>
                     }
                     {showAllContent &&
-                        <div className='col-lg-2 column-pad'>
+                        <div className='col-lg-2 column-pad dashboardRightBoxNewsHide'>
                             <DashboardRightBox newsData={trendingNews} mostFrruitData={mostOnFrruitGpt?.rows} onViewAllClick={handleViewAllClick} />
                         </div>
                     }
@@ -425,7 +439,7 @@ function Dashboard() {
                     centered
                     className='custom-modal'
                 >
-                    <Modal.Header style={{ position: 'absolute', right: -300, top: -40 }}>
+                    <Modal.Header style={{ position: 'absolute', right: rightPositionModal, top: topPositionModal }}>
                         <div onClick={handleClose} style={{ cursor: 'pointer' }}><img src={CloseIcon} style={{ width: 24, height: 24 }} /></div>
                     </Modal.Header>
                     <Modal.Body className="custom-modal-body">
@@ -460,8 +474,8 @@ function Dashboard() {
                                                 <div className='stories-img-text'>{story.mainHeading}</div>
                                                 <div className='d-flex justify-content-between align-items-center mt-3'>
                                                     {/* <button className='white-btn-main  d-flex align-items-center justify-content-center' onClick={getFrruitClick} style={{ width: '48%' }}>{'Get Frruit'}  <img src={RightWhiteArrow} style={{ width: 20, objectFit: 'contain', marginLeft: 5 }} /></button> */}
-                                                    <div onClick={()=> routeNews(story.url)} style={{width:'100%',cursor:'pointer'}}>
-                                                    <p className='secondary-btn' style={{ textDecoration: 'none', textAlign: 'center', width: '48%' }}> {'View More'}  </p>
+                                                    <div onClick={() => routeNews(story.url)} style={{ width: '100%', cursor: 'pointer' }}>
+                                                        <p className='secondary-btn' style={{ textDecoration: 'none', textAlign: 'center', width: '48%' }}> {'View More'}  </p>
                                                     </div>
                                                 </div>
                                             </div>

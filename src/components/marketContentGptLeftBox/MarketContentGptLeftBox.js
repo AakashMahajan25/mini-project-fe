@@ -73,11 +73,12 @@ function MarketContentGptLeftBox(props) {
         handleHistory(content_prompt_id, selected, name)
     }
 
+    const leftPartHeight = window.innerHeight < 768 ? window.innerHeight - 105 : window.innerHeight - 57;
+
     return (
         <>
             <div className='marketContentGptLeftBox-css'>
-                <div className='box' style={{ height: window.innerHeight - 105 }}>
-
+                <div className='box' style={{ height: leftPartHeight }}>
                     <div className="position-relative blue-box" style={{ marginBottom: 20, cursor: 'pointer' }} onClick={handleNewChat}>
                         <div className='new-chat-text'>New Chat</div>
                         <div className="position-absolute" style={{ right: 14, top: '19%' }}>

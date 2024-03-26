@@ -1,6 +1,17 @@
 .dashboardHome {
     overflow-y: hidden;
 
+    // .dashboardLeftboxHideClass {
+    //     @media only screen and (max-width: 768px) {
+    //         display: none !important;
+    //     }
+    // }
+    .dashboardRightBoxNewsHide{
+        @media only screen and (max-width: 768px) {
+            display: none !important;
+        }
+    }
+
     .dashboard {
 
         // display: flex;
@@ -18,16 +29,17 @@
             font-size: 16px;
             line-height: 18.75px;
             color: #171E42;
-           
+
         }
 
         .dashboard-slider {
             padding-left: 20px;
-           
+
         }
+
         .form-group {
             width: 100%;
-    
+
             .form-control {
                 border-radius: 15px;
                 border: 1px solid #4563E4;
@@ -36,6 +48,7 @@
                 padding: 6px 16px;
             }
         }
+
         .box-content {
             .mostOnFrruitBox {
                 background-color: #E8ECFB99;
@@ -44,7 +57,7 @@
                 cursor: pointer;
                 margin-right: 10px;
             }
-    
+
             .text {
                 font-weight: 400;
                 font-family: 'Roboto', sans-serif;
@@ -52,7 +65,7 @@
                 line-height: 14.06px;
                 color: #6F7387;
             }
-    
+
             .title {
                 font-weight: 500;
                 font-family: 'Roboto', sans-serif;
@@ -60,7 +73,7 @@
                 line-height: 18.75px;
                 color: #171E42;
             }
-    
+
             .viewAllTeaxt {
                 font-weight: 500;
                 font-family: 'Roboto', sans-serif;
@@ -126,6 +139,7 @@
     }
 
 }
+
 // .slick-next:before {
 //     content: none !important;
 // }
@@ -179,6 +193,10 @@
         z-index: 10;
         // width: 70% !important;
         margin-top: 20px;
+        @media only screen and (max-width: 768px) {
+            line-height: 30px;
+            font-size: 20px;
+        }
     }
 
     .layer-bg {

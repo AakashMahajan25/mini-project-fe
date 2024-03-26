@@ -32,7 +32,24 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
+  }
+}
+
+// App.scss
+
+.no-margin-top {
+  margin-top: 0;
+}
+
+.with-margin-top {
+  margin-top: 105px;
+}
+
+@media (max-width: 768px) {
+  .with-margin-top {
+    margin-top: 0;
   }
 }

@@ -218,7 +218,7 @@ function MarketContentGPT() {
         <>
             <div className='market-content-gpt-css'>
                 <div className='row justify-content-between m-0'>
-                    <div className='col-lg-3 column-pad'>
+                    <div className='col-lg-3 col-md-4 column-pad'>
                         <MarketContentGptLeftBox
                             handleNewChat={handleNewChat}
                             handleHistory={handleHistory}
@@ -227,7 +227,7 @@ function MarketContentGPT() {
                             handleShow2={handleShow2}
                         />
                     </div>
-                    <div className='col-lg-9 column-pad position-relative'>
+                    <div className='col-lg-9 col-md-8 column-pad position-relative'>
                         <ChatGpt containerRef={gptRef} newChat={isNewChat.current} docStatus={true} docName={fileName} selectedType={selectedType} />
                         <BottomBar
                             handleNewChat={handleNewChat}
