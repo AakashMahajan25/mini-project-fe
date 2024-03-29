@@ -8,6 +8,7 @@ import FAQImg from '../../../assets/images/faq-img.png';
 import Accordion from 'react-bootstrap/Accordion';
 
 function HelpFAQ({faqs}) {
+    const imageInnerHeight = window.innerHeight < 768 ? window.innerHeight - 350 : window.innerHeight - 650;
     return (
         <>
             <section className='helpFAQcss'>
@@ -64,7 +65,7 @@ function HelpFAQ({faqs}) {
                             </div>
                         </div>
                         <div className='col-lg-6 col-sm-12'>
-                            <div className='d-flex align-items-center justify-content-center' style={{ height: window.innerHeight - 350 }}>
+                            <div className='d-flex align-items-center justify-content-center' style={{ height: imageInnerHeight }}>
                             <img src={FAQImg} width={300} style={{objectFit:'contain'}} />
                             </div>
                         </div>

@@ -9,6 +9,7 @@ import PrivateRoute from "./privateRoute";
 import Topics from "../screens/selectPreferences/SelectPreferences";
 import Market from "../screens/makeSelection/MakeSelection"
 import NewsIframe from "../screens/news/NewsIframe";
+import LeftBox from "../components/leftBox/LeftBox";
 
 export const loginRoutes = [
     {
@@ -30,6 +31,11 @@ export const loginRoutes = [
         path: "/dashboard",
         exact: true,
         element: <PrivateRoute component={Dashboard} />,
+    },
+    {
+        path: "/dashboard/watchlist",
+        exact: true,
+        element: <PrivateRoute component={LeftBox} />,
     },
     {
         path: "/frruit-gpt",

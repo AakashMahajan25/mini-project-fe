@@ -106,7 +106,7 @@ function Plans(props) {
                         </div> */}
                         {activePlanList &&
                         activePlanList.map((plan, i)=>(
-                            <div className='col-lg-3' key={'planlist'+i}>
+                            <div className='col-lg-3 col-md-6' key={'planlist'+i}>
                                 <PlansCard
                                     cardBackground="linear-gradient(194.74deg, rgba(95, 125, 255, 0.9) 0%, rgba(63, 90, 209, 0.9) 94.44%)"
                                     showStarIcon={(plan?.price === 0) ?false:true}
@@ -120,7 +120,7 @@ function Plans(props) {
                                 />
                             </div>
                         ))}
-                        <div className='col-lg-3'>
+                        <div className='col-lg-3 col-md-6'>
                             <PlansCard
                                 cardBackground="linear-gradient(194.74deg, #5F7DFF 0%, #3F5AD1 94.44%)"
                                 showStarIcon={true}

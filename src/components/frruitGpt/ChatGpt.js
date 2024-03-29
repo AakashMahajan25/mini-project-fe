@@ -197,10 +197,8 @@ function ChatGpt(props) {
     }
 
     const renderLinkGraph = (chartData) => {
-        console.log('chartData', chartData)
         const nodes = removeDuplicatesFromArray(chartData?.Nodes?.map((el, i) => ({ ...el, color: getRandomColor() })))
         const edges = chartData?.Edges
-        console.log('edges', edges)
         return (
             <NetworkGraph height={'350px'} nodes={nodes}
                 edges={edges}
@@ -340,7 +338,6 @@ function ChatGpt(props) {
         setModalGraphData(data)
         setShow(true);
     }
-    console.log('contentChatHistory================', contentChatHistory)
     return (
         <>
             <div className='ChatGpt' style={{
@@ -356,7 +353,7 @@ function ChatGpt(props) {
                             <div className='help-text'>How can I help you today ?</div>
                             <div className='row'>
                                 {chatSuggestions.map((item, index) => (
-                                    <div key={index} className='col-lg-6 column-pad' style={{ cursor: 'pointer' }} onClick={() => routeChangeFrruitGPT(item?.prompt)}>
+                                    <div key={index} className='col-lg-6 col-md-12 column-pad' style={{ cursor: 'pointer' }} onClick={() => routeChangeFrruitGPT(item?.prompt)}>
                                         <div className='prompts-text-bg'>
                                             <div className=' d-flex justify-content-between align-items-center w-100' >
                                                 <p className='prompts-text'>{item?.prompt}</p>

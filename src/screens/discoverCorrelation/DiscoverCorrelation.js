@@ -18,7 +18,7 @@ import { getStockIndexes } from '../dashboard/slice';
 import { Graph } from "react-d3-graph";
 import FullScreenIcon from '../../assets/images/ic_baseline_fullscreen.png'
 import { toast } from 'react-toastify';
-import NetworkGraph from '../../components/networkGraph/NetworkGraph';
+// import NetworkGraph from '../../components/networkGraph/NetworkGraph';
 
 function DiscoverCorrelation() {
     const [showEventDetails, setShowEventDetails] = useState(false);
@@ -31,6 +31,15 @@ function DiscoverCorrelation() {
     const [avgReturns, setAvgReturns] = useState();
     const [showReturns, setShowReturns] = useState(true);
     const [showConnections, setShowConnections] = useState(false);
+    const [showLeftBox, setShowLeftBox] = useState(true);
+    useEffect(() => {
+        const handleResize = () => {
+            setShowLeftBox(window.innerWidth >= 769);
+        };
+        window.addEventListener('resize', handleResize);
+        handleResize();
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
 
 
     const handleCardClick = async (data) => {
@@ -113,129 +122,129 @@ function DiscoverCorrelation() {
         return colors[randomIndex];
     }
     const data = {
-        nodes:  [
+        nodes: [
             {
-              "id": "Nvidia",
-              "type": "Organization",
-              "label": "Nvidia"
+                "id": "Nvidia",
+                "type": "Organization",
+                "label": "Nvidia"
             },
             {
-              "id": "S&P 500",
-              "type": "Index",
-              "label": "S&P 500"
+                "id": "S&P 500",
+                "type": "Index",
+                "label": "S&P 500"
             },
             {
-              "id": "Dan H",
-              "type": "Person",
-              "label": "Dan H"
+                "id": "Dan H",
+                "type": "Person",
+                "label": "Dan H"
             },
             {
-              "id": "Josh Schaer",
-              "type": "Person",
-              "label": "Josh Schaer"
+                "id": "Josh Schaer",
+                "type": "Person",
+                "label": "Josh Schaer"
             },
             {
-              "id": "Amd",
-              "type": "Organization",
-              "label": "Amd"
+                "id": "Amd",
+                "type": "Organization",
+                "label": "Amd"
             },
             {
-              "id": "Intel",
-              "type": "Organization",
-              "label": "Intel"
+                "id": "Intel",
+                "type": "Organization",
+                "label": "Intel"
             },
             {
-              "id": "Options Ai",
-              "type": "Organization",
-              "label": "Options Ai"
+                "id": "Options Ai",
+                "type": "Organization",
+                "label": "Options Ai"
             },
             {
-              "id": "Microsoft",
-              "type": "Organization",
-              "label": "Microsoft"
+                "id": "Microsoft",
+                "type": "Organization",
+                "label": "Microsoft"
             },
             {
-              "id": "Google",
-              "type": "Organization",
-              "label": "Google"
+                "id": "Google",
+                "type": "Organization",
+                "label": "Google"
             },
             {
-              "id": "Azure",
-              "type": "Product",
-              "label": "Azure"
+                "id": "Azure",
+                "type": "Product",
+                "label": "Azure"
             },
             {
-              "id": "Gemma",
-              "type": "Product",
-              "label": "Gemma"
+                "id": "Gemma",
+                "type": "Product",
+                "label": "Gemma"
             }
-          ],
+        ],
         edges: [
             {
-              "from": "Nvidia",
-              "to": "S&P 500",
-              "label": "CONTRIBUTED_TO",
-              "overall_sentiment": "Negative",
-              "overall_score": -0.7,
-              "colour": "red"
+                "from": "Nvidia",
+                "to": "S&P 500",
+                "label": "CONTRIBUTED_TO",
+                "overall_sentiment": "Negative",
+                "overall_score": -0.7,
+                "colour": "red"
             },
             {
-              "from": "Dan H",
-              "to": "Nvidia",
-              "label": "DISCUSSES",
-              "overall_sentiment": "Neutral",
-              "overall_score": 0.0,
-              "colour": "blue"
+                "from": "Dan H",
+                "to": "Nvidia",
+                "label": "DISCUSSES",
+                "overall_sentiment": "Neutral",
+                "overall_score": 0.0,
+                "colour": "blue"
             },
             {
-              "from": "Josh Schaer",
-              "to": "Nvidia",
-              "label": "DISCUSSES",
-              "overall_sentiment": "Neutral",
-              "overall_score": 0.0,
-              "colour": "blue"
+                "from": "Josh Schaer",
+                "to": "Nvidia",
+                "label": "DISCUSSES",
+                "overall_sentiment": "Neutral",
+                "overall_score": 0.0,
+                "colour": "blue"
             },
             {
-              "from": "Amd",
-              "to": "Nvidia",
-              "label": "COMPETITOR",
-              "overall_sentiment": "Neutral",
-              "overall_score": 0.0,
-              "colour": "blue"
+                "from": "Amd",
+                "to": "Nvidia",
+                "label": "COMPETITOR",
+                "overall_sentiment": "Neutral",
+                "overall_score": 0.0,
+                "colour": "blue"
             },
             {
-              "from": "Intel",
-              "to": "Nvidia",
-              "label": "COMPETITOR",
-              "overall_sentiment": "Neutral",
-              "overall_score": 0.0,
-              "colour": "blue"
+                "from": "Intel",
+                "to": "Nvidia",
+                "label": "COMPETITOR",
+                "overall_sentiment": "Neutral",
+                "overall_score": 0.0,
+                "colour": "blue"
             },
             {
-              "from": "Options Ai",
-              "to": "Nvidia",
-              "label": "ANALYSES",
-              "overall_sentiment": "Neutral",
-              "overall_score": 0.0,
-              "colour": "blue"
+                "from": "Options Ai",
+                "to": "Nvidia",
+                "label": "ANALYSES",
+                "overall_sentiment": "Neutral",
+                "overall_score": 0.0,
+                "colour": "blue"
             },
             {
-              "from": "Microsoft",
-              "to": "Azure",
-              "label": "OWNS",
-              "overall_sentiment": "Neutral",
-              "overall_score": 0.0,
-              "colour": "blue"
+                "from": "Microsoft",
+                "to": "Azure",
+                "label": "OWNS",
+                "overall_sentiment": "Neutral",
+                "overall_score": 0.0,
+                "colour": "blue"
             },
             {
-              "from": "Google",
-              "to": "Gemma",
-              "label": "OWNS",
-              "overall_sentiment": "Neutral",
-              "overall_score": 0.0,
-              "colour": "blue"
+                "from": "Google",
+                "to": "Gemma",
+                "label": "OWNS",
+                "overall_sentiment": "Neutral",
+                "overall_score": 0.0,
+                "colour": "blue"
             }
-          ],
+        ],
     };
 
 
@@ -352,13 +361,15 @@ function DiscoverCorrelation() {
         setShowConnections(true);
         setShowReturns(false);
     }
-    
+
     return (
         <>
             <div className='row justify-content-between m-0'>
-                <div className='col-lg-3 column-pad'>
-                    <LeftBox />
-                </div>
+                {showLeftBox && (
+                    <div className='col-lg-3 column-pad'>
+                        <LeftBox />
+                    </div>
+                )}
                 <div className='col-lg-9 column-pad Discover-Correlation-css'>
                     <div className='Discover-Correlation-container' style={{ height: window.innerHeight - 130, overflowY: 'scroll', paddingTop: 20 }}>
                         {!showEventDetails && (
@@ -485,11 +496,11 @@ function DiscoverCorrelation() {
                 <Modal.Header closeButton>
                     <Modal.Title>Relation Graph</Modal.Title>
                 </Modal.Header>
-                <NetworkGraph
+                {/* <NetworkGraph
                     height={window.innerHeight - 50}
                     nodes={data.nodes}
                     edges={data.edges}
-                />
+                /> */}
             </Modal>
         </>
     )

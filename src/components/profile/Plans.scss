@@ -26,6 +26,10 @@
         border: 0px;
         position: relative;
         height: 500px;
+        margin-bottom: 0px;
+        @media only screen and (max-width: 768px) {
+            margin-bottom: 20px;
+        }
 
         .forText {
             font-size: 16px;
