@@ -5,7 +5,7 @@ import BottomBar from '../../components/marketContentGPT/BottomBar';
 import ChatGpt from '../../components/frruitGpt/ChatGpt';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-import { addDocument, clearContentChatHistory, deleteContentPrompt, getContentPromptHistory, getContentPromptList, getUploadURL, setCancelTokens, setChatHistory, triggerContentPrompt, triggerDocumentChat, updateUploadURL } from './slice';
+import { addDocument, clearContentChatHistory, deleteContentPrompt, getContentPromptHistory, getContentPromptList, getUploadURL, setCancelTokens, setChatHistory, triggerContentAttachmentGraph, triggerContentLinkGraph, triggerContentPrompt, triggerDocumentChat, updateUploadURL } from './slice';
 import { clearChatHistory } from '../frruitGPT/slice';
 import Modal from 'react-bootstrap/Modal';
 import CloseImg from '../../assets/images/close_icon.png';
@@ -77,6 +77,11 @@ function MarketContentGPT() {
         dispatch(triggerContentPrompt({requestData, cancelToken: token}))
             .unwrap()
             .then(res => {
+                if (res && res?.data !== undefined) {
+                    const token = axios.CancelToken.source()
+                    dispatch(setCancelTokens(token))
+                    dispatch(triggerContentLinkGraph({ question, id: res.prompt_id, cancelToken: token }))
+                }
                 dispatch(getContentPromptList('link'))
                 setSelectedChat(res.prompt_id)
                 setQuestion('');
@@ -105,7 +110,7 @@ function MarketContentGPT() {
                 const documentRes = await dispatch(addDocument(requestData)).unwrap();
                 setShowQuestion(true);
                 setSelectedChat(documentRes?.prompt_id);
-                setSelectedFile(null)
+                // setSelectedFile(null)
                 askAttachmentContentGpt(documentRes?.prompt_id, question);
                 dispatch(getContentPromptList('attachment'));
             }
@@ -139,6 +144,11 @@ function MarketContentGPT() {
         try {
             dispatch(triggerDocumentChat({requestData, cancelToken: token })).unwrap()
                 .then(res => {
+                    if (res && selectedFile) {
+                        const token = axios.CancelToken.source()
+                        dispatch(setCancelTokens(token))
+                        dispatch(triggerContentAttachmentGraph({ question:selectedFile?.name, id: promptId, cancelToken: token }))
+                    }
                     setQuestion('');
                     scrollDown(250);
                     setSelectedFile(null)
