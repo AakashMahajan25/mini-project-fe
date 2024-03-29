@@ -311,7 +311,7 @@ function Dashboard() {
                     {showAllContent &&
                         <div className='col-lg-7 column-pad'>
                             <div className='dashboard mt-4'>
-                                <div className='d-flex flex-column justify-content-between' style={{ height: window.innerHeight < 768 ? window.innerHeight - 140 : window.innerHeight - 100 }}>
+                                <div className='d-flex flex-column justify-content-between' style={{ height: window.innerWidth > 768 ? window.innerHeight - 140 : window.innerHeight - 100 }}>
                                     <div className='d-flex flex-column'>
                                         {
                                             shouldShowStory &&
