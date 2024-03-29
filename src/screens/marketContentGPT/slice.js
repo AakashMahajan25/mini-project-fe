@@ -171,6 +171,64 @@ export const deleteContentPrompt = createAsyncThunk("watchList/deleteContentProm
     }
 });
 
+export const triggerContentLinkGraph = createAsyncThunk("fruitGpt/triggerContentLinkGraph", async ({ question,id, cancelToken }, { dispatch }) => {
+    try {
+        let data = {
+            method: METHOD_TYPE.post,
+            url: API_ENDPOINTS.triggerLinkGraph,
+            cancelToken: cancelToken?.token,
+            data: {
+                link: question,
+                prompt_id:id
+            }
+        };
+        const response = await api(data);
+        if (!response.data.status) {
+            toast.error(response.data.message)
+        }
+        const chatData = [{
+            person: "bot",
+            text: response.data.data,
+            type: "link",
+            render_type: "graph"
+        }]
+        dispatch(setCancelTokens(null))
+        return chatData;
+    } catch (error) {
+        dispatch(setCancelTokens(null))
+        console.log('error::::', error.response)
+        throw error.response;
+    }
+});
+export const triggerContentAttachmentGraph = createAsyncThunk("fruitGpt/triggerContentAttachmentGraph", async ({ question,id, cancelToken }, { dispatch }) => {
+    try {
+        let data = {
+            method: METHOD_TYPE.post,
+            url: API_ENDPOINTS.triggerAttachmentGraph,
+            cancelToken: cancelToken?.token,
+            data: {
+                object_key: question,
+                prompt_id:id
+            }
+        };
+        const response = await api(data);
+        if (!response.data.status) {
+            toast.error(response.data.message)
+        }
+        const chatData = [{
+            person: "bot",
+            text: response.data.data,
+            type: "attachment",
+            render_type: "graph"
+        }]
+        dispatch(setCancelTokens(null))
+        return chatData;
+    } catch (error) {
+        dispatch(setCancelTokens(null))
+        console.log('error::::', error.response)
+        throw error.response;
+    }
+});
 
 
 const contentGPTSlice = createSlice({
@@ -200,7 +258,7 @@ const contentGPTSlice = createSlice({
 
         builder
             .addCase(getContentPromptHistory.fulfilled, (state, action) => {
-                const history = action.payload.map(row => (row.type === 'link' && row.person === 'bot') ? ({ ...row, text: JSON.parse(row.text) }) : row)
+                const history = action.payload.map(row => (row.type === 'link' && row.person === 'bot') ? ({ ...row, text: JSON.parse(row.text) }) : (row.type === 'attachment' && row.person === 'bot'&& row.render_type === 'graph') ? ({ ...row, text: JSON.parse(row.text) }): row)
                 state.contentChatHistory = history;
             })
             .addCase(triggerContentPrompt.fulfilled, (state, action) => {
@@ -221,6 +279,16 @@ const contentGPTSlice = createSlice({
                 if (action.payload !== undefined)
                     state.contentChatHistory = [...state?.contentChatHistory, ...action.payload];
                     state.cancelTokens = null
+            })
+            .addCase(triggerContentLinkGraph.fulfilled, (state, action) => {
+                if(action?.payload !== undefined)
+                state.contentChatHistory = [...state?.contentChatHistory, ...action?.payload];
+                state.cancelTokens = null
+            })
+            .addCase(triggerContentAttachmentGraph.fulfilled, (state, action) => {
+                if(action?.payload !== undefined)
+                state.contentChatHistory = [...state?.contentChatHistory, ...action?.payload];
+                state.cancelTokens = null
             })
             .addCase(triggerDocumentChat.rejected, (state, action) => {
                 state.cancelTokens = null
@@ -260,7 +328,13 @@ const contentGPTSlice = createSlice({
                     action.type === triggerContentPrompt.rejected.type ||
                     action.type === triggerDocumentChat.pending.type ||
                     action.type === triggerDocumentChat.fulfilled.type ||
-                    action.type === triggerDocumentChat.rejected.type,
+                    action.type === triggerDocumentChat.rejected.type||
+                    action.type === triggerContentLinkGraph.pending.type ||
+                    action.type === triggerContentLinkGraph.fulfilled.type ||
+                    action.type === triggerContentLinkGraph.rejected.type||
+                    action.type === triggerContentAttachmentGraph.pending.type ||
+                    action.type === triggerContentAttachmentGraph.fulfilled.type ||
+                    action.type === triggerContentAttachmentGraph.rejected.type,
                 handlefrruitLoading
             )
 

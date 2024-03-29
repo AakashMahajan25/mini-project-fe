@@ -1,12 +1,14 @@
 import React, { useEffect } from 'react';
 import Chart from 'chart.js/auto';
 
-function DiscoverCorrelationGraph(props) {
-    const { graphData, index } = props;
+function LineGraph(props) {
+    const { graphData, index, xAxisLabel, yAxisLabel, legendLabels } = props;
 
     useEffect(() => {
         const ctx = document.getElementById(`myChart${index}`).getContext('2d');
         const existingChart = Chart.getChart(ctx);
+
+        const bgColors = ['#43BE9A', "#4563E4", '#8361D9', '#BB68C8', "#FC9F9F",]
 
         const gradientStroke = ctx.createLinearGradient(500, 0, 100, 0);
         gradientStroke.addColorStop(0, 'rgba(21, 112, 239, 1)');
@@ -27,24 +29,23 @@ function DiscoverCorrelationGraph(props) {
             type: 'line',
             data: {
                 labels: XAxis,
-                datasets: [
-                    {
-                        borderColor: gradientStroke,
-                        pointBorderColor: gradientStroke,
-                        pointBackgroundColor: 'white',
-                        pointHoverBackgroundColor: gradientStroke,
-                        pointHoverBorderColor: gradientStroke,
-                        pointBorderWidth:2,
-                        pointHoverRadius: 0,
-                        pointHoverBorderWidth: 1,
-                        pointRadius: 3,
-                        fill: true,
-                        backgroundColor: gradientFill,
-                        borderWidth: 0.8,
-                        data: YAxis,
-                        tension: 0.2
-                    },
-                ],
+                datasets: YAxis.map((yData, index) => ({
+                    data: yData,
+                    label: legendLabels[index],
+                    // fill: true,
+                    backgroundColor: bgColors[index % bgColors.length],
+                    borderColor: bgColors[index % bgColors.length],
+                    borderWidth: 3,
+                    tension: 0.2,
+                    pointBorderWidth: 3,
+                    pointHoverRadius: 3,
+                    pointHoverBorderWidth: 1,
+                    pointRadius: 5,
+                    pointBorderColor: bgColors[index % bgColors.length],
+                    pointBackgroundColor: 'white',
+                    pointHoverBackgroundColor: 'white',
+                    pointHoverBorderColor: bgColors[index % bgColors.length],
+                })),
             },
             options: {
                 plugins: {
@@ -71,11 +72,11 @@ function DiscoverCorrelationGraph(props) {
                         grid: {
                             zeroLineColor: 'transparent',
                             tickColor: 'white',
-                            color:'#D1E9FF'
+                            color: 'transparent'
                         },
                         title: {
                             display: true,
-                            text: `Money`,
+                            text: yAxisLabel,
                             padding: 0,
                         },
                         border: {
@@ -87,11 +88,13 @@ function DiscoverCorrelationGraph(props) {
                             display: false,
                         },
                         ticks: {
-                            display: false,
+                            fontColor: 'red',
+                            fontStyle: 'bold',
+                            padding: 10,
                         },
                         title: {
                             display: true,
-                            text: `Date`,
+                            text: xAxisLabel,
                             padding: 0,
                         },
                         border: {
@@ -112,4 +115,4 @@ function DiscoverCorrelationGraph(props) {
     )
 }
 
-export default DiscoverCorrelationGraph;
+export default LineGraph;

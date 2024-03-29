@@ -119,7 +119,7 @@ export const triggerFrruitGpt = createAsyncThunk("fruitGpt/triggerFrruitGpt", as
     }
 });
 
-export const triggerFrruitGptGraph = createAsyncThunk("fruitGpt/triggerFrruitGptGraph", async ({requestData, cancelToken}, { dispatch }) => {
+export const triggerFrruitGptGraph = createAsyncThunk("fruitGpt/triggerFrruitGptGraph", async ({ requestData, cancelToken }, { dispatch }) => {
     try {
         let data = {
             method: METHOD_TYPE.post,
@@ -128,15 +128,16 @@ export const triggerFrruitGptGraph = createAsyncThunk("fruitGpt/triggerFrruitGpt
             data: requestData
         };
         const response = await api(data);
-        if (response.data.statusCode === 200) {
-            const chatData = [{
-                person: "bot",
-                text: response.data.data,
-                type: "graph"
-            }]
-            return chatData;
+        if (!response.data.status) {
+            toast.error(response.data.message)
         }
+        const chatData = [{
+            person: "bot",
+            text: response.data.data,
+            type: "graph"
+        }]
         dispatch(setCancelTokens(null))
+        return chatData;
     } catch (error) {
         dispatch(setCancelTokens(null))
         console.log('error::::', error.response)
@@ -215,6 +216,7 @@ const fruitGPTSlice = createSlice({
             .addCase(getPromptHistory.fulfilled, (state, action) => {
                 const history = action.payload.rows.map(row => row.type === 'graph' ? ({...row, text: JSON.parse(row.text)}) : row)
                 state.chatHistory = history;
+                state.cancelTokens = null
             })
             .addCase(triggerFrruitGpt.fulfilled, (state, action) => {
                 state.chatHistory = [...state?.chatHistory, ...action.payload];
