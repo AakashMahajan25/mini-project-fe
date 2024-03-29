@@ -50,7 +50,7 @@ function FrruitGPTLeftBox(props) {
     const historyClick = (prompt_id) => {
         handleHistory(prompt_id)
     }
-    const leftPartHeight = window.innerHeight < 768 ? window.innerHeight - 105 : window.innerHeight - 57;
+    const leftPartHeight = window.innerWidth > 768 ? window.innerHeight - 105 : window.innerHeight - 57;
 
     return (
         <>

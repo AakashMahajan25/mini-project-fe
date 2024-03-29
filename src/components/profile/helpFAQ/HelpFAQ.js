@@ -8,7 +8,7 @@ import FAQImg from '../../../assets/images/faq-img.png';
 import Accordion from 'react-bootstrap/Accordion';
 
 function HelpFAQ({faqs}) {
-    const imageInnerHeight = window.innerHeight < 768 ? window.innerHeight - 350 : window.innerHeight - 650;
+    const imageInnerHeight = window.innerWidth > 768 ?  window.innerHeight - 350 : window.innerHeight - 650;
     return (
         <>
             <section className='helpFAQcss'>
