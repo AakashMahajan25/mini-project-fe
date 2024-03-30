@@ -15,6 +15,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useDispatch } from 'react-redux';
 import { signupOtp, signupUser, verifyOtp } from './slice';
 import { toast } from 'react-toastify';
+import ReactGA from 'react-ga4';
 
 function Signup() {
     let navigate = useNavigate();
@@ -108,6 +109,11 @@ function Signup() {
                     .then(async (res) => {
                         localStorage.setItem('token', res.data.token)
                         let path = `/topics`;
+                        ReactGA.event({
+                            category: 'User',
+                            action: 'signup',
+                            label: 'New User Signup'
+                        });
                         navigate(path);
                         toast.success(res.message)
                     })

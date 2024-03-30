@@ -11,6 +11,7 @@ import { addTopics, getAllTopics, searchTopics } from '../../screens/signup/slic
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { getUserTopics, updateUserTopics } from '../../screens/profile/usersSlice';
+import ReactGA from 'react-ga4';
 
 function Preferences() {
     let navigate = useNavigate();
@@ -83,6 +84,11 @@ function Preferences() {
     }
 
     const onUpdateTopics = async () => {
+        ReactGA.event({
+            category: 'Profiling',
+            action: 'user_select_preference',
+            label: 'User Select Preferences'
+          });
         if (selected.length < 10) {
             toast.error("Please select atleast 10 preferences")
             return;

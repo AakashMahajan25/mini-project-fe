@@ -11,6 +11,7 @@ import Loader from '../../components/loader/Loader';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginOtp, verifyLoginOtp } from './slice';
 import { toast } from 'react-toastify';
+import ReactGA from 'react-ga4';
 
 function Login() {
     const dispatch = useDispatch()
@@ -76,6 +77,11 @@ function Login() {
                 localStorage.setItem('token', res.data.token)
                 let path = `/market`;
                 navigate(path);
+                ReactGA.event({
+                    category: 'User',
+                    action: 'login',
+                    label: 'User LoggedIn'
+                });
                 toast.success("Logged In Successfully")
             })
             .catch((error) => {

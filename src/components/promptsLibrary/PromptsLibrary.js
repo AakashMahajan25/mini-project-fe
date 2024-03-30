@@ -6,6 +6,7 @@ import RightBlueArrow from '../../assets/images/right-arrow.png'
 import { Nav, Tab, Tabs } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { getPromptsLibrary } from '../../screens/frruitGPT/slice'
+import ReactGA from 'react-ga4';
 
 function PromptsLibrary(props) {
     const {
@@ -32,7 +33,15 @@ function PromptsLibrary(props) {
                 dispatch(getPromptsLibrary(queryParam))
                 break;
             case 'suggested':
-                dispatch(getPromptsLibrary(queryParam))
+                dispatch(getPromptsLibrary(queryParam)).then((res) => {
+                    ReactGA.event({
+                        category: 'Frruitgpt',
+                        action: 'frruitgpt_suggested_prompts',
+                        label: 'suggested prompts'
+                    });
+                }).catch(err=>{
+        
+                });
                 break;
             default:
                 break;
