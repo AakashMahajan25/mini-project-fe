@@ -21,16 +21,16 @@ export default function NetworkGraph({ height, nodes, edges }) {
         },
         nodes: {
             shape: "box",
-            scaling: {
-                min: 10,
-                max: 30,
-                label: {
-                    min: 8,
-                    max: 10,
-                    drawThreshold: 12,
-                    maxVisible: 20
-                }
-            },
+            // scaling: {
+            //     min: 10,
+            //     max: 30,
+            //     label: {
+            //         min: 8,
+            //         max: 10,
+            //         drawThreshold: 12,
+            //         maxVisible: 20
+            //     }
+            // },
             size: 12,
             font: {
                 size: 8,
@@ -72,13 +72,13 @@ export default function NetworkGraph({ height, nodes, edges }) {
         //     width: 2,
         // },
         edges: {
-            width: 1,
+            width: 0.8,
             color: '#4563E4',
             smooth: {
                 type: "continuous"
             },
             font: {
-                size: 11,
+                size: 8,
                 face: "Poppins"
             }
         },

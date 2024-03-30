@@ -160,7 +160,7 @@ function ChatGpt(props) {
     const { containerRef, docStatus = false, docName = '', newChat, selectedType } = props;
 
     const { chatHistory, frruitLoader } = useSelector(state => state.fruitGPTSlice);
-    const { contentChatHistory, contentGPTLoader } = useSelector(state => state.contentGPTSlice);
+    const { contentChatHistory, contentGPTLoader,contentGraphLoader } = useSelector(state => state.contentGPTSlice);
 
 
     const newsItem = {
@@ -177,10 +177,19 @@ function ChatGpt(props) {
         return colors[randomIndex];
     }
 
+    function toCamelCase(str) {
+        str = str.replace(/_/g, ' '); // Replace underscores with spaces
+        return str.toLowerCase().replace(/(^|\s)\S/g, function(match) {
+          return match.toUpperCase();
+        });
+      }
+      
+      
     const data = {
         nodes: removeDuplicatesFromArray(modalGraphData?.Nodes?.map((el, i) => ({ ...el, color: getRandomColor() }))),
-        edges: modalGraphData?.Edges
+        edges: modalGraphData?.Edges?.map((el, i) => ({ ...el, label: toCamelCase(el?.label) }))
     };
+
 
     function removeDuplicatesFromArray(arr) {
         const uniqueObjects = {};
@@ -198,7 +207,7 @@ function ChatGpt(props) {
 
     const renderLinkGraph = (chartData) => {
         const nodes = removeDuplicatesFromArray(chartData?.Nodes?.map((el, i) => ({ ...el, color: getRandomColor() })))
-        const edges = chartData?.Edges
+        const edges = chartData?.Edges?.map((el, i) => ({ ...el, label: toCamelCase(el?.label) }))
         return (
             <NetworkGraph height={'350px'} nodes={nodes}
                 edges={edges}
@@ -633,6 +642,12 @@ function ChatGpt(props) {
                     <section {...containerProps} style={{ marginLeft: 20 }}>
                         {indicatorEl} {/* renders only while loading */}
                     </section>
+                }
+                {
+                    contentGraphLoader &&
+                    <div className='chat-text-container' style={{marginLeft:20,marginTop:10,color:'#4563E4'}}>
+                        <h6 className='chat-text mt-1'>Creating network graph may take few mins</h6>
+                    </div>
                 }
             </div>
 
