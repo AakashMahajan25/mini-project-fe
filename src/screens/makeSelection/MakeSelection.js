@@ -7,6 +7,7 @@ import LoginImg3 from '../../assets/images/login_img3.png'
 import FrruitLogo from '../../assets/images/frruit-logo.png'
 import GreenRightIcon from '../../assets/images/right-green-circle-icon.png'
 import { useNavigate } from 'react-router-dom'
+import ReactGA from 'react-ga4';
 
 function MakeSelection() {
     const navigate = useNavigate();
@@ -14,6 +15,11 @@ function MakeSelection() {
 
     const verifyProceed = () => {
         localStorage.setItem('marketType', selected)
+        ReactGA.event({
+            category: 'User',
+            action: 'market_selection',
+            label: 'User Market Selected'
+        });
         navigate("/dashboard")
     }
 
