@@ -204,7 +204,7 @@ function LeftBox() {
             }
             dispatch(addTickertoWatchList(data))
                 .then(res => {
-                    toast(res?.message)
+                    toast.success(res?.message)
                     setSelectedId('')
                     handleClose2()
                     dispatch(getUserWatchLists());

@@ -160,7 +160,7 @@ function ChatGpt(props) {
     const { containerRef, docStatus = false, docName = '', newChat, selectedType } = props;
 
     const { chatHistory, frruitLoader } = useSelector(state => state.fruitGPTSlice);
-    const { contentChatHistory, contentGPTLoader,contentGraphLoader } = useSelector(state => state.contentGPTSlice);
+    const { contentChatHistory, contentGPTLoader, contentGraphLoader } = useSelector(state => state.contentGPTSlice);
 
 
     const newsItem = {
@@ -179,12 +179,12 @@ function ChatGpt(props) {
 
     function toCamelCase(str) {
         str = str.replace(/_/g, ' '); // Replace underscores with spaces
-        return str.toLowerCase().replace(/(^|\s)\S/g, function(match) {
-          return match.toUpperCase();
+        return str.toLowerCase().replace(/(^|\s)\S/g, function (match) {
+            return match.toUpperCase();
         });
-      }
-      
-      
+    }
+
+
     const data = {
         nodes: removeDuplicatesFromArray(modalGraphData?.Nodes?.map((el, i) => ({ ...el, color: getRandomColor() }))),
         edges: modalGraphData?.Edges?.map((el, i) => ({ ...el, label: toCamelCase(el?.label) }))
@@ -262,7 +262,7 @@ function ChatGpt(props) {
                 const data = dataObject.data.map(point => point['y-axis'].map(parseFloat));
                 return (
                     <div className='graphSlider'>
-                        <div className='chartGraph' style={{backgroundColor:'#F1F4FD'}}>
+                        <div className='chartGraph' style={{ backgroundColor: '#F1F4FD' }}>
                             <h4 className='title'>{dataObject.metric_name}</h4>
                             {
                                 dataObject?.chart_type === 'bar' ?
@@ -296,39 +296,39 @@ function ChatGpt(props) {
                     <div className='graphSlider'>
                         {
                             chartData?.length > 2 &&
-                            <h6 style={{color:'rgb(69, 99, 228)',fontSize:14,textAlign:'right'}}>Slider to Know More</h6>
+                            <h6 style={{ color: 'rgb(69, 99, 228)', fontSize: 14, textAlign: 'right' }}>Slider to Know More</h6>
                         }
                         <Slider {...graphSettings}>
-                        {chartData.map((dataObject, index) => (
-                            <div className='chartGraph' key={index}  style={{backgroundColor:'#F1F4FD',width:600}}>
-                                <h4 className='title'>{dataObject.metric_name}</h4>
-                                {dataObject?.chart_type === 'bar' ?
+                            {chartData.map((dataObject, index) => (
+                                <div className='chartGraph' key={index} style={{ backgroundColor: '#F1F4FD', width: 600 }}>
+                                    <h4 className='title'>{dataObject.metric_name}</h4>
+                                    {dataObject?.chart_type === 'bar' ?
 
-                                    <BarChart
-                                        index={index + 1}
-                                        graphData={{
-                                            labels: [...dataObject.data[0]['x-axis']],
-                                            data: dataObject.data.map(point => point['y-axis'].map(parseFloat))
-                                        }}
-                                        xAxisLabel={dataObject.xlabel}
-                                        yAxisLabel={dataObject.ylabel}
-                                        legendLabels={dataObject.data.map(point => point.company_name)}
-                                    />
-                                    :
-                                    <LineGraph
-                                        index={index}
-                                        graphData={{
-                                            labels: [...dataObject.data[0]['x-axis']],
-                                            data: dataObject.data.map(point => point['y-axis'].map(parseFloat))
-                                        }}
-                                        xAxisLabel={dataObject.xlabel}
-                                        yAxisLabel={dataObject.ylabel}
-                                        legendLabels={dataObject.data.map(point => point.company_name)}
-                                    />
-                                }
-                            </div>
-                        ))}
-                    </Slider>
+                                        <BarChart
+                                            index={index + 1}
+                                            graphData={{
+                                                labels: [...dataObject.data[0]['x-axis']],
+                                                data: dataObject.data.map(point => point['y-axis'].map(parseFloat))
+                                            }}
+                                            xAxisLabel={dataObject.xlabel}
+                                            yAxisLabel={dataObject.ylabel}
+                                            legendLabels={dataObject.data.map(point => point.company_name)}
+                                        />
+                                        :
+                                        <LineGraph
+                                            index={index}
+                                            graphData={{
+                                                labels: [...dataObject.data[0]['x-axis']],
+                                                data: dataObject.data.map(point => point['y-axis'].map(parseFloat))
+                                            }}
+                                            xAxisLabel={dataObject.xlabel}
+                                            yAxisLabel={dataObject.ylabel}
+                                            legendLabels={dataObject.data.map(point => point.company_name)}
+                                        />
+                                    }
+                                </div>
+                            ))}
+                        </Slider>
                     </div>
                 );
             }
@@ -637,18 +637,20 @@ function ChatGpt(props) {
 
                             </div>
                     )}
-                {
-                    (frruitLoader || contentGPTLoader) &&
-                    <section {...containerProps} style={{ marginLeft: 20 }}>
-                        {indicatorEl} {/* renders only while loading */}
-                    </section>
-                }
-                {
-                    contentGraphLoader &&
-                    <div className='chat-text-container' style={{marginLeft:20,marginTop:10,color:'#4563E4'}}>
-                        <h6 className='chat-text mt-1'>Creating network graph may take few mins</h6>
-                    </div>
-                }
+                <div className='d-flex align-items-center'>
+                    {
+                        (frruitLoader || contentGPTLoader) &&
+                        <section {...containerProps} style={{ marginLeft: 20 }}>
+                            {indicatorEl} {/* renders only while loading */}
+                        </section>
+                    }
+                    {
+                        contentGraphLoader &&
+                        <div className='chat-text-container' style={{ marginLeft: 20, marginTop: 10, color: '#4563E4' }}>
+                            <h6 className='chat-text mt-1'>Creating network graph may take few mins</h6>
+                        </div>
+                    }
+                </div>
             </div>
 
 
