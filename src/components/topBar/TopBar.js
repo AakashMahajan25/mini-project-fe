@@ -11,6 +11,7 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
+import ReactGA from 'react-ga4';
 
 function TopBar() {
   const dispatch = useDispatch();
@@ -54,6 +55,11 @@ function TopBar() {
     dispatch(getUserDetails())
   }, [])
   const handleLogout = () => {
+    ReactGA.event({
+      category: 'Profiling',
+      action: 'user_logout',
+      label: 'User Logout'
+    });
     localStorage.clear();
     navigate('/login');
   }

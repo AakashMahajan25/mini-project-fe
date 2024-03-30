@@ -11,6 +11,7 @@ import Modal from 'react-bootstrap/Modal';
 import CloseImg from '../../assets/images/close_icon.png';
 import axios from 'axios';
 import { replaceSpaceWithUnderscore } from '../../utils/utils';
+import ReactGA from 'react-ga4';
 
 function MarketContentGPT() {
     const dispatch = useDispatch();
@@ -65,6 +66,13 @@ function MarketContentGPT() {
         const requestData = {
             link: question
         }
+
+        ReactGA.event({
+            category: 'MarketContentGPT',
+            action: 'chat_youtube_link',
+            label: 'New Chat Youtube Link'
+        });
+        
         isNewChat.current = false
         dispatch(setChatHistory([{
             person: "user",
@@ -123,6 +131,11 @@ function MarketContentGPT() {
     const askAttachmentContentGpt = async (promptId, title) => {
         const token = axios.CancelToken.source()
         setQuestion('');
+        ReactGA.event({
+            category: 'MarketContentGPT',
+            action: 'chat_document_upload',
+            label: 'New Chat Document Upload'
+        });
         if (!question) {
             dispatch(setChatHistory([{
                 person: "bot",

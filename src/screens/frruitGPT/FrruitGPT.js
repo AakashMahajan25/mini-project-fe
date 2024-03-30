@@ -15,6 +15,7 @@ import { clearContentChatHistory, setCancelTokens } from '../marketContentGPT/sl
 import Modal from 'react-bootstrap/Modal';
 import CloseImg from '../../assets/images/close_icon.png';
 import axios from 'axios';
+import ReactGA from 'react-ga4';
 
 function FrruitGPT() {
     const dispatch = useDispatch();
@@ -117,6 +118,13 @@ function FrruitGPT() {
         if (!title && !question) {
             return
         }
+
+        ReactGA.event({
+            category: 'Frruitgpt',
+            action: 'newchat_gpt_question',
+            label: 'New chat for GPT question'
+        });
+
         const market = localStorage.getItem('marketType')
         const searchText = question
         setQuestion('');
@@ -163,6 +171,12 @@ function FrruitGPT() {
     }
 
     const handlePromptClick = (data) => {
+        ReactGA.event({
+            category: 'Frruitgpt',
+            action: 'prompt_library_click',
+            label: 'Prompt Library Click'
+        });
+
         dispatch(clearChatHistory())
         addFrruitPrompt(data)
     }

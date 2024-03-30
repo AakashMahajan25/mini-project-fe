@@ -16,6 +16,7 @@ import Nav from 'react-bootstrap/Nav';
 import moment from 'moment';
 import Modal from 'react-bootstrap/Modal';
 import CloseImg from '../../assets/images/close_icon.png';
+import ReactGA from 'react-ga4';
 
 function FrruitGPTLeftBox(props) {
     const [hoveredItem, setHoveredItem] = useState(null);
@@ -31,13 +32,29 @@ function FrruitGPTLeftBox(props) {
     const { promptList } = useSelector(state => state.fruitGPTSlice);
 
     useEffect(() => {
-        dispatch(getPromptList())
+        dispatch(getPromptList()).then((res) => {
+            ReactGA.event({
+                category: 'Frruitgpt',
+                action: 'history_of_gptquestions',
+                label: 'History of GPT questions'
+            });
+        }).catch(err=>{
+
+        });
     }, [])
 
     useEffect(() => {
         const debounceSearch = setTimeout(() => {
             if (searchParam) {
-                dispatch(searchPrompt(searchParam));
+                dispatch(searchPrompt(searchParam)).then((res) => {
+                    ReactGA.event({
+                        category: 'Frruitgpt',
+                        action: 'search_history_question',
+                        label: 'Search click for history questions'
+                    });
+                }).catch(err=>{
+        
+                });
             } else if (searchParam?.length === 0) {
                 dispatch(getPromptList())
             }

@@ -32,6 +32,7 @@ import DiscoverCorrelationGraph from '../graph/DiscoverCorrelationGraph'
 import { useLoading, ThreeDots } from '@agney/react-loading';
 import moment from 'moment';
 import { toast } from 'react-toastify';
+import ReactGA from 'react-ga4';
 
 function LeftBox() {
     const { containerProps, indicatorEl } = useLoading({
@@ -123,6 +124,11 @@ function LeftBox() {
         const debounceSearch = setTimeout(() => {
             if (searchParam) {
                 dispatch(getStockBySearch(searchParam));
+                ReactGA.event({
+                    category: 'Dashboard',
+                    action: 'stock_search',
+                    label: 'User Stock Search'
+                });
             }
         }, 500);
         return () => {
@@ -187,6 +193,11 @@ function LeftBox() {
                 setChangedName('')
                 setAddNew(false)
                 setAddName('');
+                ReactGA.event({
+                    category: 'Dashboard',
+                    action: 'watchlist_created',
+                    label: 'New Watchlist Created'
+                });
                 dispatch(getUserWatchLists())
                 setEditIndex(null);
             })
@@ -204,6 +215,11 @@ function LeftBox() {
             }
             dispatch(addTickertoWatchList(data))
                 .then(res => {
+                    ReactGA.event({
+                        category: 'Watchlist',
+                        action: 'stock_added_to_watchlist',
+                        label: 'Stock Added to Watchlist'
+                    });
                     toast(res?.message)
                     setSelectedId('')
                     handleClose2()
