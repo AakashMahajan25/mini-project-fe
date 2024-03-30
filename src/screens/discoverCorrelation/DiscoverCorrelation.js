@@ -18,6 +18,7 @@ import { getStockIndexes } from '../dashboard/slice';
 import { Graph } from "react-d3-graph";
 import FullScreenIcon from '../../assets/images/ic_baseline_fullscreen.png'
 import { toast } from 'react-toastify';
+import SingleBarGraph from '../../components/singleBarGraph/SingleBarGraph';
 // import NetworkGraph from '../../components/networkGraph/NetworkGraph';
 
 function DiscoverCorrelation() {
@@ -378,7 +379,7 @@ function DiscoverCorrelation() {
                                     <div className='title' style={{ marginBottom: 20 }}>Event Explorer</div>
                                     <div className='viewAllTeaxt' style={{ marginBottom: 20 }}>View All</div>
                                 </div>
-                                {/* <Box marginBottom={'20px'} sx={{ maxWidth: { xs: 320, sm: 480 }, bgcolor: 'background.paper' }}>
+                                <Box marginBottom={'20px'} sx={{ maxWidth: { xs: 320, sm: 480 }, bgcolor: 'background.paper' }}>
                                     <TabsMui
                                         value={value}
                                         onChange={handleChange}
@@ -390,7 +391,7 @@ function DiscoverCorrelation() {
                                             <TabMui key={index} label={tab.label} className='tab-css' />
                                         ))}
                                     </TabsMui>
-                                </Box> */}
+                                </Box>
                                 <div className='row'>
                                     {trendingEvents?.map((eventData, index) => (
                                         <div key={index} className='col-lg-4 column-pad'>
@@ -445,7 +446,7 @@ function DiscoverCorrelation() {
                                                         </div>
                                                     </div>
                                                     <div className='col-lg-9 column-pad' style={{ marginTop: -30 }}>
-                                                        <DiscoverCorrelationGraph
+                                                        <SingleBarGraph
                                                             graphData={{
                                                                 labels: tickers,
                                                                 data: avgReturns
