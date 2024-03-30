@@ -154,7 +154,7 @@ export const addTickertoWatchList = createAsyncThunk("watchList/addTickertoWatch
             data: requestData
         };
         const response = await api(data);
-        return response.data.data;
+        return response.data;
 
     } catch (error) {
         throw error.response;
