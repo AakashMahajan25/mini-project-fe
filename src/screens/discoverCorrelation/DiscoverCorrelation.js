@@ -19,6 +19,8 @@ import { Graph } from "react-d3-graph";
 import FullScreenIcon from '../../assets/images/ic_baseline_fullscreen.png'
 import { toast } from 'react-toastify';
 import SingleBarGraph from '../../components/singleBarGraph/SingleBarGraph';
+import CloseImg from '../../assets/images/close_icon.png';
+import SearchIcon from '../../assets/images/search-icon.png';
 // import NetworkGraph from '../../components/networkGraph/NetworkGraph';
 
 function DiscoverCorrelation() {
@@ -27,6 +29,7 @@ function DiscoverCorrelation() {
     const dispatch = useDispatch()
     const { trendingEvents } = useSelector(state => state.discoverCorrelationSlice);
     const [show, setShow] = useState(false);
+    const [show3, setShow3] = useState(false);
     const [value, setValue] = useState(0);
     const [tickers, setTickers] = useState();
     const [avgReturns, setAvgReturns] = useState();
@@ -362,6 +365,12 @@ function DiscoverCorrelation() {
         setShowConnections(true);
         setShowReturns(false);
     }
+    const handleShow2 = () => {
+        setShow3(true);
+    };
+    const handleClose2 = () => {
+        setShow3(false);
+    };
 
     return (
         <>
@@ -372,12 +381,12 @@ function DiscoverCorrelation() {
                     </div>
                 )}
                 <div className='col-lg-9 column-pad Discover-Correlation-css'>
-                    <div className='Discover-Correlation-container' style={{ height: window.innerHeight - 130, overflowY: 'scroll', paddingTop: 20 }}>
+                    <div className='' style={{ height: window.innerHeight - 130, overflowY: 'scroll', paddingTop: 20 }}>
                         {!showEventDetails && (
                             <>
-                                <div className='d-flex justify-content-between align-items-center'>
+                                <div className='d-flex justify-content-between Discover-Correlation-container align-items-center'>
                                     <div className='title' style={{ marginBottom: 20 }}>Event Explorer</div>
-                                    <div className='viewAllTeaxt' style={{ marginBottom: 20 }}>View All</div>
+                                    <div className='viewAllTeaxt' style={{ marginBottom: 20 }} onClick={handleShow2}>View All</div>
                                 </div>
                                 <Box marginBottom={'20px'} sx={{ maxWidth: { xs: 320, sm: 480 }, bgcolor: 'background.paper' }}>
                                     <TabsMui
@@ -392,7 +401,7 @@ function DiscoverCorrelation() {
                                         ))}
                                     </TabsMui>
                                 </Box>
-                                <div className='row'>
+                                <div className='row Discover-Correlation-container-row row-gutter'>
                                     {trendingEvents?.map((eventData, index) => (
                                         <div key={index} className='col-lg-4 column-pad'>
                                             <EventExplorerCard
@@ -409,69 +418,70 @@ function DiscoverCorrelation() {
                         )}
                         {showEventDetails &&
                             <>
-                                <div className='d-flex justify-content-start align-items-center' style={{ marginBottom: 20 }}>
+                                <div className='d-flex justify-content-start align-items-center Discover-Correlation-container' style={{ marginBottom: 20 }}>
                                     <button onClick={handleBackButtonClick} className='light-blue-btn me-2'><img src={BackBtnArrow} style={{ width: 7, height: 13, objectFit: 'contain', marginRight: 5, marginTop: -2 }} />Back</button>
                                     <div className='title'>Event Explorer</div>
                                 </div>
-                                <div className='box'>
-                                    <div className='title' style={{ marginBottom: 10 }}>{eventDetails?.question}</div>
-                                    <div className='light-blue-btn' style={{ marginBottom: 10 }}>{eventDetails?.response?.category}</div>
-                                    <div >
-                                        <div className='custom-tab-css'>
-                                            <div className='d-flex align-items-center'>
-                                                <div className={`tab-css me-2`} style={{ backgroundColor: showReturns ? '#4563E4' : '#E5EAFF', color: showReturns ? '#fff' : '#4563E4' }}
-                                                    onClick={returnClick}
-                                                > Return </div>
-                                                <div className={`tab-css`} style={{ backgroundColor: showConnections ? '#4563E4' : '#E5EAFF', color: showConnections ? '#fff' : '#4563E4' }}
-                                                    onClick={connectionsClick}
-                                                > Connections </div>
+                                <div className='Discover-Correlation-container'>
+                                    <div className='box'>
+                                        <div className='title' style={{ marginBottom: 10 }}>{eventDetails?.question}</div>
+                                        <div className='light-blue-btn' style={{ marginBottom: 10 }}>{eventDetails?.response?.category}</div>
+                                        <div >
+                                            <div className='custom-tab-css'>
+                                                <div className='d-flex align-items-center'>
+                                                    <div className={`tab-css me-2`} style={{ backgroundColor: showReturns ? '#4563E4' : '#E5EAFF', color: showReturns ? '#fff' : '#4563E4' }}
+                                                        onClick={returnClick}
+                                                    > Return </div>
+                                                    <div className={`tab-css`} style={{ backgroundColor: showConnections ? '#4563E4' : '#E5EAFF', color: showConnections ? '#fff' : '#4563E4' }}
+                                                        onClick={connectionsClick}
+                                                    > Connections </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                        {
-                                            showReturns &&
-                                            <>
-                                                <div className='title-2' style={{ marginBottom: 10 }}>Stocks that get affected the most  (in %)</div>
-                                                <div className='row'>
-                                                    <div className='col-lg-3' style={{ height: window.innerHeight - 320, overflowY: 'scroll', }}>
-                                                        <div>
-                                                            {eventDetails?.response?.result_tickers?.slice().reverse().map((stock, index) => (
-                                                                <BuySellStockCard
-                                                                    key={index}
-                                                                    companyName={stock.ticker}
-                                                                    ltpValue={stock.ltpValue}
-                                                                    percentageChange={stock.avg_return}
-                                                                    changeInLastMonth={stock.changeInLastMonth}
-                                                                />
-                                                            ))}
+                                            {
+                                                showReturns &&
+                                                <>
+                                                    <div className='title-2' style={{ marginBottom: 10 }}>Stocks that get affected the most  (in %)</div>
+                                                    <div className='row'>
+                                                        <div className='col-lg-3' style={{ height: window.innerHeight - 320, overflowY: 'scroll', }}>
+                                                            <div>
+                                                                {eventDetails?.response?.result_tickers?.slice().reverse().map((stock, index) => (
+                                                                    <BuySellStockCard
+                                                                        key={index}
+                                                                        companyName={stock.ticker}
+                                                                        ltpValue={stock.ltpValue}
+                                                                        percentageChange={stock.avg_return}
+                                                                        changeInLastMonth={stock.changeInLastMonth}
+                                                                    />
+                                                                ))}
+                                                            </div>
+                                                        </div>
+                                                        <div className='col-lg-9 column-pad' style={{ marginTop: -30 }}>
+                                                            <SingleBarGraph
+                                                                graphData={{
+                                                                    labels: tickers,
+                                                                    data: avgReturns
+                                                                }}
+                                                                index={3}
+                                                                yAxisLabel={`Money`}
+                                                                xAxisLabel={`Date`}
+                                                                showXAxis={false}
+                                                            />
                                                         </div>
                                                     </div>
-                                                    <div className='col-lg-9 column-pad' style={{ marginTop: -30 }}>
-                                                        <SingleBarGraph
-                                                            graphData={{
-                                                                labels: tickers,
-                                                                data: avgReturns
-                                                            }}
-                                                            index={3}
-                                                            yAxisLabel={`Money`}
-                                                            xAxisLabel={`Date`}
-                                                            showXAxis={false}
-                                                        />
-                                                    </div>
-                                                </div>
-                                            </>
-                                        }
-                                        {
-                                            showConnections &&
-                                            <>
+                                                </>
+                                            }
+                                            {
+                                                showConnections &&
+                                                <>
 
-                                                <div className='title-2' style={{ marginBottom: 10 }}>Stocks that get affected the most  (in %)</div>
-                                                <div className='row'>
-                                                    <div className='col-lg-5' style={{ height: window.innerHeight - 410, overflowY: 'scroll' }}>
-                                                        {eventDetails?.response?.similar_dates?.slice().reverse().map((label, index) => (
-                                                            <div key={index} className='blue-box-label'>{label?.description}</div>
-                                                        ))}
-                                                    </div>
-                                                    {/* <div className='col-lg-7' style={{ overflow: 'hidden', marginTop: -50, position: 'relative' }}>
+                                                    <div className='title-2' style={{ marginBottom: 10 }}>Stocks that get affected the most  (in %)</div>
+                                                    <div className='row'>
+                                                        <div className='col-lg-5' style={{ height: window.innerHeight - 410, overflowY: 'scroll' }}>
+                                                            {eventDetails?.response?.similar_dates?.slice().reverse().map((label, index) => (
+                                                                <div key={index} className='blue-box-label'>{label?.description}</div>
+                                                            ))}
+                                                        </div>
+                                                        {/* <div className='col-lg-7' style={{ overflow: 'hidden', marginTop: -50, position: 'relative' }}>
                                                         <div style={{ position: 'relative', border: '1px solid #4563E4', borderRadius: 8, padding: 10 }}>
                                                             <div onClick={handleShow} style={{ position: 'absolute', right: 20, top: 0, display: 'flex', alignItems: 'center', cursor: 'pointer', backgroundColor: "white", padding: 5, zIndex: 100 }}>
                                                                 <div style={{ color: '#4563E4' }}>Full Screen</div>
@@ -483,9 +493,10 @@ function DiscoverCorrelation() {
                                                             />
                                                         </div>
                                                     </div> */}
-                                                </div>
-                                            </>
-                                        }
+                                                    </div>
+                                                </>
+                                            }
+                                        </div>
                                     </div>
                                 </div>
                             </>
@@ -502,6 +513,42 @@ function DiscoverCorrelation() {
                     nodes={data.nodes}
                     edges={data.edges}
                 /> */}
+            </Modal>
+            <Modal show={show3}
+                onHide={handleClose2}
+                size='lg'
+                className='selectmodalclass'
+                scrollable
+                centered
+            >
+                <Modal.Header>
+                    <div className='d-flex justify-content-between align-items-center w-100'>
+                        <div className='searchbar-css'>
+                            <div className="position-relative">
+                                <input type="text" style={{ backgroundColor: 'white' }} className="form-control form-control-search input-width-css" placeholder='Search Preferences' />
+                                <div className="position-absolute" style={{ left: 15, top: '15%' }}>
+                                    <img src={SearchIcon} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} alt="Search Icon" />
+                                </div>
+                            </div>
+                        </div>
+                        <div className=' align-items-center' onClick={handleClose2} style={{ cursor: 'pointer' }}>
+                            <img src={CloseImg} className='me-1' width={32} style={{ objectFit: 'contain' }} />
+                        </div>
+                    </div>
+                </Modal.Header>
+                <Modal.Body>
+                    <div className='viewModal2'>
+                        <div className='row' style={{ marginLeft: 0 }}>
+                            {tabData.map((item, index) => (
+                                <div key={index} className='selected'>{item.label}</div>
+                            ))}
+                            {tabData.map((item, index) => (
+                                <div key={index} className='unSelected'>{item.label}</div>
+                            ))}
+
+                        </div>
+                    </div>
+                </Modal.Body>
             </Modal>
         </>
     )
