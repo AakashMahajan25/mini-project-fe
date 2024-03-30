@@ -534,7 +534,6 @@ function LeftBox() {
 </div>
 
 </div>
-
                         {/* <div className='fundamental-container'>
                             <h2 className='fundamental-maintitle'>Fundamentals</h2>
                             <Slider {...settings}>
@@ -549,8 +548,6 @@ function LeftBox() {
                                 ))}
                             </Slider>
                         </div> */}
-
-
 <div class='d-flex' >
 <div className='col-lg-4  column-pad'>
     <div className='blackBorderBox'>
