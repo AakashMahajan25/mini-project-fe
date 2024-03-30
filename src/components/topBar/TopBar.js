@@ -103,6 +103,7 @@ function TopBar() {
               <Nav.Link href="#"><div className={location.pathname === '/market-content-gpt' ? 'web-nav-text-active me-5' : 'web-nav-text me-5'} onClick={routeChangeMarketContentGPT}>Market Content GPT</div></Nav.Link>
               <Nav.Link href="#"><div className={location.pathname === '/discover-correlation' ? 'web-nav-text-active me-5' : 'web-nav-text me-5'} onClick={routeChangeDiscoverCorrelation}>Discover Correlation</div></Nav.Link>
               <Nav.Link href="#"><div className={location.pathname === '/dashboard/watchlist' ? 'web-nav-text-active me-5' : 'web-nav-text me-5'} onClick={routeChangeWatchlist}>Watchlist</div></Nav.Link>
+              <Nav.Link href="#"><div className='web-nav-text me-5' onClick={handleLogout}>Logout</div></Nav.Link>
             </Nav>
           </Navbar.Collapse>
         </Container>
