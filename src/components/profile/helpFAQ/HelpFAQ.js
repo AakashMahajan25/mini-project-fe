@@ -40,15 +40,15 @@ function HelpFAQ({faqs}) {
                 <div className='faq-section'>
                     <div className='row'>
                         <div className='col-lg-6 col-sm-12'>
-                            <div className='faq-text'>Frequently Asked Question</div>
-                            <div className='searchbar-css'>
+                            <div className='faq-text mb-4'>Frequently Asked Question</div>
+                            {/* <div className='searchbar-css'>
                                 <div className="position-relative mt-3" style={{ marginBottom: 20 }}>
                                     <input type="text" style={{ backgroundColor: 'white' }} className="form-control form-control-search" placeholder='Search Preferences' />
                                     <div className="position-absolute" style={{ left: 15, top: '15%' }}>
                                         <img src={SearchIcon} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} alt="Search Icon" />
                                     </div>
                                 </div>
-                            </div>
+                            </div> */}
                             <div>
                                 <Accordion>
                                     {

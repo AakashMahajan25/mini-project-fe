@@ -27,7 +27,7 @@ import Modal from 'react-bootstrap/Modal';
 import TataLogo from '../../assets/images/Tata_Consultancy_Services_Logo.png'
 import UpGreenArrow from '../../assets/images/up-arrow-outline.png'
 import Slider from 'react-slick'
-import BarChart from '../barChart/BarChart'
+// import BarChart from '../barChart/BarChart'
 import DiscoverCorrelationGraph from '../graph/DiscoverCorrelationGraph'
 import { useLoading, ThreeDots } from '@agney/react-loading';
 import moment from 'moment';
@@ -220,7 +220,7 @@ function LeftBox() {
                         action: 'stock_added_to_watchlist',
                         label: 'Stock Added to Watchlist'
                     });
-                    toast(res?.message)
+                    toast.success(res?.message)
                     setSelectedId('')
                     handleClose2()
                     dispatch(getUserWatchLists());
@@ -232,25 +232,42 @@ function LeftBox() {
     console.log('selectedId', selectedId)
 
     const dataForMapping = [
-        { text1: '0.00', text2: '0', text3: '0.00' },
-        { text1: '0.00', text2: '0', text3: '0.00' },
-        { text1: '0.00', text2: '0', text3: '0.00' },
-        { text1: '0.00', text2: '0', text3: '0.00' },
-        { text1: '0.00', text2: '0', text3: '0.00' },
-        { text1: '0.00', text2: '0', text3: '0.00' },
-        { text1: '0.00', text2: '0', text3: '0.00' },
-        { text1: '0.00', text2: '0', text3: '0.00' },
+        { text1: 'Px/Chg 1D (USD)', text2: '1379.76/-5.41%', text3: '0.00' },
+        { text1: '52 Wk H (01/21/21)', text2: '2020', text3: '0.00' },
+        { text1: '52 Wk L (03/18/20)', text2: '49.9M/47.6M', text3: '0.00' },
+        { text1: 'YTD Change/%', text2: '422.22', text3: '0.00' },
+        { text1: 'mkt Cap (USD)', text2: '-195.46/-17.64%', text3: '0.00' },
+        { text1: 'Shrs out/float', text2: '68,808.3M', text3: '0.00' },
     ];
     const dataForMapping2 = [
-        { text1: '0.00', text2: '0', text3: '0.00' },
-        { text1: '0.00', text2: '0', text3: '0.00' },
-        { text1: '0.00', text2: '0', text3: '0.00' },
-        { text1: '0.00', text2: '0', text3: '0.00' },
-        { text1: '0.00', text2: '0', text3: '0.00' },
-        { text1: '0.00', text2: '0', text3: '0.00' },
-        { text1: '0.00', text2: '0', text3: '0.00' },
-        { text1: '0.00', text2: '0', text3: '0.00' },
+        { text1: 'Date', text2: '05/05/21', text3: '0.00' },
+        { text1: 'P/E', text2: 'N.A.', text3: '0.00' },
+        { text1: 'estimate P/E', text2: '711.58', text3: '0.00' },
+        { text1: 'T12M EPS (USD)', text2: '-0.07', text3: '0.00' },
+        { text1: 'Est EPS', text2: '1.94', text3: '0.00' },
+        { text1: 'Est PEG', text2: '5.14', text3: '0.00' },
+       
     ];
+    const dataForMapping3 = [
+        { text1: 'Ind Gross Yield', text2: '.', text3: '0.00' },
+        { text1: 'Cash Dividened Discontinued', text2: 'N.A.', text3: '0.00' },
+    ];
+    const dataForMapping4 = [
+        { text1: 'www.xyz.com', text2: '.', text3: '' },
+        { text1: 'Buenos Aires, AR', text2: '', text3: '' },
+        { text1: 'Empls', text2: '5,201 12/31/21', text3: '' },
+    ];
+    const dataForMapping5 = [
+        { text1: 'Jay Bhatt', text2: 'CEO/Founder', text3: '' },
+        { text1: 'Yaksh Rathod', text2: 'CFO', text3: '' },
+        { text1: 'Hitesh Sutar', text2: 'Exec VP', text3: '' },
+    ];
+    const dataForMapping6 = [
+        { text1: '12M Tot Ret', text2: '119.75%', text3: '' },
+        { text1: 'Beta vs SPX', text2: '1.20', text3: '' },
+        { text1: 'Hitesh Sutar', text2: 'Exec VP', text3: '' },
+    ];
+   
     const openStockData = [
         { heading: 'Open', amount: '3800.8' },
         { heading: 'Open', amount: '3800.8' },
@@ -478,102 +495,62 @@ function LeftBox() {
                             <button className='btn-red-sell'>Sell</button>
                         </div>
                     </div>
+                    <div class="container">
+    <div class="row">
+        <div class="col-2" style={{marginLeft:-27}}>
+            <div class="textPart d-flex m-3">
+                <div class="text-part1 d-flex">
+                <span style={{color:"#4563E4",marginRight:17 }} > FIGI</span> <p style={{color:"#6F7387"}}> BBG000GQPB11</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="textPart d-flex m-3">
+                <div class="text-part2 d-flex">
+                <span className='mr-2' style={{color:"#4563E4", marginRight:17}}>Classification</span>  <p style={{color:"#6F7387"}}>Online Marketplace</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
                     <div className='modal-pera'>Tata Consultancy Services Limited (TCS) is an India-based company engaged in providing information technology (IT) services, consulting, and business solutions. It operates through Banking; Capital Markets; Consumer Goods and Distribution; Communications, Media, and Information Services; Education; Energy, Resources, and Utilities; Healthcare; High Tech; Insurance; Life Sciences; Manufacturing; Public Services; Retail; Travel and Logistics. </div>
                     <div className='StockPriceNgraph'>
-                        <div className='row'>
-                            <div className='col-lg-6 column-pad'>
-                                <div className='blackBorderBox'>
-                                    <div className='row justify-content-center align-items-center'>
-                                        <div className='col-lg-6' style={{ borderRight: '1px solid #E5E5E5' }}>
-                                            <div className='d-flex justify-content-between mb-2'>
-                                                <div className='stock-headtext'>BID</div>
-                                                <div className='stock-headtext'>ORDERS</div>
-                                                <div className='stock-headtext'>QTY.</div>
-                                            </div>
-                                            {dataForMapping.map((item, index) => (
-                                                <div key={index} className='d-flex justify-content-between mb-1'>
-                                                    <div className='blue-priceText'>{item.text1}</div>
-                                                    <div className='blue-priceText'>{item.text2}</div>
-                                                    <div className='blue-priceText'>{item.text3}</div>
-                                                </div>
-                                            ))}
-                                            <div className='d-flex justify-content-between mt-3'>
-                                                <div className='blue-priceText'>TOTAL</div>
-                                                <div className='blue-priceText'>00,000</div>
-                                            </div>
-                                        </div>
-                                        <div className='col-lg-6'>
-                                            <div className='d-flex justify-content-between mb-2'>
-                                                <div className='stock-headtext'>BID</div>
-                                                <div className='stock-headtext'>ORDERS</div>
-                                                <div className='stock-headtext'>QTY.</div>
-                                            </div>
-                                            {dataForMapping2.map((item, index) => (
-                                                <div key={index} className='d-flex justify-content-between mb-1'>
-                                                    <div className='red-priceText'>{item.text1}</div>
-                                                    <div className='red-priceText'>{item.text2}</div>
-                                                    <div className='red-priceText'>{item.text3}</div>
-                                                </div>
-                                            ))}
-                                            <div className='d-flex justify-content-between mt-3'>
-                                                <div className='red-priceText'>TOTAL</div>
-                                                <div className='red-priceText'>00,000</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className='col-lg-6 column-pad'>
-                                <div className='blackBorderBox'>
-                                    <h4 className='title'>Price Chart</h4>
-                                    <DiscoverCorrelationGraph
-                                        index={2}
-                                        graphData={{
-                                            labels: ['2', '4', '6', '8', '10', '12', '14', '16', '18', '20'],
-                                            data: [800, 650, 300, 550, 852, 157, 900, 350, 1000, 432]
-                                        }}
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                        <div className='row'>
-                            <div className='col-lg-6 column-pad'>
-                                <div className='blackBorderBox'>
-                                    <div className='row'>
-                                        {openStockData.map((data, index) => (
-                                            <div key={index} className='col-lg-4'>
-                                                <div className='black-box-boder'>
-                                                    <div className='stock-details-heading'>{data.heading}</div>
-                                                    <div className='stock-details-amount'>{data.amount}</div>
-                                                </div>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-                            </div>
-                            <div className='col-lg-6 column-pad'>
-                                <div className='blackBorderBox'>
-                                    <div className='d-flex align-items-center justify-content-between'>
-                                        <h4 className='title'>Financials</h4>
-                                        <div className='d-flex align-items-center'>
-                                            <div className='blue-btn me-3' style={{ padding: '8px 33px', cursor: 'pointer' }}>Revenue</div>
-                                            <div className='light-blue-btn me-3' style={{ padding: '8px 33px', cursor: 'pointer' }}>Profit</div>
-                                            <div className='light-blue-btn' style={{ padding: '8px 33px', cursor: 'pointer' }}>Net Worth</div>
-                                        </div>
-                                    </div>
-                                    <BarChart
-                                        index={3}
-                                        yAxisLabel={'Users'}
-                                        xAxisLabel={'Date'}
-                                        graphData={{
-                                            labels: ['2', '4', '6', '8', '10', '12', '14', '16', '18', '20'],
-                                            data: [800, 650, 300, 550, 852, 157, 900, 350, 1000, 432]
-                                        }}
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                        <div className='fundamental-container'>
+                           
+                      <div className='row'>
+                      <div className='col-lg-6 column-pad'>
+    <div className='blackBorderBox'>
+        <h4 className='title'>Price Chart</h4>
+        <div id='chartSmall'>
+            <DiscoverCorrelationGraph 
+
+                index={2}
+                graphData={{
+                    labels: ['2', '4', '6', '8', '10', '12', '14', '16', '18', '20'],
+                    data: [800, 650, 300, 550, 852, 157, 900, 350, 1000, 432]
+                }}
+            />
+        </div>
+    </div>
+</div>
+
+    <div className='col-lg-6  column-pad'>
+    <div className='blackBorderBox'  style={{height:309}}>
+        <div className='justify-content-between'>
+            <div className=''>
+                {dataForMapping.map((item, index) => (
+                    <div key={index} className='d-flex justify-content-between '>
+                        <div className='blue-priceText' style={{margin:3}}>{item.text1}</div>        
+                        <div className='blue-priceText' style={{color:"#6F7387"}}>{item.text2}</div>
+                    </div>
+                ))}
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
+                        {/* <div className='fundamental-container'>
                             <h2 className='fundamental-maintitle'>Fundamentals</h2>
                             <Slider {...settings}>
                                 {fundamental.map((fundamental) => (
@@ -586,7 +563,69 @@ function LeftBox() {
 
                                 ))}
                             </Slider>
-                        </div>
+                        </div> */}
+<div class='d-flex' >
+<div className='col-lg-4  column-pad'>
+    <div className='blackBorderBox'>
+        <div className='justify-content-between'>
+            <div className=''>
+                <p style={{fontSize:15,fontWeight:"bold"}}>Estimates | EE</p>
+                {dataForMapping2.map((item, index) => (
+                    <div key={index} className='d-flex justify-content-between '>
+                        <div className='blue-priceText' style={{margin:3}}>{item.text1}</div>        
+                        <div className='blue-priceText' style={{color:"#6F7387"}}>{item.text2}</div>
+                    </div>
+                ))}
+            </div>
+        </div>
+    </div>
+</div>
+<div className='col-lg-4  column-pad'>
+    <div className='blackBorderBox'>
+        <div className='justify-content-between'>
+            <div className=''>
+           <p  style={{fontSize:15,fontWeight:"bold"}}>Dividened | DVD</p> 
+               
+           {dataForMapping3.map((item, index) => (
+                    <div key={index} className='d-flex justify-content-between '>
+                        <div className='blue-priceText' style={{margin:3}}>{item.text1}</div>        
+                        <div className='blue-priceText' style={{color:"#6F7387"}}>{item.text2}</div>
+                    </div>
+                ))}
+           <p  style={{fontSize:15,fontWeight:"bold"}}>Corporate Info</p> 
+           {dataForMapping4.map((item, index) => (
+                    <div key={index} className='d-flex justify-content-between '>
+                        <div className='blue-priceText' style={{margin:3}}>{item.text1}</div>        
+                        <div className='blue-priceText' style={{color:"#6F7387"}}>{item.text2}</div>
+                    </div>
+                ))}
+            </div>
+        </div>
+    </div>
+</div>
+<div className='col-lg-4  column-pad'>
+    <div className='blackBorderBox'>
+        <div className='justify-content-between'>
+            <div className=''>
+                <p style={{fontSize:15,fontWeight:"bold"}}>Management | MGMT</p>
+                {dataForMapping5.map((item, index) => (
+                    <div key={index} className='d-flex justify-content-between '>
+                        <div className='blue-priceText'>{item.text1}</div>        
+                        <div className='blue-priceText' style={{color:"#6F7387"}}>{item.text2}</div>
+                    </div>
+                ))}
+                <hr />
+                {dataForMapping6.map((item, index) => (
+                    <div key={index} className='d-flex justify-content-between '>
+                        <div className='blue-priceText'>{item.text1}</div>        
+                        <div className='blue-priceText' style={{color:"#6F7387"}}>{item.text2}</div>
+                    </div>
+                ))}
+            </div>
+        </div>
+    </div>
+</div>
+</div>
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
