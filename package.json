@@ -23,6 +23,7 @@
     "react-bootstrap": "^2.10.0",
     "react-d3-graph": "^2.6.0",
     "react-dom": "^18.2.0",
+    "react-ga4": "^2.1.0",
     "react-graph-vis": "^1.0.7",
     "react-hook-form": "^7.50.1",
     "react-marquee-slider": "^1.1.5",

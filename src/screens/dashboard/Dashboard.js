@@ -30,6 +30,7 @@ import RightBlueArrow from '../../assets/images/blue-right-arrow.png';
 import CloseImg from '../../assets/images/close_icon.png';
 import { Tooltip } from 'react-tooltip'
 import 'react-tooltip/dist/react-tooltip.css'
+import ReactGA from 'react-ga4';
 
 const storyEnum = {
     Topics_news: 'isTopicViewed',
@@ -189,6 +190,11 @@ function Dashboard() {
 
     const routePromptFrruitGPT = (question) => {
         if (question) {
+            ReactGA.event({
+                category: 'Dashboard',
+                action: 'mostonfrruit_prompt_click',
+                label: 'MostonFrruit Prompt Click'
+            });
             navigate("/frruit-gpt", {
                 state: { question },
             });
@@ -201,11 +207,38 @@ function Dashboard() {
     };
 
     useEffect(() => {
-        dispatch(getTrendingStocks())
+        dispatch(getTrendingStocks()).unwrap()
+        .then((res) => {
+            ReactGA.event({
+                category: 'Dashboard',
+                action: 'get_trending_stocks',
+                label: 'Get Trending Stocks'
+            });
+        }).catch(err=>{
+
+        });
         dispatch(getTrendingNews())
-        dispatch(getMostOnFrruitGpt(20))
+        dispatch(getMostOnFrruitGpt(20)).unwrap()
+        .then((res) => {
+            ReactGA.event({
+                category: 'Dashboard',
+                action: 'get_mostonfrruitgpt',
+                label: 'Get MostonFrruitGpt'
+            });
+        }).catch(err=>{
+
+        });
         dispatch(getPromptSuggestion(4))
-        dispatch(getInvestorStories())
+        dispatch(getInvestorStories()).unwrap()
+        .then((res) => {
+            ReactGA.event({
+                category: 'Dashboard',
+                action: 'get_investor_stories',
+                label: 'Get Investor Stories'
+            });
+        }).catch(err=>{
+
+        });
         dispatch(getStockIndexes())
     }, [])
 

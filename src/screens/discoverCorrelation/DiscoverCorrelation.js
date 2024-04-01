@@ -22,6 +22,7 @@ import SingleBarGraph from '../../components/singleBarGraph/SingleBarGraph';
 import CloseImg from '../../assets/images/close_icon.png';
 import SearchIcon from '../../assets/images/search-icon.png';
 // import NetworkGraph from '../../components/networkGraph/NetworkGraph';
+import ReactGA from 'react-ga4';
 
 function DiscoverCorrelation() {
     const [showEventDetails, setShowEventDetails] = useState(false);
@@ -358,10 +359,20 @@ function DiscoverCorrelation() {
         setShow(true);
     }
     const returnClick = () => {
+        ReactGA.event({
+            category: 'Event Explorer',
+            action: 'stock_performance_asper_returns',
+            label: 'Stock Performance As Per Returns'
+        });
         setShowConnections(false);
         setShowReturns(true);
     }
     const connectionsClick = () => {
+        ReactGA.event({
+            category: 'Event Explorer',
+            action: 'stock_performance_asper_connections',
+            label: 'Stock Performance As Per Connections'
+        });
         setShowConnections(true);
         setShowReturns(false);
     }

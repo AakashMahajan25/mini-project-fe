@@ -26,7 +26,8 @@
         height: 350px;
         overflow-y: scroll;
     }
-    .search-box-menu-nodata{
+
+    .search-box-menu-nodata {
         padding: 16px;
         background-color: #ffffff;
         height: max-content;
@@ -53,6 +54,7 @@
         color: #fff !important;
         text-transform: capitalize !important;
     }
+
     .css-1aquho2-MuiTabs-indicator {
         position: absolute;
         height: 0px;
@@ -72,6 +74,7 @@
         min-height: 35px;
         padding: 0px 16px;
     }
+
     .css-1ujnqem-MuiTabs-root {
         min-height: 35px;
     }
@@ -145,6 +148,12 @@
     /* Handle on hover */
     ::-webkit-scrollbar-thumb:hover {
         background: #4563E4;
+    }
+
+    .css-hn1agm {
+        @media only screen and (min-width: 600px) {
+            max-width: 782px;
+        }
     }
 }
 
@@ -443,10 +452,4 @@
     //     height: 100px;
     // }
 
-}
-.vertical-line {
-    border-left: 1px solid #000000; 
-    height: 100%;
-    width: 50px; 
-    margin: 0 auto; 
 }

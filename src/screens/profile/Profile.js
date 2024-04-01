@@ -22,6 +22,7 @@ import Preferences from '../../components/profile/Preferences';
 import { getStockIndexes } from '../dashboard/slice';
 import HelpFAQ from '../../components/profile/helpFAQ/HelpFAQ';
 import { toast } from 'react-toastify';
+import ReactGA from 'react-ga4';
 
 function Profile() {
     const navigate = useNavigate();
@@ -55,6 +56,11 @@ function Profile() {
         setPreferencesActiveColor(true);
     };
     const handleHelpClick = () => {
+        ReactGA.event({
+            category: 'Profiling',
+            action: 'user_help',
+            label: 'User Help'
+        })
         dispatch(getFaqs());
         setShowHelpFAQ(true);
         setShowCode(false)
@@ -81,8 +87,24 @@ function Profile() {
     const { userCredits, isLoading, userDetails, userPlan, faqs } = useSelector(state => state.userSlice)
 
     useEffect(() => {
-        dispatch(getAvaliableCredit());
-        dispatch(getUserDetails())
+        dispatch(getAvaliableCredit()).unwrap().then(()=>{
+            ReactGA.event({
+                category: 'Profiling',
+                action: 'user_avaliablecredit',
+                label: 'User Avaliable Credit'
+              });
+        }).catch(err => {
+
+        });
+        dispatch(getUserDetails()).then(()=>{
+            ReactGA.event({
+                category: 'Profiling',
+                action: 'user_profile',
+                label: 'User Profile'
+              });
+        }).catch(err => {
+
+        });
         dispatch(getUserPlan());
         // dispatch(getStockIndexes())
     }, [])
@@ -160,7 +182,7 @@ function Profile() {
                                                     {
                                                         userPlan && <>
                                                             <div className='text-3' style={{ fontSize: 24 }}>{userPlan?.plan_name}</div>
-                                                            <div className='text-4'>{userPlan?.subsciption_type === "free" ? `${userPlan.credits_offered} Credits` : `₹${userPlan?.price} /month`}</div>
+                                                            <div className='text-4'>{userPlan?.subsciption_type === "free" ? `${userPlan.credits_offered} Credits` : `$${userPlan?.price} /month`}</div>
                                                         </>
                                                     }
                                                 </div>

@@ -11,6 +11,7 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
+import ReactGA from 'react-ga4';
 
 function TopBar() {
   const dispatch = useDispatch();
@@ -54,6 +55,11 @@ function TopBar() {
     dispatch(getUserDetails())
   }, [])
   const handleLogout = () => {
+    ReactGA.event({
+      category: 'Profiling',
+      action: 'user_logout',
+      label: 'User Logout'
+    });
     localStorage.clear();
     navigate('/login');
   }
@@ -103,6 +109,7 @@ function TopBar() {
               <Nav.Link href="#"><div className={location.pathname === '/market-content-gpt' ? 'web-nav-text-active me-5' : 'web-nav-text me-5'} onClick={routeChangeMarketContentGPT}>Market Content GPT</div></Nav.Link>
               <Nav.Link href="#"><div className={location.pathname === '/discover-correlation' ? 'web-nav-text-active me-5' : 'web-nav-text me-5'} onClick={routeChangeDiscoverCorrelation}>Discover Correlation</div></Nav.Link>
               <Nav.Link href="#"><div className={location.pathname === '/dashboard/watchlist' ? 'web-nav-text-active me-5' : 'web-nav-text me-5'} onClick={routeChangeWatchlist}>Watchlist</div></Nav.Link>
+              <Nav.Link href="#"><div className='web-nav-text me-5' onClick={handleLogout}>Logout</div></Nav.Link>
             </Nav>
           </Navbar.Collapse>
         </Container>
