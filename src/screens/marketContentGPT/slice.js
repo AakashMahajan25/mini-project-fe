@@ -182,6 +182,9 @@ export const triggerContentLinkGraph = createAsyncThunk("fruitGpt/triggerContent
             data: {
                 link: question,
                 prompt_id: id
+            },
+            headers:{
+                timeout: 10 * 10000,
             }
         };
         const response = await api(data);
@@ -212,7 +215,9 @@ export const triggerContentAttachmentGraph = createAsyncThunk("fruitGpt/triggerC
                 object_key: question,
                 prompt_id: id
             },
-           timeout: 300000,
+            headers:{
+                timeout: 10 * 10000,
+            }
         };
         const response = await api(data);
         if (!response.data.status) {
