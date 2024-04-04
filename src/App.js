@@ -16,7 +16,7 @@ function App() {
   const isAuthenticated = localStorage.getItem('token');
 
   useEffect(() => {
-    ReactGA.initialize('G-48PQ3R17YK',{ debug: true });
+    ReactGA.initialize('G-KFRHHDX0W3',{ debug: true });
   }, []);
 
   return (
