@@ -29,7 +29,7 @@ function MarketContentGPT() {
 
     useEffect(() => {
         dispatch(clearContentChatHistory())
-        dispatch(getContentPromptList())
+        dispatch(getContentPromptList('link'))
         dispatch(clearChatHistory())
     }, [])
 

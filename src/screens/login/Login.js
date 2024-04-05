@@ -30,6 +30,7 @@ function Login() {
 
     const handleDifferentNumberClick = () => {
         setShowCode(false);
+        setOtp('')
         if (numberRef?.current) {
             numberRef?.current.focus()
         }

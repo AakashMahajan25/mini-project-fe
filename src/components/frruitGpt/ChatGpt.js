@@ -19,7 +19,6 @@ import UploadDocImg from '../../assets/images/doc-img.png'
 import { useNavigate } from 'react-router-dom';
 import quesIcon from '../../assets/images/i-icon.png';
 // import PieChart from '../pieChart/PieChart'
-import { PieChart } from '@mui/x-charts/PieChart';
 import NewsTime from '../../assets/images/time-clock.png';
 import NetworkGraph from '../networkGraph/NetworkGraph'
 import { Tooltip } from 'react-tooltip'
@@ -178,9 +177,9 @@ function ChatGpt(props) {
     }
 
     function toCamelCase(str) {
-        str = str.replace(/_/g, ' '); // Replace underscores with spaces
-        return str.toLowerCase().replace(/(^|\s)\S/g, function (match) {
-            return match.toUpperCase();
+        str = str?.replace(/_/g, ' '); // Replace underscores with spaces
+        return str?.toLowerCase()?.replace(/(^|\s)\S/g, function (match) {
+            return match?.toUpperCase();
         });
     }
 
