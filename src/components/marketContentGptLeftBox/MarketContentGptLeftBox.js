@@ -9,6 +9,7 @@ import { Nav, Tab, Tabs } from 'react-bootstrap'
 import { deleteContentPrompt, getContentPromptList, searchContentPrompt } from '../../screens/marketContentGPT/slice';
 import DeleteRedIcon from '../../assets/images/delete-red-icon.png';
 import DeleteGrayIcon from '../../assets/images/delete-gray-icon.png';
+import { Tooltip } from 'react-tooltip'
 import DeleteWhiteIcon from '../../assets/images/delete-white-icon.png';
 import Modal from 'react-bootstrap/Modal';
 import CloseImg from '../../assets/images/close_icon.png';
@@ -56,14 +57,14 @@ function MarketContentGptLeftBox(props) {
     useEffect(() => {
         const debounceSearch = setTimeout(() => {
             if (searchParam) {
-                if(selected === 'link'){
+                if (selected === 'link') {
                     ReactGA.event({
                         category: 'MarketContentGPT',
                         action: 'search_youtube_links',
                         label: 'Search Youtube Links'
                     });
                 }
-                
+
                 const data = {
                     type: selected,
                     search: searchParam
@@ -134,8 +135,12 @@ function MarketContentGptLeftBox(props) {
                                                 : moment(item?.date).format('DD MMM YYYY')
                                         }</div>
                                         {item?.data?.map((item, index, array) => (
-                                            <Nav.Link key={index} className={selectedChat === item.content_prompt_id ? 'blue-box-active' : 'blue-box'} onClick={() => historyClick(item?.content_prompt_id)} style={{ marginBottom: index === array.length - 1 ? 20 : 10, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                                                <Nav.Link className=''>{trimText(item?.link_title, 35)}</Nav.Link>
+                                            <Nav.Link key={index} className={selectedChat === item.content_prompt_id ? 'blue-box-active' : 'blue-box'} onClick={() => historyClick(item?.content_prompt_id)} style={{ marginBottom: index === array.length - 1 ? 20 : 10, display: 'flex', alignItems: 'center', justifyContent: 'space-between', zIndex: "revert-layer", position: 'relative' }} data-tooltip-id={`my-tooltip-${index}`}>
+                                                {trimText(item?.link_title, 35)}
+                                                {/* <Tooltip id={`my-tooltip-${index}`} place="left-start" className='bg-primary' style={{ zIndex: 100000, position: 'absolute' }}>
+                                                    {item?.link_title}
+                                                </Tooltip> */}
+
                                                 <img
                                                     src={hoveredItem === item.content_prompt_id ? DeleteRedIcon : selectedChat === item.content_prompt_id ? DeleteWhiteIcon : DeleteGrayIcon}
                                                     width={20}
@@ -144,6 +149,7 @@ function MarketContentGptLeftBox(props) {
                                                     onMouseLeave={() => setHoveredItem(null)}
                                                     onClick={(event) => handleShow2(event, item?.content_prompt_id)}
                                                 />
+
                                             </Nav.Link>
                                         ))}
                                     </>
