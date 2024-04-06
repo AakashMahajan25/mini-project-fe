@@ -7,6 +7,11 @@ import StockPriceScroll from '../stockPriceScroll/StockPriceScroll';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUserDetails } from '../../screens/profile/usersSlice';
 import LogOut from '../../assets/images/logout-outline.png';
+import Container from 'react-bootstrap/Container';
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
+import NavDropdown from 'react-bootstrap/NavDropdown';
+import ReactGA from 'react-ga4';
 
 function TopBar() {
   const dispatch = useDispatch();
@@ -21,8 +26,12 @@ function TopBar() {
     let path = `/dashboard`;
     navigate(path);
   }
+  const routeChangeWatchlist = () => {
+    let path = `/dashboard/watchlist`;
+    navigate(path);
+  }
   const routeChangeFrruitGPT = () => {
-    if(cancelTokens)
+    if (cancelTokens)
       cancelTokens.cancel("cancelled")
     let path = `/frruit-gpt`;
     navigate(path);
@@ -36,7 +45,7 @@ function TopBar() {
     navigate(path);
   }
   const routeChangeMarketContentGPT = () => {
-    if(cancelTokens)
+    if (cancelTokens)
       cancelTokens.cancel("cancelled")
     let path = `/market-content-gpt`;
     navigate(path);
@@ -46,9 +55,14 @@ function TopBar() {
     dispatch(getUserDetails())
   }, [])
   const handleLogout = () => {
+    ReactGA.event({
+      category: 'Profiling',
+      action: 'user_logout',
+      label: 'User Logout'
+    });
     localStorage.clear();
     navigate('/login');
-}
+  }
 
   return (
     <>
@@ -63,7 +77,6 @@ function TopBar() {
               <div className={location.pathname === '/frruit-gpt' ? 'web-nav-text-active me-5' : 'web-nav-text me-5'} onClick={routeChangeFrruitGPT}>Frruit GPT</div>
               <div className={location.pathname === '/market-content-gpt' ? 'web-nav-text-active me-5' : 'web-nav-text me-5'} onClick={routeChangeMarketContentGPT}>Market Content GPT</div>
               <div className={location.pathname === '/discover-correlation' ? 'web-nav-text-active me-5' : 'web-nav-text me-5'} onClick={routeChangeDiscoverCorrelation}>Discover Correlation</div>
-              {/* <img className="logo" onClick={routeChangeProfile} style={{ width: 42 }} src={ProfilePic} alt="" /> */}
               <div onClick={routeChangeProfile} className='profile-icon me-5'>
                 <div className='profile-name-text'>{userDetails?.first_name?.slice(0, 1)}</div>
               </div>
@@ -71,76 +84,36 @@ function TopBar() {
                 <div className='logout-text'>Logout</div>
                 <img src={LogOut} style={{ width: 24, objectFit: 'contain', marginLeft: 5 }} />
               </div>
-            </div>
-          </div>
+            </div >
+          </div >
           <StockPriceScroll />
-        </div>
-      </div>
+        </div >
+      </div >
 
-
-
-      {/* <div
-        className=" d-block d-sm-block d-md-block d-lg-none d-xl-none d-xxl-none position-absolute w-100 topbar"
-        style={{ zIndex: 1000 }}
-      >
-        <nav className="navbar navbar-expand-lg navbar-dark align-items-center justify-content-between py-3">
-          <a className="navbar-brand ms-3" href="#">
-            <img className="logo" style={{ width: 100 }} src={FrruitLogo} alt="" />
+      <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary tabNavBar">
+        <Container>
+          <a onClick={routeChangeDashboard}>
+            <img className="logo" style={{ width: 133 }} src={FrruitLogo} alt="" />
           </a>
-          <button
-            className="navbar-toggler me-3"
-            type="button"
-            data-bs-toggle="offcanvas"
-            data-bs-target="#offcanvasExample"
-            aria-controls="offcanvasExample"
-          >
-            <span className="navbar-toggler-icon" />
-          </button>
-        </nav>
-        <div
-          className="offcanvas offcanvas-start"
-          tabIndex={-1}
-          id="offcanvasExample"
-          aria-labelledby="offcanvasExampleLabel"
-        >
-          <div
-            className="offcanvas-header"
-            style={{ backgroundColor: "transparent !important" }}
-          >
-            <a className="offcanvas-title " id="offcanvasExampleLabel" href="/">
-              <img className="logo" style={{ width: 100 }} src={FrruitLogo} alt="" />
-            </a>
-            <button
-              type="button"
-              className="btn-close text-reset"
-              data-bs-dismiss="offcanvas"
-              aria-label="Close"
-            />
+          <div className='d-flex justify-content-center align-items-center'>
+            <Nav.Link href="#"><div onClick={routeChangeProfile} className='profile-icon me-2'>
+              <div className='profile-name-text'>{userDetails?.first_name?.slice(0, 1)}</div>
+            </div>
+            </Nav.Link>
+            <Navbar.Toggle aria-controls="basic-navbar-nav" />
           </div>
-          <div className="offcanvas-body">
-            <ul className="navbar-nav">
-              <li className="nav-item my-2">
-                <a className="nav-link" data-bs-dismiss="offcanvas" href="#Dashboard">
-                  {" "}
-                  Dashboard{" "}
-                </a>
-              </li>
-              <li className="nav-item my-2">
-                <a className="nav-link" data-bs-dismiss="offcanvas" href="#Frruit GPT">
-                  {" "}
-                  Frruit GPT{" "}
-                </a>
-              </li>
-              <li className="nav-item my-2">
-                <a className="nav-link" data-bs-dismiss="offcanvas" href="#Discover Correlation">
-                  {" "}
-                  Discover Correlation{" "}
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div> */}
+          <Navbar.Collapse id="basic-navbar-nav">
+            <Nav className="me-auto mt-2">
+              <Nav.Link href="#"> <div className={location.pathname === '/dashboard' ? 'web-nav-text-active me-5' : 'web-nav-text me-5'} onClick={routeChangeDashboard}>Dashboard</div></Nav.Link>
+              <Nav.Link href="#"><div className={location.pathname === '/frruit-gpt' ? 'web-nav-text-active me-5' : 'web-nav-text me-5'} onClick={routeChangeFrruitGPT}>Frruit GPT</div></Nav.Link>
+              <Nav.Link href="#"><div className={location.pathname === '/market-content-gpt' ? 'web-nav-text-active me-5' : 'web-nav-text me-5'} onClick={routeChangeMarketContentGPT}>Market Content GPT</div></Nav.Link>
+              <Nav.Link href="#"><div className={location.pathname === '/discover-correlation' ? 'web-nav-text-active me-5' : 'web-nav-text me-5'} onClick={routeChangeDiscoverCorrelation}>Discover Correlation</div></Nav.Link>
+              <Nav.Link href="#"><div className={location.pathname === '/dashboard/watchlist' ? 'web-nav-text-active me-5' : 'web-nav-text me-5'} onClick={routeChangeWatchlist}>Watchlist</div></Nav.Link>
+              <Nav.Link href="#"><div className='web-nav-text me-5' onClick={handleLogout}>Logout</div></Nav.Link>
+            </Nav>
+          </Navbar.Collapse>
+        </Container>
+      </Navbar>
     </>
   )
 }

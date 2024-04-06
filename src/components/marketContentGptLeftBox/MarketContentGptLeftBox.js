@@ -12,6 +12,7 @@ import DeleteGrayIcon from '../../assets/images/delete-gray-icon.png';
 import DeleteWhiteIcon from '../../assets/images/delete-white-icon.png';
 import Modal from 'react-bootstrap/Modal';
 import CloseImg from '../../assets/images/close_icon.png';
+import ReactGA from 'react-ga4';
 
 function MarketContentGptLeftBox(props) {
     const [hoveredItem, setHoveredItem] = useState(null);
@@ -55,6 +56,14 @@ function MarketContentGptLeftBox(props) {
     useEffect(() => {
         const debounceSearch = setTimeout(() => {
             if (searchParam) {
+                if(selected === 'link'){
+                    ReactGA.event({
+                        category: 'MarketContentGPT',
+                        action: 'search_youtube_links',
+                        label: 'Search Youtube Links'
+                    });
+                }
+                
                 const data = {
                     type: selected,
                     search: searchParam
@@ -73,11 +82,12 @@ function MarketContentGptLeftBox(props) {
         handleHistory(content_prompt_id, selected, name)
     }
 
+    const leftPartHeight = window.innerWidth > 768 ? window.innerHeight - 105 : window.innerHeight - 57;
+
     return (
         <>
             <div className='marketContentGptLeftBox-css'>
-                <div className='box' style={{ height: window.innerHeight - 105 }}>
-
+                <div className='box' style={{ height: leftPartHeight }}>
                     <div className="position-relative blue-box" style={{ marginBottom: 20, cursor: 'pointer' }} onClick={handleNewChat}>
                         <div className='new-chat-text'>New Chat</div>
                         <div className="position-absolute" style={{ right: 14, top: '19%' }}>

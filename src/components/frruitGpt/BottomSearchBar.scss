@@ -8,6 +8,9 @@
     gap: 15px;
     bottom: 0;
     width: 75%;
+    @media only screen and (max-width: 768px) {
+        width: 66%;
+    }
     // left: 50%;
     // transform: translate(-50%, 0%);
 

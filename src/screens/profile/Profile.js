@@ -22,6 +22,7 @@ import Preferences from '../../components/profile/Preferences';
 import { getStockIndexes } from '../dashboard/slice';
 import HelpFAQ from '../../components/profile/helpFAQ/HelpFAQ';
 import { toast } from 'react-toastify';
+import ReactGA from 'react-ga4';
 
 function Profile() {
     const navigate = useNavigate();
@@ -55,6 +56,11 @@ function Profile() {
         setPreferencesActiveColor(true);
     };
     const handleHelpClick = () => {
+        ReactGA.event({
+            category: 'Profiling',
+            action: 'user_help',
+            label: 'User Help'
+        })
         dispatch(getFaqs());
         setShowHelpFAQ(true);
         setShowCode(false)
@@ -81,8 +87,24 @@ function Profile() {
     const { userCredits, isLoading, userDetails, userPlan, faqs } = useSelector(state => state.userSlice)
 
     useEffect(() => {
-        dispatch(getAvaliableCredit());
-        dispatch(getUserDetails())
+        dispatch(getAvaliableCredit()).unwrap().then(()=>{
+            ReactGA.event({
+                category: 'Profiling',
+                action: 'user_avaliablecredit',
+                label: 'User Avaliable Credit'
+              });
+        }).catch(err => {
+
+        });
+        dispatch(getUserDetails()).then(()=>{
+            ReactGA.event({
+                category: 'Profiling',
+                action: 'user_profile',
+                label: 'User Profile'
+              });
+        }).catch(err => {
+
+        });
         dispatch(getUserPlan());
         // dispatch(getStockIndexes())
     }, [])
@@ -99,19 +121,21 @@ function Profile() {
 
     const onSubmit = (data) => {
         dispatch(updateProfile(data))
-        .unwrap()
-        .then(async(res) => {
-            toast.success("Profile Updated Successfully")
-        })
-        .catch((error) => {
-            toast.error("Error in updating profile")
-        })
+            .unwrap()
+            .then(async (res) => {
+                toast.success("Profile Updated Successfully")
+            })
+            .catch((error) => {
+                toast.error("Error in updating profile")
+            })
     }
+
+    const rightPartHeight = window.innerWidth > 768 ? window.innerHeight - 105 : window.innerHeight - 57;
 
     return (
         <>
             <div className='row justify-content-between m-0 profile-css'>
-                <div className='col-lg-3 column-pad'>
+                <div className='col-lg-3 col-md-3 col-sm-3 column-pad'>
                     <LeftProfileBox
                         handlePreferencesClick={handlePreferencesClick}
                         handleProfileClick={handleProfileClick}
@@ -121,14 +145,14 @@ function Profile() {
                         isHelpActive={isHelpActive}
                     />
                 </div>
-                <div className='col-lg-9 column-pad'>
+                <div className='col-lg-9 col-md-9 col-sm-9 column-pad'>
                     {!showCode && !showPreferences && !showHelpFAQ &&
-                        <div className='right-part' style={{ height: window.innerHeight - 130, overflowY: 'scroll' }}>
+                        <div className='right-part' style={{ height: rightPartHeight, overflowY: 'scroll' }}>
                             <div className='welcome-text'>Welcome</div>
                             <div style={{ marginBottom: 20 }} className='user-text'>{userDetails?.first_name + " " + userDetails?.last_name}!</div>
                             <div className='row m-0'>
                                 <div className='col-lg-6 column-pad' style={{ marginBottom: 20 }}>
-                                    <div className='me-2'>
+                                    <div className='cardCustomMarginRight'>
                                         <div className='blue-box'>
                                             <div className='d-flex justify-content-between align-items-center' style={{ marginBottom: 10 }}>
                                                 <div className='text-1'>Available Credits</div>
@@ -148,7 +172,7 @@ function Profile() {
                                     </div>
                                 </div>
                                 <div className='col-lg-6 column-pad' style={{ marginBottom: 20 }}>
-                                    <div className='ms-2'>
+                                    <div className='cardCustomMarginLeft'>
                                         <div className='blue-box'>
                                             <div className='d-flex justify-content-start align-items-center' style={{ marginBottom: 10 }}>
                                                 <div className='text-1'>Current Plan</div>
@@ -157,8 +181,8 @@ function Profile() {
                                                 <div className='d-flex justify-content-between align-items-center'>
                                                     {
                                                         userPlan && <>
-                                                            <div className='text-3'style={{fontSize:24}}>{userPlan?.plan_name}</div>
-                                                            <div className='text-4'>{userPlan?.subsciption_type === "free" ? `${userPlan.credits_offered} Credits` : `₹${userPlan?.price} /month`}</div>
+                                                            <div className='text-3' style={{ fontSize: 24 }}>{userPlan?.plan_name}</div>
+                                                            <div className='text-4'>{userPlan?.subsciption_type === "free" ? `${userPlan.credits_offered} Credits` : `$${userPlan?.price} /month`}</div>
                                                         </>
                                                     }
                                                 </div>
@@ -174,12 +198,12 @@ function Profile() {
                                         <div className='profile-title' style={{ marginBottom: 32 }}>Profile</div>
                                         <div className='row align-items-center mt-2  ' style={{ marginBottom: 20 }}>
                                             {/* <img src={UserImg} style={{ width: 82, objectFit: 'contain', marginRight: 15 }} /> */}
-                                            <div className='col-lg-2'>
+                                            <div className='col-lg-2 col-md-2'>
                                                 <div className='user-profile-circle'>
                                                     <div className='user-profile-circle-text'>{userDetails?.first_name?.slice(0, 1)}</div>
                                                 </div>
                                             </div>
-                                            <div className='col-lg-10'>
+                                            <div className='col-lg-10 col-md-10'>
                                                 <div className="position-relative" style={{ width: '100%' }}>
                                                     <label className='form-control-label'>First Name</label>
                                                     <Controller
@@ -286,19 +310,19 @@ function Profile() {
                         </div>
                     }
                     {showCode &&
-                        <div className='right-part' style={{ height: window.innerHeight - 130, overflowY: 'scroll' }}>
+                        <div className='right-part' style={{ height: rightPartHeight, overflowY: 'scroll' }}>
                             <Plans handleBackButtonClick={handleBackButtonClick} />
                         </div>
                     }
                     {showPreferences && (
                         // Show the Preferences component
-                        <div className='right-part' style={{ height: window.innerHeight - 130, overflowY: 'scroll' }}>
+                        <div className='right-part' style={{ height: rightPartHeight, overflowY: 'scroll' }}>
                             <Preferences />
                         </div>
                     )}
                     {showHelpFAQ && !showPreferences && faqs && (
-                        <div className='right-part' style={{ height: window.innerHeight - 130, overflowY: 'scroll' }}>
-                            <HelpFAQ faqs={faqs}/>
+                        <div className='right-part' style={{ height: rightPartHeight, overflowY: 'scroll' }}>
+                            <HelpFAQ faqs={faqs} />
                         </div>
                     )}
                 </div>

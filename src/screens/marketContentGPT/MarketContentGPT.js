@@ -5,12 +5,13 @@ import BottomBar from '../../components/marketContentGPT/BottomBar';
 import ChatGpt from '../../components/frruitGpt/ChatGpt';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-import { addDocument, clearContentChatHistory, deleteContentPrompt, getContentPromptHistory, getContentPromptList, getUploadURL, setCancelTokens, setChatHistory, triggerContentPrompt, triggerDocumentChat, updateUploadURL } from './slice';
+import { addDocument, clearContentChatHistory, deleteContentPrompt, getContentPromptHistory, getContentPromptList, getUploadURL, setCancelTokens, setChatHistory, triggerContentAttachmentGraph, triggerContentLinkGraph, triggerContentPrompt, triggerDocumentChat, updateUploadURL } from './slice';
 import { clearChatHistory } from '../frruitGPT/slice';
 import Modal from 'react-bootstrap/Modal';
 import CloseImg from '../../assets/images/close_icon.png';
 import axios from 'axios';
 import { replaceSpaceWithUnderscore } from '../../utils/utils';
+import ReactGA from 'react-ga4';
 
 function MarketContentGPT() {
     const dispatch = useDispatch();
@@ -28,7 +29,7 @@ function MarketContentGPT() {
 
     useEffect(() => {
         dispatch(clearContentChatHistory())
-        dispatch(getContentPromptList())
+        dispatch(getContentPromptList('link'))
         dispatch(clearChatHistory())
     }, [])
 
@@ -65,6 +66,13 @@ function MarketContentGPT() {
         const requestData = {
             link: question
         }
+
+        ReactGA.event({
+            category: 'MarketContentGPT',
+            action: 'chat_youtube_link',
+            label: 'New Chat Youtube Link'
+        });
+        
         isNewChat.current = false
         dispatch(setChatHistory([{
             person: "user",
@@ -77,10 +85,19 @@ function MarketContentGPT() {
         dispatch(triggerContentPrompt({requestData, cancelToken: token}))
             .unwrap()
             .then(res => {
+                scrollDown(500)
+                if (res && res?.data !== undefined) {
+                    const token = axios.CancelToken.source()
+                    dispatch(setCancelTokens(token))
+                    dispatch(triggerContentLinkGraph({ question, id: res.prompt_id, cancelToken: token })).unwrap()
+                    .then(res => {
+                        scrollToBottom()
+                    })
+                }
                 dispatch(getContentPromptList('link'))
                 setSelectedChat(res.prompt_id)
                 setQuestion('');
-                scrollDown(500)
+                
             })
             .catch(error => {
                 setQuestion('');
@@ -105,7 +122,7 @@ function MarketContentGPT() {
                 const documentRes = await dispatch(addDocument(requestData)).unwrap();
                 setShowQuestion(true);
                 setSelectedChat(documentRes?.prompt_id);
-                setSelectedFile(null)
+                // setSelectedFile(null)
                 askAttachmentContentGpt(documentRes?.prompt_id, question);
                 dispatch(getContentPromptList('attachment'));
             }
@@ -118,6 +135,11 @@ function MarketContentGPT() {
     const askAttachmentContentGpt = async (promptId, title) => {
         const token = axios.CancelToken.source()
         setQuestion('');
+        ReactGA.event({
+            category: 'MarketContentGPT',
+            action: 'chat_document_upload',
+            label: 'New Chat Document Upload'
+        });
         if (!question) {
             dispatch(setChatHistory([{
                 person: "bot",
@@ -139,8 +161,16 @@ function MarketContentGPT() {
         try {
             dispatch(triggerDocumentChat({requestData, cancelToken: token })).unwrap()
                 .then(res => {
+                    scrollToBottom()
+                    if (res && selectedFile) {
+                        const token = axios.CancelToken.source()
+                        dispatch(setCancelTokens(token))
+                        dispatch(triggerContentAttachmentGraph({ question:selectedFile?.name, id: promptId, cancelToken: token })).unwrap()
+                        .then(res => {
+                            scrollToBottom()
+                        })
+                    }
                     setQuestion('');
-                    scrollDown(250);
                     setSelectedFile(null)
                 });
         } catch (error) {
@@ -218,7 +248,7 @@ function MarketContentGPT() {
         <>
             <div className='market-content-gpt-css'>
                 <div className='row justify-content-between m-0'>
-                    <div className='col-lg-3 column-pad'>
+                    <div className='col-lg-3 col-md-4 column-pad'>
                         <MarketContentGptLeftBox
                             handleNewChat={handleNewChat}
                             handleHistory={handleHistory}
@@ -227,7 +257,7 @@ function MarketContentGPT() {
                             handleShow2={handleShow2}
                         />
                     </div>
-                    <div className='col-lg-9 column-pad position-relative'>
+                    <div className='col-lg-9 col-md-8 column-pad position-relative'>
                         <ChatGpt containerRef={gptRef} newChat={isNewChat.current} docStatus={true} docName={fileName} selectedType={selectedType} />
                         <BottomBar
                             handleNewChat={handleNewChat}

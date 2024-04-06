@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import './Plans.scss'
 import BackBtnArrow from '../../assets/images/back-btn-arrow.png';
 import PlansCard from './PlansCard';
@@ -49,6 +49,40 @@ function Plans(props) {
     ];
 
     const { activePlanList } = useSelector(state => state.userSlice);
+    const [currencySymbol, setCurrencySymbol] = useState('');
+    console.log('activePlanList::::', activePlanList)
+    useEffect(() => {
+        // Use a free IP geolocation API (replace with your own API if needed)
+        const apiUrl = 'https://ipapi.co/json/';
+
+        // Fetch the user's geolocation information
+        const getGeolocation = async () => {
+            try {
+                const response = await fetch(apiUrl);
+                const data = await response.json();
+
+                // Extract the country code from the geolocation data
+                const userCountry = data.country;
+                console.log('userCountry:::', userCountry)
+
+                // Determine the currency symbol based on the country
+                switch (userCountry) {
+                    case 'IN':
+                        setCurrencySymbol('₹'); // INR symbol for India
+                        break;
+                    // Add more cases for other countries if needed
+                    default:
+                        setCurrencySymbol('$'); // Default to USD for other countries
+                        break;
+                }
+            } catch (error) {
+                console.error('Error getting geolocation:', error);
+            }
+        };
+        console.log('currencySymbol:::', currencySymbol)
+
+        getGeolocation();
+    }, []);
 
     useEffect(() => {
         dispatch(getAllActivePlans());
@@ -105,22 +139,23 @@ function Plans(props) {
                             />
                         </div> */}
                         {activePlanList &&
-                        activePlanList.map((plan, i)=>(
-                            <div className='col-lg-3' key={'planlist'+i}>
-                                <PlansCard
-                                    cardBackground="linear-gradient(194.74deg, rgba(95, 125, 255, 0.9) 0%, rgba(63, 90, 209, 0.9) 94.44%)"
-                                    showStarIcon={(plan?.price === 0) ?false:true}
-                                    forText={(plan?.price === 0) ?'':'For'}
-                                    title={plan?.plan_name}
-                                    pricingText={`₹${plan?.price}/month`}
-                                    creditsText={`${plan?.credits_offered} ${(plan?.validity === 30 || plan?.price === 0) ?'credits per month':  'credits per ' + plan?.validity + ' days'}`}
-                                    benefitsText="Get access to real-time market data through generative AI on"
-                                    features={(plan?.highlights).split(" | ")}
-                                    buttonText="" //"Upgrade"
-                                />
-                            </div>
-                        ))}
-                        <div className='col-lg-3'>
+                            activePlanList.map((plan, i) => (
+                                <div className='col-lg-3 col-md-6' key={'planlist' + i}>
+                                    <PlansCard
+                                        cardBackground="linear-gradient(194.74deg, rgba(95, 125, 255, 0.9) 0%, rgba(63, 90, 209, 0.9) 94.44%)"
+                                        showStarIcon={(plan?.price === 0) ? false : true}
+                                        forText={(plan?.price === 0) ? '' : 'For'}
+                                        title={plan?.plan_name}
+                                        pricingText={`$${plan?.price}/month`}
+                                        // pricingText={(currencySymbol === '₹' && plan?.price > 0) ? `₹${plan?.price}/month` : (currencySymbol === '$' && plan?.price > 0) ? `$${plan?.price}/month` : ''}
+                                        creditsText={`${plan?.credits_offered} ${(plan?.validity === 30 || plan?.validity === 31 || plan?.price === 0) ? 'credits per month' : 'credits per ' + plan?.validity + ' days'}`}
+                                        benefitsText="Get access to real-time market data through generative AI on"
+                                        features={(plan?.highlights).split(" | ")}
+                                        buttonText="" //"Upgrade"
+                                    />
+                                </div>
+                            ))}
+                        <div className='col-lg-3 col-md-6'>
                             <PlansCard
                                 cardBackground="linear-gradient(194.74deg, #5F7DFF 0%, #3F5AD1 94.44%)"
                                 showStarIcon={true}

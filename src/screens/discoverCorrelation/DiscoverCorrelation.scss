@@ -4,12 +4,15 @@
         border-radius: 50px;
         color: #4563E4;
         margin-right: 10px;
+        min-height: 10px;
     }
 
     .css-1h9z7r5-MuiButtonBase-root-MuiTab-root.Mui-selected {
         background-color: #4563E4;
         border-radius: 50px;
         color: #fff;
+        min-height: 10px;
+        
     }
 
     .css-1aquho2-MuiTabs-indicator {
@@ -35,8 +38,17 @@
     }
 
     .Discover-Correlation-container {
-        padding-left: 20px;
-        padding-right: 20px;
+        padding-left: 20px !important;
+        padding-right: 20px !important;
+    }
+
+    .Discover-Correlation-container-row {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    .row-gutter {
+        --bs-gutter-x: 0rem;
     }
 
     .title {
@@ -102,6 +114,67 @@
             font-weight: 400;
             line-height: 22px;
             margin-bottom: 10px;
+        }
+    }
+
+    .custom-tab-css {
+        width: fit-content;
+        background-color: #E5EAFF;
+        border-radius: 50px;
+        min-height: 30px;
+        padding: 5px;
+        margin-bottom: 20px;
+
+        .tab-css {
+            border-radius: 50px;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-family: 'Roboto', sans-serif;
+            font-size: 14px;
+            font-weight: 400;
+            text-align: center;
+        }
+
+    }
+}
+
+.selectmodalclass {
+    .unSelected {
+        padding: 8px 10px;
+        border: 1px solid #4563E4;
+        border-radius: 22.4px;
+        font-size: 10px;
+        font-weight: 700;
+        margin: 10px 10px 0 0;
+        color: black;
+        cursor: pointer;
+        width: max-content;
+    }
+
+    .selected {
+        padding: 8px 10px;
+        border: 1px solid #4563E4;
+        border-radius: 22.4px;
+        font-size: 10px;
+        font-weight: 700;
+        margin: 10px 10px 0 0;
+        color: white;
+        background-color: #4563E4;
+        cursor: pointer;
+        width: max-content;
+    }
+
+    .modal-body {
+        padding-top: 0px;
+    }
+
+    .searchbar-css {
+        .input-width-css {
+            min-width: 700px;
+
+            @media only screen and (max-width: 768px) {
+                min-width: 400px;
+            }
         }
     }
 }

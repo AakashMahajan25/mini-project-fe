@@ -16,6 +16,7 @@ import Nav from 'react-bootstrap/Nav';
 import moment from 'moment';
 import Modal from 'react-bootstrap/Modal';
 import CloseImg from '../../assets/images/close_icon.png';
+import ReactGA from 'react-ga4';
 
 function FrruitGPTLeftBox(props) {
     const [hoveredItem, setHoveredItem] = useState(null);
@@ -31,13 +32,29 @@ function FrruitGPTLeftBox(props) {
     const { promptList } = useSelector(state => state.fruitGPTSlice);
 
     useEffect(() => {
-        dispatch(getPromptList())
+        dispatch(getPromptList()).then((res) => {
+            ReactGA.event({
+                category: 'Frruitgpt',
+                action: 'history_of_gptquestions',
+                label: 'History of GPT questions'
+            });
+        }).catch(err=>{
+
+        });
     }, [])
 
     useEffect(() => {
         const debounceSearch = setTimeout(() => {
             if (searchParam) {
-                dispatch(searchPrompt(searchParam));
+                dispatch(searchPrompt(searchParam)).then((res) => {
+                    ReactGA.event({
+                        category: 'Frruitgpt',
+                        action: 'search_history_question',
+                        label: 'Search click for history questions'
+                    });
+                }).catch(err=>{
+        
+                });
             } else if (searchParam?.length === 0) {
                 dispatch(getPromptList())
             }
@@ -50,11 +67,12 @@ function FrruitGPTLeftBox(props) {
     const historyClick = (prompt_id) => {
         handleHistory(prompt_id)
     }
+    const leftPartHeight = window.innerWidth > 768 ? window.innerHeight - 105 : window.innerHeight - 57;
 
     return (
         <>
             <div className='Frruit-GPT-left-box'>
-                <div className='box' style={{ height: window.innerHeight - 105 }}>
+                <div className='box' style={{ height: leftPartHeight }}>
                     <div className="position-relative" style={{ marginBottom: 20 }}>
                         <input type="text" style={{ marginBottom: 20 }} className="form-control form-control-search" placeholder='Search Here' value={searchParam} onChange={(e) => setSearchParam(e.target.value)} />
                         <div className="position-absolute" style={{ left: 15, top: '6%' }}>

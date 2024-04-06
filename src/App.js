@@ -7,17 +7,22 @@ import Login from './screens/login/Login';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import InactivityTimer from './utils/InactivityTimer';
+import ReactGA from 'react-ga4';
+import { useEffect } from 'react';
 
 function App() {
   const location = useLocation();
   const isExcludedPage = ['/login', '/signUp', '/', '/topics', '/market'].includes(location.pathname);
-  const marginTopStyle = isExcludedPage ? { marginTop: 0 } : { marginTop: 105 };
   const isAuthenticated = localStorage.getItem('token');
+
+  useEffect(() => {
+    ReactGA.initialize('G-KFRHHDX0W3',{ debug: true });
+  }, []);
 
   return (
     <>
-      {isExcludedPage ? null : <TopBar />}
-      <div style={marginTopStyle}>
+      {!isExcludedPage && <TopBar />}
+      <div className={isExcludedPage ? 'no-margin-top' : 'with-margin-top'}>
         <Routes>
           {loginRoutes.map((route, key) => (
             <Route key={key} {...route} />

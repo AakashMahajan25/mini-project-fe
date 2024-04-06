@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './ChatGpt.scss'
 import ProfileIcon from '../../assets/images/profile_image.png'
 import ArrowGrey from '../../assets/images/arrow-right-grey.png'
@@ -12,17 +12,25 @@ import TrendingStocksCard from '../trendingStocks/TrendingStocksCard'
 import DiscoverCorrelationGraph from '../graph/DiscoverCorrelationGraph'
 import BarChart from '../barChart/BarChart'
 import { useSelector } from 'react-redux'
-import { replaceNewlinesWithBr } from '../../utils/utils'
+import { formatTimeAgo, replaceNewlinesWithBr, trimText } from '../../utils/utils'
 import { useLoading, Audio, SpinningCircles, Circles, ThreeDots } from '@agney/react-loading';
 import { useLocation } from 'react-router'
 import UploadDocImg from '../../assets/images/doc-img.png'
 import { useNavigate } from 'react-router-dom';
 import quesIcon from '../../assets/images/i-icon.png';
+// import PieChart from '../pieChart/PieChart'
+import NewsTime from '../../assets/images/time-clock.png';
+import NetworkGraph from '../networkGraph/NetworkGraph'
 import { Tooltip } from 'react-tooltip'
+import FullScreenIcon from '../../assets/images/ic_baseline_fullscreen.png'
+import { Modal } from 'react-bootstrap'
+import LineGraph from '../graph/LineGraph'
 
 function ChatGpt(props) {
     const { chatSuggestions } = useSelector(state => state.fruitGPTSlice);
     const location = useLocation()
+    const [show, setShow] = useState(false);
+    const [modalGraphData, setModalGraphData] = useState('');
     const path = location.pathname === '/market-content-gpt'
     const { containerProps, indicatorEl } = useLoading({
         loading: true,
@@ -151,37 +159,193 @@ function ChatGpt(props) {
     const { containerRef, docStatus = false, docName = '', newChat, selectedType } = props;
 
     const { chatHistory, frruitLoader } = useSelector(state => state.fruitGPTSlice);
-    const { contentChatHistory, contentGPTLoader } = useSelector(state => state.contentGPTSlice);
-    const renderGraph = (chartData) => {
-        const keys = Object.keys(chartData)
-        if (keys?.length > 0) {
-            let labels = chartData[keys[0]]?.years
-            let data = chartData[keys[0]]?.metric_values
+    const { contentChatHistory, contentGPTLoader, contentGraphLoader } = useSelector(state => state.contentGPTSlice);
 
-            if (data?.length > 0)
+
+    const newsItem = {
+        image: "https://www.benzinga.com/next-assets/images/schema-image-default.png",
+        newsLink: "https://www.globenewswire.com/news-release/2024/03/18/2847476/0/en/INVL-Technology-completed-assessment-of-M-A-intermediaries-and-chose-a-service-provider.html",
+        timeStamp: "20240318T074500",
+        title: "INVL Technology completed assessment of M&A intermediaries and chose a service provider"
+    }
+
+    const colors = ['#FF7F50', "#40E0D0", '#DA70D6', '#87CEEB', "#32CD32", '#DAA520', "#E6E6FA", '#DC143C', '#6495ED', "#7FFF00", '#7FFFD4', "#FA8072", '#FF1493', '#00FFFF', "#EE82EE",]
+
+    const getRandomColor = () => {
+        const randomIndex = Math.floor(Math.random() * colors.length);
+        return colors[randomIndex];
+    }
+
+    function toCamelCase(str) {
+        str = str?.replace(/_/g, ' '); // Replace underscores with spaces
+        return str?.toLowerCase()?.replace(/(^|\s)\S/g, function (match) {
+            return match?.toUpperCase();
+        });
+    }
+
+
+    const data = {
+        nodes: removeDuplicatesFromArray(modalGraphData?.Nodes?.map((el, i) => ({ ...el, color: getRandomColor() }))),
+        edges: modalGraphData?.Edges?.map((el, i) => ({ ...el, label: toCamelCase(el?.label) }))
+    };
+
+
+    function removeDuplicatesFromArray(arr) {
+        const uniqueObjects = {};
+        const resultArray = [];
+
+        arr?.forEach(item => {
+            if (!uniqueObjects[item?.id]) {
+                uniqueObjects[item?.id] = true;
+                resultArray.push(item);
+            }
+        });
+
+        return resultArray;
+    }
+
+    const renderLinkGraph = (chartData) => {
+        const nodes = removeDuplicatesFromArray(chartData?.Nodes?.map((el, i) => ({ ...el, color: getRandomColor() })))
+        const edges = chartData?.Edges?.map((el, i) => ({ ...el, label: toCamelCase(el?.label) }))
+        return (
+            <NetworkGraph height={'350px'} nodes={nodes}
+                edges={edges}
+            />
+        )
+    };
+
+
+    // const GraphData =  [
+    //     {
+    //         'metric_name': 'ROCE',
+    //         'chart_type': 'bar',
+    //         'xlabel': 'years',
+    //         'ylabel': 'ROCE',
+    //         'data': [
+    //             {
+    //                 'company_name': 'ASIAN PAINTS',
+    //                 'x-axis': ['2023', '2022', '2021', '2020'],
+    //                 'y-axis': ['35.93', '36.07', '31.42', '35.2']
+    //             },
+    //             {
+    //                 'company_name': 'COAL INDIA',
+    //                 'x-axis': ['2023', '2022', '2021', '2020'],
+    //                 'y-axis': ['51.62', '35.13', '56.47', '67.45']
+    //             }]
+    //     },
+    //     {
+    //         'metric_name': 'ROE',
+    //         'chart_type': 'bar',
+    //         'xlabel': 'years',
+    //         'ylabel': 'ROE',
+    //         'data': [{
+    //             'company_name': 'ASIAN PAINTS',
+    //             'x-axis': ['2023', '2022', '2021', '2020'],
+    //             'y-axis': ['24.65', '29.01', '28.33', '28.34']
+    //         },
+    //         {
+    //             'company_name': 'COAL INDIA',
+    //             'x-axis': ['2023', '2022', '2021', '2020'],
+    //             'y-axis': ['73.23', '45.52', '67.66', '89.54']
+    //         }]
+    //     }
+    // ]
+
+    const renderGraph = (chartData) => {
+        if (chartData?.length > 0) {
+            // If there's only one object in chartData, render one graph
+            if (chartData.length === 1) {
+                console.log('chartData[0].xlabel', chartData[0].xlabel)
+                const dataObject = chartData[0];
+                const labels = dataObject.data[0]['x-axis'];
+                const data = dataObject.data.map(point => point['y-axis'].map(parseFloat));
                 return (
-                    <div className='graphSlider' style={{ width: 600 }}>
-                        <div className='chartGraph'>
-                            <h4 className='title'>{chartData[keys[0]].metric_name}</h4>
-                            <DiscoverCorrelationGraph
-                                index={1}
-                                graphData={{
-                                    labels: [...labels].reverse(),
-                                    data: [...data].reverse()
-                                }}
-                            />
+                    <div className='graphSlider'>
+                        <div className='chartGraph' style={{ backgroundColor: '#F1F4FD' }}>
+                            <h4 className='title'>{dataObject.metric_name}</h4>
+                            {
+                                dataObject?.chart_type === 'bar' ?
+                                    <BarChart
+                                        index={1}
+                                        graphData={{
+                                            labels: [...labels],
+                                            data: data
+                                        }}
+                                        xAxisLabel={dataObject.xlabel}
+                                        yAxisLabel={dataObject.ylabel}
+                                        legendLabels={dataObject.data.map(point => point['company_name'])}
+                                    />
+                                    :
+                                    <LineGraph
+                                        index={1}
+                                        graphData={{
+                                            labels: [...labels],
+                                            data: data
+                                        }}
+                                        xAxisLabel={dataObject.xlabel}
+                                        yAxisLabel={dataObject.ylabel}
+                                        legendLabels={dataObject.data.map(point => point['company_name'])}
+                                    />
+                            }
                         </div>
                     </div>
-                )
+                );
+            } else { // If there are two objects in GraphData, render two graphs
+                return (
+                    <div className='graphSlider'>
+                        {
+                            chartData?.length > 2 &&
+                            <h6 style={{ color: 'rgb(69, 99, 228)', fontSize: 14, textAlign: 'right' }}>Slider to Know More</h6>
+                        }
+                        <Slider {...graphSettings}>
+                            {chartData.map((dataObject, index) => (
+                                <div className='chartGraph' key={index} style={{ backgroundColor: '#F1F4FD', width: 600 }}>
+                                    <h4 className='title'>{dataObject.metric_name}</h4>
+                                    {dataObject?.chart_type === 'bar' ?
+
+                                        <BarChart
+                                            index={index + 1}
+                                            graphData={{
+                                                labels: [...dataObject.data[0]['x-axis']],
+                                                data: dataObject.data.map(point => point['y-axis'].map(parseFloat))
+                                            }}
+                                            xAxisLabel={dataObject.xlabel}
+                                            yAxisLabel={dataObject.ylabel}
+                                            legendLabels={dataObject.data.map(point => point.company_name)}
+                                        />
+                                        :
+                                        <LineGraph
+                                            index={index}
+                                            graphData={{
+                                                labels: [...dataObject.data[0]['x-axis']],
+                                                data: dataObject.data.map(point => point['y-axis'].map(parseFloat))
+                                            }}
+                                            xAxisLabel={dataObject.xlabel}
+                                            yAxisLabel={dataObject.ylabel}
+                                            legendLabels={dataObject.data.map(point => point.company_name)}
+                                        />
+                                    }
+                                </div>
+                            ))}
+                        </Slider>
+                    </div>
+                );
+            }
+        } else {
+            return null;
         }
-    }
+    };
+
     const navigate = useNavigate();
     const routeChangeFrruitGPT = (question) => {
         navigate("/frruit-gpt", {
             state: { question },
         });
     };
-
+    const handleShow = (data) => {
+        setModalGraphData(data)
+        setShow(true);
+    }
     return (
         <>
             <div className='ChatGpt' style={{
@@ -192,36 +356,36 @@ function ChatGpt(props) {
             }} ref={containerRef}>
                 {
                     (newChat && !path) && <div className='default-screens-content mt-4' style={{ height: window.innerHeight - 310 }}>
-                            <div className='text-center'>
-                                <img src={LogoCircle} width={57} style={{ objectFit: 'contain' }} />
-                                <div className='help-text'>How can I help you today ?</div>
-                                <div className='row'>
+                        <div className='text-center'>
+                            <img src={LogoCircle} width={57} style={{ objectFit: 'contain' }} />
+                            <div className='help-text'>How can I help you today ?</div>
+                            <div className='row'>
                                 {chatSuggestions.map((item, index) => (
-                                        <div key={index} className='col-lg-6 column-pad' style={{ cursor: 'pointer' }} onClick={() => routeChangeFrruitGPT(item?.prompt)}>
-                                            <div className='prompts-text-bg'>
-                                                <div className=' d-flex justify-content-between align-items-center w-100' >
-                                                    <p className='prompts-text'>{item?.prompt}</p>
-                                                    <img style={{ width: 24, objectFit: 'contain' }} className={`my-anchor-element-${index}`} src={quesIcon} />
-                                                </div>
+                                    <div key={index} className='col-lg-6 col-md-12 column-pad' style={{ cursor: 'pointer' }} onClick={() => routeChangeFrruitGPT(item?.prompt)}>
+                                        <div className='prompts-text-bg'>
+                                            <div className=' d-flex justify-content-between align-items-center w-100' >
+                                                <p className='prompts-text'>{item?.prompt}</p>
+                                                <img style={{ width: 24, objectFit: 'contain' }} className={`my-anchor-element-${index}`} src={quesIcon} />
                                             </div>
-                                            <Tooltip anchorSelect={`.my-anchor-element-${index}`} place="top" className="bg-primary">
-                                                {item?.tooltipText ? item?.tooltipText : item?.prompt}
-                                            </Tooltip>
                                         </div>
-                                    ))}
-                                </div>
+                                        <Tooltip anchorSelect={`.my-anchor-element-${index}`} place="top" className="bg-primary">
+                                            {item?.tooltipText ? item?.tooltipText : item?.prompt}
+                                        </Tooltip>
+                                    </div>
+                                ))}
                             </div>
                         </div>
+                    </div>
                 }
                 {
-                   (newChat && path) && <div className='default-screens-content' style={{ height: window.innerHeight - 310 }}>
-                            <div className='text-center'>
-                                <img src={DefaultImg} width={251.5} height={198.42} style={{ objectFit: 'contain' }} />
-                                <div className='help-text'>How can I help you today ?</div>
-                                <div className='default-para-text'>Supercharge your investment decisions : Attach documents or YouTube links on capital markets for GPT-driven insights!</div>
-                            </div>
+                    (newChat && path) && <div className='default-screens-content' style={{ height: window.innerHeight - 310 }}>
+                        <div className='text-center'>
+                            <img src={DefaultImg} width={251.5} height={198.42} style={{ objectFit: 'contain' }} />
+                            <div className='help-text'>How can I help you today ?</div>
+                            <div className='default-para-text'>Supercharge your investment decisions : Attach documents or YouTube links on capital markets for GPT-driven insights!</div>
                         </div>
-                       
+                    </div>
+
                 }
                 {
                     chatHistory?.map((chat, index) =>
@@ -240,18 +404,37 @@ function ChatGpt(props) {
                             <div className='leftChat'>
                                 {
                                     chatHistory[index - 1]?.person !== "bot" &&
-                                    <div className='d-flex align-items-center my-2 floatLeft'>
-                                        <img src={ArrowGrey} className='arrow' />
-                                        <p className='you-text'>Frruit GPT</p>
-                                    </div>
+                                    <>
+                                        <img src={LogoCircle} className='profile-styles' />
+                                        <div className='d-flex align-items-center my-2 floatLeft'>
+                                            <img src={ArrowGrey} className='arrow' />
+                                            <p className='you-text'>Frruit GPT</p>
+                                        </div>
+                                    </>
                                 }
                                 {
                                     chat.type === 'text' ?
-                                        <div className='chat-text-container'>
-                                            <h3 className='chat-text' dangerouslySetInnerHTML={{ __html: replaceNewlinesWithBr(chat?.text || '') }}></h3>
-                                        </div>
-                                        : renderGraph(chat.text)
+                                        <>
+                                            <div className='chat-text-container'>
+                                                <h3 className='chat-text' dangerouslySetInnerHTML={{ __html: replaceNewlinesWithBr(chat?.text || '') }}></h3>
+                                            </div>
+                                        </>
+                                        : renderGraph(chat?.text)
                                 }
+                                {/* {
+                                    <div key={index} className='newsBox' style={{ marginBottom: 20, cursor: 'pointer',border:'1px solid #4563E4',width:'fit-content',padding:"10px 16px",borderRadius:16,backgroundColor:'#F1F4FD' }}>
+                                        <div className='d-flex justify-content-start'>
+                                            <div style={{width:200}}>
+                                                <p className='newsTitle mt-1' style={{ fontSize: 12 }}>{newsItem?.title}</p>
+                                                <div className='d-flex justify-content-start align-items-center'>
+                                                    <img height={16} style={{ width: 16, objectFit: 'cover', marginRight: '5px' }} src={NewsTime} />
+                                                    <p className='newsPara' style={{ fontSize: 12 }}>{formatTimeAgo(newsItem?.timeStamp)}</p>
+                                                </div>
+                                                <button className='light-blue-btn mt-2'>View More</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                } */}
                                 {/* <img src={LogoCircle} className='profile-styles' /> */}
 
                                 {/* {
@@ -275,6 +458,30 @@ function ChatGpt(props) {
                             <button className='btn-red-sell'>Sell</button>
                         </div>
                     </div>
+
+
+
+
+                      <div className='chartGraph'>
+                            <h4 className='title'>{chartData[keys[0]].metric_name}</h4>
+                            <BarChart
+                                index={2}
+                                graphData={{
+                                    labels: [...labels].reverse(),
+                                    data: [...data].reverse()
+                                }}
+                            />
+                        </div>
+                        <div className='chartGraph'>
+                            <h4 className='title'>{chartData[keys[0]].metric_name}</h4>
+                            <PieChart
+                                index={3}
+                                graphData={{
+                                    labels: [...labels].reverse(),
+                                    data: [...data].reverse()
+                                }}
+                            />
+                        </div>
                 } */}
 
 
@@ -377,37 +584,85 @@ function ChatGpt(props) {
                             <div className='leftChat'>
                                 {
                                     contentChatHistory[index - 1]?.person !== "bot" &&
-                                    <div className='d-flex align-items-center my-2 floatLeft'>
-                                        <img src={ArrowGrey} className='arrow' />
-                                        <p className='you-text'>Market Content GPT</p>
-                                    </div>
+                                    <>
+                                        <img src={LogoCircle} className='profile-styles' />
+                                        <div className='d-flex align-items-center my-2 floatLeft'>
+                                            <img src={ArrowGrey} className='arrow' />
+                                            <p className='you-text'>Market Content GPT</p>
+                                        </div>
+                                    </>
                                 }
                                 {
                                     chat.type === 'link' ?
-                                        <div className='chat-text-container'>
-                                            <h3 className='chat-text' style={{ fontWeight: '700' }}>Key Points:-</h3>
-                                            <h3 className='chat-text mt-1' dangerouslySetInnerHTML={{ __html: replaceNewlinesWithBr(chat?.text?.Key_points || '') }}></h3>
-                                            <h3 className='chat-text mt-2' style={{ fontWeight: '700' }}>Summary:-</h3>
-                                            <h3 className='chat-text mt-1' dangerouslySetInnerHTML={{ __html: replaceNewlinesWithBr(chat?.text?.summary || '') }}></h3>
-                                            <h3 className='chat-text mt-2' style={{ fontWeight: '700' }}>Sentiment:-</h3>
-                                            <h3 className='chat-text mt-1' dangerouslySetInnerHTML={{ __html: replaceNewlinesWithBr(chat?.text?.sentiment || '') }}></h3>
-                                        </div>
+                                        <>
+                                            {chat.render_type === 'graph' ?
+                                                <div style={{ position: 'relative', border: '1px solid #4563E4', borderRadius: 8, padding: 10 }}>
+                                                    <div onClick={() => handleShow(chat?.text?.Graph)} style={{ position: 'absolute', right: 20, top: 0, display: 'flex', alignItems: 'center', cursor: 'pointer', backgroundColor: "white", padding: 5, zIndex: 100 }}>
+                                                        <div style={{ color: '#4563E4' }}>Full Screen</div>
+                                                        <img src={FullScreenIcon} width={24} top={24} />
+                                                    </div>
+                                                    {renderLinkGraph(chat?.text?.Graph)}
+                                                </div>
+                                                :
+                                                <div className='chat-text-container'>
+                                                    <h3 className='chat-text' style={{ fontWeight: '700' }}>Key Points:-</h3>
+                                                    <h3 className='chat-text mt-1' dangerouslySetInnerHTML={{ __html: replaceNewlinesWithBr(chat?.text?.Key_points || '') }}></h3>
+                                                    <h3 className='chat-text mt-2' style={{ fontWeight: '700' }}>Summary:-</h3>
+                                                    <h3 className='chat-text mt-1' dangerouslySetInnerHTML={{ __html: replaceNewlinesWithBr(chat?.text?.summary || '') }}></h3>
+                                                    <h3 className='chat-text mt-2' style={{ fontWeight: '700' }}>Sentiment:-</h3>
+                                                    <h3 className='chat-text mt-1' dangerouslySetInnerHTML={{ __html: replaceNewlinesWithBr(chat?.text?.sentiment || '') }}></h3>
+                                                </div>
+                                            }
+                                        </>
                                         :
-                                        <div className='chat-text-container'>
-                                            <h3 className='chat-text mt-1' dangerouslySetInnerHTML={{ __html: replaceNewlinesWithBr(chat?.text || '') }}></h3>
-                                        </div>
+                                        <>
+                                            {chat.render_type === 'graph' ?
+                                                <div style={{ position: 'relative', border: '1px solid #4563E4', borderRadius: 8, padding: 10 }}>
+                                                    <div onClick={() => handleShow(chat?.text?.Graph)} style={{ position: 'absolute', right: 20, top: 0, display: 'flex', alignItems: 'center', cursor: 'pointer', backgroundColor: "white", padding: 5, zIndex: 100 }}>
+                                                        <div style={{ color: '#4563E4' }}>Full Screen</div>
+                                                        <img src={FullScreenIcon} width={24} top={24} />
+                                                    </div>
+                                                    {renderLinkGraph(chat?.text?.Graph)}
+                                                </div>
+                                                :
+                                                <div className='chat-text-container'>
+                                                    <h3 className='chat-text mt-1' dangerouslySetInnerHTML={{ __html: replaceNewlinesWithBr(chat?.text || '') }}></h3>
+                                                </div>
+                                            }
+
+                                        </>
 
                                 }
 
                             </div>
                     )}
-                {
-                    (frruitLoader || contentGPTLoader) &&
-                    <section {...containerProps} style={{ marginLeft: 20 }}>
-                        {indicatorEl} {/* renders only while loading */}
-                    </section>
-                }
+                <div className='d-flex align-items-center'>
+                    {
+                        (frruitLoader || contentGPTLoader) &&
+                        <section {...containerProps} style={{ marginLeft: 20 }}>
+                            {indicatorEl} {/* renders only while loading */}
+                        </section>
+                    }
+                    {
+                        contentGraphLoader &&
+                        <div className='chat-text-container' style={{ marginLeft: 20, marginTop: 10, color: '#4563E4' }}>
+                            <h6 className='chat-text mt-1'>Creating network graph may take few mins</h6>
+                        </div>
+                    }
+                </div>
             </div>
+
+
+
+
+            <Modal show={show} fullscreen={true} onHide={() => setShow(false)} style={{ backgroundColor: '#fefefe' }}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Relation Graph</Modal.Title>
+                </Modal.Header>
+                <NetworkGraph height={window.innerHeight - 50} nodes={data.nodes}
+                    edges={data.edges}
+                />
+            </Modal>
         </>
     )
 }
