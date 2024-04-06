@@ -1,10 +1,13 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import LeftBox from '../../components/leftBox/LeftBox';
 import DashboardRightBox from '../../components/dashboardRightBox/DashboardRightBox';
-import Stories1 from '../../assets/images/stories-icon-1.png';
-import Stories2 from '../../assets/images/stories-icon-2.png';
-import Stories3 from '../../assets/images/stories-icon-3.png';
-import Stories4 from '../../assets/images/stories-icon-4.png';
+import Stories1 from '../../assets/images/watchlist_news.png';
+import Stories2 from '../../assets/images/session_news.png';
+import Stories3 from '../../assets/images/hot_pursuit_news.png';
+import Stories4 from '../../assets/images/corporate_news.png';
+import Stories5 from '../../assets/images/economy_news.png';
+import Stories6 from '../../assets/images/corporate_results_news.png';
+import Stories7 from '../../assets/images/market_news.png';
 import CloseIcon from '../../assets/images/close_icon.png';
 import StoriesImg from '../../assets/images/stories-img-1.png';
 import StoriesImg2 from '../../assets/images/stories-img-2.png';
@@ -33,23 +36,32 @@ import 'react-tooltip/dist/react-tooltip.css'
 import ReactGA from 'react-ga4';
 
 const storyEnum = {
-    Topics_news: 'isTopicViewed',
-    Watchlist_news: 'isWatchListViewed',
-    Tren_stock_news: 'isStockViewed',
-    Trending_news: 'isNewsViewed'
+    watchlist_news :'isWatchlistViewed',
+    session_news:'isSessionViewed',
+    hot_pursuit_news:'isHotPursuitViewed',
+    corporate_news:'isCorporateViewed',
+    economy_news:'isEconomyViewed',
+    corporate_results_news:'isCorporateResultsViewed',
+    market_news:'isMarketViewed',
 }
 const storyEnum2 = {
-    Topics_news: 'topicsNews',
-    Watchlist_news: 'watchlistNews',
-    Tren_stock_news: 'trendingStock',
-    Trending_news: 'trendingNews'
+    watchlist_news :'watchlistNews',
+    session_news:'sessionNews',
+    hot_pursuit_news:'hotPursuitNews',
+    corporate_news:'corporateNews',
+    economy_news:'economyNews',
+    corporate_results_news:'corporateResultsNews',
+    market_news:'marketNews',
 }
 
 const storyEnum3 = {
-    Topics_news: 'topicsNews',
-    Watchlist_news: 'watchlistNews',
-    Tren_stock_news: 'trendingStock',
-    Trending_news: 'trendingNews'
+    watchlist_news :'watchlistNews',
+    session_news:'sessionNews',
+    hot_pursuit_news:'hotPursuitNews',
+    corporate_news:'corporateNews',
+    economy_news:'economyNews',
+    corporate_results_news:'corporateResultsNews',
+    market_news:'marketNews',
 }
 const leftPosition = window.innerWidth < 768 ? 370 : 370;
 const rightPosition = window.innerWidth < 768 ? 370 : 370;
@@ -114,7 +126,6 @@ function Dashboard() {
     const [storyType, setStoryType] = useState([]);
     const [question, setQuestion] = useState('');
 
-
     const handleShow = (data) => {
         setStoryType(data)
         setShow(true);
@@ -137,10 +148,13 @@ function Dashboard() {
     };
 
     const storiesData = [
-        { src: Stories1, onClick: handleShow, storyType: 'Topics_news' },
-        { src: Stories2, onClick: handleShow, storyType: 'Watchlist_news' },
-        { src: Stories3, onClick: handleShow, storyType: 'Tren_stock_news' },
-        { src: Stories4, onClick: handleShow, storyType: 'Trending_news' },
+        { src: Stories1, onClick: handleShow, storyType: 'watchlist_news' },
+        { src: Stories2, onClick: handleShow, storyType: 'session_news' },
+        { src: Stories3, onClick: handleShow, storyType: 'hot_pursuit_news' },
+        { src: Stories4, onClick: handleShow, storyType: 'corporate_news' },
+        { src: Stories5, onClick: handleShow, storyType: 'economy_news' },
+        { src: Stories6, onClick: handleShow, storyType: 'corporate_results_news' },
+        { src: Stories7, onClick: handleShow, storyType: 'market_news' },
     ];
 
     const dispatch = useDispatch()
@@ -155,7 +169,6 @@ function Dashboard() {
         handleResize();
         return () => window.removeEventListener('resize', handleResize);
     }, []);
-
 
     const settings = {
         dots: false,
@@ -253,48 +266,42 @@ function Dashboard() {
     }, [activeIndex, stories]);
 
     const shouldShowStory = useMemo(() => (
-        (investorStory.topicsNews.length > 0 ||
-            investorStory.watchlistNews.length > 0 ||
-            investorStory.trendingStock.length > 0 ||
-            investorStory.trendingNews.length > 0) ?
-            ((investorStory.watchlistNews.length > 0 && !storyViewed.isWatchListViewed) ||
-                (investorStory.trendingStock.length > 0 && !storyViewed.isStockViewed) ||
-                (investorStory.topicsNews.length > 0 && !storyViewed.isTopicViewed) ||
-                (investorStory.trendingNews.length > 0 && !storyViewed.isNewsViewed)) : false
+        (investorStory?.watchlistNews?.length > 0 ||
+            investorStory?.sessionNews?.length > 0 ||
+            investorStory?.hotPursuitNews?.length > 0 ||
+            investorStory?.corporateNews?.length > 0 ||
+            investorStory?.economyNews?.length > 0 ||
+            investorStory?.corporateResultsNews?.length > 0 ||
+            investorStory?.marketNews?.length > 0) ?
+            ((investorStory?.watchlistNews?.length > 0 && !storyViewed?.isWatchlistViewed) ||
+                (investorStory?.sessionNews?.length > 0 && !storyViewed?.isSessionViewed) ||
+                (investorStory?.hotPursuitNews?.length > 0 && !storyViewed?.isHotPursuitViewed) ||
+                (investorStory?.corporateNews?.length > 0 && !storyViewed?.isCorporateViewed) ||
+                (investorStory?.economyNews?.length > 0 && !storyViewed?.isEconomyViewed) ||
+                (investorStory?.corporateResultsNews?.length > 0 && !storyViewed?.isCorporateResultsViewed) ||
+                (investorStory?.marketNews?.length > 0 && !storyViewed?.isMarketViewed)) : false
     ), [storyViewed, investorStory])
 
     const getStoryData = () => {
         const data = investorStory[storyEnum3[storyType.storyType]];
         let tempData = []
         if (data?.length > 0) {
-            if (storyType === 'Topics_news') {
-                for (const el of data) {
-                    tempData.push({
-                        themeBg: getRandomColor(),
-                        mainHeading: el['title'],
-                        storyImage: true,
-                        viewImage: el['banner_image'],
-                        bottomsubDescription: el['summary'],
-                        url: el['URL']
-                    })
-                }
-            } else {
-                for (const el of data) {
-                    tempData.push({
-                        themeBg: getRandomColor(),
-                        mainHeading: el['Headline'],
-                        storyImage: true,
-                        viewImage: el['Image URL'],
-                        bottomsubDescription: el['Summary'],
-                        url: el['URL']
-                    })
-                }
+            for (const el of data) {
+                tempData.push({
+                    themeBg: getRandomColor(),
+                    mainHeading: el['Headline'],
+                    newsDescription: el['News'],
+                    // storyImage: true,
+                    // viewImage: el['Image URL'],
+                    // bottomsubDescription: el['Summary'],
+                    // url: el['URL']
+                })
             }
         }
         setStories(tempData)
     }
 
-    const colors = ['#4563E4', '#40BC98', '#023047', '#D63230', "#FB8500"]
+    const colors = ['#4563E4', '#40BC98', "#2B69B6", "#A856E5", "#E35151", "#858585", "#CB6343", "#0CB8B8", "#8361D9", "#4563E4"]
 
     const getRandomColor = () => {
         const randomIndex = Math.floor(Math.random() * colors.length);
@@ -324,9 +331,8 @@ function Dashboard() {
     };
 
     const isData = useMemo(() => {
-        return ((stockIndexes?.length > 0 && ((investorStory?.topicsNews?.length > 0 || investorStory?.watchlistNews?.length > 0 || investorStory?.trendingStock?.length > 0 || investorStory?.trendingNews?.length > 0) || investorStoryError) && (chatSuggestions?.length > 0 || suggestionError)))
+        return ((stockIndexes?.length > 0 && ((investorStory?.watchlistNews?.length > 0 || investorStory?.sessionNews?.length > 0 || investorStory?.hotPursuitNews?.length > 0 || investorStory?.corporateNews?.length > 0 || investorStory?.economyNews?.length > 0 || investorStory?.corporateResultsNews?.length > 0 || investorStory?.marketNews?.length > 0) || investorStoryError) && (chatSuggestions?.length > 0 || suggestionError)))
     }, [investorStory, stockIndexes, chatSuggestions])
-
 
     return (
         <>
@@ -353,7 +359,7 @@ function Dashboard() {
                                                 <div className='d-flex align-items-center' style={{ marginBottom: 20 }}>
                                                     {storiesData.map((img, i) => {
                                                         return (
-                                                            !storyViewed[storyEnum[img?.storyType]] && investorStory[storyEnum2[img?.storyType]].length > 0 ?
+                                                            !storyViewed[storyEnum[img?.storyType]] && investorStory[storyEnum2[img?.storyType]]?.length > 0 ?
                                                                 <img
                                                                     key={'MStories' + i}
                                                                     style={{ width: 60, objectFit: 'contain', cursor: 'pointer', marginRight: 20 }}
@@ -486,7 +492,7 @@ function Dashboard() {
                                             top: '10px',
                                             height: 6,
                                             borderRadius: 10,
-                                            backgroundColor: index === activeIndex ? 'blue' : 'white',
+                                            backgroundColor: index === activeIndex ? '#fff' : 'rgba(229, 229, 229, 0.5)',
                                             zIndex: 10,
                                             paddingRight: 20,
                                             marginRight: 5,
@@ -500,17 +506,18 @@ function Dashboard() {
                                 {stories.map((story, index) => {
                                     return (
                                         <div className='d-flex justify-content-center'>
-                                            <div key={index} style={{ position: 'relative', width: 800, height: 550, background: story.themeBg, borderRadius: 20, padding: 20 }}>
-                                                <div style={{ background: 'white', borderRadius: 20, padding: 16, width: '100%', marginTop: 20, height: 250 }}>
+                                            <div key={index} style={{ position: 'relative', width: 800, height: 470, background: story.themeBg, borderRadius: 20, padding: 20 }}>
+                                                {/* <div style={{ background: 'white', borderRadius: 20, padding: 16, width: '100%', marginTop: 20, height: 250 }}>
                                                     <img src={story.viewImage} style={{ objectFit: 'cover', borderRadius: 20, filter: 'grayscale(60%)', width: '100%', height: 220 }} />
-                                                </div>
-                                                <div className='stories-img-text'>{story.mainHeading}</div>
-                                                <div className='d-flex justify-content-between align-items-center mt-3'>
-                                                    {/* <button className='white-btn-main  d-flex align-items-center justify-content-center' onClick={getFrruitClick} style={{ width: '48%' }}>{'Get Frruit'}  <img src={RightWhiteArrow} style={{ width: 20, objectFit: 'contain', marginLeft: 5 }} /></button> */}
+                                                </div> */}
+                                                <div className='stories-headline'>{story.mainHeading}</div>
+                                                <div className='stories-sub-headline'>{story.newsDescription}</div>
+                                                {/* <div className='d-flex justify-content-between align-items-center mt-3'>
+                                                    <button className='white-btn-main  d-flex align-items-center justify-content-center' onClick={getFrruitClick} style={{ width: '48%' }}>{'Get Frruit'}  <img src={RightWhiteArrow} style={{ width: 20, objectFit: 'contain', marginLeft: 5 }} /></button>
                                                     <div onClick={() => routeNews(story.url)} style={{ width: '100%', cursor: 'pointer' }}>
                                                         <p className='secondary-btn' style={{ textDecoration: 'none', textAlign: 'center', width: '48%' }}> {'View More'}  </p>
                                                     </div>
-                                                </div>
+                                                </div> */}
                                             </div>
                                         </div>
                                     )
