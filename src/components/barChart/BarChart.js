@@ -26,6 +26,7 @@ function BarChart(props) {
                 }))
             },
             options: {
+                animation: false,
                 plugins: {
                     legend: {
                         display: true,

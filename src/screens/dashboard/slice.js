@@ -13,16 +13,22 @@ const initialState = {
     stockSearchLoading: false,
     stockSearchError: null,
     investorStory: {
-        topicsNews: [],
         watchlistNews: [],
-        trendingStock: [],
-        trendingNews: [],
+        sessionNews: [],
+        hotPursuitNews: [],
+        corporateNews: [],
+        economyNews: [],
+        corporateResultsNews: [],
+        marketNews: [],
     },
     storyViewed: {
-        isWatchListViewed: false,
-        isStockViewed: false,
-        isTopicViewed: false,
-        isNewsViewed: false
+        isWatchlistViewed: false,
+        isSessionViewed: false,
+        isHotPursuitViewed: false,
+        isCorporateViewed: false,
+        isEconomyViewed: false,
+        isCorporateResultsViewed: false,
+        isMarketViewed: false,
     },
     investorStoryLoading: false,
     investorStoryError: false,
@@ -261,10 +267,13 @@ const dashboardSlice = createSlice({
     reducers: {
         setStoryViewed: (state, action) => {
             const storyEnum = {
-                Topics_news: 'isTopicViewed',
-                Watchlist_news: 'isWatchListViewed',
-                Tren_stock_news: 'isStockViewed',
-                Trending_news: 'isNewsViewed'
+                watchlist_news :'isWatchlistViewed',
+                session_news:'isSessionViewed',
+                hot_pursuit_news:'isHotPursuitViewed',
+                corporate_news:'isCorporateViewed',
+                economy_news:'isEconomyViewed',
+                corporate_results_news:'isCorporateResultsViewed',
+                market_news:'isMarketViewed',
             }
             state.storyViewed = {
                 ...state.storyViewed,
@@ -321,22 +330,31 @@ const dashboardSlice = createSlice({
                 state.investorStoryError = true;
             })
             .addCase(getInvestorStories.fulfilled, (state, action) => {
-                const topicsNews = Object.values(action.payload["Topics_news"]).flat();
-                const watchlist = Object.values(action.payload["Watchlist_news"]).flat();
-                const stocks = Object.values(action.payload["Tren_stock_news"]).flat();
-                const news = Object.values(action.payload["Trending_news"]).flat();
+                const watchlist = Object.values(action.payload["watchlist_news"]).flat();
+                const session = Object.values(action.payload["session_news"]).flat();
+                const hotPursuit = Object.values(action.payload["hot_pursuit_news"]).flat();
+                const corporate = Object.values(action.payload["corporate_news"]).flat();
+                const economy = Object.values(action.payload["economy_news"]).flat();
+                const corporateResults = Object.values(action.payload["corporate_results_news"]).flat();
+                const market = Object.values(action.payload["market_news"]).flat();
 
                 state.investorStory = {
-                    topicsNews: topicsNews,
                     watchlistNews: watchlist,
-                    trendingStock: stocks,
-                    trendingNews: news
+                    sessionNews: session,
+                    hotPursuitNews: hotPursuit,
+                    corporateNews:corporate,
+                    economyNews: economy,
+                    corporateResultsNews:corporateResults,
+                    marketNews: market,
                 };
                 state.storyViewed = {
-                    isWatchListViewed: false,
-                    isStockViewed: false,
-                    isTopicViewed: false,
-                    isNewsViewed: false
+                    isWatchlistViewed: false,
+                    isSessionViewed: false,
+                    isHotPursuitViewed: false,
+                    isCorporateViewed: false,
+                    isEconomyViewed: false,
+                    isCorporateResultsViewed: false,
+                    isMarketViewed: false
                 }
                 state.investorStoryError = false;
             })

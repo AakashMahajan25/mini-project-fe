@@ -295,7 +295,7 @@ function ChatGpt(props) {
                     <div className='graphSlider'>
                         {
                             chartData?.length > 2 &&
-                            <h6 style={{ color: 'rgb(69, 99, 228)', fontSize: 14, textAlign: 'right' }}>Slider to Know More</h6>
+                            <h6 style={{ color: 'rgb(69, 99, 228)', fontSize: 14, textAlign: 'right' }}>Slide to Know More</h6>
                         }
                         <Slider {...graphSettings}>
                             {chartData.map((dataObject, index) => (

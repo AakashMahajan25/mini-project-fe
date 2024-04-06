@@ -48,6 +48,7 @@ function LineGraph(props) {
                 })),
             },
             options: {
+                animation: false,
                 plugins: {
                     legend: {
                         display: true,
