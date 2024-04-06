@@ -66,7 +66,7 @@ const storyEnum3 = {
 const leftPosition = window.innerWidth < 768 ? 370 : 370;
 const rightPosition = window.innerWidth < 768 ? 370 : 370;
 const rightPositionModal = window.innerWidth < 768 ? -80 : -80;
-const topPositionModal = window.innerWidth < 768 ? -10: -10;
+const topPositionModal = window.innerWidth < 768 ? -10 : -10;
 
 function Dashboard() {
     const PreviousBtn = (props) => {
@@ -221,37 +221,37 @@ function Dashboard() {
 
     useEffect(() => {
         dispatch(getTrendingStocks()).unwrap()
-        .then((res) => {
-            ReactGA.event({
-                category: 'Dashboard',
-                action: 'get_trending_stocks',
-                label: 'Get Trending Stocks'
-            });
-        }).catch(err=>{
+            .then((res) => {
+                ReactGA.event({
+                    category: 'Dashboard',
+                    action: 'get_trending_stocks',
+                    label: 'Get Trending Stocks'
+                });
+            }).catch(err => {
 
-        });
+            });
         dispatch(getTrendingNews())
         dispatch(getMostOnFrruitGpt(20)).unwrap()
-        .then((res) => {
-            ReactGA.event({
-                category: 'Dashboard',
-                action: 'get_mostonfrruitgpt',
-                label: 'Get MostonFrruitGpt'
-            });
-        }).catch(err=>{
+            .then((res) => {
+                ReactGA.event({
+                    category: 'Dashboard',
+                    action: 'get_mostonfrruitgpt',
+                    label: 'Get MostonFrruitGpt'
+                });
+            }).catch(err => {
 
-        });
+            });
         dispatch(getPromptSuggestion(4))
         dispatch(getInvestorStories()).unwrap()
-        .then((res) => {
-            ReactGA.event({
-                category: 'Dashboard',
-                action: 'get_investor_stories',
-                label: 'Get Investor Stories'
-            });
-        }).catch(err=>{
+            .then((res) => {
+                ReactGA.event({
+                    category: 'Dashboard',
+                    action: 'get_investor_stories',
+                    label: 'Get Investor Stories'
+                });
+            }).catch(err => {
 
-        });
+            });
         dispatch(getStockIndexes())
     }, [])
 
@@ -570,11 +570,11 @@ function Dashboard() {
                         </div>
                     </Modal.Header>
                     <Modal.Body>
-                        <div className='viewModal2'>
+                        <div className='viewModal2 '>
                             <div className='row' style={{ marginLeft: 0 }}>
 
                                 {trendingStocks?.slice(0, 10).map((stockData, index) => (
-                                    <div className='col-lg-6 column-pad mb-3'>
+                                    <div className='col-lg-6 column-pad mb-3 pointer'>
                                         <TrendingStocksCard key={index} {...stockData} />
                                     </div>
                                 ))}
