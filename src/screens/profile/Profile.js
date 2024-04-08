@@ -198,12 +198,12 @@ function Profile() {
                                         <div className='profile-title' style={{ marginBottom: 32 }}>Profile</div>
                                         <div className='row align-items-center mt-2  ' style={{ marginBottom: 20 }}>
                                             {/* <img src={UserImg} style={{ width: 82, objectFit: 'contain', marginRight: 15 }} /> */}
-                                            <div className='col-lg-2 col-md-2'>
+                                            <div className='col-xl-2 col-lg-3 col-md-2'>
                                                 <div className='user-profile-circle'>
                                                     <div className='user-profile-circle-text'>{userDetails?.first_name?.slice(0, 1)}</div>
                                                 </div>
                                             </div>
-                                            <div className='col-lg-10 col-md-10'>
+                                            <div className='col-xl-10 col-lg-9 col-md-10'>
                                                 <div className="position-relative" style={{ width: '100%' }}>
                                                     <label className='form-control-label'>First Name</label>
                                                     <Controller

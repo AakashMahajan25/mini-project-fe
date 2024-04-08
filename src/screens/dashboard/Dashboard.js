@@ -36,35 +36,35 @@ import 'react-tooltip/dist/react-tooltip.css'
 import ReactGA from 'react-ga4';
 
 const storyEnum = {
-    watchlist_news :'isWatchlistViewed',
-    session_news:'isSessionViewed',
-    hot_pursuit_news:'isHotPursuitViewed',
-    corporate_news:'isCorporateViewed',
-    economy_news:'isEconomyViewed',
-    corporate_results_news:'isCorporateResultsViewed',
-    market_news:'isMarketViewed',
+    watchlist_news: 'isWatchlistViewed',
+    session_news: 'isSessionViewed',
+    hot_pursuit_news: 'isHotPursuitViewed',
+    corporate_news: 'isCorporateViewed',
+    economy_news: 'isEconomyViewed',
+    corporate_results_news: 'isCorporateResultsViewed',
+    market_news: 'isMarketViewed',
 }
 const storyEnum2 = {
-    watchlist_news :'watchlistNews',
-    session_news:'sessionNews',
-    hot_pursuit_news:'hotPursuitNews',
-    corporate_news:'corporateNews',
-    economy_news:'economyNews',
-    corporate_results_news:'corporateResultsNews',
-    market_news:'marketNews',
+    watchlist_news: 'watchlistNews',
+    session_news: 'sessionNews',
+    hot_pursuit_news: 'hotPursuitNews',
+    corporate_news: 'corporateNews',
+    economy_news: 'economyNews',
+    corporate_results_news: 'corporateResultsNews',
+    market_news: 'marketNews',
 }
 
 const storyEnum3 = {
-    watchlist_news :'watchlistNews',
-    session_news:'sessionNews',
-    hot_pursuit_news:'hotPursuitNews',
-    corporate_news:'corporateNews',
-    economy_news:'economyNews',
-    corporate_results_news:'corporateResultsNews',
-    market_news:'marketNews',
+    watchlist_news: 'watchlistNews',
+    session_news: 'sessionNews',
+    hot_pursuit_news: 'hotPursuitNews',
+    corporate_news: 'corporateNews',
+    economy_news: 'economyNews',
+    corporate_results_news: 'corporateResultsNews',
+    market_news: 'marketNews',
 }
-const leftPosition = window.innerWidth < 768 ? 370 : 370;
-const rightPosition = window.innerWidth < 768 ? 370 : 370;
+// const leftPosition = window.innerWidth < 768 ? 370 : 370;
+// const rightPosition = window.innerWidth < 768 ? 370 : 370;
 const rightPositionModal = window.innerWidth < 768 ? -80 : -80;
 const topPositionModal = window.innerWidth < 768 ? -10 : -10;
 
@@ -73,7 +73,7 @@ function Dashboard() {
         const { className, onClick } = props
         return (
             <div className={className} onClick={onClick}>
-                <img src={PrevBtn} style={{ width: 44, position: 'absolute', top: -110, left: leftPosition }} />
+                <img src={PrevBtn} style={{ width: 44, position: 'absolute', top: -110, left: 370 }} />
             </div>
         )
     }
@@ -81,7 +81,7 @@ function Dashboard() {
         const { className, onClick } = props
         return (
             <div className={className} onClick={onClick}>
-                <img src={NextBtnicon} style={{ width: 44, position: 'absolute', top: -110, right: rightPosition }} />
+                <img src={NextBtnicon} style={{ width: 44, position: 'absolute', top: -110, right: 370 }} />
             </div>
         )
     }
@@ -179,6 +179,20 @@ function Dashboard() {
         arrows: false,
         autoplay: true,
         autoplaySpeed: 2000,
+        responsive: [
+            {
+                breakpoint: 1025,
+                settings: {
+                    slidesToShow: 1,
+                }
+            },
+            {
+                breakpoint: 769,
+                settings: {
+                    slidesToShow: 2,
+                }
+            }
+        ]
     };
     const suggestionSettings = {
         dots: false,
