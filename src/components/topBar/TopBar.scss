@@ -1,7 +1,7 @@
 .web-nav {
     position: relative;
 
-    @media only screen and (max-width: 768px) {
+    @media only screen and (max-width: 990px) {
         display: none !important;
     }
 
@@ -13,6 +13,9 @@
 
         .content-nav {
             padding: 10px 50px;
+            @media only screen and (max-width: 1024px) {
+                padding: 10px 15px;
+            }
 
             .web-nav-text {
                 color: #889BEA;
@@ -20,6 +23,12 @@
                 font-size: 16px;
                 font-family: 'Roboto', sans-serif;
                 cursor: pointer;
+                margin-right: 3rem;
+
+                @media only screen and (max-width: 1024px) {
+                    margin-right: 1.5rem;
+                    font-size: 15px;
+                }
             }
 
             .web-nav-text:hover {
@@ -33,6 +42,13 @@
                 cursor: pointer;
                 font-weight: 600;
                 color: #4563E4;
+                margin-right: 3rem;
+
+                @media only screen and (max-width: 1024px) {
+                    margin-right: 1.5rem;
+                    font-size: 15px;
+                }
+
             }
 
             .logo {
@@ -49,6 +65,10 @@
                 justify-content: center;
                 align-items: center;
                 cursor: pointer;
+                margin-right: 3rem;
+                @media only screen and (max-width: 1024px) {
+                    margin-right: 1.5rem;
+                }
             }
 
             .profile-name-text {
@@ -82,7 +102,8 @@
 }
 
 .tabNavBar {
-    @media only screen and (min-width: 786px) {
+
+    @media only screen and (min-width: 991px) {
         display: none !important;
     }
 
@@ -122,6 +143,7 @@
         font-size: 20px;
         line-height: 30px;
     }
+
     .profile-icon {
         width: 35px;
         height: 35px;

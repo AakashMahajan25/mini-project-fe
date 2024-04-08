@@ -88,6 +88,30 @@
         margin-bottom: 20px;
         margin-top: 10px;
         padding: 0px 16px;
+
+        @media only screen and (max-width: 1024px) {
+            padding: 0px 16px;
+            font-size: 12px;
+        }
+    }
+
+    .watchlistTextPlus {
+        font-weight: 500;
+        font-family: 'Roboto', sans-serif;
+        font-size: 14px;
+        line-height: 18.75px;
+        color: #171E42;
+        margin-bottom: 20px;
+        margin-top: 10px;
+        padding: 3px 12px;
+        margin-right: 16px;
+        border-radius: 20px;
+        border: 1px solid;
+
+        @media only screen and (max-width: 1024px) {
+            margin-right: 12px;
+            font-size: 12px;
+        }
     }
 
     .scroll-tabs-btn {
