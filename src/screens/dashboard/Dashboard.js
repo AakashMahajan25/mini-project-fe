@@ -508,9 +508,9 @@ function Dashboard() {
                                             borderRadius: 10,
                                             backgroundColor: index === activeIndex ? '#fff' : 'rgba(229, 229, 229, 0.5)',
                                             zIndex: 10,
-                                            paddingRight: 20,
-                                            marginRight: 5,
-                                            marginLeft: 5,
+                                            // paddingRight: 20,
+                                            marginRight: 3,
+                                            marginLeft: 3,
                                         }}
                                     />
                                 ))}
@@ -525,7 +525,7 @@ function Dashboard() {
                                                     <img src={story.viewImage} style={{ objectFit: 'cover', borderRadius: 20, filter: 'grayscale(60%)', width: '100%', height: 220 }} />
                                                 </div> */}
                                                 <div className='stories-headline'>{story.mainHeading}</div>
-                                                <div className='stories-sub-headline'>{story.newsDescription}</div>
+                                                <div className='stories-sub-headline' dangerouslySetInnerHTML={{ __html: story.newsDescription }}></div>
                                                 {/* <div className='d-flex justify-content-between align-items-center mt-3'>
                                                     <button className='white-btn-main  d-flex align-items-center justify-content-center' onClick={getFrruitClick} style={{ width: '48%' }}>{'Get Frruit'}  <img src={RightWhiteArrow} style={{ width: 20, objectFit: 'contain', marginLeft: 5 }} /></button>
                                                     <div onClick={() => routeNews(story.url)} style={{ width: '100%', cursor: 'pointer' }}>
