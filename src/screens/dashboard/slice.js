@@ -30,6 +30,15 @@ const initialState = {
         isCorporateResultsViewed: false,
         isMarketViewed: false,
     },
+    storyIndex:{
+        watchlistNews: 0,
+        sessionNews: 0,
+        hotPursuitNews: 0,
+        corporateNews: 0,
+        economyNews: 0,
+        corporateResultsNews: 0,
+        marketNews: 0,
+    },
     investorStoryLoading: false,
     investorStoryError: false,
     watchlistLoading: false,
@@ -38,6 +47,7 @@ const initialState = {
     companyDetails: [],
     companyStatistics: [],
     graphDetails: [],
+    cmotsNews: [],
 }
 
 export const getTrendingStocks = createAsyncThunk("dashboard/getTrendingStocks", async () => {
@@ -260,6 +270,20 @@ export const getGraphDetail = createAsyncThunk("watchList/getGraphDetail", async
     }
 });
 
+export const fetchAllNews = createAsyncThunk("dashboard/fetchAllNews", async () => {
+    try {
+        let data = {
+            method: METHOD_TYPE.get,
+            url: API_ENDPOINTS.fetchAllNews,
+        };
+        const response = await api(data);
+        return response.data.data;
+
+    } catch (error) {
+        throw error?.response?.data;
+    }
+});
+
 
 const dashboardSlice = createSlice({
     name: "dashboard",
@@ -279,7 +303,23 @@ const dashboardSlice = createSlice({
                 ...state.storyViewed,
                 [storyEnum[action.payload]]: true
             }
-        }
+        },
+
+        setStoryIndex: (state, action) => {
+            const storyEnum = {
+                watchlist_news :'watchlistNews',
+                session_news:'sessionNews',
+                hot_pursuit_news:'hotPursuitNews',
+                corporate_news:'corporateNews',
+                economy_news:'economyNews',
+                corporate_results_news:'corporateResultsNews',
+                market_news:'marketNews',
+            }
+            state.storyIndex = {
+                ...state.storyIndex,
+                [storyEnum[action.payload.type]]: action.payload.number
+            }
+        },
     },
 
     extraReducers: (builder) => {
@@ -329,6 +369,9 @@ const dashboardSlice = createSlice({
             .addCase(getInvestorStories.rejected, (state, action) => {
                 state.investorStoryError = true;
             })
+            .addCase(fetchAllNews.fulfilled, (state, action) => {
+                state.cmotsNews = action.payload;
+            })
             .addCase(getInvestorStories.fulfilled, (state, action) => {
                 const watchlist = Object.values(action.payload["watchlist_news"]).flat();
                 const session = Object.values(action.payload["session_news"]).flat();
@@ -355,6 +398,15 @@ const dashboardSlice = createSlice({
                     isEconomyViewed: false,
                     isCorporateResultsViewed: false,
                     isMarketViewed: false
+                };
+                state.storyIndex = {
+                    watchlistNews: 0,
+                    sessionNews: 0,
+                    hotPursuitNews: 0,
+                    corporateNews: 0,
+                    economyNews: 0,
+                    corporateResultsNews: 0,
+                    marketNews: 0,
                 }
                 state.investorStoryError = false;
             })
@@ -381,7 +433,10 @@ const dashboardSlice = createSlice({
                     action.type === getStockStatistics.rejected.type ||
                     action.type === getGraphDetail.fulfilled.type ||
                     action.type === getGraphDetail.pending.type ||
-                    action.type === getGraphDetail.rejected.type,
+                    action.type === getGraphDetail.rejected.type ||
+                    action.type === fetchAllNews.fulfilled.type ||
+                    action.type === fetchAllNews.pending.type ||
+                    action.type === fetchAllNews.rejected.type,
                 handleLoading
             )
             .addMatcher(
@@ -430,5 +485,5 @@ const dashboardSlice = createSlice({
             );
     }
 });
-export const { setStoryViewed } = dashboardSlice.actions;
+export const { setStoryViewed, setStoryIndex } = dashboardSlice.actions;
 export default dashboardSlice.reducer;

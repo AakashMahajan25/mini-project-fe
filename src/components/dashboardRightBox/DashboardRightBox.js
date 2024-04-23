@@ -9,6 +9,7 @@ import CloseImg from '../../assets/images/close_icon.png';
 import { formatTimeAgo, trimText } from '../../utils/utils';
 import { useNavigate } from 'react-router-dom';
 import { Modal } from 'react-bootstrap';
+import moment from 'moment';
 
 function DashboardRightBox({ newsData, mostFrruitData, onViewAllClick }) {
     const texts = [
@@ -33,6 +34,10 @@ function DashboardRightBox({ newsData, mostFrruitData, onViewAllClick }) {
     const handleShow = () => setShow(true);
 
     const handleClose = () => setShow(false);
+
+    const momentTime = (time) => {
+        return moment(time, 'HH:mm').format('h:mm A')
+    }
 
     return (
         <>
@@ -68,13 +73,13 @@ function DashboardRightBox({ newsData, mostFrruitData, onViewAllClick }) {
                                     newsData?.slice(0, 8).map((newsItem, index) => (
                                         <div key={index} className='newsBox' style={{ marginBottom: 20, cursor: 'pointer' }} onClick={() => routeNews(newsItem?.newsLink)}>
                                             <div className='d-flex justify-content-start'>
-                                                <img style={{ width: 60, objectFit: 'cover', marginRight: '10px',borderRadius:10,border: 'solid 1px #e5e5e5' }} src={newsItem?.image} />
+                                                {/* <img style={{ width: 60, objectFit: 'cover', marginRight: '10px',borderRadius:10,border: 'solid 1px #e5e5e5' }} src={newsItem?.image} /> */}
                                                 <div>
-                                                    <p className='newsTitle'>{trimText(newsItem?.title, 20)}</p>
-                                                    <p className='newsPara' style={{ marginBottom: '5px' }}>{newsItem?.source}</p>
+                                                    <p className='newsTitle'>{trimText(newsItem?.heading, 70)}</p>
+                                                    <p className='newsPara' style={{ marginBottom: '5px' }}>{newsItem?.section_name}</p>
                                                     <div className='d-flex justify-content-start align-items-center'>
                                                         <img height={16} style={{ width: 16, objectFit: 'cover', marginRight: '5px' }} src={NewsTime} />
-                                                        <p className='newsPara'>{formatTimeAgo(newsItem?.timeStamp)}</p>
+                                                        <p className='newsPara'>{momentTime(newsItem?.time)}</p>
                                                     </div>
                                                 </div>
                                             </div>

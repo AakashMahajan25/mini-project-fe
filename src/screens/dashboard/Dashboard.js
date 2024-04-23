@@ -23,7 +23,7 @@ import Slider from 'react-slick';
 import { useNavigate } from 'react-router-dom';
 import Modal from 'react-bootstrap/Modal';
 import { useDispatch, useSelector } from 'react-redux';
-import { getInvestorStories, getMostOnFrruitGpt, getStockIndexes, getTrendingNews, getTrendingStocks, setStoryViewed } from './slice';
+import { fetchAllNews, getInvestorStories, getMostOnFrruitGpt, getStockIndexes, getTrendingNews, getTrendingStocks, setStoryIndex, setStoryViewed } from './slice';
 import { getPromptSuggestion } from '../frruitGPT/slice';
 import Loader from '../../components/loader/Loader';
 import RightWhiteArrow from '../../assets/images/right-arrow.png';
@@ -158,7 +158,7 @@ function Dashboard() {
     ];
 
     const dispatch = useDispatch()
-    const { trendingStocks, trendingNews, mostOnFrruitGpt, storyViewed, investorStory, isLoading, investorStoryLoading, indexLoader, stockIndexes, investorStoryError } = useSelector(state => state.dashboardSlice);
+    const { trendingStocks, trendingNews, mostOnFrruitGpt, storyViewed, investorStory, storyIndex, isLoading, investorStoryLoading, indexLoader, stockIndexes, investorStoryError, cmotsNews } = useSelector(state => state.dashboardSlice);
     const { chatSuggestions, suggestionLoader, suggestionError } = useSelector(state => state.fruitGPTSlice);
     const [showLeftBox, setShowLeftBox] = useState(true);
     useEffect(() => {
@@ -174,7 +174,7 @@ function Dashboard() {
         dots: false,
         infinite: true,
         speed: 500,
-        slidesToShow: 2,
+        slidesToShow: 3,
         swipeToSlide: true,
         arrows: false,
         autoplay: true,
@@ -208,9 +208,10 @@ function Dashboard() {
         dots: false,
         infinite: false,
         speed: 100,
-        slidesToShow: 1,
-        slidesToScroll: 1,
-        beforeChange: (oldIndex, newIndex) => setActiveIndex(newIndex),
+        // slidesToShow: 1,
+        // slidesToScroll: 1,
+        beforeChange: (oldIndex, newIndex) => { setActiveIndex(newIndex); dispatch(setStoryIndex({type: storyType.storyType, number: newIndex}))},
+        initialSlide: storyIndex[storyEnum2[storyType?.storyType]]
     };
 
     const navigate = useNavigate();
@@ -267,6 +268,7 @@ function Dashboard() {
 
             });
         dispatch(getStockIndexes())
+        dispatch(fetchAllNews())
     }, [])
 
     useEffect(() => {
@@ -313,6 +315,7 @@ function Dashboard() {
             }
         }
         setStories(tempData)
+        setActiveIndex(storyIndex[storyEnum2[storyType?.storyType]])
     }
 
     const colors = ['#4563E4', '#40BC98', "#2B69B6", "#A856E5", "#E35151", "#858585", "#CB6343", "#0CB8B8", "#8361D9", "#4563E4"]
@@ -345,7 +348,7 @@ function Dashboard() {
     };
 
     const isData = useMemo(() => {
-        return ((stockIndexes?.length > 0 && ((investorStory?.watchlistNews?.length > 0 || investorStory?.sessionNews?.length > 0 || investorStory?.hotPursuitNews?.length > 0 || investorStory?.corporateNews?.length > 0 || investorStory?.economyNews?.length > 0 || investorStory?.corporateResultsNews?.length > 0 || investorStory?.marketNews?.length > 0) || investorStoryError) && (chatSuggestions?.length > 0 || suggestionError)))
+        return (( ((investorStory?.watchlistNews?.length > 0 || investorStory?.sessionNews?.length > 0 || investorStory?.hotPursuitNews?.length > 0 || investorStory?.corporateNews?.length > 0 || investorStory?.economyNews?.length > 0 || investorStory?.corporateResultsNews?.length > 0 || investorStory?.marketNews?.length > 0) || investorStoryError) && (chatSuggestions?.length > 0 || suggestionError)))
     }, [investorStory, stockIndexes, chatSuggestions])
 
     return (
@@ -475,12 +478,12 @@ function Dashboard() {
                     }
                     {showAllContent &&
                         <div className='col-lg-2 column-pad dashboardRightBoxNewsHide'>
-                            <DashboardRightBox newsData={trendingNews} mostFrruitData={mostOnFrruitGpt?.rows} onViewAllClick={handleViewAllClick} />
+                            <DashboardRightBox newsData={cmotsNews?.rows} mostFrruitData={mostOnFrruitGpt?.rows} onViewAllClick={handleViewAllClick} />
                         </div>
                     }
                     {!showAllContent &&
                         <div className='col-lg-9 column-pad'>
-                            <NewsViewAll backBtnClick={toggleShowAllContent} newsData={trendingNews} />
+                            <NewsViewAll backBtnClick={toggleShowAllContent} newsData={cmotsNews?.rows} />
                         </div>
                     }
                 </>
@@ -506,7 +509,7 @@ function Dashboard() {
                                             top: '10px',
                                             height: 6,
                                             borderRadius: 10,
-                                            backgroundColor: index === activeIndex ? '#fff' : 'rgba(229, 229, 229, 0.5)',
+                                            backgroundColor: index === storyIndex[storyEnum2[storyType?.storyType]] ? '#fff' : 'rgba(229, 229, 229, 0.5)',
                                             zIndex: 10,
                                             // paddingRight: 20,
                                             marginRight: 3,

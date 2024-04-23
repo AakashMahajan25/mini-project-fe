@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './NewsViewAll.scss';
 import BackBtnArrow from '../../assets/images/back-btn-arrow.png';
 import NewsImg from '../../assets/images/newsImg.png';
@@ -7,14 +7,40 @@ import NewsImg2 from '../../assets/images/news-img-2.png';
 import RightArrow from '../../assets/images/right-arrow.png';
 import { formatTimeAgo, trimText } from '../../utils/utils';
 import { useNavigate } from 'react-router-dom';
+import moment from 'moment';
 
 function NewsViewAll({ backBtnClick, newsData }) {
+    const [groupedData, setGroupedData] = useState([])
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const groupedNews = newsData?.reduce((acc, news) => {
+            if (!acc[news.type]) {
+                acc[news.type] = [];
+            }
+            acc[news.type].push(news);
+            return acc;
+        }, {});
+
+        const groupedNewsArray = Object.entries(groupedNews)?.map(([type, newsItems]) => ({
+            type,
+            newsItems,
+            section_name: newsItems[0]?.section_name
+        }));
+
+        setGroupedData(groupedNewsArray);
+
+    }, [newsData])    
+
     const routeNews = (src) => {
         navigate("/news", {
             state: { src },
         });
     };
+
+    const momentTime = (time) => {
+        return moment(time, 'HH:mm').format('h:mm A')
+    }
 
     return (
         <>
@@ -27,34 +53,41 @@ function NewsViewAll({ backBtnClick, newsData }) {
                 </div>
 
                 <div>
-                    <div className='headline-text'>Today’s Headline</div>
-                    <div className='row m-0'>
-                        {newsData?.slice(0, 6).map((item, index) => (
-                            <div key={index} className='col-lg-4 column-pad'>
-                                <a onClick={()=>routeNews(item?.newsLink)} target='_blank' style={{ textDecoration: 'none', cursor:'pointer' }}>
-                                    <div className='headline-news-card'>
-                                        <div className='d-flex align-items-center m-0'>
-                                            <div className=''>
+                    {groupedData?.map((item, index) => (
+                        <>
+                            <div className='headline-text mb-3 mt-3'>{item?.section_name}</div>
+                            <div className='row m-0'>
+                                {
+                                    item?.newsItems?.map((el, i) => (
+                                        <div key={i} className='col-lg-4 column-pad'>
+                                            <a onClick={() => routeNews(item?.newsLink)} target='_blank' style={{ textDecoration: 'none', cursor: 'pointer' }}>
+                                                <div className='headline-news-card'>
+                                                    <div className='d-flex align-items-center m-0'>
+                                                        {/* <div className=''>
                                                 <img src={item.image} className='mx-2' width={60} height={60} style={{ objectFit: 'fill', borderRadius: 10 }} />
-                                            </div>
-                                            <div className=''>
-                                                <div className='text-area'>
-                                                    <div className='news-title'>{trimText(item?.title, 40)}</div>
-                                                    <div className='news-info'>{item.source}</div>
-                                                    <div className='flex'>
-                                                        <img src={Time} width={16} style={{ objectFit: 'contain', marginRight: 5 }} />
-                                                        <div className='time-info'>{formatTimeAgo(item?.timeStamp)}</div>
+                                            </div> */}
+                                                        <div className=''>
+                                                            <div className='text-area p-3'>
+                                                                <div className='news-title'>{trimText(el?.heading, 120)}</div>
+                                                                <div className='news-info'>{el.source}</div>
+                                                                <div className='flex'>
+                                                                    {/* <img src={Time} width={16} style={{ objectFit: 'contain', marginRight: 5 }} /> */}
+                                                                    <div className='time-info'>{momentTime(el?.time)}</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </a>
                                         </div>
-                                    </div>
-                                </a>
+
+                                    ))
+                                }
                             </div>
-                        ))}
-                    </div>
+                        </>
+                    ))}
                 </div>
-                <div>
+                {/* <div>
                     <div className='Featured-News-text'>Featured News</div>
                     <div className='row m-0'>
                         {newsData?.slice(6, 10).map((item, index) => (
@@ -80,7 +113,7 @@ function NewsViewAll({ backBtnClick, newsData }) {
                             </div>
                         ))}
                     </div>
-                </div>
+                </div> */}
             </div>
         </>
     );
