@@ -12,6 +12,7 @@ import { Modal } from 'react-bootstrap';
 import moment from 'moment';
 
 function DashboardRightBox({ newsData, mostFrruitData, onViewAllClick }) {
+    const [selected, setSelected] = useState(null)
     const texts = [
         'Current stock ratings and targets?',
         'Another text for the second instance',
@@ -31,9 +32,15 @@ function DashboardRightBox({ newsData, mostFrruitData, onViewAllClick }) {
     };
     const [show, setShow] = useState(false);
 
-    const handleShow = () => setShow(true);
+    const handleShow = (data) => {
+        setShow(true)
+        setSelected(data)
+    };
 
-    const handleClose = () => setShow(false);
+    const handleClose = () => {
+        setShow(false)
+        setSelected(null)
+    };
 
     const momentTime = (time) => {
         return moment(time, 'HH:mm').format('h:mm A')
@@ -71,7 +78,7 @@ function DashboardRightBox({ newsData, mostFrruitData, onViewAllClick }) {
                                 </div>
                                 {
                                     newsData?.slice(0, 8).map((newsItem, index) => (
-                                        <div key={index} className='newsBox' style={{ marginBottom: 20, cursor: 'pointer' }} onClick={() => routeNews(newsItem?.newsLink)}>
+                                        <div key={index} className='newsBox' style={{ marginBottom: 20, cursor: 'pointer' }} onClick={() => handleShow(newsItem)}>
                                             <div className='d-flex justify-content-start'>
                                                 {/* <img style={{ width: 60, objectFit: 'cover', marginRight: '10px',borderRadius:10,border: 'solid 1px #e5e5e5' }} src={newsItem?.image} /> */}
                                                 <div>
@@ -98,7 +105,7 @@ function DashboardRightBox({ newsData, mostFrruitData, onViewAllClick }) {
                 >
                     <Modal.Header>
                         <div className='d-flex justify-content-between align-items-center mb-2'>
-                            <div className='header-text'>Most on Frruit</div>
+                            <div className='header-text'>{selected?.heading}</div>
                             <div onClick={() => handleClose()} className=' align-items-center' style={{ cursor: 'pointer' }}>
                                 <img src={CloseImg} className='me-1' width={32} style={{ objectFit: 'contain' }} />
                             </div>
@@ -106,14 +113,7 @@ function DashboardRightBox({ newsData, mostFrruitData, onViewAllClick }) {
                     </Modal.Header>
                     <Modal.Body>
                         <div className='viewModal'>
-                            <div>
-                                {mostFrruitData?.map((text, index) => (
-                                    <div onClick={() => { routeChangeFrruitGPT(text?.question) }} key={index} className='d-flex justify-content-between align-items-center blue-box mb-2' style={{ cursor: 'pointer' }}>
-                                        <div>{text?.question}</div>
-                                        <img src={RightBlueArrow} className='me-1' width={10} style={{ objectFit: 'contain' }} />
-                                    </div>
-                                ))}
-                            </div>
+                            <div dangerouslySetInnerHTML={{ __html: selected?.arttext }} />
                         </div>
                     </Modal.Body>
                 </Modal>

@@ -8,10 +8,15 @@ import RightArrow from '../../assets/images/right-arrow.png';
 import { formatTimeAgo, trimText } from '../../utils/utils';
 import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
+import { Modal } from 'react-bootstrap';
+import CloseImg from '../../assets/images/close_icon.png';
+
 
 function NewsViewAll({ backBtnClick, newsData }) {
-    const [groupedData, setGroupedData] = useState([])
     const navigate = useNavigate();
+    const [groupedData, setGroupedData] = useState([])
+    const [selected, setSelected] = useState(null)
+    const [show, setShow] = useState(false);
 
     useEffect(() => {
         const groupedNews = newsData?.reduce((acc, news) => {
@@ -21,16 +26,26 @@ function NewsViewAll({ backBtnClick, newsData }) {
             acc[news.type].push(news);
             return acc;
         }, {});
-
+        
         const groupedNewsArray = Object.entries(groupedNews)?.map(([type, newsItems]) => ({
             type,
             newsItems,
             section_name: newsItems[0]?.section_name
         }));
-
+        
         setGroupedData(groupedNewsArray);
-
+        
     }, [newsData])    
+    
+    const handleShow = (data) => {
+        setShow(true)
+        setSelected(data)
+    };
+
+    const handleClose = () => {
+        setShow(false)
+        setSelected(null)
+    };
 
     const routeNews = (src) => {
         navigate("/news", {
@@ -60,7 +75,7 @@ function NewsViewAll({ backBtnClick, newsData }) {
                                 {
                                     item?.newsItems?.map((el, i) => (
                                         <div key={i} className='col-lg-4 column-pad'>
-                                            <a onClick={() => routeNews(item?.newsLink)} target='_blank' style={{ textDecoration: 'none', cursor: 'pointer' }}>
+                                            <a onClick={() => handleShow(el)} target='_blank' style={{ textDecoration: 'none', cursor: 'pointer' }}>
                                                 <div className='headline-news-card'>
                                                     <div className='d-flex align-items-center m-0'>
                                                         {/* <div className=''>
@@ -115,6 +130,27 @@ function NewsViewAll({ backBtnClick, newsData }) {
                     </div>
                 </div> */}
             </div>
+            <Modal show={show}
+                    onHide={handleClose}
+                    size='lg'
+                    className='viewModal'
+                    scrollable
+                    centered
+                >
+                    <Modal.Header>
+                        <div className='d-flex justify-content-between align-items-center mb-2'>
+                            <div className='header-text'>{selected?.heading}</div>
+                            <div onClick={() => handleClose()} className=' align-items-center' style={{ cursor: 'pointer' }}>
+                                <img src={CloseImg} className='me-1' width={32} style={{ objectFit: 'contain' }} />
+                            </div>
+                        </div>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <div className='viewModal'>
+                            <div dangerouslySetInnerHTML={{ __html: selected?.arttext }} />
+                        </div>
+                    </Modal.Body>
+                </Modal>
         </>
     );
 }

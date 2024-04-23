@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import LeftBox from '../../components/leftBox/LeftBox';
 import DashboardRightBox from '../../components/dashboardRightBox/DashboardRightBox';
 import Stories1 from '../../assets/images/watchlist_news.png';
@@ -126,6 +126,8 @@ function Dashboard() {
     const [storyType, setStoryType] = useState([]);
     const [question, setQuestion] = useState('');
 
+    const storyRef = useRef()
+
     const handleShow = (data) => {
         setStoryType(data)
         setShow(true);
@@ -211,8 +213,8 @@ function Dashboard() {
         // slidesToShow: 1,
         // slidesToScroll: 1,
         beforeChange: (oldIndex, newIndex) => { setActiveIndex(newIndex); dispatch(setStoryIndex({type: storyType.storyType, number: newIndex}))},
-        initialSlide: storyIndex[storyEnum2[storyType?.storyType]]
-    };
+        initialSlide: storyIndex[storyEnum2[storyType?.storyType]],
+        ref: (slider) => {storyRef.current = slider}};
 
     const navigate = useNavigate();
 
@@ -316,6 +318,8 @@ function Dashboard() {
         }
         setStories(tempData)
         setActiveIndex(storyIndex[storyEnum2[storyType?.storyType]])
+        if(storyRef)
+            storyRef.current?.slickGoTo(storyIndex[storyEnum2[storyType?.storyType]])
     }
 
     const colors = ['#4563E4', '#40BC98', "#2B69B6", "#A856E5", "#E35151", "#858585", "#CB6343", "#0CB8B8", "#8361D9", "#4563E4"]
