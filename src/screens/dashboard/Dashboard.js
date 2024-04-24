@@ -271,7 +271,13 @@ function Dashboard() {
             });
         dispatch(getStockIndexes())
         dispatch(fetchAllNews())
-    }, [])
+        const interval = setInterval(() => {
+            dispatch(fetchAllNews())
+        }, 60000*3);
+        return () => {
+            clearInterval(interval)
+        }
+    }, [])    
 
     useEffect(() => {
         getStoryData()
