@@ -212,7 +212,7 @@ function FrruitGPT() {
                     />
                 </div> */}
             <div className='row justify-content-between m-0 column-pad position-relative'>
-                <div className='col-xl-3 col-md-4 col-sm-3 column-pad'>
+                <div className='col-xl-3 col-md-3 col-sm-3 column-pad'>
                     <FrruitGPTLeftBox
                         handleNewChat={handleNewChat}
                         handleHistory={handleHistory}
@@ -220,7 +220,7 @@ function FrruitGPT() {
                         handleShow2={handleShow2}
                     />
                 </div>
-                <div className='col-xl-9 col-md-8 col-sm-9 column-pad'>
+                <div className='col-xl-9 col-md-9 col-sm-9 column-pad'>
                     <ChatGpt
                         newChat={isNewChat.current}
                         containerRef={gptRef}

@@ -1,13 +1,13 @@
 .dashboardHome {
     overflow-y: hidden;
 
-    // .dashboardLeftboxHideClass {
-    //     @media only screen and (max-width: 768px) {
-    //         display: none !important;
-    //     }
-    // }
-    .dashboardRightBoxNewsHide{
-        @media only screen and (max-width: 768px) {
+    .dashboardLeftboxHideClass {
+        @media only screen and (max-width: 820px) {
+            display: none !important;
+        }
+    }
+    .dashboardRightBoxNewsHide {
+        @media only screen and (max-width: 820px) {
             display: none !important;
         }
     }
@@ -182,20 +182,34 @@
         content: none !important;
     }
 
-    .stories-img-text {
+    .stories-headline {
         color: #fff;
         font-weight: 800;
         font-family: 'Roboto', sans-serif;
-        font-size: 30px;
+        font-size: 28px;
         line-height: 45px;
-        // position: absolute;
         top: 110px;
         z-index: 10;
-        // width: 70% !important;
-        margin-top: 20px;
+        margin-top: 30px;
+
         @media only screen and (max-width: 768px) {
             line-height: 30px;
-            font-size: 20px;
+            font-size: 16px;
+        }
+    }
+
+    .stories-sub-headline {
+        color: #fff;
+        font-weight: 400;
+        font-family: 'Roboto', sans-serif;
+        font-size: 16px;
+        line-height: 25px;
+        z-index: 10;
+        margin-top: 25px;
+
+        @media only screen and (max-width: 768px) {
+            line-height: 30px;
+            font-size: 16px;
         }
     }
 
