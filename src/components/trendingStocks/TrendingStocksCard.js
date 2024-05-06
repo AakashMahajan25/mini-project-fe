@@ -12,7 +12,7 @@ import Modal from 'react-bootstrap/Modal';
 import TataLogo from '../../assets/images/Tata_Consultancy_Services_Logo.png'
 import UpGreenArrow from '../../assets/images/up-arrow-outline.png'
 import DiscoverCorrelationGraph from '../../components/graph/DiscoverCorrelationGraph'
-function TrendingStocksCard({ name, symbol, change, changesPercentage, price, stock_name, ticker }) {
+function TrendingStocksCard({ name, symbol, change, changesPercentage, price, stock_name, ticker, stock_ticker }) {
     const navigate = useNavigate();
     const isPositiveChange = parseFloat(changesPercentage) > 0;
     const country = localStorage.getItem('marketType')
@@ -58,7 +58,7 @@ function TrendingStocksCard({ name, symbol, change, changesPercentage, price, st
     }
     const getFrruitClick = () => {
         navigate("/frruit-gpt", {
-            state: { question: 'What is happening in ' + ticker + ' stock' },
+            state: { question: 'What is happening in ' + stock_ticker + ' stock' },
         });
     }
 
@@ -67,7 +67,7 @@ function TrendingStocksCard({ name, symbol, change, changesPercentage, price, st
             <div className='trendingStockCard' style={{ marginRight: 10 }}>
                 <div className='card' onClick={setShowPopUp} >
                     <div className='d-flex align-items-center justify-content-between' style={{ marginBottom: 8 }}>
-                        <p className='text me-2'>{ticker}</p>
+                        <p className='text me-2'>{stock_ticker}</p>
                         {/* <div className='d-flex justify-content-between align-items-center' >
                             <p className={`text2 me-2`} style={{ color: isPositiveChange ? '#28C76F' : '#EA5455' }}>{formatPrice(price, country)}</p>
                             <p className={`text2 me-2`} style={{ color: isPositiveChange ? '#28C76F' : '#EA5455' }}>{`${isPositiveChange ? '+' + change : change}`}</p>
@@ -80,7 +80,7 @@ function TrendingStocksCard({ name, symbol, change, changesPercentage, price, st
                             </div>
                         </div>
                     </div>
-                    <p className='stockname' style={{ marginBottom: 10 }}>{stock_name}</p>
+                    <p className='stockname' style={{ marginBottom: 10 }}>{name}</p>
                     <div>
                         <div className='row px-2'>
                             {/* <div className='col-lg-4 column-pad'>
