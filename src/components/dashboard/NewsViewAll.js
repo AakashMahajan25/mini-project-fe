@@ -10,7 +10,8 @@ import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
 import { Modal } from 'react-bootstrap';
 import CloseImg from '../../assets/images/close_icon.png';
-
+import BullishImg from '../../assets/images/bullish_img.png';
+import BearishImg from '../../assets/images/bearish_img.png';
 
 function NewsViewAll({ backBtnClick, newsData }) {
     const navigate = useNavigate();
@@ -85,6 +86,15 @@ function NewsViewAll({ backBtnClick, newsData }) {
                                                             <div className='text-area p-3'>
                                                                 <div className='news-title'>{trimText(el?.heading, 120)}</div>
                                                                 <div className='news-info'>{el.source}</div>
+                                                                {/* <div className='d-flex align-items-center news-button-css'>
+                                                                    <button className='bearish-btn mb-1'> Bearish <img src={BearishImg} className='button-img-size' /></button>
+                                                                </div> */}
+                                                                <div className='d-flex align-items-center news-button-css'>
+                                                                    <button className='very-bullish-btn mb-1'> Very Bullish <img src={BullishImg} className='button-img-size' /></button>
+                                                                </div>
+                                                                {/* <div className='d-flex align-items-center news-button-css'>
+                                                                    <button className='neutral-btn mb-1'> Neutral </button>
+                                                                </div> */}
                                                                 <div className='flex'>
                                                                     {/* <img src={Time} width={16} style={{ objectFit: 'contain', marginRight: 5 }} /> */}
                                                                     <div className='time-info'>{momentTime(el?.time)}</div>

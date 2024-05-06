@@ -5,7 +5,8 @@ import NewsImg from '../../assets/images/newsImg.png';
 import NewsTime from '../../assets/images/time-clock.png';
 import RightBlueArrow from '../../assets/images/blue-right-arrow.png';
 import CloseImg from '../../assets/images/close_icon.png';
-
+import BackBtnArrow from '../../assets/images/back-btn-arrow.png';
+import GreenArrow from '../../assets/images/green_up-arrow.png';
 import { formatTimeAgo, trimText } from '../../utils/utils';
 import { useNavigate } from 'react-router-dom';
 import { Modal } from 'react-bootstrap';
@@ -96,6 +97,73 @@ function DashboardRightBox({ newsData, mostFrruitData, onViewAllClick }) {
                         }
                     </div>
                 </div>
+                {/* <Modal show={show}
+                    onHide={handleClose}
+                    size='lg'
+                    scrollable
+                    className='latest-news-modal'
+                    style={{animation: show ? 'slideInRight 0.3s ease-in-out' : 'none'}}
+                >
+                    <Modal.Header className='pb-0'>
+                        <div className='d-flex justify-content-start align-items-center' style={{ marginBottom: 20 }}>
+                            <button onClick={() => handleClose()} className='light-blue-btn'>
+                                <img src={BackBtnArrow} style={{ width: 7, height: 13, objectFit: 'contain', marginRight: 5, marginTop: -2 }} />
+                                Back
+                            </button>
+                        </div>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <div className='latest-news-modal'>
+                            <div className='d-flex align-items-end'>
+                                <div className='blue-text-box'>Corporate News</div>
+                                <div className='small-time-text ms-2'>2nd May, 2024    12:50 PM</div>
+                            </div>
+                        </div>
+                        <div className='title-text my-3'>Lorem Ipsum is simply dummy text of the printing and typesetting industry. </div>
+                        <div className='d-flex justify-content-between align-items-center'>
+                            <div className='border-box'>
+                                <div className='d-flex justify-content-between align-items-center'>
+                                    <div className='dark-text'>TCS</div>
+                                    <div className='d-flex justify-content-between align-items-center ms-3'>
+                                        <div className='green-price-text'>3903</div>
+                                        <div className='green-price-text mx-1' style={{ fontSize: 12 }}>0.5%</div>
+                                        <img src={GreenArrow} style={{ width: 13, objectFit: 'contain' }} />
+                                    </div>
+                                </div>
+                            </div>
+                            <div className='border-box'>
+                                <div className='d-flex justify-content-between align-items-center'>
+                                    <div className='dark-text'>TCS</div>
+                                    <div className='d-flex justify-content-between align-items-center ms-3'>
+                                        <div className='green-price-text'>3903</div>
+                                        <div className='green-price-text mx-1' style={{ fontSize: 12 }}>0.5%</div>
+                                        <img src={GreenArrow} style={{ width: 13, objectFit: 'contain' }} />
+                                    </div>
+                                </div>
+                            </div>
+                            <div className='border-box'>
+                                <div className='d-flex justify-content-between align-items-center'>
+                                    <div className='dark-text'>TCS</div>
+                                    <div className='d-flex justify-content-between align-items-center ms-3'>
+                                        <div className='green-price-text'>3903</div>
+                                        <div className='green-price-text mx-1' style={{ fontSize: 12 }}>0.5%</div>
+                                        <img src={GreenArrow} style={{ width: 13, objectFit: 'contain' }} />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className='text-blue my-3'>#LoremIpsum #LoremIpsum #LoremIpsum</div>
+                        <div className='text-dark-blue'>
+                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been
+                        </div>
+                        <div className='description-text mt-3'>
+                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum
+                        </div>
+                    </Modal.Body>
+                    <Modal.Footer className='d-flex align-items-center justify-content-start pt-1'>
+                            <div className='footer-text'>Source: Times of India, CNBC.</div>
+                    </Modal.Footer>
+                </Modal> */}
                 <Modal show={show}
                     onHide={handleClose}
                     size='lg'
