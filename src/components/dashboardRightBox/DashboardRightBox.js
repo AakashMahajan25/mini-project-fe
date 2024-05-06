@@ -85,7 +85,7 @@ function DashboardRightBox({ newsData, mostFrruitData, onViewAllClick }) {
                                                     <p className='newsTitle'>{trimText(newsItem?.heading, 70)}</p>
                                                     <p className='newsPara' style={{ marginBottom: '5px' }}>{newsItem?.section_name}</p>
                                                     <div className='d-flex justify-content-start align-items-center'>
-                                                        <img height={16} style={{ width: 16, objectFit: 'cover', marginRight: '5px' }} src={NewsTime} />
+                                                        {/* <img height={16} style={{ width: 16, objectFit: 'cover', marginRight: '5px' }} src={NewsTime} /> */}
                                                         <p className='newsPara'>{momentTime(newsItem?.time)}</p>
                                                     </div>
                                                 </div>
