@@ -12,7 +12,9 @@ function BottomSearchBar(props) {
     const {
         setQuestion=()=>{},
         question='',
-        handleAskPress=()=>{}
+        handleAskPress=()=>{},
+        flag='news',
+        setFlag=()=>{}
     } = props
 
     const handleChange = (e) => {
@@ -48,11 +50,11 @@ function BottomSearchBar(props) {
                 <div class="form-group">
                     <div className='customTab-frruit-gpt'>
                         <div className='d-flex align-items-center'>
-                            <div className={showNews ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: showNews ? '#F1F4FD' : '', color: '#4563E4',cursor:'pointer' }}
-                                onClick={newsClick}
+                            <div className={flag === 'news' ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: flag === 'news' ? '#F1F4FD' : '', color: '#4563E4',cursor:'pointer' }}
+                                onClick={()=>setFlag('news')}
                             > News </div>
-                            <div className={showFundamentals ? `tab-name-css tab-box-css` : `tab-name-css`} style={{ backgroundColor: showFundamentals ? '#F1F4FD' : '', color: '#4563E4',cursor:'pointer' }}
-                                onClick={fundamentalClick}
+                            <div className={flag !== 'news' ? `tab-name-css tab-box-css` : `tab-name-css`} style={{ backgroundColor: flag !== 'news' ? '#F1F4FD' : '', color: '#4563E4',cursor:'pointer' }}
+                                onClick={()=>setFlag('fundamentals')}
                             > Fundamentals </div>
 
                         </div>

@@ -27,6 +27,7 @@ function FrruitGPT() {
     const [selectedChat, setSelectedChat] = useState(null)
     const [show2, setShow2] = useState(false);
     const [deleteId, setDeleteId] = useState(null);
+    const [flag, setFlag] = useState('news')
 
     const { chatHistory } = useSelector(state => state.fruitGPTSlice);
     const { cancelTokens } = useSelector(state => state.contentGPTSlice);
@@ -71,6 +72,7 @@ function FrruitGPT() {
         dispatch(clearChatHistory())
         setSelectedChat(null)
         setQuestion('')
+        setFlag('news')
     }
 
     const handleHistory = (Id) => {
@@ -141,6 +143,9 @@ function FrruitGPT() {
 
         const token = axios.CancelToken.source()
         dispatch(setCancelTokens(token))
+
+        if(flag === 'news')
+            requestData["flag"] = flag
 
         dispatch(triggerFrruitGpt({requestData, cancelToken: token}))
             .unwrap()
@@ -232,6 +237,8 @@ function FrruitGPT() {
                         setQuestion={setQuestion}
                         question={question}
                         handleAskPress={handleAskPress}
+                        flag={flag}
+                        setFlag={setFlag}
                     />
                 </div>
             </div>

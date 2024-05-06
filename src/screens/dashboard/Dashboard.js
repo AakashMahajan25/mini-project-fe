@@ -269,7 +269,7 @@ function Dashboard() {
             }).catch(err => {
 
             });
-        dispatch(getStockIndexes())
+        // dispatch(getStockIndexes())
         dispatch(fetchAllNews())
         const interval = setInterval(() => {
             dispatch(fetchAllNews())
