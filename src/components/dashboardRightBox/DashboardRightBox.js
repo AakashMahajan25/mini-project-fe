@@ -19,7 +19,7 @@ function DashboardRightBox({ newsData, mostFrruitData, onViewAllClick }) {
         'Another text for the second instance',
         'And one more for the third instance',
     ];
-
+    console.log('newsData==========', newsData)
     const navigate = useNavigate();
     const routeChangeFrruitGPT = (question) => {
         navigate("/frruit-gpt", {
@@ -97,12 +97,12 @@ function DashboardRightBox({ newsData, mostFrruitData, onViewAllClick }) {
                         }
                     </div>
                 </div>
-                {/* <Modal show={show}
+                <Modal show={show}
                     onHide={handleClose}
                     size='lg'
                     scrollable
                     className='latest-news-modal'
-                    style={{animation: show ? 'slideInRight 0.3s ease-in-out' : 'none'}}
+                    style={{ animation: show ? 'slideInRight 0.3s ease-in-out' : 'none' }}
                 >
                     <Modal.Header className='pb-0'>
                         <div className='d-flex justify-content-start align-items-center' style={{ marginBottom: 20 }}>
@@ -115,12 +115,12 @@ function DashboardRightBox({ newsData, mostFrruitData, onViewAllClick }) {
                     <Modal.Body>
                         <div className='latest-news-modal'>
                             <div className='d-flex align-items-end'>
-                                <div className='blue-text-box'>Corporate News</div>
-                                <div className='small-time-text ms-2'>2nd May, 2024    12:50 PM</div>
+                                <div className='blue-text-box'>{selected?.section_name}</div>
+                                <div className='small-time-text ms-2'>2nd May, 2024   <span>{momentTime(selected?.time)}</span></div>
                             </div>
                         </div>
-                        <div className='title-text my-3'>Lorem Ipsum is simply dummy text of the printing and typesetting industry. </div>
-                        <div className='d-flex justify-content-between align-items-center'>
+                        <div className='title-text my-3'> {selected?.heading} </div>
+                        {/* <div className='d-flex justify-content-between align-items-center'>
                             <div className='border-box'>
                                 <div className='d-flex justify-content-between align-items-center'>
                                     <div className='dark-text'>TCS</div>
@@ -155,16 +155,16 @@ function DashboardRightBox({ newsData, mostFrruitData, onViewAllClick }) {
                         <div className='text-blue my-3'>#LoremIpsum #LoremIpsum #LoremIpsum</div>
                         <div className='text-dark-blue'>
                             Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been
-                        </div>
+                        </div> */}
                         <div className='description-text mt-3'>
-                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum
+                            <div dangerouslySetInnerHTML={{ __html: selected?.arttext }} />
                         </div>
                     </Modal.Body>
-                    <Modal.Footer className='d-flex align-items-center justify-content-start pt-1'>
-                            <div className='footer-text'>Source: Times of India, CNBC.</div>
-                    </Modal.Footer>
-                </Modal> */}
-                <Modal show={show}
+                    {/* <Modal.Footer className='d-flex align-items-center justify-content-start pt-1'>
+                        <div className='footer-text'>Source: Times of India, CNBC.</div>
+                    </Modal.Footer> */}
+                </Modal>
+                {/* <Modal show={show}
                     onHide={handleClose}
                     size='lg'
                     className='viewModal'
@@ -184,7 +184,7 @@ function DashboardRightBox({ newsData, mostFrruitData, onViewAllClick }) {
                             <div dangerouslySetInnerHTML={{ __html: selected?.arttext }} />
                         </div>
                     </Modal.Body>
-                </Modal>
+                </Modal> */}
             </div>
         </>
     );
