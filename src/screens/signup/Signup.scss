@@ -27,11 +27,27 @@
         border-radius: 45px;
 
         @media only screen and (max-width: 500px) {
-            padding: 60px 20px !important;
+            padding: 50px 20px !important;
             margin: 0px;
         }
     }
 
+    .nineone-input {
+        width: 15%;
+        text-indent: 13px;
+        color: black;
+
+        @media only screen and (max-width: 500px),
+        (max-width: 786px),
+        (max-width: 1024px) {
+            text-indent: 0px;
+        }
+        @media only screen and (max-width: 500px) {
+            width: 25%;
+            text-align: center ;
+        }
+    }
+    
     .form-select {
         border: 1px solid #BDC3DD;
         background-color: #ffffff;

@@ -1,5 +1,8 @@
 .selectmarket-css {
     margin: 50px;
+    @media only screen and (max-width: 500px) {
+        margin: 30px;
+    }
 
     .makeselection-right-side {
 
@@ -14,6 +17,9 @@
         border-radius: 45px;
         padding: 25px;
         margin: 0 25px;
+        @media only screen and (max-width: 500px) {
+            margin: 0 0px;
+        }
 
         .heading {
             font-size: 24px;
@@ -75,6 +81,9 @@
             width: max-content;
             margin-bottom: 32px;
             width: 57%;
+            @media only screen and (max-width: 500px) {
+                width: 100%;
+            }
 
             .earlyAccessText {
                 font-weight: 500;

@@ -93,7 +93,7 @@ function TopBar() {
       <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary tabNavBar">
         <Container>
           <a onClick={routeChangeDashboard}>
-            <img className="logo" style={{ width: 133 }} src={FrruitLogo} alt="" />
+            <img className="logo" style={{ width: 122 }} src={FrruitLogo} alt="" />
           </a>
           <div className='d-flex justify-content-center align-items-center'>
             <Nav.Link href="#"><div onClick={routeChangeProfile} className='profile-icon me-2'>

@@ -189,6 +189,12 @@ function Dashboard() {
                 }
             },
             {
+                breakpoint: 500,
+                settings: {
+                    slidesToShow: 1,
+                }
+            },
+            {
                 breakpoint: 769,
                 settings: {
                     slidesToShow: 2,
@@ -205,6 +211,14 @@ function Dashboard() {
         // arrows: false,
         autoplay: false,
         autoplaySpeed: 2000,
+        responsive: [
+            {
+                breakpoint: 500,
+                settings: {
+                    slidesToShow: 1,
+                }
+            },
+        ]
     };
     const storyImg = {
         dots: false,
@@ -212,9 +226,10 @@ function Dashboard() {
         speed: 100,
         // slidesToShow: 1,
         // slidesToScroll: 1,
-        beforeChange: (oldIndex, newIndex) => { setActiveIndex(newIndex); dispatch(setStoryIndex({type: storyType.storyType, number: newIndex}))},
+        beforeChange: (oldIndex, newIndex) => { setActiveIndex(newIndex); dispatch(setStoryIndex({ type: storyType.storyType, number: newIndex })) },
         initialSlide: storyIndex[storyEnum2[storyType?.storyType]],
-        ref: (slider) => {storyRef.current = slider}};
+        ref: (slider) => { storyRef.current = slider }
+    };
 
     const navigate = useNavigate();
 
@@ -273,11 +288,11 @@ function Dashboard() {
         dispatch(fetchAllNews())
         const interval = setInterval(() => {
             dispatch(fetchAllNews())
-        }, 60000*3);
+        }, 60000 * 3);
         return () => {
             clearInterval(interval)
         }
-    }, [])    
+    }, [])
 
     useEffect(() => {
         getStoryData()
@@ -324,7 +339,7 @@ function Dashboard() {
         }
         setStories(tempData)
         setActiveIndex(storyIndex[storyEnum2[storyType?.storyType]])
-        if(storyRef)
+        if (storyRef)
             storyRef.current?.slickGoTo(storyIndex[storyEnum2[storyType?.storyType]])
     }
 
@@ -358,7 +373,7 @@ function Dashboard() {
     };
 
     const isData = useMemo(() => {
-        return (( ((investorStory?.watchlistNews?.length > 0 || investorStory?.sessionNews?.length > 0 || investorStory?.hotPursuitNews?.length > 0 || investorStory?.corporateNews?.length > 0 || investorStory?.economyNews?.length > 0 || investorStory?.corporateResultsNews?.length > 0 || investorStory?.marketNews?.length > 0) || investorStoryError) && (chatSuggestions?.length > 0 || suggestionError)))
+        return ((((investorStory?.watchlistNews?.length > 0 || investorStory?.sessionNews?.length > 0 || investorStory?.hotPursuitNews?.length > 0 || investorStory?.corporateNews?.length > 0 || investorStory?.economyNews?.length > 0 || investorStory?.corporateResultsNews?.length > 0 || investorStory?.marketNews?.length > 0) || investorStoryError) && (chatSuggestions?.length > 0 || suggestionError)))
     }, [investorStory, stockIndexes, chatSuggestions])
 
     return (
@@ -405,7 +420,7 @@ function Dashboard() {
                                         <div className='dashboard-slider'>
                                             <div className='d-flex align-items-center justify-content-between'>
                                                 <p className='stories-title' style={{ marginBottom: 10 }}>Trending Stocks</p>
-                                                <p className='stories-title' style={{ marginBottom: 10, color: '#4563E4', cursor: 'pointer', marginRight: 16 }} onClick={handleShow3}>View All</p>
+                                                <p className='stories-title marginCustomDashboard' style={{ marginBottom: 10, color: '#4563E4', cursor: 'pointer' }} onClick={handleShow3}>View All</p>
                                             </div>
                                             <Slider {...settings}>
                                                 {trendingStocks?.slice(0, 10).map((stockData, index) => (

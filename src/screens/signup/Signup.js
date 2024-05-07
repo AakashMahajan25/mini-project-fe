@@ -135,7 +135,8 @@ function Signup() {
                         <img src={LoginImg3} style={{ objectFit: 'contain', width: '100%', height: window.innerHeight / 2 }} />
                     </div>
                 </div>
-                <div className={showCode ? 'col-xl-7 login-form1' : 'col-xl-7 signup-form'} style={{ height: '100%' }}>
+                <div className='col-xl-7'>
+                <div className={showCode ? 'login-form' : 'signup-form'} style={{ height: '100%' }}>
                     <div style={{ position: 'relative' }}>
                         <p className='loginText text-center m-0 '>Signup</p>
                         <div>
@@ -214,9 +215,9 @@ function Signup() {
                                         <div className='d-flex justify-content-between align-items-center'>
                                             <input
                                                 type="text"
-                                                className="form-control form-control-input me-3"
+                                                className="form-control form-control-input nineone-input me-3"
                                                 placeholder='+91'
-                                                style={{ width: '12%', textIndent: 7, color: 'black' }}
+                                                // style={{ width: '12%', textIndent: 7, color: 'black' }}
                                                 defaultValue="+91"
                                                 disabled
                                             />
@@ -384,6 +385,7 @@ function Signup() {
                             <p className='privacyText text-center mt-0'>See our <a style={{ textDecoration: 'none', color: 'blue' }} > Privacy Policy</a></p>
                         </div>
                     </form>
+                </div>
                 </div>
             </div>
         </section>
