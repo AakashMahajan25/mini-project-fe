@@ -19,7 +19,7 @@ function DashboardRightBox({ newsData, mostFrruitData, onViewAllClick }) {
         'Another text for the second instance',
         'And one more for the third instance',
     ];
-    console.log('newsData==========', newsData)
+    
     const navigate = useNavigate();
     const routeChangeFrruitGPT = (question) => {
         navigate("/frruit-gpt", {

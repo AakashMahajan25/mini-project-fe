@@ -135,7 +135,8 @@ function Signup() {
                         <img src={LoginImg3} style={{ objectFit: 'contain', width: '100%', height: window.innerHeight / 2 }} />
                     </div>
                 </div>
-                <div className={showCode ? 'col-xl-7 login-form1' : 'col-xl-7 signup-form'} style={{ height: '100%' }}>
+                <div className='col-xl-7'>
+                <div className={showCode ? 'login-form' : 'signup-form'} style={{ height: '100%' }}>
                     <div style={{ position: 'relative' }}>
                         <p className='loginText text-center m-0 '>Signup</p>
                         <div>
@@ -384,6 +385,7 @@ function Signup() {
                             <p className='privacyText text-center mt-0'>See our <a style={{ textDecoration: 'none', color: 'blue' }} > Privacy Policy</a></p>
                         </div>
                     </form>
+                </div>
                 </div>
             </div>
         </section>
