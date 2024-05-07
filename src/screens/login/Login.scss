@@ -90,9 +90,14 @@
         text-indent: 13px;
         color: black;
 
-        @media only screen and (max-width: 786px),
+        @media only screen and (max-width: 500px),
+        (max-width: 786px),
         (max-width: 1024px) {
             text-indent: 0px;
+        }
+        @media only screen and (max-width: 500px) {
+            width: 20%;
+            text-align: center ;
         }
     }
 
@@ -106,13 +111,16 @@
 
     .verificationBox {
         height: 48px;
+        width: 56.68px;
         border-radius: 8px;
         border: 1px solid #DBDADE;
 
         @media only screen and (max-width: 500px) {
-            margin-right: 0 !important;
+            // margin-right: 0 !important;
+            height: 42px;
+            width: 45px;
         }
-    }
+    }   
 
     .verificationBox:hover {
         border: 1px solid #4563E4;

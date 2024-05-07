@@ -158,7 +158,7 @@ function Login() {
                                             onChange={setOtp}
                                             numInputs={6}
                                             renderInput={(props) => <input {...props} style={{
-                                                width: 56.68,
+                                               
                                                 outline: 'none',
                                             }}
                                                 className='verificationBox text-center me-2'

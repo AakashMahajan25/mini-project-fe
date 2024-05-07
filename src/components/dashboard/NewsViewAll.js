@@ -10,7 +10,11 @@ import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
 import { Modal } from 'react-bootstrap';
 import CloseImg from '../../assets/images/close_icon.png';
-
+import BullishImg from '../../assets/images/bullish_img.png';
+import BearishImg from '../../assets/images/bearish_img.png';
+import GreenArrow from '../../assets/images/green_up-arrow.png';
+import SortImg from '../../assets/images/sort-img.png';
+import FilterImg from '../../assets/images/filter-img.png';
 
 function NewsViewAll({ backBtnClick, newsData }) {
     const navigate = useNavigate();
@@ -60,11 +64,21 @@ function NewsViewAll({ backBtnClick, newsData }) {
     return (
         <>
             <div className='news-view-all' style={{ height: window.innerHeight - 120, overflowY: 'scroll' }}>
-                <div className='d-flex justify-content-start align-items-center' style={{ marginBottom: 20 }}>
+                <div className='d-flex justify-content-between align-items-center' style={{ marginBottom: 20 }}>
                     <button onClick={backBtnClick} className='light-blue-btn'>
                         <img src={BackBtnArrow} style={{ width: 7, height: 13, objectFit: 'contain', marginRight: 5, marginTop: -2 }} />
                         Back
                     </button>
+                    <div className='d-flex align-items-center justify-content-center'>
+                        <button className='light-blue-btn'>
+                            Sort
+                            <img src={SortImg} style={{ width: 16, height: 13, objectFit: 'contain', marginLeft: 5, marginTop: -2 }} />    
+                        </button>
+                        <button className='light-blue-btn ms-3'>
+                            Filter
+                            <img src={FilterImg} style={{ width: 16, height: 14, objectFit: 'contain',   marginLeft: 5, marginTop: -2 }} />
+                        </button>
+                    </div>
                 </div>
 
                 <div>
@@ -85,6 +99,15 @@ function NewsViewAll({ backBtnClick, newsData }) {
                                                             <div className='text-area p-3'>
                                                                 <div className='news-title'>{trimText(el?.heading, 120)}</div>
                                                                 <div className='news-info'>{el.source}</div>
+                                                                {/* <div className='d-flex align-items-center news-button-css'>
+                                                                    <button className='bearish-btn mb-1'> Bearish <img src={BearishImg} className='button-img-size' /></button>
+                                                                </div> */}
+                                                                {/* <div className='d-flex align-items-center news-button-css'>
+                                                                    <button className='very-bullish-btn mb-1'> Very Bullish <img src={BullishImg} className='button-img-size' /></button>
+                                                                </div> */}
+                                                                {/* <div className='d-flex align-items-center news-button-css'>
+                                                                    <button className='neutral-btn mb-1'> Neutral </button>
+                                                                </div> */}
                                                                 <div className='flex'>
                                                                     {/* <img src={Time} width={16} style={{ objectFit: 'contain', marginRight: 5 }} /> */}
                                                                     <div className='time-info'>{momentTime(el?.time)}</div>
@@ -133,6 +156,73 @@ function NewsViewAll({ backBtnClick, newsData }) {
             <Modal show={show}
                     onHide={handleClose}
                     size='lg'
+                    scrollable
+                    className='latest-news-modal'
+                    style={{ animation: show ? 'slideInRight 0.3s ease-in-out' : 'none' }}
+                >
+                    <Modal.Header className='pb-0'>
+                        <div className='d-flex justify-content-start align-items-center' style={{ marginBottom: 20 }}>
+                            <button onClick={() => handleClose()} className='light-blue-btn'>
+                                <img src={BackBtnArrow} style={{ width: 7, height: 13, objectFit: 'contain', marginRight: 5, marginTop: -2 }} />
+                                Back
+                            </button>
+                        </div>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <div className='latest-news-modal'>
+                            <div className='d-flex align-items-end'>
+                                <div className='blue-text-box'>{selected?.section_name}</div>
+                                <div className='small-time-text ms-2'>2nd May, 2024    <span>{momentTime(selected?.time)}</span></div>
+                            </div>
+                        </div>
+                        <div className='title-text my-3'> {selected?.heading} </div>
+                        {/* <div className='d-flex justify-content-between align-items-center'>
+                            <div className='border-box'>
+                                <div className='d-flex justify-content-between align-items-center'>
+                                    <div className='dark-text'>TCS</div>
+                                    <div className='d-flex justify-content-between align-items-center ms-3'>
+                                        <div className='green-price-text'>3903</div>
+                                        <div className='green-price-text mx-1' style={{ fontSize: 12 }}>0.5%</div>
+                                        <img src={GreenArrow} style={{ width: 13, objectFit: 'contain' }} />
+                                    </div>
+                                </div>
+                            </div>
+                            <div className='border-box'>
+                                <div className='d-flex justify-content-between align-items-center'>
+                                    <div className='dark-text'>TCS</div>
+                                    <div className='d-flex justify-content-between align-items-center ms-3'>
+                                        <div className='green-price-text'>3903</div>
+                                        <div className='green-price-text mx-1' style={{ fontSize: 12 }}>0.5%</div>
+                                        <img src={GreenArrow} style={{ width: 13, objectFit: 'contain' }} />
+                                    </div>
+                                </div>
+                            </div>
+                            <div className='border-box'>
+                                <div className='d-flex justify-content-between align-items-center'>
+                                    <div className='dark-text'>TCS</div>
+                                    <div className='d-flex justify-content-between align-items-center ms-3'>
+                                        <div className='green-price-text'>3903</div>
+                                        <div className='green-price-text mx-1' style={{ fontSize: 12 }}>0.5%</div>
+                                        <img src={GreenArrow} style={{ width: 13, objectFit: 'contain' }} />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className='text-blue my-3'>#LoremIpsum #LoremIpsum #LoremIpsum</div>
+                        <div className='text-dark-blue'>
+                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been
+                        </div> */}
+                        <div className='description-text mt-3'>
+                            <div dangerouslySetInnerHTML={{ __html: selected?.arttext }} />
+                        </div>
+                    </Modal.Body>
+                    {/* <Modal.Footer className='d-flex align-items-center justify-content-start pt-1'>
+                        <div className='footer-text'>Source: Times of India, CNBC.</div>
+                    </Modal.Footer> */}
+                </Modal>
+            {/* <Modal show={show}
+                    onHide={handleClose}
+                    size='lg'
                     className='viewModal'
                     scrollable
                     centered
@@ -150,7 +240,7 @@ function NewsViewAll({ backBtnClick, newsData }) {
                             <div dangerouslySetInnerHTML={{ __html: selected?.arttext }} />
                         </div>
                     </Modal.Body>
-                </Modal>
+                </Modal> */}
         </>
     );
 }

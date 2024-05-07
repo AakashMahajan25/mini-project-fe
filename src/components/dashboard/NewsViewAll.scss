@@ -65,7 +65,7 @@
         color: #171E42;
         margin-bottom: 10px;
         margin-top: 10px;
-        
+
     }
 
     .Featured-News-card {
@@ -133,6 +133,65 @@
                     }
                 }
             }
+        }
+    }
+
+    .news-button-css {
+        .very-bullish-btn {
+            padding: 6px 12px 6px 12px;
+            background-color: #4563E44D;
+            color: #4563E4;
+            font-size: 11px;
+            font-weight: 500;
+            line-height: 15px;
+            border: none;
+        }
+
+        .bullish-btn {
+            padding: 6px 12px 6px 12px;
+            background-color: #4563E426;
+            color: #4563E4;
+            font-size: 11px;
+            font-weight: 500;
+            line-height: 15px;
+            border: none;
+        }
+
+        .very-bearish-btn {
+            padding: 6px 12px 6px 12px;
+            background-color: #D6323033;
+            color: #D63230;
+            font-size: 11px;
+            font-weight: 500;
+            line-height: 15px;
+            border: none;
+        }
+
+        .bearish-btn {
+            padding: 6px 12px 6px 12px;
+            background-color: #D632301A;
+            color: #D63230;
+            font-size: 11px;
+            font-weight: 500;
+            line-height: 15px;
+            border: none;
+        }
+
+        .button-img-size {
+            width: 14.35px;
+            height: 9px;
+            margin-left: 6px;
+            margin-bottom: 3px;
+        }
+
+        .neutral-btn {
+            background-color: #00000014;
+            color: #595959;
+            padding: 6px 24px 6px 24px;
+            border-radius: 59px;
+            border: none;
+            font-size: 11px;
+            font-weight: 500;
         }
     }
 }
