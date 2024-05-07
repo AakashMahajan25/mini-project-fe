@@ -178,6 +178,9 @@
         @media only screen and (min-width: 600px) {
             max-width: 782px;
         }
+        @media only screen and (max-width: 500px) {
+            max-width: 373px;
+        }
     }
 }
 
@@ -417,6 +420,14 @@
         top: 26%;
         border: 0px;
         box-shadow: 0px 2px 10px 0px #00000026;
+        @media only screen and (max-width: 786px) {
+            right: -1%;
+            top: 29%;
+        }
+        @media only screen and (max-width: 500px) {
+            right: 0%;
+            top: 18%;
+        }
 
     }
 

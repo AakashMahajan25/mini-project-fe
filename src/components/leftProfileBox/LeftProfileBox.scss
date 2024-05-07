@@ -12,7 +12,16 @@
         position: sticky;
         left: 0;
         overflow-y: scroll;
-        overflow-x: hiddenx;
+        // overflow-x: hiddenx;
+
+        @media only screen and (max-width: 500px) {
+            width: max-content;
+            border: 0px;
+            display: flex;
+            height: 60px;
+            overflow-y: hidden;
+            margin-bottom: 5px;
+        }
 
         .side-box-light-blue-btn-active {
             width: 100%;
@@ -28,6 +37,12 @@
             border-radius: 15px;
             transition: background-color 0.3s, color 0.3s;
             cursor: pointer;
+
+            @media only screen and (max-width: 500px) {
+                white-space: nowrap;
+                height: max-content;
+                margin-right: 8px;
+            }
         }
 
         .nav-link {
@@ -64,4 +79,8 @@
 
 
     }
+}
+
+.profile-left-box::-webkit-scrollbar {
+    display: none;
 }

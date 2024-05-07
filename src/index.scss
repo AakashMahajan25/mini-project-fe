@@ -162,6 +162,7 @@ p {
   font-family: 'Roboto', sans-serif;
   border-radius: 50px !important;
 }
+
 // blue-btn start
 .blue-btn-disable {
   background-color: #95a9ff;
@@ -257,6 +258,12 @@ p {
   border-radius: 15px;
   transition: background-color 0.3s, color 0.3s;
   cursor: pointer;
+
+  @media only screen and (max-width: 500px) {
+    white-space: nowrap;
+    height: max-content;
+    margin-right: 8px;
+  }
 }
 
 .side-box-light-blue-btn:hover {
@@ -336,7 +343,10 @@ p {
   }
 }
 
-[type=button]:not(:disabled), [type=reset]:not(:disabled), [type=submit]:not(:disabled), button:not(:disabled) {
+[type=button]:not(:disabled),
+[type=reset]:not(:disabled),
+[type=submit]:not(:disabled),
+button:not(:disabled) {
   cursor: pointer;
   border-radius: 15px;
 }
@@ -352,7 +362,7 @@ p {
 }
 
 .accordion-button {
-  background-color:#F1F4FD;
+  background-color: #F1F4FD;
   border: none;
   color: #171E42;
   font-family: Roboto;
@@ -388,8 +398,9 @@ p {
   background-size: var(--bs-accordion-btn-icon-width);
   transition: var(--bs-accordion-btn-icon-transition);
 }
+
 .accordion-button:not(.collapsed)::after {
-   background-image: url('../src/assets/images/accordiun-down-arrow.png');
+  background-image: url('../src/assets/images/accordiun-down-arrow.png');
   transform: var(--bs-accordion-btn-icon-transform);
 }
 
@@ -400,7 +411,7 @@ p {
   font-weight: 500;
   transition: none;
   border-bottom-left-radius: 0px;
-    border-bottom-right-radius: 0px;
+  border-bottom-right-radius: 0px;
 }
 
 .accordion-body {
@@ -420,6 +431,15 @@ p {
   box-shadow: none;
 }
 
-.react-tooltip{
+.react-tooltip {
   z-index: 1;
+}
+
+.offcanvas-body {
+  padding: 0px;
+}
+
+.bottom-boder-offcanvas {
+  border-bottom: solid 1px #EDEDED;
+  margin: 0px 16px;
 }
