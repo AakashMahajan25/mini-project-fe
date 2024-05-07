@@ -9,9 +9,12 @@ import { addDocument, clearContentChatHistory, deleteContentPrompt, getContentPr
 import { clearChatHistory } from '../frruitGPT/slice';
 import Modal from 'react-bootstrap/Modal';
 import CloseImg from '../../assets/images/close_icon.png';
+import HistoryImg from '../../assets/images/history_icon.png';
 import axios from 'axios';
 import { replaceSpaceWithUnderscore } from '../../utils/utils';
 import ReactGA from 'react-ga4';
+import Offcanvas from 'react-bootstrap/Offcanvas';
+// import CloseImg from '../../assets/images/close_icon.png';
 
 function MarketContentGPT() {
     const dispatch = useDispatch();
@@ -26,6 +29,9 @@ function MarketContentGPT() {
     const [fileName, setFileName] = useState('');
     const [show2, setShow2] = useState(false);
     const [deleteId, setDeleteId] = useState(null);
+    const [showHistory, setShowHistory] = useState(false);
+    const handleHistoryClose = () => setShowHistory(false);
+    const handleHistoryShow = () => setShowHistory(true);
 
     useEffect(() => {
         dispatch(clearContentChatHistory())
@@ -72,7 +78,7 @@ function MarketContentGPT() {
             action: 'chat_youtube_link',
             label: 'New Chat Youtube Link'
         });
-        
+
         isNewChat.current = false
         dispatch(setChatHistory([{
             person: "user",
@@ -82,7 +88,7 @@ function MarketContentGPT() {
         const token = axios.CancelToken.source()
         dispatch(setCancelTokens(token))
 
-        dispatch(triggerContentPrompt({requestData, cancelToken: token}))
+        dispatch(triggerContentPrompt({ requestData, cancelToken: token }))
             .unwrap()
             .then(res => {
                 scrollDown(500)
@@ -90,18 +96,18 @@ function MarketContentGPT() {
                     const token = axios.CancelToken.source()
                     dispatch(setCancelTokens(token))
                     dispatch(triggerContentLinkGraph({ question, id: res.prompt_id, cancelToken: token })).unwrap()
-                    .then(res => {
-                        scrollToBottom()
-                    })
+                        .then(res => {
+                            scrollToBottom()
+                        })
                 }
                 dispatch(getContentPromptList('link'))
                 setSelectedChat(res.prompt_id)
                 setQuestion('');
-                
+
             })
             .catch(error => {
                 setQuestion('');
-                if(error?.code != "ERR_CANCELED"){
+                if (error?.code != "ERR_CANCELED") {
                     // toast.error(error?.message)
                 }
             })
@@ -117,7 +123,7 @@ function MarketContentGPT() {
             const updateRes = await dispatch(updateUploadURL(data)).unwrap();
             if (updateRes.status === 200) {
                 const requestData = {
-                    object_key:selectedFile?.name,
+                    object_key: selectedFile?.name,
                 };
                 const documentRes = await dispatch(addDocument(requestData)).unwrap();
                 setShowQuestion(true);
@@ -159,22 +165,22 @@ function MarketContentGPT() {
         }]));
         dispatch(setCancelTokens(token))
         try {
-            dispatch(triggerDocumentChat({requestData, cancelToken: token })).unwrap()
+            dispatch(triggerDocumentChat({ requestData, cancelToken: token })).unwrap()
                 .then(res => {
                     scrollToBottom()
                     if (res && selectedFile) {
                         const token = axios.CancelToken.source()
                         dispatch(setCancelTokens(token))
-                        dispatch(triggerContentAttachmentGraph({ question:selectedFile?.name, id: promptId, cancelToken: token })).unwrap()
-                        .then(res => {
-                            scrollToBottom()
-                        })
+                        dispatch(triggerContentAttachmentGraph({ question: selectedFile?.name, id: promptId, cancelToken: token })).unwrap()
+                            .then(res => {
+                                scrollToBottom()
+                            })
                     }
                     setQuestion('');
                     setSelectedFile(null)
                 });
         } catch (error) {
-            if(error?.code != "ERR_CANCELED")
+            if (error?.code != "ERR_CANCELED")
                 clearQuestionAndToastError(error);
         }
     }
@@ -195,6 +201,7 @@ function MarketContentGPT() {
     };
 
     const handleNewChat = () => {
+        setShowHistory(false)
         isNewChat.current = true
         dispatch(clearContentChatHistory())
         setSelectedChat(null)
@@ -203,7 +210,7 @@ function MarketContentGPT() {
     }
 
     const handleHistory = (Id, type, name) => {
-        if(cancelTokens)
+        if (cancelTokens)
             cancelTokens.cancel("cancelled")
         dispatch(getContentPromptHistory(Id))
             .unwrap()
@@ -218,6 +225,7 @@ function MarketContentGPT() {
                     setShowQuestion(true)
                 }
                 setSelectedType(type)
+                setShowHistory(false)
             })
             .catch(error => {
                 console.log('error', error)
@@ -237,7 +245,7 @@ function MarketContentGPT() {
         setShow2(false);
         await dispatch(deleteContentPrompt(deleteId))
         await dispatch(getContentPromptList(selectedType ? selectedType : 'link'))
-        if(deleteId === selectedChat){
+        if (deleteId === selectedChat) {
             isNewChat.current = true
             dispatch(clearContentChatHistory())
             setShowQuestion(false)
@@ -248,7 +256,7 @@ function MarketContentGPT() {
         <>
             <div className='market-content-gpt-css'>
                 <div className='row justify-content-between m-0'>
-                    <div className='col-lg-3 col-md-4 column-pad'>
+                    <div className='col-lg-3 col-md-4 column-pad marketContentGptLeftBoxHideClass'>
                         <MarketContentGptLeftBox
                             handleNewChat={handleNewChat}
                             handleHistory={handleHistory}
@@ -258,6 +266,7 @@ function MarketContentGPT() {
                         />
                     </div>
                     <div className='col-lg-9 col-md-8 column-pad position-relative'>
+                        <div className='hide-on-large-screens'><img src={HistoryImg} onClick={handleHistoryShow} className='history-icon-css' /></div>
                         <ChatGpt containerRef={gptRef} newChat={isNewChat.current} docStatus={true} docName={fileName} selectedType={selectedType} />
                         <BottomBar
                             handleNewChat={handleNewChat}
@@ -299,6 +308,24 @@ function MarketContentGPT() {
                     </div>
                 </Modal.Footer>
             </Modal>
+            <Offcanvas show={showHistory} onHide={handleHistoryClose}>
+                <Offcanvas.Header>
+                    <Offcanvas.Title>History</Offcanvas.Title>
+                    <div onClick={() => handleHistoryClose()} className=' align-items-center' style={{ cursor: 'pointer' }}>
+                        <img src={CloseImg} className='me-1' width={32} style={{ objectFit: 'contain' }} />
+                    </div>
+                </Offcanvas.Header>
+                <div className='bottom-boder-offcanvas'></div>
+                <Offcanvas.Body>
+                    <MarketContentGptLeftBox
+                        handleNewChat={handleNewChat}
+                        handleHistory={handleHistory}
+                        selectedChat={selectedChat}
+                        setShowQuestion={setShowQuestion}
+                        handleShow2={handleShow2}
+                    />
+                </Offcanvas.Body>
+            </Offcanvas>
         </>
     )
 }

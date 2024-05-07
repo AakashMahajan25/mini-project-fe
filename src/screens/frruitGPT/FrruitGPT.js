@@ -16,6 +16,9 @@ import Modal from 'react-bootstrap/Modal';
 import CloseImg from '../../assets/images/close_icon.png';
 import axios from 'axios';
 import ReactGA from 'react-ga4';
+import './FrruitGPT.scss';
+import HistoryImg from '../../assets/images/history_icon.png';
+import Offcanvas from 'react-bootstrap/Offcanvas';
 
 function FrruitGPT() {
     const dispatch = useDispatch();
@@ -31,6 +34,9 @@ function FrruitGPT() {
 
     const { chatHistory } = useSelector(state => state.fruitGPTSlice);
     const { cancelTokens } = useSelector(state => state.contentGPTSlice);
+    const [showHistory, setShowHistory] = useState(false);
+    const handleHistoryClose = () => setShowHistory(false);
+    const handleHistoryShow = () => setShowHistory(true);
 
     useEffect(() => {
         dispatch(getPromptSuggestion(5))
@@ -66,17 +72,18 @@ function FrruitGPT() {
     }
 
     const handleNewChat = () => {
-        if(cancelTokens)
+        if (cancelTokens)
             cancelTokens.cancel("cancelled")
         isNewChat.current = true
         dispatch(clearChatHistory())
+        setShowHistory(false)
         setSelectedChat(null)
         setQuestion('')
         setFlag('news')
     }
 
     const handleHistory = (Id) => {
-        if(cancelTokens)
+        if (cancelTokens)
             cancelTokens.cancel("cancelled")
         dispatch(getPromptHistory(Id))
             .unwrap()
@@ -84,6 +91,7 @@ function FrruitGPT() {
                 isNewChat.current = false
                 setSelectedChat(Id)
                 scrollToBottom();
+                setShowHistory(false)
             })
             .catch(error => {
                 console.log('error', error)
@@ -144,23 +152,23 @@ function FrruitGPT() {
         const token = axios.CancelToken.source()
         dispatch(setCancelTokens(token))
 
-        if(flag === 'news')
+        if (flag === 'news')
             requestData["flag"] = flag
 
-        dispatch(triggerFrruitGpt({requestData, cancelToken: token}))
+        dispatch(triggerFrruitGpt({ requestData, cancelToken: token }))
             .unwrap()
             .then(res => {
-                if (res && res[0] && res[0]?.text !== undefined){
+                if (res && res[0] && res[0]?.text !== undefined) {
                     const token = axios.CancelToken.source()
                     dispatch(setCancelTokens(token))
-                    dispatch(triggerFrruitGptGraph({requestData, cancelToken: token}))
+                    dispatch(triggerFrruitGptGraph({ requestData, cancelToken: token }))
                 }
                 setQuestion('');
                 scrollDown(250)
             })
             .catch(error => {
                 setQuestion(searchText);
-                if(error?.code != "ERR_CANCELED")
+                if (error?.code != "ERR_CANCELED")
                     toast.error(error?.message)
             })
     }
@@ -200,76 +208,96 @@ function FrruitGPT() {
         setShow2(false);
         await dispatch(deletePrompt(deleteId))
         await dispatch(getPromptList())
-        if(deleteId === selectedChat){
-        isNewChat.current = true
-        dispatch(clearChatHistory())
+        if (deleteId === selectedChat) {
+            isNewChat.current = true
+            dispatch(clearChatHistory())
         }
     }
 
     return (
         <>
-            {/* <div className=''> */}
-            {/* <div className='col-lg-3 column-pad'>
+            <div className='frruitGPTPageCss'>
+                {/* <div className=''> */}
+                {/* <div className='col-lg-3 column-pad'>
                     <FrruitGPTLeftBox
                         handleNewChat={handleNewChat}
                         handleHistory={handleHistory}
                         selectedChat={selectedChat}
                     />
                 </div> */}
-            <div className='row justify-content-between m-0 column-pad position-relative'>
-                <div className='col-xl-3 col-md-3 col-sm-3 column-pad'>
-                    <FrruitGPTLeftBox
-                        handleNewChat={handleNewChat}
-                        handleHistory={handleHistory}
-                        selectedChat={selectedChat}
-                        handleShow2={handleShow2}
-                    />
+                <div className='row justify-content-between m-0 column-pad position-relative'>
+                    <div className='col-xl-3 col-md-3 col-sm-3 column-pad frruitGPTLeftBoxHideClass'>
+                        <FrruitGPTLeftBox
+                            handleNewChat={handleNewChat}
+                            handleHistory={handleHistory}
+                            selectedChat={selectedChat}
+                            handleShow2={handleShow2}
+                        />
+                    </div>
+                    <div className='col-xl-9 col-md-9 col-sm-9 column-pad'>
+                        <div className='hide-on-large-screens'><img src={HistoryImg} onClick={handleHistoryShow} className='history-icon-css' /></div>
+                        <ChatGpt
+                            newChat={isNewChat.current}
+                            containerRef={gptRef}
+                        />
+                        <PromptsLibrary
+                            handlePromptClick={handlePromptClick}
+                        />
+                        <BottomSearchBar
+                            setQuestion={setQuestion}
+                            question={question}
+                            handleAskPress={handleAskPress}
+                            flag={flag}
+                            setFlag={setFlag}
+                        />
+                    </div>
                 </div>
-                <div className='col-xl-9 col-md-9 col-sm-9 column-pad'>
-                    <ChatGpt
-                        newChat={isNewChat.current}
-                        containerRef={gptRef}
-                    />
-                    <PromptsLibrary
-                        handlePromptClick={handlePromptClick}
-                    />
-                    <BottomSearchBar
-                        setQuestion={setQuestion}
-                        question={question}
-                        handleAskPress={handleAskPress}
-                        flag={flag}
-                        setFlag={setFlag}
-                    />
-                </div>
-            </div>
-            {/* </div> */}
+                {/* </div> */}
 
-            <Modal show={show2}
-                onHide={handleClose2}
-                size='md'
-                centered
-                className='marketGpt-left-box-modal'
+                <Modal show={show2}
+                    onHide={handleClose2}
+                    size='md'
+                    centered
+                    className='marketGpt-left-box-modal'
 
-            >
-                <Modal.Header>
-                    <div className='d-flex justify-content-between align-items-center mb-2'>
-                        <div className='header-text'>Are you sure you want to Delete ?</div>
-                        <div onClick={() => handleClose2()} className=' align-items-center' style={{ cursor: 'pointer' }}>
+                >
+                    <Modal.Header>
+                        <div className='d-flex justify-content-between align-items-center mb-2'>
+                            <div className='header-text'>Are you sure you want to Delete ?</div>
+                            <div onClick={() => handleClose2()} className=' align-items-center' style={{ cursor: 'pointer' }}>
+                                <img src={CloseImg} className='me-1' width={32} style={{ objectFit: 'contain' }} />
+                            </div>
+                        </div>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <div className='body-text-css'>Lorem Ipsum is simply dummy text of the printing
+                            and typesetting industry</div>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <div className='d-flex justify-content-center align-items-center'>
+                            <button onClick={handleClose2} type="submit" className='light-blue-btn2 mx-2 px-5'>Cancel</button>
+                            <button onClick={handleDeleteChat} type="submit" className='blue-btn mx-2 px-5'>Delete</button>
+                        </div>
+                    </Modal.Footer>
+                </Modal>
+                <Offcanvas show={showHistory} onHide={handleHistoryClose}>
+                    <Offcanvas.Header>
+                        <Offcanvas.Title>History</Offcanvas.Title>
+                        <div onClick={() => handleHistoryClose()} className=' align-items-center' style={{ cursor: 'pointer' }}>
                             <img src={CloseImg} className='me-1' width={32} style={{ objectFit: 'contain' }} />
                         </div>
-                    </div>
-                </Modal.Header>
-                <Modal.Body>
-                    <div className='body-text-css'>Lorem Ipsum is simply dummy text of the printing
-                        and typesetting industry</div>
-                </Modal.Body>
-                <Modal.Footer>
-                    <div className='d-flex justify-content-center align-items-center'>
-                        <button onClick={handleClose2} type="submit" className='light-blue-btn2 mx-2 px-5'>Cancel</button>
-                        <button onClick={handleDeleteChat} type="submit" className='blue-btn mx-2 px-5'>Delete</button>
-                    </div>
-                </Modal.Footer>
-            </Modal>
+                    </Offcanvas.Header>
+                    <div className='bottom-boder-offcanvas'></div>
+                    <Offcanvas.Body>
+                        <FrruitGPTLeftBox
+                            handleNewChat={handleNewChat}
+                            handleHistory={handleHistory}
+                            selectedChat={selectedChat}
+                            handleShow2={handleShow2}
+                        />
+                    </Offcanvas.Body>
+                </Offcanvas>
+            </div>
         </>
     )
 }

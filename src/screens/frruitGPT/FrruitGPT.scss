@@ -1,5 +1,5 @@
-.market-content-gpt-css {
-    .marketContentGptLeftBoxHideClass {
+.frruitGPTPageCss {
+    .frruitGPTLeftBoxHideClass {
         @media only screen and (max-width: 600px) {
             display: none !important;
         }
@@ -10,10 +10,12 @@
         justify-content: end;
         border-bottom: solid 1px #EDEDED;
         padding: 5px 0px;
+
         @media only screen and (min-width: 601px) {
             display: none;
         }
-        .history-icon-css{
+
+        .history-icon-css {
             width: 24px;
             object-fit: contain;
             cursor: pointer;

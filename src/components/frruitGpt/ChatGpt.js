@@ -349,10 +349,10 @@ function ChatGpt(props) {
     return (
         <>
             <div className='ChatGpt' style={{
-                height: path ? window.innerHeight - 200 : window.innerHeight - 300,
+                height: path ? (window.innerWidth < 786 ? window.innerHeight - 175 : window.innerHeight - 200) : (window.innerWidth < 786 ? window.innerHeight - 170 : window.innerHeight - 300),
                 paddingBottom: chatHistory.length === 0 && !path ? 0 : 50,
-                marginTop: path ? (contentChatHistory.length === 0 ? 60 : 10) : 60,
-                marginBottom: 20,
+                // marginTop: path ? (contentChatHistory.length === 0 ? 60 : 10) : 0,
+                marginBottom: window.innerWidth < 786 ? 80 : 20,
             }} ref={containerRef}>
                 {
                     (newChat && !path) && <div className='default-screens-content mt-4' style={{ height: window.innerHeight - 310 }}>
@@ -380,7 +380,7 @@ function ChatGpt(props) {
                 {
                     (newChat && path) && <div className='default-screens-content' style={{ height: window.innerHeight - 310 }}>
                         <div className='text-center'>
-                            <img src={DefaultImg} width={251.5} height={198.42} style={{ objectFit: 'contain' }} />
+                            <img src={DefaultImg} className='default-screens-content-img-css' />
                             <div className='help-text'>How can I help you today ?</div>
                             <div className='default-para-text'>Supercharge your investment decisions : Attach documents or YouTube links on capital markets for GPT-driven insights!</div>
                         </div>
