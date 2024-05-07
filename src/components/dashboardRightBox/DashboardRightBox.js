@@ -47,6 +47,10 @@ function DashboardRightBox({ newsData, mostFrruitData, onViewAllClick }) {
         return moment(time, 'HH:mm').format('h:mm A')
     }
 
+    const momentDate = (time) => {
+        return moment(time).format('Do MMM, YYYY');
+    }
+
     return (
         <>
             <div className='Right-box'>
@@ -116,7 +120,7 @@ function DashboardRightBox({ newsData, mostFrruitData, onViewAllClick }) {
                         <div className='latest-news-modal'>
                             <div className='d-flex align-items-end'>
                                 <div className='blue-text-box'>{selected?.section_name}</div>
-                                <div className='small-time-text ms-2'>2nd May, 2024   <span>{momentTime(selected?.time)}</span></div>
+                                <div className='small-time-text ms-2'>{momentDate(selected?.date)}<span className='ms-3'>{momentTime(selected?.time)}</span></div>
                             </div>
                         </div>
                         <div className='title-text my-3'> {selected?.heading} </div>

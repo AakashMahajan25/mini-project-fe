@@ -215,9 +215,9 @@ function Signup() {
                                         <div className='d-flex justify-content-between align-items-center'>
                                             <input
                                                 type="text"
-                                                className="form-control form-control-input me-3"
+                                                className="form-control form-control-input nineone-input me-3"
                                                 placeholder='+91'
-                                                style={{ width: '12%', textIndent: 7, color: 'black' }}
+                                                // style={{ width: '12%', textIndent: 7, color: 'black' }}
                                                 defaultValue="+91"
                                                 disabled
                                             />
