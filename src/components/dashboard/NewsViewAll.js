@@ -64,12 +64,12 @@ function NewsViewAll({ backBtnClick, newsData }) {
     return (
         <>
             <div className='news-view-all' style={{ height: window.innerHeight - 120, overflowY: 'scroll' }}>
-                <div className='d-flex justify-content-between align-items-center' style={{ marginBottom: 20 }}>
+                <div className='d-flex justify-content-start align-items-center' style={{ marginBottom: 20 }}>
                     <button onClick={backBtnClick} className='light-blue-btn'>
                         <img src={BackBtnArrow} style={{ width: 7, height: 13, objectFit: 'contain', marginRight: 5, marginTop: -2 }} />
                         Back
                     </button>
-                    <div className='d-flex align-items-center justify-content-center'>
+                    {/* <div className='d-flex align-items-center justify-content-center'>
                         <button className='light-blue-btn'>
                             Sort
                             <img src={SortImg} style={{ width: 16, height: 13, objectFit: 'contain', marginLeft: 5, marginTop: -2 }} />    
@@ -78,7 +78,7 @@ function NewsViewAll({ backBtnClick, newsData }) {
                             Filter
                             <img src={FilterImg} style={{ width: 16, height: 14, objectFit: 'contain',   marginLeft: 5, marginTop: -2 }} />
                         </button>
-                    </div>
+                    </div> */}
                 </div>
 
                 <div>
