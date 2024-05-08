@@ -213,6 +213,14 @@ function FrruitGPT() {
             dispatch(clearChatHistory())
         }
     }
+    const leftBoxComponent = (
+        <FrruitGPTLeftBox
+            handleNewChat={handleNewChat}
+            handleHistory={handleHistory}
+            selectedChat={selectedChat}
+            handleShow2={handleShow2}
+        />
+    );
 
     return (
         <>
@@ -227,12 +235,7 @@ function FrruitGPT() {
                 </div> */}
                 <div className='row justify-content-between m-0 column-pad position-relative'>
                     <div className='col-xl-3 col-md-3 col-sm-3 column-pad frruitGPTLeftBoxHideClass'>
-                        <FrruitGPTLeftBox
-                            handleNewChat={handleNewChat}
-                            handleHistory={handleHistory}
-                            selectedChat={selectedChat}
-                            handleShow2={handleShow2}
-                        />
+                        {leftBoxComponent}
                     </div>
                     <div className='col-xl-9 col-md-9 col-sm-9 column-pad'>
                         <div className='hide-on-large-screens'><img src={HistoryImg} onClick={handleHistoryShow} className='history-icon-css' /></div>
@@ -289,12 +292,7 @@ function FrruitGPT() {
                     </Offcanvas.Header>
                     <div className='bottom-boder-offcanvas'></div>
                     <Offcanvas.Body>
-                        <FrruitGPTLeftBox
-                            handleNewChat={handleNewChat}
-                            handleHistory={handleHistory}
-                            selectedChat={selectedChat}
-                            handleShow2={handleShow2}
-                        />
+                        {leftBoxComponent}
                     </Offcanvas.Body>
                 </Offcanvas>
             </div>

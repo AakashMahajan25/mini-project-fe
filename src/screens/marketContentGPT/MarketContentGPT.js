@@ -251,19 +251,22 @@ function MarketContentGPT() {
             setShowQuestion(false)
         }
     }
+    const leftBoxComponent = (
+        <MarketContentGptLeftBox
+            handleNewChat={handleNewChat}
+            handleHistory={handleHistory}
+            selectedChat={selectedChat}
+            setShowQuestion={setShowQuestion}
+            handleShow2={handleShow2}
+        />
+    );
 
     return (
         <>
             <div className='market-content-gpt-css'>
                 <div className='row justify-content-between m-0'>
                     <div className='col-lg-3 col-md-4 column-pad marketContentGptLeftBoxHideClass'>
-                        <MarketContentGptLeftBox
-                            handleNewChat={handleNewChat}
-                            handleHistory={handleHistory}
-                            selectedChat={selectedChat}
-                            setShowQuestion={setShowQuestion}
-                            handleShow2={handleShow2}
-                        />
+                        {leftBoxComponent}
                     </div>
                     <div className='col-lg-9 col-md-8 column-pad position-relative'>
                         <div className='hide-on-large-screens'><img src={HistoryImg} onClick={handleHistoryShow} className='history-icon-css' /></div>
@@ -317,13 +320,7 @@ function MarketContentGPT() {
                 </Offcanvas.Header>
                 <div className='bottom-boder-offcanvas'></div>
                 <Offcanvas.Body>
-                    <MarketContentGptLeftBox
-                        handleNewChat={handleNewChat}
-                        handleHistory={handleHistory}
-                        selectedChat={selectedChat}
-                        setShowQuestion={setShowQuestion}
-                        handleShow2={handleShow2}
-                    />
+                    {leftBoxComponent}
                 </Offcanvas.Body>
             </Offcanvas>
         </>
