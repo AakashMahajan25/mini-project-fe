@@ -425,7 +425,7 @@ function Dashboard() {
                                         }
                                         <div className='dashboard-slider'>
                                             <div className='d-flex align-items-center justify-content-between'>
-                                                <p className='stories-title' style={{ marginBottom: 10 }}>Trending Stocks</p>
+                                                <p className='stories-title' style={{ marginBottom: 10 }}>Trending stocks for today</p>
                                                 <p className='stories-title marginCustomDashboard' style={{ marginBottom: 10, color: '#4563E4', cursor: 'pointer' }} onClick={handleShow3}>View All</p>
                                             </div>
                                             <Slider {...settings}>
@@ -611,7 +611,7 @@ function Dashboard() {
                 >
                     <Modal.Header>
                         <div className='d-flex justify-content-between align-items-center mb-2'>
-                            <div className='header-text'>Trending Stocks</div>
+                            <div className='header-text'>Trending stocks for today</div>
                             <div onClick={() => handleClose3()} className=' align-items-center' style={{ cursor: 'pointer' }}>
                                 <img src={CloseImg} className='me-1' width={32} style={{ objectFit: 'contain' }} />
                             </div>

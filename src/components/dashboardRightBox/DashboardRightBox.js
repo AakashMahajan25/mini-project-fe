@@ -117,13 +117,13 @@ function DashboardRightBox({ newsData, mostFrruitData, onViewAllClick }) {
                         </div>
                     </Modal.Header>
                     <Modal.Body>
-                        <div className='latest-news-modal'>
+                    <div className='latest-news-modal'>
                             <div className='d-flex align-items-end'>
                                 <div className='blue-text-box'>{selected?.section_name}</div>
-                                <div className='small-time-text ms-2'>{momentDate(selected?.date)}<span className='ms-3'>{momentTime(selected?.time)}</span></div>
                             </div>
+                            <div className='small-time-text mt-2'>{momentDate(selected?.date)}<span className='ms-3'>{momentTime(selected?.time)}</span></div>
                         </div>
-                        <div className='title-text my-3'> {selected?.heading} </div>
+                        <div className='title-text mb-2'> {selected?.heading} </div>
                         {/* <div className='d-flex justify-content-between align-items-center'>
                             <div className='border-box'>
                                 <div className='d-flex justify-content-between align-items-center'>
