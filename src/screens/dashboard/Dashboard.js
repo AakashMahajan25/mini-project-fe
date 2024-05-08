@@ -150,13 +150,13 @@ function Dashboard() {
     };
 
     const storiesData = [
-        { src: Stories1, onClick: handleShow, storyType: 'watchlist_news',title:'WatchList News',lightBackground:'#EFF2FF',color:'#5F7DFF', },
-        { src: Stories2, onClick: handleShow, storyType: 'session_news',title:'Session News',lightBackground:'#EEF6EE',color:'#54A153', },
-        { src: Stories3, onClick: handleShow, storyType: 'hot_pursuit_news',title:'Hot Pursuit News',lightBackground:'#FDF0F0',color:'#EB6060', },
-        { src: Stories4, onClick: handleShow, storyType: 'corporate_news',title:'Corporate News',lightBackground:'#F9F0FA',color:'#BB68C8', },
-        { src: Stories5, onClick: handleShow, storyType: 'economy_news',title:'Economy News',lightBackground:'#F3F0FC',color:'#8361D9', },
-        { src: Stories6, onClick: handleShow, storyType: 'corporate_results_news',title:'Corporate Results News',lightBackground:'#FEF9E9',color:'#ECBE1C', },
-        { src: Stories7, onClick: handleShow, storyType: 'market_news',title:'Market News',lightBackground:'#EDF9F5',color:'#43BE9A', },
+        { src: Stories1, onClick: handleShow, storyType: 'watchlist_news',title:'WatchList',lightBackground:'#EFF2FF',color:'#5F7DFF', },
+        { src: Stories2, onClick: handleShow, storyType: 'session_news',title:'Session',lightBackground:'#EEF6EE',color:'#54A153', },
+        { src: Stories3, onClick: handleShow, storyType: 'hot_pursuit_news',title:'Hot Pursuit',lightBackground:'#FDF0F0',color:'#EB6060', },
+        { src: Stories4, onClick: handleShow, storyType: 'corporate_news',title:'Corporate',lightBackground:'#F9F0FA',color:'#BB68C8', },
+        { src: Stories5, onClick: handleShow, storyType: 'economy_news',title:'Economy',lightBackground:'#F3F0FC',color:'#8361D9', },
+        { src: Stories6, onClick: handleShow, storyType: 'corporate_results_news',title:'Corporate Results',lightBackground:'#FEF9E9',color:'#ECBE1C', },
+        { src: Stories7, onClick: handleShow, storyType: 'market_news',title:'Market',lightBackground:'#EDF9F5',color:'#43BE9A', },
     ];
 
     const dispatch = useDispatch()
