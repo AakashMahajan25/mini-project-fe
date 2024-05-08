@@ -136,6 +136,7 @@ function MarketContentGPT() {
         } catch (error) {
             clearQuestionAndToastError(error);
             setSelectedFile(null)
+            setShowQuestion(false);  
         }
     }
 
