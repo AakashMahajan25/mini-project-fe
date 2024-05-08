@@ -27,10 +27,14 @@ function MarketContentGptLeftBox(props) {
         handleHistory = () => { },
         setShowQuestion = () => { },
         handleShow2 = () => { },
-        selectedChat
+        selectedChat,
+        selectedType
     } = props;
     const [searchParam, setSearchParam] = useState('');
 
+    useEffect(() => {
+        handleTab(selectedType);
+    }, [selectedType]); // Run this effect whenever the selected tab changes
 
     const { contentPromptList } = useSelector(state => state.contentGPTSlice);
 
@@ -167,7 +171,7 @@ function MarketContentGptLeftBox(props) {
                                         }</div>
                                         {item?.data?.map((item, index, array) => (
                                             <Nav.Link key={index} className={selectedChat === item.content_prompt_id ? 'blue-box-active' : 'blue-box'} onClick={() => historyClick(item?.content_prompt_id, item?.contentS3Path)} style={{ marginBottom: index === array.length - 1 ? 20 : 10, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                                                <Nav.Link className=''>{trimText(item?.contentS3Path, 40)}</Nav.Link>
+                                                <Nav.Link className=''>{trimText(item?.contentS3Path, 30)}</Nav.Link>
                                                 <img
                                                     src={hoveredItem === item.content_prompt_id ? DeleteRedIcon : selectedChat === item.content_prompt_id ? DeleteWhiteIcon : DeleteGrayIcon}
                                                     width={20}

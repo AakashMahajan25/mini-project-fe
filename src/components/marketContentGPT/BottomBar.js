@@ -29,16 +29,21 @@ function BottomBar(props) {
         showQuestion = null,
         selectedFile = null,
         setSelectedFile = () => { },
-        handleAskPress = () => { }
+        setSelectedType = () => { },
+        handleAskPress = () => { },
+        handleNewChat = () => { },
     } = props
     
     const handleShow = () => {
         setShow(true)
         setType('attachment')
+        setSelectedType('attachment')
+        handleNewChat()
     }
     const handleShow2 = () => {
         setShow2(true)
         setType('link')
+        setSelectedType('link')
     }
     const handleInputChange = (event) => {
         setInputValue(event.target.value);

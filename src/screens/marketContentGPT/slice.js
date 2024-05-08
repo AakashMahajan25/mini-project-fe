@@ -312,12 +312,6 @@ const contentGPTSlice = createSlice({
             })
             .addMatcher(
                 (action) =>
-                    action.type === getUploadURL.pending.type ||
-                    action.type === getUploadURL.fulfilled.type ||
-                    action.type === getUploadURL.rejected.type ||
-                    action.type === updateUploadURL.pending.type ||
-                    action.type === updateUploadURL.fulfilled.type ||
-                    action.type === updateUploadURL.rejected.type ||
                     action.type === getContentPromptList.pending.type ||
                     action.type === getContentPromptList.fulfilled.type ||
                     action.type === getContentPromptList.rejected.type ||
@@ -345,7 +339,16 @@ const contentGPTSlice = createSlice({
                     action.type === triggerContentLinkGraph.rejected.type ||
                     action.type === triggerContentAttachmentGraph.pending.type ||
                     action.type === triggerContentAttachmentGraph.fulfilled.type ||
-                    action.type === triggerContentAttachmentGraph.rejected.type,
+                    action.type === triggerContentAttachmentGraph.rejected.type||
+                    action.type === updateUploadURL.pending.type ||
+                    action.type === updateUploadURL.fulfilled.type ||
+                    action.type === updateUploadURL.rejected.type ||
+                    action.type === getUploadURL.pending.type ||
+                    action.type === getUploadURL.fulfilled.type ||
+                    action.type === getUploadURL.rejected.type||
+                    action.type === addDocument.pending.type ||
+                    action.type === addDocument.fulfilled.type ||
+                    action.type === addDocument.rejected.type,
                 handlefrruitLoading
             )
             .addMatcher(
