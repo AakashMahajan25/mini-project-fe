@@ -480,8 +480,9 @@ function Dashboard() {
                                                                         </div>
 
                                                                     </div>
-                                                                    <Tooltip anchorSelect={`.my-anchor-element-${index}`} place="top" className="bg-primary">
-                                                                        {item?.Definition ? item?.Definition : item?.Prompt}
+                                                                    <Tooltip absolute fixed anchorSelect={`.my-anchor-element-${index}`} place="left" className="bg-primary">
+                                                                        <div style={{width:'370px',fontSize:'14px'}}>
+                                                                            {item?.Definition ? item?.Definition : item?.Prompt}</div>
                                                                     </Tooltip>
                                                                 </div>
                                                             ))}
