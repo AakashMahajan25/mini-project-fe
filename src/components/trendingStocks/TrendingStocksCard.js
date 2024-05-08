@@ -74,13 +74,13 @@ function TrendingStocksCard({ name, symbol, change, changesPercentage, price, st
                             <p className={`text2`} style={{ color: isPositiveChange ? '#28C76F' : '#EA5455' }}>{`(${parseFloat(changesPercentage).toFixed(2) + '%'})`}</p>
                             <img src={isPositiveChange ? UpArrow : DownArrow} style={{ width: 18, objectFit: 'contain' }} alt='Arrow' />
                         </div> */}
-                        <div className='col-lg-4 column-pad'>
+                       
                             <div className='mx-1'>
                                 <button className='blue-btn  d-flex align-items-center justify-content-center' onClick={getFrruitClick}>{'Get Frruit'}  <img src={RightWhiteArrow} style={{ width: 6, objectFit: 'contain', marginLeft: 5 }} /></button>
                             </div>
-                        </div>
+                       
                     </div>
-                    <p className='stockname' style={{ marginBottom: 10 }}>{name}</p>
+                    <p className='stockname'>{name}</p>
                     <div>
                         <div className='row px-2'>
                             {/* <div className='col-lg-4 column-pad'>

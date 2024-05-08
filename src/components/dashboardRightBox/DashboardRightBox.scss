@@ -1,6 +1,6 @@
 .Right-box {
     .box {
-        border: 1px solid #E5E5E5;
+        // border: 1px solid #E5E5E5;
         width: 100%;
         height: auto;
         border-right: 0px;
@@ -213,9 +213,13 @@
     }
 
     .description-text {
-        font-size: 16px;
+        font-size: 14px;
         font-weight: 400;
         color: #6F7387;
+
+        b {
+            font-size: 12px;
+        }
     }
 
     .footer-text {

@@ -150,13 +150,13 @@ function Dashboard() {
     };
 
     const storiesData = [
-        { src: Stories1, onClick: handleShow, storyType: 'watchlist_news' },
-        { src: Stories2, onClick: handleShow, storyType: 'session_news' },
-        { src: Stories3, onClick: handleShow, storyType: 'hot_pursuit_news' },
-        { src: Stories4, onClick: handleShow, storyType: 'corporate_news' },
-        { src: Stories5, onClick: handleShow, storyType: 'economy_news' },
-        { src: Stories6, onClick: handleShow, storyType: 'corporate_results_news' },
-        { src: Stories7, onClick: handleShow, storyType: 'market_news' },
+        { src: Stories1, onClick: handleShow, storyType: 'watchlist_news',title:'WatchList News',lightBackground:'#EFF2FF',color:'#5F7DFF', },
+        { src: Stories2, onClick: handleShow, storyType: 'session_news',title:'Session News',lightBackground:'#EEF6EE',color:'#54A153', },
+        { src: Stories3, onClick: handleShow, storyType: 'hot_pursuit_news',title:'Hot Pursuit News',lightBackground:'#FDF0F0',color:'#EB6060', },
+        { src: Stories4, onClick: handleShow, storyType: 'corporate_news',title:'Corporate News',lightBackground:'#F9F0FA',color:'#BB68C8', },
+        { src: Stories5, onClick: handleShow, storyType: 'economy_news',title:'Economy News',lightBackground:'#F3F0FC',color:'#8361D9', },
+        { src: Stories6, onClick: handleShow, storyType: 'corporate_results_news',title:'Corporate Results News',lightBackground:'#FEF9E9',color:'#ECBE1C', },
+        { src: Stories7, onClick: handleShow, storyType: 'market_news',title:'Market News',lightBackground:'#EDF9F5',color:'#43BE9A', },
     ];
 
     const dispatch = useDispatch()
@@ -402,13 +402,19 @@ function Dashboard() {
                                                     {storiesData.map((img, i) => {
                                                         return (
                                                             !storyViewed[storyEnum[img?.storyType]] && investorStory[storyEnum2[img?.storyType]]?.length > 0 ?
-                                                                <img
+                                                            <div className='d-flex flex-column align-items-center' style={{marginRight: 20 }} onClick={() => handleShow({ storyType: img.storyType })}>
+                                                                {/* <img
                                                                     key={'MStories' + i}
-                                                                    style={{ width: 60, objectFit: 'contain', cursor: 'pointer', marginRight: 20 }}
+                                                                    style={{ width: 60, objectFit: 'contain', cursor: 'pointer'}}
                                                                     src={img.src}
-                                                                    onClick={() => handleShow({ storyType: img.storyType })}
-                                                                // alt={`Story ${index}`}
-                                                                />
+                                                                    // alt={`Story ${index}`}
+                                                                    /> */}
+                                                                    <div key={'MStories' + i} className='d-flex align-items-center justify-content-center' style={{width:60,height:60,border:`1px solid ${img?.color}`,borderRadius:35}}>
+                                                                        <p style={{width:50,height:50,background:img?.lightBackground,borderRadius:25,textAlign:'center',fontSize:20,lineHeight: '50px',fontWeight:'700',color:img?.color}}>{img?.title.slice(0,1)}
+                                                                            </p>
+                                                                        </div>
+                                                                    <p style={{marginTop:5,marginBottom:0,fontSize:13,color:'#6F7387',fontWeight:'500'}}>{img?.title}</p>
+                                                                    </div>
                                                                 :
                                                                 null
                                                         )
@@ -419,7 +425,7 @@ function Dashboard() {
                                         }
                                         <div className='dashboard-slider'>
                                             <div className='d-flex align-items-center justify-content-between'>
-                                                <p className='stories-title' style={{ marginBottom: 10 }}>Trending Stocks</p>
+                                                <p className='stories-title' style={{ marginBottom: 10 }}>Trending stocks for today</p>
                                                 <p className='stories-title marginCustomDashboard' style={{ marginBottom: 10, color: '#4563E4', cursor: 'pointer' }} onClick={handleShow3}>View All</p>
                                             </div>
                                             <Slider {...settings}>
@@ -474,8 +480,9 @@ function Dashboard() {
                                                                         </div>
 
                                                                     </div>
-                                                                    <Tooltip anchorSelect={`.my-anchor-element-${index}`} place="top" className="bg-primary">
-                                                                        {item?.Definition ? item?.Definition : item?.Prompt}
+                                                                    <Tooltip absolute fixed anchorSelect={`.my-anchor-element-${index}`} place="left" className="bg-primary">
+                                                                        <div style={{width:'370px',fontSize:'14px'}}>
+                                                                            {item?.Definition ? item?.Definition : item?.Prompt}</div>
                                                                     </Tooltip>
                                                                 </div>
                                                             ))}
@@ -605,7 +612,7 @@ function Dashboard() {
                 >
                     <Modal.Header>
                         <div className='d-flex justify-content-between align-items-center mb-2'>
-                            <div className='header-text'>Trending Stocks</div>
+                            <div className='header-text'>Trending stocks for today</div>
                             <div onClick={() => handleClose3()} className=' align-items-center' style={{ cursor: 'pointer' }}>
                                 <img src={CloseImg} className='me-1' width={32} style={{ objectFit: 'contain' }} />
                             </div>
