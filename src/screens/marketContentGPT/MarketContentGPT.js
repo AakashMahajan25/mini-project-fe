@@ -117,16 +117,17 @@ function MarketContentGPT() {
         if (!selectedFile) return;
         try {
             isNewChat.current = false;
+            setFileName(selectedFile?.name)
             const res = await dispatch(getUploadURL(selectedFile)).unwrap();
             const data = { url: res.data, file: selectedFile };
-            setFileName(selectedFile?.name)
             const updateRes = await dispatch(updateUploadURL(data)).unwrap();
+            setQuestion('');
+            setShowQuestion(true);  
             if (updateRes.status === 200) {
                 const requestData = {
                     object_key: selectedFile?.name,
                 };
                 const documentRes = await dispatch(addDocument(requestData)).unwrap();
-                setShowQuestion(true);
                 setSelectedChat(documentRes?.prompt_id);
                 // setSelectedFile(null)
                 askAttachmentContentGpt(documentRes?.prompt_id, question);
@@ -207,6 +208,7 @@ function MarketContentGPT() {
         setSelectedChat(null)
         setShowQuestion(false)
         setSelectedFile(null)
+        setFileName('')
     }
 
     const handleHistory = (Id, type, name) => {
@@ -256,11 +258,11 @@ function MarketContentGPT() {
             handleNewChat={handleNewChat}
             handleHistory={handleHistory}
             selectedChat={selectedChat}
+            selectedType={selectedType}
             setShowQuestion={setShowQuestion}
             handleShow2={handleShow2}
         />
     );
-
     return (
         <>
             <div className='market-content-gpt-css'>
@@ -278,7 +280,7 @@ function MarketContentGPT() {
                             setSelectedFile={setSelectedFile}
                             selectedFile={selectedFile}
                             showQuestion={showQuestion}
-                            selectedType={selectedType}
+                            setSelectedType={setSelectedType}
                             handleAskPress={handleAskPress}
                         />
                     </div>
