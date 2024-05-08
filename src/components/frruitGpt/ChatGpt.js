@@ -255,10 +255,9 @@ function ChatGpt(props) {
         if (chartData?.length > 0) {
             // If there's only one object in chartData, render one graph
             if (chartData.length === 1) {
-                console.log('chartData[0].xlabel', chartData[0].xlabel)
                 const dataObject = chartData[0];
                 const labels = dataObject.data[0]['x-axis'];
-                const data = dataObject.data.map(point => point['y-axis'].map(parseFloat));
+                const data = dataObject.data.map(point => point['y-axis']?.map(parseFloat));
                 return (
                     <div className='graphSlider'>
                         <div className='chartGraph' style={{ backgroundColor: '#F1F4FD' }}>
@@ -266,7 +265,7 @@ function ChatGpt(props) {
                             {
                                 dataObject?.chart_type === 'bar' ?
                                     <BarChart
-                                        index={1}
+                                        index={1+Math.random()}
                                         graphData={{
                                             labels: [...labels],
                                             data: data
@@ -339,7 +338,7 @@ function ChatGpt(props) {
     const navigate = useNavigate();
     const routeChangeFrruitGPT = (question) => {
         navigate("/frruit-gpt", {
-            state: { question },
+            state: { question, fundamental: true },
         });
     };
     const handleShow = (data) => {
@@ -549,7 +548,7 @@ function ChatGpt(props) {
                             </div>
                     )}
 
-                {(contentChatHistory.length > 0 && docStatus && selectedType === 'attachment') && <div className='rightChat'>
+                {(docName && docStatus && selectedType === 'attachment') && <div className='rightChat'>
                     {/* <img src={ProfileIcon} className='profile-styles' /> */}
                     <div className='d-flex align-items-center my-2 floatRight'>
                         <img src={ArrowGrey} className='arrow' />

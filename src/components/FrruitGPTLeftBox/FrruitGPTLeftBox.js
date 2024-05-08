@@ -31,17 +31,17 @@ function FrruitGPTLeftBox(props) {
     const [searchParam, setSearchParam] = useState('');
     const { promptList } = useSelector(state => state.fruitGPTSlice);
 
-    useEffect(() => {
-        dispatch(getPromptList()).then((res) => {
-            ReactGA.event({
-                category: 'Frruitgpt',
-                action: 'history_of_gptquestions',
-                label: 'History of GPT questions'
-            });
-        }).catch(err=>{
+    // useEffect(() => {
+    //     dispatch(getPromptList()).then((res) => {
+    //         ReactGA.event({
+    //             category: 'Frruitgpt',
+    //             action: 'history_of_gptquestions',
+    //             label: 'History of GPT questions'
+    //         });
+    //     }).catch(err=>{
 
-        });
-    }, [])
+    //     });
+    // }, [])
 
     useEffect(() => {
         const debounceSearch = setTimeout(() => {

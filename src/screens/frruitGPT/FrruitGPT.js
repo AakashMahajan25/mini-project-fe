@@ -31,6 +31,7 @@ function FrruitGPT() {
     const [show2, setShow2] = useState(false);
     const [deleteId, setDeleteId] = useState(null);
     const [flag, setFlag] = useState('news')
+    const [isFirstRender, setIsFirstRender] = useState(true)
 
     const { chatHistory } = useSelector(state => state.fruitGPTSlice);
     const { cancelTokens } = useSelector(state => state.contentGPTSlice);
@@ -42,15 +43,19 @@ function FrruitGPT() {
         dispatch(getPromptSuggestion(5))
         dispatch(getPromptList())
         dispatch(clearChatHistory())
-        dispatch(getStockIndexes())
+        // dispatch(getStockIndexes())
         dispatch(clearContentChatHistory())
+        setIsFirstRender(false)
     }, [])
 
     useEffect(() => {
         if (state?.question && state.question !== '') {
+            if(state?.fundamental && state?.fundamental === true )
+                setFlag('fundamentals')
             dispatch(clearChatHistory())
             addFrruitPrompt(state?.question)
             clearState()
+            setIsFirstRender(false)
         }
     }, [state?.question])
 
@@ -116,7 +121,6 @@ function FrruitGPT() {
             .then(res => {
                 dispatch(getPromptList())
                 setSelectedChat(res.prompt_id);
-                isNewChat.current = false
                 askFrruitGpt(res.prompt_id, title);
             })
             .catch(error => {
@@ -152,8 +156,10 @@ function FrruitGPT() {
         const token = axios.CancelToken.source()
         dispatch(setCancelTokens(token))
 
-        if (flag === 'news')
-            requestData["flag"] = flag
+        if ((isFirstRender || isNewChat.current) ? (state?.fundamental && state?.fundamental === true) ? false : true : flag === "news")
+            requestData["flag"] = 'news'
+
+        isNewChat.current = false
 
         dispatch(triggerFrruitGpt({ requestData, cancelToken: token }))
             .unwrap()

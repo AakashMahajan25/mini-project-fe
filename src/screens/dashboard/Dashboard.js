@@ -233,7 +233,7 @@ function Dashboard() {
 
     const navigate = useNavigate();
 
-    const routePromptFrruitGPT = (question) => {
+    const routePromptFrruitGPT = (question, isSuggestion) => {
         if (question) {
             ReactGA.event({
                 category: 'Dashboard',
@@ -241,7 +241,7 @@ function Dashboard() {
                 label: 'MostonFrruit Prompt Click'
             });
             navigate("/frruit-gpt", {
-                state: { question },
+                state: isSuggestion ? { question, fundamental: true }: {question},
             });
         }
     };
@@ -368,7 +368,7 @@ function Dashboard() {
     }
     const handleKeyPress = (e) => {
         if (e.key === 'Enter') {
-            routePromptFrruitGPT(question);
+            routePromptFrruitGPT(question, false);
         }
     };
 
@@ -444,7 +444,7 @@ function Dashboard() {
                                                             {...suggestionSettings}
                                                         >
                                                             {mostOnFrruitGpt?.rows?.slice(0, 4).map((text, index) => (
-                                                                <div onClick={() => { routePromptFrruitGPT(text?.question) }} key={index} className='col-lg-6'>
+                                                                <div onClick={() => { routePromptFrruitGPT(text?.question, false) }} key={index} className='col-lg-6'>
                                                                     <div className='mostOnFrruitBox mb-2' style={{ marginRight: 10 }}>
                                                                         <div className='d-flex justify-content-between align-items-center' >
                                                                             <p className='text'>{text?.question}</p>
@@ -466,7 +466,7 @@ function Dashboard() {
                                                             nextArrow={<NextBtn3 />}
                                                             {...suggestionSettings}>
                                                             {chatSuggestions.map((item, index) => (
-                                                                <div onClick={() => { routePromptFrruitGPT(item?.Prompt) }} key={index} className='col-lg-6' style={{ cursor: 'pointer' }}>
+                                                                <div onClick={() => { routePromptFrruitGPT(item?.Prompt, true) }} key={index} className='col-lg-6' style={{ cursor: 'pointer' }}>
                                                                     <div className='prompts-text-bg' style={{ marginRight: 10, cursor: 'pointer' }}>
                                                                         <div className=' d-flex justify-content-between align-items-center w-100' >
                                                                             <p className='prompts-text'>{item?.Prompt}</p>
@@ -493,7 +493,7 @@ function Dashboard() {
                                                         onKeyDown={handleKeyPress}
                                                     />
                                                 </div>
-                                                <img className='send-image' src={SendIcon} alt='Send' onClick={() => routePromptFrruitGPT(question)} />
+                                                <img className='send-image' src={SendIcon} alt='Send' onClick={() => routePromptFrruitGPT(question, false)} />
                                             </div>
                                         </div>
                                     </div>
@@ -587,7 +587,7 @@ function Dashboard() {
                         <div className='viewModal'>
                             <div>
                                 {mostOnFrruitGpt?.rows?.map((text, index) => (
-                                    <div onClick={() => { routePromptFrruitGPT(text?.question) }} key={index} className='d-flex justify-content-between align-items-center blue-box mb-2' style={{ cursor: 'pointer' }}>
+                                    <div onClick={() => { routePromptFrruitGPT(text?.question, false) }} key={index} className='d-flex justify-content-between align-items-center blue-box mb-2' style={{ cursor: 'pointer' }}>
                                         <div>{text?.question}</div>
                                         <img src={RightBlueArrow} className='me-1' width={10} style={{ objectFit: 'contain' }} />
                                     </div>
