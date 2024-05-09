@@ -348,11 +348,11 @@ function ChatGpt(props) {
     return (
         <>
             <div className='ChatGpt' style={{
-                height: path ? (window.innerWidth < 786 ? window.innerHeight - 152 : window.innerHeight - 200) : (window.innerWidth < 786 ? window.innerHeight - 232 : window.innerHeight - 300),
+                height: path ? (window.innerWidth < 786 ? window.innerHeight - 182 : window.innerHeight - 200) : (window.innerWidth < 786 ? window.innerHeight - 232 : window.innerHeight - 300),
                 paddingBottom: chatHistory.length === 0 && !path ? 0 : 50,
-                marginTop: path ? (contentChatHistory.length === 0 ? 60 : 10) : 60,
+                marginTop: path ? (contentChatHistory.length === 0 ? 10 : 10) : 60,
                 // marginBottom: window.innerWidth < 786 ? 80 : 20,
-                marginBottom: path ? (window.innerWidth < 786 ? 0 : 20) : (window.innerWidth < 786 ? 80 : 20)
+                marginBottom: path ? (window.innerWidth < 786 ? 80 : 20) : (window.innerWidth < 786 ? 80 : 20)
             }} ref={containerRef}>
                 {
                     (newChat && !path) && <div className='default-screens-content' style={{ height: window.innerHeight - 310 }}>
@@ -558,7 +558,7 @@ function ChatGpt(props) {
                     <div className='chat-text-container'>
                         <div className='d-flex'>
                             <div className='attached-doc-white-box'>
-                                <img src={UploadDocImg} width={44} style={{ objectFit: 'contain' }} />
+                                <img src={UploadDocImg} className='attached-image' />
                                 <div className='pdf-name me-2'>{docName}</div>
                             </div>
                         </div>
