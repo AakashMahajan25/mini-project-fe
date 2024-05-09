@@ -50,7 +50,7 @@ function FrruitGPT() {
 
     useEffect(() => {
         if (state?.question && state.question !== '') {
-            if(state?.fundamental && state?.fundamental === true )
+            if (state?.fundamental && state?.fundamental === true)
                 setFlag('fundamentals')
             dispatch(clearChatHistory())
             addFrruitPrompt(state?.question)
@@ -244,7 +244,10 @@ function FrruitGPT() {
                         {leftBoxComponent}
                     </div>
                     <div className='col-xl-9 col-md-9 col-sm-9 column-pad'>
-                        <div className='hide-on-large-screens'><img src={HistoryImg} onClick={handleHistoryShow} className='history-icon-css' /></div>
+                        <div className='hide-on-large-screens'>
+                            <div>Frruit GPT</div>
+                            <img src={HistoryImg} onClick={handleHistoryShow} className='history-icon-css' />
+                        </div>
                         <ChatGpt
                             newChat={isNewChat.current}
                             containerRef={gptRef}

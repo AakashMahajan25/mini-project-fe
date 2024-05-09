@@ -122,7 +122,7 @@ function MarketContentGPT() {
             const data = { url: res.data, file: selectedFile };
             const updateRes = await dispatch(updateUploadURL(data)).unwrap();
             setQuestion('');
-            setShowQuestion(true);  
+            setShowQuestion(true);
             if (updateRes.status === 200) {
                 const requestData = {
                     object_key: selectedFile?.name,
@@ -136,7 +136,7 @@ function MarketContentGPT() {
         } catch (error) {
             clearQuestionAndToastError(error);
             setSelectedFile(null)
-            setShowQuestion(false);  
+            setShowQuestion(false);
         }
     }
 
@@ -272,7 +272,10 @@ function MarketContentGPT() {
                         {leftBoxComponent}
                     </div>
                     <div className='col-lg-9 col-md-8 column-pad position-relative'>
-                        <div className='hide-on-large-screens'><img src={HistoryImg} onClick={handleHistoryShow} className='history-icon-css' /></div>
+                        <div className='hide-on-large-screens'>
+                            <div>Market content GPT</div>
+                            <img src={HistoryImg} onClick={handleHistoryShow} className='history-icon-css' />
+                        </div>
                         <ChatGpt containerRef={gptRef} newChat={isNewChat.current} docStatus={true} docName={fileName} selectedType={selectedType} />
                         <BottomBar
                             handleNewChat={handleNewChat}

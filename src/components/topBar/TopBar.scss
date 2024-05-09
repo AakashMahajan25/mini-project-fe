@@ -105,6 +105,8 @@
     }
 
     .tabNavBar {
+        border-bottom: #EDEDED 1px solid;
+
         @media only screen and (min-width: 991px) {
             display: none !important;
         }
@@ -158,12 +160,66 @@
         }
     }
 }
-.mainOffcanvasBodyForSignOut{
+
+.mainOffcanvasBodyForSignOut {
     padding: 24px 16px;
+
+    .signOutRow {
+        display: flex;
+        justify-content: start;
+        align-items: center;
+
+        .innerSignOutRow {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+
+            .UserNameDashboardNav {
+                font-family: 'Roboto', sans-serif;
+                font-size: 20px;
+                font-weight: 600;
+                line-height: 30px;
+                color: #4563E4;
+            }
+
+            .UserEmailDashboardNav {
+                font-family: 'Roboto', sans-serif;
+                font-size: 18px;
+                font-weight: 400;
+                line-height: 28px;
+                color: #73ADF4;
+            }
+        }
+
+        .profile-icon {
+            width: 112px;
+            height: 80px;
+            background-color: #E5EAFF;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            margin-right: 20px !important;
+
+            @media only screen and (max-width: 1024px) {
+                margin-right: 1.5rem;
+            }
+        }
+
+        .profile-name-text {
+            font-family: 'Roboto', sans-serif;
+            font-weight: 500;
+            color: #4563E4;
+            font-size: 46.86px;
+            line-height: 30px;
+        }
+    }
 }
 
 .menu-container-offcanvas {
     padding: 16px;
+
     .web-nav-text-mobile-offcanvas {
         color: #6F7387;
         font-weight: 500;
@@ -172,9 +228,10 @@
         cursor: pointer;
         background-color: #F1F4FD;
         margin-bottom: 8px;
-        padding: 8px 12px ;
+        padding: 8px 12px;
         border-radius: 12px;
     }
+
     .web-nav-text-mobile-offcanvas-active {
         color: #4563E4;
         font-weight: 600;
@@ -183,7 +240,7 @@
         cursor: pointer;
         background-color: #E5EAFF;
         margin-bottom: 8px;
-        padding: 8px 12px ;
+        padding: 8px 12px;
         border-radius: 12px;
     }
 }

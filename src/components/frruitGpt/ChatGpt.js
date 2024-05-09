@@ -265,7 +265,7 @@ function ChatGpt(props) {
                             {
                                 dataObject?.chart_type === 'bar' ?
                                     <BarChart
-                                        index={1+Math.random()}
+                                        index={1 + Math.random()}
                                         graphData={{
                                             labels: [...labels],
                                             data: data
@@ -360,7 +360,7 @@ function ChatGpt(props) {
                             <img src={LogoCircle} width={57} style={{ objectFit: 'contain' }} />
                             <div className='help-text'>How can I help you today ?</div>
                             <div className='row'>
-                                {chatSuggestions?.slice(0, 4).map((item, index) => (
+                                {chatSuggestions?.slice(0, window.innerWidth < 600 ? 2 : 4).map((item, index) => (
                                     <div key={index} className='col-lg-6 col-md-12 column-pad' style={{ cursor: 'pointer' }} onClick={() => routeChangeFrruitGPT(item?.Prompt)}>
                                         <div className='prompts-text-bg'>
                                             <div className=' d-flex justify-content-between align-items-center w-100' >

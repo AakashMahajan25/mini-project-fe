@@ -14,6 +14,8 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import ReactGA from 'react-ga4';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import CloseImg from '../../assets/images/close_icon.png';
+import LogOutIcon from '../../assets/images/logOutSmallIcon.png';
+import MobileMenu from '../../assets/images/hamburgerMenu.png';
 
 function TopBar() {
   const dispatch = useDispatch();
@@ -102,8 +104,9 @@ function TopBar() {
           </div >
         </div >
 
-        <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary tabNavBar">
+        <Navbar collapseOnSelect expand="lg" className="tabNavBar">
           <Container>
+            <img onClick={handleShow} src={MobileMenu} width={24} height={24} style={{ objectFit: 'contain', cursor: 'pointer' }} />
             <a onClick={routeChangeDashboard}>
               <img className="logo" style={{ width: 122 }} src={FrruitLogo} alt="" />
             </a>
@@ -112,7 +115,9 @@ function TopBar() {
               <div className='profile-name-text'>{userDetails?.first_name?.slice(0, 1)}</div>
             </div>
             </Nav.Link> */}
-              <Navbar.Toggle aria-controls="basic-navbar-nav" onClick={handleShow} />
+              {/* <Navbar.Toggle aria-controls="basic-navbar-nav" onClick={handleShow} /> */}
+
+
             </div>
             {/* <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto mt-2">
@@ -135,11 +140,20 @@ function TopBar() {
             </div>
           </Offcanvas.Header>
           <div style={{ borderBottom: '1px solid #EDEDED' }}></div>
-          <Offcanvas.Body>
-            <div className='mainOffcanvasBodyForSignOut'>
-              <div>hi</div>
+          <div className='mainOffcanvasBodyForSignOut'>
+            <div className='signOutRow'>
+              <div onClick={routeChangeProfile} className='profile-icon me-2'>
+                <div className='profile-name-text'>{userDetails?.first_name?.slice(0, 1)}</div>
+              </div>
+              <div className='innerSignOutRow'>
+                <div>
+                  <div className='UserNameDashboardNav'>{userDetails?.first_name} {userDetails?.last_name}</div>
+                  <div className='UserEmailDashboardNav'>{userDetails?.email}</div>
+                </div>
+                <img src={LogOutIcon} onClick={handleLogout} style={{ width: '35px', height: '35px', objectFit: 'contain', cursor: 'pointer' }} />
+              </div>
             </div>
-          </Offcanvas.Body>
+          </div>
           <div style={{ borderBottom: '1px solid #EDEDED' }}></div>
           <Offcanvas.Body>
             <div className='menu-container-offcanvas'>
@@ -149,7 +163,7 @@ function TopBar() {
               <div className={location.pathname === '/discover-correlation' ? 'web-nav-text-mobile-offcanvas-active' : 'web-nav-text-mobile-offcanvas'} onClick={routeChangeDiscoverCorrelation}>Discover Correlation</div>
               <div className={location.pathname === '/dashboard/watchlist' ? 'web-nav-text-mobile-offcanvas-active' : 'web-nav-text-mobile-offcanvas'} onClick={routeChangeWatchlist}>Watchlist</div>
               <div className={location.pathname === '/dashboard/profile' ? 'web-nav-text-mobile-offcanvas-active' : 'web-nav-text-mobile-offcanvas'} onClick={routeChangeProfile}>Profile</div>
-              <div className='web-nav-text me-5' onClick={handleLogout}>Logout</div>
+              {/* <div className='web-nav-text me-5' onClick={handleLogout}>Logout</div> */}
             </div>
           </Offcanvas.Body>
         </Offcanvas>
