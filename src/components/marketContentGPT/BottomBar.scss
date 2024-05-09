@@ -27,7 +27,12 @@
             font-weight: 400;
             line-height: normal;
             margin-bottom: 4px;
+
+            @media only screen and (max-width: 500px) {
+                font-size: 8px;
+            }
         }
+
         .select-text-css{
             color: #6F7387;
             font-size: 14px;
@@ -36,6 +41,7 @@
             line-height: normal;
             margin-bottom: 10px;
         }
+
         .bottom-boder-css{
             border-bottom: solid 1px #8692D05E;
         }
@@ -57,6 +63,15 @@
                 font-weight: 400;
                 line-height: 16px;
                 color: #4563E4;
+
+                @media only screen and (max-width: 900px) {
+                    max-width: 100px;
+                    word-wrap: break-word;
+                }
+
+                @media only screen and (max-width: 500px) {
+                    display: none;
+                }
             }
         }
 
@@ -73,6 +88,16 @@
             width: 24px;
             height: 24px;
             object-fit: contain;
+        }
+
+        .attached-image {
+            width: 44px;
+            object-fit: contain;
+
+            @media only screen and (max-width: 500px) {
+                width: 30px;
+                margin-right: 10px;
+            }
         }
     }
 
@@ -108,12 +133,28 @@
             margin-right: 5px;
             margin-bottom: 33px;
 
+            @media only screen and (max-width: 900px) {
+                margin-bottom: 8px;
+            }
+
             .url-name {
                 font-family: Roboto;
                 font-size: 14px;
                 font-weight: 400;
                 line-height: 16px;
                 color: #4563E4;
+
+                @media only screen and (max-width: 900px) {
+                    max-width: 100px;
+                    word-wrap: break-word;
+                }
+
+                @media only screen and (max-width: 500px) {
+                    max-width: 30px;
+                    overflow: hidden;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                }
             }
         }
 
@@ -191,6 +232,10 @@
             font-style: normal;
             font-weight: 400;
             line-height: normal;
+
+            @media only screen and (max-width: 500px) {
+                word-wrap: break-word;
+            }
         }
     }
 

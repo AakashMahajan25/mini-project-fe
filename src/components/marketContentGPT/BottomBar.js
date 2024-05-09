@@ -128,7 +128,8 @@ function BottomBar(props) {
                                 <div className='attached-document-text'>Attached Document</div>
                                 <div className='d-flex'>
                                     <div className='attached-doc-white-box'>
-                                        <img src={UploadDocImg} width={44} style={{ objectFit: 'contain' }} />
+                                        {/* <img src={UploadDocImg} width={44} style={{ objectFit: 'contain' }} /> */}
+                                        <img src={UploadDocImg} className='attached-image' />
                                         <div className='pdf-name me-2'>{selectedFile?.name}</div>
                                         <img src={CloseIcon} width={16} style={{ objectFit: 'contain', cursor: 'pointer' }} onClick={handleRemove} />
                                     </div>

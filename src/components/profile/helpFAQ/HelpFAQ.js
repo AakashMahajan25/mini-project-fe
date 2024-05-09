@@ -66,8 +66,9 @@ function HelpFAQ({faqs}) {
                             </div>
                         </div>
                         <div className='col-lg-6 col-sm-12'>
-                            <div className='d-flex align-items-center justify-content-center' style={{ height: imageInnerHeight }}>
-                            <img src={FAQImg} width={300} style={{objectFit:'contain'}} />
+                            {/* <div className='d-flex align-items-center justify-content-center' style={{ height: imageInnerHeight }}> */}
+                            <div className='d-flex align-items-center justify-content-center mt-4'>
+                                <img src={FAQImg} width={300} style={{objectFit:'contain'}} />
                             </div>
                         </div>
                     </div>

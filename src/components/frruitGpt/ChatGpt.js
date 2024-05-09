@@ -265,7 +265,7 @@ function ChatGpt(props) {
                             {
                                 dataObject?.chart_type === 'bar' ?
                                     <BarChart
-                                        index={1+Math.random()}
+                                        index={1 + Math.random()}
                                         graphData={{
                                             labels: [...labels],
                                             data: data
@@ -348,10 +348,11 @@ function ChatGpt(props) {
     return (
         <>
             <div className='ChatGpt' style={{
-                height: path ? (window.innerWidth < 786 ? window.innerHeight - 170 : window.innerHeight - 200) : (window.innerWidth < 786 ? window.innerHeight - 260 : window.innerHeight - 300),
+                height: path ? (window.innerWidth < 786 ? window.innerHeight - 182 : window.innerHeight - 200) : (window.innerWidth < 786 ? window.innerHeight - 232 : window.innerHeight - 300),
                 paddingBottom: chatHistory.length === 0 && !path ? 0 : 50,
-                marginTop: path ? (contentChatHistory.length === 0 ? 60 : 10) : 60,
-                marginBottom: window.innerWidth < 786 ? 80 : 20,
+                marginTop: path ? (contentChatHistory.length === 0 ? 10 : 10) : 60,
+                // marginBottom: window.innerWidth < 786 ? 80 : 20,
+                marginBottom: path ? (window.innerWidth < 786 ? 80 : 20) : (window.innerWidth < 786 ? 80 : 20)
             }} ref={containerRef}>
                 {
                     (newChat && !path) && <div className='default-screens-content' style={{ height: window.innerHeight - 310 }}>
@@ -359,7 +360,7 @@ function ChatGpt(props) {
                             <img src={LogoCircle} width={57} style={{ objectFit: 'contain' }} />
                             <div className='help-text'>How can I help you today ?</div>
                             <div className='row'>
-                                {chatSuggestions?.slice(0, 4).map((item, index) => (
+                                {chatSuggestions?.slice(0, window.innerWidth < 600 ? 2 : 4).map((item, index) => (
                                     <div key={index} className='col-lg-6 col-md-12 column-pad' style={{ cursor: 'pointer' }} onClick={() => routeChangeFrruitGPT(item?.Prompt)}>
                                         <div className='prompts-text-bg'>
                                             <div className=' d-flex justify-content-between align-items-center w-100' >
@@ -557,7 +558,7 @@ function ChatGpt(props) {
                     <div className='chat-text-container'>
                         <div className='d-flex'>
                             <div className='attached-doc-white-box'>
-                                <img src={UploadDocImg} width={44} style={{ objectFit: 'contain' }} />
+                                <img src={UploadDocImg} className='attached-image' />
                                 <div className='pdf-name me-2'>{docName}</div>
                             </div>
                         </div>

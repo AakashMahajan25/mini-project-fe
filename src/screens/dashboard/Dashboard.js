@@ -150,13 +150,13 @@ function Dashboard() {
     };
 
     const storiesData = [
-        { src: Stories1, onClick: handleShow, storyType: 'watchlist_news',title:'WatchList',lightBackground:'#EFF2FF',color:'#5F7DFF', },
-        { src: Stories2, onClick: handleShow, storyType: 'session_news',title:'Session',lightBackground:'#EEF6EE',color:'#54A153', },
-        { src: Stories3, onClick: handleShow, storyType: 'hot_pursuit_news',title:'Hot Pursuit',lightBackground:'#FDF0F0',color:'#EB6060', },
-        { src: Stories4, onClick: handleShow, storyType: 'corporate_news',title:'Corporate',lightBackground:'#F9F0FA',color:'#BB68C8', },
-        { src: Stories5, onClick: handleShow, storyType: 'economy_news',title:'Economy',lightBackground:'#F3F0FC',color:'#8361D9', },
-        { src: Stories6, onClick: handleShow, storyType: 'corporate_results_news',title:'Corporate Results',lightBackground:'#FEF9E9',color:'#ECBE1C', },
-        { src: Stories7, onClick: handleShow, storyType: 'market_news',title:'Market',lightBackground:'#EDF9F5',color:'#43BE9A', },
+        { src: Stories1, onClick: handleShow, storyType: 'watchlist_news', title: 'WatchList', lightBackground: '#EFF2FF', color: '#5F7DFF', },
+        { src: Stories2, onClick: handleShow, storyType: 'session_news', title: 'Session', lightBackground: '#EEF6EE', color: '#54A153', },
+        { src: Stories3, onClick: handleShow, storyType: 'hot_pursuit_news', title: 'Hot Pursuit', lightBackground: '#FDF0F0', color: '#EB6060', },
+        { src: Stories4, onClick: handleShow, storyType: 'corporate_news', title: 'Corporate', lightBackground: '#F9F0FA', color: '#BB68C8', },
+        { src: Stories5, onClick: handleShow, storyType: 'economy_news', title: 'Economy', lightBackground: '#F3F0FC', color: '#8361D9', },
+        { src: Stories6, onClick: handleShow, storyType: 'corporate_results_news', title: 'Corporate Results', lightBackground: '#FEF9E9', color: '#ECBE1C', },
+        { src: Stories7, onClick: handleShow, storyType: 'market_news', title: 'Market', lightBackground: '#EDF9F5', color: '#43BE9A', },
     ];
 
     const dispatch = useDispatch()
@@ -241,7 +241,7 @@ function Dashboard() {
                 label: 'MostonFrruit Prompt Click'
             });
             navigate("/frruit-gpt", {
-                state: isSuggestion ? { question, fundamental: true }: {question},
+                state: isSuggestion ? { question, fundamental: true } : { question },
             });
         }
     };
@@ -391,6 +391,10 @@ function Dashboard() {
                 <>
                     {showAllContent &&
                         <div className='col-lg-7 column-pad'>
+                            <div className='hide-on-large-screens-dashboard'>
+                                <div className='dashboardTextForMobile'>Dashboard</div>
+                                <div onClick={handleViewAllClick} className='dashboardTextForMobile'>Latest News<img src={RightWhiteArrow} width={16} height={16} style={{ objectFit: 'contain', cursor: 'pointer' }} /></div>
+                            </div>
                             <div className='dashboard mt-4'>
                                 <div className='d-flex flex-column justify-content-between' style={{ height: window.innerWidth > 768 ? window.innerHeight - 140 : window.innerHeight - 100 }}>
                                     <div className='d-flex flex-column'>
@@ -398,23 +402,23 @@ function Dashboard() {
                                             shouldShowStory &&
                                             <div className='dashboard-container'>
                                                 <p className='stories-title' style={{ marginBottom: 10 }}>Investors Stories</p>
-                                                <div className='d-flex align-items-center' style={{ marginBottom: 20 }}>
+                                                <div className='d-flex align-items-start mobile-scroll-dashboard' style={{ marginBottom: 20 }}>
                                                     {storiesData.map((img, i) => {
                                                         return (
                                                             !storyViewed[storyEnum[img?.storyType]] && investorStory[storyEnum2[img?.storyType]]?.length > 0 ?
-                                                            <div className='d-flex flex-column align-items-center' style={{marginRight: 20 }} onClick={() => handleShow({ storyType: img.storyType })}>
-                                                                {/* <img
+                                                                <div className='d-flex flex-column align-items-center' style={{ marginRight: 20 }} onClick={() => handleShow({ storyType: img.storyType })}>
+                                                                    {/* <img
                                                                     key={'MStories' + i}
                                                                     style={{ width: 60, objectFit: 'contain', cursor: 'pointer'}}
                                                                     src={img.src}
                                                                     // alt={`Story ${index}`}
                                                                     /> */}
-                                                                    <div key={'MStories' + i} className='d-flex align-items-center justify-content-center' style={{width:60,height:60,border:`1px solid ${img?.color}`,borderRadius:35}}>
-                                                                        <p style={{width:50,height:50,background:img?.lightBackground,borderRadius:25,textAlign:'center',fontSize:20,lineHeight: '50px',fontWeight:'700',color:img?.color}}>{img?.title.slice(0,1)}
-                                                                            </p>
-                                                                        </div>
-                                                                    <p style={{marginTop:5,marginBottom:0,fontSize:13,color:'#6F7387',fontWeight:'500'}}>{img?.title}</p>
+                                                                    <div key={'MStories' + i} className='d-flex align-items-center justify-content-center' style={{ width: 60, height: 60, border: `1px solid ${img?.color}`, borderRadius: 35 }}>
+                                                                        <p style={{ width: 50, height: 50, background: img?.lightBackground, borderRadius: 25, textAlign: 'center', fontSize: 20, lineHeight: '50px', fontWeight: '700', color: img?.color }}>{img?.title.slice(0, 1)}
+                                                                        </p>
                                                                     </div>
+                                                                    <p style={{ marginTop: 5, marginBottom: 0, fontSize: 13, color: '#6F7387', fontWeight: '500' }}>{img?.title}</p>
+                                                                </div>
                                                                 :
                                                                 null
                                                         )
@@ -481,7 +485,7 @@ function Dashboard() {
 
                                                                     </div>
                                                                     <Tooltip absolute fixed anchorSelect={`.my-anchor-element-${index}`} place="left" className="bg-primary">
-                                                                        <div style={{width:'370px',fontSize:'14px'}}>
+                                                                        <div style={{ width: '370px', fontSize: '14px' }}>
                                                                             {item?.Definition ? item?.Definition : item?.Prompt}</div>
                                                                     </Tooltip>
                                                                 </div>
