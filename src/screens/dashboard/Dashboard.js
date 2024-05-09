@@ -454,7 +454,7 @@ function Dashboard() {
                                                             {...suggestionSettings}
                                                         >
                                                             {mostOnFrruitGpt?.rows?.slice(0, 4).map((text, index) => (
-                                                                <div onClick={() => { routePromptFrruitGPT(text?.question, false) }} key={index} className='col-lg-6'>
+                                                                <div onClick={() => { routePromptFrruitGPT(text?.question, true) }} key={index} className='col-lg-6'>
                                                                     <div className='mostOnFrruitBox mb-2' style={{ marginRight: 10 }}>
                                                                         <div className='d-flex justify-content-between align-items-center' >
                                                                             <p className='text'>{text?.question}</p>
@@ -626,7 +626,7 @@ function Dashboard() {
                         <div className='viewModal2 '>
                             <div className='row' style={{ marginLeft: 0 }}>
 
-                                {trendingStocks?.slice(0, 10).map((stockData, index) => (
+                                {trendingStocks?.map((stockData, index) => (
                                     <div className='col-lg-6 column-pad mb-3 pointer'>
                                         <TrendingStocksCard key={index} {...stockData} />
                                     </div>
