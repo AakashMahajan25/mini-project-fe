@@ -175,6 +175,10 @@
             @media only screen and (max-width: 768px) {
                 min-width: 400px;
             }
+
+            @media only screen and (max-width: 500px) {
+                min-width: 250px;
+            }
         }
     }
 }
