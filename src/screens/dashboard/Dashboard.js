@@ -398,7 +398,7 @@ function Dashboard() {
                                             shouldShowStory &&
                                             <div className='dashboard-container'>
                                                 <p className='stories-title' style={{ marginBottom: 10 }}>Investors Stories</p>
-                                                <div className='d-flex align-items-center' style={{ marginBottom: 20 }}>
+                                                <div className='d-flex align-items-start' style={{ marginBottom: 20 }}>
                                                     {storiesData.map((img, i) => {
                                                         return (
                                                             !storyViewed[storyEnum[img?.storyType]] && investorStory[storyEnum2[img?.storyType]]?.length > 0 ?
