@@ -395,14 +395,14 @@ function Dashboard() {
                                 <div className='dashboardTextForMobile'>Dashboard</div>
                                 <div onClick={handleViewAllClick} className='dashboardTextForMobile'>Latest News<img src={RightWhiteArrow} width={16} height={16} style={{ objectFit: 'contain', cursor: 'pointer' }} /></div>
                             </div>
-                            <div className='dashboard mt-4'>
-                                <div className='d-flex flex-column justify-content-between' style={{ height: window.innerWidth > 768 ? window.innerHeight - 140 : window.innerHeight - 100 }}>
+                            <div className='dashboard'>
+                                <div className='d-flex flex-column justify-content-between' style={{ height: window.innerWidth > 768 ? window.innerHeight - 140 : window.innerHeight - 115 }}>
                                     <div className='d-flex flex-column'>
                                         {
                                             shouldShowStory &&
                                             <div className='dashboard-container'>
                                                 <p className='stories-title' style={{ marginBottom: 10 }}>Investors Stories</p>
-                                                <div className='d-flex align-items-start mobile-scroll-dashboard' style={{ marginBottom: 20 }}>
+                                                <div className='d-flex align-items-start mobile-scroll-dashboard'>
                                                     {storiesData.map((img, i) => {
                                                         return (
                                                             !storyViewed[storyEnum[img?.storyType]] && investorStory[storyEnum2[img?.storyType]]?.length > 0 ?
@@ -413,11 +413,11 @@ function Dashboard() {
                                                                     src={img.src}
                                                                     // alt={`Story ${index}`}
                                                                     /> */}
-                                                                    <div key={'MStories' + i} className='d-flex align-items-center justify-content-center' style={{ width: 60, height: 60, border: `1px solid ${img?.color}`, borderRadius: 35 }}>
-                                                                        <p style={{ width: 50, height: 50, background: img?.lightBackground, borderRadius: 25, textAlign: 'center', fontSize: 20, lineHeight: '50px', fontWeight: '700', color: img?.color }}>{img?.title.slice(0, 1)}
+                                                                    <div key={'MStories' + i} className='d-flex align-items-center justify-content-center storyOuterContainer' style={{border: `1px solid ${img?.color}`, borderRadius: 35 }}>
+                                                                        <p className='storyCircleInnerText' style={{background: img?.lightBackground, borderRadius: 25, textAlign: 'center', fontWeight: '700', color: img?.color }}>{img?.title.slice(0, 1)}
                                                                         </p>
                                                                     </div>
-                                                                    <p style={{ marginTop: 5, marginBottom: 0, fontSize: 13, color: '#6F7387', fontWeight: '500' }}>{img?.title}</p>
+                                                                    <p style={{ marginTop: 5, marginBottom: 0, fontSize: 13, color: '#6F7387', fontWeight: '500',textAlign:'center' }}>{img?.title}</p>
                                                                 </div>
                                                                 :
                                                                 null

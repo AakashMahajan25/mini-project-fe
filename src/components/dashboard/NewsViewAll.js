@@ -67,7 +67,7 @@ function NewsViewAll({ backBtnClick, newsData }) {
 
     return (
         <>
-            <div className='news-view-all' style={{ height: window.innerHeight - 120, overflowY: 'scroll' }}>
+            <div className='news-view-all'>
                 <div className='d-flex justify-content-start align-items-center' style={{ marginBottom: 20 }}>
                     <button onClick={backBtnClick} className='light-blue-btn'>
                         <img src={BackBtnArrow} style={{ width: 7, height: 13, objectFit: 'contain', marginRight: 5, marginTop: -2 }} />
