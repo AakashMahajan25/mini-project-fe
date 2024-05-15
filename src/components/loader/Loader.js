@@ -5,6 +5,8 @@ import ProgressBar from 'react-bootstrap/ProgressBar';
 
 function Loader() {
   const now = 60;
+  const screenWidth = window.innerWidth;
+  const loaderWidth = screenWidth <= 500 ? '250px' : '350px';
   return (
     <div className="loader-container">
       <div className="d-flex align-items-center justify-content-center h-100">
@@ -16,7 +18,7 @@ function Loader() {
           <BarLoader
             color={'#4563E4'}
             loading={true}
-            cssOverride={{ width: '350px' }}
+            cssOverride={{ width: loaderWidth }}
             size={150}
             aria-label="Loading Spinner"
             data-testid="loader"

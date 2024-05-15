@@ -392,7 +392,7 @@ function DiscoverCorrelation() {
                     </div>
                 )}
                 <div className='col-xl-9 col-lg-8 column-pad Discover-Correlation-css'>
-                    <div className='' style={{ height: window.innerHeight - 130, overflowY: 'scroll', paddingTop: 20 }}>
+                    <div className='DiscoverCorrelationHeightDiv'>
                         {!showEventDetails && (
                             <>
                                 <div className='d-flex justify-content-between Discover-Correlation-container align-items-center'>
@@ -453,7 +453,7 @@ function DiscoverCorrelation() {
                                                 <>
                                                     <div className='title-2' style={{ marginBottom: 10 }}>Stocks that get affected the most  (in %)</div>
                                                     <div className='row'>
-                                                        <div className='col-lg-3' style={{ height: window.innerHeight - 320, overflowY: 'scroll', }}>
+                                                        <div className='col-lg-3 buySellStockCardSec'>
                                                             <div>
                                                                 {eventDetails?.response?.result_tickers?.slice().reverse().map((stock, index) => (
                                                                     <BuySellStockCard
@@ -466,7 +466,7 @@ function DiscoverCorrelation() {
                                                                 ))}
                                                             </div>
                                                         </div>
-                                                        <div className='col-lg-9 column-pad' style={{ marginTop: -30 }}>
+                                                        <div className='col-lg-9 column-pad customMarginForGraph'>
                                                             <SingleBarGraph
                                                                 graphData={{
                                                                     labels: tickers,
@@ -487,7 +487,7 @@ function DiscoverCorrelation() {
 
                                                     <div className='title-2' style={{ marginBottom: 10 }}>Stocks that get affected the most  (in %)</div>
                                                     <div className='row'>
-                                                        <div className='col-lg-5' style={{ height: window.innerHeight - 410, overflowY: 'scroll' }}>
+                                                        <div className='col-lg-5 eventDetailsCustomHeight'>
                                                             {eventDetails?.response?.similar_dates?.slice().reverse().map((label, index) => (
                                                                 <div key={index} className='blue-box-label'>{label?.description}</div>
                                                             ))}
