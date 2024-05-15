@@ -156,7 +156,7 @@ function FrruitGPT() {
         const token = axios.CancelToken.source()
         dispatch(setCancelTokens(token))
 
-        if ((isFirstRender || isNewChat.current) ? (state?.fundamental && state?.fundamental === true) ? false : true : flag === "news")
+        if ((isFirstRender || isNewChat.current) ? (state?.fundamental && state?.fundamental === true) ? false : flag === "news" : flag === "news")
             requestData["flag"] = 'news'
 
         isNewChat.current = false
