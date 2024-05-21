@@ -25,6 +25,7 @@ import { Tooltip } from 'react-tooltip'
 import FullScreenIcon from '../../assets/images/ic_baseline_fullscreen.png'
 import { Modal } from 'react-bootstrap'
 import LineGraph from '../graph/LineGraph'
+import Markdown from 'react-markdown'
 
 function ChatGpt(props) {
     const { chatSuggestions } = useSelector(state => state.fruitGPTSlice);
@@ -276,7 +277,7 @@ function ChatGpt(props) {
                                     />
                                     :
                                     <LineGraph
-                                        index={1}
+                                        index={1 + Math.random()}
                                         graphData={{
                                             labels: [...labels],
                                             data: data
@@ -416,7 +417,8 @@ function ChatGpt(props) {
                                     chat.type === 'text' ?
                                         <>
                                             <div className='chat-text-container'>
-                                                <h3 className='chat-text' dangerouslySetInnerHTML={{ __html: replaceNewlinesWithBr(chat?.text || '') }}></h3>
+                                            <Markdown>{chat?.text || ''}</Markdown>
+                                                {/* <h3 className='chat-text' dangerouslySetInnerHTML={{ __html: replaceNewlinesWithBr(chat?.text || '') }}></h3> */}
                                             </div>
                                         </>
                                         : renderGraph(chat?.text)
