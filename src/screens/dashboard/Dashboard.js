@@ -18,6 +18,7 @@ import LeftBtn from '../../assets/images/left-slider-btn.png';
 import RightBtn from '../../assets/images/right-slider-btn.png';
 import SendIcon from '../../assets/images/send_icon.png';
 import './Dashboard.scss';
+import '../../components/frruitGpt/BottomSearchBar.scss'
 import TrendingStocksCard from '../../components/trendingStocks/TrendingStocksCard';
 import Slider from 'react-slick';
 import { useNavigate } from 'react-router-dom';
@@ -125,6 +126,7 @@ function Dashboard() {
     const [stories, setStories] = useState([]);
     const [storyType, setStoryType] = useState([]);
     const [question, setQuestion] = useState('');
+    const [flag, setFlag] = useState('news');
 
     const storyRef = useRef()
 
@@ -241,7 +243,7 @@ function Dashboard() {
                 label: 'MostonFrruit Prompt Click'
             });
             navigate("/frruit-gpt", {
-                state: isSuggestion ? { question, fundamental: true } : { question },
+                state: isSuggestion ? { question, fundamental: true } : { question, fundamental: flag !== "news" },
             });
         }
     };
@@ -330,6 +332,7 @@ function Dashboard() {
                     themeBg: getRandomColor(),
                     mainHeading: el['Headline'],
                     newsDescription: el['News'],
+                    time_stamp: el['time_stamp']
                     // storyImage: true,
                     // viewImage: el['Image URL'],
                     // bottomsubDescription: el['Summary'],
@@ -496,6 +499,17 @@ function Dashboard() {
                                             }
                                             <div className='search-dashboard-main'>
                                                 <div class="form-group">
+                                                    <div className='customTab-frruit-gpt'>
+                                                        <div className='d-flex align-items-center'>
+                                                            <div className={flag === 'news' ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: flag === 'news' ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
+                                                                onClick={() => setFlag('news')}
+                                                            > News </div>
+                                                            <div className={flag !== 'news' ? `tab-name-css tab-box-css` : `tab-name-css`} style={{ backgroundColor: flag !== 'news' ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
+                                                                onClick={() => setFlag('fundamentals')}
+                                                            > Fundamentals </div>
+
+                                                        </div>
+                                                    </div>
                                                     <input
                                                         class="form-control"
                                                         value={question}
@@ -565,6 +579,7 @@ function Dashboard() {
                                                 </div> */}
                                                 <div className='stories-headline'>{story.mainHeading}</div>
                                                 <div className='stories-sub-headline' dangerouslySetInnerHTML={{ __html: story.newsDescription }}></div>
+                                                <div className='stories-sub-headline' >{story?.time_stamp}</div>
                                                 {/* <div className='d-flex justify-content-between align-items-center mt-3'>
                                                     <button className='white-btn-main  d-flex align-items-center justify-content-center' onClick={getFrruitClick} style={{ width: '48%' }}>{'Get Frruit'}  <img src={RightWhiteArrow} style={{ width: 20, objectFit: 'contain', marginLeft: 5 }} /></button>
                                                     <div onClick={() => routeNews(story.url)} style={{ width: '100%', cursor: 'pointer' }}>
