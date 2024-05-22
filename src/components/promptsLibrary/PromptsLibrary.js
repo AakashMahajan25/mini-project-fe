@@ -56,7 +56,7 @@ function PromptsLibrary(props) {
             {show && <div className='promptView' style={{animation: show ? 'slideInRight 0.3s ease-in-out' : 'none'}}>
                 <button onClick={() => setShow(!show)} className='blue-btn radius-small-button d-flex align-items-center justify-content-center' style={{ height: 40 }} ><img src={LeftWhiteArrow} style={{ width: 8, height: 13, objectFit: 'contain' }} /></button>
 
-                <div className='showPrompt' style={{ height: window.innerHeight - 105 }}>
+                <div className='showPrompt' style={{ height: window.innerHeight - 68 }}>
                     <h4 className='title'>Prompts Library</h4>
                     <div >
                         <Tab.Container defaultActiveKey={type} onSelect={(e)=>handleTab(e)}>

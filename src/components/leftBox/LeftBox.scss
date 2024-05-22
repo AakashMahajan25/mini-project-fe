@@ -4,7 +4,7 @@
 
 .left-box {
     .box {
-        border: 1px solid #E5E5E5;
+        border-right: 1px solid #E5E5E5;
         width: 100%;
         border-left: 0px;
         padding-top: 16px;
@@ -139,7 +139,7 @@
     .stock-name {
         font-weight: 400 !important;
         font-family: 'Roboto', sans-serif !important;
-        font-size: 14px !important;
+        font-size: 13px !important;
         line-height: 22px !important;
         color: #171E42 !important;
     }
@@ -155,8 +155,9 @@
     .stock-price {
         font-weight: 400;
         font-family: 'Roboto', sans-serif;
-        font-size: 14px;
+        font-size: 12px;
         line-height: 22px;
+        margin-right: 4px;
     }
 
     ::-webkit-scrollbar {
@@ -180,6 +181,15 @@
         }
         @media only screen and (max-width: 500px) {
             max-width: 373px;
+        }
+    }
+
+    .watchlist-image{
+        width: 24px;
+        object-fit: contain;
+
+        @media only screen and (max-width: 500px) {
+            width: 18px;
         }
     }
 }

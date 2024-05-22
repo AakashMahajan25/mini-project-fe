@@ -45,7 +45,9 @@
 }
 
 .with-margin-top {
-  margin-top: 105px;
+  // margin-top: 105px;
+  border-top: 1px solid #EDEDED;
+  margin-top: 67px;
 }
 
 @media (max-width: 990px) {

@@ -98,7 +98,7 @@ function Dashboard() {
         const { className, onClick } = props
         return (
             <div className={className} onClick={onClick} style={{ position: 'relative' }}>
-                <img src={RightBtn} style={{ width: 40, position: 'absolute', top: -100, right: -140 }} />
+                <img src={RightBtn} style={{ width: 40, position: 'absolute', top: -89, right: -140 }} />
             </div>
         )
     }
@@ -114,7 +114,7 @@ function Dashboard() {
         const { className, onClick } = props
         return (
             <div className={className} onClick={onClick} style={{ position: 'relative' }}>
-                <img src={RightBtn} style={{ width: 40, position: 'absolute', top: -158, right: -180 }} />
+                <img src={RightBtn} style={{ width: 40, position: 'absolute', top: -150, right: -180 }} />
             </div>
         )
     }
@@ -399,7 +399,7 @@ function Dashboard() {
                                 <div onClick={handleViewAllClick} className='dashboardTextForMobile'>Latest News<img src={RightWhiteArrow} width={16} height={16} style={{ objectFit: 'contain', cursor: 'pointer' }} /></div>
                             </div>
                             <div className='dashboard'>
-                                <div className='d-flex flex-column justify-content-between' style={{ height: window.innerWidth > 768 ? window.innerHeight - 140 : window.innerHeight - 115 }}>
+                                <div className='d-flex flex-column justify-content-between mb-3' style={{ height: window.innerWidth > 768 ? window.innerHeight - 102 : window.innerHeight - 115 }}>
                                     <div className='d-flex flex-column'>
                                         {
                                             shouldShowStory &&
@@ -420,7 +420,7 @@ function Dashboard() {
                                                                         <p className='storyCircleInnerText' style={{background: img?.lightBackground, borderRadius: 25, textAlign: 'center', fontWeight: '700', color: img?.color }}>{img?.title.slice(0, 1)}
                                                                         </p>
                                                                     </div>
-                                                                    <p style={{ marginTop: 5, marginBottom: 0, fontSize: 13, color: '#6F7387', fontWeight: '500',textAlign:'center' }}>{img?.title}</p>
+                                                                    <p style={{ marginBottom: 0, fontSize: 13, color: '#6F7387', fontWeight: '500',textAlign:'center' }}>{img?.title}</p>
                                                                 </div>
                                                                 :
                                                                 null
@@ -497,7 +497,7 @@ function Dashboard() {
                                                     </div>
                                                 </>
                                             }
-                                            <div className='search-dashboard-main'>
+                                            <div className='search-dashboard-main d-flex align-items-end'>
                                                 <div class="form-group">
                                                     <div className='customTab-frruit-gpt'>
                                                         <div className='d-flex align-items-center'>
@@ -512,6 +512,7 @@ function Dashboard() {
                                                     </div>
                                                     <input
                                                         class="form-control"
+                                                        style={{height:48 ,paddingTop:0}}
                                                         value={question}
                                                         onChange={handleChange}
                                                         placeholder="Type your message here"

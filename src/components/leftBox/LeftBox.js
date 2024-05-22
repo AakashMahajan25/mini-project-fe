@@ -343,7 +343,7 @@ function LeftBox() {
     return (
         <>
             <div className='left-box'>
-                <div className='box' style={{ height: window.innerHeight - 105 }}>
+                <div className='box' style={{ height: window.innerHeight - 68 }}>
                     <div className="position-relative" style={{ marginBottom: 10, padding: '0px 16px' }}>
                         <input type="text" className="form-control form-control-search" placeholder='Search Here' value={searchParam}
                             onChange={event => setSearchParam(event.target.value)} ref={searchBoxRef}
@@ -440,11 +440,11 @@ function LeftBox() {
                                                     <p className='stock-price me-2' style={{ color: stock?.ticker_change_percent.includes('-') ? '#EA5455' : '#28C76F' }}>{`${stock?.ticker_change_percent.includes('-') ? stock?.ticker_change : '+' + stock?.ticker_change}`}</p>
                                                     <p className='stock-price me-2' style={{ color: stock?.ticker_change_percent.includes('-') ? '#EA5455' : '#28C76F' }}>{parseFloat(stock?.ticker_change_percent).toFixed(2)}</p>
                                                     {stock?.ticker_change_percent.includes('-') ? (
-                                                        <img style={{ width: 24, objectFit: 'contain' }} src={RedArrow} alt="Red Arrow" />
+                                                        <img className='watchlist-image' src={RedArrow} alt="Red Arrow" />
                                                     ) : (
-                                                        <img style={{ width: 24, objectFit: 'contain' }} src={GreenArrow} alt="Green Arrow" />
+                                                        <img className='watchlist-image' src={GreenArrow} alt="Green Arrow" />
                                                     )}
-                                                    <img className='ms-2' onClick={() => getFrruitClick(stock?.ticker)} style={{ width: 24, objectFit: 'contain', cursor: 'pointer' }} src={StockMiniLogo} alt="mini-logo" />
+                                                    <img className='watchlist-image' onClick={() => getFrruitClick(stock?.ticker)} style={{ cursor: 'pointer' }} src={StockMiniLogo} alt="mini-logo" />
                                                 </div>
                                             </div>
                                         </div>

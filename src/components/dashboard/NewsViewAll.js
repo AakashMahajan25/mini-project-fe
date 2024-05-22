@@ -106,9 +106,7 @@ function NewsViewAll({ backBtnClick, newsData }) {
                                                                 {/* <div className='d-flex align-items-center news-button-css'>
                                                                     <button className='bearish-btn mb-1'> Bearish <img src={BearishImg} className='button-img-size' /></button>
                                                                 </div> */}
-                                                                {/* <div className='d-flex align-items-center news-button-css'>
-                                                                    <button className='very-bullish-btn mb-1'> Very Bullish <img src={BullishImg} className='button-img-size' /></button>
-                                                                </div> */}
+                                                                
                                                                 {/* <div className='d-flex align-items-center news-button-css'>
                                                                     <button className='neutral-btn mb-1'> Neutral </button>
                                                                 </div> */}
@@ -116,6 +114,9 @@ function NewsViewAll({ backBtnClick, newsData }) {
                                                                     {/* <img src={Time} width={16} style={{ objectFit: 'contain', marginRight: 5 }} /> */}
                                                                     <div className='time-info'>{momentTime(el?.time)}</div>
                                                                 </div>
+                                                                {/* <div className='d-flex align-items-center news-button-css mt-2'>
+                                                                    <button className='very-bullish-btn'> Very Bullish <img src={BullishImg} className='button-img-size' /></button>
+                                                                </div> */}
                                                             </div>
                                                         </div>
                                                     </div>
