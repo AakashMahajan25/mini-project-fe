@@ -87,7 +87,7 @@ function MarketContentGptLeftBox(props) {
         handleHistory(content_prompt_id, selected, name)
     }
 
-    const leftPartHeight = window.innerHeight > 600 ? window.innerWidth > 768 ? window.innerHeight - 105 : window.innerHeight - 65 : window.innerHeight - 52;
+    const leftPartHeight = window.innerHeight > 600 ? window.innerWidth > 768 ? window.innerHeight - 68 : window.innerHeight - 65 : window.innerHeight - 52;
 
     return (
         <>

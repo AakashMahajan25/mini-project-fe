@@ -130,7 +130,7 @@ function Profile() {
             })
     }
 
-    const rightPartHeight = window.innerWidth > 768 ? window.innerHeight - 105 : window.innerHeight - 122;
+    const rightPartHeight = window.innerWidth > 768 ? window.innerHeight - 68 : window.innerHeight - 122;
 
     return (
         <>

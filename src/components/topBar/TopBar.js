@@ -100,7 +100,7 @@ function TopBar() {
                 </div>
               </div >
             </div >
-            <StockPriceScroll />
+            {/* <StockPriceScroll /> */}
           </div >
         </div >
 

@@ -66,7 +66,7 @@ function TrendingStocksCard({ name, symbol, change, changesPercentage, price, st
         <div>
             <div className='trendingStockCard' style={{ marginRight: 10 }}>
                 <div className='card' onClick={setShowPopUp} >
-                    <div className='d-flex align-items-center justify-content-between' style={{ marginBottom: 8 }}>
+                    <div className='d-flex align-items-center justify-content-between' style={{ marginBottom: 6 }}>
                         <p className='text me-2'>{stock_ticker}</p>
                         {/* <div className='d-flex justify-content-between align-items-center' >
                             <p className={`text2 me-2`} style={{ color: isPositiveChange ? '#28C76F' : '#EA5455' }}>{formatPrice(price, country)}</p>
