@@ -395,10 +395,11 @@ function DiscoverCorrelation() {
                     <div className='DiscoverCorrelationHeightDiv'>
                         {!showEventDetails && (
                             <>
-                                <div className='d-flex justify-content-between Discover-Correlation-container align-items-center'>
+                                <div className='d-flex justify-content-start Discover-Correlation-container align-items-center'>
                                     <div className='title' style={{ marginBottom: 20 }}>Event Explorer</div>
-                                    <div className='viewAllTeaxt' style={{ marginBottom: 20 }} onClick={handleShow2}>View All</div>
+                                    {/* <div className='viewAllTeaxt' style={{ marginBottom: 20 }} onClick={handleShow2}>View All</div> */}
                                 </div>
+                                <div className='d-flex justify-content-start Discover-Correlation-container align-items-center'>
                                 <Box marginBottom={'20px'} sx={{ maxWidth: { xs: 320, sm: 480 }, bgcolor: 'background.paper' }}>
                                     <TabsMui
                                         value={value}
@@ -407,11 +408,13 @@ function DiscoverCorrelation() {
                                         scrollButtons="auto"
                                         aria-label="scrollable auto tabs example"
                                     >
-                                        {tabData.map((tab, index) => (
+                                        {tabData?.slice(0, window.innerWidth < 600 ? 1 : 4).map((tab, index) => (
                                             <TabMui key={index} label={tab.label} className='tab-css' />
                                         ))}
                                     </TabsMui>
                                 </Box>
+                                <div className='viewAllTeaxt' style={{ marginBottom: 25 }} onClick={handleShow2}>View All</div>
+                                </div>
                                 <div className='row Discover-Correlation-container-row row-gutter'>
                                     {trendingEvents?.map((eventData, index) => (
                                         <div key={index} className='col-lg-4 column-pad'>
