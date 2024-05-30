@@ -362,15 +362,15 @@ function ChatGpt(props) {
                             <div className='help-text'>How can I help you today ?</div>
                             <div className='row'>
                                 {chatSuggestions?.slice(0, window.innerWidth < 600 ? 2 : 4).map((item, index) => (
-                                    <div key={index} className='col-lg-6 col-md-12 column-pad' style={{ cursor: 'pointer' }} onClick={() => routeChangeFrruitGPT(item?.Prompt)}>
+                                    <div key={index} className='col-lg-6 col-md-12 column-pad' style={{ cursor: 'pointer' }} onClick={() => routeChangeFrruitGPT(item?.prompt_text)}>
                                         <div className='prompts-text-bg'>
                                             <div className=' d-flex justify-content-between align-items-center w-100' >
-                                                <p className='prompts-text'>{item?.Prompt}</p>
+                                                <p className='prompts-text'>{item?.prompt_text}</p>
                                                 <img style={{ width: 24, objectFit: 'contain' }} className={`my-anchor-element-${index}`} src={quesIcon} />
                                             </div>
                                         </div>
                                         <Tooltip anchorSelect={`.my-anchor-element-${index}`} place="top" className="bg-primary">
-                                            {item?.Definition ? item?.Definition : item?.Prompt}
+                                            {item?.prompt_description ? item?.prompt_description : item?.prompt_text}
                                         </Tooltip>
                                     </div>
                                 ))}

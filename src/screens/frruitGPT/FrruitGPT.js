@@ -40,7 +40,7 @@ function FrruitGPT() {
     const handleHistoryShow = () => setShowHistory(true);
 
     useEffect(() => {
-        dispatch(getPromptSuggestion(5))
+        dispatch(getPromptSuggestion())
         dispatch(getPromptList())
         dispatch(clearChatHistory())
         // dispatch(getStockIndexes())

@@ -11,7 +11,7 @@ export const API_ENDPOINTS = {
     getMostFrruitGpt: 'users/getMostOnFruitGPT?limit=',
     getUserWatchList: 'watchlist/fetchWatchList',
     getTickersById: 'watchlist/fetchWatchListTickerByWatchlist',
-    frruitGptSuggestion: 'stocks/getPrompts?num=',
+    frruitGptSuggestion: 'stocks/getSuggestionPrompts',
     fetchTrendingEvents: 'eventCategories/fetchtrendingEvents',
     signupOtp: 'users/sendSignUpOtp',
     verifyOtp: 'users/verifyOtp',
