@@ -20,7 +20,7 @@ export const getPromptSuggestion = createAsyncThunk("fruitGpt/getPromptSuggestio
     try {
         let data = {
             method: METHOD_TYPE.get,
-            url: API_ENDPOINTS.frruitGptSuggestion + number,
+            url: API_ENDPOINTS.frruitGptSuggestion,
         };
         const response = await api(data);
         return response.data.data;

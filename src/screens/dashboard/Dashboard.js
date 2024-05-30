@@ -275,7 +275,7 @@ function Dashboard() {
             }).catch(err => {
 
             });
-        dispatch(getPromptSuggestion(4))
+        dispatch(getPromptSuggestion())
         dispatch(getInvestorStories()).unwrap()
             .then((res) => {
                 ReactGA.event({
@@ -479,17 +479,17 @@ function Dashboard() {
                                                             nextArrow={<NextBtn3 />}
                                                             {...suggestionSettings}>
                                                             {chatSuggestions.map((item, index) => (
-                                                                <div onClick={() => { routePromptFrruitGPT(item?.Prompt, true) }} key={index} className='col-lg-6' style={{ cursor: 'pointer' }}>
+                                                                <div onClick={() => { routePromptFrruitGPT(item?.prompt_text, true) }} key={index} className='col-lg-6' style={{ cursor: 'pointer' }}>
                                                                     <div className='prompts-text-bg' style={{ marginRight: 10, cursor: 'pointer' }}>
                                                                         <div className=' d-flex justify-content-between align-items-center w-100' >
-                                                                            <p className='prompts-text'>{item?.Prompt}</p>
+                                                                            <p className='prompts-text'>{item?.prompt_text}</p>
                                                                             <img style={{ width: 24, objectFit: 'contain' }} src={quesIcon} className={`my-anchor-element-${index}`} />
                                                                         </div>
 
                                                                     </div>
                                                                     <Tooltip absolute fixed anchorSelect={`.my-anchor-element-${index}`} place="left" className="bg-primary">
                                                                         <div style={{ width: '370px', fontSize: '14px' }}>
-                                                                            {item?.Definition ? item?.Definition : item?.Prompt}</div>
+                                                                            {item?.prompt_description ? item?.prompt_description : item?.prompt_text}</div>
                                                                     </Tooltip>
                                                                 </div>
                                                             ))}
