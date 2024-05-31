@@ -114,9 +114,12 @@ function NewsViewAll({ backBtnClick, newsData }) {
                                                                     {/* <img src={Time} width={16} style={{ objectFit: 'contain', marginRight: 5 }} /> */}
                                                                     <div className='time-info'>{momentTime(el?.time)}</div>
                                                                 </div>
-                                                                {/* <div className='d-flex align-items-center news-button-css mt-2'>
-                                                                    <button className='very-bullish-btn'> Very Bullish <img src={BullishImg} className='button-img-size' /></button>
-                                                                </div> */}
+                                                                <div className='d-flex align-items-center news-button-css mt-2'>
+                                                                    <button className={ el?.sentiment === 'Bullish' ? 'bullish-btn' : el?.sentiment === 'Very bullish' ? 'very-bullish-btn' : el?.sentiment === 'Very bearish' ? 'very-bearish-btn' : el?.sentiment === 'Bearish' ? 'bearish-btn' :'neutral-btn'}>{el?.sentiment}
+                                                                    { (el?.sentiment === 'Very bullish'|| el?.sentiment === 'Bullish') && <img src={BullishImg} className='button-img-size' />}
+                                                                    { (el?.sentiment === 'Very bearish' || el?.sentiment === 'Bearish') &&<img src={BearishImg} className='button-img-size' />}
+                                                                    </button>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -179,6 +182,12 @@ function NewsViewAll({ backBtnClick, newsData }) {
                                 <div className='blue-text-box'>{selected?.section_name}</div>
                             </div>
                             <div className='small-time-text mt-2'>{momentDate(selected?.date)}<span className='ms-3'>{momentTime(selected?.time)}</span></div>
+                        <div className='d-flex align-items-center news-button-css mt-2'>
+                            <button className={selected?.sentiment === 'Bullish' ? 'bullish-btn' : selected?.sentiment === 'Very bullish' ? 'very-bullish-btn' : selected?.sentiment === 'Very bearish' ? 'very-bearish-btn' : selected?.sentiment === 'Bearish' ? 'bearish-btn' : 'neutral-btn'}>{selected?.sentiment}
+                                {(selected?.sentiment === 'Very bullish' || selected?.sentiment === 'Bullish') && <img src={BullishImg} className='button-img-size' />}
+                                {(selected?.sentiment === 'Very bearish' || selected?.sentiment === 'Bearish') && <img src={BearishImg} className='button-img-size' />}
+                            </button>
+                        </div>
                         </div>
                         <div className='title-text mb-2'> {selected?.heading} </div>
                         {/* <div className='d-flex justify-content-between align-items-center'>
