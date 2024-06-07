@@ -15,15 +15,39 @@ import BearishImg from '../../assets/images/bearish_img.png';
 import GreenArrow from '../../assets/images/green_up-arrow.png';
 import SortImg from '../../assets/images/sort-img.png';
 import FilterImg from '../../assets/images/filter-img.png';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchAllNews } from '../../screens/dashboard/slice';
 
-function NewsViewAll({ backBtnClick, newsData }) {
+function NewsViewAll({ backBtnClick }) {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const [groupedData, setGroupedData] = useState([])
     const [selected, setSelected] = useState(null)
     const [show, setShow] = useState(false);
+    const [sentiment, setSentiment] = useState('');
+    const { cmotsNews } = useSelector(state => state.dashboardSlice);
+    const [sortOrder, setSortOrder] = useState('desc');
+    const [isActive, setIsActive] = useState(false);
+    const [isSortActive, setIsSortActive] = useState(false);
+    const [selectedDropdown, setIsSelectedDropdown] = useState('Filters');
+    const [selectedSortDropdown, setIsSelectedSortDropdown] = useState('Sort in Descending');
+
+    const options = [
+        { value: '', label: 'All' },
+        { value: 'veryBullish', label: 'Very Bullish' },
+        { value: 'bullish', label: 'Bullish' },
+        { value: 'neutral', label: 'Neutral' },
+        { value: 'bearish', label: 'Bearish' },
+        { value: 'veryBearish', label: 'Very Bearish' },
+    ];
+
+    const sortOptions = [
+        { value: 'asc', label: 'Sort in Ascending' },
+        { value: '', label: 'Sort in Descending' },
+    ];
 
     useEffect(() => {
-        const groupedNews = newsData?.reduce((acc, news) => {
+        const groupedNews = cmotsNews?.rows?.reduce((acc, news) => {
             if (!acc[news.type]) {
                 acc[news.type] = [];
             }
@@ -39,7 +63,7 @@ function NewsViewAll({ backBtnClick, newsData }) {
         
         setGroupedData(groupedNewsArray);
         
-    }, [newsData])    
+    }, [cmotsNews])    
     
     const handleShow = (data) => {
         setShow(true)
@@ -65,38 +89,100 @@ function NewsViewAll({ backBtnClick, newsData }) {
         return moment(time).format('Do MMM, YYYY');
     }
 
+    useEffect(() => {
+        const queryParams = `?sentiment=${sentiment}&sortOrder=${sortOrder}`;
+        dispatch(fetchAllNews(queryParams));
+    }, [sentiment, sortOrder])
+
+    const handleResetClick = () => {
+        setSentiment('');
+        setSortOrder('');
+        setIsActive(false)
+        setIsSortActive(false)
+    }
+    
+    const handleSentimentChange = (e) => {
+        setSentiment(e.target.value);
+    };
+
+    const handleCloseMenu = (option) => {
+        setSentiment(option);
+    };
+
+    const handleSortChange = (option) => {
+        setSortOrder(option);
+    };
+
     return (
         <>
             <div className='news-view-all'>
-                <div className='d-flex justify-content-start align-items-center' style={{ marginBottom: 20 }}>
+            <div className='d-flex justify-content-between align-items-center' style={{ marginBottom: 20,position:'relative' }}>
                     <button onClick={backBtnClick} className='light-blue-btn'>
                         <img src={BackBtnArrow} style={{ width: 7, height: 13, objectFit: 'contain', marginRight: 5, marginTop: -2 }} />
                         Back
                     </button>
-                    {/* <div className='d-flex align-items-center justify-content-center'>
-                        <button className='light-blue-btn'>
+                    <div className='d-flex align-items-center justify-content-center'>
+                        <button className='light-blue-btn ms-3' onClick={handleResetClick}>Reset</button>
+                        <button className='light-blue-btn ms-3' onClick={(e) => { setIsActive(false); setIsSortActive(!isSortActive) }}>
                             Sort
-                            <img src={SortImg} style={{ width: 16, height: 13, objectFit: 'contain', marginLeft: 5, marginTop: -2 }} />    
+                            <img src={SortImg} style={{ width: 16, height: 13, objectFit: 'contain', marginLeft: 5, marginTop: -2 }} />
                         </button>
-                        <button className='light-blue-btn ms-3'>
+                        <button className='light-blue-btn ms-3' onClick={(e) => { setIsActive(!isActive); setIsSortActive(false) }}>
                             Filter
-                            <img src={FilterImg} style={{ width: 16, height: 14, objectFit: 'contain',   marginLeft: 5, marginTop: -2 }} />
+                            <img src={FilterImg} style={{ width: 16, height: 14, objectFit: 'contain', marginLeft: 5, marginTop: -2 }} />
                         </button>
-                    </div> */}
+                    </div>
                 </div>
-
-                <div>
-                    {groupedData?.map((item, index) => (
-                        <>
-                            <div className='headline-text mb-3 mt-3'>{item?.section_name}</div>
-                            <div className='row m-0'>
-                                {
-                                    item?.newsItems?.map((el, i) => (
-                                        <div key={i} className='col-lg-4 column-pad'>
-                                            <a onClick={() => handleShow(el)} target='_blank' style={{ textDecoration: 'none', cursor: 'pointer' }}>
-                                                <div className='headline-news-card'>
-                                                    <div className='d-flex align-items-center m-0'>
-                                                        {/* <div className=''>
+                <div className='dashboard-custom-dropdown'>
+                    <div className="dropdown">
+                        <div className="dropdown-content" style={{ display: isActive ? "block" : "none" }}>
+                            {options?.map((option, index) => (
+                                <div
+                                    key={index}
+                                    className="item"
+                                    onClick={(e) => {
+                                        setIsSelectedDropdown(option.label);
+                                        setIsActive(!isActive);
+                                        handleCloseMenu(option.value);
+                                    }}
+                                >
+                                    {option.label}
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+                <div className='dashboard-custom-dropdown'>
+                    <div className="dropdown">
+                        <div className="dropdown-content" style={{ display: isSortActive ? "block" : "none" }}>
+                            {sortOptions?.map((option, index) => (
+                                <div
+                                    key={index}
+                                    className="item"
+                                    onClick={(e) => {
+                                        setIsSelectedSortDropdown(option.label);
+                                        setIsSortActive(!isSortActive);
+                                        handleSortChange(option.value);
+                                    }}
+                                >
+                                    {option.label}
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            <div>
+                {groupedData?.map((item, index) => (
+                    <>
+                        <div className='headline-text mb-3 mt-3'>{item?.section_name}</div>
+                        <div className='row m-0'>
+                            {
+                                item?.newsItems?.map((el, i) => (
+                                    <div key={i} className='col-lg-4 column-pad'>
+                                        <a onClick={() => handleShow(el)} target='_blank' style={{ textDecoration: 'none', cursor: 'pointer' }}>
+                                            <div className='headline-news-card'>
+                                                <div className='d-flex align-items-center m-0'>
+                                                    {/* <div className=''>
                                                 <img src={item.image} className='mx-2' width={60} height={60} style={{ objectFit: 'fill', borderRadius: 10 }} />
                                             </div> */}
                                                         <div className=''>

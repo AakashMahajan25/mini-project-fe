@@ -270,11 +270,11 @@ export const getGraphDetail = createAsyncThunk("watchList/getGraphDetail", async
     }
 });
 
-export const fetchAllNews = createAsyncThunk("dashboard/fetchAllNews", async () => {
+export const fetchAllNews = createAsyncThunk("dashboard/fetchAllNews", async (queryParams) => {
     try {
         let data = {
             method: METHOD_TYPE.get,
-            url: API_ENDPOINTS.fetchAllNews,
+            url: API_ENDPOINTS.fetchAllNews + queryParams,
         };
         const response = await api(data);
         return response.data.data;
