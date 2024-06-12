@@ -416,11 +416,11 @@ function Dashboard() {
                                                                     src={img.src}
                                                                     // alt={`Story ${index}`}
                                                                     /> */}
-                                                                    <div key={'MStories' + i} className='d-flex align-items-center justify-content-center storyOuterContainer' style={{border: `1px solid ${img?.color}`, borderRadius: 35 }}>
-                                                                        <p className='storyCircleInnerText' style={{background: img?.lightBackground, borderRadius: 25, textAlign: 'center', fontWeight: '700', color: img?.color }}>{img?.title.slice(0, 1)}
+                                                                    <div key={'MStories' + i} className='d-flex align-items-center justify-content-center storyOuterContainer' style={{ border: `1px solid ${img?.color}`, borderRadius: 35 }}>
+                                                                        <p className='storyCircleInnerText' style={{ background: img?.lightBackground, borderRadius: 25, textAlign: 'center', fontWeight: '700', color: img?.color }}>{img?.title.slice(0, 1)}
                                                                         </p>
                                                                     </div>
-                                                                    <p style={{ marginBottom: 0, fontSize: 13, color: '#6F7387', fontWeight: '500',textAlign:'center' }}>{img?.title}</p>
+                                                                    <p style={{ marginBottom: 0, fontSize: 13, color: '#6F7387', fontWeight: '500', textAlign: 'center' }}>{img?.title}</p>
                                                                 </div>
                                                                 :
                                                                 null
@@ -507,12 +507,26 @@ function Dashboard() {
                                                             <div className={flag !== 'news' ? `tab-name-css tab-box-css` : `tab-name-css`} style={{ backgroundColor: flag !== 'news' ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
                                                                 onClick={() => setFlag('fundamentals')}
                                                             > Fundamentals </div>
-
+                                                            {/* <div className={flag === 'news' ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: flag === 'news' ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
+                                                                onClick={() => setFlag('news')}
+                                                            > News </div>
+                                                            <div className={flag == 'fundamentals' ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: flag == 'fundamentals' ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
+                                                                onClick={() => setFlag('fundamentals')}
+                                                            > Fundamentals </div>
+                                                            <div className={flag == 'youTube' ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: flag == 'youTube' ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
+                                                                onClick={() => setFlag('youTube')}
+                                                            > YouTube </div>
+                                                            <div className={flag == 'reddit' ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: flag == 'reddit' ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
+                                                                onClick={() => setFlag('reddit')}
+                                                            >Reddit </div>
+                                                            <div className={flag == 'similarDays' ? `tab-name-css tab-box-css` : `tab-name-css`} style={{ backgroundColor: flag == 'similarDays' ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
+                                                                onClick={() => setFlag('similarDays')}
+                                                            >Similar Days </div> */}
                                                         </div>
                                                     </div>
                                                     <input
                                                         class="form-control"
-                                                        style={{height:48 ,paddingTop:0}}
+                                                        style={{ height: 48, paddingTop: 0 }}
                                                         value={question}
                                                         onChange={handleChange}
                                                         placeholder="Type your message here"

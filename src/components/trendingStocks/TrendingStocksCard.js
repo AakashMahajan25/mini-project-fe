@@ -12,6 +12,7 @@ import Modal from 'react-bootstrap/Modal';
 import TataLogo from '../../assets/images/Tata_Consultancy_Services_Logo.png'
 import UpGreenArrow from '../../assets/images/up-arrow-outline.png'
 import DiscoverCorrelationGraph from '../../components/graph/DiscoverCorrelationGraph'
+import StockMiniLogo from '../../assets/images/frruit-mini-logo.png';
 function TrendingStocksCard({ name, symbol, change, changesPercentage, price, stock_name, ticker, stock_ticker }) {
     const navigate = useNavigate();
     const isPositiveChange = parseFloat(changesPercentage) > 0;
@@ -74,11 +75,10 @@ function TrendingStocksCard({ name, symbol, change, changesPercentage, price, st
                             <p className={`text2`} style={{ color: isPositiveChange ? '#28C76F' : '#EA5455' }}>{`(${parseFloat(changesPercentage).toFixed(2) + '%'})`}</p>
                             <img src={isPositiveChange ? UpArrow : DownArrow} style={{ width: 18, objectFit: 'contain' }} alt='Arrow' />
                         </div> */}
-                       
-                            <div className='mx-1'>
-                                <button className='blue-btn  d-flex align-items-center justify-content-center' onClick={getFrruitClick}>{'Get Frruit'}  <img src={RightWhiteArrow} style={{ width: 6, objectFit: 'contain', marginLeft: 5 }} /></button>
-                            </div>
-                       
+                        {/* <div className='mx-1'>
+                            <button className='blue-btn  d-flex align-items-center justify-content-center' onClick={getFrruitClick}>{'Get Frruit'}  <img src={RightWhiteArrow} style={{ width: 6, objectFit: 'contain', marginLeft: 5 }} /></button>
+                        </div> */}
+                        <img className='ms-2'  onClick={getFrruitClick} style={{ cursor: 'pointer',width:24 }} src={StockMiniLogo} alt="mini-logo" />
                     </div>
                     <p className='stockname'>{name}</p>
                     <div>

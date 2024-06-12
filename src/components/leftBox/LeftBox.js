@@ -8,6 +8,7 @@ import GreenArrow from '../../assets/images/green_up-arrow.png';
 import RedArrow from '../../assets/images/red_down-arrow.png';
 import StockMiniLogo from '../../assets/images/frruit-mini-logo.png';
 import AddIcon from '../../assets/images/add-icon.png';
+import DeleteRedIcon from '../../assets/images/delete-red-icon.png';
 import EditStock from '../../assets/images/edit-stock-name.png';
 import DeleteStock from '../../assets/images/delete-stock-img.png';
 import AddstockBtn from '../../assets/images/add-stock-btn.png';
@@ -430,10 +431,28 @@ function LeftBox() {
                         {watchLists?.length > 0 ?
                             tickers?.rows?.length > 0 ?
                                 tickers?.rows?.map((stock, index) => (
-                                    <div key={index} onClick={() => handleShow(stock)} className='stock-price-list mb-2' style={{ cursor: 'pointer' }}>
+                                    // <div key={index} onClick={() => handleShow(stock)} className='stock-price-list mb-2' style={{ cursor: 'pointer' }}>
+                                    //     <div className='d-flex justify-content-between align-items-center'>
+                                    //         {/* <p className='stock-name'>{trimText(stock?.ticker_name, 12)}</p> */}
+                                    //         <p className='stock-name me-2' >{stock?.ticker}</p>
+                                    //         <div>
+                                    //             <div className='d-flex justify-content-end align-items-center'>
+                                    //                 <p className='stock-price me-2' style={{ color: stock?.ticker_change_percent.includes('-') ? '#EA5455' : '#28C76F' }}>{formatPrice(stock?.ticker_price, country)}</p>
+                                    //                 <p className='stock-price me-2' style={{ color: stock?.ticker_change_percent.includes('-') ? '#EA5455' : '#28C76F' }}>{`${stock?.ticker_change_percent.includes('-') ? stock?.ticker_change : '+' + stock?.ticker_change}`}</p>
+                                    //                 <p className='stock-price me-2' style={{ color: stock?.ticker_change_percent.includes('-') ? '#EA5455' : '#28C76F' }}>{parseFloat(stock?.ticker_change_percent).toFixed(2)}</p>
+                                    //                 {stock?.ticker_change_percent.includes('-') ? (
+                                    //                     <img className='watchlist-image' src={RedArrow} alt="Red Arrow" />
+                                    //                 ) : (
+                                    //                     <img className='watchlist-image' src={GreenArrow} alt="Green Arrow" />
+                                    //                 )}
+                                    //                 <img className='watchlist-image' onClick={() => getFrruitClick(stock?.ticker)} style={{ cursor: 'pointer' }} src={StockMiniLogo} alt="mini-logo" />
+                                    //             </div>
+                                    //         </div>
+                                    //     </div>
+                                    // </div>
+                                    <div key={index} className='stock-price-list mb-2' style={{ cursor: 'crosshair', position: 'relative' }}>
                                         <div className='d-flex justify-content-between align-items-center'>
-                                            {/* <p className='stock-name'>{trimText(stock?.ticker_name, 12)}</p> */}
-                                            <p className='stock-name me-2' >{stock?.ticker}</p>
+                                            <p className='stock-name me-2'>{stock?.ticker}</p>
                                             <div>
                                                 <div className='d-flex justify-content-end align-items-center'>
                                                     <p className='stock-price me-2' style={{ color: stock?.ticker_change_percent.includes('-') ? '#EA5455' : '#28C76F' }}>{formatPrice(stock?.ticker_price, country)}</p>
@@ -444,8 +463,15 @@ function LeftBox() {
                                                     ) : (
                                                         <img className='watchlist-image' src={GreenArrow} alt="Green Arrow" />
                                                     )}
-                                                    <img className='watchlist-image' onClick={() => getFrruitClick(stock?.ticker)} style={{ cursor: 'pointer' }} src={StockMiniLogo} alt="mini-logo" />
                                                 </div>
+                                            </div>
+                                        </div>
+                                        <div className="blurred-layer"></div>
+                                        <div className="button-icon-container">
+                                            <div className='d-flex justify-content-end align-items-center'>
+                                                <button className="blue-btn" style={{ padding: '3px 15px', fontSize: 12 }} onClick={() => handleShow(stock)}>Stock Details</button>
+                                                <img className='watchlist-image ms-2' style={{ cursor: 'pointer' }} src={DeleteRedIcon} alt="mini-logo" />
+                                                <img className='watchlist-image ms-2 me-2' onClick={() => getFrruitClick(stock?.ticker)} style={{ cursor: 'pointer' }} src={StockMiniLogo} alt="mini-logo" />
                                             </div>
                                         </div>
                                     </div>

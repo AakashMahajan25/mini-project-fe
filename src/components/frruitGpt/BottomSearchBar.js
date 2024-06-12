@@ -10,11 +10,11 @@ function BottomSearchBar(props) {
     const [showNews, setShowNews] = useState(true);
 
     const {
-        setQuestion=()=>{},
-        question='',
-        handleAskPress=()=>{},
-        flag='news',
-        setFlag=()=>{}
+        setQuestion = () => { },
+        question = '',
+        handleAskPress = () => { },
+        flag = 'news',
+        setFlag = () => { }
     } = props
 
     const handleChange = (e) => {
@@ -50,13 +50,27 @@ function BottomSearchBar(props) {
                 <div class="form-group">
                     <div className='customTab-frruit-gpt'>
                         <div className='d-flex align-items-center'>
-                            <div className={flag === 'news' ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: flag === 'news' ? '#F1F4FD' : '', color: '#4563E4',cursor:'pointer' }}
-                                onClick={()=>setFlag('news')}
+                            <div className={flag === 'news' ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: flag === 'news' ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
+                                onClick={() => setFlag('news')}
                             > News </div>
-                            <div className={flag !== 'news' ? `tab-name-css tab-box-css` : `tab-name-css`} style={{ backgroundColor: flag !== 'news' ? '#F1F4FD' : '', color: '#4563E4',cursor:'pointer' }}
-                                onClick={()=>setFlag('fundamentals')}
+                            <div className={flag !== 'news' ? `tab-name-css tab-box-css` : `tab-name-css`} style={{ backgroundColor: flag !== 'news' ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
+                                onClick={() => setFlag('fundamentals')}
                             > Fundamentals </div>
-
+                            {/* <div className={flag === 'news' ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: flag === 'news' ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
+                                onClick={() => setFlag('news')}
+                            > News </div>
+                            <div className={flag == 'fundamentals' ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: flag == 'fundamentals' ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
+                                onClick={() => setFlag('fundamentals')}
+                            > Fundamentals </div>
+                            <div className={flag == 'youTube' ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: flag == 'youTube' ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
+                                onClick={() => setFlag('youTube')}
+                            > YouTube </div>
+                            <div className={flag == 'reddit' ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: flag == 'reddit' ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
+                                onClick={() => setFlag('reddit')}
+                            >Reddit </div>
+                            <div className={flag == 'similarDays' ? `tab-name-css tab-box-css` : `tab-name-css`} style={{ backgroundColor: flag == 'similarDays' ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
+                                onClick={() => setFlag('similarDays')}
+                            >Similar Days </div> */}
                         </div>
                     </div>
                     <input
