@@ -1,6 +1,11 @@
 .dashboardHome {
     overflow-y: hidden;
 
+    .slick-next:before {
+        content: '→';
+        display: none;
+    }
+
     .hide-on-large-screens-dashboard {
         display: flex;
         justify-content: space-between;
@@ -39,6 +44,7 @@
 
     .dashboard {
         margin-top: 16px;
+
         @media only screen and (max-width: 500px) {
             margin-top: 12px;
         }
@@ -50,6 +56,7 @@
             .mobile-scroll-dashboard {
                 overflow-y: auto;
                 margin-bottom: 16px;
+
                 @media only screen and (max-width: 500px) {
                     margin-bottom: 15px;
                 }
@@ -207,8 +214,17 @@
         }
 
     }
+
     .customTab-frruit-gpt {
         margin-bottom: 6px;
+
+        .mobile-scroll-Css {
+            overflow-y: auto;
+        }
+
+        .mobile-scroll-Css::-webkit-scrollbar {
+            display: none;
+        }
 
         .tab-name-css {
             font-size: 14px;
@@ -221,7 +237,7 @@
         }
 
         .tab-box-css {
-            border-bottom: 2px solid #4563E4 ;
+            border-bottom: 2px solid #4563E4;
             border-radius: 6px 6px 0 0;
         }
     }
