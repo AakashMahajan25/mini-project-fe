@@ -4,6 +4,9 @@ import ProfileIcon from '../../assets/images/profile_image.png'
 import ArrowGrey from '../../assets/images/arrow-right-grey.png'
 import DefaultImg from '../../assets/images/market-content-default-img.png'
 import LogoCircle from '../../assets/images/frruit-logo-circle.png'
+import CompanyLogo from '../../assets/images/ETlogo.png'
+import TopRIghtArrow from '../../assets/images/topRightArrow.png'
+import BackBtnArrow from '../../assets/images/back-btn-arrow.png';
 import TataLogo from '../../assets/images/Tata_Consultancy_Services_Logo.png'
 import UpGreenArrow from '../../assets/images/up-arrow-outline.png'
 import DownRedArrow from '../../assets/images/down-arrow-outline.png'
@@ -31,8 +34,15 @@ function ChatGpt(props) {
     const { chatSuggestions } = useSelector(state => state.fruitGPTSlice);
     const location = useLocation()
     const [show, setShow] = useState(false);
+    const [show2, setShow2] = useState(false);
     const [modalGraphData, setModalGraphData] = useState('');
     const path = location.pathname === '/market-content-gpt'
+    const handleShow2 = () => {
+        setShow2(true);
+    }
+    const handleClose2 = () => {
+        setShow2(false)
+    };
     const { containerProps, indicatorEl } = useLoading({
         loading: true,
         indicator: <ThreeDots width="50" color="blue" />,
@@ -156,6 +166,15 @@ function ChatGpt(props) {
             sellButtonText: 'Sell',
             fruitButtonText: 'Get Frruit',
         },
+    ];
+    const cardsData = [
+        { logoSrc: CompanyLogo, companyName: 'Economic Times', cardTitle: 'Tata Price up by 5%', cardPara: 'Tata Consultancy Services Limited (TCS) is an India-based company engaged in providing information technology (IT) services, consulting, and business solutio' },
+        { logoSrc: CompanyLogo, companyName: 'Economic Times', cardTitle: 'Tata Price up by 5%', cardPara: 'Tata Consultancy Services Limited (TCS) is an India-based company engaged in providing information technology (IT) services, consulting, and business solutio' },
+        { logoSrc: CompanyLogo, companyName: 'Economic Times', cardTitle: 'Tata Price up by 5%', cardPara: 'Tata Consultancy Services Limited (TCS) is an India-based company engaged in providing information technology (IT) services, consulting, and business solutio' },
+        { logoSrc: CompanyLogo, companyName: 'Economic Times', cardTitle: 'Tata Price up by 5%', cardPara: 'Tata Consultancy Services Limited (TCS) is an India-based company engaged in providing information technology (IT) services, consulting, and business solutio' },
+        { logoSrc: CompanyLogo, companyName: 'Economic Times', cardTitle: 'Tata Price up by 5%', cardPara: 'Tata Consultancy Services Limited (TCS) is an India-based company engaged in providing information technology (IT) services, consulting, and business solutio' },
+        { logoSrc: CompanyLogo, companyName: 'Economic Times', cardTitle: 'Tata Price up by 5%', cardPara: 'Tata Consultancy Services Limited (TCS) is an India-based company engaged in providing information technology (IT) services, consulting, and business solutio' },
+        { logoSrc: CompanyLogo, companyName: 'Economic Times', cardTitle: 'Tata Price up by 5%', cardPara: 'Tata Consultancy Services Limited (TCS) is an India-based company engaged in providing information technology (IT) services, consulting, and business solutio' },
     ];
     const { containerRef, docStatus = false, docName = '', newChat, selectedType } = props;
 
@@ -417,7 +436,7 @@ function ChatGpt(props) {
                                     chat.type === 'text' ?
                                         <>
                                             <div className='chat-text-container'>
-                                            <Markdown>{chat?.text || ''}</Markdown>
+                                                <Markdown>{chat?.text || ''}</Markdown>
                                                 {/* <h3 className='chat-text' dangerouslySetInnerHTML={{ __html: replaceNewlinesWithBr(chat?.text || '') }}></h3> */}
                                             </div>
                                         </>
@@ -550,7 +569,38 @@ function ChatGpt(props) {
 
                             </div>
                     )}
-
+                {/* <div className='sourceCardCss'>
+                    <div className='Dflex-css'>
+                        <div className='d-flex align-items-center'>
+                            <img src={CompanyLogo} className='smallCircleLogoCss me-2' />
+                            <div className='companyNameCss'>Economic Times </div>
+                        </div>
+                        <img src={TopRIghtArrow} className='smallCircleLogoCss' />
+                    </div>
+                </div> */}
+                {/* <div className='companyCardSTyleCss'>
+                    <div className='cardContainer'>
+                        {cardsData.slice(0, 3).map((card, index) => (
+                            <div key={index} className='sourceCardCss'>
+                                <div className='Dflex-css'>
+                                    <div className='d-flex align-items-center'>
+                                        <img src={card.logoSrc} className='smallCircleLogoCss me-2' alt='Company Logo' />
+                                        <div className='companyNameCss'>{card.companyName}</div>
+                                    </div>
+                                    <img src={TopRIghtArrow} className='smallCircleLogoCss' alt='Arrow Icon' />
+                                </div>
+                            </div>
+                        ))}
+                        <div className='sourceCardCss' style={{ width: 'max-content' }} onClick={handleShow2}>
+                            <div className='Dflex-css'>
+                                <div className='d-flex align-items-center'>
+                                    <div className='companyNameCss me-2'>View All</div>
+                                </div>
+                                <img src={TopRIghtArrow} className='smallCircleLogoCss' />
+                            </div>
+                        </div>
+                    </div>
+                </div> */}
                 {(docName && docStatus && selectedType === 'attachment') && <div className='rightChat'>
                     {/* <img src={ProfileIcon} className='profile-styles' /> */}
                     <div className='d-flex align-items-center my-2 floatRight'>
@@ -636,6 +686,7 @@ function ChatGpt(props) {
 
                                 }
 
+
                             </div>
                     )}
                 <div className='d-flex align-items-center'>
@@ -653,10 +704,6 @@ function ChatGpt(props) {
                     }
                 </div>
             </div>
-
-
-
-
             <Modal show={show} fullscreen={true} onHide={() => setShow(false)} style={{ backgroundColor: '#fefefe' }}>
                 <Modal.Header closeButton>
                     <Modal.Title>Relation Graph</Modal.Title>
@@ -664,6 +711,44 @@ function ChatGpt(props) {
                 <NetworkGraph height={window.innerHeight - 50} nodes={data.nodes}
                     edges={data.edges}
                 />
+            </Modal>
+            <Modal show={show2}
+                onHide={handleClose2}
+                size='lg'
+                scrollable
+                className='latest-news-modal'
+                style={{ animation: show2 ? 'slideInRight 0.3s ease-in-out' : 'none' }}
+            >
+                <Modal.Header className='pb-0'>
+                    <div className='d-flex justify-content-start align-items-center' style={{ marginBottom: 5 }}>
+                        <button onClick={() => handleClose2()} className='light-blue-btn'>
+                            <img src={BackBtnArrow} style={{ width: 7, height: 13, objectFit: 'contain', marginRight: 5, marginTop: -2 }} />
+                            Back
+                        </button>
+                    </div>
+                </Modal.Header>
+                <Modal.Body>
+                    <div className='title-text mb-3'>Sources</div>
+                    <div className='companyCardSTyleCss'>
+                        <div className='cardContainer'>
+                            {cardsData.map((card, index) => (
+                                <>
+                                    <div key={index} className='sourceCardCss'>
+                                        <div className='Dflex-css'>
+                                            <div className='d-flex align-items-center'>
+                                                <img src={card.logoSrc} className='smallCircleLogoCss me-2' alt='Company Logo' />
+                                                <div className='companyNameCss'>{card.companyName}</div>
+                                            </div>
+                                            <img src={TopRIghtArrow} className='smallCircleLogoCss' alt='Arrow Icon' />
+                                        </div>
+                                        <div className='title-text' style={{ fontSize: 16, marginTop: 10 }}>{card.cardTitle}</div>
+                                        <div className='description-text' style={{ fontSize: 12, marginTop: 10 }}>{card.cardPara}</div>
+                                    </div>
+                                </>
+                            ))}
+                        </div>
+                    </div>
+                </Modal.Body>
             </Modal>
         </>
     )
