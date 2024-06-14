@@ -296,7 +296,7 @@ function NewsViewAll({ backBtnClick }) {
             <Modal show={show}
                     onHide={handleClose}
                     size='lg'
-                    scrollable
+                    scrollable 
                     className='latest-news-modal'
                     style={{ animation: show ? 'slideInRight 0.3s ease-in-out' : 'none' }}
                 >
