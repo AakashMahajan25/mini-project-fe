@@ -287,9 +287,9 @@ function Dashboard() {
 
             });
         // dispatch(getStockIndexes())
-        dispatch(fetchAllNews())
+        dispatch(fetchAllNews(''))
         const interval = setInterval(() => {
-            dispatch(fetchAllNews())
+            dispatch(fetchAllNews(''))
         }, 60000 * 3);
         return () => {
             clearInterval(interval)
