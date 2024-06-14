@@ -450,7 +450,7 @@ function LeftBox() {
                                     //         </div>
                                     //     </div>
                                     // </div>
-                                    <div key={index} className='stock-price-list mb-2' style={{ cursor: 'crosshair', position: 'relative' }}>
+                                    <div key={index} className='stock-price-list mb-2' style={{ position: 'relative' }}>
                                         <div className='d-flex justify-content-between align-items-center'>
                                             <p className='stock-name me-2'>{stock?.ticker}</p>
                                             <div>
