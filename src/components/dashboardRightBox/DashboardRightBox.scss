@@ -237,4 +237,63 @@
             transform: translateX(0);
         }
     }
+
+    @keyframes slideOutRight {
+        from {
+            transform: translateX(0);
+        }
+
+        to {
+            transform: translateX(100%);
+        }
+    }
+
+    .companyCardSTyleCss {
+        .cardContainer {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: start;
+            align-items: center;
+        }
+
+        .sourceCardCss {
+            padding: 16px;
+            background-color: #F1F4FD;
+            width: 100%;
+            border-radius: 12px;
+            cursor: pointer;
+            margin-bottom: 15px;
+        }
+
+        .Dflex-css {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .companyNameCss {
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 18px;
+            color: #6F7387;
+        }
+
+        .smallCircleLogoCss {
+            width: 24px;
+            height: 24px;
+            object-fit: contain;
+        }
+
+        .d-flex {
+            display: flex;
+        }
+
+        .align-items-center {
+            align-items: center;
+        }
+
+        .me-2 {
+            margin-right: 0.5rem;
+        }
+    }
 }
