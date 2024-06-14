@@ -207,7 +207,26 @@
             color: #FFFFFF;
         }
     }
+
+    .close-img{
+        width: 16px;
+        object-fit: contain;
+        margin-left: 8px;
+        cursor: pointer;
+    }
+
+    .hide-in-mobile{
+        @media only screen and (max-width: 500px) {
+            display: none !important;
+        }
+    }
+    .hide-in-desktop{
+        @media only screen and (min-width: 501px) {
+            display: none !important;
+        }
+    }
 }
+
 .news-button-css {
     .very-bullish-btn {
         padding: 4px 8px 4px 8px;

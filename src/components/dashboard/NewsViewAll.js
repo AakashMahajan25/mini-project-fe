@@ -29,8 +29,8 @@ function NewsViewAll({ backBtnClick }) {
     const [sortOrder, setSortOrder] = useState('desc');
     const [isActive, setIsActive] = useState(false);
     const [isSortActive, setIsSortActive] = useState(false);
-    const [selectedDropdown, setIsSelectedDropdown] = useState('Filters');
-    const [selectedSortDropdown, setIsSelectedSortDropdown] = useState('Sort in Descending');
+    const [sentimentLabel, setSentimentLabel] = useState('');
+    const [sortLabel, setSortLabel] = useState('');
 
     const options = [
         { value: '', label: 'All' },
@@ -68,6 +68,8 @@ function NewsViewAll({ backBtnClick }) {
     const handleShow = (data) => {
         setShow(true)
         setSelected(data)
+        setIsActive(false);
+        setIsSortActive(false);
     };
 
     const handleClose = () => {
@@ -96,33 +98,59 @@ function NewsViewAll({ backBtnClick }) {
 
     const handleResetClick = () => {
         setSentiment('');
+        setSentimentLabel('');
         setSortOrder('');
+        setSortLabel('');
         setIsActive(false)
         setIsSortActive(false)
     }
-    
-    const handleSentimentChange = (e) => {
-        setSentiment(e.target.value);
+
+    const handleSentimentChange = (value, label) => {
+        setSentiment(value);
+        setSentimentLabel(label);
     };
 
-    const handleCloseMenu = (option) => {
-        setSentiment(option);
+    const handleSortChange = (value, label) => {
+        setSortOrder(value);
+        setSortLabel(label);
     };
 
-    const handleSortChange = (option) => {
-        setSortOrder(option);
+    const removeFilter = () => {
+        setSentiment('');
+        setSentimentLabel('');
     };
 
+    const removeSortFilter = () => {
+        setSortOrder('');
+        setSortLabel('');
+    };
     return (
         <>
             <div className='news-view-all'>
-            <div className='d-flex justify-content-between align-items-center' style={{ marginBottom: 20,position:'relative' }}>
+                <div className='d-flex justify-content-between align-items-center' style={{ marginBottom: 20,position:'relative' }}>
                     <button onClick={backBtnClick} className='light-blue-btn'>
                         <img src={BackBtnArrow} style={{ width: 7, height: 13, objectFit: 'contain', marginRight: 5, marginTop: -2 }} />
                         Back
                     </button>
                     <div className='d-flex align-items-center justify-content-center'>
                         <button className='light-blue-btn ms-3' onClick={handleResetClick}>Reset</button>
+                        {sortLabel && (
+                            <div className='d-flex align-items-center hide-in-mobile news-button-css ms-3'>
+                                <button className='neutral-btn'>
+                                    {sortLabel}
+                                    <img src={CloseImg} className='close-img' onClick={removeSortFilter} />
+                                </button>
+                            </div>
+                        )}
+                        {sentimentLabel && (
+                            <div className='d-flex align-items-center hide-in-mobile news-button-css ms-3'>
+                                <button className={ sentimentLabel === 'Bullish' ? 'bullish-btn' : sentimentLabel === 'Very Bullish' ? 'very-bullish-btn' : sentimentLabel === 'Very Bearish' ? 'very-bearish-btn' : sentimentLabel === 'Bearish' ? 'bearish-btn' :'neutral-btn'}>{sentimentLabel}
+                                { (sentimentLabel === 'Very Bullish'|| sentimentLabel === 'Bullish') && <img src={BullishImg} className='button-img-size' />}
+                                { (sentimentLabel === 'Very Bearish' || sentimentLabel === 'Bearish') &&<img src={BearishImg} className='button-img-size' />}
+                                <img src={CloseImg} className='close-img' onClick={removeFilter} />
+                                </button>
+                            </div>
+                        )}
                         <button className='light-blue-btn ms-3' onClick={(e) => { setIsActive(false); setIsSortActive(!isSortActive) }}>
                             Sort
                             <img src={SortImg} style={{ width: 16, height: 13, objectFit: 'contain', marginLeft: 5, marginTop: -2 }} />
@@ -133,6 +161,26 @@ function NewsViewAll({ backBtnClick }) {
                         </button>
                     </div>
                 </div>
+                <div className='d-flex align-items-center justify-content-end hide-in-desktop'>
+                    {sortLabel && (
+                        <div className='d-flex align-items-center news-button-css'>
+                            <button className='neutral-btn'>
+                                {sortLabel}
+                                <img src={CloseImg} className='close-img' onClick={removeSortFilter} />
+                            </button>
+                        </div>
+                    )}
+                    {sentimentLabel && (
+                        <div className='d-flex align-items-center news-button-css ms-3'>
+                            <button className={ sentimentLabel === 'Bullish' ? 'bullish-btn' : sentimentLabel === 'Very Bullish' ? 'very-bullish-btn' : sentimentLabel === 'Very Bearish' ? 'very-bearish-btn' : sentimentLabel === 'Bearish' ? 'bearish-btn' : 'neutral-btn'}>
+                                {sentimentLabel}
+                                {(sentimentLabel === 'Very Bullish' || sentimentLabel === 'Bullish') && <img src={BullishImg} className='button-img-size' />}
+                                {(sentimentLabel === 'Very Bearish' || sentimentLabel === 'Bearish') && <img src={BearishImg} className='button-img-size' />}
+                                <img src={CloseImg} className='close-img' onClick={removeFilter} />
+                            </button>
+                        </div>
+                    )}
+                </div>
                 <div className='dashboard-custom-dropdown'>
                     <div className="dropdown">
                         <div className="dropdown-content" style={{ display: isActive ? "block" : "none" }}>
@@ -140,10 +188,9 @@ function NewsViewAll({ backBtnClick }) {
                                 <div
                                     key={index}
                                     className="item"
-                                    onClick={(e) => {
-                                        setIsSelectedDropdown(option.label);
+                                    onClick={() => {
                                         setIsActive(!isActive);
-                                        handleCloseMenu(option.value);
+                                        handleSentimentChange(option.value, option.label);
                                     }}
                                 >
                                     {option.label}
@@ -159,10 +206,9 @@ function NewsViewAll({ backBtnClick }) {
                                 <div
                                     key={index}
                                     className="item"
-                                    onClick={(e) => {
-                                        setIsSelectedSortDropdown(option.label);
+                                    onClick={() => {
                                         setIsSortActive(!isSortActive);
-                                        handleSortChange(option.value);
+                                        handleSortChange(option.value,option.label);
                                     }}
                                 >
                                     {option.label}
