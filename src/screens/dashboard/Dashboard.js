@@ -98,7 +98,7 @@ function Dashboard() {
         const { className, onClick } = props
         return (
             <div className={className} onClick={onClick} style={{ position: 'relative' }}>
-                <img src={RightBtn} style={{ width: 40, position: 'absolute', top: -89, right: -140 }} />
+                <img src={RightBtn} style={{ width: 40, position: 'absolute', top: -85, right: -140 }} />
             </div>
         )
     }
@@ -208,7 +208,7 @@ function Dashboard() {
         dots: false,
         infinite: false,
         speed: 500,
-        slidesToShow: 2,
+        slidesToShow: 2.5,
         swipeToSlide: true,
         // arrows: false,
         autoplay: false,
@@ -386,14 +386,14 @@ function Dashboard() {
                 <Loader />
             }
             <div className='dashboardHome row justify-content-between m-0'>
-                {showLeftBox && (
+                {/* {showLeftBox && (
                     <div className='col-lg-3 column-pad dashboardLeftboxHideClass'>
                         <LeftBox />
                     </div>
-                )}
+                )} */}
                 <>
                     {showAllContent &&
-                        <div className='col-lg-7 column-pad'>
+                        <div className='col-lg-9 column-pad'>
                             <div className='hide-on-large-screens-dashboard'>
                                 <div className='dashboardTextForMobile'>Dashboard</div>
                                 <div onClick={handleViewAllClick} className='dashboardTextForMobile'>Latest News<img src={RightWhiteArrow} width={16} height={16} style={{ objectFit: 'contain', cursor: 'pointer' }} /></div>
@@ -409,7 +409,7 @@ function Dashboard() {
                                                     {storiesData.map((img, i) => {
                                                         return (
                                                             !storyViewed[storyEnum[img?.storyType]] && investorStory[storyEnum2[img?.storyType]]?.length > 0 ?
-                                                                <div className='d-flex flex-column align-items-center' style={{ marginRight: 20 }} onClick={() => handleShow({ storyType: img.storyType })}>
+                                                                <div className='d-flex flex-column align-items-center' style={{ marginRight: 20,cursor:'pointer' }} onClick={() => handleShow({ storyType: img.storyType })}>
                                                                     {/* <img
                                                                     key={'MStories' + i}
                                                                     style={{ width: 60, objectFit: 'contain', cursor: 'pointer'}}
@@ -544,12 +544,12 @@ function Dashboard() {
                         </div>
                     }
                     {showAllContent &&
-                        <div className='col-lg-2 column-pad dashboardRightBoxNewsHide'>
+                        <div className='col-lg-3 column-pad dashboardRightBoxNewsHide'>
                             <DashboardRightBox newsData={cmotsNews?.rows} mostFrruitData={mostOnFrruitGpt?.rows} onViewAllClick={handleViewAllClick} />
                         </div>
                     }
                     {!showAllContent &&
-                        <div className='col-lg-9 column-pad'>
+                        <div className='col-lg-12 column-pad'>
                             <NewsViewAll backBtnClick={toggleShowAllContent} newsData={cmotsNews?.rows} />
                         </div>
                     }
