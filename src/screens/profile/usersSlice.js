@@ -136,6 +136,36 @@ export const getFaqs = createAsyncThunk("users/getFaqs", async () => {
     }
 });
 
+export const initiateOrder = createAsyncThunk("users/initiateOrder", async (payload) => {
+    try {
+        let data = {
+            method: METHOD_TYPE.post,
+            url: API_ENDPOINTS.initiateOrder,
+            data : payload
+        };
+        const response = await api(data);
+        return response.data.data;
+
+    } catch (error) {
+        throw error.response.data;
+    }
+});
+
+export const placeOrder = createAsyncThunk("users/placeOrder", async (payload) => {
+    try {
+        let data = {
+            method: METHOD_TYPE.post,
+            url: API_ENDPOINTS.placeOrder,
+            data : payload
+        };
+        const response = await api(data);
+        return response.data.data;
+
+    } catch (error) {
+        throw error.response.data;
+    }
+});
+
 
 const userSlice = createSlice({
     name: "users",
@@ -187,7 +217,13 @@ const userSlice = createSlice({
                     action.type === getAllActivePlans.rejected.type ||
                     action.type === getFaqs.rejected.type ||
                     action.type === getFaqs.pending.type ||
-                    action.type === getFaqs.fulfilled.type,
+                    action.type === getFaqs.fulfilled.type ||
+                    action.type === initiateOrder.rejected.type ||
+                    action.type === initiateOrder.pending.type ||
+                    action.type === initiateOrder.fulfilled.type ||
+                    action.type === placeOrder.rejected.type ||
+                    action.type === placeOrder.pending.type ||
+                    action.type === placeOrder.fulfilled.type,
                 handleLoading
             )
     }
