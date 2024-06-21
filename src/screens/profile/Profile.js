@@ -160,7 +160,7 @@ function Profile() {
                 currency: 'INR',
                 key: 'rzp_test_Ym5H3K5NhaCF0y',
                 amount: data?.order_amount,
-                name: "Amit",
+                name: userDetails?.first_name + " " + userDetails?.last_name,
                 order_id: data?.razorpay_order_id,
                 handler: async function (response) {
                     let placeOrderPayload = {
@@ -240,7 +240,7 @@ function Profile() {
                                                     {
                                                         userPlan && <>
                                                             <div className='text-3' style={{ fontSize: 24 }}>{userPlan?.plan_name}</div>
-                                                            <div className='text-4'>{userPlan?.subsciption_type === "free" ? `${userPlan.credits_offered} Credits` : `$${userPlan?.price} /month`}</div>
+                                                            <div className='text-4'>{userPlan?.subsciption_type === "free" ? `${userPlan.credits_offered} Credits` : `INR ${userPlan?.price} /month`}</div>
                                                         </>
                                                     }
                                                 </div>
