@@ -159,7 +159,7 @@ function Profile() {
                 description: 'Credits towards credit purchase',
                 currency: 'INR',
                 key: 'rzp_test_Ym5H3K5NhaCF0y',
-                amount: data?.order_amount,
+                amount: data?.order_amount * 100,
                 name: userDetails?.first_name + " " + userDetails?.last_name,
                 order_id: data?.razorpay_order_id,
                 handler: async function (response) {
