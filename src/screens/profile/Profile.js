@@ -16,7 +16,7 @@ import Loader from '../../components/loader/Loader';
 import * as yup from 'yup';
 import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from "@hookform/resolvers/yup";
-import { getAvaliableCredit, getFaqs, getUserDetails, getUserPlan, updateProfile } from './usersSlice';
+import { getAvaliableCredit, getFaqs, getUserDetails, getUserPlan, initiateOrder, placeOrder, updateProfile } from './usersSlice';
 import Plans from '../../components/profile/Plans';
 import Preferences from '../../components/profile/Preferences';
 import { getStockIndexes } from '../dashboard/slice';
@@ -130,6 +130,64 @@ function Profile() {
             })
     }
 
+    function loadScript(src) {
+        return new Promise((resolve) => {
+            const script = document.createElement("script");
+            script.src = src;
+            script.onload = () => {
+                resolve(true);
+            };
+            script.onerror = () => {
+                resolve(false);
+            };
+            document.body.appendChild(script);
+        });
+    }
+
+    const upgradePlan = async (payload) => {
+        const res = await loadScript(
+            "https://checkout.razorpay.com/v1/checkout.js"
+        );
+
+        if (!res) {
+            alert("Razorpay SDK failed to load. Are you online?");
+            return;
+        }
+
+        dispatch(initiateOrder(payload)).unwrap().then(async (data) => {
+            const options = {
+                description: 'Credits towards credit purchase',
+                currency: 'INR',
+                key: 'rzp_test_Ym5H3K5NhaCF0y',
+                amount: data?.order_amount,
+                name: userDetails?.first_name + " " + userDetails?.last_name,
+                order_id: data?.razorpay_order_id,
+                handler: async function (response) {
+                    let placeOrderPayload = {
+                        "order_id" : data?.order_id,
+                        "plan_id":payload.plan_id,                       
+                        "payment_status":"paid",
+                        razorpay_payment_id: response.razorpay_payment_id,
+                        razorpay_order_id: response.razorpay_order_id,
+                        razorpay_signature: response.razorpay_signature,
+                    }
+                    dispatch(placeOrder(placeOrderPayload)).unwrap().then(async (data) => {                        
+                        toast.success(data.message || 'Order Successfully Placed');
+                        window.location.reload();
+                    }).catch((error) => {
+                        toast.error(error.message || "Error in completing payment")
+                    });
+                },
+                theme: { color: '#F37254' }
+            };
+
+            const paymentObject = new window.Razorpay(options);
+            paymentObject.open();
+        }).catch((error) => {
+            toast.error(error.message || "Error in initiating order")
+        });
+    };
+
     const rightPartHeight = window.innerWidth > 768 ? window.innerHeight - 68 : window.innerHeight - 122;
 
     return (
@@ -182,7 +240,7 @@ function Profile() {
                                                     {
                                                         userPlan && <>
                                                             <div className='text-3' style={{ fontSize: 24 }}>{userPlan?.plan_name}</div>
-                                                            <div className='text-4'>{userPlan?.subsciption_type === "free" ? `${userPlan.credits_offered} Credits` : `$${userPlan?.price} /month`}</div>
+                                                            <div className='text-4'>{userPlan?.subsciption_type === "free" ? `${userPlan.credits_offered} Credits` : `INR ${userPlan?.price} /month`}</div>
                                                         </>
                                                     }
                                                 </div>
@@ -311,7 +369,7 @@ function Profile() {
                     }
                     {showCode &&
                         <div className='right-part' style={{ height: rightPartHeight, overflowY: 'scroll' }}>
-                            <Plans handleBackButtonClick={handleBackButtonClick} />
+                            <Plans handleBackButtonClick={handleBackButtonClick} upgradePlan={upgradePlan}/>
                         </div>
                     }
                     {showPreferences && (

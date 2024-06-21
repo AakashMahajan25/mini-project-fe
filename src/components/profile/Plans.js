@@ -146,12 +146,13 @@ function Plans(props) {
                                         showStarIcon={(plan?.price === 0) ? false : true}
                                         forText={(plan?.price === 0) ? '' : 'For'}
                                         title={plan?.plan_name}
-                                        pricingText={`$${plan?.price}/month`}
+                                        pricingText={`INR ${plan?.price}/month`}
+                                        upgradePlan={()=> props?.upgradePlan({plan_id : plan.plan_id, order_amount : plan.price})}
                                         // pricingText={(currencySymbol === '₹' && plan?.price > 0) ? `₹${plan?.price}/month` : (currencySymbol === '$' && plan?.price > 0) ? `$${plan?.price}/month` : ''}
                                         creditsText={`${plan?.credits_offered} ${(plan?.validity === 30 || plan?.validity === 31 || plan?.price === 0) ? 'credits per month' : 'credits per ' + plan?.validity + ' days'}`}
                                         benefitsText="Get access to real-time market data through generative AI on"
                                         features={(plan?.highlights).split(" | ")}
-                                        buttonText="" //"Upgrade"
+                                        buttonText="Upgrade" //"Upgrade"
                                     />
                                 </div>
                             ))}
