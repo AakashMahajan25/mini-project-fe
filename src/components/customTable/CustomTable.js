@@ -8,7 +8,7 @@ function CustomTable({ data, headers, showActions, actionsHeaderText, onViewClic
         <>
             <div className='custom-table-css'>
                 <div style={{ overflowX: 'auto', padding: '0 0', width: window.innerWidth < 900 ? window.innerWidth - 30 : '' }}>
-                    <table style={{ width:'max-content', borderCollapse: 'separate', borderSpacing: '0 25px' }} className='custom-table' cellSpacing="6" cellPadding="10">
+                    <table style={{ borderCollapse: 'separate', borderSpacing: '0 25px' }} className='custom-table' cellSpacing="6" cellPadding="10">
                         <thead>
                             <tr className='table-head'>
                                 {headers.map((header, index) => (
