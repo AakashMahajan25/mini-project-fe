@@ -23,6 +23,7 @@ import { getStockIndexes } from '../dashboard/slice';
 import HelpFAQ from '../../components/profile/helpFAQ/HelpFAQ';
 import { toast } from 'react-toastify';
 import ReactGA from 'react-ga4';
+import PaymentHistory from '../../components/profile/paymentHistory/PaymentHistory';
 
 function Profile() {
     const navigate = useNavigate();
@@ -32,11 +33,13 @@ function Profile() {
     };
     const [showPreferences, setShowPreferences] = useState(false);
     const [showProfile, setShowProfile] = useState(false);
+    const [showPaymentHistory, setPaymentHistory] = useState(false);
     const [showHelpFAQ, setShowHelpFAQ] = useState(false);
     const [showCode, setShowCode] = useState(false);
     const [isShowCodeActiveColor, setShowCodeActiveColor] = useState(true);
     const [isHelpActive, setIsHelpActive] = useState(false);
     const [isPreferencesActiveColor, setPreferencesActiveColor] = useState(false);
+    const [isPaymentHistoryActive, setPaymentHistoryActiveColor] = useState(false);
 
     const handleProfileClick = () => {
         setShowProfile(true);
@@ -45,6 +48,19 @@ function Profile() {
         setIsHelpActive(false);
         setShowCodeActiveColor(true);
         setPreferencesActiveColor(false);
+        setPaymentHistoryActiveColor(false);
+        setPaymentHistory(false);
+    };
+
+    const handlePaymentHistoryClick = () => {
+        setShowProfile(false);
+        setShowPreferences(false);
+        setShowHelpFAQ(false);
+        setIsHelpActive(false);
+        setShowCodeActiveColor(false);
+        setPreferencesActiveColor(false);
+        setPaymentHistoryActiveColor(true);
+        setPaymentHistory(true);
     };
 
     const handlePreferencesClick = () => {
@@ -54,6 +70,8 @@ function Profile() {
         setIsHelpActive(false);
         setShowCodeActiveColor(false);
         setPreferencesActiveColor(true);
+        setPaymentHistoryActiveColor(false);
+        setPaymentHistory(false);
     };
     const handleHelpClick = () => {
         ReactGA.event({
@@ -69,6 +87,8 @@ function Profile() {
         setIsHelpActive(true);
         setShowCodeActiveColor(false);
         setPreferencesActiveColor(false);
+        setPaymentHistoryActiveColor(false);
+        setPaymentHistory(false);
     };
 
     const updateProfileSchema = yup.object().shape({
@@ -87,21 +107,21 @@ function Profile() {
     const { userCredits, isLoading, userDetails, userPlan, faqs } = useSelector(state => state.userSlice)
 
     useEffect(() => {
-        dispatch(getAvaliableCredit()).unwrap().then(()=>{
+        dispatch(getAvaliableCredit()).unwrap().then(() => {
             ReactGA.event({
                 category: 'Profiling',
                 action: 'user_avaliablecredit',
                 label: 'User Avaliable Credit'
-              });
+            });
         }).catch(err => {
 
         });
-        dispatch(getUserDetails()).then(()=>{
+        dispatch(getUserDetails()).then(() => {
             ReactGA.event({
                 category: 'Profiling',
                 action: 'user_profile',
                 label: 'User Profile'
-              });
+            });
         }).catch(err => {
 
         });
@@ -164,14 +184,14 @@ function Profile() {
                 order_id: data?.razorpay_order_id,
                 handler: async function (response) {
                     let placeOrderPayload = {
-                        "order_id" : data?.order_id,
-                        "plan_id":payload.plan_id,                       
-                        "payment_status":"paid",
+                        "order_id": data?.order_id,
+                        "plan_id": payload.plan_id,
+                        "payment_status": "paid",
                         razorpay_payment_id: response.razorpay_payment_id,
                         razorpay_order_id: response.razorpay_order_id,
                         razorpay_signature: response.razorpay_signature,
                     }
-                    dispatch(placeOrder(placeOrderPayload)).unwrap().then(async (data) => {                        
+                    dispatch(placeOrder(placeOrderPayload)).unwrap().then(async (data) => {
                         toast.success(data.message || 'Order Successfully Placed');
                         window.location.reload();
                     }).catch((error) => {
@@ -198,13 +218,15 @@ function Profile() {
                         handlePreferencesClick={handlePreferencesClick}
                         handleProfileClick={handleProfileClick}
                         handleHelpClick={handleHelpClick}
+                        handlePaymentHistoryClick={handlePaymentHistoryClick}
+                        isPaymentHistoryActive={isPaymentHistoryActive}
                         isPreferencesActive={isPreferencesActiveColor}
                         isshowCodeActive={isShowCodeActiveColor}
                         isHelpActive={isHelpActive}
                     />
                 </div>
                 <div className='col-lg-9 col-md-9 col-sm-9 column-pad'>
-                    {!showCode && !showPreferences && !showHelpFAQ &&
+                    {!showCode && !showPreferences && !showHelpFAQ && !showPaymentHistory &&
                         <div className='right-part' style={{ height: rightPartHeight, overflowY: 'scroll' }}>
                             <div className='welcome-text'>Welcome</div>
                             <div style={{ marginBottom: 20 }} className='user-text'>{userDetails?.first_name + " " + userDetails?.last_name}!</div>
@@ -225,7 +247,13 @@ function Profile() {
                                                     <div className='text-4 mt-1'>/{userCredits ? parseFloat(userCredits?.totalCredits).toFixed(2) : '00'}</div>
                                                 </div>
                                             </div>
-                                            <div className='text-2'>1 Credit = 1000 Tokens</div>
+                                            <div className='transactionHistoryRow'>
+                                                <div className='text-2'>1 Credit = 1000 Tokens</div>
+                                                <div className='innerTransactionHistoryRow' onClick={handlePaymentHistoryClick}>
+                                                    <div className='text-2'>Transaction History</div>
+                                                    <img src={WhiteArrow} className='whiteArrowstyle' />
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -369,7 +397,7 @@ function Profile() {
                     }
                     {showCode &&
                         <div className='right-part' style={{ height: rightPartHeight, overflowY: 'scroll' }}>
-                            <Plans handleBackButtonClick={handleBackButtonClick} upgradePlan={upgradePlan}/>
+                            <Plans handleBackButtonClick={handleBackButtonClick} upgradePlan={upgradePlan} />
                         </div>
                     }
                     {showPreferences && (
@@ -381,6 +409,12 @@ function Profile() {
                     {showHelpFAQ && !showPreferences && faqs && (
                         <div className='right-part' style={{ height: rightPartHeight, overflowY: 'scroll' }}>
                             <HelpFAQ faqs={faqs} />
+                        </div>
+                    )}
+                    {showPaymentHistory && (
+                        // Show the Preferences component
+                        <div className='right-part' style={{ height: rightPartHeight, overflowY: 'scroll' }}>
+                            <PaymentHistory />
                         </div>
                     )}
                 </div>
