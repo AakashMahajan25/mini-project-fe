@@ -53,3 +53,7 @@ export const formatPrice = (price, country) => {
       return price; // No specific formatting for other countries
     }
   }
+
+  export function getCurrentTimeWithAMPM(time) {
+    return moment(time).format('hh:mm A');
+}

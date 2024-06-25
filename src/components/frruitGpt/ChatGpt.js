@@ -15,7 +15,7 @@ import TrendingStocksCard from '../trendingStocks/TrendingStocksCard'
 import DiscoverCorrelationGraph from '../graph/DiscoverCorrelationGraph'
 import BarChart from '../barChart/BarChart'
 import { useSelector } from 'react-redux'
-import { formatTimeAgo, replaceNewlinesWithBr, trimText } from '../../utils/utils'
+import { formatTimeAgo, getCurrentTimeWithAMPM, replaceNewlinesWithBr, trimText } from '../../utils/utils'
 import { useLoading, Audio, SpinningCircles, Circles, ThreeDots } from '@agney/react-loading';
 import { useLocation } from 'react-router'
 import UploadDocImg from '../../assets/images/doc-img.png'
@@ -419,6 +419,7 @@ function ChatGpt(props) {
                                 </div>
                                 <div className='chat-text-container'>
                                     <h3 className='chat-text'>{chat?.text}</h3>
+                                    <h3 className='chat-text' style={{color:"#a4a5a7",fontWeight:'400'}}>{getCurrentTimeWithAMPM(chat?.createdAt)}</h3>
                                 </div>
                             </div>
                             :
@@ -430,6 +431,7 @@ function ChatGpt(props) {
                                         <div className='d-flex align-items-center my-2 floatLeft'>
                                             <img src={ArrowGrey} className='arrow' />
                                             <p className='you-text'>Frruit GPT</p>
+                                            <h3 className='you-text' style={{ color: "#a4a5a7", fontWeight: '400', marginBottom: 0, marginLeft: 5 }}>{getCurrentTimeWithAMPM(chat?.createdAt)}</h3>
                                         </div>
                                     </>
                                 }
@@ -443,6 +445,16 @@ function ChatGpt(props) {
                                         </>
                                         : renderGraph(chat?.text)
                                 }
+                                {/* {
+                                    (chat.link && chat.link.length > 0) &&
+                                    (
+                                        chat.link.map((item, index) => (
+                                            <>
+                                            <a key={index} href={item}>{item}</a><br/>
+                                            </>
+                                        ))
+                                    )
+                                } */}
                                 {/* {
                                     <div key={index} className='newsBox' style={{ marginBottom: 20, cursor: 'pointer',border:'1px solid #4563E4',width:'fit-content',padding:"10px 16px",borderRadius:16,backgroundColor:'#F1F4FD' }}>
                                         <div className='d-flex justify-content-start'>

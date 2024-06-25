@@ -12,7 +12,7 @@ import MailIcon from '../../assets/images/mail-icon.png';
 import * as yup from 'yup';
 import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { signupOtp, signupUser, verifyOtp } from './slice';
 import { toast } from 'react-toastify';
 import ReactGA from 'react-ga4';
@@ -24,6 +24,7 @@ function Signup() {
     const [showCode1, setShowCode1] = useState(false)
     const [otp, setOtp] = useState('');
     const [emailOtp, setEmailOtp] = useState('')
+    const { isLoading } = useSelector(state => state?.signupSlice)
 
     const signupSchema = yup.object().shape({
         first_name: yup.string().required("Please enter first name."),
@@ -53,7 +54,7 @@ function Signup() {
     }
 
     const onSubmit = (data) => {
-        dispatch(signupOtp({ email: data.email, mobile: "+91" + data?.phone_number }))
+        dispatch(signupOtp({ type: 'mobile', email: data.email, mobile: "+91" + data?.phone_number }))
             .unwrap()
             .then((res) => {
                 setShowCode(true)
@@ -64,7 +65,7 @@ function Signup() {
             })
     }
 
-    const verifyMobileOtp = () => {
+    const verifyMobileOtp =  () => {
         const regex = /^[0-9]{0,6}$/; // Regular expression to match 6 digits
         if (!regex.test(otp) || otp?.length < 6) {
             toast.error("Please enter valid otp");
@@ -79,7 +80,9 @@ function Signup() {
         }
         dispatch(verifyOtp(data))
             .unwrap()
-            .then((res) => {
+            .then(async (res) => {
+                toast.success(res.message)
+                await dispatch(signupOtp({ type: 'email', email: allValues?.email, mobile: "+91" + allValues?.phone_number }))
                 setShowCode1(true)
             })
             .catch((error) => {
@@ -123,7 +126,7 @@ function Signup() {
                     })
             })
             .catch((error) => {
-                toast.error(error.message)
+                toast.error(error.data)
             })
     }
 
@@ -331,7 +334,15 @@ function Signup() {
                                     </div>
                                     <p className='privacyText mt-0' style={{ fontSize: 15 }}>Didn't get the code? <a style={{ fontSize: 15, textDecoration: 'underline', color: 'blue' }} >Resend</a></p>
                                     <div className='d-flex justify-content-center align-items-center'>
-                                        <button type='button' onClick={verifyMobileOtp} className='btnPrimary mt-5'>Verify</button>
+                                        <button type='button' onClick={verifyMobileOtp} className='btnPrimary mt-5'>
+                                            {isLoading ? (
+                                                <div className="spinner-border text-light" role="status">
+                                                    <span className="sr-only"></span>
+                                                </div>
+                                            ) : (
+                                                "Verify"
+                                            )}
+                                        </button>
                                     </div>
                                 </>
                             }
@@ -366,7 +377,15 @@ function Signup() {
                                     </div>
                                     <p className='privacyText mt-0' style={{ fontSize: 15 }}>Didn't get the code? <a style={{ fontSize: 15, textDecoration: 'underline', color: 'blue' }}>Resend</a></p>
                                     <div className='d-flex justify-content-center align-items-center'>
-                                        <button type='button' className='btnPrimary mt-5' onClick={verifyEmailId}>Verify and Signup</button>
+                                        <button type='button' className='btnPrimary mt-5' onClick={verifyEmailId}>
+                                            {isLoading ? (
+                                                <div className="spinner-border text-light" role="status">
+                                                    <span className="sr-only"></span>
+                                                </div>
+                                            ) : (
+                                                "Verify and Signup"
+                                            )}
+                                        </button>
                                     </div>
                                 </>
                             }
@@ -374,7 +393,15 @@ function Signup() {
                             {!showCode && !showCode1 &&
                                 <>
                                     <div className='d-flex justify-content-center align-items-center'>
-                                        <button type='submit' className='btnPrimary mt-4'>Proceed and Verify</button>
+                                        <button type='submit' className='btnPrimary mt-4'>
+                                            {isLoading ? (
+                                                <div className="spinner-border text-light" role="status">
+                                                    <span className="sr-only"></span>
+                                                </div>
+                                            ) : (
+                                                "Proceed and Verify"
+                                            )}
+                                        </button>
                                     </div>
                                     <div className='d-flex justify-content-center align-items-center'>
                                         <button onClick={routeChangeLogin} className='btnSecondary mt-3'>Login Using Phone Number</button>
