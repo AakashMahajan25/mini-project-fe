@@ -16,7 +16,7 @@ import Loader from '../../components/loader/Loader';
 import * as yup from 'yup';
 import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from "@hookform/resolvers/yup";
-import { getAvaliableCredit, getFaqs, getUserDetails, getUserPlan, initiateOrder, placeOrder, updateProfile } from './usersSlice';
+import { getAvaliableCredit, getFaqs, getUserDetails, getUserOrderHistory, getUserPlan, initiateOrder, placeOrder, updateProfile } from './usersSlice';
 import Plans from '../../components/profile/Plans';
 import Preferences from '../../components/profile/Preferences';
 import { getStockIndexes } from '../dashboard/slice';
@@ -104,7 +104,7 @@ function Profile() {
     })
 
 
-    const { userCredits, isLoading, userDetails, userPlan, faqs } = useSelector(state => state.userSlice)
+    const { userCredits, isLoading, userDetails, userPlan, faqs, orderHistory } = useSelector(state => state.userSlice)
 
     useEffect(() => {
         dispatch(getAvaliableCredit()).unwrap().then(() => {
@@ -126,6 +126,7 @@ function Profile() {
 
         });
         dispatch(getUserPlan());
+        dispatch(getUserOrderHistory('?page=1'))
         // dispatch(getStockIndexes())
     }, [])
 
@@ -249,10 +250,10 @@ function Profile() {
                                             </div>
                                             <div className='transactionHistoryRow'>
                                                 <div className='text-2'>1 Credit = 1000 Tokens</div>
-                                                <div className='innerTransactionHistoryRow' onClick={handlePaymentHistoryClick}>
+                                                {/* <div className='innerTransactionHistoryRow' onClick={handlePaymentHistoryClick}>
                                                     <div className='text-2'>Transaction History</div>
                                                     <img src={WhiteArrow} className='whiteArrowstyle' />
-                                                </div>
+                                                </div> */}
                                             </div>
                                         </div>
                                     </div>

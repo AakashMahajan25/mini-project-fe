@@ -64,5 +64,6 @@ export const API_ENDPOINTS = {
     deductEventCredits: 'users/deductEventCredits',
     triggerLinkGraph: 'contentPrompt/triggerLinkGraph',
     triggerAttachmentGraph: 'contentPrompt/triggerAttachmentGraph',
-    fetchAllNews: 'news/fetchAllNews'
+    fetchAllNews: 'news/fetchAllNews',
+    getOrderHistory: 'order/getUserOrders',
 }
