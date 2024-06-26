@@ -94,7 +94,7 @@ function Plans(props) {
                 <div className='d-flex justify-content-start align-items-center' style={{ marginBottom: 20 }}>
                     <button onClick={props.handleBackButtonClick} className='light-blue-btn me-2'><img src={BackBtnArrow} style={{ width: 7, height: 13, objectFit: 'contain', marginRight: 5, marginTop: -2 }} />Back</button>
                 </div>
-                <div className='Upgrade-text'>Upgrade !</div>
+                <div className='Upgrade-text'>Buy Plans !</div>
                 <div className='pera'>Lorem Ipsum is simply dummy text of the printing and typesetting industry</div>
                 <div>
                     <div className='row'>
@@ -152,7 +152,7 @@ function Plans(props) {
                                         creditsText={`${plan?.credits_offered} ${(plan?.validity === 30 || plan?.validity === 31 || plan?.price === 0) ? 'credits per month' : 'credits per ' + plan?.validity + ' days'}`}
                                         benefitsText="Get access to real-time market data through generative AI on"
                                         features={(plan?.highlights).split(" | ")}
-                                        buttonText="Upgrade" //"Upgrade"
+                                        buttonText="Buy Now" //"Upgrade"
                                     />
                                 </div>
                             ))}

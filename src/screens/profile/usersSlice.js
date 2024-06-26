@@ -11,6 +11,7 @@ const initialState = {
     userTopics: null,
     userCredits: null,
     faqs : null,
+    orderHistory: null,
     isLoading: false,
     error: null,
 };
@@ -166,6 +167,21 @@ export const placeOrder = createAsyncThunk("users/placeOrder", async (payload) =
     }
 });
 
+export const getUserOrderHistory = createAsyncThunk("users/getUserOrderHistory", async (params) => {
+    try {
+        let data = {
+            method: METHOD_TYPE.get,
+            url: API_ENDPOINTS.getOrderHistory+params,
+        };
+        const response = await api(data);
+        return response.data.data;
+
+    } catch (error) {
+        console.log('error::::', error.response)
+        throw error.response;
+    }
+});
+
 
 const userSlice = createSlice({
     name: "users",
@@ -196,6 +212,9 @@ const userSlice = createSlice({
             .addCase(getFaqs.fulfilled, (state, action) => {
                 state.faqs = action.payload;
             })
+            .addCase(getUserOrderHistory.fulfilled, (state, action) => {
+                state.orderHistory = action.payload;
+            })
             .addMatcher(
                 (action) =>
                     action.type === getUserDetails.pending.type ||
@@ -223,7 +242,10 @@ const userSlice = createSlice({
                     action.type === initiateOrder.fulfilled.type ||
                     action.type === placeOrder.rejected.type ||
                     action.type === placeOrder.pending.type ||
-                    action.type === placeOrder.fulfilled.type,
+                    action.type === placeOrder.fulfilled.type ||
+                    action.type === getUserOrderHistory.rejected.type ||
+                    action.type === getUserOrderHistory.pending.type ||
+                    action.type === getUserOrderHistory.fulfilled.type,
                 handleLoading
             )
     }

@@ -25,9 +25,9 @@ function CustomTable({ data, headers, showActions, actionsHeaderText, onViewClic
                                     <tr key={rowIndex} className='table-body-tr' style={{ position: 'relative' }}>
                                         {Object.entries(rowData).map(([key, value], colIndex) => {
                                             const classNames = {
-                                                'Successful': 'table-green-class',
-                                                'Pending': 'table-yellow-class',
-                                                'Failed': 'table-red-class',
+                                                'paid': 'table-green-class',
+                                                'pending': 'table-yellow-class',
+                                                'failed': 'table-red-class',
                                             };
                                             let className = '';
                                             if (headers[colIndex] === 'Status') {
@@ -59,13 +59,6 @@ function CustomTable({ data, headers, showActions, actionsHeaderText, onViewClic
                             ))}
                         </tbody>
                     </table>
-                </div>
-                <div className='paginationStyle'>
-                    <div className='pageNostyle'>Page 1 of 10</div>
-                    <div className='paginationBtnStyle'>
-                        <div className='disableBtnStyle' style={{marginRight:16}}>Previous</div>
-                        <div className='activeBtnStyle'>Next</div>
-                    </div>
                 </div>
             </div >
         </>
