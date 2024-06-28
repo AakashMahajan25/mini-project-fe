@@ -36,6 +36,7 @@ function ChatGpt(props) {
     const [show, setShow] = useState(false);
     const [show2, setShow2] = useState(false);
     const [modalGraphData, setModalGraphData] = useState('');
+    const [sourceData, setSourceData] = useState([]);
     const path = location.pathname === '/market-content-gpt'
     const handleShow2 = () => {
         setShow2(true);
@@ -365,6 +366,7 @@ function ChatGpt(props) {
         setModalGraphData(data)
         setShow(true);
     }
+
     return (
         <>
             <div className='ChatGpt' style={{
@@ -445,16 +447,34 @@ function ChatGpt(props) {
                                         </>
                                         : renderGraph(chat?.text)
                                 }
-                                {/* {
+                                {
                                     (chat.link && chat.link.length > 0) &&
-                                    (
-                                        chat.link.map((item, index) => (
-                                            <>
-                                            <a key={index} href={item}>{item}</a><br/>
-                                            </>
-                                        ))
-                                    )
-                                } */}
+                                    <>
+                                        <div className='companyCardSTyleCss'>
+                                            <div className='cardContainer'>
+                                                {chat.link.slice(0, 3).map((link, index) => (
+                                                    <a href={link} target='_blank' key={index} className='sourceCardCss'>
+                                                        <div className='Dflex-css'>
+                                                            <div className='d-flex align-items-center'>
+                                                                <img src={link?.logoSrc} className='smallCircleLogoCss me-2' alt='Company Logo' />
+                                                                <div className='companyNameCss'>{link?.companyName}</div>
+                                                            </div>
+                                                            <img src={TopRIghtArrow} className='smallCircleLogoCss' alt='Arrow Icon' />
+                                                        </div>
+                                                    </a>
+                                                ))}
+                                                <div className='sourceCardCss' style={{ width: 'max-content' }} onClick={() => { handleShow2(); setSourceData(chat.link) }}>
+                                                    <div className='Dflex-css'>
+                                                        <div className='d-flex align-items-center'>
+                                                            <div className='companyNameCss me-2'>View All</div>
+                                                        </div>
+                                                        <img src={TopRIghtArrow} className='smallCircleLogoCss' />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </>
+                                }
                                 {/* {
                                     <div key={index} className='newsBox' style={{ marginBottom: 20, cursor: 'pointer',border:'1px solid #4563E4',width:'fit-content',padding:"10px 16px",borderRadius:16,backgroundColor:'#F1F4FD' }}>
                                         <div className='d-flex justify-content-start'>
@@ -744,9 +764,9 @@ function ChatGpt(props) {
                     <div className='title-text mb-3'>Sources</div>
                     <div className='companyCardSTyleCss'>
                         <div className='cardContainer'>
-                            {cardsData.map((card, index) => (
+                            {sourceData?.map((card, index) => (
                                 <>
-                                    <div key={index} className='sourceCardCss'>
+                                    <div key={index}  className='sourceCardCss'>
                                         <div className='Dflex-css'>
                                             <div className='d-flex align-items-center'>
                                                 <img src={card.logoSrc} className='smallCircleLogoCss me-2' alt='Company Logo' />
