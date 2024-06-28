@@ -15,7 +15,7 @@ import TrendingStocksCard from '../trendingStocks/TrendingStocksCard'
 import DiscoverCorrelationGraph from '../graph/DiscoverCorrelationGraph'
 import BarChart from '../barChart/BarChart'
 import { useSelector } from 'react-redux'
-import { formatTimeAgo, replaceNewlinesWithBr, trimText } from '../../utils/utils'
+import { formatTimeAgo, getCurrentTimeWithAMPM, replaceNewlinesWithBr, trimText } from '../../utils/utils'
 import { useLoading, Audio, SpinningCircles, Circles, ThreeDots } from '@agney/react-loading';
 import { useLocation } from 'react-router'
 import UploadDocImg from '../../assets/images/doc-img.png'
@@ -36,6 +36,7 @@ function ChatGpt(props) {
     const [show, setShow] = useState(false);
     const [show2, setShow2] = useState(false);
     const [modalGraphData, setModalGraphData] = useState('');
+    const [sourceData, setSourceData] = useState([]);
     const path = location.pathname === '/market-content-gpt'
     const handleShow2 = () => {
         setShow2(true);
@@ -365,6 +366,7 @@ function ChatGpt(props) {
         setModalGraphData(data)
         setShow(true);
     }
+
     return (
         <>
             <div className='ChatGpt' style={{
@@ -419,6 +421,7 @@ function ChatGpt(props) {
                                 </div>
                                 <div className='chat-text-container'>
                                     <h3 className='chat-text'>{chat?.text}</h3>
+                                    <h3 className='chat-text' style={{color:"#a4a5a7",fontWeight:'400'}}>{getCurrentTimeWithAMPM(chat?.createdAt)}</h3>
                                 </div>
                             </div>
                             :
@@ -430,6 +433,7 @@ function ChatGpt(props) {
                                         <div className='d-flex align-items-center my-2 floatLeft'>
                                             <img src={ArrowGrey} className='arrow' />
                                             <p className='you-text'>Frruit GPT</p>
+                                            <h3 className='you-text' style={{ color: "#a4a5a7", fontWeight: '400', marginBottom: 0, marginLeft: 5 }}>{getCurrentTimeWithAMPM(chat?.createdAt)}</h3>
                                         </div>
                                     </>
                                 }
@@ -442,6 +446,34 @@ function ChatGpt(props) {
                                             </div>
                                         </>
                                         : renderGraph(chat?.text)
+                                }
+                                {
+                                    (chat.link && chat.link.length > 0) &&
+                                    <>
+                                        <div className='companyCardSTyleCss'>
+                                            <div className='cardContainer'>
+                                                {chat.link.slice(0, 3).map((link, index) => (
+                                                    <a href={link} target='_blank' key={index} className='sourceCardCss'>
+                                                        <div className='Dflex-css'>
+                                                            <div className='d-flex align-items-center'>
+                                                                <img src={link?.logoSrc} className='smallCircleLogoCss me-2' alt='Company Logo' />
+                                                                <div className='companyNameCss'>{link?.companyName}</div>
+                                                            </div>
+                                                            <img src={TopRIghtArrow} className='smallCircleLogoCss' alt='Arrow Icon' />
+                                                        </div>
+                                                    </a>
+                                                ))}
+                                                <div className='sourceCardCss' style={{ width: 'max-content' }} onClick={() => { handleShow2(); setSourceData(chat.link) }}>
+                                                    <div className='Dflex-css'>
+                                                        <div className='d-flex align-items-center'>
+                                                            <div className='companyNameCss me-2'>View All</div>
+                                                        </div>
+                                                        <img src={TopRIghtArrow} className='smallCircleLogoCss' />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </>
                                 }
                                 {/* {
                                     <div key={index} className='newsBox' style={{ marginBottom: 20, cursor: 'pointer',border:'1px solid #4563E4',width:'fit-content',padding:"10px 16px",borderRadius:16,backgroundColor:'#F1F4FD' }}>
@@ -732,9 +764,9 @@ function ChatGpt(props) {
                     <div className='title-text mb-3'>Sources</div>
                     <div className='companyCardSTyleCss'>
                         <div className='cardContainer'>
-                            {cardsData.map((card, index) => (
+                            {sourceData?.map((card, index) => (
                                 <>
-                                    <div key={index} className='sourceCardCss'>
+                                    <div key={index}  className='sourceCardCss'>
                                         <div className='Dflex-css'>
                                             <div className='d-flex align-items-center'>
                                                 <img src={card.logoSrc} className='smallCircleLogoCss me-2' alt='Company Logo' />

@@ -56,7 +56,7 @@ export const signupUser = createAsyncThunk("signUp/signupUser", async (requestDa
     } catch (error) {
         console.log('error::::', error.response)
 
-        throw error.response.data.message;
+        throw error.response.data;
     }
 });
 

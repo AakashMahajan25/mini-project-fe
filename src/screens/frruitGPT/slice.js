@@ -214,10 +214,32 @@ const fruitGPTSlice = createSlice({
                 state.promptList = action.payload;
             })
             .addCase(getPromptHistory.fulfilled, (state, action) => {
-                const history = action.payload.rows.map(row => row.type === 'graph' ? ({...row, text: JSON.parse(row.text)}) : row)
-                state.chatHistory = history;
-                state.cancelTokens = null
+                const history = action.payload.rows.map(row => {
+                    try {
+                        if (row.type === 'graph' && row.text) {
+                            return {
+                                ...row,
+                                text: JSON.parse(row.text)
+                            };
+                        } else if (row.link && row.link.length > 0) {
+                            const parsedLinks = row.link.map(link => JSON.parse(link));
+                            return {
+                                ...row,
+                                link: parsedLinks
+                            };
+                        } else {
+                            return row;
+                        }
+                    } catch (error) {
+                        console.error(`Error parsing JSON for row with id ${row.id}:`, error);
+                        return row; // Return the original row if parsing fails
+                    }
+                });
+            
+                state.chatHistory = history; // Update chat history in the Redux state
+                state.cancelTokens = null; // Reset cancelTokens if needed
             })
+            
             .addCase(triggerFrruitGpt.fulfilled, (state, action) => {
                 state.chatHistory = [...state?.chatHistory, ...action.payload];
             })

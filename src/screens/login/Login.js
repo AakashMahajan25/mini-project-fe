@@ -61,7 +61,7 @@ function Login() {
             })
     }
 
-    const handleLogin = () => {
+    const handleLogin = async () => {
         const regex = /^[0-9]{0,6}$/; // Regular expression to match 6 digits
         if (!regex.test(otp) || otp?.length < 6) {
             toast.error("Please enter valid otp")
@@ -72,7 +72,7 @@ function Login() {
             type: 'mobile',
             mobile: "+91" + phoneNumber
         }
-        dispatch(verifyLoginOtp(requestData))
+        await dispatch(verifyLoginOtp(requestData))
             .unwrap()
             .then(async (res) => {
                 localStorage.setItem('token', res.data.token)
