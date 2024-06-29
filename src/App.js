@@ -8,16 +8,34 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import InactivityTimer from './utils/InactivityTimer';
 import ReactGA from 'react-ga4';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import CreditOverModal from './components/creditOverModal/CreditOverModal';
 
 function App() {
   const location = useLocation();
   const isExcludedPage = ['/login', '/signUp', '/', '/topics', '/market'].includes(location.pathname);
   const isAuthenticated = localStorage.getItem('token');
+  const [showCreditModal, setShowCreditModal] = useState(false);
+  const handleCloseCreditModal = () => setShowCreditModal(false);
 
   useEffect(() => {
-    ReactGA.initialize('G-KFRHHDX0W3',{ debug: true });
+    ReactGA.initialize('G-KFRHHDX0W3', { debug: true });
   }, []);
+
+  // Temp Code For creditModal start
+
+  // useEffect(() => {
+  //   let timeout;
+  //   if (isAuthenticated) {
+  //     timeout = setTimeout(() => {
+  //       setShowCreditModal(true);
+  //     }, 5000);
+  //   }
+
+  //   return () => clearTimeout(timeout);
+  // }, [isAuthenticated]);
+
+  // Temp Code For creditModal end
 
   return (
     <>
@@ -33,6 +51,7 @@ function App() {
       {
         isAuthenticated && <InactivityTimer />
       }
+      <CreditOverModal show={showCreditModal} handleClose={handleCloseCreditModal} />
     </>
   );
 }

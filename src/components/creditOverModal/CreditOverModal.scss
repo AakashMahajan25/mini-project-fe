@@ -1,0 +1,36 @@
+.CreditOverModalStyles {
+
+    .modal-header {
+        justify-content: end;
+    }
+
+    .centerImg {
+        display: flow-root;
+        text-align: center;
+
+        .CreditExhaustedImg {
+            width: 322px;
+            height: 200px;
+            object-fit: contain;
+            margin-bottom: 20px;
+        }
+
+        .creditExhaustedText {
+            font-weight: 700;
+            font-family: 'Roboto', sans-serif;
+            font-size: 28px;
+            line-height: 32px;
+            color: #F5A623;
+            margin-bottom: 10px;
+        }
+
+        .creditExhaustedSmallText {
+            font-weight: 400;
+            font-family: 'Roboto', sans-serif;
+            font-size: 20px;
+            line-height: 23px;
+            color: #171E42;
+            margin-bottom: 30px;
+        }
+    }
+}
