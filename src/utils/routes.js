@@ -10,6 +10,7 @@ import Topics from "../screens/selectPreferences/SelectPreferences";
 import Market from "../screens/makeSelection/MakeSelection"
 import NewsIframe from "../screens/news/NewsIframe";
 import LeftBox from "../components/leftBox/LeftBox";
+import WalkThrough from "../screens/WalkThrough/WalkThrough";
 
 export const loginRoutes = [
     {
@@ -72,4 +73,10 @@ export const loginRoutes = [
         exact: true,
         element: <PrivateRoute component={NewsIframe} />,
     },
+    {
+        path: "/walkthrough",
+        exact: true,
+        element: <PrivateRoute component={WalkThrough} />,
+    },
+
 ]
