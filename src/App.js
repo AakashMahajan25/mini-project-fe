@@ -13,7 +13,7 @@ import CreditOverModal from './components/creditOverModal/CreditOverModal';
 
 function App() {
   const location = useLocation();
-  const isExcludedPage = ['/login', '/signUp', '/', '/topics', '/market'].includes(location.pathname);
+  const isExcludedPage = ['/login', '/signUp', '/', '/topics', '/market','/walkthrough'].includes(location.pathname);
   const isAuthenticated = localStorage.getItem('token');
   const [showCreditModal, setShowCreditModal] = useState(false);
   const handleCloseCreditModal = () => setShowCreditModal(false);
