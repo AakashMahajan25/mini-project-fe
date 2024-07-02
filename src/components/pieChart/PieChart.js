@@ -1,26 +1,30 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import Chart from 'chart.js/auto';
 
 function PieChart(props) {
-    const { graphData, index } = props;
+    const { graphData, index, isDonut, customColors } = props;
+    const chartRef = useRef(null);
 
     useEffect(() => {
-        const ctx = document.getElementById(`myChart${index}`).getContext('2d');
+        const ctx = chartRef.current.getContext('2d');
         const existingChart = Chart.getChart(ctx);
 
         if (existingChart) {
             existingChart.destroy();
         }
 
-        const XAxis = graphData.labels;
-        const YAxis = graphData.data;
+        if (!graphData || !graphData.labels || !graphData.data) {
+            console.error('Invalid graphData structure');
+            return;
+        }
+
         new Chart(ctx, {
-            type: 'pie',
+            type: isDonut ? 'doughnut' : 'pie',
             data: {
-                labels: XAxis,
+                labels: graphData.labels,
                 datasets: [{
-                    data: YAxis,
-                    backgroundColor: [
+                    data: graphData.data,
+                    backgroundColor: customColors || [
                         '#F1F4FD',
                         'red',
                         '#F1F4FD',
@@ -33,17 +37,18 @@ function PieChart(props) {
                         position: 'bottom',
                     },
                 },
+                cutout: isDonut ? '50%' : 0, // Makes the chart a donut if isDonut is true
             },
         });
-    }, [graphData]);
+    }, [graphData, isDonut, customColors]);
 
     return (
         <div className="border-grey position-relative">
-            <div className='graph-dashboard' style={{ width: 400, height: 322 }}>
-                <canvas id={`myChart${index}`}></canvas>
+            <div className='graph-dashboard' style={{ width: 460, height: 322 }}>
+                <canvas ref={chartRef} id={`myChart${index}`}></canvas>
             </div>
         </div>
-    )
+    );
 }
 
 export default PieChart;

@@ -1,0 +1,69 @@
+.barchart-css {
+    /* BarChart.css */
+
+    /* Custom styles for the chart container */
+    .graph-dashboard {
+        width: 100%;
+        height: 100%;
+        padding: 20px;
+        /* Adjust padding as needed */
+    }
+
+    /* Example of additional custom styling */
+    /* Override chart.js generated styles */
+    .canvas-container {
+        border-radius: 10px;
+        /* Rounded corners for the chart */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        /* Shadow effect */
+    }
+
+    /* Custom styles for legend */
+    .chartjs-custom-legend {
+        display: flex;
+        justify-content: center;
+        margin-top: 10px;
+        /* Adjust margin as needed */
+    }
+
+    .chartjs-custom-legend .chartjs-custom-legend-item {
+        display: flex;
+        align-items: center;
+        margin-right: 20px;
+        /* Adjust margin between legend items */
+    }
+
+    .chartjs-custom-legend .chartjs-custom-legend-color {
+        width: 20px;
+        /* Adjust legend color box size */
+        height: 10px;
+        /* Adjust legend color box size */
+        margin-right: 10px;
+        /* Adjust margin between color box and label */
+        border-radius: 3px;
+        /* Rounded corners for legend color box */
+    }
+
+    .chartjs-custom-legend .chartjs-custom-legend-label {
+        font-size: 14px;
+        /* Adjust font size of legend labels */
+        font-weight: bold;
+        /* Bold font weight for legend labels */
+        color: #333;
+        /* Adjust legend label color */
+    }
+
+    .highlight-top-corners {
+        position: relative;
+    }
+    
+    .highlight-top-corners canvas {
+        background-color: rgba(0, 0, 0, 0);
+        border-color: violet;
+        border-style: solid;
+        border-width: 1px;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+    }
+
+}

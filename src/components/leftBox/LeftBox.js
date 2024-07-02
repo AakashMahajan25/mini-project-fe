@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './LeftBox.scss';
 import SearchIcon from '../../assets/images/search-icon.png';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
+// import Tabs from '@mui/material/Tabs';
+// import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import GreenArrow from '../../assets/images/green_up-arrow.png';
 import RedArrow from '../../assets/images/red_down-arrow.png';
@@ -34,6 +34,12 @@ import { useLoading, ThreeDots } from '@agney/react-loading';
 import moment from 'moment';
 import { toast } from 'react-toastify';
 import ReactGA from 'react-ga4';
+import { Tab } from 'react-bootstrap';
+import Nav from 'react-bootstrap/Nav';
+import RevenuePage from './RevenuePage';
+import OverviewPage from './OverviewPage';
+import FinancialPage from './FinancialPage';
+import EventsPage from './EventsPage';
 
 function LeftBox() {
     const { containerProps, indicatorEl } = useLoading({
@@ -338,7 +344,13 @@ function LeftBox() {
         navigate("/frruit-gpt", {
             state: { question: 'What is happening in ' + symbol + ' stock' },
         });
-    }
+    };
+
+    const [activeTab, setActiveTab] = useState("OverView");
+
+    const handleTabChange = key => {
+        setActiveTab(key);
+    };
 
 
     return (
@@ -412,7 +424,7 @@ function LeftBox() {
                             <div className='watchlistTextPlus' onClick={handleShow2} style={{ cursor: 'pointer', color: '#4563E4' }}>+ Watchlist</div>
                         </div>
                     </div>
-                    <Box marginBottom={'20px'} sx={{ maxWidth: { xs: 320, sm: 480 }, bgcolor: 'background.paper' }} style={{ paddingLeft: watchLists?.length > 3 ? 0 : 16 }}>
+                    {/* <Box marginBottom={'20px'} sx={{ maxWidth: { xs: 320, sm: 480 }, bgcolor: 'background.paper' }} style={{ paddingLeft: watchLists?.length > 3 ? 0 : 16 }}>
                         <Tabs
                             value={value}
                             onChange={handleChange}
@@ -426,7 +438,7 @@ function LeftBox() {
                                 ))
                             }
                         </Tabs>
-                    </Box>
+                    </Box> */}
                     <div style={{ padding: '0px 16px' }}>
                         {watchLists?.length > 0 ?
                             tickers?.rows?.length > 0 ?
@@ -521,12 +533,13 @@ function LeftBox() {
                             <button className='btn-red-sell'>Sell</button>
                         </div>
                     </div>
-                    <div class="container">
+                    {/* <div class="container">
                         <div class="row">
                             <div class="col-2" style={{ marginLeft: -27 }}>
                                 <div class="textPart d-flex m-3">
                                     <div class="text-part1 d-flex">
-                                        <span style={{ color: "#4563E4", marginRight: 17 }} > FIGI</span> <p style={{ color: "#6F7387" }}> BBG000GQPB11</p>
+                                        <span style={{ color: "#4563E4", marginRight: 17 }} > FIGI</span> 
+                                        <p style={{ color: "#6F7387" }}> BBG000GQPB11</p>
                                     </div>
                                 </div>
                             </div>
@@ -538,9 +551,52 @@ function LeftBox() {
                                 </div>
                             </div>
                         </div>
+                    </div> */}
+                    <div className='tabspage'>
+                    <Tab.Container defaultActiveKey="OverView" onSelect={handleTabChange}>
+                        <div className={window.innerWidth < 900 ? `` : 'd-flex justify-content-between align-items-center'}>
+                            <div>
+                                <Nav variant="underline">
+                                    <Nav.Item>
+                                        <Nav.Link eventKey="OverView" className={window.innerWidth < 700 ? `m-0` : ''}>OverView</Nav.Link>
+                                    </Nav.Item>
+                                    <Nav.Item>
+                                        <Nav.Link eventKey="Revenue" className={window.innerWidth < 700 ? `m-0` : ''}>Revenue</Nav.Link>
+                                    </Nav.Item>
+                                    <Nav.Item>
+                                        <Nav.Link eventKey="Financials" className={window.innerWidth < 700 ? `m-0` : ''}>Financials</Nav.Link>
+                                    </Nav.Item>
+                                    <Nav.Item>
+                                        <Nav.Link eventKey="Events" className={window.innerWidth < 700 ? `m-0` : ''}>Events</Nav.Link>
+                                    </Nav.Item>
+                                </Nav>
+                            </div>
+                        </div>
+                        <div>
+                            <Tab.Content>
+                                <Tab.Pane eventKey="OverView">
+                                    <OverviewPage/>
+                                </Tab.Pane>
+                                <Tab.Pane eventKey="Revenue">
+                                    <RevenuePage />
+                                    
+                                </Tab.Pane>
+                                <Tab.Pane eventKey="Financials">
+                                    <FinancialPage />
+                                    
+                                </Tab.Pane>
+                                <Tab.Pane eventKey="Events">
+                                    <EventsPage />
+                                </Tab.Pane>
+                            </Tab.Content>
+                        </div>
+                    </Tab.Container>
                     </div>
+                    
 
-                    <div className='modal-pera'>Tata Consultancy Services Limited (TCS) is an India-based company engaged in providing information technology (IT) services, consulting, and business solutions. It operates through Banking; Capital Markets; Consumer Goods and Distribution; Communications, Media, and Information Services; Education; Energy, Resources, and Utilities; Healthcare; High Tech; Insurance; Life Sciences; Manufacturing; Public Services; Retail; Travel and Logistics. </div>
+                     {/* <div className='modal-pera'>
+                        Tata Consultancy Services Limited (TCS) is an India-based company engaged in providing information technology (IT) services, consulting, and business solutions. It operates through Banking; Capital Markets; Consumer Goods and Distribution; Communications, Media, and Information Services; Education; Energy, Resources, and Utilities; Healthcare; High Tech; Insurance; Life Sciences; Manufacturing; Public Services; Retail; Travel and Logistics.
+                    </div>
                     <div className='StockPriceNgraph'>
 
                         <div className='row'>
@@ -560,7 +616,7 @@ function LeftBox() {
                                 </div>
                             </div>
 
-                            <div className='col-lg-6  column-pad'>
+                             <div className='col-lg-6  column-pad'>
                                 <div className='blackBorderBox' style={{ height: 309 }}>
                                     <div className='justify-content-between'>
                                         <div className=''>
@@ -575,8 +631,8 @@ function LeftBox() {
                                 </div>
                             </div>
 
-                        </div>
-                        {/* <div className='fundamental-container'>
+                         </div> 
+                         <div className='fundamental-container'>
                             <h2 className='fundamental-maintitle'>Fundamentals</h2>
                             <Slider {...settings}>
                                 {fundamental.map((fundamental) => (
@@ -589,7 +645,7 @@ function LeftBox() {
 
                                 ))}
                             </Slider>
-                        </div> */}
+                        </div>
                         <div class='d-flex' >
                             <div className='col-lg-4  column-pad'>
                                 <div className='blackBorderBox'>
@@ -651,8 +707,8 @@ function LeftBox() {
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
+                        </div> 
+                     </div> */}
                 </Modal.Body>
                 <Modal.Footer>
 

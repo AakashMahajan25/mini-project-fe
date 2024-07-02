@@ -1,8 +1,15 @@
 import React, { useState } from 'react';
 import './CustomTable.scss'
 import DownloadIcon from '../../../src/assets/images/tableDownload.png'
+import StarImage from "../../assets/images/StarIcon.png";
 
 function CustomTable({ data, headers, showActions, actionsHeaderText, onViewClick, expandedRow, showView, }) {
+
+    const getQoqChangeClass = (value) => {
+        // Example condition to set color based on value
+        const numericalValue = parseFloat(value);
+        return numericalValue < 0 ? 'text-danger' : 'text-success';
+    };
 
     return (
         <>
@@ -36,6 +43,16 @@ function CustomTable({ data, headers, showActions, actionsHeaderText, onViewClic
                                             if (headers[colIndex] === 'Order ID') {
                                                 className = 'table-row-dark';
                                             }
+
+                                            if (headers[colIndex] === 'YoY Change') {
+                                                className = 'text-success';
+                                            }
+
+                                            // Apply conditional color to QoQ Change
+                                            if (headers[colIndex] === 'QoQ Change') {
+                                                className = getQoqChangeClass(value);
+                                            }
+
                                             return (
                                                 <td key={colIndex} className='table-row'>
                                                     <div className={className} style={{
@@ -43,7 +60,13 @@ function CustomTable({ data, headers, showActions, actionsHeaderText, onViewClic
                                                         alignItems: expandedRow === rowIndex ? 'start' : '',
                                                         height: window.innerWidth < 900 ? (expandedRow === rowIndex ? 250 : '') : (expandedRow === rowIndex ? 180 : '')
                                                     }}>
-                                                        {value}
+                                                        {headers[colIndex] === 'M.CAP (Cr.)' &&
+                                                            <>
+                                                               <img src={StarImage} className='star-image'/> {/* Replace with your star icon component or image */}
+                                                                M.CAP (Cr.): {value}
+                                                            </>
+                                                        }
+                                                        {headers[colIndex] !== 'M.CAP (Cr.)' && value}
                                                     </div>
                                                 </td>
                                             )

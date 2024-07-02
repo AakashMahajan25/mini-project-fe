@@ -3,6 +3,7 @@
 }
 
 .left-box {
+
     .box {
         border-right: 1px solid #E5E5E5;
         width: 100%;
@@ -458,12 +459,59 @@
         }
     }
 
+    .rangebox {
+        border-radius: 15px;
+        background: #F1F4FD;
+        padding: 12px 16px;
+        margin-right: 5px;
+        width:24% !important;
+
+        .fundamental-title {
+            color: #6F7387;
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 600;
+            line-height: 22px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .fundamental-value {
+            text-align: center;
+            color: #6F7387;
+            font-size: 16px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 22px;
+            margin-bottom: 0px;
+        }
+
+        .box1{
+            margin-right: 10px;
+        }
+
+        .box2{
+            margin-left:10px;
+        }
+
+        .range-text{
+            text-align: center;
+            font-size: 14px;
+            font-family: 'Roboto', sans-serif;
+            font-weight: 600;
+            color:#6F7387;
+            margin-top: 5px;
+        }
+
+    }
+
     .modal-pera {
         font-family: 'Roboto', sans-serif;
         font-size: 14px;
         font-weight: 400;
         line-height: 16px;
         color: #6F7387;
+        margin-top: 20px;
         margin-bottom: 20px;
     }
 }
@@ -557,4 +605,129 @@
     //     height: 100px;
     // }
 
+}
+
+.tabspage {
+
+    .nav-link {
+        color: #6F6B7D;
+        text-decoration: none;
+        transition: color 0.3s ease;
+        font-weight: 400;
+        background-color: white;
+        border-radius: 7px 7px 0 0;
+        align-items: center;
+        height: 40px;
+        width: 100px;
+        text-align: center !important;
+        // padding: 10px;
+        // border-bottom: 3px solid #DCDCDC;
+
+        // @media only screen and (max-width: 992px) {
+        //     width: 165px;
+        //     height: 80px;
+        // }
+
+        &:hover {
+            color: #316AFF;
+            border-bottom: 3px solid #316AFF;
+        }
+
+        &.active {
+            color: #316AFF;
+            background-color: #EAF0FF;
+            border-radius: 7px 7px 0 0;
+            border-bottom: 3px solid #316AFF;
+        }
+
+        // @media only screen and (max-width: 992px) {
+        //     margin-bottom: 10px;
+        // }
+    }
+
+    .nav-underline {
+        --bs-nav-underline-gap: 0.70rem;
+    }
+}
+
+.revenuepage {
+
+    .nav-link {
+        color: #6F6B7D;
+        text-decoration: none;
+        transition: color 0.3s ease;
+        font-weight: 400 !important;
+        font-size: 14px !important;
+        background-color: transparent !important;
+        // border-radius: 50px;
+        align-items: center;
+        text-align: center !important;
+        height: 40px !important;
+        padding-top: 8px !important;
+        border-bottom: none !important;
+
+        &:hover {
+            color: #316AFF;
+        }
+
+        &.active {
+            width: 115px;
+            // padding: 16px !important;
+            color: white !important;
+            background-color: #316AFF !important;
+            border-radius: 50px !important;
+        }
+
+        // @media only screen and (max-width: 992px) {
+        //     margin-bottom: 10px;
+        // }
+    }
+
+    .nav-underline {
+        // --bs-nav-underline-gap: 0.70rem;
+        border-radius: 50px;
+        padding: 5px;
+        background-color: #E5EAFF;
+    }
+}
+
+.eventspage {
+
+    .nav-link {
+        color: #6F6B7D;
+        text-decoration: none;
+        transition: color 0.3s ease;
+        font-weight: 400 !important;
+        font-size: 14px !important;
+        background-color: transparent !important;
+        // border-radius: 50px;
+        align-items: center;
+        text-align: center !important;
+        width: 152px;
+        height: 40px !important;
+        padding-top: 8px !important;
+        border-bottom: none !important;
+
+        &:hover {
+            color: #316AFF;
+        }
+
+        &.active {
+            width: 152px;
+            color: white !important;
+            background-color: #316AFF !important;
+            border-radius: 50px !important;
+        }
+
+        // @media only screen and (max-width: 992px) {
+        //     margin-bottom: 10px;
+        // }
+    }
+
+    .nav-underline {
+        // --bs-nav-underline-gap: 0.70rem;
+        border-radius: 50px;
+        padding: 5px;
+        background-color: #E5EAFF;
+    }
 }
