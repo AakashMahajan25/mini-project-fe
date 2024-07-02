@@ -1,8 +1,10 @@
 import React, { useEffect } from 'react';
 import Chart from 'chart.js/auto';
+import '../../components/barChart/BarChart.scss'
 
 function BarChart(props) {
-    const { graphData, index, yAxisLabel, xAxisLabel, showXAxis,legendLabels } = props;
+    const { graphData, index, yAxisLabel, xAxisLabel, showXAxis, legendLabels, highlightTopCorners } = props;
+
     useEffect(() => {
         const ctx = document.getElementById(`myChart${index}`).getContext('2d');
         const existingChart = Chart.getChart(ctx);
@@ -10,6 +12,7 @@ function BarChart(props) {
         if (existingChart) {
             existingChart.destroy();
         }
+
         const bgColors = ['#43BE9A', "#4563E4", '#8361D9', '#BB68C8', "#FC9F9F",]
         const XAxis = graphData.labels;
         const YAxis = graphData.data;
@@ -20,9 +23,9 @@ function BarChart(props) {
                 labels: XAxis,
                 datasets: YAxis.map((yData, index) => ({
                     data: yData,
-                    label : legendLabels[index],
+                    label: legendLabels[index],
                     backgroundColor: bgColors[index % bgColors.length],
-                    borderRadius: 5,
+                    borderRadius: highlightTopCorners ? [8, 8, 0, 0] : 5, // Conditionally set border radius
                 }))
             },
             options: {
@@ -81,17 +84,17 @@ function BarChart(props) {
                             display: false
                         },
                     },
-
                 },
-
             },
         });
-    }, [graphData]);
+    }, [graphData, highlightTopCorners]);
 
     return (
-        <div className="border-grey position-relative">
-            <div className='graph-dashboard'>
-                <canvas id={`myChart${index}`}></canvas>
+        <div className='barchart-css'>
+            <div className={`border-grey position-relative ${highlightTopCorners ? 'highlight-top-corners' : ''}`}>
+                <div className='graph-dashboard'>
+                    <canvas id={`myChart${index}`}></canvas>
+                </div>
             </div>
         </div>
     )
