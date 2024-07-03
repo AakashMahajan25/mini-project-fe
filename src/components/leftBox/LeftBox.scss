@@ -3,7 +3,6 @@
 }
 
 .left-box {
-
     .box {
         border-right: 1px solid #E5E5E5;
         width: 100%;
@@ -422,6 +421,7 @@
 
     .fundamental-container {
         margin-bottom: 20px;
+        
 
         .fundamental-maintitle {
             color: #171E42;
@@ -436,6 +436,7 @@
             background: #F1F4FD;
             padding: 12px 16px;
             margin-right: 5px;
+            margin-bottom: 10px;
 
             .fundamental-title {
                 color: #6F7387;
@@ -464,7 +465,11 @@
         background: #F1F4FD;
         padding: 12px 16px;
         margin-right: 5px;
-        width:24% !important;
+        width: 24% !important;
+        // flex-wrap: wrap;
+        @media only screen and (max-width: 500px) {
+            width: 81% !important;
+        }
 
         .fundamental-title {
             color: #6F7387;
@@ -486,20 +491,20 @@
             margin-bottom: 0px;
         }
 
-        .box1{
+        .box1 {
             margin-right: 10px;
         }
 
-        .box2{
-            margin-left:10px;
+        .box2 {
+            margin-left: 10px;
         }
 
-        .range-text{
+        .range-text {
             text-align: center;
             font-size: 14px;
             font-family: 'Roboto', sans-serif;
             font-weight: 600;
-            color:#6F7387;
+            color: #6F7387;
             margin-top: 5px;
         }
 
@@ -609,6 +614,21 @@
 
 .tabspage {
 
+    .tab-box{
+        position: sticky;
+        left: 0;
+        // overflow-y: scroll;
+    }
+
+    .nav{
+        flex-wrap: nowrap !important;
+        overflow-y: scroll;
+    }
+
+    .nav::-webkit-scrollbar {
+        display: none;
+    }
+
     .nav-link {
         color: #6F6B7D;
         text-decoration: none;
@@ -623,14 +643,19 @@
         // padding: 10px;
         // border-bottom: 3px solid #DCDCDC;
 
-        // @media only screen and (max-width: 992px) {
-        //     width: 165px;
-        //     height: 80px;
-        // }
+        @media only screen and (max-width: 500px) {
+            margin-bottom: 10px;
+            width:91px;
+            background-color:#E5EAFF;
+            border-radius: 50px;
+        }
 
         &:hover {
             color: #316AFF;
             border-bottom: 3px solid #316AFF;
+            @media only screen and (max-width: 500px) {
+                border-bottom: 0px solid transparent;
+            }
         }
 
         &.active {
@@ -638,16 +663,26 @@
             background-color: #EAF0FF;
             border-radius: 7px 7px 0 0;
             border-bottom: 3px solid #316AFF;
+
+            @media only screen and (max-width: 500px) {
+                width:91px;
+                background-color:#316AFF;
+                border-radius: 50px;
+                color:white;
+                font-weight: 400;
+                border-bottom: 0px solid transparent !important;
+            }
+
         }
 
-        // @media only screen and (max-width: 992px) {
-        //     margin-bottom: 10px;
-        // }
+        
     }
 
     .nav-underline {
         --bs-nav-underline-gap: 0.70rem;
     }
+
+
 }
 
 .revenuepage {
@@ -676,11 +711,21 @@
             color: white !important;
             background-color: #316AFF !important;
             border-radius: 50px !important;
+
+            @media only screen and (max-width: 500px) {
+                width:121px;
+            }
+
         }
 
-        // @media only screen and (max-width: 992px) {
-        //     margin-bottom: 10px;
-        // }
+         @media only screen and (max-width: 500px) {
+                width:91px;
+                background-color:#316AFF;
+                border-radius: 50px;
+                color: #6F6B7D;
+                font-weight: 400;
+                border-bottom: 0px solid transparent !important;
+            }
     }
 
     .nav-underline {
@@ -703,7 +748,7 @@
         // border-radius: 50px;
         align-items: center;
         text-align: center !important;
-        width: 152px;
+        width: 141px;
         height: 40px !important;
         padding-top: 8px !important;
         border-bottom: none !important;
@@ -717,11 +762,18 @@
             color: white !important;
             background-color: #316AFF !important;
             border-radius: 50px !important;
+            font-size: 14px !important;
+
+            @media only screen and (max-width: 500px) {
+                width: 159px;
+            }
         }
 
-        // @media only screen and (max-width: 992px) {
-        //     margin-bottom: 10px;
-        // }
+        @media only screen and (max-width: 500px) {
+            width: 159px;
+        }
+
+
     }
 
     .nav-underline {

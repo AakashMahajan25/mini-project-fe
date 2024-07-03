@@ -381,16 +381,16 @@ function Dashboard() {
 
     return (
         <>
-            {
+            {/* {
                 ((indexLoader || investorStoryLoading || suggestionLoader) && !isData) &&
                 <Loader />
-            }
+            } */}
             <div className='dashboardHome row justify-content-between m-0'>
-                {/* {showLeftBox && (
+                {showLeftBox && (
                     <div className='col-lg-3 column-pad dashboardLeftboxHideClass'>
                         <LeftBox />
                     </div>
-                )} */}
+                )}
                 <>
                     {showAllContent &&
                         <div className='col-lg-9 column-pad'>

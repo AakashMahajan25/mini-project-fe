@@ -84,7 +84,7 @@ function OverviewPage() {
                 <div className='fundamental-container justify-content-start'>
                     <h2 className='fundamental-maintitle'>Fundamentals</h2>
                     {/* <Slider {...settings}> */}
-                    <div className='d-flex'>
+                    <div className='d-flex flex-wrap'>
                         {fundamental.map((fundamental) => (
                             <>
                                 <div className='fundamental'>
