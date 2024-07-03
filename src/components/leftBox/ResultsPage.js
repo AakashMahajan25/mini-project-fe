@@ -1,6 +1,5 @@
 import React from 'react'
 import CustomTable from '../customTable/CustomTable';
-import PieChart from '../pieChart/PieChart';
 
 function ResultsPage() {
 

@@ -62,8 +62,11 @@ function CustomTable({ data, headers, showActions, actionsHeaderText, onViewClic
                                                     }}>
                                                         {headers[colIndex] === 'M.CAP (Cr.)' &&
                                                             <>
-                                                               <img src={StarImage} className='star-image'/> {/* Replace with your star icon component or image */}
-                                                                M.CAP (Cr.): {value}
+                                                                <div className='d-flex'>
+                                                                    <img src={StarImage} className='star-image' /> {/* Replace with your star icon component or image */}
+                                                                    M.CAP (Cr.): {value}
+                                                                </div>
+
                                                             </>
                                                         }
                                                         {headers[colIndex] !== 'M.CAP (Cr.)' && value}

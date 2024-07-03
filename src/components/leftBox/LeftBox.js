@@ -352,6 +352,13 @@ function LeftBox() {
         setActiveTab(key);
     };
 
+    // const settings1 = {
+    //     dots: true,
+    //     infinite: true,
+    //     speed: 500,
+    //     slidesToShow: 1,
+    //     slidesToScroll: 1
+    // };
 
     return (
         <>
@@ -552,49 +559,52 @@ function LeftBox() {
                             </div>
                         </div>
                     </div> */}
-                    <div className='tabspage'>
-                    <Tab.Container defaultActiveKey="OverView" onSelect={handleTabChange}>
-                        <div className={window.innerWidth < 900 ? `` : 'd-flex justify-content-between align-items-center'}>
-                            <div>
-                                <Nav variant="underline">
-                                    <Nav.Item>
-                                        <Nav.Link eventKey="OverView" className={window.innerWidth < 700 ? `m-0` : ''}>OverView</Nav.Link>
-                                    </Nav.Item>
-                                    <Nav.Item>
-                                        <Nav.Link eventKey="Revenue" className={window.innerWidth < 700 ? `m-0` : ''}>Revenue</Nav.Link>
-                                    </Nav.Item>
-                                    <Nav.Item>
-                                        <Nav.Link eventKey="Financials" className={window.innerWidth < 700 ? `m-0` : ''}>Financials</Nav.Link>
-                                    </Nav.Item>
-                                    <Nav.Item>
-                                        <Nav.Link eventKey="Events" className={window.innerWidth < 700 ? `m-0` : ''}>Events</Nav.Link>
-                                    </Nav.Item>
-                                </Nav>
+
+
+                        <div className='tabspage'>
+                            <div className='tab-box'>
+                                <Tab.Container defaultActiveKey="OverView" onSelect={handleTabChange}>
+                                    <div className={window.innerWidth < 900 ? `` : 'd-flex justify-content-between align-items-center'}>
+                                        <div>
+                                            <Nav variant="underline">
+                                                <Nav.Item>
+                                                    <Nav.Link eventKey="OverView" className={window.innerWidth < 700 ? `m-0` : ''}>OverView</Nav.Link>
+                                                </Nav.Item>
+                                                <Nav.Item>
+                                                    <Nav.Link eventKey="Revenue" className={window.innerWidth < 700 ? `m-0` : ''}>Revenue</Nav.Link>
+                                                </Nav.Item>
+                                                <Nav.Item>
+                                                    <Nav.Link eventKey="Financials" className={window.innerWidth < 700 ? `m-0` : ''}>Financials</Nav.Link>
+                                                </Nav.Item>
+                                                <Nav.Item>
+                                                    <Nav.Link eventKey="Events" className={window.innerWidth < 700 ? `m-0` : ''}>Events</Nav.Link>
+                                                </Nav.Item>
+                                            </Nav>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <Tab.Content>
+                                            <Tab.Pane eventKey="OverView">
+                                                <OverviewPage />
+                                            </Tab.Pane>
+                                            <Tab.Pane eventKey="Revenue">
+                                                <RevenuePage />
+
+                                            </Tab.Pane>
+                                            <Tab.Pane eventKey="Financials">
+                                                <FinancialPage />
+
+                                            </Tab.Pane>
+                                            <Tab.Pane eventKey="Events">
+                                                <EventsPage />
+                                            </Tab.Pane>
+                                        </Tab.Content>
+                                    </div>
+                                </Tab.Container>
                             </div>
                         </div>
-                        <div>
-                            <Tab.Content>
-                                <Tab.Pane eventKey="OverView">
-                                    <OverviewPage/>
-                                </Tab.Pane>
-                                <Tab.Pane eventKey="Revenue">
-                                    <RevenuePage />
-                                    
-                                </Tab.Pane>
-                                <Tab.Pane eventKey="Financials">
-                                    <FinancialPage />
-                                    
-                                </Tab.Pane>
-                                <Tab.Pane eventKey="Events">
-                                    <EventsPage />
-                                </Tab.Pane>
-                            </Tab.Content>
-                        </div>
-                    </Tab.Container>
-                    </div>
-                    
 
-                     {/* <div className='modal-pera'>
+                    {/* <div className='modal-pera'>
                         Tata Consultancy Services Limited (TCS) is an India-based company engaged in providing information technology (IT) services, consulting, and business solutions. It operates through Banking; Capital Markets; Consumer Goods and Distribution; Communications, Media, and Information Services; Education; Energy, Resources, and Utilities; Healthcare; High Tech; Insurance; Life Sciences; Manufacturing; Public Services; Retail; Travel and Logistics.
                     </div>
                     <div className='StockPriceNgraph'>
