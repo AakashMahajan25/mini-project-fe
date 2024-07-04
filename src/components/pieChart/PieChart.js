@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import Chart from 'chart.js/auto';
+import '../pieChart/PieChart.scss';
 
 function PieChart(props) {
     const { graphData, index, isDonut, customColors } = props;
@@ -43,11 +44,14 @@ function PieChart(props) {
     }, [graphData, isDonut, customColors]);
 
     return (
-        <div className="border-grey position-relative">
-            <div className='graph-dashboard' style={{ width: 460, height: 322 }}>
-                <canvas ref={chartRef} id={`myChart${index}`}></canvas>
+        <div className='piechart-css'>
+            <div className="border-grey position-relative">
+                <div className='graph-dashboard' style={{ width: 460, height: 322 }}>
+                    <canvas ref={chartRef} id={`myChart${index}`}></canvas>
+                </div>
             </div>
         </div>
+
     );
 }
 
