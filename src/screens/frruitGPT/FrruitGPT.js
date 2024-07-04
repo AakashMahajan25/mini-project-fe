@@ -50,8 +50,8 @@ function FrruitGPT() {
 
     useEffect(() => {
         if (state?.question && state.question !== '') {
-            if (state?.fundamental && state?.fundamental === true)
-                setFlag('fundamentals')
+            // if (state?.fundamental && state?.fundamental === true)
+                setFlag(state?.fundamental)
             dispatch(clearChatHistory())
             addFrruitPrompt(state?.question)
             clearState()
@@ -156,8 +156,10 @@ function FrruitGPT() {
         const token = axios.CancelToken.source()
         dispatch(setCancelTokens(token))
 
-        if ((isFirstRender || isNewChat.current) ? (state?.fundamental && state?.fundamental === true) ? false : flag === "news" : flag === "news")
-            requestData["flag"] = 'news'
+        // if ((isFirstRender || isNewChat.current) ? (state?.fundamental && state?.fundamental === true) ? false : flag === "news" : flag === "news")
+        if ((flag || state?.fundamental)){
+            requestData["flag"] = state?.fundamental ?? flag
+        }
 
         isNewChat.current = false
 
