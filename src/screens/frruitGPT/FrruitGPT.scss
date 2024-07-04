@@ -22,9 +22,18 @@
         }
 
         .history-icon-css {
-            width: 24px;
+            width: 26px;
             object-fit: contain;
             cursor: pointer;
         }
+    }
+
+    .prompts-btn{
+        border: none;
+        color: #FFFFFF;
+        background-color: #4563E4;
+        font-size: 12px;
+        border-radius: 8px;
+        padding: 4px 8px;
     }
 }
