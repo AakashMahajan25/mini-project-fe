@@ -12,7 +12,8 @@ function PromptsLibrary(props) {
     const {
         handlePromptClick = ()=>{},
         show,
-        setShow
+        setShow,
+        setFlag = () => { }
     } = props
     const [type, setType] = useState('all');
 
@@ -59,11 +60,11 @@ function PromptsLibrary(props) {
     };
     return (
         <div className='promptButton'>
-            {!show && <button onClick={() => setShow(!show)} className='blue-btn radius-button d-flex align-items-center justify-content-center hide-in-mobile'>
+            {!show && <button onClick={() => {setShow(!show);setFlag('fund')}} className='blue-btn radius-button d-flex align-items-center justify-content-center hide-in-mobile'>
                 <img src={RightWhiteArrow} className='prompt-button-img' />Prompts Library
             </button>}
             {show && <div className='promptView' style={{animation: show ? 'slideInRight 0.3s ease-in-out' : 'none'}}>
-                <button onClick={() => setShow(!show)} className='blue-btn radius-small-button d-flex align-items-center justify-content-center' style={{ height: 40 }} ><img src={LeftWhiteArrow} style={{ width: 8, height: 13, objectFit: 'contain' }} /></button>
+                <button onClick={() => {setShow(!show);setFlag('news')}} className='blue-btn radius-small-button d-flex align-items-center justify-content-center' style={{ height: 40 }} ><img src={LeftWhiteArrow} style={{ width: 8, height: 13, objectFit: 'contain' }} /></button>
                     
                     <div className='showPrompt' style={ window.innerWidth > 500 ? { height: window.innerHeight - 68 } : { height: window.innerHeight - 91}}>
                     <h4 className='title'>Prompts Library</h4>

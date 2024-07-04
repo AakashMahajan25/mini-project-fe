@@ -263,6 +263,7 @@ function FrruitGPT() {
                             handlePromptClick={handlePromptClick}
                             show={showPromptsLibrary}
                             setShow={setShowPromptsLibrary}
+                            setFlag={setFlag}
                         />
                         <BottomSearchBar
                             setQuestion={setQuestion}
