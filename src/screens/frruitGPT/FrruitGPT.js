@@ -36,6 +36,8 @@ function FrruitGPT() {
     const { chatHistory } = useSelector(state => state.fruitGPTSlice);
     const { cancelTokens } = useSelector(state => state.contentGPTSlice);
     const [showHistory, setShowHistory] = useState(false);
+    const [showPromptsLibrary, setShowPromptsLibrary] = useState(false);
+    const [show, setShow] = useState(false)
     const handleHistoryClose = () => setShowHistory(false);
     const handleHistoryShow = () => setShowHistory(true);
 
@@ -246,7 +248,10 @@ function FrruitGPT() {
                     <div className='col-xl-9 col-md-9 col-sm-9 column-pad'>
                         <div className='hide-on-large-screens'>
                             <div>Frruit GPT</div>
-                            <img src={HistoryImg} onClick={handleHistoryShow} className='history-icon-css' />
+                            <div>
+                                <button className='prompts-btn me-3' onClick={() => setShowPromptsLibrary(!showPromptsLibrary)}>Prompts Library</button>
+                                <img src={HistoryImg} onClick={handleHistoryShow} className='history-icon-css' />
+                            </div>
                         </div>
                         <ChatGpt
                             newChat={isNewChat.current}
@@ -254,6 +259,8 @@ function FrruitGPT() {
                         />
                         <PromptsLibrary
                             handlePromptClick={handlePromptClick}
+                            show={showPromptsLibrary}
+                            setShow={setShowPromptsLibrary}
                         />
                         <BottomSearchBar
                             setQuestion={setQuestion}
