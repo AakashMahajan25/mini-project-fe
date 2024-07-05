@@ -4,7 +4,7 @@ import AttachIcon from '../../assets/images/fluent_attach-20-regular.png'
 import LinkIcon from '../../assets/images/link_icon.png'
 import SendIcon from '../../assets/images/send_icon.png'
 import ArrowIcon from '../../assets/images/arrow-img.png'
-import RightArrow from '../../assets/images/right_arrow.png'
+import RightArrow from '../../assets/images/arrow-img.png'
 
 function BottomSearchBar(props) {
 
@@ -58,8 +58,8 @@ function BottomSearchBar(props) {
                     <div className='customTab-frruit-gpt'>
                         <div className='d-flex align-items-center'>
                             <div className='d-flex align-items-center me-3'>
-                                <div className='tab-name-css'>Choose Focus</div>
-                                <img src={RightArrow} style={{width: 14, objectFit: 'contain'}} />
+                                <div className='tab-name-css px-3'>Choose Focus</div>
+                                <img src={RightArrow} style={{width: 20, rotate: '45deg', objectFit: 'contain'}} />
                             </div>
                             <div className={flag === 'news' ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: flag === 'news' ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
                                 onClick={() => setFlag('news')}
