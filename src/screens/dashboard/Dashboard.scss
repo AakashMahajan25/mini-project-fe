@@ -242,6 +242,65 @@
         }
     }
 
+    .show-suggestions-dashboard {
+        margin-top: 8px;
+
+        .suggestions-text {
+            font-size: 15px;
+            color: #171E42;
+            font-weight: 400;
+        }
+
+        .show-suggestions-checkbox {
+            height: 18px;
+            width: 18px;
+            margin-right: 8px;
+        }
+    }
+
+    .form-control-suggestion {
+        border-radius: 0 0 15px 15px;
+        border: 1px solid #4563E4;
+        background: #F1F4FD;
+        height: 56px;
+        padding: 6px 16px;
+        width: 100%;
+    }
+
+    .suggestions-box {
+        z-index: 99;
+        position: absolute;
+        bottom: 93px;
+        left: 20px;
+        padding: 16px;
+        padding-bottom: 0;
+        border-radius: 15px 15px 0 0;
+        background-color: #F9FAFF;
+        border: 1px solid #4563E4;
+        width: calc(100% - 118.2px);
+
+        @media only screen and (max-width: 768px) {
+            bottom: 93px;
+            width: calc(100% - 113.4px);
+        }
+
+        .text-box {
+            background-color: #F1F4FD;
+            padding: 8px 16px 8px 16px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            cursor: pointer;
+        }
+    
+        .suggestions-text {
+            color: #6F7387;
+            font-size: 13px;
+            font-weight: 500;
+        }
+    }
 }
 
 // .slick-next:before {

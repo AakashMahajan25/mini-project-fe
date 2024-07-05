@@ -7,6 +7,7 @@ import { Nav, Tab, Tabs } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { getPromptsLibrary } from '../../screens/frruitGPT/slice'
 import ReactGA from 'react-ga4';
+import { getMostOnFrruitGpt } from '../../screens/dashboard/slice'
 
 function PromptsLibrary(props) {
     const {
@@ -22,7 +23,9 @@ function PromptsLibrary(props) {
 
     useEffect(() => {
         dispatch(getPromptsLibrary(`?type=`))
-    }, [])
+        dispatch(getMostOnFrruitGpt(`100`));
+    }, [dispatch]);
+
 
     const handleTab = (key) => {
         setType(key);

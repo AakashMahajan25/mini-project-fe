@@ -35,6 +35,7 @@ import CloseImg from '../../assets/images/close_icon.png';
 import { Tooltip } from 'react-tooltip'
 import 'react-tooltip/dist/react-tooltip.css'
 import ReactGA from 'react-ga4';
+import ArrowIcon from '../../assets/images/arrow-img.png'
 
 const storyEnum = {
     watchlist_news: 'isWatchlistViewed',
@@ -70,6 +71,7 @@ const rightPositionModal = window.innerWidth < 768 ? -80 : -80;
 const topPositionModal = window.innerWidth < 768 ? -10 : -10;
 
 function Dashboard() {
+    // const [showSuggestions, setShowSuggestions] = useState(false);
     const PreviousBtn = (props) => {
         const { className, onClick } = props
         return (
@@ -379,6 +381,10 @@ function Dashboard() {
         return ((((investorStory?.watchlistNews?.length > 0 || investorStory?.sessionNews?.length > 0 || investorStory?.hotPursuitNews?.length > 0 || investorStory?.corporateNews?.length > 0 || investorStory?.economyNews?.length > 0 || investorStory?.corporateResultsNews?.length > 0 || investorStory?.marketNews?.length > 0) || investorStoryError) && (chatSuggestions?.length > 0 || suggestionError)))
     }, [investorStory, stockIndexes, chatSuggestions])
 
+    // const handleCheckboxChange = () => {
+    //     setShowSuggestions(!showSuggestions);
+    // };
+
     return (
         <>
             {
@@ -393,7 +399,9 @@ function Dashboard() {
                 )} */}
                 <>
                     {showAllContent &&
-                        <div className='col-lg-9 column-pad'>
+                        <div className='col-lg-9 column-pad'
+                        // style={{position: 'relative'}}
+                        >
                             <div className='hide-on-large-screens-dashboard'>
                                 <div className='dashboardTextForMobile'>Dashboard</div>
                                 <div onClick={handleViewAllClick} className='dashboardTextForMobile'>Latest News<img src={RightWhiteArrow} width={16} height={16} style={{ objectFit: 'contain', cursor: 'pointer' }} /></div>
@@ -526,7 +534,8 @@ function Dashboard() {
                                                 <div className='search-dashboard-main d-flex align-items-end'>
                                                     <div class="form-group">
                                                         <input
-                                                            class="form-control"
+                                                            // className={showSuggestions ? "form-control-suggestion" : "form-control"}
+                                                            className='form-control'
                                                             style={{ height: 48, paddingTop: 0 }}
                                                             value={question}
                                                             onChange={handleChange}
@@ -536,6 +545,32 @@ function Dashboard() {
                                                     </div>
                                                     <img className='send-image' src={SendIcon} alt='Send' onClick={() => routePromptFrruitGPT(question, false)} />
                                                 </div>
+                                                {/* <div className='show-suggestions-dashboard'>
+                                                    <div className='d-flex align-items-center suggestions-text'>
+                                                        <input
+                                                            type='checkbox'
+                                                            className='show-suggestions-checkbox'
+                                                            checked={showSuggestions}
+                                                            onChange={handleCheckboxChange}
+                                                        /> Show Suggestions
+                                                    </div>
+                                                </div>
+                                                {showSuggestions &&
+                                                    <div className='suggestions-box'>
+                                                        <div className='text-box'>
+                                                            <div className='suggestions-text'>Lorem Ipsum</div>
+                                                            <img src={ArrowIcon} style={{ width: 20, objectFit: 'contain', marginLeft: 16 }} />
+                                                        </div>
+                                                        <div className='text-box'>
+                                                            <div className='suggestions-text'>Lorem Ipsum</div>
+                                                            <img src={ArrowIcon} style={{ width: 20, objectFit: 'contain', marginLeft: 16 }} />
+                                                        </div>
+                                                        <div className='text-box'>
+                                                            <div className='suggestions-text'>Lorem Ipsum</div>
+                                                            <img src={ArrowIcon} style={{ width: 20, objectFit: 'contain', marginLeft: 16 }} />
+                                                        </div>
+                                                    </div>
+                                                } */}
                                             </>
                                         </div>
                                     </div>
