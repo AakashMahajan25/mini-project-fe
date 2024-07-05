@@ -4,9 +4,9 @@ function TermsAndCondition() {
     return (
         <div className='privacypolicy-css'>
             <div className=''>
-                <h3 className='main-heading'>Frruit’s Privacy Policy</h3>
+                <h3 className='main-heading'>Frruit’s TERMS OF SERVICE</h3>
                 <p className='updated-date'>Last updated: June 4th, 2024.</p>
-                <p className='text-subheading1'>
+                {/* <p className='text-subheading1'>
                     Welcome to the Terms of Service (these “Terms”) for Perplexity AI, Inc.’s (“Company”, “we” or “us”) websites, www.perplexity.ai and https://labs.perplexity.ai (the “Websites”), artificial-intelligence powered search engine (the “Perplexity Engine”), related mobile application (the “App”), and any content, tools, features and functionality offered on or through our Website, the Perplexity Engine and the App (collectively, the “Services”). These Terms do not govern use of the Company’s APIs (which are governed by the Perplexity API Terms of Service located here: https://www.perplexity.ai/hub/legal/perplexity-api-terms-of-service) or Perplexity Pro for Enterprise (which is governed by the Perplexity Pro for Enterprise Terms located here: (https://www.perplexity.ai/hub/legal/enterprise-terms-of-service).
                 </p>
                 <p className='text-subheading1'>
@@ -15,11 +15,9 @@ function TermsAndCondition() {
                 <p className='text-subheading1'>
                     For purposes of these Terms, “you” and “your” means you as the user of the Services. If you use the Services on behalf of a company or other entity then “you” includes you and that entity, and you represent and warrant that (a) you are an authorized representative of the entity with the authority to bind the entity to these Terms, and (b) you agree to these Terms on the entity’s behalf.
                 </p>
-
                 <p className='text-subheading1'>
                     SECTION 9 CONTAINS AN ARBITRATION CLAUSE AND CLASS ACTION WAIVER. BY AGREEING TO THESE TERMS, YOU AGREE (A) TO RESOLVE ALL DISPUTES (WITH LIMITED EXCEPTION) RELATED TO THE COMPANY’S SERVICES AND/OR PRODUCTS THROUGH BINDING INDIVIDUAL ARBITRATION, WHICH MEANS THAT YOU WAIVE ANY RIGHT TO HAVE THOSE DISPUTES DECIDED BY A JUDGE OR JURY, AND (B) TO WAIVE YOUR RIGHT TO PARTICIPATE IN CLASS ACTIONS, CLASS ARBITRATIONS, OR REPRESENTATIVE ACTIONS, AS SET FORTH BELOW. YOU HAVE THE RIGHT TO OPT-OUT OF THE ARBITRATION CLAUSE AND THE CLASS ACTION WAIVER AS EXPLAINED IN SECTION 9.
                 </p>
-
                 <h2 className='text-heading'>1. The Services</h2>
                 <div className='box1'>
                     <p className='subtext'>1.1 The Services</p>
@@ -34,8 +32,6 @@ function TermsAndCondition() {
                         You must be 13 years of age or older to use the Services. Minors under the age of majority in their jurisdiction but that are at least 13 years of age are only permitted to use the Services if the minor’s parent or guardian accepts these Terms on the minor’s behalf prior to use of the Services. Children under the age of 13 are not permitted to use the Services. By using the Services, you represent and warrant that you meet these requirements.
                     </p>
                 </div>
-
-
                 <h2 className='text-heading'>2. User Accounts, SUBSCRIPTIONS and free trials</h2>
                 <div className='box1'>
                     <p className='subtext' style={{ marginTop: 10 }}>2.1 Creating and Safeguarding your Account</p>
@@ -55,8 +51,6 @@ function TermsAndCondition() {
                         Except as expressly set forth in these Terms, payments for any subscriptions to the Services are nonrefundable and there are no credits for partially used periods. Following any cancellation by you, however, you will continue to have access to the paid Services through the end of the subscription period for which payment has already been made.
                     </p>
                 </div>
-
-
                 <h2 className='text-heading'>2. ORDERS FOR PRODUCTS AND/OR SERVICES </h2>
                 <div className='box1'>
                     <p className='subtext' style={{ marginTop: 10 }}>3.1 Payment</p>
@@ -67,7 +61,7 @@ function TermsAndCondition() {
                     <p className='text-subheading3'>
                         We may offer certain promotional codes, referral codes, discount codes, coupon codes or similar offers (“Promotional Codes”) that may be redeemed for discounts on benefits related to the Services or future Offerings, subject to any additional terms that the Company establishes. You agree that Promotional Codes: (a) must be used in a lawful manner; (b) must be used for the intended audience and purpose; (c) may not be duplicated, sold or transferred in any manner, or made available by you to the general public (whether posted to a public forum, coupon collecting service, or otherwise), unless expressly permitted by the Company; (d) may be disabled or have additional conditions applied to them by the Company at any time for any reason without liability to the Company; (e) may only be used pursuant to the specific terms that the Company establishes for such Promotional Code; (f) are not valid for cash or other credits or points; and (g) may expire prior to your use.
                     </p>
-                </div>
+                </div> */}
             </div>
         </div>
     )
