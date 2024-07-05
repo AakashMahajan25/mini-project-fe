@@ -131,7 +131,7 @@ function BottomSearchBar(props) {
                     </div>
                 </div>
                 {showSuggestions && */}
-                {( suggestedQuestionsList.length > 0) &&
+                {(flag === 'news' && question.length > 0 && suggestedQuestionsList.length > 0) &&
                     <div className='suggestions-box'>
                         {isLoading ? (
                             <div className='w-100 d-flex justify-content-center' style={{ backgroundColor: '#F1F4FD', padding: 10, marginBottom: 10, borderRadius: 5 }}>
