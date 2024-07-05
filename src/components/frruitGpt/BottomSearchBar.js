@@ -1,17 +1,23 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './BottomSearchBar.scss'
 import AttachIcon from '../../assets/images/fluent_attach-20-regular.png'
 import LinkIcon from '../../assets/images/link_icon.png'
 import SendIcon from '../../assets/images/send_icon.png'
 import ArrowIcon from '../../assets/images/arrow-img.png'
 import RightArrow from '../../assets/images/right_arrow.png'
+import { searchSuggestedPrompt } from '../../screens/frruitGPT/slice'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 function BottomSearchBar(props) {
 
     const [showFundamentals, setShowFundamentals] = useState(false);
     const [showNews, setShowNews] = useState(true);
-    // const [showSuggestions, setShowSuggestions] = useState(false);
-
+    const [showSuggestions, setShowSuggestions] = useState(false);
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+    const { suggestedQuestionsList, isLoading } = useSelector(state => state.fruitGPTSlice);
+    
     const {
         setQuestion = () => { },
         question = '',
@@ -19,6 +25,16 @@ function BottomSearchBar(props) {
         flag = '',
         setFlag = () => { }
     } = props
+
+    
+    useEffect(() => {
+        const searchQuestion = setTimeout(() => {
+            if (question) {
+                dispatch(searchSuggestedPrompt(question))
+            }
+        }, 1000);
+        return () => clearTimeout(searchQuestion)
+    }, [question])
 
     const handleChange = (e) => {
         setQuestion(e.target.value)
@@ -29,7 +45,7 @@ function BottomSearchBar(props) {
             handleAskPress();
         }
     };
-
+    
     const newsClick = () => {
         setShowFundamentals(false);
         setShowNews(true);
@@ -39,9 +55,16 @@ function BottomSearchBar(props) {
         setShowNews(false);
     }
 
-    // const handleCheckboxChange = () => {
-    //     setShowSuggestions(!showSuggestions);
-    // };
+    const handleCheckboxChange = () => {
+        setShowSuggestions(!showSuggestions);
+    };
+
+
+    const routeChangeFrruitGPT = (question) => {
+        navigate("/frruit-gpt", {
+            state: { question, fundamental: 'news' },
+        });
+    };
 
     return (
         <>
@@ -59,7 +82,7 @@ function BottomSearchBar(props) {
                         <div className='d-flex align-items-center'>
                             <div className='d-flex align-items-center me-3'>
                                 <div className='tab-name-css'>Choose Focus</div>
-                                <img src={RightArrow} style={{width: 14, objectFit: 'contain'}} />
+                                <img src={RightArrow} style={{ width: 14, objectFit: 'contain' }} />
                             </div>
                             <div className={flag === 'news' ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: flag === 'news' ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
                                 onClick={() => setFlag('news')}
@@ -106,22 +129,27 @@ function BottomSearchBar(props) {
                         /> Show Suggestions
                     </div>
                 </div>
-                {showSuggestions &&
+                {showSuggestions && */}
+                {( suggestedQuestionsList.length > 0) &&
                     <div className='suggestions-box'>
-                        <div className='text-box'>
-                            <div className='suggestions-text'>Lorem Ipsum</div>
-                            <img src={ArrowIcon} style={{ width: 20, objectFit: 'contain', marginLeft: 16 }} />
-                        </div>
-                        <div className='text-box'>
-                            <div className='suggestions-text'>Lorem Ipsum</div>
-                            <img src={ArrowIcon} style={{ width: 20, objectFit: 'contain', marginLeft: 16 }} />
-                        </div>
-                        <div className='text-box'>
-                            <div className='suggestions-text'>Lorem Ipsum</div>
-                            <img src={ArrowIcon} style={{ width: 20, objectFit: 'contain', marginLeft: 16 }} />
-                        </div>
+                        {isLoading ? (
+                            <div className='w-100 d-flex justify-content-center' style={{ backgroundColor: '#F1F4FD', padding: 10, marginBottom: 10, borderRadius: 5 }}>
+
+                                <div className="spinner-border text-blue" role="status" style={{ color: '#4563E4' }}>
+                                    <span className="sr-only"></span>
+                                </div>
+                            </div>
+                        ) : (
+                            suggestedQuestionsList.slice(0, 4).map((question, index) =>
+                                <div className='text-box' onClick={() => routeChangeFrruitGPT(question?.question)}>
+                                    <div className='suggestions-text'>{question?.question}</div>
+                                    <img src={ArrowIcon} style={{ width: 20, objectFit: 'contain', marginLeft: 16 }} />
+                                </div>
+                            )
+                        )}
                     </div>
-                } */}
+                }
+                {/* } */}
             </div>
         </>
     )
