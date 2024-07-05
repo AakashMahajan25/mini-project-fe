@@ -22,7 +22,7 @@ import UploadDocImg from '../../assets/images/doc-img.png'
 import { useNavigate } from 'react-router-dom';
 import quesIcon from '../../assets/images/i-icon.png';
 // import PieChart from '../pieChart/PieChart'
-import NewsTime from '../../assets/images/time-clock.png';
+import RedditLogo from '../../assets/images/reddit_logo.png';
 import NetworkGraph from '../networkGraph/NetworkGraph'
 import { Tooltip } from 'react-tooltip'
 import FullScreenIcon from '../../assets/images/ic_baseline_fullscreen.png'
@@ -359,7 +359,7 @@ function ChatGpt(props) {
     const navigate = useNavigate();
     const routeChangeFrruitGPT = (question) => {
         navigate("/frruit-gpt", {
-            state: { question, fundamental: true },
+            state: { question, fundamental: 'fund' },
         });
     };
     const handleShow = (data) => {
@@ -453,24 +453,24 @@ function ChatGpt(props) {
                                         <div className='companyCardSTyleCss'>
                                             <div className='cardContainer'>
                                                 {chat.link.slice(0, 3).map((link, index) => (
-                                                    <a href={link} target='_blank' key={index} className='sourceCardCss'>
+                                                    <a href={link?.source_url} target='_blank' key={index} className='sourceCardCss'>
                                                         <div className='Dflex-css'>
                                                             <div className='d-flex align-items-center'>
-                                                                <img src={link?.logoSrc} className='smallCircleLogoCss me-2' alt='Company Logo' />
-                                                                <div className='companyNameCss'>{link?.companyName}</div>
+                                                               <img src={link?.image_url ?? RedditLogo} className='smallCircleLogoCss me-2' alt='Company Logo' />
+                                                                <div className='companyNameCss'>{link?.heading ?? link?.title}</div>
                                                             </div>
                                                             <img src={TopRIghtArrow} className='smallCircleLogoCss' alt='Arrow Icon' />
                                                         </div>
                                                     </a>
                                                 ))}
-                                                <div className='sourceCardCss' style={{ width: 'max-content' }} onClick={() => { handleShow2(); setSourceData(chat.link) }}>
+                                                {chat.link.length > 3 && <div className='sourceCardCss' style={{ width: 'max-content' }} onClick={() => { handleShow2(); setSourceData(chat.link) }}>
                                                     <div className='Dflex-css'>
                                                         <div className='d-flex align-items-center'>
                                                             <div className='companyNameCss me-2'>View All</div>
                                                         </div>
                                                         <img src={TopRIghtArrow} className='smallCircleLogoCss' />
                                                     </div>
-                                                </div>
+                                                </div>}
                                             </div>
                                         </div>
                                     </>
@@ -764,19 +764,19 @@ function ChatGpt(props) {
                     <div className='title-text mb-3'>Sources</div>
                     <div className='companyCardSTyleCss'>
                         <div className='cardContainer'>
-                            {sourceData?.map((card, index) => (
+                            {sourceData?.map((link, index) => (
                                 <>
-                                    <div key={index}  className='sourceCardCss'>
+                                    <a href={link?.source_url} target='_blank' key={index}  className='sourceCardCss'>
                                         <div className='Dflex-css'>
                                             <div className='d-flex align-items-center'>
-                                                <img src={card.logoSrc} className='smallCircleLogoCss me-2' alt='Company Logo' />
-                                                <div className='companyNameCss'>{card.companyName}</div>
+                                                <img src={link?.image_url ?? RedditLogo} className='smallCircleLogoCss me-2' alt='Company Logo' />
+                                                { link.heading && <div className='companyNameCss'>{link.heading}</div>}
                                             </div>
                                             <img src={TopRIghtArrow} className='smallCircleLogoCss' alt='Arrow Icon' />
                                         </div>
-                                        <div className='title-text' style={{ fontSize: 16, marginTop: 10 }}>{card.cardTitle}</div>
-                                        <div className='description-text' style={{ fontSize: 12, marginTop: 10 }}>{card.cardPara}</div>
-                                    </div>
+                                        {link.title && <div className='title-text' style={{ fontSize: 16, marginTop: 10 }}>{link.title}</div>}
+                                        {link.description && <div className='description-text' style={{ fontSize: 12, marginTop: 10 }}>{link.description}</div>}
+                                    </a>
                                 </>
                             ))}
                         </div>

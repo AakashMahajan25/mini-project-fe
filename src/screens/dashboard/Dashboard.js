@@ -237,7 +237,7 @@ function Dashboard() {
 
     const navigate = useNavigate();
 
-    const routePromptFrruitGPT = (question, isSuggestion) => {
+    const routePromptFrruitGPT = (question, flag) => {
         if (question) {
             ReactGA.event({
                 category: 'Dashboard',
@@ -245,7 +245,7 @@ function Dashboard() {
                 label: 'MostonFrruit Prompt Click'
             });
             navigate("/frruit-gpt", {
-                state: isSuggestion ? { question, fundamental: true } : { question, fundamental: flag !== "news" },
+                state: { question, fundamental: flag },
             });
         }
     };
@@ -373,7 +373,7 @@ function Dashboard() {
     }
     const handleKeyPress = (e) => {
         if (e.key === 'Enter') {
-            routePromptFrruitGPT(question, false);
+            routePromptFrruitGPT(question, flag);
         }
     };
 
@@ -465,7 +465,7 @@ function Dashboard() {
                                                             {...suggestionSettings}
                                                         >
                                                             {mostOnFrruitGpt?.rows?.slice(0, 4).map((text, index) => (
-                                                                <div onClick={() => { routePromptFrruitGPT(text?.question, true) }} key={index} className='col-lg-6'>
+                                                                <div onClick={() => { routePromptFrruitGPT(text?.question, 'fund') }} key={index} className='col-lg-6'>
                                                                     <div className='mostOnFrruitBox mb-2' style={{ marginRight: 10 }}>
                                                                         <div className='d-flex justify-content-between align-items-center' >
                                                                             <p className='text'>{text?.question}</p>
@@ -487,7 +487,7 @@ function Dashboard() {
                                                             nextArrow={<NextBtn3 />}
                                                             {...suggestionSettings}>
                                                             {chatSuggestions.map((item, index) => (
-                                                                <div onClick={() => { routePromptFrruitGPT(item?.prompt_text, true) }} key={index} className='col-lg-6' style={{ cursor: 'pointer' }}>
+                                                                <div onClick={() => { routePromptFrruitGPT(item?.prompt_text, 'fund') }} key={index} className='col-lg-6' style={{ cursor: 'pointer' }}>
                                                                     <div className='prompts-text-bg' style={{ marginRight: 10, cursor: 'pointer' }}>
                                                                         <div className=' d-flex justify-content-between align-items-center w-100' >
                                                                             <p className='prompts-text'>{item?.prompt_text}</p>
@@ -511,9 +511,15 @@ function Dashboard() {
                                                         <div className={flag === 'news' ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: flag === 'news' ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
                                                                 onClick={() => setFlag('news')}
                                                             > News </div>
-                                                            <div className={flag !== 'news' ? `tab-name-css tab-box-css` : `tab-name-css`} style={{ backgroundColor: flag !== 'news' ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
-                                                                onClick={() => setFlag('fundamentals')}
+                                                            <div className={flag === 'fund' ? `tab-name-css tab-box-css` : `tab-name-css`} style={{ backgroundColor: flag === 'fund' ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
+                                                                onClick={() => setFlag('fund')}
                                                             > Fundamentals </div>
+                                                            <div className={flag === 'youtube' ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: flag === 'youtube' ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
+                                                                onClick={() => setFlag('youtube')}
+                                                            > Youtube </div>
+                                                            <div className={flag === 'reddit' ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: flag === 'reddit' ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
+                                                                onClick={() => setFlag('reddit')}
+                                                            > Reddit </div>
                                                         {/* <div className={flag === 'news' ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: flag === 'news' ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
                                                             onClick={() => setFlag('news')}
                                                         > News </div>
@@ -543,7 +549,7 @@ function Dashboard() {
                                                             onKeyDown={handleKeyPress}
                                                         />
                                                     </div>
-                                                    <img className='send-image' src={SendIcon} alt='Send' onClick={() => routePromptFrruitGPT(question, false)} />
+                                                    <img className='send-image' src={SendIcon} alt='Send' onClick={() => routePromptFrruitGPT(question, flag)} />
                                                 </div>
                                                 {/* <div className='show-suggestions-dashboard'>
                                                     <div className='d-flex align-items-center suggestions-text'>
@@ -665,7 +671,7 @@ function Dashboard() {
                         <div className='viewModal'>
                             <div>
                                 {mostOnFrruitGpt?.rows?.map((text, index) => (
-                                    <div onClick={() => { routePromptFrruitGPT(text?.question, false) }} key={index} className='d-flex justify-content-between align-items-center blue-box mb-2' style={{ cursor: 'pointer' }}>
+                                    <div onClick={() => { routePromptFrruitGPT(text?.question, 'fund') }} key={index} className='d-flex justify-content-between align-items-center blue-box mb-2' style={{ cursor: 'pointer' }}>
                                         <div>{text?.question}</div>
                                         <img src={RightBlueArrow} className='me-1' width={10} style={{ objectFit: 'contain' }} />
                                     </div>
