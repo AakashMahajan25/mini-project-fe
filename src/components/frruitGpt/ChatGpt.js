@@ -456,19 +456,26 @@ function ChatGpt(props) {
                                                     <a href={link?.source_url} target='_blank' key={index} className='sourceCardCss'>
                                                         <div className='Dflex-css'>
                                                             <div className='d-flex align-items-center'>
-                                                               <img src={link?.image_url ?? RedditLogo} className='smallCircleLogoCss me-2' alt='Company Logo' />
-                                                                <div className='companyNameCss'>{link?.heading ?? link?.title}</div>
+                                                                <div className='d-flex align-items-center'>
+                                                                    <img src={link?.image_url ?? RedditLogo} className='smallCircleLogoCss me-2' alt='Company Logo' />
+                                                                    <div>
+                                                                        <div className='sources-date'>Jan 16, 2024</div>
+                                                                        <div className='sources-time'>12:00 PM</div>
+                                                                    </div>
+                                                                </div>
+                                                               
                                                             </div>
-                                                            <img src={TopRIghtArrow} className='smallCircleLogoCss' alt='Arrow Icon' />
+                                                            <img src={TopRIghtArrow} style={{width:30 ,objectFit:'contain'}} alt='Arrow Icon' />
                                                         </div>
+                                                        <div className='companyNameCss mt-2'>{link?.heading ?? link?.title}</div>
                                                     </a>
                                                 ))}
-                                                {chat.link.length > 3 && <div className='sourceCardCss' style={{ width: 'max-content' }} onClick={() => { handleShow2(); setSourceData(chat.link) }}>
+                                                {chat.link.length > 3 && <div className='sourceCardCss d-flex align-items-center    ' style={{ width: 'max-content' }} onClick={() => { handleShow2(); setSourceData(chat.link) }}>
                                                     <div className='Dflex-css'>
                                                         <div className='d-flex align-items-center'>
                                                             <div className='companyNameCss me-2'>View All</div>
                                                         </div>
-                                                        <img src={TopRIghtArrow} className='smallCircleLogoCss' />
+                                                        <img src={TopRIghtArrow} style={{width:30 ,objectFit:'contain'}} />
                                                     </div>
                                                 </div>}
                                             </div>
@@ -771,8 +778,11 @@ function ChatGpt(props) {
                                             <div className='d-flex align-items-center'>
                                                 <img src={link?.image_url ?? RedditLogo} className='smallCircleLogoCss me-2' alt='Company Logo' />
                                                 { link.heading && <div className='companyNameCss'>{link.heading}</div>}
+                                                <div>
+                                                    <div className='sources-date'>Jan 16, 2024 <span className='sources-time'>12:00 PM</span></div>
+                                                </div>
                                             </div>
-                                            <img src={TopRIghtArrow} className='smallCircleLogoCss' alt='Arrow Icon' />
+                                            <img src={TopRIghtArrow} style={{width:30 ,objectFit:'contain'}} />
                                         </div>
                                         {link.title && <div className='title-text' style={{ fontSize: 16, marginTop: 10 }}>{link.title}</div>}
                                         {link.description && <div className='description-text' style={{ fontSize: 12, marginTop: 10 }}>{link.description}</div>}
