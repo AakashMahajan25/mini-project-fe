@@ -1,0 +1,113 @@
+.privacypolicy-css {
+
+    padding: 20px;
+
+    .main-heading {
+        font-family: 'Roboto', sans-serif;
+        font-size: 48px;
+        font-weight: 600;
+        line-height: 56.25px;
+        color: #4563E4
+    }
+
+    .updated-date {
+        font-family: 'Roboto', sans-serif;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 18.75px;
+        color: #6F7387;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+    .text-subheading1 {
+        font-family: 'Roboto', sans-serif;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 18.75px;
+        color: #6F7387;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+    .text-heading {
+        font-family: 'Roboto', sans-serif;
+        font-weight: 600;
+        font-size: 20px;
+        line-height: 23.44px;
+        color: #171E42;
+        margin-top: 20px;
+    }
+
+    .text-subheading2 {
+        font-family: 'Roboto', sans-serif;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 18.75px;
+        color: #6F7387;
+        margin-top: 10px;
+        margin-bottom: 20px;
+    }
+
+    .text-subheading3 {
+        font-family: 'Roboto', sans-serif;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 18.75px;
+        color: #6F7387;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    .text-subheading4 {
+        font-family: 'Roboto', sans-serif;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 18.75px;
+        color: #6F7387;
+        margin-top: 10px;
+        margin-bottom: 20px;
+    }
+
+    .provide-text {
+        font-family: 'Roboto', sans-serif;
+        font-weight: 500;
+        font-size: 16px;
+        font-style: italic;
+        line-height: 18.75px;
+        color: #6F7387
+    }
+
+    .click_text {
+        font-family: 'Roboto', sans-serif;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 18.75px;
+        color: #4563E4
+    }
+
+    li::marker {
+        color: #6F7387;
+    }
+
+    .box1 {
+        padding-left: 33px;
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .subtext {
+        font-family: 'Roboto', sans-serif;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 18.75px;
+    }
+
+    .headpoint {
+        font-family: 'Roboto', sans-serif;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 18.75px;
+    }
+
+}
