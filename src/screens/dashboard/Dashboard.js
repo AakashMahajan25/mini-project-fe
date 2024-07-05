@@ -36,7 +36,7 @@ import { Tooltip } from 'react-tooltip'
 import 'react-tooltip/dist/react-tooltip.css'
 import ReactGA from 'react-ga4';
 import ArrowIcon from '../../assets/images/arrow-img.png'
-import RightArrowIcon from '../../assets/images/right_arrow.png'
+import RightArrowIcon from '../../assets/images/arrow-img.png'
 
 const storyEnum = {
     watchlist_news: 'isWatchlistViewed',
@@ -511,9 +511,9 @@ function Dashboard() {
                                                     <div className='d-flex align-items-center mobile-scroll-Css'>
                                                     <div className='d-flex align-items-center me-3'>
                                                         <div className='tab-name-css'>Choose Focus</div>
-                                                            <img src={RightArrowIcon} style={{width: 12, objectFit: 'contain'}} />
+                                                            <img src={RightArrowIcon} style={{width: 20, rotate: '45deg', objectFit: 'contain'}} />
                                                         </div>
-                                                        
+
                                                         <div className={flag === 'news' ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: flag === 'news' ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
                                                                 onClick={() => setFlag('news')}
                                                             > News </div>
