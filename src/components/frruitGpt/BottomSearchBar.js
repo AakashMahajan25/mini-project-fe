@@ -3,11 +3,13 @@ import './BottomSearchBar.scss'
 import AttachIcon from '../../assets/images/fluent_attach-20-regular.png'
 import LinkIcon from '../../assets/images/link_icon.png'
 import SendIcon from '../../assets/images/send_icon.png'
+import ArrowIcon from '../../assets/images/arrow-img.png'
 
 function BottomSearchBar(props) {
 
     const [showFundamentals, setShowFundamentals] = useState(false);
     const [showNews, setShowNews] = useState(true);
+    // const [showSuggestions, setShowSuggestions] = useState(false);
 
     const {
         setQuestion = () => { },
@@ -35,6 +37,10 @@ function BottomSearchBar(props) {
         setShowFundamentals(true);
         setShowNews(false);
     }
+
+    // const handleCheckboxChange = () => {
+    //     setShowSuggestions(!showSuggestions);
+    // };
 
     return (
         <>
@@ -74,7 +80,8 @@ function BottomSearchBar(props) {
                         </div>
                     </div>
                     <input
-                        class="form-control"
+                        // className={showSuggestions ? "form-control-suggestion" : "form-control"}
+                        className="form-control"
                         value={question}
                         onChange={handleChange}
                         placeholder="Type your message here"
@@ -84,6 +91,32 @@ function BottomSearchBar(props) {
                 <div className='sendIcon' onClick={handleAskPress}>
                     <img src={SendIcon} className='sendIcon-styles' />
                 </div>
+                {/* <div className='show-suggestions'>
+                    <div className='d-flex align-items-center suggestions-text'>
+                        <input
+                            type='checkbox'
+                            className='show-suggestions-checkbox'
+                            checked={showSuggestions}
+                            onChange={handleCheckboxChange}
+                        /> Show Suggestions
+                    </div>
+                </div>
+                {showSuggestions &&
+                    <div className='suggestions-box'>
+                        <div className='text-box'>
+                            <div className='suggestions-text'>Lorem Ipsum</div>
+                            <img src={ArrowIcon} style={{ width: 20, objectFit: 'contain', marginLeft: 16 }} />
+                        </div>
+                        <div className='text-box'>
+                            <div className='suggestions-text'>Lorem Ipsum</div>
+                            <img src={ArrowIcon} style={{ width: 20, objectFit: 'contain', marginLeft: 16 }} />
+                        </div>
+                        <div className='text-box'>
+                            <div className='suggestions-text'>Lorem Ipsum</div>
+                            <img src={ArrowIcon} style={{ width: 20, objectFit: 'contain', marginLeft: 16 }} />
+                        </div>
+                    </div>
+                } */}
             </div>
         </>
     )
