@@ -19,6 +19,7 @@ import ReactGA from 'react-ga4';
 import './FrruitGPT.scss';
 import HistoryImg from '../../assets/images/history_icon.png';
 import Offcanvas from 'react-bootstrap/Offcanvas';
+import BackArrowIcon from '../../assets/images/back-btn-arrow.png'
 
 function FrruitGPT() {
     const dispatch = useDispatch();
@@ -255,7 +256,10 @@ function FrruitGPT() {
                         <div className='hide-on-large-screens'>
                             <div>Frruit GPT</div>
                             <div>
-                                <button className='prompts-btn me-3' onClick={() => setShowPromptsLibrary(!showPromptsLibrary)}>Prompts Library</button>
+                                <button className='prompts-btn me-3' onClick={() => setShowPromptsLibrary(!showPromptsLibrary)}>
+                                    <img src={BackArrowIcon}/>
+                                        Prompts Library
+                                </button>
                                 <img src={HistoryImg} onClick={handleHistoryShow} className='history-icon-css' />
                             </div>
                         </div>
