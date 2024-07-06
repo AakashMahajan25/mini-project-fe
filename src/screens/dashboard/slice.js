@@ -284,6 +284,20 @@ export const fetchAllNews = createAsyncThunk("dashboard/fetchAllNews", async (qu
     }
 });
 
+export const fetchTrendingStocksFromAI = createAsyncThunk("dashboard/fetchTrendingStocksFromAI", async () => {
+    try {
+        let data = {
+            method: METHOD_TYPE.get,
+            url: API_ENDPOINTS.fetchTrendingStocksFromAI,
+        };
+        const response = await api(data);
+        return response.data.data;
+
+    } catch (error) {
+        throw error.response;
+    }
+});
+
 
 const dashboardSlice = createSlice({
     name: "dashboard",
@@ -482,6 +496,12 @@ const dashboardSlice = createSlice({
                     action.type === getStockBySearch.pending.type ||
                     action.type === getStockBySearch.rejected.type,
                 handleStockSearchLoading
+            )
+            .addMatcher(
+                (action) =>
+                    action.type === fetchTrendingStocksFromAI.fulfilled.type ||
+                    action.type === fetchTrendingStocksFromAI.pending.type ||
+                    action.type === fetchTrendingStocksFromAI.rejected.type,
             );
     }
 });

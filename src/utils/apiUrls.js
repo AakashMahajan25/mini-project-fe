@@ -67,4 +67,5 @@ export const API_ENDPOINTS = {
     fetchAllNews: 'news/fetchAllNews',
     getOrderHistory: 'order/getUserOrders',
     searchSuggestedQuestionPrompts: 'prompts/searchSuggestedQuestionPrompts?prompt=',
+    fetchTrendingStocksFromAI: 'stocks/fetchTrendingStocksFromAI',
 }
