@@ -101,7 +101,7 @@ function Dashboard() {
         const { className, onClick } = props
         return (
             <div className={className} onClick={onClick} style={{ position: 'relative' }}>
-                <img src={RightBtn} style={{ width: 40, position: 'absolute', top: -85, right: -140 }} />
+                <img src={RightBtn} style={{ width: 40, position: 'absolute', top: -90, right: -140 }} />
             </div>
         )
     }
@@ -109,7 +109,7 @@ function Dashboard() {
         const { className, onClick } = props
         return (
             <div className={className} onClick={onClick} style={{ position: 'relative' }}>
-                <img src={LeftBtn} style={{ width: 40, position: 'absolute', top: -70, right: -190 }} />
+                <img src={LeftBtn} style={{ width: 40, position: 'absolute', top: -67, right: -190 }} />
             </div>
         )
     }
@@ -117,7 +117,7 @@ function Dashboard() {
         const { className, onClick } = props
         return (
             <div className={className} onClick={onClick} style={{ position: 'relative' }}>
-                <img src={RightBtn} style={{ width: 40, position: 'absolute', top: -150, right: -180 }} />
+                <img src={RightBtn} style={{ width: 40, position: 'absolute', top: -147, right: -180 }} />
             </div>
         )
     }
@@ -511,7 +511,7 @@ function Dashboard() {
                                                     <div className='d-flex align-items-center mobile-scroll-Css'>
                                                     <div className='d-flex align-items-center me-3'>
                                                         <div className='tab-name-css'>Choose Focus</div>
-                                                            <img src={RightArrowIcon} style={{width: 20, rotate: '45deg', objectFit: 'contain'}} />
+                                                            <img src={RightArrowIcon} style={{width: 20, objectFit: 'contain'}} />
                                                         </div>
                                                         <div className={flag === 'news' ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: flag === 'news' ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
                                                                 onClick={() => setFlag('news')}
