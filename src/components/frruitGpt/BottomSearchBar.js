@@ -9,6 +9,7 @@ import { searchSuggestedPrompt } from '../../screens/frruitGPT/slice'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import RightFocusArrow from '../../assets/images/arrow-img.png'
+import StraightArrowIcon from '../../assets/images/straight-arrow.png'
 
 function BottomSearchBar(props) {
 
@@ -83,7 +84,7 @@ function BottomSearchBar(props) {
                         <div className='d-flex align-items-center'>
                             <div className='d-flex align-items-center me-3'>
                                 <div className='tab-name-css px-3'>Choose Focus</div>
-                                <img src={RightFocusArrow} style={{width: 20, objectFit: 'contain'}} />
+                                <img src={StraightArrowIcon} style={{width: 20, objectFit: 'contain'}} />
                             </div>
                             <div className={flag === 'news' ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: flag === 'news' ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
                                 onClick={() => setFlag('news')}

@@ -37,6 +37,7 @@ import 'react-tooltip/dist/react-tooltip.css'
 import ReactGA from 'react-ga4';
 import ArrowIcon from '../../assets/images/arrow-img.png'
 import RightArrowIcon from '../../assets/images/arrow-img.png'
+import StraightArrowIcon from '../../assets/images/straight-arrow.png'
 
 const storyEnum = {
     watchlist_news: 'isWatchlistViewed',
@@ -93,7 +94,7 @@ function Dashboard() {
         const { className, onClick } = props
         return (
             <div className={className} onClick={onClick} style={{ position: 'relative' }}>
-                <img src={LeftBtn} style={{ width: 40, position: 'absolute', top: -20, right: -150 }} />
+                <img src={LeftBtn} style={{ width: 40, position: 'absolute', top: -18, right: -150 }} />
             </div>
         )
     }
@@ -101,7 +102,7 @@ function Dashboard() {
         const { className, onClick } = props
         return (
             <div className={className} onClick={onClick} style={{ position: 'relative' }}>
-                <img src={RightBtn} style={{ width: 40, position: 'absolute', top: -90, right: -140 }} />
+                <img src={RightBtn} style={{ width: 40, position: 'absolute', top: -98, right: -140 }} />
             </div>
         )
     }
@@ -512,7 +513,7 @@ function Dashboard() {
                                                     <div className='d-flex align-items-center mobile-scroll-Css'>
                                                     <div className='d-flex align-items-center me-3'>
                                                         <div className='tab-name-css'>Choose Focus</div>
-                                                            <img src={RightArrowIcon} style={{width: 20, objectFit: 'contain'}} />
+                                                            <img src={StraightArrowIcon} style={{width: 20, objectFit: 'contain'}} />
                                                         </div>
                                                         <div className={flag === 'news' ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: flag === 'news' ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
                                                                 onClick={() => setFlag('news')}
