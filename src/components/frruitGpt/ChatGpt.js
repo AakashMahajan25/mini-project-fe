@@ -421,7 +421,7 @@ function ChatGpt(props) {
                                 </div>
                                 <div className='chat-text-container'>
                                     <h3 className='chat-text'>{chat?.text}</h3>
-                                    <h3 className='chat-text' style={{color:"#a4a5a7",fontWeight:'400'}}>{getCurrentTimeWithAMPM(chat?.createdAt)}</h3>
+                                    <h3 className='chat-text' style={{color:"#a4a5a7",fontWeight:'400',fontSize:12}}>{getCurrentTimeWithAMPM(chat?.createdAt)}</h3>
                                 </div>
                             </div>
                             :
@@ -433,7 +433,7 @@ function ChatGpt(props) {
                                         <div className='d-flex align-items-center my-2 floatLeft'>
                                             <img src={ArrowGrey} className='arrow' />
                                             <p className='you-text'>Frruit GPT</p>
-                                            <h3 className='you-text' style={{ color: "#a4a5a7", fontWeight: '400', marginBottom: 0, marginLeft: 5 }}>{getCurrentTimeWithAMPM(chat?.createdAt)}</h3>
+                                            <h3 className='you-text' style={{ color: "#a4a5a7", fontWeight: '400', marginBottom: 0, marginLeft: 5,fontSize:12 }}>{getCurrentTimeWithAMPM(chat?.createdAt)}</h3>
                                         </div>
                                     </>
                                 }

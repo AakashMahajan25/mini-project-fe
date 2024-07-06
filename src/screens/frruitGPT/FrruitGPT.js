@@ -216,6 +216,10 @@ function FrruitGPT() {
     }
     const handleDeleteChat = async () => {
         setShow2(false);
+        if (deleteId === selectedChat) {
+            if (cancelTokens)
+                cancelTokens.cancel("cancelled")
+        }
         await dispatch(deletePrompt(deleteId))
         await dispatch(getPromptList())
         if (deleteId === selectedChat) {
