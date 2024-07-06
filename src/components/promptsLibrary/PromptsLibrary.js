@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './PromptsLibrary.scss'
-import RightWhiteArrow from '../../assets/images/chevron-right.png'
+import LeftBlueArrow from '../../assets/images/back-btn-arrow.png'
 import LeftWhiteArrow from '../../assets/images/chevron-left.png'
 import RightBlueArrow from '../../assets/images/right-arrow.png'
 import { Nav, Tab, Tabs } from 'react-bootstrap'
@@ -63,8 +63,8 @@ function PromptsLibrary(props) {
     };
     return (
         <div className='promptButton'>
-            {!show && <button onClick={() => {setShow(!show);setFlag('fund')}} className='blue-btn radius-button d-flex align-items-center justify-content-center hide-in-mobile'>
-                <img src={RightWhiteArrow} className='prompt-button-img' />Prompts Library
+            {!show && <button onClick={() => {setShow(!show);setFlag('fund')}} className='blue-btn radius-button d-flex align-items-center justify-content-center hide-in-mobile' style={{border:'1px solid #4563E4'}}>
+                <img src={LeftBlueArrow} className='prompt-button-img' />Prompts Library
             </button>}
             {show && <div className='promptView' style={{animation: show ? 'slideInRight 0.3s ease-in-out' : 'none'}}>
                 <button onClick={() => {setShow(!show);setFlag('news')}} className='blue-btn radius-small-button d-flex align-items-center justify-content-center' style={{ height: 40 }} ><img src={LeftWhiteArrow} style={{ width: 8, height: 13, objectFit: 'contain' }} /></button>
