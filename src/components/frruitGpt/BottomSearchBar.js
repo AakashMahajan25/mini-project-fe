@@ -10,16 +10,18 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import RightFocusArrow from '../../assets/images/arrow-img.png'
 import StraightArrowIcon from '../../assets/images/straight-arrow.png'
+import { Modal } from 'react-bootstrap';
 
 function BottomSearchBar(props) {
 
     const [showFundamentals, setShowFundamentals] = useState(false);
     const [showNews, setShowNews] = useState(true);
     const [showSuggestions, setShowSuggestions] = useState(false);
+    const [showWebSearch, setShowWebSearch] = useState(false);
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const { suggestedQuestionsList, isLoading } = useSelector(state => state.fruitGPTSlice);
-    
+
     const {
         setQuestion = () => { },
         question = '',
@@ -47,7 +49,7 @@ function BottomSearchBar(props) {
             handleAskPress();
         }
     };
-    
+
     const newsClick = () => {
         setShowFundamentals(false);
         setShowNews(true);
@@ -61,6 +63,11 @@ function BottomSearchBar(props) {
         setShowSuggestions(!showSuggestions);
     };
 
+    const handleWebSearchChange = () => {
+        setShowWebSearch(!showWebSearch);
+    };
+
+    const handleClose = () => setShowWebSearch(false);
 
     const routeChangeFrruitGPT = (question) => {
         navigate("/frruit-gpt", {
@@ -109,14 +116,24 @@ function BottomSearchBar(props) {
                             >Similar Days </div> */}
                         </div>
                     </div>
-                    <input
-                        // className={showSuggestions ? "form-control-suggestion" : "form-control"}
-                        className="form-control"
-                        value={question}
-                        onChange={handleChange}
-                        placeholder="Type your message here"
-                        onKeyDown={handleKeyPress}
-                    />
+                    <div style={{ position: 'relative' }}>
+                        {(flag === 'news') &&
+                            <div className="form-check form-switch checkbox-position">
+                                <input
+                                    className="form-check-input"
+                                    type="checkbox"
+                                    onChange={handleWebSearchChange}
+                                /> <span className={showWebSearch ? 'web-search-active' : 'web-search-default'}>Web Search</span>
+                            </div>
+                        }
+                        <input
+                            className={(flag === 'news' && question.length > 0 && suggestedQuestionsList.length > 0) ? "form-control-suggestion" : flag === 'news' ? "form-control-newsTab" : 'form-control'}
+                            value={question}
+                            onChange={handleChange}
+                            placeholder="Type your message here"
+                            onKeyDown={handleKeyPress}
+                        />
+                    </div>
                 </div>
                 <div className='sendIcon' onClick={handleAskPress}>
                     <img src={SendIcon} className='sendIcon-styles' />
@@ -153,6 +170,14 @@ function BottomSearchBar(props) {
                 }
                 {/* } */}
             </div>
+            {/* <Modal show={showWebSearch} onHide={handleClose} size='sm' centered scrollable>
+                <Modal.Header>
+                    <Modal.Title>Web Search</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <p></p>
+                </Modal.Body>
+            </Modal> */}
         </>
     )
 }
