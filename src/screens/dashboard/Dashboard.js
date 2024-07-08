@@ -398,7 +398,7 @@ function Dashboard() {
     // const handleCheckboxChange = () => {
     //     setShowSuggestions(!showSuggestions);
     // };
-    const placeholderText = flag === 'news' ? 'Search news, summarize, and get TLDRs.' : flag === 'fund' ? 'Compare company data, financials, and actions.' : flag === 'youtube' ? 'Discover insights from YouTube videos.' : 'Search discussions and opinions on Reddit.'
+    const placeholderText = (flag === 'news' || flag === 'news_bing') ? 'Search news, summarize, and get TLDRs.' : flag === 'fund' ? 'Compare company data, financials, and actions.' : flag === 'youtube' ? 'Discover insights from YouTube videos.' : 'Search discussions and opinions on Reddit.'
 
     useEffect(() => {
         if(showWebSearch){
@@ -535,7 +535,7 @@ function Dashboard() {
                                                             <div className='tab-name-css'>Choose Focus</div>
                                                             <img src={StraightArrowIcon} style={{width: 20, objectFit: 'contain'}} />
                                                         </div>
-                                                        <div className={flag === 'news' ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: flag === 'news' ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
+                                                        <div className={(flag === 'news' || flag === 'news_bing') ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: (flag === 'news' || flag === 'news_bing') ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
                                                             onClick={() => setFlag('news')}
                                                         > News </div>
                                                         <div className={flag === 'fund' ? `tab-name-css tab-box-css` : `tab-name-css`} style={{ backgroundColor: flag === 'fund' ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
