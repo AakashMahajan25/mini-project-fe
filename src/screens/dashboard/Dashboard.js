@@ -387,6 +387,7 @@ function Dashboard() {
     // const handleCheckboxChange = () => {
     //     setShowSuggestions(!showSuggestions);
     // };
+    const placeholderText = flag === 'news' ? 'Search news, summarize, and get TLDRs.' : flag === 'fund' ? 'Compare company data, financials, and actions.' : flag === 'youtube' ? 'Discover insights from YouTube videos.' : 'Search discussions and opinions on Reddit.'
 
     return (
         <>
@@ -552,7 +553,7 @@ function Dashboard() {
                                                             style={{ height: 48, paddingTop: 0 }}
                                                             value={question}
                                                             onChange={handleChange}
-                                                            placeholder="Type your message here"
+                                                            placeholder={placeholderText}
                                                             onKeyDown={handleKeyPress}
                                                         />
                                                     </div>
