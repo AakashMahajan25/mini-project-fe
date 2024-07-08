@@ -131,6 +131,7 @@ function Dashboard() {
     const [storyType, setStoryType] = useState([]);
     const [question, setQuestion] = useState('');
     const [flag, setFlag] = useState('news');
+    const [showWebSearch, setShowWebSearch] = useState(false);
 
     const storyRef = useRef()
 
@@ -384,6 +385,10 @@ function Dashboard() {
         return ((((investorStory?.watchlistNews?.length > 0 || investorStory?.sessionNews?.length > 0 || investorStory?.hotPursuitNews?.length > 0 || investorStory?.corporateNews?.length > 0 || investorStory?.economyNews?.length > 0 || investorStory?.corporateResultsNews?.length > 0 || investorStory?.marketNews?.length > 0) || investorStoryError) && (chatSuggestions?.length > 0 || suggestionError)))
     }, [investorStory, stockIndexes, chatSuggestions])
 
+    const handleWebSearchChange = () => {
+        setShowWebSearch(!showWebSearch);
+    };
+
     // const handleCheckboxChange = () => {
     //     setShowSuggestions(!showSuggestions);
     // };
@@ -511,22 +516,22 @@ function Dashboard() {
                                             <>
                                                 <div className='customTab-frruit-gpt'>
                                                     <div className='d-flex align-items-center mobile-scroll-Css'>
-                                                    <div className='d-flex align-items-center me-3'>
-                                                        <div className='tab-name-css'>Choose Focus</div>
+                                                        <div className='d-flex align-items-center me-3'>
+                                                            <div className='tab-name-css'>Choose Focus</div>
                                                             <img src={StraightArrowIcon} style={{width: 20, objectFit: 'contain'}} />
                                                         </div>
                                                         <div className={flag === 'news' ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: flag === 'news' ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
-                                                                onClick={() => setFlag('news')}
-                                                            > News </div>
-                                                            <div className={flag === 'fund' ? `tab-name-css tab-box-css` : `tab-name-css`} style={{ backgroundColor: flag === 'fund' ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
-                                                                onClick={() => setFlag('fund')}
-                                                            > Fundamentals </div>
-                                                            <div className={flag === 'youtube' ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: flag === 'youtube' ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
-                                                                onClick={() => setFlag('youtube')}
-                                                            > Youtube </div>
-                                                            <div className={flag === 'reddit' ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: flag === 'reddit' ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
-                                                                onClick={() => setFlag('reddit')}
-                                                            > Reddit </div>
+                                                            onClick={() => setFlag('news')}
+                                                        > News </div>
+                                                        <div className={flag === 'fund' ? `tab-name-css tab-box-css` : `tab-name-css`} style={{ backgroundColor: flag === 'fund' ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
+                                                            onClick={() => setFlag('fund')}
+                                                        > Fundamentals </div>
+                                                        <div className={flag === 'youtube' ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: flag === 'youtube' ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
+                                                            onClick={() => setFlag('youtube')}
+                                                        > Youtube </div>
+                                                        <div className={flag === 'reddit' ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: flag === 'reddit' ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
+                                                            onClick={() => setFlag('reddit')}
+                                                        > Reddit </div>
                                                         {/* <div className={flag === 'news' ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: flag === 'news' ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
                                                             onClick={() => setFlag('news')}
                                                         > News </div>
@@ -546,15 +551,26 @@ function Dashboard() {
                                                 </div>
                                                 <div className='search-dashboard-main d-flex align-items-end'>
                                                     <div class="form-group">
-                                                        <input
-                                                            // className={showSuggestions ? "form-control-suggestion" : "form-control"}
-                                                            className='form-control'
-                                                            style={{ height: 48, paddingTop: 0 }}
-                                                            value={question}
-                                                            onChange={handleChange}
-                                                            placeholder="Type your message here"
-                                                            onKeyDown={handleKeyPress}
-                                                        />
+                                                        <div style={{ position: 'relative' }}>
+                                                            {(flag === 'news') &&
+                                                                <div className="form-check form-switch checkbox-position">
+                                                                    <input
+                                                                        className="form-check-input"
+                                                                        type="checkbox"
+                                                                        onChange={handleWebSearchChange}
+                                                                    /> <span className={showWebSearch ? 'web-search-active' : 'web-search-default'}>Web Search</span>
+                                                                </div>
+                                                            }
+                                                            <input
+                                                                className={(flag === 'news') ? "form-control-newsTab" : 'form-control'}
+                                                                // className='form-control'
+                                                                style={{ height: 48 }}
+                                                                value={question}
+                                                                onChange={handleChange}
+                                                                placeholder="Type your message here"
+                                                                onKeyDown={handleKeyPress}
+                                                            />
+                                                        </div>
                                                     </div>
                                                     <img className='send-image' src={SendIcon} alt='Send' onClick={() => routePromptFrruitGPT(question, flag)} />
                                                 </div>
