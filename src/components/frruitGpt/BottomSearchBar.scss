@@ -198,42 +198,9 @@
         }
     }
 
-    .form-check-input {
-        background-color: #F2F4F7 !important;
-        height: 20px !important;
-        width: 32px;
-        margin-top: 2px;
-        margin-right: 10px;
-
-        @media only screen and (max-width: 500px) {
-            font-size: 12px;
-        }
-    }
-
-    .form-check-input:focus{
-        box-shadow: none;
-    }
-
-    .form-check-input:checked {
-        border-color: #2CC877 !important;
-        background-color: #2CC877 !important;
-    }
-
     .checkbox-position{
         position: absolute;
         top: 16px;
         left: 16px
-    }
-
-    .web-search-active{
-        color: #4563E4;
-        font-weight: 500;
-        margin-bottom: 6px;
-    }
-
-    .web-search-default{
-        color: #6F7387;
-        font-weight: 500;
-        margin-bottom: 6px;
     }
 }

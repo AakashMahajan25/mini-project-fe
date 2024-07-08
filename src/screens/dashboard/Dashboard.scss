@@ -268,6 +268,14 @@
         width: 100%;
     }
 
+    .form-control-newsTab {
+        border-radius: 15px;
+        border: 1px solid #4563E4;
+        background: #F1F4FD;
+        height: 56px;
+        padding: 6px 16px 6px 160px;
+    }
+
     .suggestions-box {
         z-index: 99;
         position: absolute;
@@ -301,6 +309,21 @@
             font-size: 13px;
             font-weight: 500;
         }
+    }
+
+    .form-control-newsTab {
+        border-radius: 15px;
+        border: 1px solid #4563E4;
+        background: #F1F4FD;
+        height: 56px;
+        padding: 6px 16px 6px 160px;
+        width: 100%;
+    }
+
+    .checkbox-position{
+        position: absolute;
+        top: 12px;
+        left: 16px
     }
 }
 
