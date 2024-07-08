@@ -307,6 +307,12 @@ function Dashboard() {
     }, [storyType])
 
     useEffect(() => {
+        if(showWebSearch){
+            setFlag('news_bing')
+        }
+    }, [showWebSearch])
+
+    useEffect(() => {
         if (activeIndex === (stories?.length - 1) || (stories?.length === 1 && activeIndex === 0)) {
             dispatch(setStoryViewed(storyType.storyType));
         }
@@ -394,6 +400,14 @@ function Dashboard() {
     // };
     const placeholderText = flag === 'news' ? 'Search news, summarize, and get TLDRs.' : flag === 'fund' ? 'Compare company data, financials, and actions.' : flag === 'youtube' ? 'Discover insights from YouTube videos.' : 'Search discussions and opinions on Reddit.'
 
+    useEffect(() => {
+        if(showWebSearch){
+            setFlag('news_bing')
+        }else{
+            setFlag('news') 
+        }
+    }, [showWebSearch])
+    
     return (
         <>
             {
@@ -553,7 +567,7 @@ function Dashboard() {
                                                 <div className='search-dashboard-main d-flex align-items-end'>
                                                     <div class="form-group">
                                                         <div style={{ position: 'relative' }}>
-                                                            {(flag === 'news') &&
+                                                            {(flag === 'news' || flag === 'news_bing') &&
                                                                 <div className="form-check form-switch checkbox-position">
                                                                     <input
                                                                         className="form-check-input"
@@ -563,7 +577,7 @@ function Dashboard() {
                                                                 </div>
                                                             }
                                                             <input
-                                                                className={(flag === 'news') ? "form-control-newsTab" : 'form-control'}
+                                                                className={(flag === 'news' || flag === 'news_bing') ? "form-control-newsTab" : 'form-control'}
                                                                 // className='form-control'
                                                                 style={{ height: 48 }}
                                                                 value={question}
