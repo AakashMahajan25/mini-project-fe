@@ -39,6 +39,20 @@ function BottomSearchBar(props) {
         }, 0);
         return () => clearTimeout(searchQuestion)
     }, [question])
+    
+    useEffect(() => {
+        if(showWebSearch){
+            setFlag('news_bing')
+        }else{
+            setFlag('news') 
+        }
+    }, [showWebSearch])
+
+    useEffect(() => {
+        if(flag === 'news_bing'){
+            setShowWebSearch(!showWebSearch);
+        }
+    }, [flag])
 
     const handleChange = (e) => {
         setQuestion(e.target.value)
@@ -64,9 +78,8 @@ function BottomSearchBar(props) {
     };
 
     const handleWebSearchChange = () => {
-        setShowWebSearch(!showWebSearch);
+            setShowWebSearch(!showWebSearch);
     };
-
     const handleClose = () => setShowWebSearch(false);
 
     const routeChangeFrruitGPT = (question) => {
@@ -75,7 +88,7 @@ function BottomSearchBar(props) {
         });
     };
 
-    const placeholderText = flag === 'news' ? 'Search news, summarize, and get TLDRs.' : flag === 'fund' ? 'Compare company data, financials, and actions.' : flag === 'youtube' ? 'Discover insights from YouTube videos.' : 'Search discussions and opinions on Reddit.'
+    const placeholderText = (flag === 'news' || flag === 'news_bing') ? 'Search news, summarize, and get TLDRs.' : flag === 'fund' ? 'Compare company data, financials, and actions.' : flag === 'youtube' ? 'Discover insights from YouTube videos.' : 'Search discussions and opinions on Reddit.'
     return (
         <>
             <div className='BottomSearchBar'>
@@ -94,7 +107,7 @@ function BottomSearchBar(props) {
                                 <div className='tab-name-css px-3'>Choose Focus</div>
                                 <img src={StraightArrowIcon} style={{width: 20, objectFit: 'contain'}} />
                             </div>
-                            <div className={flag === 'news' ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: flag === 'news' ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
+                            <div className={(flag === 'news' || flag === 'news_bing') ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: (flag === 'news' || flag === 'news_bing') ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
                                 onClick={() => setFlag('news')}
                             > News </div>
                             <div className={flag === 'fund' ? `tab-name-css tab-box-css` : `tab-name-css`} style={{ backgroundColor: flag === 'fund' ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
@@ -118,17 +131,18 @@ function BottomSearchBar(props) {
                         </div>
                     </div>
                     <div style={{ position: 'relative' }}>
-                        {(flag === 'news') &&
+                        {(flag === 'news' || flag === 'news_bing') &&
                             <div className="form-check form-switch checkbox-position">
                                 <input
                                     className="form-check-input"
                                     type="checkbox"
                                     onChange={handleWebSearchChange}
+                                    checked={showWebSearch}
                                 /> <span className={showWebSearch ? 'web-search-active' : 'web-search-default'}>Web Search</span>
                             </div>
                         }
                         <input
-                            className={(flag === 'news' && question.length > 0 && suggestedQuestionsList.length > 0) ? "form-control-suggestion" : flag === 'news' ? "form-control-newsTab" : 'form-control'}
+                            className={((flag === 'news' || flag === 'news_bing') && question.length > 0 && suggestedQuestionsList.length > 0) ? "form-control-suggestion" : (flag === 'news' || flag === 'news_bing') ? "form-control-newsTab" : 'form-control'}
                             value={question}
                             onChange={handleChange}
                             placeholder={placeholderText}

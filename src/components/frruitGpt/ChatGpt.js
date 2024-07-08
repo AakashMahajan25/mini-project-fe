@@ -29,6 +29,7 @@ import FullScreenIcon from '../../assets/images/ic_baseline_fullscreen.png'
 import { Modal } from 'react-bootstrap'
 import LineGraph from '../graph/LineGraph'
 import Markdown from 'react-markdown'
+import moment from 'moment'
 
 function ChatGpt(props) {
     const { chatSuggestions } = useSelector(state => state.fruitGPTSlice);
@@ -459,8 +460,8 @@ function ChatGpt(props) {
                                                                 <div className='d-flex align-items-center'>
                                                                     <img src={link?.image_url ?? RedditLogo} className='smallCircleLogoCss me-2' alt='Company Logo' />
                                                                     <div>
-                                                                        <div className='sources-date'>Jan 16, 2024</div>
-                                                                        <div className='sources-time'>12:00 PM</div>
+                                                                        <div className='sources-date'>{moment(link?.source_date).format('MMMM DD, YYYY')}</div>
+                                                                        <div className='sources-time'>{moment(link?.source_date).format('h:mm a')}</div>
                                                                     </div>
                                                                 </div>
                                                                
@@ -779,7 +780,7 @@ function ChatGpt(props) {
                                                 <img src={link?.image_url ?? RedditLogo} className='smallCircleLogoCss me-2' alt='Company Logo' />
                                                 { link.heading && <div className='companyNameCss'>{link.heading}</div>}
                                                 <div>
-                                                    <div className='sources-date ms-2'>Jan 16, 2024 <span className='sources-time'>12:00 PM</span></div>
+                                                    <div className='sources-date ms-2'>{moment(link?.source_date).format('MMMM DD, YYYY')}<span className='sources-time'>{moment(link?.source_date).format('h:mm a')}</span></div>
                                                 </div>
                                             </div>
                                             <img src={TopRIghtArrow} style={{width:30 ,objectFit:'contain'}} />
