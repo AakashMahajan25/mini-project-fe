@@ -33,10 +33,10 @@ function BottomSearchBar(props) {
     
     useEffect(() => {
         const searchQuestion = setTimeout(() => {
-            if (question) {
+            if (question.length>0 && flag === 'news') {
                 dispatch(searchSuggestedPrompt(question))
             }
-        }, 1000);
+        }, 0);
         return () => clearTimeout(searchQuestion)
     }, [question])
 
@@ -75,6 +75,7 @@ function BottomSearchBar(props) {
         });
     };
 
+    const placeholderText = flag === 'news' ? 'Search news, summarize, and get TLDRs.' : flag === 'fund' ? 'Compare company data, financials, and actions.' : flag === 'youtube' ? 'Discover insights from YouTube videos.' : 'Search discussions and opinions on Reddit.'
     return (
         <>
             <div className='BottomSearchBar'>
@@ -130,7 +131,7 @@ function BottomSearchBar(props) {
                             className={(flag === 'news' && question.length > 0 && suggestedQuestionsList.length > 0) ? "form-control-suggestion" : flag === 'news' ? "form-control-newsTab" : 'form-control'}
                             value={question}
                             onChange={handleChange}
-                            placeholder="Type your message here"
+                            placeholder={placeholderText}
                             onKeyDown={handleKeyPress}
                         />
                     </div>
@@ -151,21 +152,14 @@ function BottomSearchBar(props) {
                 {showSuggestions && */}
                 {(flag === 'news' && question.length > 0 && suggestedQuestionsList.length > 0) &&
                     <div className='suggestions-box'>
-                        {isLoading ? (
-                            <div className='w-100 d-flex justify-content-center' style={{ backgroundColor: '#F1F4FD', padding: 10, marginBottom: 10, borderRadius: 5 }}>
-
-                                <div className="spinner-border text-blue" role="status" style={{ color: '#4563E4' }}>
-                                    <span className="sr-only"></span>
-                                </div>
-                            </div>
-                        ) : (
+                        {
                             suggestedQuestionsList.slice(0, 4).map((question, index) =>
                                 <div className='text-box' onClick={() => routeChangeFrruitGPT(question?.question)}>
                                     <div className='suggestions-text'>{question?.question}</div>
                                     <img src={ArrowIcon} style={{ width: 20, objectFit: 'contain', marginLeft: 16 }} />
                                 </div>
                             )
-                        )}
+                        }
                     </div>
                 }
                 {/* } */}
