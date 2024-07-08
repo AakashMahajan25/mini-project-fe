@@ -49,11 +49,10 @@ function BottomSearchBar(props) {
     }, [showWebSearch])
 
     useEffect(() => {
-        if(flag === 'news_bing'){
-            setShowWebSearch(!showWebSearch);
+        if(flag === 'news_bing' && !showWebSearch){
+            setShowWebSearch(true);
         }
     }, [flag])
-
     const handleChange = (e) => {
         setQuestion(e.target.value)
     }
