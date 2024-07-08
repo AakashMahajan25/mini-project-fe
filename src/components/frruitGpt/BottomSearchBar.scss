@@ -2,9 +2,9 @@
     position: absolute;
     // background-color: white;
     padding: 10px 20px 20px 20px;
-    display: flex;
-    align-items: end;
-    justify-content: center;
+    // display: flex;
+    // align-items: end;
+    // justify-content: center;
     gap: 15px;
     bottom: 0;
     width: 75%;
@@ -15,6 +15,7 @@
     @media only screen and (max-width: 500px) {
         width: 100%;
         background-color: white;
+        padding: 10px 20px 10px 20px;
     }
 
     // left: 50%;
@@ -92,6 +93,10 @@
             height: 56px;
             padding: 6px 16px 6px 160px;
             width: 100%;
+
+            @media only screen and (max-width: 500px) {
+                padding: 6px 16px 6px 16px;
+            }
         }
 
         .form-control {
@@ -109,6 +114,10 @@
             height: 56px;
             padding: 6px 16px 6px 160px;
             width: 100%;
+
+            @media only screen and (max-width: 500px) {
+                padding: 6px 16px 6px 16px;
+            }
         }
 
         .form-control-suggestion:focus {
@@ -128,6 +137,10 @@
             object-fit: contain;
             border-radius: 15px;
             cursor: pointer;
+
+            @media only screen and (max-width: 500px) {
+                width: 56px;
+            }
         }
     }
 
@@ -180,6 +193,11 @@
         border: 1px solid #4563E4;
         width: calc(100% - 122px);
 
+        @media only screen and (max-width: 500px) {
+            width: calc(100% - 112px);    
+            bottom: 90px;
+        }
+
         .text-box {
             background-color: #F1F4FD;
             padding: 8px 16px 8px 16px;
@@ -198,9 +216,23 @@
         }
     }
 
+    .mobile-scroll-Css {
+        overflow-y: auto;
+    }
+
+    .mobile-scroll-Css::-webkit-scrollbar {
+        display: none;
+    }
+
     .checkbox-position{
         position: absolute;
         top: 16px;
-        left: 16px
-    }
+        left: 16px;
+
+        @media only screen and (max-width: 500px) {
+            position: relative;   
+            left: -8px;
+            top: 8px;
+        }
+    }   
 }

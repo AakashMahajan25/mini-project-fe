@@ -371,9 +371,9 @@ function ChatGpt(props) {
     return (
         <>
             <div className='ChatGpt' style={{
-                height: path ? (window.innerWidth < 786 ? window.innerHeight - 182 : window.innerHeight - 200) : (window.innerWidth < 786 ? window.innerHeight - 232 : window.innerHeight - 205),
-                paddingBottom: chatHistory.length === 0 && !path ? 0 : 50,
-                marginTop: window.innerWidth < 500 ? 60 : (path ? (contentChatHistory.length === 0 ? 10 : 10) : 0),
+                height: path ? (window.innerWidth < 786 ? window.innerHeight - 182 : window.innerHeight - 200) : (window.innerWidth < 786 ? window.innerHeight - 175 : window.innerHeight - 205),
+                paddingBottom: chatHistory.length === 0 && !path ? 0 : 70,
+                marginTop: window.innerWidth < 500 ? 0 : (path ? (contentChatHistory.length === 0 ? 10 : 10) : 0),
                 // marginTop: path ? (contentChatHistory.length === 0 ? 10 : 10) : 0,
                 // marginBottom: window.innerWidth < 786 ? 80 : 20,
                 marginBottom: path ? (window.innerWidth < 786 ? 80 : 20) : (window.innerWidth < 786 ? 80 : 20)

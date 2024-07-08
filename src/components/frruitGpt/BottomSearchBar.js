@@ -30,7 +30,7 @@ function BottomSearchBar(props) {
         setFlag = () => { }
     } = props
 
-    
+
     useEffect(() => {
         const searchQuestion = setTimeout(() => {
             if (question.length>0 && flag === 'news') {
@@ -99,26 +99,26 @@ function BottomSearchBar(props) {
                 <p className='linkUrl-text'>Link URL</p>
                 <img src={LinkIcon} className='img-styles' />
             </div> */}
-                <div class="form-group">
-                    <div className='customTab-frruit-gpt'>
-                        <div className='d-flex align-items-center'>
-                            <div className='d-flex align-items-center me-3'>
-                                <div className='tab-name-css px-3'>Choose Focus</div>
-                                <img src={StraightArrowIcon} style={{width: 20, objectFit: 'contain'}} />
-                            </div>
-                            <div className={(flag === 'news' || flag === 'news_bing') ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: (flag === 'news' || flag === 'news_bing') ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
-                                onClick={() => setFlag('news')}
-                            > News </div>
-                            <div className={flag === 'fund' ? `tab-name-css tab-box-css` : `tab-name-css`} style={{ backgroundColor: flag === 'fund' ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
-                                onClick={() => setFlag('fund')}
-                            > Fundamentals </div>
-                            <div className={flag === 'youtube' ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: flag === 'youtube' ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
-                                onClick={() => setFlag('youtube')}
-                            > Youtube </div>
-                            <div className={flag === 'reddit' ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: flag === 'reddit' ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
-                                onClick={() => setFlag('reddit')}
-                            >Reddit </div>
-                            {/* <div className={flag === 'news' ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: flag === 'news' ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
+
+                <div className='customTab-frruit-gpt'>
+                    <div className='d-flex align-items-center mobile-scroll-Css'>
+                        <div className='d-flex align-items-center me-3'>
+                            <div className='tab-name-css px-3'>Choose Focus</div>
+                            <img src={StraightArrowIcon} style={{width: 20, objectFit: 'contain'}} />
+                        </div>
+                        <div className={(flag === 'news' || flag === 'news_bing') ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{backgroundColor: (flag === 'news' || flag === 'news_bing')   ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
+                            onClick={() => setFlag('news')}
+                        > News </div>
+                        <div className={flag === 'fund' ? `tab-name-css tab-box-css` : `tab-name-css`} style={{ backgroundColor: flag === 'fund' ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
+                            onClick={() => setFlag('fund')}
+                        > Fundamentals </div>
+                        <div className={flag === 'youtube' ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: flag === 'youtube' ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
+                            onClick={() => setFlag('youtube')}
+                        > Youtube </div>
+                        <div className={flag === 'reddit' ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: flag === 'reddit' ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
+                            onClick={() => setFlag('reddit')}
+                        >Reddit </div>
+                        {/* <div className={flag === 'news' ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: flag === 'news' ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
                                 onClick={() => setFlag('news')}
                             > News </div>
                             <div className={flag == 'fundamentals' ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: flag == 'fundamentals' ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
@@ -127,30 +127,32 @@ function BottomSearchBar(props) {
                             <div className={flag == 'similarDays' ? `tab-name-css tab-box-css` : `tab-name-css`} style={{ backgroundColor: flag == 'similarDays' ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
                                 onClick={() => setFlag('similarDays')}
                             >Similar Days </div> */}
-                        </div>
-                    </div>
-                    <div style={{ position: 'relative' }}>
-                        {(flag === 'news' || flag === 'news_bing') &&
-                            <div className="form-check form-switch checkbox-position">
-                                <input
-                                    className="form-check-input"
-                                    type="checkbox"
-                                    onChange={handleWebSearchChange}
-                                    checked={showWebSearch}
-                                /> <span className={showWebSearch ? 'web-search-active' : 'web-search-default'}>Web Search</span>
-                            </div>
-                        }
-                        <input
-                            className={((flag === 'news' || flag === 'news_bing') && question.length > 0 && suggestedQuestionsList.length > 0) ? "form-control-suggestion" : (flag === 'news' || flag === 'news_bing') ? "form-control-newsTab" : 'form-control'}
-                            value={question}
-                            onChange={handleChange}
-                            placeholder={placeholderText}
-                            onKeyDown={handleKeyPress}
-                        />
                     </div>
                 </div>
-                <div className='sendIcon' onClick={handleAskPress}>
-                    <img src={SendIcon} className='sendIcon-styles' />
+                <div className='d-flex justify-content-between'>
+                    <div class="form-group">
+                        <div style={{ position: 'relative' }}>
+                            {(flag === 'news' || flag === 'news_bing') &&
+                                <div className="form-check form-switch checkbox-position hide-in-mobile">
+                                    <input
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        onChange={handleWebSearchChange}
+                                    /> <span className={showWebSearch ? 'web-search-active' : 'web-search-default'}>Web Search</span>
+                                </div>
+                            }
+                            <input
+                                className={((flag === 'news' || flag === 'news_bing') && question.length > 0 && suggestedQuestionsList.length > 0) ? "form-control-suggestion" : (flag === 'news' || flag === 'news_bing') ? "form-control-newsTab" : 'form-control'}
+                                value={question}
+                                onChange={handleChange}
+                                placeholder={placeholderText}
+                                onKeyDown={handleKeyPress}
+                            />
+                        </div>
+                    </div>
+                    <div className='sendIcon ms-3' onClick={handleAskPress}>
+                        <img src={SendIcon} className='sendIcon-styles' />
+                    </div>
                 </div>
                 {/* <div className='show-suggestions'>
                     <div className='d-flex align-items-center suggestions-text'>
@@ -175,6 +177,15 @@ function BottomSearchBar(props) {
                         }
                     </div>
                 }
+                {(flag === 'news') &&
+                <div className="form-check form-switch checkbox-position hide-in-desktop">
+                    <input
+                        className="form-check-input"
+                        type="checkbox"
+                        onChange={handleWebSearchChange}
+                    /> <span className={showWebSearch ? 'web-search-active' : 'web-search-default'}>Web Search</span>
+                </div>
+            }
                 {/* } */}
             </div>
             {/* <Modal show={showWebSearch} onHide={handleClose} size='sm' centered scrollable>
