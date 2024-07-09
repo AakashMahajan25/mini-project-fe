@@ -591,6 +591,15 @@ function Dashboard() {
                                                     </div>
                                                     <img className='send-image' src={SendIcon} alt='Send' onClick={() => routePromptFrruitGPT(question, flag)} />
                                                 </div>
+                                                {(flag === 'news') &&
+                                                    <div className="form-check form-switch checkbox-position hide-in-desktop">
+                                                        <input
+                                                            className="form-check-input"
+                                                            type="checkbox"
+                                                            onChange={handleWebSearchChange}
+                                                        /> <span className={showWebSearch ? 'web-search-active' : 'web-search-default'}>Web Search</span>
+                                                    </div>
+                                                }
                                                 {/* <div className='show-suggestions-dashboard'>
                                                     <div className='d-flex align-items-center suggestions-text'>
                                                         <input

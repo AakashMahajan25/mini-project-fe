@@ -257,7 +257,7 @@ function FrruitGPT() {
                             <div>Frruit GPT</div>
                             <div>
                                 <button className='prompts-btn me-3' onClick={() => setShowPromptsLibrary(!showPromptsLibrary)}>
-                                    <img src={BackArrowIcon}/>
+                                    {/* <img src={BackArrowIcon}/> */}
                                         Prompts Library
                                 </button>
                                 <img src={HistoryImg} onClick={handleHistoryShow} className='history-icon-css' />
