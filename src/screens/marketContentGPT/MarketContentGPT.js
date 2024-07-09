@@ -95,10 +95,10 @@ function MarketContentGPT() {
                 if (res && res?.data !== undefined) {
                     const token = axios.CancelToken.source()
                     dispatch(setCancelTokens(token))
-                    dispatch(triggerContentLinkGraph({ question, id: res.prompt_id, cancelToken: token })).unwrap()
-                        .then(res => {
-                            scrollToBottom()
-                        })
+                    // dispatch(triggerContentLinkGraph({ question, id: res.prompt_id, cancelToken: token })).unwrap()
+                    //     .then(res => {
+                    //         scrollToBottom()
+                    //     })
                 }
                 dispatch(getContentPromptList('link'))
                 setSelectedChat(res.prompt_id)
@@ -173,10 +173,10 @@ function MarketContentGPT() {
                     if (res && selectedFile) {
                         const token = axios.CancelToken.source()
                         dispatch(setCancelTokens(token))
-                        dispatch(triggerContentAttachmentGraph({ question: selectedFile?.name, id: promptId, cancelToken: token })).unwrap()
-                            .then(res => {
-                                scrollToBottom()
-                            })
+                        // dispatch(triggerContentAttachmentGraph({ question: selectedFile?.name, id: promptId, cancelToken: token })).unwrap()
+                        //     .then(res => {
+                        //         scrollToBottom()
+                        //     })
                     }
                     setQuestion('');
                     setSelectedFile(null)
