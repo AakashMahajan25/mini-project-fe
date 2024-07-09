@@ -780,7 +780,7 @@ function ChatGpt(props) {
                                                 <img src={link?.image_url ?? RedditLogo} className='smallCircleLogoCss me-2' alt='Company Logo' />
                                                 { link.heading && <div className='companyNameCss'>{link.heading}</div>}
                                                 <div>
-                                                    <div className='sources-date ms-2'>{moment(link?.source_date).format('MMMM DD, YYYY')}<span className='sources-time'>{moment(link?.source_date).format('h:mm a')}</span></div>
+                                                    <div className='sources-date ms-2'>{moment(link?.source_date).format('MMMM DD, YYYY')}<span className='sources-time ms-2'>{moment(link?.source_date).format('h:mm a')}</span></div>
                                                 </div>
                                             </div>
                                             <img src={TopRIghtArrow} style={{width:30 ,objectFit:'contain'}} />
