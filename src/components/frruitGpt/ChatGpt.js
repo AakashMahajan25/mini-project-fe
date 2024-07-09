@@ -719,7 +719,7 @@ function ChatGpt(props) {
                                                 </div>
                                                 :
                                                 <div className='chat-text-container'>
-                                                    <h3 className='chat-text mt-1' dangerouslySetInnerHTML={{ __html: replaceNewlinesWithBr(chat?.text || '') }}></h3>
+                                                   <Markdown>{chat?.text || ''}</Markdown>
                                                 </div>
                                             }
 
@@ -737,12 +737,12 @@ function ChatGpt(props) {
                             {indicatorEl} {/* renders only while loading */}
                         </section>
                     }
-                    {
+                    {/* {
                         contentGraphLoader &&
                         <div className='chat-text-container' style={{ marginLeft: 20, marginTop: 10, color: '#4563E4' }}>
                             <h6 className='chat-text mt-1'>Creating network graph may take few mins</h6>
                         </div>
-                    }
+                    } */}
                 </div>
             </div>
             <Modal show={show} fullscreen={true} onHide={() => setShow(false)} style={{ backgroundColor: '#fefefe' }}>
