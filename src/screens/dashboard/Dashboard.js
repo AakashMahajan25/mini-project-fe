@@ -259,6 +259,7 @@ function Dashboard() {
     };
 
     useEffect(() => {
+        if((!isData)){
         dispatch(getTrendingStocks()).unwrap()
             .then((res) => {
                 ReactGA.event({
@@ -294,6 +295,7 @@ function Dashboard() {
             });
         // dispatch(getStockIndexes())
         dispatch(fetchAllNews(''))
+        }
         const interval = setInterval(() => {
             dispatch(fetchAllNews(''))
         }, 60000 * 3);
@@ -301,7 +303,6 @@ function Dashboard() {
             clearInterval(interval)
         }
     }, [])
-
     useEffect(() => {
         getStoryData()
     }, [storyType])
@@ -359,7 +360,7 @@ function Dashboard() {
     }
 
     const colors = ['#4563E4', '#40BC98', "#2B69B6", "#A856E5", "#E35151", "#858585", "#CB6343", "#0CB8B8", "#8361D9", "#4563E4"]
-
+    
     const getRandomColor = () => {
         const randomIndex = Math.floor(Math.random() * colors.length);
         return colors[randomIndex];
@@ -386,11 +387,12 @@ function Dashboard() {
             routePromptFrruitGPT(question, flag);
         }
     };
-
+    
     const isData = useMemo(() => {
         return ((((investorStory?.watchlistNews?.length > 0 || investorStory?.sessionNews?.length > 0 || investorStory?.hotPursuitNews?.length > 0 || investorStory?.corporateNews?.length > 0 || investorStory?.economyNews?.length > 0 || investorStory?.corporateResultsNews?.length > 0 || investorStory?.marketNews?.length > 0) || investorStoryError) && (chatSuggestions?.length > 0 || suggestionError)))
     }, [investorStory, stockIndexes, chatSuggestions])
 
+    console.log('isData============', isData)
     const handleWebSearchChange = () => {
         setShowWebSearch(!showWebSearch);
     };
