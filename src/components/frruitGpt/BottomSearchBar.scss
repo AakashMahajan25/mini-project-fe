@@ -184,14 +184,14 @@
     .suggestions-box {
         z-index: 99;
         position: absolute;
-        bottom: 76px;
+        bottom: 75px;
         left: 20px;
         padding: 16px;
         padding-bottom: 0;
         border-radius: 15px 15px 0 0;
         background-color: #F9FAFF;
         border: 1px solid #4563E4;
-        width: calc(100% - 122px);
+        width: calc(100% - 123px);
 
         @media only screen and (max-width: 500px) {
             width: calc(100% - 112px);    

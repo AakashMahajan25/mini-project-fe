@@ -570,7 +570,7 @@ function Dashboard() {
                                                     <div class="form-group">
                                                         <div style={{ position: 'relative' }}>
                                                             {(flag === 'news' || flag === 'news_bing') &&
-                                                                <div className="form-check form-switch checkbox-position">
+                                                                <div className="form-check form-switch checkbox-position hide-in-mobile">
                                                                     <input
                                                                         className="form-check-input"
                                                                         type="checkbox"
@@ -591,7 +591,7 @@ function Dashboard() {
                                                     </div>
                                                     <img className='send-image' src={SendIcon} alt='Send' onClick={() => routePromptFrruitGPT(question, flag)} />
                                                 </div>
-                                                {(flag === 'news') &&
+                                                {(flag === 'news' || flag === 'news_bing') &&
                                                     <div className="form-check form-switch checkbox-position hide-in-desktop">
                                                         <input
                                                             className="form-check-input"
