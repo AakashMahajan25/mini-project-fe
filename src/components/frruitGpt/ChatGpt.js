@@ -30,6 +30,7 @@ import { Modal } from 'react-bootstrap'
 import LineGraph from '../graph/LineGraph'
 import Markdown from 'react-markdown'
 import moment from 'moment'
+import { InfinitySpin } from 'react-loader-spinner'
 
 function ChatGpt(props) {
     const { chatSuggestions } = useSelector(state => state.fruitGPTSlice);
@@ -47,7 +48,7 @@ function ChatGpt(props) {
     };
     const { containerProps, indicatorEl } = useLoading({
         loading: true,
-        indicator: <ThreeDots width="50" color="blue" />,
+        indicator: <InfinitySpin width="150" color="#4563e4" />,
     });
     var settings = {
         dots: false,
@@ -733,7 +734,7 @@ function ChatGpt(props) {
                 <div className='d-flex align-items-center'>
                     {
                         (frruitLoader || contentGPTLoader) &&
-                        <section {...containerProps} style={{ marginLeft: 20 }}>
+                        <section {...containerProps} style={{ marginLeft: -20 }}>
                             {indicatorEl} {/* renders only while loading */}
                         </section>
                     }
