@@ -31,6 +31,7 @@ import LineGraph from '../graph/LineGraph'
 import Markdown from 'react-markdown'
 import moment from 'moment'
 import { InfinitySpin } from 'react-loader-spinner'
+import CustomTable from '../customTable/CustomTable'
 
 function ChatGpt(props) {
     const { chatSuggestions } = useSelector(state => state.fruitGPTSlice);
@@ -369,6 +370,54 @@ function ChatGpt(props) {
         setShow(true);
     }
 
+    // const tableHeaders = ['Company', 'Ticker', 'Industry', 'Market Cap', 'EPS(₹)'];
+
+    // const userData = [
+    //     {
+    //         type: 'Tata Consultancy Services Limited',
+    //         tickername: 'TCS',
+    //         industryname: 'IT',
+    //         marketcapunits: '14,41,988 Cr',
+    //         epsunits: '126.88',
+    //     },
+    //     {
+    //         type: 'Tata Consultancy Services Limited',
+    //         tickername: 'TCS',
+    //         industryname: 'IT',
+    //         marketcapunits: '14,41,988 Cr',
+    //         epsunits: '126.88',
+    //     },
+    //     {
+    //         type: 'Tata Consultancy Services Limited',
+    //         tickername: 'TCS',
+    //         industryname: 'IT',
+    //         marketcapunits: '14,41,988 Cr',
+    //         epsunits: '126.88',
+    //     },
+    //     {
+    //         type: 'Tata Consultancy Services Limited',
+    //         tickername: 'TCS',
+    //         industryname: 'IT',
+    //         marketcapunits: '14,41,988 Cr',
+    //         epsunits: '126.88',
+    //     },
+    //     {
+    //         type: 'Tata Consultancy Services Limited',
+    //         tickername: 'TCS',
+    //         industryname: 'IT',
+    //         marketcapunits: '14,41,988 Cr',
+    //         epsunits: '126.88',
+    //     },
+    //     {
+    //         type: 'Tata Consultancy Services Limited',
+    //         tickername: 'TCS',
+    //         industryname: 'IT',
+    //         marketcapunits: '14,41,988 Cr',
+    //         epsunits: '126.88',
+    //     },
+
+    // ]
+
     return (
         <>
             <div className='ChatGpt' style={{
@@ -423,7 +472,7 @@ function ChatGpt(props) {
                                 </div>
                                 <div className='chat-text-container'>
                                     <h3 className='chat-text'>{chat?.text}</h3>
-                                    <h3 className='chat-text' style={{color:"#a4a5a7",fontWeight:'400',fontSize:12}}>{getCurrentTimeWithAMPM(chat?.createdAt)}</h3>
+                                    <h3 className='chat-text' style={{ color: "#a4a5a7", fontWeight: '400', fontSize: 12 }}>{getCurrentTimeWithAMPM(chat?.createdAt)}</h3>
                                 </div>
                             </div>
                             :
@@ -435,7 +484,7 @@ function ChatGpt(props) {
                                         <div className='d-flex align-items-center my-2 floatLeft'>
                                             <img src={ArrowGrey} className='arrow' />
                                             <p className='you-text'>Frruit GPT</p>
-                                            <h3 className='you-text' style={{ color: "#a4a5a7", fontWeight: '400', marginBottom: 0, marginLeft: 5,fontSize:12 }}>{getCurrentTimeWithAMPM(chat?.createdAt)}</h3>
+                                            <h3 className='you-text' style={{ color: "#a4a5a7", fontWeight: '400', marginBottom: 0, marginLeft: 5, fontSize: 12 }}>{getCurrentTimeWithAMPM(chat?.createdAt)}</h3>
                                         </div>
                                     </>
                                 }
@@ -465,9 +514,9 @@ function ChatGpt(props) {
                                                                         <div className='sources-time'>{moment(link?.source_date).format('h:mm a')}</div>
                                                                     </div>
                                                                 </div>
-                                                               
+
                                                             </div>
-                                                            <img src={TopRIghtArrow} style={{width:30 ,objectFit:'contain'}} alt='Arrow Icon' />
+                                                            <img src={TopRIghtArrow} style={{ width: 30, objectFit: 'contain' }} alt='Arrow Icon' />
                                                         </div>
                                                         <div className='companyNameCss mt-2'>{link?.heading ?? link?.title}</div>
                                                     </a>
@@ -477,7 +526,7 @@ function ChatGpt(props) {
                                                         <div className='d-flex align-items-center'>
                                                             <div className='companyNameCss me-2'>View All</div>
                                                         </div>
-                                                        <img src={TopRIghtArrow} style={{width:30 ,objectFit:'contain'}} />
+                                                        <img src={TopRIghtArrow} style={{ width: 30, objectFit: 'contain' }} />
                                                     </div>
                                                 </div>}
                                             </div>
@@ -720,7 +769,7 @@ function ChatGpt(props) {
                                                 </div>
                                                 :
                                                 <div className='chat-text-container'>
-                                                   <Markdown>{chat?.text || ''}</Markdown>
+                                                    <Markdown>{chat?.text || ''}</Markdown>
                                                 </div>
                                             }
 
@@ -746,6 +795,14 @@ function ChatGpt(props) {
                     } */}
                 </div>
             </div>
+
+            {/* <div className='tab1'>
+                <CustomTable
+                    data={userData}
+                    headers={tableHeaders}
+                />
+            </div> */}
+
             <Modal show={show} fullscreen={true} onHide={() => setShow(false)} style={{ backgroundColor: '#fefefe' }}>
                 <Modal.Header closeButton>
                     <Modal.Title>Relation Graph</Modal.Title>
@@ -775,16 +832,16 @@ function ChatGpt(props) {
                         <div className='cardContainer'>
                             {sourceData?.map((link, index) => (
                                 <>
-                                    <a href={link?.source_url} target='_blank' key={index}  className='sourceCardCss'>
+                                    <a href={link?.source_url} target='_blank' key={index} className='sourceCardCss'>
                                         <div className='Dflex-css'>
                                             <div className='d-flex align-items-center'>
                                                 <img src={link?.image_url ?? RedditLogo} className='smallCircleLogoCss me-2' alt='Company Logo' />
-                                                { link.heading && <div className='companyNameCss'>{link.heading}</div>}
+                                                {link.heading && <div className='companyNameCss'>{link.heading}</div>}
                                                 <div>
                                                     <div className='sources-date ms-2'>{moment(link?.source_date).format('MMMM DD, YYYY')}<span className='sources-time ms-2'>{moment(link?.source_date).format('h:mm a')}</span></div>
                                                 </div>
                                             </div>
-                                            <img src={TopRIghtArrow} style={{width:30 ,objectFit:'contain'}} />
+                                            <img src={TopRIghtArrow} style={{ width: 30, objectFit: 'contain' }} />
                                         </div>
                                         {link.title && <div className='title-text' style={{ fontSize: 16, marginTop: 10 }}>{link.title}</div>}
                                         {link.description && <div className='description-text' style={{ fontSize: 12, marginTop: 10 }}>{link.description}</div>}

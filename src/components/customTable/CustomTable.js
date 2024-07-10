@@ -19,7 +19,12 @@ function CustomTable({ data, headers, showActions, actionsHeaderText, onViewClic
                         <thead>
                             <tr className='table-head'>
                                 {headers.map((header, index) => (
-                                    <th className='table-header' key={index}>{header}</th>
+                                    <th className='table-header' key={index} style={{
+                                        color: ['Company', 'Ticker', 'Industry', 'Market Cap', 'EPS(₹)'].includes(header) ? 'grey' : 'inherit',
+                                        fontWeight: ['Company', 'Ticker', 'Industry', 'Market Cap', 'EPS(₹)'].includes(header) ? 400 : 'inherit'
+                                    }}>
+                                        {header}
+                                    </th>
                                 ))}
                                 {showActions &&
                                     <th className='table-header'>{actionsHeaderText || ''} </th>
@@ -69,7 +74,13 @@ function CustomTable({ data, headers, showActions, actionsHeaderText, onViewClic
 
                                                             </>
                                                         }
-                                                        {headers[colIndex] !== 'M.CAP (Cr.)' && value}
+                                                        {headers[colIndex] !== 'M.CAP (Cr.)' && (
+                                                            <span style={{
+                                                                color: ['Ticker', 'Industry', 'Market Cap', 'EPS(₹)'].includes(headers[colIndex]) ? 'black' : '#4f4f4f'
+                                                            }}>
+                                                                {value}
+                                                            </span>
+                                                        )}
                                                     </div>
                                                 </td>
                                             )
