@@ -59,7 +59,7 @@ function TrendingStocksCard({ name, symbol, change, changesPercentage, price, st
     }
     const getFrruitClick = () => {
         navigate("/frruit-gpt", {
-            state: { question: 'What is happening in ' + stock_ticker + ' stock' },
+            state: { question: 'What is happening in ' + stock_ticker + ' stock',fundamental:'news' },
         });
     }
 

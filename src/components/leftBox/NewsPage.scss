@@ -1,0 +1,41 @@
+.newspage{
+    .page-heading{
+        margin-top: 20px;
+        font-family: 'Roboto', sans-serif;
+        font-weight: 500;
+        font-size: 16px;
+        color:#6F7387
+    }
+
+    .newsbox{
+        background-color: #F1F4FD;
+        padding: 10px;
+        border-radius: 10px;
+        margin-top: 10px;
+    }
+
+    .box-heading{
+        font-family: 'Roboto', sans-serif;
+        font-weight: 400;
+        font-size: 12px;
+        color:#171E42
+    }
+
+    .box-subheading{
+        font-family: 'Roboto', sans-serif;
+        font-weight: 400;
+        font-size: 12px;
+        color:#6F7387
+    }
+
+    .sub-box{
+        margin-top: 16px;
+    }
+
+    .clockicon{
+        width:16px;
+        height:16px;
+        margin-right: 8px;
+    }
+
+}

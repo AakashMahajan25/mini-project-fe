@@ -14,6 +14,7 @@ const initialState = {
     frruitLoader: false,
     error: null,
     promptLibraryList: [],
+    suggestedQuestionsList: [],
 }
 
 export const getPromptSuggestion = createAsyncThunk("fruitGpt/getPromptSuggestion", async (number) => {
@@ -103,7 +104,8 @@ export const triggerFrruitGpt = createAsyncThunk("fruitGpt/triggerFrruitGpt", as
         }
         const chatData = [{
             person: "bot",
-            text: response.data.data,
+            text: response.data.data.data,
+            link: response.data.data.link,
             type: "text"
         }]
         dispatch(setCancelTokens(null))
@@ -175,6 +177,21 @@ export const deletePrompt = createAsyncThunk("watchList/deletePrompt", async (pr
 });
 
 
+export const searchSuggestedPrompt = createAsyncThunk("fruitGpt/searchSuggestedPrompt", async (search) => {
+    try {
+        let data = {
+            method: METHOD_TYPE.get,
+            url: `${API_ENDPOINTS.searchSuggestedQuestionPrompts}${search}`,
+        };
+        const response = await api(data);
+        return response.data.data;
+        
+    } catch (error) {
+        throw error.response;
+    }
+});
+
+
 const fruitGPTSlice = createSlice({
     name: "fruitGPT",
     initialState,
@@ -194,18 +211,18 @@ const fruitGPTSlice = createSlice({
         const handlefrruitLoading = (state, action) => {
             state.frruitLoader = action.meta.requestStatus === 'pending';
         };
-
+        
         const handleSuggestionLoader = (state, action) => {
             state.suggestionLoader = action.meta.requestStatus === 'pending';
         }
-
+        
         builder
-            .addCase(getPromptSuggestion.fulfilled, (state, action) => {
-                state.chatSuggestions = action.payload;
-                state.suggestionError = false;
-            })
-            .addCase(getPromptSuggestion.rejected, (state, action) => {
-                state.suggestionError = true;
+        .addCase(getPromptSuggestion.fulfilled, (state, action) => {
+            state.chatSuggestions = action.payload;
+            state.suggestionError = false;
+        })
+        .addCase(getPromptSuggestion.rejected, (state, action) => {
+            state.suggestionError = true;
             })
             .addCase(getPromptList.fulfilled, (state, action) => {
                 state.promptList = action.payload;
@@ -213,28 +230,15 @@ const fruitGPTSlice = createSlice({
             .addCase(searchPrompt.fulfilled, (state, action) => {
                 state.promptList = action.payload;
             })
+            .addCase(searchSuggestedPrompt.fulfilled, (state, action) => {
+                state.suggestedQuestionsList = action.payload;
+            })
+            .addCase(searchSuggestedPrompt.rejected, (state, action) => {
+                state.suggestedQuestionsList = [];
+                state.isLoading = false
+            })
             .addCase(getPromptHistory.fulfilled, (state, action) => {
-                const history = action.payload.rows.map(row => {
-                    try {
-                        if (row.type === 'graph' && row.text) {
-                            return {
-                                ...row,
-                                text: JSON.parse(row.text)
-                            };
-                        } else if (row.link && row.link.length > 0) {
-                            const parsedLinks = row.link.map(link => JSON.parse(link));
-                            return {
-                                ...row,
-                                link: parsedLinks
-                            };
-                        } else {
-                            return row;
-                        }
-                    } catch (error) {
-                        console.error(`Error parsing JSON for row with id ${row.id}:`, error);
-                        return row; // Return the original row if parsing fails
-                    }
-                });
+                const history = action.payload.rows.map(row => row.type === 'graph' ? ({...row, text: JSON.parse(row.text)}) : row.link ? ({...row, link: JSON.parse(row.link)}) : row)
             
                 state.chatHistory = history; // Update chat history in the Redux state
                 state.cancelTokens = null; // Reset cancelTokens if needed
@@ -266,7 +270,10 @@ const fruitGPTSlice = createSlice({
                     action.type === getPromptsLibrary.rejected.type||
                     action.type === deletePrompt.pending.type ||
                     action.type === deletePrompt.fulfilled.type ||
-                    action.type === deletePrompt.rejected.type,
+                    action.type === deletePrompt.rejected.type||
+                    action.type === searchSuggestedPrompt.pending.type ||
+                    action.type === searchSuggestedPrompt.fulfilled.type ||
+                    action.type === searchSuggestedPrompt.rejected.type,
 
                 handleLoading
             )

@@ -66,4 +66,6 @@ export const API_ENDPOINTS = {
     triggerAttachmentGraph: 'contentPrompt/triggerAttachmentGraph',
     fetchAllNews: 'news/fetchAllNews',
     getOrderHistory: 'order/getUserOrders',
+    searchSuggestedQuestionPrompts: 'prompts/searchSuggestedQuestionPrompts?prompt=',
+    fetchTrendingStocksFromAI: 'stocks/fetchTrendingStocksFromAI',
 }

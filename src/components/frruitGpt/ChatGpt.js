@@ -22,13 +22,15 @@ import UploadDocImg from '../../assets/images/doc-img.png'
 import { useNavigate } from 'react-router-dom';
 import quesIcon from '../../assets/images/i-icon.png';
 // import PieChart from '../pieChart/PieChart'
-import NewsTime from '../../assets/images/time-clock.png';
+import RedditLogo from '../../assets/images/reddit_logo.png';
 import NetworkGraph from '../networkGraph/NetworkGraph'
 import { Tooltip } from 'react-tooltip'
 import FullScreenIcon from '../../assets/images/ic_baseline_fullscreen.png'
 import { Modal } from 'react-bootstrap'
 import LineGraph from '../graph/LineGraph'
 import Markdown from 'react-markdown'
+import moment from 'moment'
+import { InfinitySpin } from 'react-loader-spinner'
 
 function ChatGpt(props) {
     const { chatSuggestions } = useSelector(state => state.fruitGPTSlice);
@@ -46,7 +48,7 @@ function ChatGpt(props) {
     };
     const { containerProps, indicatorEl } = useLoading({
         loading: true,
-        indicator: <ThreeDots width="50" color="blue" />,
+        indicator: <InfinitySpin width="150" color="#4563e4" />,
     });
     var settings = {
         dots: false,
@@ -359,7 +361,7 @@ function ChatGpt(props) {
     const navigate = useNavigate();
     const routeChangeFrruitGPT = (question) => {
         navigate("/frruit-gpt", {
-            state: { question, fundamental: true },
+            state: { question, fundamental: 'fund' },
         });
     };
     const handleShow = (data) => {
@@ -370,9 +372,9 @@ function ChatGpt(props) {
     return (
         <>
             <div className='ChatGpt' style={{
-                height: path ? (window.innerWidth < 786 ? window.innerHeight - 182 : window.innerHeight - 200) : (window.innerWidth < 786 ? window.innerHeight - 232 : window.innerHeight - 205),
-                paddingBottom: chatHistory.length === 0 && !path ? 0 : 50,
-                marginTop: window.innerWidth < 500 ? 60 : (path ? (contentChatHistory.length === 0 ? 10 : 10) : 0),
+                height: path ? (window.innerWidth < 786 ? window.innerHeight - 182 : window.innerHeight - 200) : (window.innerWidth < 786 ? window.innerHeight - 175 : window.innerHeight - 205),
+                paddingBottom: chatHistory.length === 0 && !path ? 0 : 70,
+                marginTop: window.innerWidth < 500 ? 0 : (path ? (contentChatHistory.length === 0 ? 10 : 10) : 0),
                 // marginTop: path ? (contentChatHistory.length === 0 ? 10 : 10) : 0,
                 // marginBottom: window.innerWidth < 786 ? 80 : 20,
                 marginBottom: path ? (window.innerWidth < 786 ? 80 : 20) : (window.innerWidth < 786 ? 80 : 20)
@@ -421,7 +423,7 @@ function ChatGpt(props) {
                                 </div>
                                 <div className='chat-text-container'>
                                     <h3 className='chat-text'>{chat?.text}</h3>
-                                    <h3 className='chat-text' style={{color:"#a4a5a7",fontWeight:'400'}}>{getCurrentTimeWithAMPM(chat?.createdAt)}</h3>
+                                    <h3 className='chat-text' style={{color:"#a4a5a7",fontWeight:'400',fontSize:12}}>{getCurrentTimeWithAMPM(chat?.createdAt)}</h3>
                                 </div>
                             </div>
                             :
@@ -433,7 +435,7 @@ function ChatGpt(props) {
                                         <div className='d-flex align-items-center my-2 floatLeft'>
                                             <img src={ArrowGrey} className='arrow' />
                                             <p className='you-text'>Frruit GPT</p>
-                                            <h3 className='you-text' style={{ color: "#a4a5a7", fontWeight: '400', marginBottom: 0, marginLeft: 5 }}>{getCurrentTimeWithAMPM(chat?.createdAt)}</h3>
+                                            <h3 className='you-text' style={{ color: "#a4a5a7", fontWeight: '400', marginBottom: 0, marginLeft: 5,fontSize:12 }}>{getCurrentTimeWithAMPM(chat?.createdAt)}</h3>
                                         </div>
                                     </>
                                 }
@@ -453,24 +455,31 @@ function ChatGpt(props) {
                                         <div className='companyCardSTyleCss'>
                                             <div className='cardContainer'>
                                                 {chat.link.slice(0, 3).map((link, index) => (
-                                                    <a href={link} target='_blank' key={index} className='sourceCardCss'>
+                                                    <a href={link?.source_url} target='_blank' key={index} className='sourceCardCss'>
                                                         <div className='Dflex-css'>
                                                             <div className='d-flex align-items-center'>
-                                                                <img src={link?.logoSrc} className='smallCircleLogoCss me-2' alt='Company Logo' />
-                                                                <div className='companyNameCss'>{link?.companyName}</div>
+                                                                <div className='d-flex align-items-center'>
+                                                                    <img src={link?.image_url ?? RedditLogo} className='smallCircleLogoCss me-2' alt='Company Logo' />
+                                                                    <div>
+                                                                        <div className='sources-date'>{moment(link?.source_date).format('MMMM DD, YYYY')}</div>
+                                                                        <div className='sources-time'>{moment(link?.source_date).format('h:mm a')}</div>
+                                                                    </div>
+                                                                </div>
+                                                               
                                                             </div>
-                                                            <img src={TopRIghtArrow} className='smallCircleLogoCss' alt='Arrow Icon' />
+                                                            <img src={TopRIghtArrow} style={{width:30 ,objectFit:'contain'}} alt='Arrow Icon' />
                                                         </div>
+                                                        <div className='companyNameCss mt-2'>{link?.heading ?? link?.title}</div>
                                                     </a>
                                                 ))}
-                                                <div className='sourceCardCss' style={{ width: 'max-content' }} onClick={() => { handleShow2(); setSourceData(chat.link) }}>
+                                                {chat.link.length > 3 && <div className='sourceCardCss d-flex align-items-center    ' style={{ width: 'max-content' }} onClick={() => { handleShow2(); setSourceData(chat.link) }}>
                                                     <div className='Dflex-css'>
                                                         <div className='d-flex align-items-center'>
                                                             <div className='companyNameCss me-2'>View All</div>
                                                         </div>
-                                                        <img src={TopRIghtArrow} className='smallCircleLogoCss' />
+                                                        <img src={TopRIghtArrow} style={{width:30 ,objectFit:'contain'}} />
                                                     </div>
-                                                </div>
+                                                </div>}
                                             </div>
                                         </div>
                                     </>
@@ -711,7 +720,7 @@ function ChatGpt(props) {
                                                 </div>
                                                 :
                                                 <div className='chat-text-container'>
-                                                    <h3 className='chat-text mt-1' dangerouslySetInnerHTML={{ __html: replaceNewlinesWithBr(chat?.text || '') }}></h3>
+                                                   <Markdown>{chat?.text || ''}</Markdown>
                                                 </div>
                                             }
 
@@ -725,16 +734,16 @@ function ChatGpt(props) {
                 <div className='d-flex align-items-center'>
                     {
                         (frruitLoader || contentGPTLoader) &&
-                        <section {...containerProps} style={{ marginLeft: 20 }}>
+                        <section {...containerProps} style={{ marginLeft: -20 }}>
                             {indicatorEl} {/* renders only while loading */}
                         </section>
                     }
-                    {
+                    {/* {
                         contentGraphLoader &&
                         <div className='chat-text-container' style={{ marginLeft: 20, marginTop: 10, color: '#4563E4' }}>
                             <h6 className='chat-text mt-1'>Creating network graph may take few mins</h6>
                         </div>
-                    }
+                    } */}
                 </div>
             </div>
             <Modal show={show} fullscreen={true} onHide={() => setShow(false)} style={{ backgroundColor: '#fefefe' }}>
@@ -764,19 +773,22 @@ function ChatGpt(props) {
                     <div className='title-text mb-3'>Sources</div>
                     <div className='companyCardSTyleCss'>
                         <div className='cardContainer'>
-                            {sourceData?.map((card, index) => (
+                            {sourceData?.map((link, index) => (
                                 <>
-                                    <div key={index}  className='sourceCardCss'>
+                                    <a href={link?.source_url} target='_blank' key={index}  className='sourceCardCss'>
                                         <div className='Dflex-css'>
                                             <div className='d-flex align-items-center'>
-                                                <img src={card.logoSrc} className='smallCircleLogoCss me-2' alt='Company Logo' />
-                                                <div className='companyNameCss'>{card.companyName}</div>
+                                                <img src={link?.image_url ?? RedditLogo} className='smallCircleLogoCss me-2' alt='Company Logo' />
+                                                { link.heading && <div className='companyNameCss'>{link.heading}</div>}
+                                                <div>
+                                                    <div className='sources-date ms-2'>{moment(link?.source_date).format('MMMM DD, YYYY')}<span className='sources-time ms-2'>{moment(link?.source_date).format('h:mm a')}</span></div>
+                                                </div>
                                             </div>
-                                            <img src={TopRIghtArrow} className='smallCircleLogoCss' alt='Arrow Icon' />
+                                            <img src={TopRIghtArrow} style={{width:30 ,objectFit:'contain'}} />
                                         </div>
-                                        <div className='title-text' style={{ fontSize: 16, marginTop: 10 }}>{card.cardTitle}</div>
-                                        <div className='description-text' style={{ fontSize: 12, marginTop: 10 }}>{card.cardPara}</div>
-                                    </div>
+                                        {link.title && <div className='title-text' style={{ fontSize: 16, marginTop: 10 }}>{link.title}</div>}
+                                        {link.description && <div className='description-text' style={{ fontSize: 12, marginTop: 10 }}>{link.description}</div>}
+                                    </a>
                                 </>
                             ))}
                         </div>

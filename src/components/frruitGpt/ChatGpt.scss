@@ -415,6 +415,8 @@
             border-radius: 12px;
             margin-right: 15px;
             cursor: pointer;
+            text-decoration: none;
+            align-self: stretch;
         }
 
         .Dflex-css {
@@ -424,16 +426,17 @@
         }
 
         .companyNameCss {
-            font-size: 14px;
+            font-size: 12px;
             font-weight: 500;
             line-height: 18px;
-            color: #6F7387;
+            color: #171E42;
         }
 
         .smallCircleLogoCss {
-            width: 24px;
-            height: 24px;
-            object-fit: contain;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
         }
 
         .d-flex {
@@ -448,7 +451,18 @@
             margin-right: 0.5rem;
         }
     }
+}
 
+.sources-date {
+    font-size: 12px;
+    font-weight: 500;
+    color: #6F7387;
+}
+
+.sources-time {
+    font-size: 10px;
+    font-weight: 500;
+    color: #6F7387;
 }
 
 ::-webkit-scrollbar {

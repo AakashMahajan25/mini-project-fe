@@ -24,7 +24,7 @@ import Slider from 'react-slick';
 import { useNavigate } from 'react-router-dom';
 import Modal from 'react-bootstrap/Modal';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchAllNews, getInvestorStories, getMostOnFrruitGpt, getStockIndexes, getTrendingNews, getTrendingStocks, setStoryIndex, setStoryViewed } from './slice';
+import { fetchAllNews, fetchTrendingStocksFromAI, getInvestorStories, getMostOnFrruitGpt, getStockIndexes, getTrendingNews, getTrendingStocks, setStoryIndex, setStoryViewed } from './slice';
 import { getPromptSuggestion } from '../frruitGPT/slice';
 import Loader from '../../components/loader/Loader';
 import RightWhiteArrow from '../../assets/images/right-arrow.png';
@@ -35,6 +35,9 @@ import CloseImg from '../../assets/images/close_icon.png';
 import { Tooltip } from 'react-tooltip'
 import 'react-tooltip/dist/react-tooltip.css'
 import ReactGA from 'react-ga4';
+import ArrowIcon from '../../assets/images/arrow-img.png'
+import RightArrowIcon from '../../assets/images/arrow-img.png'
+import StraightArrowIcon from '../../assets/images/straight-arrow.png'
 
 const storyEnum = {
     watchlist_news: 'isWatchlistViewed',
@@ -70,6 +73,7 @@ const rightPositionModal = window.innerWidth < 768 ? -80 : -80;
 const topPositionModal = window.innerWidth < 768 ? -10 : -10;
 
 function Dashboard() {
+    // const [showSuggestions, setShowSuggestions] = useState(false);
     const PreviousBtn = (props) => {
         const { className, onClick } = props
         return (
@@ -90,7 +94,7 @@ function Dashboard() {
         const { className, onClick } = props
         return (
             <div className={className} onClick={onClick} style={{ position: 'relative' }}>
-                <img src={LeftBtn} style={{ width: 40, position: 'absolute', top: -20, right: -150 }} />
+                <img src={LeftBtn} style={{ width: 40, position: 'absolute', top: -18, right: -150 }} />
             </div>
         )
     }
@@ -98,7 +102,7 @@ function Dashboard() {
         const { className, onClick } = props
         return (
             <div className={className} onClick={onClick} style={{ position: 'relative' }}>
-                <img src={RightBtn} style={{ width: 40, position: 'absolute', top: -85, right: -140 }} />
+                <img src={RightBtn} style={{ width: 40, position: 'absolute', top: -98, right: -140 }} />
             </div>
         )
     }
@@ -106,7 +110,7 @@ function Dashboard() {
         const { className, onClick } = props
         return (
             <div className={className} onClick={onClick} style={{ position: 'relative' }}>
-                <img src={LeftBtn} style={{ width: 40, position: 'absolute', top: -70, right: -190 }} />
+                <img src={LeftBtn} style={{ width: 40, position: 'absolute', top: -67, right: -190 }} />
             </div>
         )
     }
@@ -114,7 +118,7 @@ function Dashboard() {
         const { className, onClick } = props
         return (
             <div className={className} onClick={onClick} style={{ position: 'relative' }}>
-                <img src={RightBtn} style={{ width: 40, position: 'absolute', top: -150, right: -180 }} />
+                <img src={RightBtn} style={{ width: 40, position: 'absolute', top: -147, right: -180 }} />
             </div>
         )
     }
@@ -127,6 +131,7 @@ function Dashboard() {
     const [storyType, setStoryType] = useState([]);
     const [question, setQuestion] = useState('');
     const [flag, setFlag] = useState('news');
+    const [showWebSearch, setShowWebSearch] = useState(false);
 
     const storyRef = useRef()
 
@@ -235,7 +240,7 @@ function Dashboard() {
 
     const navigate = useNavigate();
 
-    const routePromptFrruitGPT = (question, isSuggestion) => {
+    const routePromptFrruitGPT = (question, flag) => {
         if (question) {
             ReactGA.event({
                 category: 'Dashboard',
@@ -243,7 +248,7 @@ function Dashboard() {
                 label: 'MostonFrruit Prompt Click'
             });
             navigate("/frruit-gpt", {
-                state: isSuggestion ? { question, fundamental: true } : { question, fundamental: flag !== "news" },
+                state: { question, fundamental: flag },
             });
         }
     };
@@ -254,6 +259,7 @@ function Dashboard() {
     };
 
     useEffect(() => {
+        if((!isData)){
         dispatch(getTrendingStocks()).unwrap()
             .then((res) => {
                 ReactGA.event({
@@ -265,6 +271,7 @@ function Dashboard() {
 
             });
         dispatch(getTrendingNews())
+        dispatch(fetchTrendingStocksFromAI())
         dispatch(getMostOnFrruitGpt(20)).unwrap()
             .then((res) => {
                 ReactGA.event({
@@ -288,6 +295,7 @@ function Dashboard() {
             });
         // dispatch(getStockIndexes())
         dispatch(fetchAllNews(''))
+        }
         const interval = setInterval(() => {
             dispatch(fetchAllNews(''))
         }, 60000 * 3);
@@ -295,10 +303,15 @@ function Dashboard() {
             clearInterval(interval)
         }
     }, [])
-
     useEffect(() => {
         getStoryData()
     }, [storyType])
+
+    useEffect(() => {
+        if(showWebSearch){
+            setFlag('news_bing')
+        }
+    }, [showWebSearch])
 
     useEffect(() => {
         if (activeIndex === (stories?.length - 1) || (stories?.length === 1 && activeIndex === 0)) {
@@ -347,7 +360,7 @@ function Dashboard() {
     }
 
     const colors = ['#4563E4', '#40BC98', "#2B69B6", "#A856E5", "#E35151", "#858585", "#CB6343", "#0CB8B8", "#8361D9", "#4563E4"]
-
+    
     const getRandomColor = () => {
         const randomIndex = Math.floor(Math.random() * colors.length);
         return colors[randomIndex];
@@ -371,14 +384,32 @@ function Dashboard() {
     }
     const handleKeyPress = (e) => {
         if (e.key === 'Enter') {
-            routePromptFrruitGPT(question, false);
+            routePromptFrruitGPT(question, flag);
         }
     };
-
+    
     const isData = useMemo(() => {
         return ((((investorStory?.watchlistNews?.length > 0 || investorStory?.sessionNews?.length > 0 || investorStory?.hotPursuitNews?.length > 0 || investorStory?.corporateNews?.length > 0 || investorStory?.economyNews?.length > 0 || investorStory?.corporateResultsNews?.length > 0 || investorStory?.marketNews?.length > 0) || investorStoryError) && (chatSuggestions?.length > 0 || suggestionError)))
     }, [investorStory, stockIndexes, chatSuggestions])
 
+    console.log('isData============', isData)
+    const handleWebSearchChange = () => {
+        setShowWebSearch(!showWebSearch);
+    };
+
+    // const handleCheckboxChange = () => {
+    //     setShowSuggestions(!showSuggestions);
+    // };
+    const placeholderText = (flag === 'news' || flag === 'news_bing') ? 'Search news, summarize, and get TLDRs.' : flag === 'fund' ? 'Compare company data, financials, and actions.' : flag === 'youtube' ? 'Discover insights from YouTube videos.' : 'Search discussions and opinions on Reddit.'
+
+    useEffect(() => {
+        if(showWebSearch){
+            setFlag('news_bing')
+        }else{
+            setFlag('news') 
+        }
+    }, [showWebSearch])
+    
     return (
         <>
             {
@@ -393,7 +424,9 @@ function Dashboard() {
                 )} */}
                 <>
                     {showAllContent &&
-                        <div className='col-lg-9 column-pad'>
+                        <div className='col-lg-9 column-pad'
+                        // style={{position: 'relative'}}
+                        >
                             <div className='hide-on-large-screens-dashboard'>
                                 <div className='dashboardTextForMobile'>Dashboard</div>
                                 <div onClick={handleViewAllClick} className='dashboardTextForMobile'>Latest News<img src={RightWhiteArrow} width={16} height={16} style={{ objectFit: 'contain', cursor: 'pointer' }} /></div>
@@ -457,7 +490,7 @@ function Dashboard() {
                                                             {...suggestionSettings}
                                                         >
                                                             {mostOnFrruitGpt?.rows?.slice(0, 4).map((text, index) => (
-                                                                <div onClick={() => { routePromptFrruitGPT(text?.question, true) }} key={index} className='col-lg-6'>
+                                                                <div onClick={() => { routePromptFrruitGPT(text?.question, 'fund') }} key={index} className='col-lg-6'>
                                                                     <div className='mostOnFrruitBox mb-2' style={{ marginRight: 10 }}>
                                                                         <div className='d-flex justify-content-between align-items-center' >
                                                                             <p className='text'>{text?.question}</p>
@@ -479,7 +512,7 @@ function Dashboard() {
                                                             nextArrow={<NextBtn3 />}
                                                             {...suggestionSettings}>
                                                             {chatSuggestions.map((item, index) => (
-                                                                <div onClick={() => { routePromptFrruitGPT(item?.prompt_text, true) }} key={index} className='col-lg-6' style={{ cursor: 'pointer' }}>
+                                                                <div onClick={() => { routePromptFrruitGPT(item?.prompt_text, 'fund') }} key={index} className='col-lg-6' style={{ cursor: 'pointer' }}>
                                                                     <div className='prompts-text-bg' style={{ marginRight: 10, cursor: 'pointer' }}>
                                                                         <div className=' d-flex justify-content-between align-items-center w-100' >
                                                                             <p className='prompts-text'>{item?.prompt_text}</p>
@@ -500,12 +533,22 @@ function Dashboard() {
                                             <>
                                                 <div className='customTab-frruit-gpt'>
                                                     <div className='d-flex align-items-center mobile-scroll-Css'>
-                                                        <div className={flag === 'news' ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: flag === 'news' ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
-                                                                onClick={() => setFlag('news')}
-                                                            > News </div>
-                                                            <div className={flag !== 'news' ? `tab-name-css tab-box-css` : `tab-name-css`} style={{ backgroundColor: flag !== 'news' ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
-                                                                onClick={() => setFlag('fundamentals')}
-                                                            > Fundamentals </div>
+                                                        <div className='d-flex align-items-center me-3'>
+                                                            <div className='tab-name-css'>Choose Focus</div>
+                                                            <img src={StraightArrowIcon} style={{width: 20, objectFit: 'contain'}} />
+                                                        </div>
+                                                        <div className={(flag === 'news' || flag === 'news_bing') ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: (flag === 'news' || flag === 'news_bing') ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
+                                                            onClick={() => setFlag('news')}
+                                                        > News </div>
+                                                        <div className={flag === 'fund' ? `tab-name-css tab-box-css` : `tab-name-css`} style={{ backgroundColor: flag === 'fund' ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
+                                                            onClick={() => setFlag('fund')}
+                                                        > Fundamentals </div>
+                                                        <div className={flag === 'youtube' ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: flag === 'youtube' ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
+                                                            onClick={() => setFlag('youtube')}
+                                                        > Youtube </div>
+                                                        <div className={flag === 'reddit' ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: flag === 'reddit' ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
+                                                            onClick={() => setFlag('reddit')}
+                                                        > Reddit </div>
                                                         {/* <div className={flag === 'news' ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: flag === 'news' ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
                                                             onClick={() => setFlag('news')}
                                                         > News </div>
@@ -525,17 +568,64 @@ function Dashboard() {
                                                 </div>
                                                 <div className='search-dashboard-main d-flex align-items-end'>
                                                     <div class="form-group">
-                                                        <input
-                                                            class="form-control"
-                                                            style={{ height: 48, paddingTop: 0 }}
-                                                            value={question}
-                                                            onChange={handleChange}
-                                                            placeholder="Type your message here"
-                                                            onKeyDown={handleKeyPress}
-                                                        />
+                                                        <div style={{ position: 'relative' }}>
+                                                            {(flag === 'news' || flag === 'news_bing') &&
+                                                                <div className="form-check form-switch checkbox-position hide-in-mobile">
+                                                                    <input
+                                                                        className="form-check-input"
+                                                                        type="checkbox"
+                                                                        onChange={handleWebSearchChange}
+                                                                    /> <span className={showWebSearch ? 'web-search-active' : 'web-search-default'}>Web Search</span>
+                                                                </div>
+                                                            }
+                                                            <input
+                                                                className={(flag === 'news' || flag === 'news_bing') ? "form-control-newsTab" : 'form-control'}
+                                                                // className='form-control'
+                                                                style={{ height: 48 }}
+                                                                value={question}
+                                                                onChange={handleChange}
+                                                                placeholder={placeholderText}
+                                                                onKeyDown={handleKeyPress}
+                                                            />
+                                                        </div>
                                                     </div>
-                                                    <img className='send-image' src={SendIcon} alt='Send' onClick={() => routePromptFrruitGPT(question, false)} />
+                                                    <img className='send-image' src={SendIcon} alt='Send' onClick={() => routePromptFrruitGPT(question, flag)} />
                                                 </div>
+                                                {(flag === 'news' || flag === 'news_bing') &&
+                                                    <div className="form-check form-switch checkbox-position hide-in-desktop">
+                                                        <input
+                                                            className="form-check-input"
+                                                            type="checkbox"
+                                                            onChange={handleWebSearchChange}
+                                                        /> <span className={showWebSearch ? 'web-search-active' : 'web-search-default'}>Web Search</span>
+                                                    </div>
+                                                }
+                                                {/* <div className='show-suggestions-dashboard'>
+                                                    <div className='d-flex align-items-center suggestions-text'>
+                                                        <input
+                                                            type='checkbox'
+                                                            className='show-suggestions-checkbox'
+                                                            checked={showSuggestions}
+                                                            onChange={handleCheckboxChange}
+                                                        /> Show Suggestions
+                                                    </div>
+                                                </div>
+                                                {showSuggestions &&
+                                                    <div className='suggestions-box'>
+                                                        <div className='text-box'>
+                                                            <div className='suggestions-text'>Lorem Ipsum</div>
+                                                            <img src={ArrowIcon} style={{ width: 20, objectFit: 'contain', marginLeft: 16 }} />
+                                                        </div>
+                                                        <div className='text-box'>
+                                                            <div className='suggestions-text'>Lorem Ipsum</div>
+                                                            <img src={ArrowIcon} style={{ width: 20, objectFit: 'contain', marginLeft: 16 }} />
+                                                        </div>
+                                                        <div className='text-box'>
+                                                            <div className='suggestions-text'>Lorem Ipsum</div>
+                                                            <img src={ArrowIcon} style={{ width: 20, objectFit: 'contain', marginLeft: 16 }} />
+                                                        </div>
+                                                    </div>
+                                                } */}
                                             </>
                                         </div>
                                     </div>
@@ -630,7 +720,7 @@ function Dashboard() {
                         <div className='viewModal'>
                             <div>
                                 {mostOnFrruitGpt?.rows?.map((text, index) => (
-                                    <div onClick={() => { routePromptFrruitGPT(text?.question, false) }} key={index} className='d-flex justify-content-between align-items-center blue-box mb-2' style={{ cursor: 'pointer' }}>
+                                    <div onClick={() => { routePromptFrruitGPT(text?.question, 'fund') }} key={index} className='d-flex justify-content-between align-items-center blue-box mb-2' style={{ cursor: 'pointer' }}>
                                         <div>{text?.question}</div>
                                         <img src={RightBlueArrow} className='me-1' width={10} style={{ objectFit: 'contain' }} />
                                     </div>

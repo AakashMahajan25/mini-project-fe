@@ -1,0 +1,28 @@
+.rangebox {
+    border-radius: 15px;
+    background: #F1F4FD;
+    padding: 12px 16px;
+    margin-right: 5px;
+
+    .fundamental-title {
+        color: #6F7387;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 22px;
+        margin-bottom: 10px;
+        text-align: center;
+    }
+
+    .fundamental-value {
+        text-align: center;
+        color: #6F7387;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 22px;
+        margin-bottom: 0px;
+    }
+
+    
+}

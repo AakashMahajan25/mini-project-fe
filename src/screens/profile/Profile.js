@@ -24,6 +24,8 @@ import HelpFAQ from '../../components/profile/helpFAQ/HelpFAQ';
 import { toast } from 'react-toastify';
 import ReactGA from 'react-ga4';
 import PaymentHistory from '../../components/profile/paymentHistory/PaymentHistory';
+import TermsAndCondition from '../../components/profile/termsAndCondition/TermsAndCondition';
+import PrivacyPolicy from '../../components/profile/privacyPolicy/PrivacyPolicy';
 
 function Profile() {
     const navigate = useNavigate();
@@ -40,6 +42,8 @@ function Profile() {
     const [isHelpActive, setIsHelpActive] = useState(false);
     const [isPreferencesActiveColor, setPreferencesActiveColor] = useState(false);
     const [isPaymentHistoryActive, setPaymentHistoryActiveColor] = useState(false);
+    const [isTermsConditionActive, setTermsConditionActiveColor] = useState(false);
+    const [isPrivacyPolicyActive, setPrivacyPolicyActiveColor] = useState(false);
 
     const handleProfileClick = () => {
         setShowProfile(true);
@@ -50,6 +54,8 @@ function Profile() {
         setPreferencesActiveColor(false);
         setPaymentHistoryActiveColor(false);
         setPaymentHistory(false);
+        setTermsConditionActiveColor(false);
+        setPrivacyPolicyActiveColor(false);
     };
 
     const handlePaymentHistoryClick = () => {
@@ -61,6 +67,8 @@ function Profile() {
         setPreferencesActiveColor(false);
         setPaymentHistoryActiveColor(true);
         setPaymentHistory(true);
+        setTermsConditionActiveColor(false);
+        setPrivacyPolicyActiveColor(false);
     };
 
     const handlePreferencesClick = () => {
@@ -72,6 +80,8 @@ function Profile() {
         setPreferencesActiveColor(true);
         setPaymentHistoryActiveColor(false);
         setPaymentHistory(false);
+        setTermsConditionActiveColor(false);
+        setPrivacyPolicyActiveColor(false);
     };
     const handleHelpClick = () => {
         ReactGA.event({
@@ -89,6 +99,32 @@ function Profile() {
         setPreferencesActiveColor(false);
         setPaymentHistoryActiveColor(false);
         setPaymentHistory(false);
+        setTermsConditionActiveColor(false);
+        setPrivacyPolicyActiveColor(false);
+    };
+    const handleTermsConditionClick = () => {
+        setShowProfile(false);
+        setShowPreferences(false);
+        setShowHelpFAQ(false);
+        setIsHelpActive(false);
+        setShowCodeActiveColor(false);
+        setPreferencesActiveColor(false);
+        setPaymentHistoryActiveColor(false);
+        setPaymentHistory(false);
+        setTermsConditionActiveColor(true);
+        setPrivacyPolicyActiveColor(false);
+    };
+    const handlePrivacyPolicyClick = () => {
+        setShowProfile(false);
+        setShowPreferences(false);
+        setShowHelpFAQ(false);
+        setIsHelpActive(false);
+        setShowCodeActiveColor(false);
+        setPreferencesActiveColor(false);
+        setPaymentHistoryActiveColor(false);
+        setPaymentHistory(false);
+        setTermsConditionActiveColor(false);
+        setPrivacyPolicyActiveColor(true);
     };
 
     const updateProfileSchema = yup.object().shape({
@@ -224,10 +260,14 @@ function Profile() {
                         isPreferencesActive={isPreferencesActiveColor}
                         isshowCodeActive={isShowCodeActiveColor}
                         isHelpActive={isHelpActive}
+                        handleTermsConditionClick={handleTermsConditionClick}
+                        isTermsConditionActive={isTermsConditionActive}
+                        isPrivacyPolicyActive={isPrivacyPolicyActive}
+                        handlePrivacyPolicyClick={handlePrivacyPolicyClick}
                     />
                 </div>
                 <div className='col-lg-9 col-md-9 col-sm-9 column-pad'>
-                    {!showCode && !showPreferences && !showHelpFAQ && !showPaymentHistory &&
+                    {!showCode && !showPreferences && !showHelpFAQ && !showPaymentHistory && !isTermsConditionActive && !isPrivacyPolicyActive &&
                         <div className='right-part' style={{ height: rightPartHeight, overflowY: 'scroll' }}>
                             <div className='welcome-text'>Welcome</div>
                             <div style={{ marginBottom: 20 }} className='user-text'>{userDetails?.first_name + " " + userDetails?.last_name}!</div>
@@ -268,7 +308,7 @@ function Profile() {
                                                 <div className='d-flex justify-content-between align-items-center'>
                                                     {
                                                         userPlan && <>
-                                                            <div className='text-3' style={{ fontSize: 24 }}>{userPlan?.plan_name}</div>
+                                                            <div className='text-3' style={{ fontSize: 22 }}>{userPlan?.plan_name}</div>
                                                             <div className='text-4'>{userPlan?.subsciption_type === "free" ? `${userPlan.credits_offered} Credits` : `INR ${userPlan?.price} /month`}</div>
                                                         </>
                                                     }
@@ -402,7 +442,6 @@ function Profile() {
                         </div>
                     }
                     {showPreferences && (
-                        // Show the Preferences component
                         <div className='right-part' style={{ height: rightPartHeight, overflowY: 'scroll' }}>
                             <Preferences />
                         </div>
@@ -413,9 +452,18 @@ function Profile() {
                         </div>
                     )}
                     {showPaymentHistory && (
-                        // Show the Preferences component
                         <div className='right-part' style={{ height: rightPartHeight, overflowY: 'scroll' }}>
                             <PaymentHistory />
+                        </div>
+                    )}
+                    {isTermsConditionActive && (
+                        <div className='right-part' style={{ height: rightPartHeight, overflowY: 'scroll' }}>
+                            <TermsAndCondition />
+                        </div>
+                    )}
+                    {isPrivacyPolicyActive && (
+                        <div className='right-part' style={{ height: rightPartHeight, overflowY: 'scroll' }}>
+                            <PrivacyPolicy />
                         </div>
                     )}
                 </div>
