@@ -368,18 +368,19 @@ const dashboardSlice = createSlice({
             })
             .addCase(getInvestorStories.rejected, (state, action) => {
                 state.investorStoryError = true;
+                state.investorStoryLoading = false;
             })
             .addCase(fetchAllNews.fulfilled, (state, action) => {
                 state.cmotsNews = action.payload;
             })
             .addCase(getInvestorStories.fulfilled, (state, action) => {
-                const watchlist = Object.values(action.payload["watchlist_news"]).flat();
-                const session = Object.values(action.payload["session_news"]).flat();
-                const hotPursuit = Object.values(action.payload["hot_pursuit_news"]).flat();
-                const corporate = Object.values(action.payload["corporate_news"]).flat();
-                const economy = Object.values(action.payload["economy_news"]).flat();
-                const corporateResults = Object.values(action.payload["corporate_results_news"]).flat();
-                const market = Object.values(action.payload["market_news"]).flat();
+                const watchlist = Object.values(action.payload["watchlist_news"] || []).flat();
+                const session = Object.values(action.payload["session_news"] || []).flat();
+                const hotPursuit = Object.values(action.payload["hot_pursuit_news"] || []).flat();
+                const corporate = Object.values(action.payload["corporate_news"] || []).flat();
+                const economy = Object.values(action.payload["economy_news"] || []).flat();
+                const corporateResults = Object.values(action.payload["corporate_results_news"] || []).flat();
+                const market = Object.values(action.payload["market_news"] || []).flat();
 
                 state.investorStory = {
                     watchlistNews: watchlist,
@@ -409,6 +410,7 @@ const dashboardSlice = createSlice({
                     marketNews: 0,
                 }
                 state.investorStoryError = false;
+                state.investorStoryLoading = false;
             })
 
             .addCase(getStockIndexes.fulfilled, (state, action) => {
