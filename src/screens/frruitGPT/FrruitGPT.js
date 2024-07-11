@@ -33,6 +33,7 @@ function FrruitGPT() {
     const [deleteId, setDeleteId] = useState(null);
     const [flag, setFlag] = useState('news')
     const [isFirstRender, setIsFirstRender] = useState(true)
+    const [buttonStart, setButtonStart] = useState(true);
 
     const { chatHistory } = useSelector(state => state.fruitGPTSlice);
     const { cancelTokens } = useSelector(state => state.contentGPTSlice);
@@ -141,7 +142,7 @@ function FrruitGPT() {
             action: 'newchat_gpt_question',
             label: 'New chat for GPT question'
         });
-
+        setButtonStart(false)
         const market = localStorage.getItem('marketType')
         const searchText = question
         setQuestion('');
@@ -176,8 +177,10 @@ function FrruitGPT() {
                 }
                 setQuestion('');
                 scrollDown(250)
+                setButtonStart(true)
             })
             .catch(error => {
+                setButtonStart(true)
                 setQuestion(searchText);
                 if (error?.code != "ERR_CANCELED")
                     toast.error(error?.message)
@@ -185,6 +188,7 @@ function FrruitGPT() {
     }
 
     const handleAskPress = () => {
+        setButtonStart(false)
         if (!question) {
             return;
         }
@@ -279,6 +283,7 @@ function FrruitGPT() {
                             handleAskPress={handleAskPress}
                             flag={flag}
                             setFlag={setFlag}
+                            buttonStart={buttonStart}
                         />
                     </div>
                 </div>

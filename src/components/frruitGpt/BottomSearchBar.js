@@ -30,6 +30,7 @@ function BottomSearchBar(props) {
         question = '',
         handleAskPress = () => { },
         flag = '',
+        buttonStart = true,
         setFlag = () => { }
     } = props
 
@@ -61,7 +62,7 @@ function BottomSearchBar(props) {
     }
 
     const handleKeyPress = (e) => {
-        if (e.key === 'Enter') {
+        if (buttonStart && e.key === 'Enter') {
             handleAskPress();
         }
     };
@@ -81,6 +82,7 @@ function BottomSearchBar(props) {
 
     const handleWebSearchChange = () => {
         setShowWebSearch(!showWebSearch);
+        localStorage.setItem('webSearch',true)
     };
     const handleClose = () => setShowWebSearch(false);
 
@@ -152,6 +154,7 @@ function BottomSearchBar(props) {
                                         className="form-check-input"
                                         type="checkbox"
                                         onChange={handleWebSearchChange}
+                                        checked={showWebSearch}
                                     /> <span className={showWebSearch ? 'web-search-active' : 'web-search-default'}>Web Search</span>
                                 </div>
                             }
@@ -174,13 +177,14 @@ function BottomSearchBar(props) {
                             <input
                                 className={((flag === 'news' || flag === 'news_bing') && question.length > 0 && suggestedQuestionsList.length > 0) ? "form-control-suggestion" : (flag === 'news' || flag === 'news_bing') ? "form-control-newsTab" : 'form-control-newsTab'}
                                 value={question}
+                                disabled={!buttonStart}
                                 onChange={handleChange}
                                 placeholder={placeholderText}
                                 onKeyDown={handleKeyPress}
                             />
                         </div>
                     </div>
-                    <div className='sendIcon ms-3' onClick={handleAskPress}>
+                    <div className='sendIcon ms-3' onClick={handleAskPress} style={{ cursor: buttonStart && 'pointer', opacity: buttonStart ? 1 : 0.5, }}>
                         <img src={SendIcon} className='sendIcon-styles' />
                     </div>
                 </div>
