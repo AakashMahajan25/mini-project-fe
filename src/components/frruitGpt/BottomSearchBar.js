@@ -21,8 +21,8 @@ function BottomSearchBar(props) {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const { suggestedQuestionsList, isLoading } = useSelector(state => state.fruitGPTSlice);
-    const [question1, setQuestion1] = useState('Company Data');
-    const [showDropdown, setShowDropdown] = useState(false);
+    // const [question1, setQuestion1] = useState('Company Data');
+    // const [showDropdown, setShowDropdown] = useState(false);
 
 
     const {
@@ -90,15 +90,15 @@ function BottomSearchBar(props) {
         });
     };
 
-    const handleFundClick = () => {
-        setFlag('fund');
-        setShowDropdown(true);
-    };
+    // const handleFundClick = () => {
+    //     setFlag('fund');
+    //     setShowDropdown(true);
+    // };
 
-    const handleOptionClick = (value) => {
-        setQuestion1(value); // Set the selected option to the input field
-        setShowDropdown(false);// Hide the dropdown after selecting an option
-    };
+    // const handleOptionClick = (value) => {
+    //     setQuestion1(value); // Set the selected option to the input field
+    //     setShowDropdown(false);// Hide the dropdown after selecting an option
+    // };
 
 
     const placeholderText = (flag === 'news' || flag === 'news_bing') ? 'Search news, summarize, and get TLDRs.' : flag === 'fund' ? 'Compare company data, financials, and actions.' : flag === 'youtube' ? 'Discover insights from YouTube videos.' : 'Search discussions and opinions on Reddit.'
@@ -155,7 +155,7 @@ function BottomSearchBar(props) {
                                     /> <span className={showWebSearch ? 'web-search-active' : 'web-search-default'}>Web Search</span>
                                 </div>
                             }
-                            {flag === 'fund' && (
+                            {/* {flag === 'fund' && (
                                 <div className="dropdown-container">
                                     {showDropdown && (
                                         <div className={`dropdown form-check hide-in-mobile ${showDropdown ? 'active' : ''}`} style={{ width: '20%' }}>
@@ -170,7 +170,7 @@ function BottomSearchBar(props) {
                                         </div>
                                     )}
                                 </div>
-                            )}
+                            )} */}
                             <input
                                 className={((flag === 'news' || flag === 'news_bing') && question.length > 0 && suggestedQuestionsList.length > 0) ? "form-control-suggestion" : (flag === 'news' || flag === 'news_bing') ? "form-control-newsTab" : 'form-control-newsTab'}
                                 value={question}
