@@ -423,7 +423,7 @@ function Dashboard() {
                         <LeftBox />
                     </div>
                 )} */}
-                <PopupModal
+                {/* <PopupModal
                     // imagesource1={require('../../assets/images/CreditImage.png')} // Example image source
                     customColor='yellow'
                     mainheading="80% Credit Exhausted"
@@ -433,7 +433,7 @@ function Dashboard() {
                     proceedText="Do you want to proceed?"
                     PlansText1="Renew Plan"
                     PlansText2="View Other Plans"
-                />
+                /> */}
                 <>
                     {showAllContent &&
                         <div className='col-lg-9 column-pad'
