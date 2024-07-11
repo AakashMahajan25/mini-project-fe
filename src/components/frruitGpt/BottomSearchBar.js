@@ -82,6 +82,7 @@ function BottomSearchBar(props) {
 
     const handleWebSearchChange = () => {
         setShowWebSearch(!showWebSearch);
+        localStorage.setItem('webSearch',true)
     };
     const handleClose = () => setShowWebSearch(false);
 
@@ -176,6 +177,7 @@ function BottomSearchBar(props) {
                             <input
                                 className={((flag === 'news' || flag === 'news_bing') && question.length > 0 && suggestedQuestionsList.length > 0) ? "form-control-suggestion" : (flag === 'news' || flag === 'news_bing') ? "form-control-newsTab" : 'form-control-newsTab'}
                                 value={question}
+                                disabled={!buttonStart}
                                 onChange={handleChange}
                                 placeholder={placeholderText}
                                 onKeyDown={handleKeyPress}
