@@ -90,7 +90,7 @@ function TopBar() {
                 <div className={location.pathname === '/dashboard' ? 'web-nav-text-active' : 'web-nav-text'} onClick={routeChangeDashboard}>Dashboard</div>
                 <div className={location.pathname === '/frruit-gpt' ? 'web-nav-text-active' : 'web-nav-text'} onClick={routeChangeFrruitGPT}>Frruit GPT</div>
                 <div className={location.pathname === '/market-content-gpt' ? 'web-nav-text-active' : 'web-nav-text'} onClick={routeChangeMarketContentGPT}>Market Content GPT</div>
-                {/* <div className={location.pathname === '/discover-correlation' ? 'web-nav-text-active' : 'web-nav-text'} onClick={routeChangeDiscoverCorrelation}>Discover Correlation</div> */}
+                <div className={location.pathname === '/discover-correlation' ? 'web-nav-text-active' : 'web-nav-text'} onClick={routeChangeDiscoverCorrelation}>Discover Correlation</div>
                 <div onClick={routeChangeProfile} className='profile-icon'>
                   <div className='profile-name-text'>{userDetails?.first_name?.slice(0, 1)}</div>
                 </div>

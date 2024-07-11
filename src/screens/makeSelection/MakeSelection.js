@@ -28,22 +28,22 @@ function MakeSelection() {
             <div className='d-flex justify-content-center align-items-center'>
                 <div className='col-xl-7'>
                     <div className='selectMarket'>
-                        <div className='col-xl-7'>
+                        {/* <div className='col-xl-7'>
                             <p className='heading p-0'>Select Market</p>
                             <p className='text-description'>Lorem Ipsum is simply dummy text of the printing and typesetting industry</p>
-                        </div>
-                        <div className='showPrompt' style={{width: 'fit-content'}}>
+                        </div> */}
+                        {/* <div className='showPrompt' style={{width: 'fit-content'}}>
                             <Tab.Container defaultActiveKey={selected} onSelect={(e) => setSelected(e)}>
-                                <Nav className='customPrompttabs' variant="pills">
+                                <Nav className='customPrompttabs' variant="pills"> */}
                                     {/* <Nav.Item >
                                         <Nav.Link eventKey="US" disabled >{'USA'}</Nav.Link>
                                     </Nav.Item> */}
-                                    <Nav.Item>
+                                    {/* <Nav.Item>
                                         <Nav.Link eventKey="IND">{`India`}</Nav.Link>
                                     </Nav.Item>
                                 </Nav>
-                            </Tab.Container>
-                        </div>
+                            </Tab.Container> */}
+                        {/* </div> */}
                         <div className='beta-text'>In the beta version of our platform, we are thrilled to offer an exclusive focus on the
                             <br /><span className='nifty-text'>Nifty 50 and Sensex 30 stocks.</span></div>
                         <div className='white-box-make-selection'>

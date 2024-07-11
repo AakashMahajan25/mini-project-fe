@@ -105,6 +105,7 @@
             background: #F1F4FD;
             height: 56px;
             padding: 6px 16px;
+            position: relative; 
         }
 
         .form-control-newsTab {
@@ -142,6 +143,84 @@
                 width: 56px;
             }
         }
+    }
+
+    .input-container {
+        position: relative;
+        width: fit-content;
+    }
+    .dropdown-container {
+        position: relative;
+    }
+
+    .custom-select {
+        appearance: none;
+        border: none;
+        background: none;
+        font-size: 16px;
+        color: #4563E4;
+        cursor: pointer;
+        width: 60%;
+        // padding: 10px 0;
+        position: absolute;
+        top:0; /* Position the dropdown above the input */
+        left: 25px;
+    }
+    
+    .custom-select option {
+        background-color: white;
+        color: #4563E4;
+        padding: 20px;
+        border: none;
+        border-radius: 0 0 10px 10px; /* Bottom left and right radius */
+    }
+
+    .custom-select:focus {
+        outline: none; /* Remove default focus outline */
+        box-shadow: none; /* Remove any box-shadow */
+        border-color: transparent; /* Make sure border color remains transparent */
+    }
+
+    .custom-select:after {
+        content: '▼';
+        position: absolute;
+        top: 50%;
+        right: 10px;
+        transform: translateY(-50%);
+        pointer-events: none; /* Ensure arrow is not clickable */
+        color: #4563E4;
+    }
+    
+    .dropdown {
+        position: absolute;
+        top: calc(100% + 14px); /* Position dropdown below input */
+        left: -6px;
+        // background-color: #4563E4; /* Blue background color */
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+        z-index: 1;
+        display: none; /* Initially hide dropdown */
+    }
+    
+    .dropdown.active {
+        display: block; /* Show dropdown when active class is applied */
+    }
+    
+    .dropdown ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+    }
+    
+    .dropdown ul li {
+        padding:10px;
+        color: #4563E4; /* White text color for dropdown items */
+        cursor: pointer;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Light border for dropdown items */
+    }
+    
+    .dropdown ul li:hover {
+        background-color: rgba(255, 255, 255, 0.1); /* Light background color on hover */
     }
 
     .customTab-frruit-gpt {
