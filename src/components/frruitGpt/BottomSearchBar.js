@@ -27,6 +27,7 @@ function BottomSearchBar(props) {
         question = '',
         handleAskPress = () => { },
         flag = '',
+        buttonStart = true,
         setFlag = () => { }
     } = props
 
@@ -58,7 +59,7 @@ function BottomSearchBar(props) {
     }
 
     const handleKeyPress = (e) => {
-        if (e.key === 'Enter') {
+        if (buttonStart && e.key === 'Enter') {
             handleAskPress();
         }
     };
@@ -138,6 +139,7 @@ function BottomSearchBar(props) {
                                         className="form-check-input"
                                         type="checkbox"
                                         onChange={handleWebSearchChange}
+                                        checked={showWebSearch}
                                     /> <span className={showWebSearch ? 'web-search-active' : 'web-search-default'}>Web Search</span>
                                 </div>
                             }
@@ -150,7 +152,7 @@ function BottomSearchBar(props) {
                             />
                         </div>
                     </div>
-                    <div className='sendIcon ms-3' onClick={handleAskPress}>
+                    <div className='sendIcon ms-3' onClick={handleAskPress} style={{ cursor: buttonStart && 'pointer', opacity: buttonStart ? 1 : 0.5, }}>
                         <img src={SendIcon} className='sendIcon-styles' />
                     </div>
                 </div>
