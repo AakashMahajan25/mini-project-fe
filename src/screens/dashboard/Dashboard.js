@@ -38,6 +38,7 @@ import ReactGA from 'react-ga4';
 import ArrowIcon from '../../assets/images/arrow-img.png'
 import RightArrowIcon from '../../assets/images/arrow-img.png'
 import StraightArrowIcon from '../../assets/images/straight-arrow.png'
+import PopupModal from '../../components/PopupModal/PopupModal';
 
 const storyEnum = {
     watchlist_news: 'isWatchlistViewed',
@@ -422,6 +423,17 @@ function Dashboard() {
                         <LeftBox />
                     </div>
                 )} */}
+                {/* <PopupModal
+                    // imagesource1={require('../../assets/images/CreditImage.png')} // Example image source
+                    customColor='yellow'
+                    mainheading="80% Credit Exhausted"
+                    subheading="You've used 80% of your available credits."
+                    showActivate={true}
+                    additionalText="You've chosen to enhance your search with our premium web search feature. By enabling this option, you'll gain access to the latest news and information from premium sources. Please note that activating web search will incur additional charges."
+                    proceedText="Do you want to proceed?"
+                    PlansText1="Renew Plan"
+                    PlansText2="View Other Plans"
+                /> */}
                 <>
                     {showAllContent &&
                         <div className='col-lg-9 column-pad'
