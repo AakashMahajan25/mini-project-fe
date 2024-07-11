@@ -124,7 +124,7 @@ function BottomSearchBar(props) {
                             onClick={() => setFlag('news')}
                         > News </div>
                         <div className={flag === 'fund' ? `tab-name-css tab-box-css` : `tab-name-css`} style={{ backgroundColor: flag === 'fund' ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
-                            onClick={handleFundClick}
+                            onClick={() => setFlag('fund')}
                         > Fundamentals </div>
                         <div className={flag === 'youtube' ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: flag === 'youtube' ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
                             onClick={() => setFlag('youtube')}
