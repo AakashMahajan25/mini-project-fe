@@ -21,6 +21,9 @@ function BottomSearchBar(props) {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const { suggestedQuestionsList, isLoading } = useSelector(state => state.fruitGPTSlice);
+    const [question1, setQuestion1] = useState('Company Data');
+    const [showDropdown, setShowDropdown] = useState(false);
+
 
     const {
         setQuestion = () => { },
@@ -33,23 +36,23 @@ function BottomSearchBar(props) {
 
     useEffect(() => {
         const searchQuestion = setTimeout(() => {
-            if (question.length>0 && flag === 'news') {
+            if (question.length > 0 && flag === 'news') {
                 dispatch(searchSuggestedPrompt(question))
             }
         }, 0);
         return () => clearTimeout(searchQuestion)
     }, [question])
-    
+
     useEffect(() => {
-        if(showWebSearch){
+        if (showWebSearch) {
             setFlag('news_bing')
-        }else{
-            setFlag('news') 
+        } else {
+            setFlag('news')
         }
     }, [showWebSearch])
 
     useEffect(() => {
-        if(flag === 'news_bing' && !showWebSearch){
+        if (flag === 'news_bing' && !showWebSearch) {
             setShowWebSearch(true);
         }
     }, [flag])
@@ -77,7 +80,7 @@ function BottomSearchBar(props) {
     };
 
     const handleWebSearchChange = () => {
-            setShowWebSearch(!showWebSearch);
+        setShowWebSearch(!showWebSearch);
     };
     const handleClose = () => setShowWebSearch(false);
 
@@ -86,6 +89,17 @@ function BottomSearchBar(props) {
             state: { question, fundamental: 'news' },
         });
     };
+
+    const handleFundClick = () => {
+        setFlag('fund');
+        setShowDropdown(true);
+    };
+
+    const handleOptionClick = (value) => {
+        setQuestion1(value); // Set the selected option to the input field
+        setShowDropdown(false);// Hide the dropdown after selecting an option
+    };
+
 
     const placeholderText = (flag === 'news' || flag === 'news_bing') ? 'Search news, summarize, and get TLDRs.' : flag === 'fund' ? 'Compare company data, financials, and actions.' : flag === 'youtube' ? 'Discover insights from YouTube videos.' : 'Search discussions and opinions on Reddit.'
     return (
@@ -104,13 +118,13 @@ function BottomSearchBar(props) {
                     <div className='d-flex align-items-center mobile-scroll-Css'>
                         <div className='d-flex align-items-center me-3'>
                             <div className='tab-name-css px-3'>Choose Focus</div>
-                            <img src={StraightArrowIcon} style={{width: 20, objectFit: 'contain'}} />
+                            <img src={StraightArrowIcon} style={{ width: 20, objectFit: 'contain' }} />
                         </div>
-                        <div className={(flag === 'news' || flag === 'news_bing') ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{backgroundColor: (flag === 'news' || flag === 'news_bing')   ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
+                        <div className={(flag === 'news' || flag === 'news_bing') ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: (flag === 'news' || flag === 'news_bing') ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
                             onClick={() => setFlag('news')}
                         > News </div>
                         <div className={flag === 'fund' ? `tab-name-css tab-box-css` : `tab-name-css`} style={{ backgroundColor: flag === 'fund' ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
-                            onClick={() => setFlag('fund')}
+                            onClick={handleFundClick}
                         > Fundamentals </div>
                         <div className={flag === 'youtube' ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: flag === 'youtube' ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
                             onClick={() => setFlag('youtube')}
@@ -141,8 +155,24 @@ function BottomSearchBar(props) {
                                     /> <span className={showWebSearch ? 'web-search-active' : 'web-search-default'}>Web Search</span>
                                 </div>
                             }
+                            {flag === 'fund' && (
+                                <div className="dropdown-container">
+                                    {showDropdown && (
+                                        <div className={`dropdown form-check hide-in-mobile ${showDropdown ? 'active' : ''}`} style={{ width: '20%' }}>
+                                            <select
+                                                className="custom-select"
+                                                // onChange={(e) => setQuestion(e.target.value)}
+                                                // value={question}
+                                            >
+                                                <option value="Company Data">Company Data</option>
+                                                <option value="Stock Screener">Stock Screener</option>
+                                            </select>
+                                        </div>
+                                    )}
+                                </div>
+                            )}
                             <input
-                                className={((flag === 'news' || flag === 'news_bing') && question.length > 0 && suggestedQuestionsList.length > 0) ? "form-control-suggestion" : (flag === 'news' || flag === 'news_bing') ? "form-control-newsTab" : 'form-control'}
+                                className={((flag === 'news' || flag === 'news_bing') && question.length > 0 && suggestedQuestionsList.length > 0) ? "form-control-suggestion" : (flag === 'news' || flag === 'news_bing') ? "form-control-newsTab" : 'form-control-newsTab'}
                                 value={question}
                                 onChange={handleChange}
                                 placeholder={placeholderText}
@@ -178,14 +208,14 @@ function BottomSearchBar(props) {
                     </div>
                 }
                 {(flag === 'news') &&
-                <div className="form-check form-switch checkbox-position hide-in-desktop">
-                    <input
-                        className="form-check-input"
-                        type="checkbox"
-                        onChange={handleWebSearchChange}
-                    /> <span className={showWebSearch ? 'web-search-active' : 'web-search-default'}>Web Search</span>
-                </div>
-            }
+                    <div className="form-check form-switch checkbox-position hide-in-desktop">
+                        <input
+                            className="form-check-input"
+                            type="checkbox"
+                            onChange={handleWebSearchChange}
+                        /> <span className={showWebSearch ? 'web-search-active' : 'web-search-default'}>Web Search</span>
+                    </div>
+                }
                 {/* } */}
             </div>
             {/* <Modal show={showWebSearch} onHide={handleClose} size='sm' centered scrollable>
