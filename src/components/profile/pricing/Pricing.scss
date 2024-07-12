@@ -1,0 +1,96 @@
+.pricing-page-css {
+    .align-center {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .pricing-header-text {
+        font-size: 48px;
+        font-weight: 600;
+        color: #4563E4;
+        text-align: center;
+    }
+
+    .pricing-text {
+        font-size: 24px;
+        font-weight: 400;
+        color: #6F7387;
+        text-align: center;
+    }
+
+    .container-box {
+        border: 1px solid #EDEDEDED;
+        padding: 18px;
+        border-radius: 25px;
+        margin-top: 20px;
+    }
+
+    .header-text {
+        font-size: 24px;
+        font-weight: 500;
+        color: #171E42;
+    }
+
+    .desc-text {
+        font-family: Roboto;
+        font-size: 18px;
+        font-weight: 400;
+        color: #6F7387;
+    }
+
+    .table-header {
+        font-size: 16px;
+        font-weight: 400;
+        color: #6F7387;
+    }
+    
+    .table-heading{
+        padding: 0px 50px;
+
+        @media only screen and (max-width: 500px) {
+            padding: 20px 20px;
+        }
+    }
+
+    .table-row {
+        background-color: #F1F4FD82;
+        border-radius: 15px;
+        padding: 20px 50px;
+        margin-top: 16px;
+
+        @media only screen and (max-width: 500px) {
+            padding: 20px 20px;
+        }
+    }
+
+    .table-row-text {
+        font-size: 14px;
+        font-weight: 500;
+        color: #171E42;
+    }
+
+    .blue-text {
+        font-size: 20px;
+        font-weight: 500;
+        color: #4563E4;
+        line-height: 20px;
+    }
+
+    .grey-text {
+        font-size: 16px;
+        font-weight: 400;
+        color: #6F7387;
+    }
+
+    .dark-grey-text{
+        font-size: 16px;
+        font-weight: 500;
+        color: #676c83;
+    }
+
+    .pricing-img{
+        width: 48px;
+        object-fit: contain;
+    }
+}
