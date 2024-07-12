@@ -40,7 +40,7 @@ export const replaceNewlinesWithBr = (text) => {
 
 export const replaceQuestionMarkWithMetrix = (text) => {
   // Use a regular expression to replace all occurrences of '?' with 'Metrics'
-  return text.replace(/<td>\?<\/td>/g, '<td><b>Metrics</b></td>');
+  return text.replace(/<td>([\?\-]?)<\/td>/g, '<td><b>Metrics</b></td>');
 }
 
 export const replaceSpaceWithUnderscore = (text) => {

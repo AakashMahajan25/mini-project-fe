@@ -99,10 +99,10 @@ function PaymentHistory() {
     }
     return (
         <>
-            {
+            {/* {
                 isLoading &&
                 <Loader />
-            }
+            } */}
             <div style={{ marginBottom: 20 }} className='user-text'>Payment History</div>
             <CustomTable
                 data={userData}
