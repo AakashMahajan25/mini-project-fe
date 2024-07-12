@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { Nav } from 'react-bootstrap';
 import ReactGA from 'react-ga4';
 
-function LeftProfileBox({ handlePreferencesClick, handleProfileClick, isPreferencesActive, isPaymentHistoryActive, isshowCodeActive, isHelpActive, handleHelpClick, handlePaymentHistoryClick, isTermsConditionActive, handleTermsConditionClick, isPrivacyPolicyActive, handlePrivacyPolicyClick }) {
+function LeftProfileBox({ handlePreferencesClick, handleProfileClick, isPreferencesActive, isPaymentHistoryActive, isshowCodeActive, isHelpActive, handleHelpClick, handlePaymentHistoryClick, isTermsConditionActive, handleTermsConditionClick, isPrivacyPolicyActive, handlePrivacyPolicyClick,isPricingActive,handlePricingClick }) {
     const navigate = useNavigate();
 
 
@@ -16,6 +16,7 @@ function LeftProfileBox({ handlePreferencesClick, handleProfileClick, isPreferen
                     <div className={`mb-2 ${isshowCodeActive ? 'side-box-light-blue-btn-active' : 'side-box-light-blue-btn'}`} onClick={handleProfileClick}>Profile</div>
                     <div className={`mb-2 ${isPaymentHistoryActive ? 'side-box-light-blue-btn-active' : 'side-box-light-blue-btn'}`} onClick={handlePaymentHistoryClick}>Payment History</div>
                     {/* <div className={`mb-2 ${isPreferencesActive ? 'side-box-light-blue-btn-active' : 'side-box-light-blue-btn'}`} onClick={handlePreferencesClick}>Preferences</div> */}
+                    <div className={`mb-2 ${isPricingActive ? 'side-box-light-blue-btn-active' : 'side-box-light-blue-btn'}`} onClick={handlePricingClick}>Pricing</div>
                     <div className={`mb-2 ${isHelpActive ? 'side-box-light-blue-btn-active' : 'side-box-light-blue-btn'}`} onClick={handleHelpClick}>Help and FAQ</div>
                     <div className={`mb-2 ${isTermsConditionActive ? 'side-box-light-blue-btn-active' : 'side-box-light-blue-btn'}`} onClick={() => {
                         ReactGA.event({
