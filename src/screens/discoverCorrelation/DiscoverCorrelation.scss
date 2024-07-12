@@ -88,7 +88,7 @@
         background: linear-gradient(to bottom, rgba(84, 128, 153, 0.78), rgba(84, 128, 153, 0.26));
         padding: 25px;
         border-radius: 30px;
-        margin: 28px 34px;
+        margin: 25px 34px;
         background-image: url(../../assets/images/bg2.png);
         background-repeat: no-repeat;
         background-size: cover;
@@ -165,10 +165,11 @@
     }
 
     .coming-text{
-        font-family: 'Poppins', sans-serif;
+        font-family: 'Roboto', sans-serif;
         font-size: 32px;
         text-align: center;
-        font-weight: 800;
+        font-weight: 600;
+        line-height: 52.73px;
         color: white;
     }
 
