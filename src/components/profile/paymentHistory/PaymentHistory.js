@@ -70,7 +70,7 @@ function PaymentHistory() {
                 data.push({
                     orderId: `#${order?.order_id}`,
                     referenceID: order?.payment_status === 'pending' ? order?.razorpay_order_id : order?.razorpay_payment_id,
-                    paymentDate: moment(order?.createdAt).format('MMMM D, YYYY'),
+                    paymentDate: moment(order?.createdAt).format('MMMM D, YYYY h:mm A'),
                     plan: order?.plan_name,
                     amount: order?.plan_price ? '₹' + order?.plan_price : null,
                     status: order?.payment_status
