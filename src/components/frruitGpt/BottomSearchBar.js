@@ -151,7 +151,7 @@ function BottomSearchBar(props) {
                             <img src={StraightArrowIcon} style={{ width: 20, objectFit: 'contain' }} />
                         </div>
                         <div className={(flag === 'news' || flag === 'news_bing') ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: (flag === 'news' || flag === 'news_bing') ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
-                            onClick={() => setFlag('news')}
+                            onClick={() => showWebSearch ? setFlag('news_bing') : setFlag('news')}
                         > News </div>
                         <div className={flag === 'fund' ? `tab-name-css tab-box-css` : `tab-name-css`} style={{ backgroundColor: flag === 'fund' ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
                             onClick={() => setFlag('fund')}
