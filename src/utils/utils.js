@@ -38,6 +38,11 @@ export const replaceNewlinesWithBr = (text) => {
     return text.replace(/\n/g, '</br>');
 }
 
+export const replaceQuestionMarkWithMetrix = (text) => {
+  // Use a regular expression to replace all occurrences of '?' with 'Metrics'
+  return text.replace(/<td>\?<\/td>/g, '<td><b>Metrics</b></td>');
+}
+
 export const replaceSpaceWithUnderscore = (text) => {
     // Use a regular expression to replace newline characters with <br> tags
     return text.replace(/ /g, '_');

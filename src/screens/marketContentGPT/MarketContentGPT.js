@@ -32,6 +32,7 @@ function MarketContentGPT() {
     const [showHistory, setShowHistory] = useState(false);
     const handleHistoryClose = () => setShowHistory(false);
     const handleHistoryShow = () => setShowHistory(true);
+    const [buttonStart, setButtonStart] = useState(true);
 
     useEffect(() => {
         dispatch(clearContentChatHistory())
@@ -68,6 +69,7 @@ function MarketContentGPT() {
     }, [contentChatHistory])
 
     const askContentGpt = async () => {
+        setButtonStart(false)
         setQuestion('');
         const requestData = {
             link: question
@@ -103,10 +105,12 @@ function MarketContentGPT() {
                 dispatch(getContentPromptList('link'))
                 setSelectedChat(res.prompt_id)
                 setQuestion('');
+                setButtonStart(true)
 
             })
             .catch(error => {
                 setQuestion('');
+                setButtonStart(true)
                 if (error?.code != "ERR_CANCELED") {
                     // toast.error(error?.message)
                 }
@@ -114,6 +118,7 @@ function MarketContentGPT() {
     }
 
     const getUrlOfAttchment = async () => {
+        setButtonStart(false)
         if (!selectedFile) return;
         try {
             isNewChat.current = false;
@@ -137,10 +142,12 @@ function MarketContentGPT() {
             clearQuestionAndToastError(error);
             setSelectedFile(null)
             setShowQuestion(false);
+            setButtonStart(true)
         }
     }
 
     const askAttachmentContentGpt = async (promptId, title) => {
+        setButtonStart(false)
         const token = axios.CancelToken.source()
         setQuestion('');
         ReactGA.event({
@@ -180,14 +187,17 @@ function MarketContentGPT() {
                     }
                     setQuestion('');
                     setSelectedFile(null)
+                    setButtonStart(true)
                 });
         } catch (error) {
             if (error?.code != "ERR_CANCELED")
                 clearQuestionAndToastError(error);
+            setButtonStart(true)
         }
     }
 
     const handleAskPress = async (type) => {
+        console.log('type============', type)
         if (type === 'link') {
             if (!question) return;
             handleNewChat()
@@ -264,6 +274,8 @@ function MarketContentGPT() {
             handleShow2={handleShow2}
         />
     );
+    console.log('buttonStart', buttonStart)
+    console.log('question', question)
     return (
         <>
             <div className='market-content-gpt-css'>
@@ -286,6 +298,7 @@ function MarketContentGPT() {
                             showQuestion={showQuestion}
                             setSelectedType={setSelectedType}
                             handleAskPress={handleAskPress}
+                            buttonStart={buttonStart}
                         />
                     </div>
                 </div>

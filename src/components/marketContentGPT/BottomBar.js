@@ -32,6 +32,7 @@ function BottomBar(props) {
         setSelectedType = () => { },
         handleAskPress = () => { },
         handleNewChat = () => { },
+        buttonStart = true,
     } = props
     
     const handleShow = () => {
@@ -82,7 +83,7 @@ function BottomBar(props) {
     }
 
     const handleKeyPress = (e) => {
-        if (e.key === 'Enter') {
+        if (buttonStart && e.key === 'Enter') {
             handleAskPress();
         }
         setSelectedButton('')
@@ -151,6 +152,7 @@ function BottomBar(props) {
                         class="form-control"
                         value={question}
                         onChange={handleChange}
+                        disabled={!buttonStart}
                         placeholder="Type your message here"
                         onKeyDown={handleKeyPress}
                     />
@@ -175,7 +177,7 @@ function BottomBar(props) {
                         </div>
                     </div>
                 </div>}
-                <div className='sendIcon' onClick={() => {handleAskPress(type);setSelectedButton('')}}>
+                <div className='sendIcon' onClick={() => {handleAskPress(type);setSelectedButton('')}} style={{ cursor: buttonStart && 'pointer', opacity: buttonStart ? 1 : 0.5, }}>
                     <img src={SendIcon} className='sendIcon-styles' />
                 </div>
             </div>

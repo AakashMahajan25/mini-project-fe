@@ -28,9 +28,11 @@ function BottomSearchBar(props) {
     const navigate = useNavigate()
     const { suggestedQuestionsList, isLoading } = useSelector(state => state.fruitGPTSlice);
     const [showSearchModal, setShowSearchModal] = useState(false);
-    const handleCloseSearchModal = () => setShowSearchModal(false);
-
-
+    const handleCloseSearchModal = () => {
+        setShowSearchModal(false);
+        setShowWebSearch(false);
+        setFlag('news')
+    }
 
     const {
         setQuestion = () => { },
@@ -88,9 +90,11 @@ function BottomSearchBar(props) {
     };
 
     const handleWebSearchChange = () => {
+        const webSearch = localStorage.getItem('webSearch')
         setShowWebSearch(!showWebSearch);
-        setShowSearchModal(!showSearchModal);
-        localStorage.setItem('webSearch', true)
+        if(!webSearch){
+            setShowSearchModal(!showSearchModal);
+        }
     };
     const handleClose = () => setShowWebSearch(false);
 
@@ -104,6 +108,10 @@ function BottomSearchBar(props) {
         setShowDropdown(prevShowDropdown => !prevShowDropdown);
     };
 
+    const handleWebSearchProceed = ( ) => {
+        setShowSearchModal(!showSearchModal);
+        localStorage.setItem('webSearch',true)
+    }
     const handleOptionClick = (value) => {
         setSelectedFund(value);
         setShowDropdown(false);
@@ -123,6 +131,9 @@ function BottomSearchBar(props) {
     const placeholderText = (flag === 'news' || flag === 'news_bing') ? 'Search news, summarize, and get TLDRs.' : flag === 'fund' ? 'Compare company data, financials, and actions.' : flag === 'youtube' ? 'Discover insights from YouTube videos.' : 'Search discussions and opinions on Reddit.'
     return (
         <>
+            {showSearchModal &&
+                <ActivateWebSearch show2={showSearchModal} handleClose2={handleCloseSearchModal} handleClose1={handleWebSearchProceed} />
+            }
             <div className='BottomSearchBar'>
                 {/* <div className='attachment'>
                 <p className='attach-text'>Attach</p>
@@ -180,7 +191,6 @@ function BottomSearchBar(props) {
                                     <div className='searchInputDropdowntext'>{selectedFund}<img src={ArrowDownIcon} style={{ width: 24, height: 24, objectFit: 'contain', marginLeft: 5 }} className={showDropdown ? 'rotate-icon rotated' : 'rotate-icon'} /></div>
                                 </div>
                             }
-                             <ActivateWebSearch show2={showSearchModal} handleClose2={handleCloseSearchModal} />
                             <input
                                 className={`${(flag === 'news' || flag === 'news_bing') && question.length > 0 && suggestedQuestionsList.length > 0 ? 'form-control-suggestion' : (flag === 'news' || flag === 'news_bing') ? 'form-control-newsTab' : flag === 'fund' ? (showDropdown ? 'form-control-funds-only' : 'form-control-fund') : 'form-control'}`}
                                 value={question}

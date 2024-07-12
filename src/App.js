@@ -15,8 +15,7 @@ function App() {
   const location = useLocation();
   const isExcludedPage = ['/login', '/signUp', '/', '/topics', '/market','/walkthrough'].includes(location.pathname);
   const isAuthenticated = localStorage.getItem('token');
-  const [showCreditModal, setShowCreditModal] = useState(false);
-  const handleCloseCreditModal = () => setShowCreditModal(false);
+  
 
   useEffect(() => {
     ReactGA.initialize('G-KFRHHDX0W3', { debug: true });
@@ -51,7 +50,6 @@ function App() {
       {
         isAuthenticated && <InactivityTimer />
       }
-      <CreditOverModal show={showCreditModal} handleClose={handleCloseCreditModal} />
     </>
   );
 }
