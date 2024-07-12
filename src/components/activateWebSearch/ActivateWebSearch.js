@@ -1,0 +1,42 @@
+import React from 'react'
+import CloseImg from '../../assets/images/close_icon.png';
+import RocketImage from '../../assets/images/RocketImage.png';
+import Modal from 'react-bootstrap/Modal';
+import './ActivateWebSearch.scss';
+
+function ActivateWebSearch({ show2, handleClose2 }) {
+    return (
+        <>
+            <Modal
+                show={show2}
+                onHide={handleClose2}
+                size='lg'
+                className='ActivateWebSearchStyles'
+                centered
+            >
+                <Modal.Header className='header'>
+                    <div onClick={() => handleClose2()} className=' align-items-center' style={{ cursor: 'pointer' }}>
+                        <img src={CloseImg} className='me-1 closeimage' width={32} style={{ objectFit: 'contain' }} />
+                    </div>
+                </Modal.Header>
+                <Modal.Body>
+                    <div className='centerImg'>
+                        <img src={RocketImage} className='RocketImageImg' />
+                        <div className='webSearchText'>Activate Web Search</div>
+                        <div className='subheading'>
+                            You've chosen to enhance your search with our premium web search feature. By enabling this option, you'll gain access to the latest news and information from premium sources. Please note that activating web search will incur additional charges.
+                        </div>
+                        <div className='proceed-text text-center'>
+                            Do you want to proceed?
+                        </div>
+                        <div className='d-flex justify-content-center align-items-center'>
+                            <button onClick={handleClose2} type="submit" className='blue-btn'>Proceed</button>
+                        </div>
+                    </div>
+                </Modal.Body>
+            </Modal>
+        </>
+    )
+}
+
+export default ActivateWebSearch
