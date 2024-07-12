@@ -25,7 +25,8 @@ import { useNavigate } from 'react-router-dom';
 import Modal from 'react-bootstrap/Modal';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAllNews, fetchTrendingStocksFromAI, getInvestorStories, getMostOnFrruitGpt, getStockIndexes, getTrendingNews, getTrendingStocks, setStoryIndex, setStoryViewed } from './slice';
-import { getPromptSuggestion } from '../frruitGPT/slice';
+import { getPromptSuggestion,searchSuggestedPrompt } from '../frruitGPT/slice';
+// import { searchSuggestedPrompt } from '../../screens/frruitGPT/slice'
 import Loader from '../../components/loader/Loader';
 import RightWhiteArrow from '../../assets/images/right-arrow.png';
 import NewsViewAll from '../../components/dashboard/NewsViewAll';
@@ -42,6 +43,8 @@ import StraightArrowIcon from '../../assets/images/straight-arrow.png'
 import { getAvaliableCredit, getUserPlan } from '../profile/usersSlice';
 import CreditOverModal from '../../components/creditOverModal/CreditOverModal';
 import ActivateWebSearch from '../../components/activateWebSearch/ActivateWebSearch';
+import ArrowDownIcon from '../../assets/images/accordiun-down-arrow.png'
+import RightIcon from '../../assets/images/charm_tick.png'
 
 const storyEnum = {
     watchlist_news: 'isWatchlistViewed',
@@ -137,8 +140,11 @@ function Dashboard() {
     const [flag, setFlag] = useState('news');
     const [showWebSearch, setShowWebSearch] = useState(false);
     const [showCreditModal, setShowCreditModal] = useState(false);
-  const handleCloseCreditModal = () => setShowCreditModal(false);
+    const handleCloseCreditModal = () => setShowCreditModal(false);
     const [showSearchModal, setShowSearchModal] = useState(false);
+    const [selectedFund, setSelectedFund] = useState('Company Data');
+    const [showDropdown, setShowDropdown] = useState(false);
+    const dropdownRef = useRef(null);
     const handleCloseSearchModal = () => {
         setShowSearchModal(false);
         setShowWebSearch(false);
@@ -179,8 +185,8 @@ function Dashboard() {
 
     const dispatch = useDispatch()
     const { trendingStocks, trendingNews, mostOnFrruitGpt, storyViewed, investorStory, storyIndex, isLoading, investorStoryLoading, indexLoader, stockIndexes, investorStoryError, cmotsNews } = useSelector(state => state.dashboardSlice);
-    const { chatSuggestions, suggestionLoader, suggestionError } = useSelector(state => state.fruitGPTSlice);
-    const { userCredits, userPlan} = useSelector(state => state.userSlice)
+    const { chatSuggestions, suggestionLoader, suggestionError,suggestedQuestionsList } = useSelector(state => state.fruitGPTSlice);
+    const { userCredits, userPlan } = useSelector(state => state.userSlice)
     const [showLeftBox, setShowLeftBox] = useState(true);
     useEffect(() => {
         const handleResize = () => {
@@ -271,42 +277,42 @@ function Dashboard() {
     };
 
     useEffect(() => {
-        if((!isData)){
-        dispatch(getTrendingStocks()).unwrap()
-            .then((res) => {
-                ReactGA.event({
-                    category: 'Dashboard',
-                    action: 'get_trending_stocks',
-                    label: 'Get Trending Stocks'
-                });
-            }).catch(err => {
+        if ((!isData)) {
+            dispatch(getTrendingStocks()).unwrap()
+                .then((res) => {
+                    ReactGA.event({
+                        category: 'Dashboard',
+                        action: 'get_trending_stocks',
+                        label: 'Get Trending Stocks'
+                    });
+                }).catch(err => {
 
-            });
-        dispatch(getTrendingNews())
-        dispatch(fetchTrendingStocksFromAI())
-        dispatch(getMostOnFrruitGpt(20)).unwrap()
-            .then((res) => {
-                ReactGA.event({
-                    category: 'Dashboard',
-                    action: 'get_mostonfrruitgpt',
-                    label: 'Get MostonFrruitGpt'
                 });
-            }).catch(err => {
+            dispatch(getTrendingNews())
+            dispatch(fetchTrendingStocksFromAI())
+            dispatch(getMostOnFrruitGpt(20)).unwrap()
+                .then((res) => {
+                    ReactGA.event({
+                        category: 'Dashboard',
+                        action: 'get_mostonfrruitgpt',
+                        label: 'Get MostonFrruitGpt'
+                    });
+                }).catch(err => {
 
-            });
-        dispatch(getPromptSuggestion())
-        dispatch(getInvestorStories()).unwrap()
-            .then((res) => {
-                ReactGA.event({
-                    category: 'Dashboard',
-                    action: 'get_investor_stories',
-                    label: 'Get Investor Stories'
                 });
-            }).catch(err => {
+            dispatch(getPromptSuggestion())
+            dispatch(getInvestorStories()).unwrap()
+                .then((res) => {
+                    ReactGA.event({
+                        category: 'Dashboard',
+                        action: 'get_investor_stories',
+                        label: 'Get Investor Stories'
+                    });
+                }).catch(err => {
 
-            });
-        // dispatch(getStockIndexes())
-        dispatch(fetchAllNews(''))
+                });
+            // dispatch(getStockIndexes())
+            dispatch(fetchAllNews(''))
         }
         dispatch(getAvaliableCredit())
         dispatch(getUserPlan());
@@ -333,7 +339,7 @@ function Dashboard() {
     }, [creditScore, userPlan]);
 
     useEffect(() => {
-        if(showWebSearch){
+        if (showWebSearch) {
             setFlag('news_bing')
         }
     }, [showWebSearch])
@@ -385,7 +391,7 @@ function Dashboard() {
     }
 
     const colors = ['#4563E4', '#40BC98', "#2B69B6", "#A856E5", "#E35151", "#858585", "#CB6343", "#0CB8B8", "#8361D9", "#4563E4"]
-    
+
     const getRandomColor = () => {
         const randomIndex = Math.floor(Math.random() * colors.length);
         return colors[randomIndex];
@@ -412,7 +418,7 @@ function Dashboard() {
             routePromptFrruitGPT(question, flag);
         }
     };
-    
+
     const isData = useMemo(() => {
         return ((((investorStory?.watchlistNews?.length > 0 || investorStory?.sessionNews?.length > 0 || investorStory?.hotPursuitNews?.length > 0 || investorStory?.corporateNews?.length > 0 || investorStory?.economyNews?.length > 0 || investorStory?.corporateResultsNews?.length > 0 || investorStory?.marketNews?.length > 0) || investorStoryError) && (chatSuggestions?.length > 0 || suggestionError)))
     }, [investorStory, stockIndexes, chatSuggestions])
@@ -420,7 +426,7 @@ function Dashboard() {
     const handleWebSearchChange = () => {
         const webSearch = localStorage.getItem('webSearch')
         setShowWebSearch(!showWebSearch);
-        if(!webSearch){
+        if (!webSearch) {
             setShowSearchModal(!showSearchModal);
         }
     };
@@ -431,24 +437,59 @@ function Dashboard() {
     const placeholderText = (flag === 'news' || flag === 'news_bing') ? 'Search news, summarize, and get TLDRs.' : flag === 'fund' ? 'Compare company data, financials, and actions.' : flag === 'youtube' ? 'Discover insights from YouTube videos.' : 'Search discussions and opinions on Reddit.'
 
     useEffect(() => {
-        if(showWebSearch){
+        if (showWebSearch) {
             setFlag('news_bing')
-        }else{
-            setFlag('news') 
+        } else {
+            setFlag('news')
         }
     }, [showWebSearch])
-    
-    const handleCreditButton = ( ) => {
+
+    const handleCreditButton = () => {
         navigate("/profile", {
-            state: { plans : true },
+            state: { plans: true },
         });
     }
-    
-    const handleWebSearchProceed = ( ) => {
+
+    const handleWebSearchProceed = () => {
         setShowSearchModal(!showSearchModal);
-        localStorage.setItem('webSearch',true)
+        localStorage.setItem('webSearch', true)
     }
-    
+
+    const handleFundClick = () => {
+        setShowDropdown(prevShowDropdown => !prevShowDropdown);
+    };
+
+    const handleOptionClick = (value) => {
+        setSelectedFund(value);
+        setShowDropdown(false);
+    };
+    useEffect(() => {
+        function handleClickOutside(event) {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                setShowDropdown(false);
+            }
+        }
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
+
+    const routeChangeFrruitGPT = (question) => {
+        navigate("/frruit-gpt", {
+            state: { question, fundamental: 'news' },
+        });
+    };
+
+    useEffect(() => {
+        const searchQuestion = setTimeout(() => {
+            if (question.length > 0 && flag === 'news') {
+                dispatch(searchSuggestedPrompt(question))
+            }
+        }, 0);
+        return () => clearTimeout(searchQuestion)
+    }, [question])
+
     return (
         <>
             {
@@ -456,10 +497,10 @@ function Dashboard() {
                 <Loader />
             }
             {showCreditModal &&
-                <CreditOverModal show={showCreditModal} handleClose={handleCloseCreditModal} onButtonClick={handleCreditButton}/>
+                <CreditOverModal show={showCreditModal} handleClose={handleCloseCreditModal} onButtonClick={handleCreditButton} />
             }
             {showSearchModal &&
-                <ActivateWebSearch show2={showSearchModal} handleClose2={handleCloseSearchModal} handleClose1={handleWebSearchProceed}/>
+                <ActivateWebSearch show2={showSearchModal} handleClose2={handleCloseSearchModal} handleClose1={handleWebSearchProceed} />
             }
             <div className='dashboardHome row justify-content-between m-0'>
                 {/* {showLeftBox && (
@@ -488,7 +529,7 @@ function Dashboard() {
                                                     {storiesData.map((img, i) => {
                                                         return (
                                                             !storyViewed[storyEnum[img?.storyType]] && investorStory[storyEnum2[img?.storyType]]?.length > 0 ?
-                                                                <div className='d-flex flex-column align-items-center' style={{ marginRight: 20,cursor:'pointer' }} onClick={() => handleShow({ storyType: img.storyType })}>
+                                                                <div className='d-flex flex-column align-items-center' style={{ marginRight: 20, cursor: 'pointer' }} onClick={() => handleShow({ storyType: img.storyType })}>
                                                                     {/* <img
                                                                     key={'MStories' + i}
                                                                     style={{ width: 60, objectFit: 'contain', cursor: 'pointer'}}
@@ -581,7 +622,7 @@ function Dashboard() {
                                                     <div className='d-flex align-items-center mobile-scroll-Css'>
                                                         <div className='d-flex align-items-center me-3'>
                                                             <div className='tab-name-css'>Choose Focus</div>
-                                                            <img src={StraightArrowIcon} style={{width: 20, objectFit: 'contain'}} />
+                                                            <img src={StraightArrowIcon} style={{ width: 20, objectFit: 'contain' }} />
                                                         </div>
                                                         <div className={(flag === 'news' || flag === 'news_bing') ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: (flag === 'news' || flag === 'news_bing') ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
                                                             onClick={() => setFlag('news')}
@@ -625,9 +666,15 @@ function Dashboard() {
                                                                     /> <span className={showWebSearch ? 'web-search-active' : 'web-search-default'}>Web Search</span>
                                                                 </div>
                                                             }
+                                                            {(flag === 'fund') &&
+                                                                <div className="fundDropDownPosition hide-in-mobile" onClick={handleFundClick}>
+                                                                    <div className='searchInputDropdowntext'>{selectedFund}<img src={ArrowDownIcon} style={{ width: 24, height: 24, objectFit: 'contain', marginLeft: 5 }} className={showDropdown ? 'rotate-icon rotated' : 'rotate-icon'} /></div>
+                                                                </div>
+                                                            }
                                                             <input
-                                                                className={(flag === 'news' || flag === 'news_bing') ? "form-control-newsTab" : 'form-control'}
+                                                                // className={(flag === 'news' || flag === 'news_bing') ? "form-control-newsTab" : 'form-control'}
                                                                 // className='form-control'
+                                                                className={`${(flag === 'news' || flag === 'news_bing') && question.length > 0 && suggestedQuestionsList.length > 0 ? 'form-control-suggestion' : (flag === 'news' || flag === 'news_bing') ? 'form-control-newsTab' : flag === 'fund' ? (showDropdown ? 'form-control-funds-only' : 'form-control-fund') : 'form-control'}`}
                                                                 style={{ height: 48 }}
                                                                 value={question}
                                                                 onChange={handleChange}
@@ -638,6 +685,32 @@ function Dashboard() {
                                                     </div>
                                                     <img className='send-image' src={SendIcon} alt='Send' onClick={() => routePromptFrruitGPT(question, flag)} />
                                                 </div>
+                                                {(flag === 'news' && question.length > 0 && suggestedQuestionsList.length > 0) &&
+                                                    <div className='suggestions-box'>
+                                                        {
+                                                            suggestedQuestionsList.slice(0, 4).map((question, index) =>
+                                                                <div className='text-box' onClick={() => routeChangeFrruitGPT(question?.question)}>
+                                                                    <div className='suggestions-text'>{question?.question}</div>
+                                                                    <img src={ArrowIcon} style={{ width: 20, objectFit: 'contain', marginLeft: 16 }} />
+                                                                </div>
+                                                            )
+                                                        }
+                                                    </div>
+                                                }
+                                                {showDropdown && (
+                                                    <div className='dropdownMenuForFunds' ref={dropdownRef}>
+                                                        <div className='text-box'>
+                                                            <div className='searchInputDropdowntext mb-2' onClick={() => handleOptionClick('Company Data')}>
+                                                                Company Data
+                                                                {selectedFund === 'Company Data' && <img src={RightIcon} style={{ width: 20, height: 20, objectFit: 'contain', marginLeft: 5 }} />}
+                                                            </div>
+                                                            <div className='searchInputDropdowntext' onClick={() => handleOptionClick('Stock Screener')}>
+                                                                Stock Screener
+                                                                {selectedFund === 'Stock Screener' && <img src={RightIcon} style={{ width: 20, height: 20, objectFit: 'contain', marginLeft: 5 }} />}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                )}
                                                 {(flag === 'news' || flag === 'news_bing') &&
                                                     <div className="form-check form-switch checkbox-position hide-in-desktop">
                                                         <input
@@ -647,32 +720,11 @@ function Dashboard() {
                                                         /> <span className={showWebSearch ? 'web-search-active' : 'web-search-default'}>Web Search</span>
                                                     </div>
                                                 }
-                                                {/* <div className='show-suggestions-dashboard'>
-                                                    <div className='d-flex align-items-center suggestions-text'>
-                                                        <input
-                                                            type='checkbox'
-                                                            className='show-suggestions-checkbox'
-                                                            checked={showSuggestions}
-                                                            onChange={handleCheckboxChange}
-                                                        /> Show Suggestions
+                                                {(flag === 'fund') &&
+                                                    <div className="fundDropDownPosition hide-in-desktop" onClick={handleFundClick}>
+                                                        <div className='searchInputDropdowntext'>{selectedFund}<img src={ArrowDownIcon} style={{ width: 24, height: 24, objectFit: 'contain', marginLeft: 5 }} className={showDropdown ? 'rotate-icon rotated' : 'rotate-icon'} /></div>
                                                     </div>
-                                                </div>
-                                                {showSuggestions &&
-                                                    <div className='suggestions-box'>
-                                                        <div className='text-box'>
-                                                            <div className='suggestions-text'>Lorem Ipsum</div>
-                                                            <img src={ArrowIcon} style={{ width: 20, objectFit: 'contain', marginLeft: 16 }} />
-                                                        </div>
-                                                        <div className='text-box'>
-                                                            <div className='suggestions-text'>Lorem Ipsum</div>
-                                                            <img src={ArrowIcon} style={{ width: 20, objectFit: 'contain', marginLeft: 16 }} />
-                                                        </div>
-                                                        <div className='text-box'>
-                                                            <div className='suggestions-text'>Lorem Ipsum</div>
-                                                            <img src={ArrowIcon} style={{ width: 20, objectFit: 'contain', marginLeft: 16 }} />
-                                                        </div>
-                                                    </div>
-                                                } */}
+                                                }
                                             </>
                                         </div>
                                     </div>

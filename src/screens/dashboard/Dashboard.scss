@@ -88,6 +88,184 @@
             .mobile-scroll-dashboard::-webkit-scrollbar {
                 display: none;
             }
+
+            .searchInputDropdowntext {
+                font-size: 15px;
+                font-weight: 500;
+                line-height: 18px;
+                color: #4563E4;
+                cursor: pointer;
+            }
+
+            .rotate-icon {
+                transition: transform 0.3s ease;
+            }
+
+            .rotate-icon.rotated {
+                transform: rotate(180deg);
+            }
+
+            .form-group {
+                width: 100%;
+
+                .form-control-suggestion {
+                    border-radius: 0 0 15px 15px;
+                    border: 1px solid #4563E4;
+                    background: #F1F4FD;
+                    height: 56px;
+                    padding: 6px 16px 6px 160px;
+                    width: 100%;
+
+                    @media only screen and (max-width: 500px) {
+                        padding: 6px 16px 6px 16px;
+                    }
+                }
+
+                .form-control-funds-only {
+                    border-radius: 0 15px 15px 15px;
+                    border: 1px solid #4563E4;
+                    background: #F1F4FD;
+                    height: 56px;
+                    padding: 6px 16px 6px 160px;
+                    width: 100%;
+
+                    @media only screen and (max-width: 500px) {
+                        padding: 6px 16px 6px 16px;
+                    }
+                }
+
+                .form-control {
+                    border-radius: 15px;
+                    border: 1px solid #4563E4;
+                    background: #F1F4FD;
+                    height: 56px;
+                    padding: 6px 16px;
+                    position: relative;
+                }
+
+                .form-control-newsTab {
+                    border-radius: 15px;
+                    border: 1px solid #4563E4;
+                    background: #F1F4FD;
+                    height: 56px;
+                    padding: 6px 16px 6px 160px;
+                    width: 100%;
+
+                    @media only screen and (max-width: 500px) {
+                        padding: 6px 16px 6px 16px;
+                    }
+                }
+
+                .form-control-fund {
+                    border-radius: 15px;
+                    border: 1px solid #4563E4;
+                    background: #F1F4FD;
+                    height: 56px;
+                    padding: 6px 16px 6px 160px;
+                    width: 100%;
+
+                    @media only screen and (max-width: 500px) {
+                        padding: 6px 16px 6px 16px;
+                    }
+                }
+
+                .form-control-suggestion:focus {
+                    outline: none !important;
+                }
+
+                .form-control-newsTab:focus-visible {
+                    outline: none !important;
+                }
+
+                .form-control-fund:focus-visible {
+                    outline: none !important;
+                }
+
+                .form-control-funds-only:focus-visible {
+                    outline: none !important;
+                }
+            }
+
+            .show-suggestions {
+                position: absolute;
+                bottom: 16px;
+                left: 20px;
+
+                .suggestions-text {
+                    font-size: 15px;
+                    color: #171E42;
+                    font-weight: 400;
+                }
+
+                .show-suggestions-checkbox {
+                    height: 18px;
+                    width: 18px;
+                    margin-right: 8px;
+                }
+            }
+
+            .suggestions-box {
+                z-index: 99;
+                position: absolute;
+                bottom: 66px;
+                left: 20px;
+                padding: 16px;
+                padding-bottom: 0;
+                border-radius: 15px 15px 0 0;
+                background-color: #F9FAFF;
+                border: 1px solid #4563E4;
+                width: calc(100% - 502px);
+
+                @media only screen and (max-width: 500px) {
+                    width: calc(100% - 114px);
+                    bottom: 88px;
+                }
+
+                .text-box {
+                    background-color: #F1F4FD;
+                    padding: 8px 16px 8px 16px;
+                    border-radius: 10px;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    margin-bottom: 16px;
+                    cursor: pointer;
+                }
+
+                .suggestions-text {
+                    color: #6F7387;
+                    font-size: 13px;
+                    font-weight: 500;
+                }
+            }
+
+            .fundDropDownPosition {
+                position: absolute;
+                cursor: pointer;
+                top: 14px;
+                left: 16px;
+
+                @media only screen and (max-width: 500px) {
+                    position: relative;
+                    left: -1px;
+                    top: 8px;
+                }
+            }
+
+            .dropdownMenuForFunds {
+                z-index: 99;
+                position: absolute;
+                bottom: 66px;
+                left: 20px;
+                padding: 16px;
+                border-radius: 15px 15px 0 0;
+                background-color: #F9FAFF;
+                border: 1px solid #4563E4;
+
+                @media only screen and (max-width: 500px) {
+                    bottom: 88px;
+                }
+            }
         }
 
         .stories-title {
@@ -295,7 +473,7 @@
             margin-bottom: 16px;
             cursor: pointer;
         }
-    
+
         .suggestions-text {
             color: #6F7387;
             font-size: 13px;
@@ -316,7 +494,7 @@
         }
     }
 
-    .checkbox-position{
+    .checkbox-position {
         position: absolute;
         top: 12px;
         left: 16px;
