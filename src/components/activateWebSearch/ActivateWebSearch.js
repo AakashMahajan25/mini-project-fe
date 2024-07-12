@@ -4,7 +4,7 @@ import RocketImage from '../../assets/images/RocketImage.png';
 import Modal from 'react-bootstrap/Modal';
 import './ActivateWebSearch.scss';
 
-function ActivateWebSearch({ show2, handleClose2 }) {
+function ActivateWebSearch({ show2, handleClose2, handleClose1 }) {
     return (
         <>
             <Modal
@@ -30,7 +30,7 @@ function ActivateWebSearch({ show2, handleClose2 }) {
                             Do you want to proceed?
                         </div>
                         <div className='d-flex justify-content-center align-items-center'>
-                            <button onClick={handleClose2} type="submit" className='blue-btn'>Proceed</button>
+                            <button onClick={() => handleClose1()} type="submit" className='blue-btn'>Proceed</button>
                         </div>
                     </div>
                 </Modal.Body>

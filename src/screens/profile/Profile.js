@@ -10,7 +10,7 @@ import InputUser from '../../assets/images/input-user.png';
 import MobileIcon from '../../assets/images/mobile-icon.png';
 import MailIcon from '../../assets/images/mail-icon.png';
 import BlueCardFrruitLogo from '../../assets/images/blue-card-frruitlogo.png';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import Loader from '../../components/loader/Loader';
 import * as yup from 'yup';
@@ -26,10 +26,12 @@ import ReactGA from 'react-ga4';
 import PaymentHistory from '../../components/profile/paymentHistory/PaymentHistory';
 import TermsAndCondition from '../../components/profile/termsAndCondition/TermsAndCondition';
 import PrivacyPolicy from '../../components/profile/privacyPolicy/PrivacyPolicy';
+import Pricing from '../../components/profile/pricing/Pricing';
 
 function Profile() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const { state } = useLocation();
     const handleBackButtonClick = () => {
         setShowCode(prevShowCode => !prevShowCode);
     };
@@ -44,6 +46,7 @@ function Profile() {
     const [isPaymentHistoryActive, setPaymentHistoryActiveColor] = useState(false);
     const [isTermsConditionActive, setTermsConditionActiveColor] = useState(false);
     const [isPrivacyPolicyActive, setPrivacyPolicyActiveColor] = useState(false);
+    const [isPricingActive, setPricingActiveColor] = useState(false);
 
     const handleProfileClick = () => {
         setShowProfile(true);
@@ -56,6 +59,7 @@ function Profile() {
         setPaymentHistory(false);
         setTermsConditionActiveColor(false);
         setPrivacyPolicyActiveColor(false);
+        setPricingActiveColor(false);
     };
 
     const handlePaymentHistoryClick = () => {
@@ -69,6 +73,7 @@ function Profile() {
         setPaymentHistory(true);
         setTermsConditionActiveColor(false);
         setPrivacyPolicyActiveColor(false);
+        setPricingActiveColor(false);
     };
 
     const handlePreferencesClick = () => {
@@ -82,6 +87,7 @@ function Profile() {
         setPaymentHistory(false);
         setTermsConditionActiveColor(false);
         setPrivacyPolicyActiveColor(false);
+        setPricingActiveColor(false)
     };
     const handleHelpClick = () => {
         ReactGA.event({
@@ -101,6 +107,7 @@ function Profile() {
         setPaymentHistory(false);
         setTermsConditionActiveColor(false);
         setPrivacyPolicyActiveColor(false);
+        setPricingActiveColor(false)
     };
     const handleTermsConditionClick = () => {
         setShowProfile(false);
@@ -113,6 +120,7 @@ function Profile() {
         setPaymentHistory(false);
         setTermsConditionActiveColor(true);
         setPrivacyPolicyActiveColor(false);
+        setPricingActiveColor(false)
     };
     const handlePrivacyPolicyClick = () => {
         setShowProfile(false);
@@ -125,6 +133,20 @@ function Profile() {
         setPaymentHistory(false);
         setTermsConditionActiveColor(false);
         setPrivacyPolicyActiveColor(true);
+        setPricingActiveColor(false)
+    };
+    const handlePricingClick = () => {
+        setShowProfile(false);
+        setShowPreferences(false);
+        setShowHelpFAQ(false);
+        setIsHelpActive(false);
+        setShowCodeActiveColor(false);
+        setPreferencesActiveColor(false);
+        setPaymentHistoryActiveColor(false);
+        setPaymentHistory(false);
+        setTermsConditionActiveColor(false);
+        setPrivacyPolicyActiveColor(false);
+        setPricingActiveColor(true)
     };
 
     const updateProfileSchema = yup.object().shape({
@@ -173,6 +195,12 @@ function Profile() {
             // setValue('address', userDetails?.address)
             setValue('email', userDetails?.email)
             setValue('phone_number', userDetails?.phone_number)
+        }
+    }, [userDetails])
+
+    useEffect(() => {
+        if (state?.plans) {
+            setShowCode(true)
         }
     }, [userDetails])
 
@@ -264,10 +292,12 @@ function Profile() {
                         isTermsConditionActive={isTermsConditionActive}
                         isPrivacyPolicyActive={isPrivacyPolicyActive}
                         handlePrivacyPolicyClick={handlePrivacyPolicyClick}
+                        handlePricingClick={handlePricingClick}
+                        isPricingActive={isPricingActive}
                     />
                 </div>
                 <div className='col-lg-9 col-md-9 col-sm-9 column-pad'>
-                    {!showCode && !showPreferences && !showHelpFAQ && !showPaymentHistory && !isTermsConditionActive && !isPrivacyPolicyActive &&
+                    {!showCode && !showPreferences && !showHelpFAQ && !showPaymentHistory && !isTermsConditionActive && !isPrivacyPolicyActive && !isPricingActive &&
                         <div className='right-part' style={{ height: rightPartHeight, overflowY: 'scroll' }}>
                             <div className='welcome-text'>Welcome</div>
                             <div style={{ marginBottom: 20 }} className='user-text'>{userDetails?.first_name + " " + userDetails?.last_name}!</div>
@@ -464,6 +494,11 @@ function Profile() {
                     {isPrivacyPolicyActive && (
                         <div className='right-part' style={{ height: rightPartHeight, overflowY: 'scroll' }}>
                             <PrivacyPolicy />
+                        </div>
+                    )}
+                    {isPricingActive && (
+                        <div className='right-part' style={{ height: rightPartHeight, overflowY: 'scroll' }}>
+                            <Pricing />
                         </div>
                     )}
                 </div>

@@ -30,7 +30,7 @@ function Signup() {
         first_name: yup.string().required("Please enter first name."),
         last_name: yup.string().required("Please enter last name."),
         email: yup.string().email('Please enter valid Email Id').required("Please enter Email Id."),
-        phone_number: yup.string().matches(/^\d+$/, 'Please enter proper phone number.').required("Please enter phone number."),
+        phone_number: yup.string().matches(/^\d{10}$/, 'Please enter proper phone number.').required("Please enter phone number."),
         country: yup.string().required("Please enter country."),
         broker: yup.string().required("Please select broker."),
     })
@@ -58,6 +58,7 @@ function Signup() {
             .unwrap()
             .then((res) => {
                 setShowCode(true)
+                toast.success("OTP has sent successfully");
             })
             .catch((error) => {
                 console.log('error', JSON.stringify(error, null, 2));
@@ -82,7 +83,7 @@ function Signup() {
             .unwrap()
             .then(async (res) => {
                 toast.success(res.message)
-                await dispatch(signupOtp({ type: 'email', email: allValues?.email, mobile: "+91" + allValues?.phone_number }))
+                // await dispatch(signupOtp({ type: 'email', email: allValues?.email, mobile: "+91" + allValues?.phone_number }))
                 setShowCode1(true)
             })
             .catch((error) => {

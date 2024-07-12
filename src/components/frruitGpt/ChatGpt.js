@@ -753,13 +753,14 @@ function ChatGpt(props) {
                                     chat.type === 'link' ?
                                         <>
                                             {chat.render_type === 'graph' ?
-                                                <div style={{ position: 'relative', border: '1px solid #4563E4', borderRadius: 8, padding: 10 }}>
-                                                    <div onClick={() => handleShow(chat?.text?.Graph)} style={{ position: 'absolute', right: 20, top: 0, display: 'flex', alignItems: 'center', cursor: 'pointer', backgroundColor: "white", padding: 5, zIndex: 100 }}>
-                                                        <div style={{ color: '#4563E4' }}>Full Screen</div>
-                                                        <img src={FullScreenIcon} width={24} top={24} />
-                                                    </div>
-                                                    {renderLinkGraph(chat?.text?.Graph)}
-                                                </div>
+                                                // <div style={{ position: 'relative', border: '1px solid #4563E4', borderRadius: 8, padding: 10 }}>
+                                                //     <div onClick={() => handleShow(chat?.text?.Graph)} style={{ position: 'absolute', right: 20, top: 0, display: 'flex', alignItems: 'center', cursor: 'pointer', backgroundColor: "white", padding: 5, zIndex: 100 }}>
+                                                //         <div style={{ color: '#4563E4' }}>Full Screen</div>
+                                                //         <img src={FullScreenIcon} width={24} top={24} />
+                                                //     </div>
+                                                //     {renderLinkGraph(chat?.text?.Graph)}
+                                                // </div>
+                                                <></>
                                                 :
                                                 <div className='chat-text-container'>
                                                     <h3 className='chat-text' style={{ fontWeight: '700' }}>Key Points:-</h3>
@@ -773,14 +774,16 @@ function ChatGpt(props) {
                                         </>
                                         :
                                         <>
-                                            {chat.render_type === 'graph' ?
-                                                <div style={{ position: 'relative', border: '1px solid #4563E4', borderRadius: 8, padding: 10 }}>
-                                                    <div onClick={() => handleShow(chat?.text?.Graph)} style={{ position: 'absolute', right: 20, top: 0, display: 'flex', alignItems: 'center', cursor: 'pointer', backgroundColor: "white", padding: 5, zIndex: 100 }}>
-                                                        <div style={{ color: '#4563E4' }}>Full Screen</div>
-                                                        <img src={FullScreenIcon} width={24} top={24} />
-                                                    </div>
-                                                    {renderLinkGraph(chat?.text?.Graph)}
-                                                </div>
+                                            {chat.render_type === 'graph' 
+                                            ?
+                                                // <div style={{ position: 'relative', border: '1px solid #4563E4', borderRadius: 8, padding: 10 }}>
+                                                //     <div onClick={() => handleShow(chat?.text?.Graph)} style={{ position: 'absolute', right: 20, top: 0, display: 'flex', alignItems: 'center', cursor: 'pointer', backgroundColor: "white", padding: 5, zIndex: 100 }}>
+                                                //         <div style={{ color: '#4563E4' }}>Full Screen</div>
+                                                //         <img src={FullScreenIcon} width={24} top={24} />
+                                                //     </div>
+                                                //     {renderLinkGraph(chat?.text?.Graph)}
+                                                // </div>
+                                                <></>
                                                 :
                                                 <div className='chat-text-container'>
                                                     <Markdown>{chat?.text || ''}</Markdown>

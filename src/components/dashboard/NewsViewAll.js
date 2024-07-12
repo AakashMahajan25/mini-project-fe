@@ -5,7 +5,7 @@ import NewsImg from '../../assets/images/newsImg.png';
 import Time from '../../assets/images/time-clock.png';
 import NewsImg2 from '../../assets/images/news-img-2.png';
 import RightArrow from '../../assets/images/right-arrow.png';
-import { formatTimeAgo, trimText } from '../../utils/utils';
+import { formatTimeAgo, replaceQuestionMarkWithMetrix, trimText } from '../../utils/utils';
 import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
 import { Modal } from 'react-bootstrap';
@@ -359,7 +359,7 @@ function NewsViewAll({ backBtnClick }) {
                             Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been
                         </div> */}
                         <div className='description-text mt-3'>
-                            <div dangerouslySetInnerHTML={{ __html: selected?.arttext }} />
+                            <div dangerouslySetInnerHTML={{ __html: replaceQuestionMarkWithMetrix(selected?.arttext || '') }} />
                         </div>
                     </Modal.Body>
                     {/* <Modal.Footer className='d-flex align-items-center justify-content-start pt-1'>

@@ -30,11 +30,11 @@
         padding: 7px 12px !important;
         border-radius: 50px;
         width: 65%;
-        text-align: center;
+        // text-align: center;
 
         @media only screen and (max-width: 500px) {
             padding: 6px 12px !important;
-            width: 95%;
+            width: 92%;
         }
     }
 
@@ -53,10 +53,11 @@
         background: rgba(211, 81, 183, 0.1);
         padding: 6px 12px;
         border-radius: 50px;
-        width: 44%;
+        width: 37%;
 
         @media only screen and (max-width: 500px) {
-            width: 82%;
+            width: 88%;
+
         }
     }
 
@@ -87,10 +88,10 @@
         background: linear-gradient(to bottom, rgba(84, 128, 153, 0.78), rgba(84, 128, 153, 0.26));
         padding: 25px;
         border-radius: 30px;
-        margin: 27px;
+        margin: 49px 34px;
         background-image: url(../../assets/images/bg2.png);
         background-repeat: no-repeat;
-  background-size: cover;   
+        background-size: cover;
     }
 
     .main-heading {
@@ -126,19 +127,27 @@
         margin-left: 6px;
     }
 
+    .custom-btn {
+        margin-top: 14px;
+    }
+
     .btn-arrow {
-        background-color: #ffffff;
-        border: none !important;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 45px;
+        height: 45px;
         border-radius: 50%;
-        margin: 1rem 0.4rem 0rem 0.4rem;
-        padding: 0.5em;
+        background-color: #FFFFFF;
+        border: none;
+        cursor: pointer;
+        padding: 0;
     }
 
     .s-icon {
-        height: 20px !important;
-        width: 20px !important;
-        margin-top: -5px;
-        // mix-blend-mode: difference;
+        height: 27px !important;
+        width: 27px !important;
+        object-fit: contain;
     }
 
     .primary-header {
@@ -146,7 +155,14 @@
         font-size: 32px;
         text-align: center;
         font-weight: 800;
-        color:white
+        color: white;
+        margin-top: 15px;
+
+
+        @media only screen and (max-width: 500px) {
+            margin-top: 0px !important;
+        }
+
     }
 
     .primary-subheading {
@@ -161,7 +177,9 @@
         display: flex;
         flex-wrap: wrap;
         align-items: stretch;
-        width: 100%;
+        width: 90%;
+        margin-left: 20px;
+        margin-top: 20px;
     }
 
 
@@ -195,8 +213,15 @@
     }
 
     .graph-banner {
-        width: 246.09px;
-        height: 249.39px
+        width: 377.25px;
+        height: 380.71px;
+        object-fit: contain;
+
+        @media only screen and (max-width: 500px) {
+            width: 248.25px;
+            height: 380.71px;
+            object-fit: contain;
+        }
     }
 
     .arrow-right {
