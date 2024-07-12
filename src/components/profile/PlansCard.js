@@ -29,7 +29,7 @@ function PlansCard({ features, title, pricingText, creditsText, benefitsText, bu
                 {type && type === 'custom' &&
                 <a href='mailto:contact@airrchip.com' className='White-btn' style={{ position: 'absolute', bottom: 18, right: '5%', width: '90%',borderRadius:15, textAlign:'center', textDecoration:'none' }}>{buttonText}</a>
                 }
-                {!type && buttonText &&
+                {!type && buttonText && title !== 'Beta' && 
                     <button onClick={upgradePlan} style={{ position: 'absolute', bottom: 18, right: '5%', width: '90%' }} className='White-btn'>{buttonText}</button>
                 }
             </div>
