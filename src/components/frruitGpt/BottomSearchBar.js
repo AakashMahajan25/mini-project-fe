@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import './BottomSearchBar.scss'
 import AttachIcon from '../../assets/images/fluent_attach-20-regular.png'
 import LinkIcon from '../../assets/images/link_icon.png'
@@ -10,6 +10,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import RightFocusArrow from '../../assets/images/arrow-img.png'
 import StraightArrowIcon from '../../assets/images/straight-arrow.png'
+import ArrowDownIcon from '../../assets/images/accordiun-down-arrow.png'
+import RightIcon from '../../assets/images/charm_tick.png'
 import { Modal } from 'react-bootstrap';
 
 function BottomSearchBar(props) {
@@ -18,12 +20,12 @@ function BottomSearchBar(props) {
     const [showNews, setShowNews] = useState(true);
     const [showSuggestions, setShowSuggestions] = useState(false);
     const [showWebSearch, setShowWebSearch] = useState(false);
+    const [selectedFund, setSelectedFund] = useState('Company Data');
+    const [showDropdown, setShowDropdown] = useState(false);
+    const dropdownRef = useRef(null);
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const { suggestedQuestionsList, isLoading } = useSelector(state => state.fruitGPTSlice);
-    // const [question1, setQuestion1] = useState('Company Data');
-    // const [showDropdown, setShowDropdown] = useState(false);
-
 
     const {
         setQuestion = () => { },
@@ -82,7 +84,7 @@ function BottomSearchBar(props) {
 
     const handleWebSearchChange = () => {
         setShowWebSearch(!showWebSearch);
-        localStorage.setItem('webSearch',true)
+        localStorage.setItem('webSearch', true)
     };
     const handleClose = () => setShowWebSearch(false);
 
@@ -92,16 +94,25 @@ function BottomSearchBar(props) {
         });
     };
 
-    // const handleFundClick = () => {
-    //     setFlag('fund');
-    //     setShowDropdown(true);
-    // };
+    const handleFundClick = () => {
+        setShowDropdown(prevShowDropdown => !prevShowDropdown);
+    };
 
-    // const handleOptionClick = (value) => {
-    //     setQuestion1(value); // Set the selected option to the input field
-    //     setShowDropdown(false);// Hide the dropdown after selecting an option
-    // };
-
+    const handleOptionClick = (value) => {
+        setSelectedFund(value);
+        setShowDropdown(false);
+    };
+    useEffect(() => {
+        function handleClickOutside(event) {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                setShowDropdown(false);
+            }
+        }
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
 
     const placeholderText = (flag === 'news' || flag === 'news_bing') ? 'Search news, summarize, and get TLDRs.' : flag === 'fund' ? 'Compare company data, financials, and actions.' : flag === 'youtube' ? 'Discover insights from YouTube videos.' : 'Search discussions and opinions on Reddit.'
     return (
@@ -158,24 +169,13 @@ function BottomSearchBar(props) {
                                     /> <span className={showWebSearch ? 'web-search-active' : 'web-search-default'}>Web Search</span>
                                 </div>
                             }
-                            {/* {flag === 'fund' && (
-                                <div className="dropdown-container">
-                                    {showDropdown && (
-                                        <div className={`dropdown form-check hide-in-mobile ${showDropdown ? 'active' : ''}`} style={{ width: '20%' }}>
-                                            <select
-                                                className="custom-select"
-                                                // onChange={(e) => setQuestion(e.target.value)}
-                                                // value={question}
-                                            >
-                                                <option value="Company Data">Company Data</option>
-                                                <option value="Stock Screener">Stock Screener</option>
-                                            </select>
-                                        </div>
-                                    )}
+                            {(flag === 'fund') &&
+                                <div className="fundDropDownPosition hide-in-mobile" onClick={handleFundClick}>
+                                    <div className='searchInputDropdowntext'>{selectedFund}<img src={ArrowDownIcon} style={{ width: 24, height: 24, objectFit: 'contain', marginLeft: 5 }} className={showDropdown ? 'rotate-icon rotated' : 'rotate-icon'} /></div>
                                 </div>
-                            )} */}
+                            }
                             <input
-                                className={((flag === 'news' || flag === 'news_bing') && question.length > 0 && suggestedQuestionsList.length > 0) ? "form-control-suggestion" : (flag === 'news' || flag === 'news_bing') ? "form-control-newsTab" : 'form-control'}
+                                className={`${(flag === 'news' || flag === 'news_bing') && question.length > 0 && suggestedQuestionsList.length > 0 ? 'form-control-suggestion' : (flag === 'news' || flag === 'news_bing') ? 'form-control-newsTab' : flag === 'fund' ? (showDropdown ? 'form-control-funds-only' : 'form-control-fund') : 'form-control'}`}
                                 value={question}
                                 disabled={!buttonStart}
                                 onChange={handleChange}
@@ -211,6 +211,20 @@ function BottomSearchBar(props) {
                         }
                     </div>
                 }
+                {showDropdown && (
+                    <div className='dropdownMenuForFunds' ref={dropdownRef}>
+                        <div className='text-box'>
+                            <div className='searchInputDropdowntext mb-2' onClick={() => handleOptionClick('Company Data')}>
+                                Company Data
+                                {selectedFund === 'Company Data' && <img src={RightIcon} style={{ width: 20, height: 20, objectFit: 'contain', marginLeft: 5 }} />}
+                            </div>
+                            <div className='searchInputDropdowntext' onClick={() => handleOptionClick('Stock Screener')}>
+                                Stock Screener
+                                {selectedFund === 'Stock Screener' && <img src={RightIcon} style={{ width: 20, height: 20, objectFit: 'contain', marginLeft: 5 }} />}
+                            </div>
+                        </div>
+                    </div>
+                )}
                 {(flag === 'news') &&
                     <div className="form-check form-switch checkbox-position hide-in-desktop">
                         <input
@@ -220,7 +234,11 @@ function BottomSearchBar(props) {
                         /> <span className={showWebSearch ? 'web-search-active' : 'web-search-default'}>Web Search</span>
                     </div>
                 }
-                {/* } */}
+                {(flag === 'fund') &&
+                    <div className="fundDropDownPosition hide-in-desktop" onClick={handleFundClick}>
+                        <div className='searchInputDropdowntext'>{selectedFund}<img src={ArrowDownIcon} style={{ width: 24, height: 24, objectFit: 'contain', marginLeft: 5 }} className={showDropdown ? 'rotate-icon rotated' : 'rotate-icon'} /></div>
+                    </div>
+                }
             </div>
             {/* <Modal show={showWebSearch} onHide={handleClose} size='sm' centered scrollable>
                 <Modal.Header>

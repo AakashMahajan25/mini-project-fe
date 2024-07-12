@@ -12,14 +12,28 @@
     @media only screen and (max-width: 768px) {
         width: 75%;
     }
+
     @media only screen and (max-width: 500px) {
         width: 100%;
         background-color: white;
         padding: 10px 20px 10px 20px;
     }
 
-    // left: 50%;
-    // transform: translate(-50%, 0%);
+    .searchInputDropdowntext {
+        font-size: 15px;
+        font-weight: 500;
+        line-height: 18px;
+        color: #4563E4;
+        cursor: pointer;
+    }
+
+    .rotate-icon {
+        transition: transform 0.3s ease;
+    }
+
+    .rotate-icon.rotated {
+        transform: rotate(180deg);
+    }
 
     .attachment {
         border-radius: 15px;
@@ -99,13 +113,26 @@
             }
         }
 
+        .form-control-funds-only {
+            border-radius: 0 15px 15px 15px;
+            border: 1px solid #4563E4;
+            background: #F1F4FD;
+            height: 56px;
+            padding: 6px 16px 6px 160px;
+            width: 100%;
+
+            @media only screen and (max-width: 500px) {
+                padding: 6px 16px 6px 16px;
+            }
+        }
+
         .form-control {
             border-radius: 15px;
             border: 1px solid #4563E4;
             background: #F1F4FD;
             height: 56px;
             padding: 6px 16px;
-            position: relative; 
+            position: relative;
         }
 
         .form-control-newsTab {
@@ -121,12 +148,33 @@
             }
         }
 
+        .form-control-fund {
+            border-radius: 15px;
+            border: 1px solid #4563E4;
+            background: #F1F4FD;
+            height: 56px;
+            padding: 6px 16px 6px 160px;
+            width: 100%;
+
+            @media only screen and (max-width: 500px) {
+                padding: 6px 16px 6px 16px;
+            }
+        }
+
         .form-control-suggestion:focus {
-            outline: none;
+            outline: none !important;
         }
 
         .form-control-newsTab:focus-visible {
-            outline: none;
+            outline: none !important;
+        }
+
+        .form-control-fund:focus-visible {
+            outline: none !important;
+        }
+
+        .form-control-funds-only:focus-visible {
+            outline: none !important;
         }
     }
 
@@ -144,84 +192,6 @@
         }
     }
 
-    .input-container {
-        position: relative;
-        width: fit-content;
-    }
-    .dropdown-container {
-        position: relative;
-    }
-
-    .custom-select {
-        appearance: none;
-        border: none;
-        background: none;
-        font-size: 16px;
-        color: #4563E4;
-        cursor: pointer;
-        width: 60%;
-        // padding: 10px 0;
-        position: absolute;
-        top:0; /* Position the dropdown above the input */
-        left: 25px;
-    }
-    
-    .custom-select option {
-        background-color: white;
-        color: #4563E4;
-        padding: 20px;
-        border: none;
-        border-radius: 0 0 10px 10px; /* Bottom left and right radius */
-    }
-
-    .custom-select:focus {
-        outline: none; /* Remove default focus outline */
-        box-shadow: none; /* Remove any box-shadow */
-        border-color: transparent; /* Make sure border color remains transparent */
-    }
-
-    .custom-select:after {
-        content: '▼';
-        position: absolute;
-        top: 50%;
-        right: 10px;
-        transform: translateY(-50%);
-        pointer-events: none; /* Ensure arrow is not clickable */
-        color: #4563E4;
-    }
-    
-    .dropdown {
-        position: absolute;
-        top: calc(100% + 14px); /* Position dropdown below input */
-        left: -6px;
-        // background-color: #4563E4; /* Blue background color */
-        border-bottom-left-radius: 10px;
-        border-bottom-right-radius: 10px;
-        z-index: 1;
-        display: none; /* Initially hide dropdown */
-    }
-    
-    .dropdown.active {
-        display: block; /* Show dropdown when active class is applied */
-    }
-    
-    .dropdown ul {
-        list-style-type: none;
-        padding: 0;
-        margin: 0;
-    }
-    
-    .dropdown ul li {
-        padding:10px;
-        color: #4563E4; /* White text color for dropdown items */
-        cursor: pointer;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Light border for dropdown items */
-    }
-    
-    .dropdown ul li:hover {
-        background-color: rgba(255, 255, 255, 0.1); /* Light background color on hover */
-    }
-
     .customTab-frruit-gpt {
         margin-bottom: 10px;
 
@@ -236,7 +206,7 @@
         }
 
         .tab-box-css {
-            border-bottom: 2px solid #4563E4 ;
+            border-bottom: 2px solid #4563E4;
             border-radius: 6px 6px 0 0;
         }
     }
@@ -272,7 +242,7 @@
         width: calc(100% - 123px);
 
         @media only screen and (max-width: 500px) {
-            width: calc(100% - 112px);    
+            width: calc(100% - 112px);
             bottom: 90px;
         }
 
@@ -286,11 +256,26 @@
             margin-bottom: 16px;
             cursor: pointer;
         }
-    
+
         .suggestions-text {
             color: #6F7387;
             font-size: 13px;
             font-weight: 500;
+        }
+    }
+
+    .dropdownMenuForFunds {
+        z-index: 99;
+        position: absolute;
+        bottom: 75px;
+        left: 20px;
+        padding: 16px;
+        border-radius: 15px 15px 0 0;
+        background-color: #F9FAFF;
+        border: 1px solid #4563E4;
+
+        @media only screen and (max-width: 500px) {
+            bottom: 90px;
         }
     }
 
@@ -302,15 +287,28 @@
         display: none;
     }
 
-    .checkbox-position{
+    .checkbox-position {
         position: absolute;
         top: 16px;
         left: 16px;
 
         @media only screen and (max-width: 500px) {
-            position: relative;   
+            position: relative;
             left: -8px;
             top: 8px;
         }
-    }   
+    }
+
+    .fundDropDownPosition {
+        position: absolute;
+        cursor: pointer;
+        top: 18px;
+        left: 16px;
+
+        @media only screen and (max-width: 500px) {
+            position: relative;
+            left: -1px;
+            top: 8px;
+        }
+    }
 }
