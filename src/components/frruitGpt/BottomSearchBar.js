@@ -11,6 +11,7 @@ import { useNavigate } from 'react-router-dom'
 import RightFocusArrow from '../../assets/images/arrow-img.png'
 import StraightArrowIcon from '../../assets/images/straight-arrow.png'
 import { Modal } from 'react-bootstrap';
+import ActivateWebSearch from '../activateWebSearch/ActivateWebSearch'
 
 function BottomSearchBar(props) {
 
@@ -23,6 +24,9 @@ function BottomSearchBar(props) {
     const { suggestedQuestionsList, isLoading } = useSelector(state => state.fruitGPTSlice);
     // const [question1, setQuestion1] = useState('Company Data');
     // const [showDropdown, setShowDropdown] = useState(false);
+    const [showSearchModal, setShowSearchModal] = useState(false);
+    const handleCloseSearchModal = () => setShowSearchModal(false);
+
 
 
     const {
@@ -82,7 +86,8 @@ function BottomSearchBar(props) {
 
     const handleWebSearchChange = () => {
         setShowWebSearch(!showWebSearch);
-        localStorage.setItem('webSearch',true)
+        setShowSearchModal(!showSearchModal);
+        localStorage.setItem('webSearch', true)
     };
     const handleClose = () => setShowWebSearch(false);
 
@@ -158,6 +163,7 @@ function BottomSearchBar(props) {
                                     /> <span className={showWebSearch ? 'web-search-active' : 'web-search-default'}>Web Search</span>
                                 </div>
                             }
+                            <ActivateWebSearch show2={showSearchModal} handleClose2={handleCloseSearchModal} />
                             {/* {flag === 'fund' && (
                                 <div className="dropdown-container">
                                     {showDropdown && (
@@ -175,7 +181,7 @@ function BottomSearchBar(props) {
                                 </div>
                             )} */}
                             <input
-                                className={((flag === 'news' || flag === 'news_bing') && question.length > 0 && suggestedQuestionsList.length > 0) ? "form-control-suggestion" : (flag === 'news' || flag === 'news_bing') ? "form-control-newsTab" : 'form-control-newsTab'}
+                                className={((flag === 'news' || flag === 'news_bing') && question.length > 0 && suggestedQuestionsList.length > 0) ? "form-control-suggestion" : (flag === 'news' || flag === 'news_bing') ? "form-control-newsTab" : 'form-control'}
                                 value={question}
                                 disabled={!buttonStart}
                                 onChange={handleChange}

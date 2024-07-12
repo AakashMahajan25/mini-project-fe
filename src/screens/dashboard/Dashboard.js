@@ -41,6 +41,7 @@ import StraightArrowIcon from '../../assets/images/straight-arrow.png'
 import PopupModal from '../../components/PopupModal/PopupModal';
 import { getAvaliableCredit, getUserPlan } from '../profile/usersSlice';
 import CreditOverModal from '../../components/creditOverModal/CreditOverModal';
+import ActivateWebSearch from '../../components/activateWebSearch/ActivateWebSearch';
 
 const storyEnum = {
     watchlist_news: 'isWatchlistViewed',
@@ -137,6 +138,8 @@ function Dashboard() {
     const [showWebSearch, setShowWebSearch] = useState(false);
     const [showCreditModal, setShowCreditModal] = useState(false);
   const handleCloseCreditModal = () => setShowCreditModal(false);
+    const [showSearchModal, setShowSearchModal] = useState(false);
+    const handleCloseSearchModal = () => setShowSearchModal(false);
 
     const storyRef = useRef()
 
@@ -453,17 +456,7 @@ function Dashboard() {
                         <LeftBox />
                     </div>
                 )} */}
-                {/* <PopupModal
-                    // imagesource1={require('../../assets/images/CreditImage.png')} // Example image source
-                    customColor='yellow'
-                    mainheading="80% Credit Exhausted"
-                    subheading="You've used 80% of your available credits."
-                    showActivate={true}
-                    additionalText="You've chosen to enhance your search with our premium web search feature. By enabling this option, you'll gain access to the latest news and information from premium sources. Please note that activating web search will incur additional charges."
-                    proceedText="Do you want to proceed?"
-                    PlansText1="Renew Plan"
-                    PlansText2="View Other Plans"
-                /> */}
+                {/* <PopupModal/> */}
                 <>
                     {showAllContent &&
                         <div className='col-lg-9 column-pad'
@@ -642,6 +635,7 @@ function Dashboard() {
                                                         /> <span className={showWebSearch ? 'web-search-active' : 'web-search-default'}>Web Search</span>
                                                     </div>
                                                 }
+                                                 <ActivateWebSearch show2={showSearchModal} handleClose2={handleCloseSearchModal} />
                                                 {/* <div className='show-suggestions-dashboard'>
                                                     <div className='d-flex align-items-center suggestions-text'>
                                                         <input
