@@ -26,7 +26,7 @@ import ReactGA from 'react-ga4';
 import Slider from 'react-slick';
 import LeftArrow from '../../assets/images/LeftArrow.png'
 import Rightarrow from '../../assets/images/RightArrow.png';
-import StockImage from '../../assets/images/Similar Days.png';
+import StockImage from '../../assets/images/SimilarDays 1.png';
 import ReturnsImage from '../../assets/images/ReturnsImage.png';
 import EarthIcon from '../../assets/images/earth_icon.png';
 import EconomicIcon from '../../assets/images/Economy_icon.png';
@@ -550,7 +550,7 @@ function DiscoverCorrelation() {
                         <section>
                             <div className="container">
                                 {/* <p className='main-heading'>Coming Soon!!</p> */}
-                                <div className="row align-items-center justify-content-between">
+                                <div className="row justify-content-between">
                                     <div className="col-lg-6">
                                         <div className="input-group position-relative search mb-3">
                                             <input
@@ -616,18 +616,16 @@ function DiscoverCorrelation() {
                                                         </div>
                                                     </div>
                                                     <div className="swiper-slide">
-                                                        <div className="">
-                                                            <div className='container'>
-                                                                <div className='d-flex justify-content-center'>
-                                                                    <img src={ReturnsImage} className="graph-banner" alt="" />
-                                                                </div>
-                                                                <h1 className="mb-0 pb-0 primary-header" style={{ fontSize: 35 }}>
-                                                                    Similar Days
-                                                                </h1>
-                                                                <p className="primary-subheading">
-                                                                    Identify the similar days of the past that get flagged through AI driven pattern recognition
-                                                                </p>
+                                                        <div className='container'>
+                                                            <div className='d-flex justify-content-center'>
+                                                                <img src={ReturnsImage} className="graph-banner" alt="" />
                                                             </div>
+                                                            <h1 className="mb-0 pb-0 primary-header" style={{ fontSize: 35 }}>
+                                                                Similar Days
+                                                            </h1>
+                                                            <p className="primary-subheading">
+                                                                Identify the similar days of the past that get flagged through AI driven pattern recognition
+                                                            </p>
                                                         </div>
                                                     </div>
                                                     <div className="swiper-slide">
@@ -651,7 +649,7 @@ function DiscoverCorrelation() {
                                                 <button className="btn-arrow" onClick={goToPrev}>
                                                     <img className="s-icon" src={LeftArrow} alt="" />
                                                 </button>
-                                                <button className="swiper-button-right btn-arrow" onClick={goToNext}>
+                                                <button className="btn-arrow ms-4" onClick={goToNext}>
                                                     <img className="s-icon" src={Rightarrow} alt="" />
                                                 </button>
                                             </div>
