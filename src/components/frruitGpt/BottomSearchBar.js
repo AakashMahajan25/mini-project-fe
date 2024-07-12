@@ -217,10 +217,10 @@ function BottomSearchBar(props) {
                     </div>
                 </div>
                 {showSuggestions && */}
-                {(flag === 'news' && question.length > 0 && suggestedQuestionsList.length > 0) &&
+                {(flag === 'news' && question.length > 0 && suggestedQuestionsList.length > 0 ) &&
                     <div className='suggestions-box'>
                         {
-                            suggestedQuestionsList.slice(0, 4).map((question, index) =>
+                            suggestedQuestionsList?.slice(0, 4).map((question, index) =>
                                 <div className='text-box' onClick={() => routeChangeFrruitGPT(question?.question)}>
                                     <div className='suggestions-text'>{question?.question}</div>
                                     <img src={ArrowIcon} style={{ width: 20, objectFit: 'contain', marginLeft: 16 }} />
