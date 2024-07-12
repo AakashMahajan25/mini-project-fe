@@ -547,17 +547,20 @@ function DiscoverCorrelation() {
 
                     </div>
                     <div className='slider-sec-card'>
+                        <p className='text-center coming-text'>Coming Soon !!</p>
                         <section>
                             <div className="container">
                                 {/* <p className='main-heading'>Coming Soon!!</p> */}
                                 <div className="row justify-content-between">
-                                    <div className="col-lg-6">
+                                    <div className="col-lg-5">
                                         <div className="input-group position-relative search mb-3">
                                             <input
                                                 type="text"
                                                 className="form-control position-relative"
-                                                placeholder="Search Markent Events"
+                                                placeholder="Search Market Events"
                                                 aria-label="Search"
+                                                value='Search Market Events'
+                                                disabled
                                             />
                                             <div className="">
                                                 <img
@@ -596,7 +599,7 @@ function DiscoverCorrelation() {
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="col-lg-6 GraphSlider">
+                                    <div className="col-lg-7 GraphSlider">
                                         <div className="swiper swiper2">
                                             <div className="swiper-wrapper mt-3">
                                                 <Slider ref={sliderRef} {...settings}>

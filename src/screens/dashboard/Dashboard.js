@@ -434,7 +434,7 @@ function Dashboard() {
     // const handleCheckboxChange = () => {
     //     setShowSuggestions(!showSuggestions);
     // };
-    const placeholderText = (flag === 'news' || flag === 'news_bing') ? 'Search news, summarize, and get TLDRs.' : flag === 'fund' ? 'Compare company data, financials, and actions.' : flag === 'youtube' ? 'Discover insights from YouTube videos.' : 'Search discussions and opinions on Reddit.'
+    const placeholderText = (flag === 'news' || flag === 'news_bing') ? 'Search news, summarize, and get TLDRs' : flag === 'fund' ? 'Compare company fundamentals data, financials, stock screener and corporate actions' : flag === 'youtube' ? 'Discover insights from YouTube videos' : 'Search discussions and opinions on Reddit'
 
     useEffect(() => {
         if (showWebSearch) {
@@ -659,6 +659,7 @@ function Dashboard() {
                                                             {(flag === 'news' || flag === 'news_bing') &&
                                                                 <div className="form-check form-switch checkbox-position hide-in-mobile">
                                                                     <input
+                                                                        style={{cursor:'pointer'}}
                                                                         className="form-check-input"
                                                                         type="checkbox"
                                                                         onChange={handleWebSearchChange}
