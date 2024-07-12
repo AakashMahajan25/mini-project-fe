@@ -10,7 +10,7 @@ import InputUser from '../../assets/images/input-user.png';
 import MobileIcon from '../../assets/images/mobile-icon.png';
 import MailIcon from '../../assets/images/mail-icon.png';
 import BlueCardFrruitLogo from '../../assets/images/blue-card-frruitlogo.png';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import Loader from '../../components/loader/Loader';
 import * as yup from 'yup';
@@ -30,6 +30,7 @@ import PrivacyPolicy from '../../components/profile/privacyPolicy/PrivacyPolicy'
 function Profile() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const { state } = useLocation();
     const handleBackButtonClick = () => {
         setShowCode(prevShowCode => !prevShowCode);
     };
@@ -173,6 +174,12 @@ function Profile() {
             // setValue('address', userDetails?.address)
             setValue('email', userDetails?.email)
             setValue('phone_number', userDetails?.phone_number)
+        }
+    }, [userDetails])
+
+    useEffect(() => {
+        if (state?.plans) {
+            setShowCode(true)
         }
     }, [userDetails])
 

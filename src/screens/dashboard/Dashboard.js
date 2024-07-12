@@ -139,8 +139,11 @@ function Dashboard() {
     const [showCreditModal, setShowCreditModal] = useState(false);
   const handleCloseCreditModal = () => setShowCreditModal(false);
     const [showSearchModal, setShowSearchModal] = useState(false);
-    const handleCloseSearchModal = () => setShowSearchModal(false);
-
+    const handleCloseSearchModal = () => {
+        setShowSearchModal(false);
+        setShowWebSearch(false);
+        setFlag('news')
+    }
     const storyRef = useRef()
 
     const handleShow = (data) => {
@@ -417,8 +420,8 @@ function Dashboard() {
     const handleWebSearchChange = () => {
         const webSearch = localStorage.getItem('webSearch')
         setShowWebSearch(!showWebSearch);
-        if(webSearch){
-            localStorage.setItem('webSearch',true)
+        if(!webSearch){
+            setShowSearchModal(!showSearchModal);
         }
     };
 
@@ -441,6 +444,11 @@ function Dashboard() {
         });
     }
     
+    const handleWebSearchProceed = ( ) => {
+        setShowSearchModal(!showSearchModal);
+        localStorage.setItem('webSearch',true)
+    }
+    
     return (
         <>
             {
@@ -449,6 +457,9 @@ function Dashboard() {
             }
             {showCreditModal &&
                 <CreditOverModal show={showCreditModal} handleClose={handleCloseCreditModal} onButtonClick={handleCreditButton}/>
+            }
+            {showSearchModal &&
+                <ActivateWebSearch show2={showSearchModal} handleClose2={handleCloseSearchModal} handleClose1={handleWebSearchProceed}/>
             }
             <div className='dashboardHome row justify-content-between m-0'>
                 {/* {showLeftBox && (
@@ -610,6 +621,7 @@ function Dashboard() {
                                                                         className="form-check-input"
                                                                         type="checkbox"
                                                                         onChange={handleWebSearchChange}
+                                                                        checked={showWebSearch}
                                                                     /> <span className={showWebSearch ? 'web-search-active' : 'web-search-default'}>Web Search</span>
                                                                 </div>
                                                             }
@@ -635,7 +647,6 @@ function Dashboard() {
                                                         /> <span className={showWebSearch ? 'web-search-active' : 'web-search-default'}>Web Search</span>
                                                     </div>
                                                 }
-                                                 <ActivateWebSearch show2={showSearchModal} handleClose2={handleCloseSearchModal} />
                                                 {/* <div className='show-suggestions-dashboard'>
                                                     <div className='d-flex align-items-center suggestions-text'>
                                                         <input
