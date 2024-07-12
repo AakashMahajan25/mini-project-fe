@@ -207,18 +207,18 @@
             .suggestions-box {
                 z-index: 99;
                 position: absolute;
-                bottom: 66px;
-                left: 20px;
+                bottom: 47px;
+                left: 0px;
                 padding: 16px;
                 padding-bottom: 0;
                 border-radius: 15px 15px 0 0;
                 background-color: #F9FAFF;
                 border: 1px solid #4563E4;
-                width: calc(100% - 502px);
+                width: calc(100% - 0px);
 
                 @media only screen and (max-width: 500px) {
-                    width: calc(100% - 114px);
-                    bottom: 88px;
+                    width: calc(100% - 0px);
+                    bottom: 47px;
                 }
 
                 .text-box {

@@ -25,7 +25,7 @@ import { useNavigate } from 'react-router-dom';
 import Modal from 'react-bootstrap/Modal';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAllNews, fetchTrendingStocksFromAI, getInvestorStories, getMostOnFrruitGpt, getStockIndexes, getTrendingNews, getTrendingStocks, setStoryIndex, setStoryViewed } from './slice';
-import { getPromptSuggestion,searchSuggestedPrompt } from '../frruitGPT/slice';
+import { getPromptSuggestion, searchSuggestedPrompt } from '../frruitGPT/slice';
 // import { searchSuggestedPrompt } from '../../screens/frruitGPT/slice'
 import Loader from '../../components/loader/Loader';
 import RightWhiteArrow from '../../assets/images/right-arrow.png';
@@ -185,7 +185,7 @@ function Dashboard() {
 
     const dispatch = useDispatch()
     const { trendingStocks, trendingNews, mostOnFrruitGpt, storyViewed, investorStory, storyIndex, isLoading, investorStoryLoading, indexLoader, stockIndexes, investorStoryError, cmotsNews } = useSelector(state => state.dashboardSlice);
-    const { chatSuggestions, suggestionLoader, suggestionError,suggestedQuestionsList } = useSelector(state => state.fruitGPTSlice);
+    const { chatSuggestions, suggestionLoader, suggestionError, suggestedQuestionsList } = useSelector(state => state.fruitGPTSlice);
     const { userCredits, userPlan } = useSelector(state => state.userSlice)
     const [showLeftBox, setShowLeftBox] = useState(true);
     useEffect(() => {
@@ -682,22 +682,24 @@ function Dashboard() {
                                                                 placeholder={placeholderText}
                                                                 onKeyDown={handleKeyPress}
                                                             />
+                                                            {(flag === 'news' && question.length > 0 && suggestedQuestionsList.length > 0) &&
+                                                                <div className='suggestions-box'>
+                                                                    {
+                                                                        suggestedQuestionsList.slice(0, 4).map((question, index) =>
+                                                                            <div className='text-box' onClick={() => routeChangeFrruitGPT(question?.question)}>
+                                                                                <div className='suggestions-text'>{question?.question}</div>
+                                                                                <img src={ArrowIcon} style={{ width: 20, objectFit: 'contain', marginLeft: 16 }} />
+                                                                            </div>
+                                                                        )
+                                                                    }
+                                                                </div>
+                                                            }
                                                         </div>
+
                                                     </div>
                                                     <img className='send-image' src={SendIcon} alt='Send' onClick={() => routePromptFrruitGPT(question, flag)} />
                                                 </div>
-                                                {(flag === 'news' && question.length > 0 && suggestedQuestionsList.length > 0) &&
-                                                    <div className='suggestions-box'>
-                                                        {
-                                                            suggestedQuestionsList.slice(0, 4).map((question, index) =>
-                                                                <div className='text-box' onClick={() => routeChangeFrruitGPT(question?.question)}>
-                                                                    <div className='suggestions-text'>{question?.question}</div>
-                                                                    <img src={ArrowIcon} style={{ width: 20, objectFit: 'contain', marginLeft: 16 }} />
-                                                                </div>
-                                                            )
-                                                        }
-                                                    </div>
-                                                }
+
                                                 {showDropdown && (
                                                     <div className='dropdownMenuForFunds' ref={dropdownRef}>
                                                         <div className='text-box'>
