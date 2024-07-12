@@ -39,6 +39,7 @@ import ArrowIcon from '../../assets/images/arrow-img.png'
 import RightArrowIcon from '../../assets/images/arrow-img.png'
 import StraightArrowIcon from '../../assets/images/straight-arrow.png'
 import PopupModal from '../../components/PopupModal/PopupModal';
+import ActivateWebSearch from '../../components/activateWebSearch/ActivateWebSearch';
 
 const storyEnum = {
     watchlist_news: 'isWatchlistViewed',
@@ -133,6 +134,8 @@ function Dashboard() {
     const [question, setQuestion] = useState('');
     const [flag, setFlag] = useState('news');
     const [showWebSearch, setShowWebSearch] = useState(false);
+    const [showSearchModal, setShowSearchModal] = useState(false);
+    const handleCloseSearchModal = () => setShowSearchModal(false);
 
     const storyRef = useRef()
 
@@ -396,6 +399,7 @@ function Dashboard() {
     console.log('isData============', isData)
     const handleWebSearchChange = () => {
         setShowWebSearch(!showWebSearch);
+        setShowSearchModal(!showSearchModal);
     };
 
     // const handleCheckboxChange = () => {
@@ -602,6 +606,7 @@ function Dashboard() {
                                                         /> <span className={showWebSearch ? 'web-search-active' : 'web-search-default'}>Web Search</span>
                                                     </div>
                                                 }
+                                                 <ActivateWebSearch show2={showSearchModal} handleClose2={handleCloseSearchModal} />
                                                 {/* <div className='show-suggestions-dashboard'>
                                                     <div className='d-flex align-items-center suggestions-text'>
                                                         <input

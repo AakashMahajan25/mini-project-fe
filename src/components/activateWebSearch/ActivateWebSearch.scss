@@ -1,0 +1,53 @@
+.ActivateWebSearchStyles {
+
+    .modal-header {
+        justify-content: end;
+    }
+
+    .header{
+        padding-bottom: 0px !important;
+    }
+
+    .closeimage{
+        width:32px;
+    }
+
+    .centerImg {
+        display: flow-root;
+        text-align: center;
+
+        .RocketImageImg {
+            width: 220.34px;
+            height: 169px;
+            object-fit: contain;
+            // margin-bottom: 20px;
+        }
+
+        .webSearchText {
+            font-weight: 700;
+            font-family: 'Roboto', sans-serif;
+            font-size: 40px;
+            line-height: 46.88px;
+            color: #4563E4;
+            margin-bottom: 10px;
+        }
+
+        .proceed-text{
+            font-weight: 500;
+            font-family: 'Roboto', sans-serif;
+            font-size: 24px;
+            line-height: 28.13px;
+            color: #171E42;
+            margin-bottom: 30px;
+        }
+
+        .subheading {
+            font-weight: 400;
+            font-family: 'Roboto', sans-serif;
+            font-size: 20px;
+            line-height: 23.44px;
+            color: #6F7387;
+            margin-bottom: 10px;
+        }
+    }
+}

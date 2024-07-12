@@ -13,6 +13,7 @@ import StraightArrowIcon from '../../assets/images/straight-arrow.png'
 import ArrowDownIcon from '../../assets/images/accordiun-down-arrow.png'
 import RightIcon from '../../assets/images/charm_tick.png'
 import { Modal } from 'react-bootstrap';
+import ActivateWebSearch from '../activateWebSearch/ActivateWebSearch'
 
 function BottomSearchBar(props) {
 
@@ -26,6 +27,10 @@ function BottomSearchBar(props) {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const { suggestedQuestionsList, isLoading } = useSelector(state => state.fruitGPTSlice);
+    const [showSearchModal, setShowSearchModal] = useState(false);
+    const handleCloseSearchModal = () => setShowSearchModal(false);
+
+
 
     const {
         setQuestion = () => { },
@@ -84,6 +89,7 @@ function BottomSearchBar(props) {
 
     const handleWebSearchChange = () => {
         setShowWebSearch(!showWebSearch);
+        setShowSearchModal(!showSearchModal);
         localStorage.setItem('webSearch', true)
     };
     const handleClose = () => setShowWebSearch(false);
@@ -174,6 +180,7 @@ function BottomSearchBar(props) {
                                     <div className='searchInputDropdowntext'>{selectedFund}<img src={ArrowDownIcon} style={{ width: 24, height: 24, objectFit: 'contain', marginLeft: 5 }} className={showDropdown ? 'rotate-icon rotated' : 'rotate-icon'} /></div>
                                 </div>
                             }
+                             <ActivateWebSearch show2={showSearchModal} handleClose2={handleCloseSearchModal} />
                             <input
                                 className={`${(flag === 'news' || flag === 'news_bing') && question.length > 0 && suggestedQuestionsList.length > 0 ? 'form-control-suggestion' : (flag === 'news' || flag === 'news_bing') ? 'form-control-newsTab' : flag === 'fund' ? (showDropdown ? 'form-control-funds-only' : 'form-control-fund') : 'form-control'}`}
                                 value={question}
