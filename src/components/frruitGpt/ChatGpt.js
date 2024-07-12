@@ -464,15 +464,19 @@ function ChatGpt(props) {
                 {
                     chatHistory?.map((chat, index) =>
                         chat?.person === 'user' ?
-                            <div className='rightChat'>
-                                {/* <img src={ProfileIcon} className='profile-styles' /> */}
-                                <div className='d-flex align-items-center my-2 floatRight'>
-                                    <img src={ArrowGrey} className='arrow' />
-                                    <p className='you-text'>You</p>
-                                </div>
-                                <div className='chat-text-container'>
-                                    <h3 className='chat-text'>{chat?.text}</h3>
-                                    <h3 className='chat-text' style={{ color: "#a4a5a7", fontWeight: '400', fontSize: 12 }}>{getCurrentTimeWithAMPM(chat?.createdAt)}</h3>
+                            <div className='d-flex justify-content-end'>
+                                <div className='rightChat'>
+                                    {/* <img src={ProfileIcon} className='profile-styles' /> */}
+                                    <div className='d-flex align-items-center my-2 floatRight'>
+                                        <img src={ArrowGrey} className='arrow' />
+                                        <p className='you-text'>You</p>
+                                    </div>
+                                    <div className='chat-text-container'>
+                                        <h3 className='chat-text'>{chat?.text}</h3>
+                                        <div className='d-flex justify-content-end'>
+                                            <h3 className='chat-text' style={{ color: "#a4a5a7", fontWeight: '400', fontSize: 12 }}>{getCurrentTimeWithAMPM(chat?.createdAt)}</h3>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             :
