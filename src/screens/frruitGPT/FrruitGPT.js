@@ -120,6 +120,7 @@ function FrruitGPT() {
     };
 
     const addFrruitPrompt = (title) => {
+        setButtonStart(false)
         dispatch(addChatPrompt({ prompt_text: title }))
             .unwrap()
             .then(res => {
@@ -128,11 +129,13 @@ function FrruitGPT() {
                 askFrruitGpt(res.prompt_id, title);
             })
             .catch(error => {
+                setButtonStart(true)
                 console.log('error', error);
             })
     }
 
     const askFrruitGpt = async (promptId, title) => {
+        setButtonStart(false)
         if (!title && !question) {
             return
         }
@@ -188,7 +191,6 @@ function FrruitGPT() {
     }
 
     const handleAskPress = () => {
-        setButtonStart(false)
         if (!question) {
             return;
         }
