@@ -25,9 +25,11 @@ function BottomSearchBar(props) {
     // const [question1, setQuestion1] = useState('Company Data');
     // const [showDropdown, setShowDropdown] = useState(false);
     const [showSearchModal, setShowSearchModal] = useState(false);
-    const handleCloseSearchModal = () => setShowSearchModal(false);
-
-
+    const handleCloseSearchModal = () => {
+        setShowSearchModal(false);
+        setShowWebSearch(false);
+        setFlag('news')
+    }
 
     const {
         setQuestion = () => { },
@@ -85,9 +87,11 @@ function BottomSearchBar(props) {
     };
 
     const handleWebSearchChange = () => {
+        const webSearch = localStorage.getItem('webSearch')
         setShowWebSearch(!showWebSearch);
-        setShowSearchModal(!showSearchModal);
-        localStorage.setItem('webSearch', true)
+        if(!webSearch){
+            setShowSearchModal(!showSearchModal);
+        }
     };
     const handleClose = () => setShowWebSearch(false);
 
@@ -107,6 +111,10 @@ function BottomSearchBar(props) {
     //     setShowDropdown(false);// Hide the dropdown after selecting an option
     // };
 
+    const handleWebSearchProceed = ( ) => {
+        setShowSearchModal(!showSearchModal);
+        localStorage.setItem('webSearch',true)
+    }
 
     const placeholderText = (flag === 'news' || flag === 'news_bing') ? 'Search news, summarize, and get TLDRs.' : flag === 'fund' ? 'Compare company data, financials, and actions.' : flag === 'youtube' ? 'Discover insights from YouTube videos.' : 'Search discussions and opinions on Reddit.'
     return (
@@ -163,7 +171,9 @@ function BottomSearchBar(props) {
                                     /> <span className={showWebSearch ? 'web-search-active' : 'web-search-default'}>Web Search</span>
                                 </div>
                             }
-                            <ActivateWebSearch show2={showSearchModal} handleClose2={handleCloseSearchModal} />
+                            {showSearchModal &&
+                                <ActivateWebSearch show2={showSearchModal} handleClose2={handleCloseSearchModal} handleClose1={handleWebSearchProceed} />
+                            }
                             {/* {flag === 'fund' && (
                                 <div className="dropdown-container">
                                     {showDropdown && (
