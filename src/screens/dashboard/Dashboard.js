@@ -38,7 +38,7 @@ import ReactGA from 'react-ga4';
 import ArrowIcon from '../../assets/images/arrow-img.png'
 import RightArrowIcon from '../../assets/images/arrow-img.png'
 import StraightArrowIcon from '../../assets/images/straight-arrow.png'
-import PopupModal from '../../components/PopupModal/PopupModal';
+// import PopupModal from '../../components/PopupModal/PopupModal';
 import { getAvaliableCredit, getUserPlan } from '../profile/usersSlice';
 import CreditOverModal from '../../components/creditOverModal/CreditOverModal';
 import ActivateWebSearch from '../../components/activateWebSearch/ActivateWebSearch';
