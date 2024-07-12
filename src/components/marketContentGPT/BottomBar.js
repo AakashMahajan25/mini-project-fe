@@ -22,7 +22,8 @@ function BottomBar(props) {
     const [type, setType] = useState(null);
     const dispatch = useDispatch();
     const [selectedButton, setSelectedButton] = useState('');
-    
+    const [error, setError] = useState(false);
+
     const {
         setQuestion = () => { },
         question = '',
@@ -64,10 +65,12 @@ function BottomBar(props) {
         setQuestion(inputValue)
         setInputValue('')
         setType('link')
+        setError(false)
     }
 
     const handleAttachDone = (e) => {
         handleClose()
+        setError(false)
         setType('attachment')
         if(selectedFile && selectedButton){
             setQuestion(`${selectedButton} the entire document in detail?`)
@@ -117,11 +120,22 @@ function BottomBar(props) {
 
     const handleSelectClick = (buttonName) => {
         setSelectedButton(buttonName);
-      };
+    };
+
+    const handleSendClick = () => {
+        if (!selectedFile && !question) {
+            setError(true);
+        } else {
+            setError(false);
+            handleAskPress(type);
+            setSelectedButton('');
+        }
+    };
 
     return (
         <>
             <div className='BottomBar'>
+                <div className='d-flex align-items-end' style={{gap: '15px'}}>
                 {!showQuestion &&
                     <div className='attachment' onClick={handleShow}>
                         <div>
@@ -129,7 +143,6 @@ function BottomBar(props) {
                                 <div className='attached-document-text'>Attached Document</div>
                                 <div className='d-flex'>
                                     <div className='attached-doc-white-box'>
-                                        {/* <img src={UploadDocImg} width={44} style={{ objectFit: 'contain' }} /> */}
                                         <img src={UploadDocImg} className='attached-image' />
                                         <div className='pdf-name me-2'>{selectedFile?.name}</div>
                                         <img src={CloseIcon} width={16} style={{ objectFit: 'contain', cursor: 'pointer' }} onClick={handleRemove} />
@@ -177,9 +190,11 @@ function BottomBar(props) {
                         </div>
                     </div>
                 </div>}
-                <div className='sendIcon' onClick={() => {handleAskPress(type);setSelectedButton('')}} style={{ cursor: buttonStart && 'pointer', opacity: buttonStart ? 1 : 0.5, }}>
+                <div className='sendIcon' onClick={handleSendClick} style={{ cursor: buttonStart && 'pointer', opacity: buttonStart ? 1 : 0.5, }}>
                     <img src={SendIcon} className='sendIcon-styles' />
                 </div>
+                </div>
+                {error && <div className='error-message'>At least one input is required.</div>}
             </div>
             <Modal show={show}
                 onHide={handleClose}
