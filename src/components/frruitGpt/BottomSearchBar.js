@@ -175,7 +175,7 @@ function BottomSearchBar(props) {
                                 </div>
                             )} */}
                             <input
-                                className={((flag === 'news' || flag === 'news_bing') && question.length > 0 && suggestedQuestionsList.length > 0) ? "form-control-suggestion" : (flag === 'news' || flag === 'news_bing') ? "form-control-newsTab" : 'form-control-newsTab'}
+                                className={((flag === 'news' || flag === 'news_bing') && question.length > 0 && suggestedQuestionsList.length > 0) ? "form-control-suggestion" : (flag === 'news' || flag === 'news_bing') ? "form-control-newsTab" : 'form-control'}
                                 value={question}
                                 disabled={!buttonStart}
                                 onChange={handleChange}
