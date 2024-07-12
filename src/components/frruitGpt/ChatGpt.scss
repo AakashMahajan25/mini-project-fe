@@ -76,10 +76,11 @@
         display: flex;
         align-items: flex-end;
         flex-direction: column;
-        // margin-right: 10px;
         margin-right: 20px;
-
-        // float: right;
+        width: 60%;
+        @media only screen and (max-width: 500px) {
+            width: 70%;
+        }
 
         .profile-styles {
             width: 57px;
@@ -123,7 +124,7 @@
                 font-weight: 600;
                 line-height: 22px;
                 margin-bottom: 0px;
-                text-align: right;
+                // text-align: right;
             }
 
             .attached-doc-white-box {

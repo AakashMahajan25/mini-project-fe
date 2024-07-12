@@ -38,7 +38,9 @@ import ReactGA from 'react-ga4';
 import ArrowIcon from '../../assets/images/arrow-img.png'
 import RightArrowIcon from '../../assets/images/arrow-img.png'
 import StraightArrowIcon from '../../assets/images/straight-arrow.png'
-import PopupModal from '../../components/PopupModal/PopupModal';
+// import PopupModal from '../../components/PopupModal/PopupModal';
+import { getAvaliableCredit, getUserPlan } from '../profile/usersSlice';
+import CreditOverModal from '../../components/creditOverModal/CreditOverModal';
 import ActivateWebSearch from '../../components/activateWebSearch/ActivateWebSearch';
 
 const storyEnum = {
@@ -134,9 +136,14 @@ function Dashboard() {
     const [question, setQuestion] = useState('');
     const [flag, setFlag] = useState('news');
     const [showWebSearch, setShowWebSearch] = useState(false);
+    const [showCreditModal, setShowCreditModal] = useState(false);
+  const handleCloseCreditModal = () => setShowCreditModal(false);
     const [showSearchModal, setShowSearchModal] = useState(false);
-    const handleCloseSearchModal = () => setShowSearchModal(false);
-
+    const handleCloseSearchModal = () => {
+        setShowSearchModal(false);
+        setShowWebSearch(false);
+        setFlag('news')
+    }
     const storyRef = useRef()
 
     const handleShow = (data) => {
@@ -173,6 +180,7 @@ function Dashboard() {
     const dispatch = useDispatch()
     const { trendingStocks, trendingNews, mostOnFrruitGpt, storyViewed, investorStory, storyIndex, isLoading, investorStoryLoading, indexLoader, stockIndexes, investorStoryError, cmotsNews } = useSelector(state => state.dashboardSlice);
     const { chatSuggestions, suggestionLoader, suggestionError } = useSelector(state => state.fruitGPTSlice);
+    const { userCredits, userPlan} = useSelector(state => state.userSlice)
     const [showLeftBox, setShowLeftBox] = useState(true);
     useEffect(() => {
         const handleResize = () => {
@@ -300,6 +308,8 @@ function Dashboard() {
         // dispatch(getStockIndexes())
         dispatch(fetchAllNews(''))
         }
+        dispatch(getAvaliableCredit())
+        dispatch(getUserPlan());
         const interval = setInterval(() => {
             dispatch(fetchAllNews(''))
         }, 60000 * 3);
@@ -307,9 +317,20 @@ function Dashboard() {
             clearInterval(interval)
         }
     }, [])
+
     useEffect(() => {
         getStoryData()
     }, [storyType])
+
+    const creditScore = userCredits?.totalCredits - userCredits?.usedCredits
+
+    useEffect(() => {
+        if (userPlan?.plan_name !== 'Beta' && creditScore <= 20) {
+            setShowCreditModal(true);
+        } else {
+            setShowCreditModal(false);
+        }
+    }, [creditScore, userPlan]);
 
     useEffect(() => {
         if(showWebSearch){
@@ -396,10 +417,12 @@ function Dashboard() {
         return ((((investorStory?.watchlistNews?.length > 0 || investorStory?.sessionNews?.length > 0 || investorStory?.hotPursuitNews?.length > 0 || investorStory?.corporateNews?.length > 0 || investorStory?.economyNews?.length > 0 || investorStory?.corporateResultsNews?.length > 0 || investorStory?.marketNews?.length > 0) || investorStoryError) && (chatSuggestions?.length > 0 || suggestionError)))
     }, [investorStory, stockIndexes, chatSuggestions])
 
-    console.log('isData============', isData)
     const handleWebSearchChange = () => {
+        const webSearch = localStorage.getItem('webSearch')
         setShowWebSearch(!showWebSearch);
-        setShowSearchModal(!showSearchModal);
+        if(!webSearch){
+            setShowSearchModal(!showSearchModal);
+        }
     };
 
     // const handleCheckboxChange = () => {
@@ -415,11 +438,28 @@ function Dashboard() {
         }
     }, [showWebSearch])
     
+    const handleCreditButton = ( ) => {
+        navigate("/profile", {
+            state: { plans : true },
+        });
+    }
+    
+    const handleWebSearchProceed = ( ) => {
+        setShowSearchModal(!showSearchModal);
+        localStorage.setItem('webSearch',true)
+    }
+    
     return (
         <>
             {
                 ((indexLoader || investorStoryLoading || suggestionLoader) && !isData) &&
                 <Loader />
+            }
+            {showCreditModal &&
+                <CreditOverModal show={showCreditModal} handleClose={handleCloseCreditModal} onButtonClick={handleCreditButton}/>
+            }
+            {showSearchModal &&
+                <ActivateWebSearch show2={showSearchModal} handleClose2={handleCloseSearchModal} handleClose1={handleWebSearchProceed}/>
             }
             <div className='dashboardHome row justify-content-between m-0'>
                 {/* {showLeftBox && (
@@ -581,6 +621,7 @@ function Dashboard() {
                                                                         className="form-check-input"
                                                                         type="checkbox"
                                                                         onChange={handleWebSearchChange}
+                                                                        checked={showWebSearch}
                                                                     /> <span className={showWebSearch ? 'web-search-active' : 'web-search-default'}>Web Search</span>
                                                                 </div>
                                                             }
@@ -606,7 +647,6 @@ function Dashboard() {
                                                         /> <span className={showWebSearch ? 'web-search-active' : 'web-search-default'}>Web Search</span>
                                                     </div>
                                                 }
-                                                 <ActivateWebSearch show2={showSearchModal} handleClose2={handleCloseSearchModal} />
                                                 {/* <div className='show-suggestions-dashboard'>
                                                     <div className='d-flex align-items-center suggestions-text'>
                                                         <input

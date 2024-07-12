@@ -4,7 +4,7 @@ import CreditExhausted from '../../assets/images/creditExhausted.png';
 import Modal from 'react-bootstrap/Modal';
 import './CreditOverModal.scss';
 
-function CreditOverModal({ show, handleClose }) {
+function CreditOverModal({ show, handleClose, onButtonClick }) {
     return (
         <>
             <Modal
@@ -25,8 +25,8 @@ function CreditOverModal({ show, handleClose }) {
                         <div className='creditExhaustedText'>80% Credit Exhausted</div>
                         <div className='creditExhaustedSmallText'>You've used 80% of your available credits.</div>
                         <div className='d-flex justify-content-center align-items-center'>
-                            <button onClick={handleClose} type="submit" className='light-blue-btn2 me-3'>Renew Plan</button>
-                            <button onClick={handleClose} type="submit" className='blue-btn'>View Other Plans</button>
+                            <button onClick={() => onButtonClick()} type="submit" className='light-blue-btn2 me-3'>Renew Plan</button>
+                            <button onClick={() => onButtonClick()} type="submit" className='blue-btn'>View Other Plans</button>
                         </div>
                     </div>
                 </Modal.Body>
