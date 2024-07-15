@@ -6,7 +6,7 @@ function PrivacyPolicy() {
         <div className='privacypolicy-css'>
             <h3 className='main-heading'>Frruit’s Privacy Policy</h3>
             <p className='updated-date'>Last updated: June 4th, 2024.</p>
-            <p className='text-subheading1'>
+            {/* <p className='text-subheading1'>
                 Please read this Privacy Notice carefully.  By using any of the Services, you agree to the collection, use, and disclosure of your information as described in this Privacy Notice.  If you do not agree to this Privacy Notice, please do not use or access the Services.
             </p>
 
@@ -415,7 +415,7 @@ function PrivacyPolicy() {
                 <p className='text-subheading4'>
                     In the event that you are unhappy and or have a grievance with respect to (i) any service/ product or facility that is provided on the Website; and (ii) any other activity that may take place on the Website, or if you have any questions, comments, concerns or feedback regarding this Privacy Policy and/or this Website, you may bring the same to the notice of our Grievance Officer, whose details are given below and/or lodge a complaint with us. We shall ensure that we take all the necessary steps to address your questions, comments, concerns to the best of our abilities.
                 </p>
-            </div>
+            </div> */}
         </div>
     )
 }

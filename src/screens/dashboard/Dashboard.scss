@@ -143,6 +143,12 @@
                     position: relative;
                 }
 
+                // .form-control::placeholder {
+                //     color: #999; /* Change this to the desired placeholder text color */
+                //     opacity: 1; /* Change this to control the opacity of the placeholder text */
+                //     font-size: 10px; /* Change this to style the font of the placeholder text */
+                // }
+
                 .form-control-newsTab {
                     border-radius: 15px;
                     border: 1px solid #4563E4;
@@ -153,8 +159,14 @@
 
                     @media only screen and (max-width: 500px) {
                         padding: 6px 16px 6px 16px;
+
+                        .form-control-newsTab::placeholder {
+                            font-size: 12px;
+                        }
+
                     }
                 }
+
 
                 .form-control-fund {
                     border-radius: 15px;
@@ -166,8 +178,14 @@
 
                     @media only screen and (max-width: 500px) {
                         padding: 6px 16px 6px 16px;
+
+                        .form-control-fund::placeholder {
+                            font-size: 12px;
+                        }
+
                     }
                 }
+
 
                 .form-control-suggestion:focus {
                     outline: none !important;
@@ -256,7 +274,7 @@
                 z-index: 99;
                 position: absolute;
                 bottom: 66px;
-                left: 20px;
+                left: 26.3%;
                 padding: 16px;
                 border-radius: 15px 15px 0 0;
                 background-color: #F9FAFF;
