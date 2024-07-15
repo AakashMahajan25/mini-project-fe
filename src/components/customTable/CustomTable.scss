@@ -117,6 +117,15 @@
         color: #000;
     }
 
+    .text-black {
+        color: black;
+    }
+    
+    .text-grey {
+        color: #4f4f4f;
+    }
+    
+
     .table-green-class {
         color: #28C76F !important;
         padding: 8px 16px;
@@ -140,9 +149,9 @@
     }
 
     .table-yellow-class {
-        color: #FFD03B !important;
+        color: #E1AB00 !important;
         padding: 8px 16px;
-        background-color: #FAFFC6;
+        background-color: rgba(218, 171, 25, 0.2);
         border-radius: 50px;
         text-align: center;
         font-weight: 500;

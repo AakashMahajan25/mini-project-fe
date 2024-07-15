@@ -31,31 +31,30 @@ function CustomTable({ data, headers, showActions, actionsHeaderText, onViewClic
                                 }
                             </tr>
                         </thead>
-                        <tbody className='table-body' >
+                        <tbody className='table-body'>
                             {data.map((rowData, rowIndex) => (
-                                <>
-                                    <tr key={rowIndex} className='table-body-tr' style={{ position: 'relative' }}>
+                                <React.Fragment key={rowIndex}>
+                                    <tr className='table-body-tr' style={{ position: 'relative' }}>
                                         {Object.entries(rowData).map(([key, value], colIndex) => {
-                                            const classNames = {
+                                            const statusClasses = {
                                                 'paid': 'table-green-class',
                                                 'pending': 'table-yellow-class',
                                                 'failed': 'table-red-class',
                                             };
+
+                                            const textClass = ['Ticker', 'Industry', 'Market Cap', 'EPS(₹)'].includes(headers[colIndex]) ? 'text-black' : 'text-grey';
                                             let className = '';
+
                                             if (headers[colIndex] === 'Status') {
-                                                className = classNames[value];
-                                            }
-                                            if (headers[colIndex] === 'Order ID') {
+                                                className = `${statusClasses[value]} ${textClass}`;
+                                            } else if (headers[colIndex] === 'Order ID') {
                                                 className = 'table-row-dark';
-                                            }
-
-                                            if (headers[colIndex] === 'YoY Change') {
+                                            } else if (headers[colIndex] === 'YoY Change') {
                                                 className = 'text-success';
-                                            }
-
-                                            // Apply conditional color to QoQ Change
-                                            if (headers[colIndex] === 'QoQ Change') {
+                                            } else if (headers[colIndex] === 'QoQ Change') {
                                                 className = getQoqChangeClass(value);
+                                            } else {
+                                                className = textClass;
                                             }
 
                                             return (
@@ -65,36 +64,33 @@ function CustomTable({ data, headers, showActions, actionsHeaderText, onViewClic
                                                         alignItems: expandedRow === rowIndex ? 'start' : '',
                                                         height: window.innerWidth < 900 ? (expandedRow === rowIndex ? 250 : '') : (expandedRow === rowIndex ? 180 : '')
                                                     }}>
-                                                        {headers[colIndex] === 'M.CAP (Cr.)' &&
-                                                            <>
-                                                                <div className='d-flex'>
-                                                                    <img src={StarImage} className='star-image' /> {/* Replace with your star icon component or image */}
-                                                                    M.CAP (Cr.): {value}
-                                                                </div>
-
-                                                            </>
-                                                        }
-                                                        {headers[colIndex] !== 'M.CAP (Cr.)' && (
-                                                            <span style={{
-                                                                color: ['Ticker', 'Industry', 'Market Cap', 'EPS(₹)'].includes(headers[colIndex]) ? 'black' : '#4f4f4f'
-                                                            }}>
+                                                        {headers[colIndex] === 'M.CAP (Cr.)' ? (
+                                                            <div className='d-flex'>
+                                                                <img src={StarImage} className='star-image' alt='star' /> {/* Replace with your star icon component or image */}
+                                                                M.CAP (Cr.): {value}
+                                                            </div>
+                                                        ) : (
+                                                            <span>
                                                                 {value}
                                                             </span>
                                                         )}
                                                     </div>
                                                 </td>
-                                            )
+                                            );
                                         })}
-                                        {showActions && <td style={{ display: expandedRow === rowIndex ? 'flex' : '', alignItems: expandedRow === rowIndex ? 'start' : '', }}>
-                                            <div className='d-flex align-items-center'>
-                                                {showView && <button className='small-primary-btn me-3' onClick={() => onViewClick()}>Invoice<img src={DownloadIcon} width={20} style={{ objectFit: 'contain', marginLeft: 6 }} /></button>}
-                                            </div>
-                                        </td>
-                                        }
+                                        {showActions && (
+                                            <td style={{ display: expandedRow === rowIndex ? 'flex' : '', alignItems: expandedRow === rowIndex ? 'start' : '' }}>
+                                                <div className='d-flex align-items-center'>
+                                                    {showView && <button className='small-primary-btn me-3' onClick={onViewClick}>Invoice<img src={DownloadIcon} width={20} style={{ objectFit: 'contain', marginLeft: 6 }} alt='download icon' /></button>}
+                                                </div>
+                                            </td>
+                                        )}
                                     </tr>
-                                </>
+                                </React.Fragment>
                             ))}
                         </tbody>
+
+
                     </table>
                 </div>
             </div >
