@@ -6,7 +6,7 @@ function PrivacyPolicy() {
         <div className='privacypolicy-css'>
             <h3 className='main-heading'>Frruit’s Privacy Policy</h3>
             <p className='updated-date'>Last updated: June 4th, 2024.</p>
-             {/* <p className='text-subheading1'>
+            {/* <p className='text-subheading1'>
                 Please read this Privacy Notice carefully.  By using any of the Services, you agree to the collection, use, and disclosure of your information as described in this Privacy Notice.  If you do not agree to this Privacy Notice, please do not use or access the Services.
             </p>
 
@@ -39,110 +39,110 @@ function PrivacyPolicy() {
                 We collect the categories of Personal Information identified for the following purposes:
             </p>
 
-            <table class="table table-bordered table1">
+            <table class="table table-bordered">
                 <thead class="thead-light">
                     <tr>
-                        <th className='text-heading' style={{ fontSize: 16 }} scope="col">Categories of Personal Information</th>
-                        <th className='text-heading' style={{ fontSize: 16 }} scope="col">Purposes for Collection</th>
+                        <th scope="col">Categories of Personal Information</th>
+                        <th scope="col">Purposes for Collection</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <th scope="row">
                             <ul>
-                                <li className='text-subheading3'>
+                                <li>
                                     Personal identifiers: name, email address, your billing address, telephone numbers, account name and password, IP address, mobile ad ID
                                 </li>
-                                <li className='text-subheading3'>
+                                <li>
                                     Protected class information: age, date of birth, gender
                                 </li>
-                                <li className='text-subheading3'>
+                                <li>
                                     Commercial and financial information: records of services purchased and payment information
                                 </li>
-                                <li className='text-subheading3'>
+                                <li>
                                     Internet or other electronic activity information: your device and browser type, and information regarding your interaction with our website.
                                 </li>
-                                <li className='text-subheading3'>
+                                <li>
                                     Inferences drawn from personal information we collect
                                 </li>
                             </ul>
                         </th>
-                        <td className='list-content'>
+                        <td>
                             To provide our Services to you
                         </td>
                     </tr>
                     <tr>
                         <th scope="row">
                             <ul>
-                                <li className='text-subheading3'>
+                                <li>
                                     Personal identifiers: name, email address, account name, IP address, mobile ad ID
                                 </li>
-                                <li className='text-subheading3'>
+                                <li>
                                     Audio information: recordings of customer service calls
                                 </li>
                             </ul>
                         </th>
-                        <td className='list-content'>
+                        <td>
                             To communicate with you about our Services and business and for customer support
                         </td>
                     </tr>
                     <tr>
                         <th scope="row">
                             <ul>
-                                <li className='text-subheading3'>
+                                <li>
                                     Personal identifiers: name, email address, telephone numbers
                                 </li>
-                                <li className='text-subheading3'>
+                                <li>
                                     Professional information: job title, information about your employer
                                 </li>
                             </ul>
                         </th>
-                        <td className='list-content'>
+                        <td>
                             To engage in business transactions with the entity you represent and market to or engage in diligence with the entities you represent
                         </td>
                     </tr>
                     <tr>
                         <th scope="row">
                             <ul>
-                                <li className='text-subheading3'>
+                                <li>
                                     Personal identifiers: name, email address, Instagram and Facebook profile links; your billing address, telephone numbers, account name and password, IP address, mobile ad ID.
                                 </li>
-                                <li className='text-subheading3'>
+                                <li>
                                     Protected class information: age, date of birth, gender provided.
                                 </li>
-                                <li className='text-subheading3'>
+                                <li>
                                     Commercial and financial information: records of services purchased and payment information
                                 </li>
-                                <li className='text-subheading3'>
+                                <li>
                                     Internet or other electronic activity information: your device and browser type, your browsing and search history on our websites.
                                 </li>
                             </ul>
                         </th>
-                        <td className='list-content'>
+                        <td>
                             To monitor or improve our Sites and for internal business analysis
                         </td>
                     </tr>
                     <tr>
                         <th scope="row">
                             <ul class="no-list-style">
-                                <li className='text-subheading3'>
+                                <li>
                                     Personal identifiers: name, email address; your billing address, telephone numbers, account name and password, IP address, mobile ad ID
                                 </li>
-                                <li className='text-subheading3'>
+                                <li>
                                     Protected class information: age, gender provided
                                 </li>
-                                <li className='text-subheading3'>
+                                <li>
                                     Commercial and financial information: records of services purchased, played, and payment information
                                 </li>
-                                <li className='text-subheading3'>
+                                <li>
                                     Internet or other electronic activity information: your device and browser type, your browsing and search history on our website, and information regarding your interaction with our website.
                                 </li>
-                                <li className='text-subheading3'>
+                                <li>
                                     Inferences drawn from personal information we collect
                                 </li>
                             </ul>
                         </th>
-                        <td className='list-content'>
+                        <td>
                             To prevent fraud, activities that violate our Terms of Use or that are illegal; and to protect our rights and the rights and safety of our users or others
                         </td>
                     </tr>

@@ -6,7 +6,7 @@ function TermsAndCondition() {
             <div className=''>
                 <h3 className='main-heading'>Frruit’s TERMS OF SERVICE</h3>
                 <p className='updated-date'>Last updated: June 4th, 2024.</p>
-                {/* <p className='text-subheading1'>
+                <p className='text-subheading1'>
                     Welcome to the Terms of Service (these “Terms”) for Perplexity AI, Inc.’s (“Company”, “we” or “us”) websites, www.perplexity.ai and https://labs.perplexity.ai (the “Websites”), artificial-intelligence powered search engine (the “Perplexity Engine”), related mobile application (the “App”), and any content, tools, features and functionality offered on or through our Website, the Perplexity Engine and the App (collectively, the “Services”). These Terms do not govern use of the Company’s APIs (which are governed by the Perplexity API Terms of Service located here: https://www.perplexity.ai/hub/legal/perplexity-api-terms-of-service) or Perplexity Pro for Enterprise (which is governed by the Perplexity Pro for Enterprise Terms located here: (https://www.perplexity.ai/hub/legal/enterprise-terms-of-service).
                 </p>
                 <p className='text-subheading1'>
@@ -61,7 +61,7 @@ function TermsAndCondition() {
                     <p className='text-subheading3'>
                         We may offer certain promotional codes, referral codes, discount codes, coupon codes or similar offers (“Promotional Codes”) that may be redeemed for discounts on benefits related to the Services or future Offerings, subject to any additional terms that the Company establishes. You agree that Promotional Codes: (a) must be used in a lawful manner; (b) must be used for the intended audience and purpose; (c) may not be duplicated, sold or transferred in any manner, or made available by you to the general public (whether posted to a public forum, coupon collecting service, or otherwise), unless expressly permitted by the Company; (d) may be disabled or have additional conditions applied to them by the Company at any time for any reason without liability to the Company; (e) may only be used pursuant to the specific terms that the Company establishes for such Promotional Code; (f) are not valid for cash or other credits or points; and (g) may expire prior to your use.
                     </p>
-                </div> */}
+                </div>
             </div>
         </div>
     )
