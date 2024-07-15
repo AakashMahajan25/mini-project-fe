@@ -10,7 +10,7 @@ function CreditOverModal({ show, handleClose, onButtonClick }) {
             <Modal
                 show={show}
                 onHide={handleClose}
-                size='lg'
+                size='md'
                 className='CreditOverModalStyles'
                 centered
             >
