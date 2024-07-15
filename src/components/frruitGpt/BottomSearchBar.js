@@ -26,7 +26,7 @@ function BottomSearchBar(props) {
     const dropdownRef = useRef(null);
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    const { suggestedQuestionsList, isLoading } = useSelector(state => state.fruitGPTSlice);
+    const { suggestedQuestionsList, isLoading, frruitLoader } = useSelector(state => state.fruitGPTSlice);
     const [showSearchModal, setShowSearchModal] = useState(false);
     const handleCloseSearchModal = () => {
         setShowSearchModal(false);
@@ -150,17 +150,17 @@ function BottomSearchBar(props) {
                             <div className='tab-name-css px-3'>Choose Focus</div>
                             <img src={StraightArrowIcon} style={{ width: 20, objectFit: 'contain' }} />
                         </div>
-                        <div className={(flag === 'news' || flag === 'news_bing') ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: (flag === 'news' || flag === 'news_bing') ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
-                            onClick={() => showWebSearch ? setFlag('news_bing') : setFlag('news')}
+                        <div className={(flag === 'news' || flag === 'news_bing') ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: (flag === 'news' || flag === 'news_bing') ? '#F1F4FD' : '', color: (frruitLoader &&  !(flag === 'news' || flag === 'news_bing')) ?'#B4B3B9': '#4563E4', cursor: 'pointer' }}
+                            onClick={frruitLoader ? undefined : () => showWebSearch ? setFlag('news_bing') : setFlag('news')}
                         > News </div>
-                        <div className={flag === 'fund' ? `tab-name-css tab-box-css` : `tab-name-css`} style={{ backgroundColor: flag === 'fund' ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
-                            onClick={() => setFlag('fund')}
+                        <div className={flag === 'fund' ? `tab-name-css tab-box-css` : `tab-name-css`} style={{ backgroundColor: flag === 'fund' ? '#F1F4FD' : '', color: frruitLoader && flag != 'fund' ? '#B4B3B9' :'#4563E4', cursor: 'pointer' }}
+                            onClick={frruitLoader ? undefined : () => setFlag('fund')}
                         > Fundamentals </div>
-                        <div className={flag === 'youtube' ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: flag === 'youtube' ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
-                            onClick={() => setFlag('youtube')}
+                        <div className={flag === 'youtube' ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: flag === 'youtube' ? '#F1F4FD' : '', color: frruitLoader && flag != 'youtube' ?'#B4B3B9':'#4563E4', cursor: 'pointer' }}
+                            onClick={frruitLoader ? undefined : () => setFlag('youtube')}
                         > Youtube </div>
-                        <div className={flag === 'reddit' ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: flag === 'reddit' ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
-                            onClick={() => setFlag('reddit')}
+                        <div className={flag === 'reddit' ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: flag === 'reddit' ? '#F1F4FD' : '', color: frruitLoader && flag != 'reddit' ?'#B4B3B9':'#4563E4', cursor: 'pointer' }}
+                            onClick={frruitLoader ? undefined : () => setFlag('reddit')}
                         >Reddit </div>
                         {/* <div className={flag === 'news' ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: flag === 'news' ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
                                 onClick={() => setFlag('news')}
