@@ -738,7 +738,7 @@ function Dashboard() {
                         </div>
                     }
                     {!showAllContent &&
-                        <div className='col-lg-12 column-pad'>
+                        <div className='col-lg-9 column-pad'>
                             <NewsViewAll backBtnClick={toggleShowAllContent} newsData={cmotsNews?.rows} />
                         </div>
                     }
