@@ -3,7 +3,7 @@ import DiscoverCorrelationGraph from '../graph/DiscoverCorrelationGraph'
 import Slider from 'react-slick'
 import CustomSlider from '../rangeSlider/CustomSlider';
 
-function OverviewPage() {
+function OverviewPage({companyOverview}) {
 
     const dataForMapping = [
         { text1: 'Px/Chg 1D (USD)', text2: '1379.76/-5.41%', text3: '0.00' },
@@ -54,23 +54,23 @@ function OverviewPage() {
     const fundamental = [
         {
             title: 'PE',
-            value: '30.78'
+            value: companyOverview?.fundamental?.PE ?? ''
         },
         {
             title: 'Sector P/E',
-            value: '29.70'
+            value: companyOverview?.fundamental?.Industry_PE ?? ''
         },
         {
             title: 'PB Ratio',
-            value: '129497.95'
+            value: companyOverview?.fundamental?.PBV ?? ''
         },
         {
             title: 'Dividend Yield',
-            value: '3.40%'
+            value: companyOverview?.fundamental?.DIVYIELD ?? ''
         },
         {
             title: 'ROE',
-            value: '51.50%'
+            value: companyOverview?.fundamental?.ROE ?? ''
         },
 
     ]
@@ -78,7 +78,7 @@ function OverviewPage() {
     return (
         <>
             <div className='modal-pera'>
-                Tata Consultancy Services Limited (TCS) is an India-based company engaged in providing information technology (IT) services, consulting, and business solutions. It operates through Banking; Capital Markets; Consumer Goods and Distribution; Communications, Media, and Information Services; Education; Energy, Resources, and Utilities; Healthcare; High Tech; Insurance; Life Sciences; Manufacturing; Public Services; Retail; Travel and Logistics.
+                {companyOverview?.companyDetail?.MEMO ?? ''}
             </div>
             <div className='StockPriceNgraph'>
                 <div className='fundamental-container justify-content-start'>
@@ -94,7 +94,7 @@ function OverviewPage() {
                             </>
 
                         ))}
-                        <div className='rangebox d-flex'>
+                        {/* <div className='rangebox d-flex'>
                             <div className='box1'>
                                 <p className='fundamental-title'>Low</p>
                                 <p className='fundamental-value'>3,250</p>
@@ -107,7 +107,7 @@ function OverviewPage() {
                                 <p className='fundamental-title'>Low</p>
                                 <p className='fundamental-value'>3,250</p>
                             </div>
-                        </div>
+                        </div> */}
                     </div>
 
                     {/* </Slider> */}
@@ -175,7 +175,7 @@ function OverviewPage() {
                     </div>
                 </div> */}
                 <div className='row'>
-                    <div className='col-lg-6 column-pad'>
+                    {/* <div className='col-lg-6 column-pad'>
                         <div className='blackBorderBox'>
                             <h4 className='title'>Price Chart</h4>
                             <div id='chartSmall'>
@@ -189,7 +189,7 @@ function OverviewPage() {
                                 />
                             </div>
                         </div>
-                    </div>
+                    </div> */}
 
                     {/* <div className='col-lg-6  column-pad'>
                         <div className='blackBorderBox' style={{ height: 309 }}>

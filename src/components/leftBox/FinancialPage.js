@@ -5,14 +5,21 @@ import ResultsPage from './ResultsPage';
 import ShareholdingPage from './ShareholdingPage';
 import PeersPage from './PeersPage';
 
-function FinancialPage() {
+function FinancialPage({getFinancialsPeers, financialPeer, financialsShareHoldings, getFinancialsShareHolding}) {
 
     const [activeTab, setActiveTab] = useState("Results");
 
     const handleTabChange = key => {
         setActiveTab(key);
-    };
 
+        if(key === 'Peers'){
+            getFinancialsPeers();
+        }
+
+        if(key === 'Shareholdings'){
+            getFinancialsShareHolding();
+        }
+    };
 
     return (
         <div className='revenuepage main-Page-css'>
@@ -38,10 +45,10 @@ function FinancialPage() {
                             <ResultsPage/>
                         </Tab.Pane>
                         <Tab.Pane eventKey="Shareholdings">
-                            <ShareholdingPage/>
+                            <ShareholdingPage financialsShareHoldings={financialsShareHoldings}/>
                         </Tab.Pane>
                         <Tab.Pane eventKey="Peers">
-                            <PeersPage/>
+                            <PeersPage financialPeer={financialPeer}/>
                         </Tab.Pane>
                     </Tab.Content>
                 </div>
