@@ -1,9 +1,17 @@
-import React from 'react'
+import React, { useState } from 'react'
 import DiscoverCorrelationGraph from '../graph/DiscoverCorrelationGraph'
 import Slider from 'react-slick'
 import CustomSlider from '../rangeSlider/CustomSlider';
 
 function OverviewPage({companyOverview}) {
+    const [isExpanded, setIsExpanded] = useState(false);
+    const memo = companyOverview?.companyDetail?.MEMO ?? '';
+    const previewLength = 300;
+
+    const handleToggle = () => {
+        setIsExpanded(!isExpanded);
+    };
+
 
     const dataForMapping = [
         { text1: 'Px/Chg 1D (USD)', text2: '1379.76/-5.41%', text3: '0.00' },
@@ -78,7 +86,12 @@ function OverviewPage({companyOverview}) {
     return (
         <>
             <div className='modal-pera'>
-                {companyOverview?.companyDetail?.MEMO ?? ''}
+                {isExpanded ? memo : `${memo.substring(0, previewLength)}${memo.length > previewLength ? '...  ' : ' '}`}
+                {memo.length > previewLength && (
+                    <a href="javascript:void(0)" onClick={handleToggle}>
+                        {isExpanded ? ' Show Less' : 'Show More'}
+                    </a>
+                )}
             </div>
             <div className='StockPriceNgraph'>
                 <div className='fundamental-container justify-content-start'>
