@@ -511,9 +511,9 @@ function Dashboard() {
                 ((indexLoader || investorStoryLoading || suggestionLoader) && !isData) &&
                 <Loader />
             }
-            {showCreditModal &&
+            {/* {showCreditModal &&
                 <CreditOverModal show={showCreditModal} handleClose={handleCloseCreditModal} onButtonClick={handleCreditButton} />
-            }
+            } */}
             {showSearchModal &&
                 <ActivateWebSearch show2={showSearchModal} handleClose2={handleCloseSearchModal} handleClose1={handleWebSearchProceed} />
             }

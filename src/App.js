@@ -1,6 +1,6 @@
 import './App.scss';
 import Dashboard from './screens/dashboard/Dashboard';
-import { Routes, Route, useLocation } from 'react-router-dom';
+import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import { loginRoutes } from './utils/routes';
 import TopBar from './components/topBar/TopBar';
 import Login from './screens/login/Login';
@@ -10,31 +10,42 @@ import InactivityTimer from './utils/InactivityTimer';
 import ReactGA from 'react-ga4';
 import { useEffect, useState } from 'react';
 import CreditOverModal from './components/creditOverModal/CreditOverModal';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAvaliableCredit } from './screens/profile/usersSlice';
 
 function App() {
   const location = useLocation();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const isExcludedPage = ['/login', '/signUp', '/', '/topics', '/market','/walkthrough'].includes(location.pathname);
   const isAuthenticated = localStorage.getItem('token');
-  
+  const [showCreditModal, setShowCreditModal] = useState(false);
+  const { userCredits } = useSelector(state => state.userSlice);
 
   useEffect(() => {
     ReactGA.initialize('G-KFRHHDX0W3', { debug: true });
   }, []);
 
-  // Temp Code For creditModal start
+  useEffect(() => {
+    dispatch(getAvaliableCredit());
+  }, [location])
 
-  // useEffect(() => {
-  //   let timeout;
-  //   if (isAuthenticated) {
-  //     timeout = setTimeout(() => {
-  //       setShowCreditModal(true);
-  //     }, 5000);
-  //   }
+  useEffect(() => {
+    if(['/dashboard', '/frruit-gpt', '/market-content-gpt', '/discover-correlation'].includes(location.pathname) || (location.pathname === "/profile" && !location?.state?.plans)){
+      if(userCredits?.expired || userCredits?.warning){
+        setShowCreditModal(true)
+      }
+    }
+  }, [userCredits])
 
-  //   return () => clearTimeout(timeout);
-  // }, [isAuthenticated]);
+  const handleCloseCreditModal = () => setShowCreditModal(false);
 
-  // Temp Code For creditModal end
+  const handleCreditButton = () => {
+    setShowCreditModal(false)
+    navigate("/profile", {
+        state: { plans: true },
+    });
+  }
 
   return (
     <>
@@ -46,6 +57,11 @@ function App() {
           ))}
         </Routes>
       </div>
+      
+      {showCreditModal &&
+        <CreditOverModal show={showCreditModal} handleClose={handleCloseCreditModal} onButtonClick={handleCreditButton} />
+      }
+      
       <ToastContainer />
       {
         isAuthenticated && <InactivityTimer />
