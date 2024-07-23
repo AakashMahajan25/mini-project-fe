@@ -2,9 +2,9 @@ import React from 'react'
 import CustomTable from '../customTable/CustomTable';
 import StarIcon from '../../assets/images/StarIcon.png';
 
-function PeersPage() {
+function PeersPage({financialPeer}) {
 
-    const tableHeaders = ['Name', 'M.CAP (Cr.)', 'PE', 'ROE (%)	', 'D/E'];
+    const tableHeaders = ['Name', 'M.CAP (Cr.)', 'PE',  'D/E']; //'ROE (%)	',
 
     const userData = [
         {
@@ -41,7 +41,15 @@ function PeersPage() {
     return (
         <div className='mt-4'>
             <CustomTable
-                data={userData}
+                data={financialPeer.map((obj) => {
+                    return {
+                        name: obj?.companyname,
+                        marketcap: obj?.MCAP,
+                        pe_ratio: obj?.PE,
+                        // return_on_investment: '17.24',
+                        de_ratio: obj?.DIVYIELD,
+                    }
+                })}
                 headers={tableHeaders}
             />
         </div>

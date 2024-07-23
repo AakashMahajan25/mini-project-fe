@@ -48,7 +48,67 @@ const initialState = {
     companyStatistics: [],
     graphDetails: [],
     cmotsNews: [],
+    companyOverview: {},
+    financialPeer : [],
+    financialsShareHoldings : [],
+    companyRevenues : {}
 }
+
+export const getStockOverview = createAsyncThunk("dashboard/getStockOverview", async (queryParams) => {
+    try {
+        let data = {
+            method: METHOD_TYPE.get,
+            url: API_ENDPOINTS.getStockOverview + queryParams,
+        };
+        const response = await api(data);
+        return response.data.data;
+
+    } catch (error) {
+        throw error?.response?.data;
+    }
+});
+
+export const getFinancialsPeers = createAsyncThunk("dashboard/getFinancialsPeers", async (queryParams) => {
+    try {
+        let data = {
+            method: METHOD_TYPE.get,
+            url: API_ENDPOINTS.getFinancialsPeers + queryParams,
+        };
+        const response = await api(data);
+        return response.data.data;
+
+    } catch (error) {
+        throw error?.response?.data;
+    }
+});
+
+export const getFinancialsShareHolding = createAsyncThunk("dashboard/getFinancialsShareHolding", async (queryParams) => {
+    try {
+        let data = {
+            method: METHOD_TYPE.get,
+            url: API_ENDPOINTS.getFinancialsShareHolding + queryParams,
+        };
+        const response = await api(data);
+        return response.data.data;
+
+    } catch (error) {
+        throw error?.response?.data;
+    }
+});
+
+export const getStockRevenue = createAsyncThunk("dashboard/getStockRevenue", async (queryParams) => {
+    try {
+        let data = {
+            method: METHOD_TYPE.get,
+            url: API_ENDPOINTS.getStockRevenue + queryParams,
+        };
+        const response = await api(data);
+        return response.data.data;
+
+    } catch (error) {
+        throw error?.response?.data;
+    }
+});
 
 export const getTrendingStocks = createAsyncThunk("dashboard/getTrendingStocks", async () => {
     try {
@@ -173,7 +233,7 @@ export const addTickertoWatchList = createAsyncThunk("watchList/addTickertoWatch
         return response.data;
 
     } catch (error) {
-        throw error.response;
+        throw error.response.data;
     }
 });
 
@@ -303,6 +363,12 @@ const dashboardSlice = createSlice({
     name: "dashboard",
     initialState,
     reducers: {
+        resetStockDetail(state, action) {
+            state.companyOverview = initialState.companyOverview;
+            state.financialPeer = initialState.financialPeer;
+            state.financialsShareHoldings = initialState.financialsShareHoldings
+            state.companyRevenues = initialState.companyRevenues
+        },
         setStoryViewed: (state, action) => {
             const storyEnum = {
                 watchlist_news :'isWatchlistViewed',
@@ -355,6 +421,18 @@ const dashboardSlice = createSlice({
         builder
             .addCase(getTrendingStocks.fulfilled, (state, action) => {
                 state.trendingStocks = action.payload;
+            })
+            .addCase(getStockOverview.fulfilled, (state,action)=>{
+                state.companyOverview = action.payload;
+            })
+            .addCase(getFinancialsPeers.fulfilled, (state,action)=>{
+                state.financialPeer = action.payload;
+            })
+            .addCase(getFinancialsShareHolding.fulfilled, (state,action)=>{
+                state.financialsShareHoldings = action.payload;
+            })
+            .addCase(getStockRevenue.fulfilled, (state,action)=>{
+                state.companyRevenues = action.payload;
             })
             .addCase(getTrendingNews.fulfilled, (state, action) => {
                 state.trendingNews = action.payload;
@@ -452,7 +530,20 @@ const dashboardSlice = createSlice({
                     action.type === getGraphDetail.rejected.type ||
                     action.type === fetchAllNews.fulfilled.type ||
                     action.type === fetchAllNews.pending.type ||
-                    action.type === fetchAllNews.rejected.type,
+                    action.type === fetchAllNews.rejected.type ||
+                    action.type === getStockOverview.fulfilled.type ||
+                    action.type === getStockOverview.pending.type ||
+                    action.type === getStockOverview.rejected.type ||
+                    action.type === getFinancialsPeers.fulfilled.type ||
+                    action.type === getFinancialsPeers.pending.type ||
+                    action.type === getFinancialsPeers.rejected.type ||
+                    action.type === getFinancialsShareHolding.fulfilled.type ||
+                    action.type === getFinancialsShareHolding.pending.type ||
+                    action.type === getFinancialsShareHolding.rejected.type ||
+                    action.type === getStockRevenue.fulfilled.type ||
+                    action.type === getStockRevenue.pending.type ||
+                    action.type === getStockRevenue.rejected.type,
+                    
                 handleLoading
             )
             .addMatcher(
@@ -507,5 +598,5 @@ const dashboardSlice = createSlice({
             );
     }
 });
-export const { setStoryViewed, setStoryIndex } = dashboardSlice.actions;
+export const { setStoryViewed, setStoryIndex, resetStockDetail } = dashboardSlice.actions;
 export default dashboardSlice.reducer;

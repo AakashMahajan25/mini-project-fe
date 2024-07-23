@@ -15,7 +15,7 @@ import AddstockBtn from '../../assets/images/add-stock-btn.png';
 import CancelRed from '../../assets/images/cancel-round-red-icon.png';
 import RightGreen from '../../assets/images/right-green-circle-icon.png';
 import BlueTick from '../../assets/images/charm_tick.png';
-import { addTickertoWatchList, addWatchList, deleteWatchList, editWatchList, getGraphDetail, getStockBySearch, getStockStatistics, getStocksCompanyDetail, getTickersById, getUserWatchLists } from '../../screens/dashboard/slice';
+import { addTickertoWatchList, addWatchList, deleteWatchList, editWatchList, getFinancialsPeers, getFinancialsShareHolding, getGraphDetail, getStockBySearch, getStockOverview, getStockRevenue, getStockStatistics, getStocksCompanyDetail, getTickersById, getUserWatchLists, resetStockDetail } from '../../screens/dashboard/slice';
 import { useDispatch, useSelector } from 'react-redux';
 import { capitalizeFirstLetter, formatPrice, trimText } from '../../utils/utils';
 import Typography from '@mui/material/Typography';
@@ -40,6 +40,7 @@ import RevenuePage from './RevenuePage';
 import OverviewPage from './OverviewPage';
 import FinancialPage from './FinancialPage';
 import EventsPage from './EventsPage';
+import Loader from '../loader/Loader';
 
 function LeftBox() {
     const { containerProps, indicatorEl } = useLoading({
@@ -48,7 +49,7 @@ function LeftBox() {
     });
     const [value, setValue] = useState(0);
     const dispatch = useDispatch()
-    const { watchLists, tickers, stockSearchData, stockSearchLoading, companyDetails, companyStatistics, graphDetails } = useSelector(state => state.dashboardSlice);
+    const { isLoading, watchLists, tickers, stockSearchData, stockSearchLoading, companyDetails, companyStatistics, graphDetails, companyOverview, financialPeer, financialsShareHoldings, companyRevenues } = useSelector(state => state.dashboardSlice);
     const country = localStorage.getItem('marketType')
     const [anchorElNotification, setAnchorElNotification] = useState(null);
     const [show, setShow] = useState(false);
@@ -62,6 +63,7 @@ function LeftBox() {
     const [selectedId, setSelectedId] = useState('');
     const [tickerSymbol, setTickerSymbol] = useState('');
     const [tickerName, setTickerName] = useState('');
+    const [cocode, setCocode] = useState('');
     const [currentDate, setCurrentDate] = useState(new Date());
     const last7Days = new Date(currentDate);
     last7Days.setDate(currentDate.getDate() - 30);
@@ -100,19 +102,30 @@ function LeftBox() {
     }
 
     const handleShow = (stocks) => {
-        setShow(true);
         setTickerSymbol(stocks.ticker);
         setTickerName(stocks.ticker_name);
-        const queryParams = `?symbol=${tickerSymbol}`
-        dispatch(getStocksCompanyDetail(queryParams))
-        dispatch(getStockStatistics(queryParams))
-        dispatch(getGraphDetail({ symbol: tickerSymbol, multiplier: 1, timespan: 'day', from: moment(last7Days).format('YYYY-MM-DD'), to: moment(currentDate).format('YYYY-MM-DD'), limit: 120 }))
+        setCocode(stocks.cocode);
+        const queryParams = `?cocode=${stocks.cocode}`;
+        dispatch(resetStockDetail());
+        dispatch(getStockOverview(queryParams)).unwrap().then(res => {
+            if(res?.companyDetail){
+                setShow(true);
+            }else{
+                toast.error("Error in fetching Details");
+            }
+        }).catch(error => {
+            toast.error(error?.message)
+        });
+        // const queryParams = `?symbol=${tickerSymbol}`
+        // dispatch(getStocksCompanyDetail(queryParams))
+        // dispatch(getStockStatistics(queryParams))
+        // dispatch(getGraphDetail({ symbol: tickerSymbol, multiplier: 1, timespan: 'day', from: moment(last7Days).format('YYYY-MM-DD'), to: moment(currentDate).format('YYYY-MM-DD'), limit: 120 }))
     }
     const handleShow2 = (stocks) => {
         setShow2(true);
-        setTickerSymbol(stocks.symbol);
-        setTickerName(stocks.name);
-
+        setTickerSymbol(stocks.nsesymbol);
+        setTickerName(stocks.companyname);
+        setCocode(stocks.co_code);
     }
 
     const handleChange = (event, newValue) => {
@@ -218,9 +231,10 @@ function LeftBox() {
             const data = {
                 watchlist_id: id,
                 ticker: tickerSymbol,
-                ticker_name: tickerName
+                ticker_name: tickerName,
+                cocode
             }
-            dispatch(addTickertoWatchList(data))
+            dispatch(addTickertoWatchList(data)).unwrap()
                 .then(res => {
                     ReactGA.event({
                         category: 'Watchlist',
@@ -231,12 +245,47 @@ function LeftBox() {
                     setSelectedId('')
                     handleClose2()
                     dispatch(getUserWatchLists());
-
-                })
+                    getWatchListData();
+                }).catch(error => 
+                    {
+                        console.log('error', error)
+                        toast.error(error.message || 'Error in adding in watchlist');
+                    }
+            
+            
+            )
         }
     }
 
-    console.log('selectedId', selectedId)
+    const getFinancialsPeersFunc = () => {
+        const queryParams = `?cocode=${cocode}`
+        dispatch(getFinancialsPeers(queryParams)).unwrap().then(res => {
+
+        }).catch(error => {
+            console.log('error', error)
+            toast.error(error.message || 'Error in fetching peers');
+        });
+    }
+
+    const getFinancialsShareHoldingFunc = () => {
+        const queryParams = `?cocode=${cocode}`
+        dispatch(getFinancialsShareHolding(queryParams)).unwrap().then(res => {
+
+        }).catch(error => {
+            console.log('error', error)
+            toast.error(error.message || 'Error in fetching shareholding');
+        });
+    }
+
+    const getStockRevenueFunc = () => {
+        const queryParams = `?cocode=${cocode}`
+        dispatch(getStockRevenue(queryParams)).unwrap().then(res => {
+
+        }).catch(error => {
+            console.log('error', error)
+            toast.error(error.message || 'Error in fetching shareholding');
+        });
+    }
 
     const dataForMapping = [
         { text1: 'Px/Chg 1D (USD)', text2: '1379.76/-5.41%', text3: '0.00' },
@@ -363,6 +412,9 @@ function LeftBox() {
     return (
         <>
             <div className='left-box'>
+                {
+                    isLoading && <Loader />
+                }
                 <div className='box' style={{ height: window.innerHeight - 68 }}>
                     <div className="position-relative" style={{ marginBottom: 10, padding: '0px 16px' }}>
                         <input type="text" className="form-control form-control-search" placeholder='Search Here' value={searchParam}
@@ -383,8 +435,8 @@ function LeftBox() {
                                         stockSearchData?.map((stocks, index) => (
                                             <div className='d-flex justify-content-between align-items-center mb-2' style={{ backgroundColor: '#F1F4FD', borderRadius: '15px', padding: 10 }}>
                                                 <div onClick={() => handleShow(stocks)} className='d-flex justify-content-start align-items-center' style={{ cursor: 'pointer' }}>
-                                                    <div className='me-2 stock-name'>{trimText(stocks?.name, 15)}</div>
-                                                    <div className='me-2 ltp-text'>{stocks?.symbol}</div>
+                                                    <div className='me-2 stock-name'>{trimText(stocks?.companyname, 15)}</div>
+                                                    <div className='me-2 ltp-text'>{stocks?.nsesymbol}</div>
                                                     {/* <div className='me-2 stock-price'>3903</div>
                                                 <div className='me-1 stock-price'>0.5%</div> */}
                                                     {/* <img style={{ width: 24, objectFit: 'contain' }} src={RedArrow} alt="Red Arrow" /> */}
@@ -393,7 +445,7 @@ function LeftBox() {
 
                                                 <div className='d-flex justify-content-between align-items-center'>
                                                     <div>
-                                                        <img className='me-2' onClick={() => getFrruitClick(stocks?.symbol)} style={{ width: 24, objectFit: 'contain', cursor: 'pointer' }} src={StockMiniLogo} alt="mini-logo" />
+                                                        <img className='me-2' onClick={() => getFrruitClick(stocks?.nsesymbol)} style={{ width: 24, objectFit: 'contain', cursor: 'pointer' }} src={StockMiniLogo} alt="mini-logo" />
                                                     </div>
                                                     <div>
                                                         <img onClick={() => handleShow2(stocks)} style={{ width: 24, objectFit: 'contain', cursor: 'pointer' }} src={AddstockBtn} alt="mini-logo" />
@@ -446,6 +498,7 @@ function LeftBox() {
                             }
                         </Tabs>
                     </Box> */}
+
                     <div style={{ padding: '0px 16px' }}>
                         {watchLists?.length > 0 ?
                             tickers?.rows?.length > 0 ?
@@ -472,7 +525,7 @@ function LeftBox() {
                                     <div key={index} className='stock-price-list mb-2' style={{ position: 'relative' }}>
                                         <div className='d-flex justify-content-between align-items-center'>
                                             <p className='stock-name me-2'>{stock?.ticker}</p>
-                                            <div>
+                                            {/* <div>
                                                 <div className='d-flex justify-content-end align-items-center'>
                                                     <p className='stock-price me-2' style={{ color: stock?.ticker_change_percent.includes('-') ? '#EA5455' : '#28C76F' }}>{formatPrice(stock?.ticker_price, country)}</p>
                                                     <p className='stock-price me-2' style={{ color: stock?.ticker_change_percent.includes('-') ? '#EA5455' : '#28C76F' }}>{`${stock?.ticker_change_percent.includes('-') ? stock?.ticker_change : '+' + stock?.ticker_change}`}</p>
@@ -483,7 +536,7 @@ function LeftBox() {
                                                         <img className='watchlist-image' src={GreenArrow} alt="Green Arrow" />
                                                     )}
                                                 </div>
-                                            </div>
+                                            </div> */}
                                         </div>
                                         <div className="blurred-layer"></div>
                                         <div className="button-icon-container">
@@ -526,9 +579,9 @@ function LeftBox() {
                                 <img src={TataLogo} />
                             </div>
                             <div className='stock-text'>
-                                <h3 className='stock-title'>TCS</h3>
+                                <h3 className='stock-title'>{companyOverview?.companyDetail?.LNAME}</h3>
                                 <div className='d-flex align-items-center mt-1'>
-                                    <h5 className='stock-subTitle'>LTP</h5>
+                                    <h5 className='stock-subTitle'>{companyOverview?.companyDetail?.nsesymbol}</h5>
                                     <h5 className='stock-price-green'>3903</h5>
                                     <h5 className='stock-price-green'>0.5%</h5>
                                     <img src={UpGreenArrow} className='arrow' />
@@ -576,28 +629,27 @@ function LeftBox() {
                                                 <Nav.Item>
                                                     <Nav.Link eventKey="Financials" className={window.innerWidth < 700 ? `m-0` : ''}>Financials</Nav.Link>
                                                 </Nav.Item>
-                                                <Nav.Item>
+                                                {/* <Nav.Item>
                                                     <Nav.Link eventKey="Events" className={window.innerWidth < 700 ? `m-0` : ''}>Events</Nav.Link>
-                                                </Nav.Item>
+                                                </Nav.Item> */}
                                             </Nav>
                                         </div>
                                     </div>
                                     <div>
                                         <Tab.Content>
                                             <Tab.Pane eventKey="OverView">
-                                                <OverviewPage />
+                                                <OverviewPage companyOverview={companyOverview}/>
                                             </Tab.Pane>
                                             <Tab.Pane eventKey="Revenue">
-                                                <RevenuePage />
-
+                                                <RevenuePage getStockRevenue={getStockRevenueFunc} companyRevenues={companyRevenues}/>
                                             </Tab.Pane>
                                             <Tab.Pane eventKey="Financials">
-                                                <FinancialPage />
+                                                <FinancialPage financialPeer={financialPeer} getFinancialsPeers={getFinancialsPeersFunc} getFinancialsShareHolding={getFinancialsShareHoldingFunc} financialsShareHoldings={financialsShareHoldings} />
 
                                             </Tab.Pane>
-                                            <Tab.Pane eventKey="Events">
+                                            {/* <Tab.Pane eventKey="Events">
                                                 <EventsPage />
-                                            </Tab.Pane>
+                                            </Tab.Pane> */}
                                         </Tab.Content>
                                     </div>
                                 </Tab.Container>

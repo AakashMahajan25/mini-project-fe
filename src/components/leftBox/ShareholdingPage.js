@@ -1,56 +1,23 @@
 import React from 'react'
 import CustomTable from '../customTable/CustomTable';
 
-function ShareholdingPage() {
+function ShareholdingPage({financialsShareHoldings}) {
 
     const tableHeaders = ['Type', 'Mar 24', 'Dec 23', 'YoY Change', 'QoQ Change'];
 
-    const userData = [
-        {
-            type: 'Promoter',
-            marchunits: '48.25%',
-            decemberunits:'52.73%',
-            yoychange: '16.01%',
-            qoqchange: '-4.48%',
-        },
-        {
-            type: 'Pledge',
-            marchunits: '48.25%',
-            decemberunits:'52.73%',
-            yoychange: '16.01%',
-            qoqchange: '-4.48%',
-        },
-        {
-            type: 'FII',
-            marchunits: '48.25%',
-            decemberunits:'52.73%',
-            yoychange: '16.01%',
-            qoqchange: '-4.48%',
-        },
-        {
-            type: 'DII',
-            marchunits: '48.25%',
-            decemberunits:'52.73%',
-            yoychange: '16.01%',
-            qoqchange: '-4.48%',
-        },
-        {
-            type: 'Retail < 1L',
-            marchunits: '48.25%',
-            decemberunits:'52.73%',
-            yoychange: '16.01%',
-            qoqchange: '-4.48%',
-        },
-        {
-            type: 'Others',
-            marchunits: '48.25%',
-            decemberunits:'52.73%',
-            yoychange: '16.01%',
-            qoqchange: '-4.48%',
-        },
-        
-    ]
+    const formatToTwoDecimalPlaces = (number) => {
+        return Number(number).toFixed(2);
+    };
 
+    const userData = financialsShareHoldings.map(obj => {
+        return {
+            type: obj?.type,
+            marchunits: `${formatToTwoDecimalPlaces(obj['202403'])}%`,
+            decemberunits:`${formatToTwoDecimalPlaces(obj['202406'])}%`,
+            yoychange: `${formatToTwoDecimalPlaces(obj['YoY_change'])}%`,
+            qoqchange: `${formatToTwoDecimalPlaces(obj['QoQ_change'])}%`,
+        }
+    });
 
     return (
         <div className='mt-4'>
