@@ -149,7 +149,6 @@ function BottomSearchBar(props) {
             document.removeEventListener("mousedown", handleClickOutside);
         };
     }, []);
-console.log('flag============', flag)
     const placeholderText = (flag === 'news' || flag === 'news_bing') ? 'Search news, summarize, and get TLDRs' : flag === 'fund' ? 'Compare company fundamentals data, financials, stock screener and corporate actions' : flag === 'youtube' ? 'Discover insights from YouTube videos' : 'Search discussions and opinions on Reddit'
     return (
         <>

@@ -42,7 +42,7 @@ function FrruitGPT() {
     const [show, setShow] = useState(false)
     const handleHistoryClose = () => setShowHistory(false);
     const handleHistoryShow = () => setShowHistory(true);
-
+    const [fundamental, setFundamental] = useState(state?.fundamental || '');
     useEffect(() => {
         dispatch(getPromptSuggestion())
         dispatch(getPromptList())
@@ -54,8 +54,7 @@ function FrruitGPT() {
 
     useEffect(() => {
         if (state?.question && state.question !== '') {
-            // if (state?.fundamental && state?.fundamental === true)
-                setFlag(state?.fundamental)
+            setFlag(state?.fundamental)
             dispatch(clearChatHistory())
             addFrruitPrompt(state?.question)
             clearState()
@@ -164,8 +163,8 @@ function FrruitGPT() {
         dispatch(setCancelTokens(token))
 
         // if ((isFirstRender || isNewChat.current) ? (state?.fundamental && state?.fundamental === true) ? false : flag === "news" : flag === "news")
-        if ((flag || state?.fundamental)){
-            requestData["flag"] = state?.fundamental ?? flag
+        if ((flag || fundamental)){
+            requestData["flag"] = fundamental !== '' ? fundamental : flag
         }
 
         isNewChat.current = false
@@ -181,10 +180,12 @@ function FrruitGPT() {
                 setQuestion('');
                 scrollDown(250)
                 setButtonStart(true)
+                setFundamental('')
             })
             .catch(error => {
                 setButtonStart(true)
                 setQuestion(searchText);
+                setFundamental('')
                 if (error?.code != "ERR_CANCELED")
                     toast.error(error?.message)
             })
