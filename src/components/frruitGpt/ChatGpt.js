@@ -180,7 +180,7 @@ function ChatGpt(props) {
         { logoSrc: CompanyLogo, companyName: 'Economic Times', cardTitle: 'Tata Price up by 5%', cardPara: 'Tata Consultancy Services Limited (TCS) is an India-based company engaged in providing information technology (IT) services, consulting, and business solutio' },
         { logoSrc: CompanyLogo, companyName: 'Economic Times', cardTitle: 'Tata Price up by 5%', cardPara: 'Tata Consultancy Services Limited (TCS) is an India-based company engaged in providing information technology (IT) services, consulting, and business solutio' },
     ];
-    const { containerRef, docStatus = false, docName = '', newChat, selectedType } = props;
+    const { containerRef, docStatus = false, docName = '', newChat, selectedType, flag } = props;
 
     const { chatHistory, frruitLoader } = useSelector(state => state.fruitGPTSlice);
     const { contentChatHistory, contentGPTLoader, contentGraphLoader } = useSelector(state => state.contentGPTSlice);
@@ -496,8 +496,10 @@ function ChatGpt(props) {
                                     chat.type === 'text' ?
                                         <>
                                             <div className='chat-text-container'>
-                                                <Markdown>{chat?.text || ''}</Markdown>
-                                                {/* <h3 className='chat-text' dangerouslySetInnerHTML={{ __html: replaceNewlinesWithBr(chat?.text || '') }}></h3> */}
+                                                {(chat?.focus_type === 'screener') ?
+                                                    <h3 className='chat-text mt-1 screener-table' dangerouslySetInnerHTML={{ __html: chat?.text }}></h3>
+                                                    :
+                                                    <Markdown>{chat?.text || ''}</Markdown>}
                                             </div>
                                         </>
                                         : renderGraph(chat?.text)
