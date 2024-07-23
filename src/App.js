@@ -27,6 +27,7 @@ function App() {
   }, []);
 
   useEffect(() => {
+    if(!isExcludedPage)
     dispatch(getAvaliableCredit());
   }, [location])
 
