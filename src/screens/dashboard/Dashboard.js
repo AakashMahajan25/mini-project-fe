@@ -301,7 +301,6 @@ function Dashboard() {
 
                 });
             dispatch(getTrendingNews())
-            dispatch(fetchTrendingStocksFromAI())
             dispatch(getMostOnFrruitGpt(20)).unwrap()
                 .then((res) => {
                     ReactGA.event({
