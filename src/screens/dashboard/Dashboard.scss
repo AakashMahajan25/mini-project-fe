@@ -1,6 +1,13 @@
 .dashboardHome {
     overflow-y: hidden;
 
+    .error-message{
+        color: red;
+        font-size: 14px;
+        font-weight: 500;
+        margin-top: 4px;;
+    }
+
     .slick-next:before {
         content: '→';
         display: none;
@@ -222,40 +229,40 @@
                 }
             }
 
-            .suggestions-box {
-                z-index: 99;
-                position: absolute;
-                bottom: 47px;
-                left: 0px;
-                padding: 16px;
-                padding-bottom: 0;
-                border-radius: 15px 15px 0 0;
-                background-color: #F9FAFF;
-                border: 1px solid #4563E4;
-                width: calc(100% - 0px);
+            // .suggestions-box {
+            //     z-index: 99;
+            //     position: absolute;
+            //     bottom: 47px;
+            //     left: 0px;
+            //     padding: 16px;
+            //     padding-bottom: 0;
+            //     border-radius: 15px 15px 0 0;
+            //     background-color: #F9FAFF;
+            //     border: 1px solid #4563E4;
+            //     width: calc(100% - 0px);
 
-                @media only screen and (max-width: 500px) {
-                    width: calc(100% - 0px);
-                    bottom: 47px;
-                }
+            //     @media only screen and (max-width: 500px) {
+            //         width: calc(100% - 0px);
+            //         bottom: 47px;
+            //     }
 
-                .text-box {
-                    background-color: #F1F4FD;
-                    padding: 8px 16px 8px 16px;
-                    border-radius: 10px;
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                    margin-bottom: 16px;
-                    cursor: pointer;
-                }
+            //     .text-box {
+            //         background-color: #F1F4FD;
+            //         padding: 8px 16px 8px 16px;
+            //         border-radius: 10px;
+            //         display: flex;
+            //         justify-content: space-between;
+            //         align-items: center;
+            //         margin-bottom: 16px;
+            //         cursor: pointer;
+            //     }
 
-                .suggestions-text {
-                    color: #6F7387;
-                    font-size: 13px;
-                    font-weight: 500;
-                }
-            }
+            //     .suggestions-text {
+            //         color: #6F7387;
+            //         font-size: 13px;
+            //         font-weight: 500;
+            //     }
+            // }
 
             .fundDropDownPosition {
                 position: absolute;
@@ -467,17 +474,16 @@
     .suggestions-box {
         z-index: 99;
         position: absolute;
-        bottom: 93px;
-        left: 20px;
+        bottom: 66px;
         padding: 16px;
         padding-bottom: 0;
         border-radius: 15px 15px 0 0;
         background-color: #F9FAFF;
         border: 1px solid #4563E4;
-        width: calc(100% - 118.2px);
+        width: calc(50% - 116px);
 
         @media only screen and (max-width: 768px) {
-            bottom: 93px;
+            bottom: 90px;
             width: calc(100% - 113.4px);
         }
 

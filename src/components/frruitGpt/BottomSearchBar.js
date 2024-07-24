@@ -23,6 +23,7 @@ function BottomSearchBar(props) {
     const [showWebSearch, setShowWebSearch] = useState(false);
     const [selectedFund, setSelectedFund] = useState('Company Data');
     const [showDropdown, setShowDropdown] = useState(false);
+    const [error, setError] = useState(false); 
     const dropdownRef = useRef(null);
     const dispatch = useDispatch()
     const navigate = useNavigate()
@@ -40,9 +41,8 @@ function BottomSearchBar(props) {
         handleAskPress = () => { },
         flag = '',
         buttonStart = true,
-        setFlag = () => { }
+        setFlag = () => { },
     } = props
-
 
     useEffect(() => {
         const searchQuestion = setTimeout(() => {
@@ -64,15 +64,32 @@ function BottomSearchBar(props) {
     useEffect(() => {
         if (flag === 'news_bing' && !showWebSearch) {
             setShowWebSearch(true);
+        } else if (flag === 'screener') {
+            setSelectedFund('Stock Screener')
         }
     }, [flag])
+
+    // const handleChange = (e) => {
+    //     setQuestion(e.target.value)
+    // }
+
     const handleChange = (e) => {
-        setQuestion(e.target.value)
+        setQuestion(e.target.value);
+        setError(false);  // Clear error when user starts typing
     }
 
+    // const handleKeyPress = (e) => {
+    //     if (buttonStart && e.key === 'Enter') {
+    //         handleAskPress();
+    //     }
+    // };
     const handleKeyPress = (e) => {
         if (buttonStart && e.key === 'Enter') {
-            handleAskPress();
+            if (question.length === 0) {
+                setError(true);  // Set error if input is empty
+            } else {
+                handleAskPress();
+            }
         }
     };
 
@@ -92,7 +109,7 @@ function BottomSearchBar(props) {
     const handleWebSearchChange = () => {
         const webSearch = localStorage.getItem('webSearch')
         setShowWebSearch(!showWebSearch);
-        if(!webSearch){
+        if (!webSearch) {
             setShowSearchModal(!showSearchModal);
         }
     };
@@ -108,13 +125,18 @@ function BottomSearchBar(props) {
         setShowDropdown(prevShowDropdown => !prevShowDropdown);
     };
 
-    const handleWebSearchProceed = ( ) => {
+    const handleWebSearchProceed = () => {
         setShowSearchModal(!showSearchModal);
-        localStorage.setItem('webSearch',true)
+        localStorage.setItem('webSearch', true)
     }
     const handleOptionClick = (value) => {
         setSelectedFund(value);
         setShowDropdown(false);
+        if(value === 'Stock Screener'){
+            setFlag('screener')
+        }else{
+            setFlag('fund')
+        }
     };
     useEffect(() => {
         function handleClickOutside(event) {
@@ -127,7 +149,6 @@ function BottomSearchBar(props) {
             document.removeEventListener("mousedown", handleClickOutside);
         };
     }, []);
-
     const placeholderText = (flag === 'news' || flag === 'news_bing') ? 'Search news, summarize, and get TLDRs' : flag === 'fund' ? 'Compare company fundamentals data, financials, stock screener and corporate actions' : flag === 'youtube' ? 'Discover insights from YouTube videos' : 'Search discussions and opinions on Reddit'
     return (
         <>
@@ -150,16 +171,16 @@ function BottomSearchBar(props) {
                             <div className='tab-name-css px-3'>Choose Focus</div>
                             <img src={StraightArrowIcon} style={{ width: 20, objectFit: 'contain' }} />
                         </div>
-                        <div className={(flag === 'news' || flag === 'news_bing') ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: (flag === 'news' || flag === 'news_bing') ? '#F1F4FD' : '', color: (frruitLoader &&  !(flag === 'news' || flag === 'news_bing')) ?'#B4B3B9': '#4563E4', cursor: 'pointer' }}
+                        <div className={(flag === 'news' || flag === 'news_bing') ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: (flag === 'news' || flag === 'news_bing') ? '#F1F4FD' : '', color: (frruitLoader && !(flag === 'news' || flag === 'news_bing')) ? '#B4B3B9' : '#4563E4', cursor: 'pointer' }}
                             onClick={frruitLoader ? undefined : () => showWebSearch ? setFlag('news_bing') : setFlag('news')}
                         > News </div>
-                        <div className={flag === 'fund' ? `tab-name-css tab-box-css` : `tab-name-css`} style={{ backgroundColor: flag === 'fund' ? '#F1F4FD' : '', color: frruitLoader && flag != 'fund' ? '#B4B3B9' :'#4563E4', cursor: 'pointer' }}
-                            onClick={frruitLoader ? undefined : () => setFlag('fund')}
+                        <div className={(flag === 'fund' || flag === 'screener') ? `tab-name-css tab-box-css` : `tab-name-css`} style={{ backgroundColor: (flag === 'fund' || flag === 'screener') ? '#F1F4FD' : '', color: (frruitLoader && !(flag === 'fund' || flag === 'screener'))  ? '#B4B3B9' : '#4563E4', cursor: 'pointer' }}
+                            onClick={frruitLoader ? undefined : () => selectedFund === 'Company Data' ? setFlag('fund') : setFlag('screener')}
                         > Fundamentals </div>
-                        <div className={flag === 'youtube' ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: flag === 'youtube' ? '#F1F4FD' : '', color: frruitLoader && flag != 'youtube' ?'#B4B3B9':'#4563E4', cursor: 'pointer' }}
+                        <div className={flag === 'youtube' ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: flag === 'youtube' ? '#F1F4FD' : '', color: frruitLoader && flag != 'youtube' ? '#B4B3B9' : '#4563E4', cursor: 'pointer' }}
                             onClick={frruitLoader ? undefined : () => setFlag('youtube')}
                         > Youtube </div>
-                        <div className={flag === 'reddit' ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: flag === 'reddit' ? '#F1F4FD' : '', color: frruitLoader && flag != 'reddit' ?'#B4B3B9':'#4563E4', cursor: 'pointer' }}
+                        <div className={flag === 'reddit' ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: flag === 'reddit' ? '#F1F4FD' : '', color: frruitLoader && flag != 'reddit' ? '#B4B3B9' : '#4563E4', cursor: 'pointer' }}
                             onClick={frruitLoader ? undefined : () => setFlag('reddit')}
                         >Reddit </div>
                         {/* <div className={flag === 'news' ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: flag === 'news' ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
@@ -179,7 +200,7 @@ function BottomSearchBar(props) {
                             {(flag === 'news' || flag === 'news_bing') &&
                                 <div className="form-check form-switch checkbox-position hide-in-mobile">
                                     <input
-                                        style={{cursor:'pointer'}}
+                                        style={{ cursor: 'pointer' }}
                                         className="form-check-input"
                                         type="checkbox"
                                         onChange={handleWebSearchChange}
@@ -187,13 +208,13 @@ function BottomSearchBar(props) {
                                     /> <span className={showWebSearch ? 'web-search-active' : 'web-search-default'}>Web Search</span>
                                 </div>
                             }
-                            {(flag === 'fund') &&
+                            {(flag === 'fund' || flag === 'screener') &&
                                 <div className="fundDropDownPosition hide-in-mobile" onClick={handleFundClick}>
                                     <div className='searchInputDropdowntext'>{selectedFund}<img src={ArrowDownIcon} style={{ width: 24, height: 24, objectFit: 'contain', marginLeft: 5 }} className={showDropdown ? 'rotate-icon rotated' : 'rotate-icon'} /></div>
                                 </div>
                             }
                             <input
-                                className={`${(flag === 'news' || flag === 'news_bing') && question.length > 0 && suggestedQuestionsList.length > 0 ? 'form-control-suggestion' : (flag === 'news' || flag === 'news_bing') ? 'form-control-newsTab' : flag === 'fund' ? (showDropdown ? 'form-control-funds-only' : 'form-control-fund') : 'form-control'}`}
+                                className={`${(flag === 'news' || flag === 'news_bing') && question.length > 0 && suggestedQuestionsList.length > 0 ? 'form-control-suggestion' : (flag === 'news' || flag === 'news_bing') ? 'form-control-newsTab' : (flag === 'fund' || flag === 'screener') ? (showDropdown ? 'form-control-funds-only' : 'form-control-fund') : 'form-control'}`}
                                 value={question}
                                 disabled={!buttonStart}
                                 onChange={handleChange}
@@ -202,10 +223,21 @@ function BottomSearchBar(props) {
                             />
                         </div>
                     </div>
-                    <div className='sendIcon ms-3' onClick={handleAskPress} style={{ cursor: buttonStart && 'pointer', opacity: buttonStart ? 1 : 0.5, }}>
+                    {/* <div className='sendIcon ms-3' onClick={handleAskPress} style={{ cursor: buttonStart && 'pointer', opacity: buttonStart ? 1 : 0.5, }}>
+                        <img src={SendIcon} className='sendIcon-styles' />
+                    </div> */}
+                    <div className='sendIcon ms-3' onClick={() => {
+                        if (question.length === 0) {
+                            setError(true);  // Set error if input is empty
+                        } else {
+                            handleAskPress();
+                        }
+                    }} style={{ cursor: buttonStart && 'pointer', opacity: buttonStart ? 1 : 0.5, }}>
                         <img src={SendIcon} className='sendIcon-styles' />
                     </div>
+
                 </div>
+                {error && <div className='error-message'>Please enter a search query.</div>}  {/* Add this line */}
                 {/* <div className='show-suggestions'>
                     <div className='d-flex align-items-center suggestions-text'>
                         <input
@@ -217,7 +249,7 @@ function BottomSearchBar(props) {
                     </div>
                 </div>
                 {showSuggestions && */}
-                {(flag === 'news' && question.length > 0 && suggestedQuestionsList.length > 0 ) &&
+                {(flag === 'news' && question.length > 0 && suggestedQuestionsList.length > 0) &&
                     <div className='suggestions-box'>
                         {
                             suggestedQuestionsList?.slice(0, 4).map((question, index) =>
@@ -252,7 +284,7 @@ function BottomSearchBar(props) {
                         /> <span className={showWebSearch ? 'web-search-active' : 'web-search-default'}>Web Search</span>
                     </div>
                 }
-                {(flag === 'fund') &&
+                {(flag === 'fund' || flag === 'screener') &&
                     <div className="fundDropDownPosition hide-in-desktop" onClick={handleFundClick}>
                         <div className='searchInputDropdowntext'>{selectedFund}<img src={ArrowDownIcon} style={{ width: 24, height: 24, objectFit: 'contain', marginLeft: 5 }} className={showDropdown ? 'rotate-icon rotated' : 'rotate-icon'} /></div>
                     </div>

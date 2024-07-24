@@ -106,6 +106,7 @@ export const triggerFrruitGpt = createAsyncThunk("fruitGpt/triggerFrruitGpt", as
             person: "bot",
             text: response.data.data.data,
             link: response.data.data.link,
+            focus_type: response.data.data.focus_type,
             type: "text"
         }]
         dispatch(setCancelTokens(null))

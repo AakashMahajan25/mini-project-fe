@@ -25,7 +25,7 @@ import { useNavigate } from 'react-router-dom';
 import Modal from 'react-bootstrap/Modal';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAllNews, fetchTrendingStocksFromAI, getInvestorStories, getMostOnFrruitGpt, getStockIndexes, getTrendingNews, getTrendingStocks, setStoryIndex, setStoryViewed } from './slice';
-import { getPromptSuggestion,searchSuggestedPrompt } from '../frruitGPT/slice';
+import { getPromptSuggestion, searchSuggestedPrompt } from '../frruitGPT/slice';
 // import { searchSuggestedPrompt } from '../../screens/frruitGPT/slice'
 import Loader from '../../components/loader/Loader';
 import RightWhiteArrow from '../../assets/images/right-arrow.png';
@@ -144,6 +144,7 @@ function Dashboard() {
     const [showSearchModal, setShowSearchModal] = useState(false);
     const [selectedFund, setSelectedFund] = useState('Company Data');
     const [showDropdown, setShowDropdown] = useState(false);
+    const [error, setError] = useState(false);
     const dropdownRef = useRef(null);
     const handleCloseSearchModal = () => {
         setShowSearchModal(false);
@@ -185,7 +186,7 @@ function Dashboard() {
 
     const dispatch = useDispatch()
     const { trendingStocks, trendingNews, mostOnFrruitGpt, storyViewed, investorStory, storyIndex, isLoading, investorStoryLoading, indexLoader, stockIndexes, investorStoryError, cmotsNews } = useSelector(state => state.dashboardSlice);
-    const { chatSuggestions, suggestionLoader, suggestionError,suggestedQuestionsList } = useSelector(state => state.fruitGPTSlice);
+    const { chatSuggestions, suggestionLoader, suggestionError, suggestedQuestionsList } = useSelector(state => state.fruitGPTSlice);
     const { userCredits, userPlan } = useSelector(state => state.userSlice)
     const [showLeftBox, setShowLeftBox] = useState(true);
     useEffect(() => {
@@ -258,21 +259,32 @@ function Dashboard() {
 
     const navigate = useNavigate();
 
+    // const routePromptFrruitGPT = (question, flag) => {
+    //     if (question) {
+    //         ReactGA.event({
+    //             category: 'Dashboard',
+    //             action: 'mostonfrruit_prompt_click',
+    //             label: 'MostonFrruit Prompt Click'
+    //         });
+    //         navigate("/frruit-gpt", {
+    //             state: { question, fundamental: flag },
+    //         });
+    //     }
+    // };
+
     const routePromptFrruitGPT = (question, flag) => {
-        if (question) {
-            ReactGA.event({
-                category: 'Dashboard',
-                action: 'mostonfrruit_prompt_click',
-                label: 'MostonFrruit Prompt Click'
-            });
-            navigate("/frruit-gpt", {
-                state: { question, fundamental: flag },
-            });
+        if (!question.trim()) {
+            setError(true);
+            return;
         }
-    };
-    const routeNews = (src) => {
-        navigate("/news", {
-            state: { src },
+        setError(false);
+        ReactGA.event({
+            category: 'Dashboard',
+            action: 'mostonfrruit_prompt_click',
+            label: 'MostonFrruit Prompt Click'
+        });
+        navigate("/frruit-gpt", {
+            state: { question, fundamental: flag },
         });
     };
 
@@ -412,6 +424,9 @@ function Dashboard() {
     const [showAllContent, setShowAllContent] = useState(true);
     const handleChange = (e) => {
         setQuestion(e.target.value)
+        if (e.target.value.trim()) {
+            setError(false);
+        }
     }
     const handleKeyPress = (e) => {
         if (e.key === 'Enter') {
@@ -462,6 +477,11 @@ function Dashboard() {
     const handleOptionClick = (value) => {
         setSelectedFund(value);
         setShowDropdown(false);
+        if(value === 'Stock Screener'){
+            setFlag('screener')
+        }else{
+            setFlag('fund')
+        }
     };
     useEffect(() => {
         function handleClickOutside(event) {
@@ -496,9 +516,9 @@ function Dashboard() {
                 ((indexLoader || investorStoryLoading || suggestionLoader) && !isData) &&
                 <Loader />
             }
-            {showCreditModal &&
+            {/* {showCreditModal &&
                 <CreditOverModal show={showCreditModal} handleClose={handleCloseCreditModal} onButtonClick={handleCreditButton} />
-            }
+            } */}
             {showSearchModal &&
                 <ActivateWebSearch show2={showSearchModal} handleClose2={handleCloseSearchModal} handleClose1={handleWebSearchProceed} />
             }
@@ -626,8 +646,8 @@ function Dashboard() {
                                                         <div className={(flag === 'news' || flag === 'news_bing') ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: (flag === 'news' || flag === 'news_bing') ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
                                                             onClick={() => setFlag('news')}
                                                         > News </div>
-                                                        <div className={flag === 'fund' ? `tab-name-css tab-box-css` : `tab-name-css`} style={{ backgroundColor: flag === 'fund' ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
-                                                            onClick={() => setFlag('fund')}
+                                                        <div className={(flag === 'fund' || flag === 'screener') ? `tab-name-css tab-box-css` : `tab-name-css`} style={{ backgroundColor: (flag === 'fund' || flag === 'screener') ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
+                                                            onClick={() => selectedFund === 'Company Data' ? setFlag('fund') : setFlag('screener')}
                                                         > Fundamentals </div>
                                                         <div className={flag === 'youtube' ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: flag === 'youtube' ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
                                                             onClick={() => setFlag('youtube')}
@@ -658,7 +678,7 @@ function Dashboard() {
                                                             {(flag === 'news' || flag === 'news_bing') &&
                                                                 <div className="form-check form-switch checkbox-position hide-in-mobile">
                                                                     <input
-                                                                        style={{cursor:'pointer'}}
+                                                                        style={{ cursor: 'pointer' }}
                                                                         className="form-check-input"
                                                                         type="checkbox"
                                                                         onChange={handleWebSearchChange}
@@ -666,7 +686,7 @@ function Dashboard() {
                                                                     /> <span className={showWebSearch ? 'web-search-active' : 'web-search-default'}>Web Search</span>
                                                                 </div>
                                                             }
-                                                            {(flag === 'fund') &&
+                                                            {(flag === 'fund' || flag === 'screener') &&
                                                                 <div className="fundDropDownPosition hide-in-mobile" onClick={handleFundClick}>
                                                                     <div className='searchInputDropdowntext'>{selectedFund}<img src={ArrowDownIcon} style={{ width: 24, height: 24, objectFit: 'contain', marginLeft: 5 }} className={showDropdown ? 'rotate-icon rotated' : 'rotate-icon'} /></div>
                                                                 </div>
@@ -674,7 +694,7 @@ function Dashboard() {
                                                             <input
                                                                 // className={(flag === 'news' || flag === 'news_bing') ? "form-control-newsTab" : 'form-control'}
                                                                 // className='form-control'
-                                                                className={`${(flag === 'news' || flag === 'news_bing') && question.length > 0 && suggestedQuestionsList.length > 0 ? 'form-control-suggestion' : (flag === 'news' || flag === 'news_bing') ? 'form-control-newsTab' : flag === 'fund' ? (showDropdown ? 'form-control-funds-only' : 'form-control-fund') : 'form-control'}`}
+                                                                className={`${(flag === 'news' || flag === 'news_bing') && question.length > 0 && suggestedQuestionsList.length > 0 ? 'form-control-suggestion' : (flag === 'news' || flag === 'news_bing') ? 'form-control-newsTab' : (flag === 'fund' || flag === 'screener') ? (showDropdown ? 'form-control-funds-only' : 'form-control-fund') : 'form-control'}`}
                                                                 style={{ height: 48 }}
                                                                 value={question}
                                                                 onChange={handleChange}
@@ -697,6 +717,7 @@ function Dashboard() {
                                                         }
                                                     </div>
                                                 }
+                                                 {error && <div className='error-message'>Please enter a search query.</div>}
                                                 {showDropdown && (
                                                     <div className='dropdownMenuForFunds' ref={dropdownRef}>
                                                         <div className='text-box'>
@@ -726,6 +747,7 @@ function Dashboard() {
                                                     </div>
                                                 }
                                             </>
+                                           
                                         </div>
                                     </div>
                                 </div>

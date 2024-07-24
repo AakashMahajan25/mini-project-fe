@@ -482,3 +482,42 @@
 ::-webkit-scrollbar-thumb:hover {
     background: #4563E4;
 }
+
+.screener-table{
+    table {
+        border: 0px solid green !important;
+        width: 100%;
+        border-collapse: separate;
+            border-spacing: 0 16px;
+    }
+   thead tr {
+        background-color: #fff;
+        text-align: center !important; /* Change this to your desired background color */
+      }
+    tr{
+        margin-top: 8px;
+        margin-bottom: 8px;
+        background-color: rgba(241, 244, 253, 1);
+
+        &:hover {
+            background-color: #E5EAFF;
+            box-shadow: 0px 3px 12px 0px rgba(0, 0, 0, 0.1);
+        }
+    }
+    tbody tr th{
+        text-align:center;
+        padding-left: 15px;
+    }
+    td{
+        text-align:center;
+        padding: 15px;
+    }
+    tr th:first-child{
+        border-top-left-radius: 5px;
+        border-bottom-left-radius: 5px;
+    }
+    td:last-child{
+        border-top-right-radius: 5px;
+        border-bottom-right-radius: 5px;
+    }
+}
