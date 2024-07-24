@@ -8,6 +8,10 @@ function OverviewPage({companyOverview}) {
     const memo = companyOverview?.companyDetail?.MEMO ?? '';
     const previewLength = 300;
 
+    const formatToTwoDecimalPlaces = (number) => {
+        return Number(number).toFixed(2);
+    };
+
     const handleToggle = () => {
         setIsExpanded(!isExpanded);
     };
@@ -62,23 +66,23 @@ function OverviewPage({companyOverview}) {
     const fundamental = [
         {
             title: 'PE',
-            value: companyOverview?.fundamental?.PE ?? ''
+            value: formatToTwoDecimalPlaces(companyOverview?.fundamental?.PE) ?? ''
         },
         {
             title: 'Sector P/E',
-            value: companyOverview?.fundamental?.Industry_PE ?? ''
+            value: formatToTwoDecimalPlaces(companyOverview?.fundamental?.Industry_PE) ?? ''
         },
         {
             title: 'PB Ratio',
-            value: companyOverview?.fundamental?.PBV ?? ''
+            value: formatToTwoDecimalPlaces(companyOverview?.fundamental?.PBV) ?? ''
         },
         {
             title: 'Dividend Yield',
-            value: companyOverview?.fundamental?.DIVYIELD ?? ''
+            value: formatToTwoDecimalPlaces(companyOverview?.fundamental?.DIVYIELD) ?? ''
         },
         {
             title: 'ROE',
-            value: companyOverview?.fundamental?.ROE ?? ''
+            value: formatToTwoDecimalPlaces(companyOverview?.fundamental?.ROE) ?? ''
         },
 
     ]

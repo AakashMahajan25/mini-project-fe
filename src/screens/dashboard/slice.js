@@ -534,12 +534,12 @@ const dashboardSlice = createSlice({
                     action.type === getStockOverview.fulfilled.type ||
                     action.type === getStockOverview.pending.type ||
                     action.type === getStockOverview.rejected.type ||
-                    action.type === getFinancialsPeers.fulfilled.type ||
-                    action.type === getFinancialsPeers.pending.type ||
-                    action.type === getFinancialsPeers.rejected.type ||
-                    action.type === getFinancialsShareHolding.fulfilled.type ||
-                    action.type === getFinancialsShareHolding.pending.type ||
-                    action.type === getFinancialsShareHolding.rejected.type ||
+                    // action.type === getFinancialsPeers.fulfilled.type ||
+                    // action.type === getFinancialsPeers.pending.type ||
+                    // action.type === getFinancialsPeers.rejected.type ||
+                    // action.type === getFinancialsShareHolding.fulfilled.type ||
+                    // action.type === getFinancialsShareHolding.pending.type ||
+                    // action.type === getFinancialsShareHolding.rejected.type ||
                     action.type === getStockRevenue.fulfilled.type ||
                     action.type === getStockRevenue.pending.type ||
                     action.type === getStockRevenue.rejected.type,

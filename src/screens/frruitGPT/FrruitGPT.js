@@ -55,7 +55,9 @@ function FrruitGPT() {
     useEffect(() => {
         if (state?.question && state.question !== '') {
             // if (state?.fundamental && state?.fundamental === true)
-                setFlag(state?.fundamental)
+            if(state?.fundamental){
+                setFlag(state?.fundamental);
+            }
             dispatch(clearChatHistory())
             addFrruitPrompt(state?.question)
             clearState()

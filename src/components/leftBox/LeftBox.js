@@ -389,9 +389,9 @@ function LeftBox() {
         },
     ]
     const navigate = useNavigate();
-    const getFrruitClick = (symbol) => {
+    const getFrruitClick = (stock) => {
         navigate("/frruit-gpt", {
-            state: { question: 'What is happening in ' + symbol + ' stock' },
+            state: { question: 'What is the news on ' + stock + '?' },
         });
     };
 
@@ -445,7 +445,7 @@ function LeftBox() {
 
                                                 <div className='d-flex justify-content-between align-items-center'>
                                                     <div>
-                                                        <img className='me-2' onClick={() => getFrruitClick(stocks?.nsesymbol)} style={{ width: 24, objectFit: 'contain', cursor: 'pointer' }} src={StockMiniLogo} alt="mini-logo" />
+                                                        <img className='me-2' onClick={() => getFrruitClick(stocks?.companyname)} style={{ width: 24, objectFit: 'contain', cursor: 'pointer' }} src={StockMiniLogo} alt="mini-logo" />
                                                     </div>
                                                     <div>
                                                         <img onClick={() => handleShow2(stocks)} style={{ width: 24, objectFit: 'contain', cursor: 'pointer' }} src={AddstockBtn} alt="mini-logo" />
@@ -575,23 +575,23 @@ function LeftBox() {
                 <Modal.Body>
                     <div className='stock-list'>
                         <div className='d-flex align-items-center'>
-                            <div className='image-stock'>
+                            {/* <div className='image-stock'>
                                 <img src={TataLogo} />
-                            </div>
+                            </div> */}
                             <div className='stock-text'>
                                 <h3 className='stock-title'>{companyOverview?.companyDetail?.LNAME}</h3>
                                 <div className='d-flex align-items-center mt-1'>
                                     <h5 className='stock-subTitle'>{companyOverview?.companyDetail?.nsesymbol}</h5>
-                                    <h5 className='stock-price-green'>3903</h5>
-                                    <h5 className='stock-price-green'>0.5%</h5>
-                                    <img src={UpGreenArrow} className='arrow' />
+                                    {/* <h5 className='stock-price-green'>3903</h5> */}
+                                    {/* <h5 className='stock-price-green'>0.5%</h5> */}
+                                    {/* <img src={UpGreenArrow} className='arrow' /> */}
                                 </div>
                             </div>
                         </div>
-                        <div className='button-stock-list'>
+                        {/* <div className='button-stock-list'>
                             <button className='btn-green-buy'>Buy</button>
                             <button className='btn-red-sell'>Sell</button>
-                        </div>
+                        </div> */}
                     </div>
                     {/* <div class="container">
                         <div class="row">
@@ -621,7 +621,7 @@ function LeftBox() {
                                         <div>
                                             <Nav variant="underline">
                                                 <Nav.Item>
-                                                    <Nav.Link eventKey="OverView" className={window.innerWidth < 700 ? `m-0` : ''}>OverView</Nav.Link>
+                                                    <Nav.Link eventKey="OverView" className={window.innerWidth < 700 ? `m-0` : ''}>Overview</Nav.Link>
                                                 </Nav.Item>
                                                 <Nav.Item>
                                                     <Nav.Link eventKey="Revenue" className={window.innerWidth < 700 ? `m-0` : ''}>Revenue</Nav.Link>
