@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './LeftBox.scss';
 import SearchIcon from '../../assets/images/search-icon.png';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
+// import Tabs from '@mui/material/Tabs';
+import {Tabs, Tab as MuiTab} from '@mui/material';
 import Box from '@mui/material/Box';
 import GreenArrow from '../../assets/images/green_up-arrow.png';
 import RedArrow from '../../assets/images/red_down-arrow.png';
@@ -34,7 +34,7 @@ import { useLoading, ThreeDots } from '@agney/react-loading';
 import moment from 'moment';
 import { toast } from 'react-toastify';
 import ReactGA from 'react-ga4';
-// import { Tab } from 'react-bootstrap';
+import { Tab } from 'react-bootstrap';
 import Nav from 'react-bootstrap/Nav';
 import RevenuePage from './RevenuePage';
 import OverviewPage from './OverviewPage';
@@ -156,12 +156,12 @@ function LeftBox() {
         };
     }, [searchParam]);
 
-    const getWatchListData = () => {
+    const getWatchListData = (watchlist_id = null) => {
         dispatch(getUserWatchLists())
             .unwrap()
             .then(res => {
                 const id = Number(res[0]?.watchlist_id)
-                dispatch(getTickersById(id))
+                dispatch(getTickersById((watchlist_id ? watchlist_id : id)))
             })
     }
 
@@ -235,7 +235,7 @@ function LeftBox() {
             .catch(error => console.log('error', error))
     }
 
-    const handleSave = (id) => {
+    const handleSave = (id, index) => {
         setSelectedId(id)
         console.log('id', id)
         if (id) {
@@ -256,7 +256,8 @@ function LeftBox() {
                     setSelectedId('')
                     handleClose2()
                     dispatch(getUserWatchLists());
-                    getWatchListData();
+                    setValue(index);
+                    getWatchListData(id);
                 }).catch(error => 
                     {
                         console.log('error', error)
@@ -504,7 +505,7 @@ function LeftBox() {
                         >
                             {
                                 watchLists?.map((item, index) => (
-                                    <Tab key={index} label={item?.watchlist_name} className='tab-css' />
+                                    <MuiTab key={index} label={item?.watchlist_name} className='tab-css' />
                                 ))
                             }
                         </Tabs>
@@ -825,7 +826,7 @@ function LeftBox() {
                         {
                             watchLists.length > 0 && watchLists.map((item, index) => (
                                 <div className='d-flex justify-content-between align-items-center' style={{ cursor: "pointer" }}>
-                                    <div className='blue-box' onClick={tickerName ? () => handleSave(item?.watchlist_id) : ()  => handleChange(null, index)} style={{ border: selectedId === item?.watchlist_id ? '1px solid #4563E4' : null }}>
+                                    <div className='blue-box' onClick={tickerName ? () => handleSave(item?.watchlist_id, index) : ()  => handleChange(null, index)} style={{ border: selectedId === item?.watchlist_id ? '1px solid #4563E4' : null }}>
                                         <div className='d-flex align-items-center justify-content-between'>
                                             <div className='d-flex align-items-center'>
                                                 {
