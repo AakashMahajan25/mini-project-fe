@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './LeftBox.scss';
 import SearchIcon from '../../assets/images/search-icon.png';
-// import Tabs from '@mui/material/Tabs';
-// import Tab from '@mui/material/Tab';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import GreenArrow from '../../assets/images/green_up-arrow.png';
 import RedArrow from '../../assets/images/red_down-arrow.png';
@@ -34,7 +34,7 @@ import { useLoading, ThreeDots } from '@agney/react-loading';
 import moment from 'moment';
 import { toast } from 'react-toastify';
 import ReactGA from 'react-ga4';
-import { Tab } from 'react-bootstrap';
+// import { Tab } from 'react-bootstrap';
 import Nav from 'react-bootstrap/Nav';
 import RevenuePage from './RevenuePage';
 import OverviewPage from './OverviewPage';
@@ -483,7 +483,7 @@ function LeftBox() {
                             <div className='watchlistTextPlus' onClick={handleShow2} style={{ cursor: 'pointer', color: '#4563E4' }}>+ Watchlist</div>
                         </div>
                     </div>
-                    {/* <Box marginBottom={'20px'} sx={{ maxWidth: { xs: 320, sm: 480 }, bgcolor: 'background.paper' }} style={{ paddingLeft: watchLists?.length > 3 ? 0 : 16 }}>
+                    <Box marginBottom={'20px'} sx={{ maxWidth: { xs: 320, sm: 480 }, bgcolor: 'background.paper' }} style={{ paddingLeft: watchLists?.length > 3 ? 0 : 16 }}>
                         <Tabs
                             value={value}
                             onChange={handleChange}
@@ -497,7 +497,7 @@ function LeftBox() {
                                 ))
                             }
                         </Tabs>
-                    </Box> */}
+                    </Box>
 
                     <div style={{ padding: '0px 16px' }}>
                         {watchLists?.length > 0 ?
