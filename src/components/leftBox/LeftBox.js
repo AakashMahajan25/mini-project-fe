@@ -391,7 +391,7 @@ function LeftBox() {
     const navigate = useNavigate();
     const getFrruitClick = (stock) => {
         navigate("/frruit-gpt", {
-            state: { question: 'What is the news on ' + stock + '?' },
+            state: { question: 'What is the news on ' + stock + '?', fundamental:'news' },
         });
     };
 
