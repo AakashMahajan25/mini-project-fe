@@ -15,7 +15,7 @@ import AddstockBtn from '../../assets/images/add-stock-btn.png';
 import CancelRed from '../../assets/images/cancel-round-red-icon.png';
 import RightGreen from '../../assets/images/right-green-circle-icon.png';
 import BlueTick from '../../assets/images/charm_tick.png';
-import { addTickertoWatchList, addWatchList, deleteWatchList, editWatchList, getFinancialsPeers, getFinancialsShareHolding, getGraphDetail, getStockBySearch, getStockOverview, getStockRevenue, getStockStatistics, getStocksCompanyDetail, getTickersById, getUserWatchLists, resetStockDetail } from '../../screens/dashboard/slice';
+import { addTickertoWatchList, addWatchList, deleteWatchList, editWatchList, getFinancialsPeers, getFinancialsShareHolding, getGraphDetail, getStockBySearch, getStockOverview, getStockRevenue, getStockStatistics, getStocksCompanyDetail, getTickersById, getUserWatchLists, removeTickerFromWatchList, resetStockDetail } from '../../screens/dashboard/slice';
 import { useDispatch, useSelector } from 'react-redux';
 import { capitalizeFirstLetter, formatPrice, trimText } from '../../utils/utils';
 import Typography from '@mui/material/Typography';
@@ -49,7 +49,7 @@ function LeftBox() {
     });
     const [value, setValue] = useState(0);
     const dispatch = useDispatch()
-    const { isLoading, watchLists, tickers, stockSearchData, stockSearchLoading, companyDetails, companyStatistics, graphDetails, companyOverview, financialPeer, financialsShareHoldings, companyRevenues } = useSelector(state => state.dashboardSlice);
+    const { isLoading, watchlistLoading, watchLists, tickers, stockSearchData, stockSearchLoading, companyDetails, companyStatistics, graphDetails, companyOverview, financialPeer, financialsShareHoldings, companyRevenues } = useSelector(state => state.dashboardSlice);
     const country = localStorage.getItem('marketType')
     const [anchorElNotification, setAnchorElNotification] = useState(null);
     const [show, setShow] = useState(false);
@@ -205,6 +205,17 @@ function LeftBox() {
                 })
                 .catch(error => console.log('error', error))
         }
+    }
+
+    const removeTickerFromWatchListFunc = (data) => {
+        dispatch(removeTickerFromWatchList(data?.id)).then(res => {
+            toast.success(res?.message);
+            dispatch(getTickersById(data?.watchlist_id));
+            dispatch(getUserWatchLists());
+        }).catch(error => {
+            console.log('error', error);
+            toast.error(error.message || 'Error in adding in watchlist');
+        });
     }
 
     const handleAddNew = () => {
@@ -413,7 +424,7 @@ function LeftBox() {
         <>
             <div className='left-box'>
                 {
-                    isLoading && <Loader />
+                    (isLoading || watchlistLoading) && <Loader />
                 }
                 <div className='box' style={{ height: window.innerHeight - 68 }}>
                     <div className="position-relative" style={{ marginBottom: 10, padding: '0px 16px' }}>
@@ -542,7 +553,7 @@ function LeftBox() {
                                         <div className="button-icon-container">
                                             <div className='d-flex justify-content-end align-items-center'>
                                                 <button className="blue-btn" style={{ padding: '3px 15px', fontSize: 12 }} onClick={() => handleShow(stock)}>Stock Details</button>
-                                                <img className='watchlist-image ms-2' style={{ cursor: 'pointer' }} src={DeleteRedIcon} alt="mini-logo" />
+                                                <img className='watchlist-image ms-2' onClick={()=>removeTickerFromWatchListFunc(stock)} style={{ cursor: 'pointer' }} src={DeleteRedIcon} alt="mini-logo" />
                                                 <img className='watchlist-image ms-2 me-2' onClick={() => getFrruitClick(stock?.ticker)} style={{ cursor: 'pointer' }} src={StockMiniLogo} alt="mini-logo" />
                                             </div>
                                         </div>

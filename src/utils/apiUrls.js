@@ -42,7 +42,7 @@ export const API_ENDPOINTS = {
     editWatchList: 'watchlist/editWatchList?watchListId=',
     deleteWatchList: 'watchlist/deleteWatchList?watchListId=',
     addTickerToWatchList: 'watchlist/addTickertoWatchList',
-    RemoveTicker: 'watchlist/removeTickerFromWatchList?watchListTickerId=',
+    removeTickerFromWatchList: 'watchlist/removeTickerFromWatchList?watchListTickerId=',
     stockIndexes: 'stocks/indexes',
     getCompanyDetail: 'stocks/getCompanyDetail',
     getStockStatistics: 'stocks/getStockStatistics',
