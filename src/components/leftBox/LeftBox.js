@@ -814,7 +814,7 @@ function LeftBox() {
                         {
                             watchLists.length > 0 && watchLists.map((item, index) => (
                                 <div className='d-flex justify-content-between align-items-center' style={{ cursor: "pointer" }}>
-                                    <div className='blue-box' onClick={() => handleSave(item?.watchlist_id)} style={{ border: selectedId === item?.watchlist_id ? '1px solid #4563E4' : null }}>
+                                    <div className='blue-box' onClick={tickerName ? () => handleSave(item?.watchlist_id) : ()  => handleChange(null, index)} style={{ border: selectedId === item?.watchlist_id ? '1px solid #4563E4' : null }}>
                                         <div className='d-flex align-items-center justify-content-between'>
                                             <div className='d-flex align-items-center'>
                                                 {
