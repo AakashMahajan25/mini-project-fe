@@ -18,15 +18,15 @@ import FilterImg from '../../assets/images/filter-img.png';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAllNews } from '../../screens/dashboard/slice';
 
-function NewsViewAll({ backBtnClick }) {
+function NewsViewAll({ backBtnClick,sentiment,sortOrder,filtersApplied,onSentimentChange,onSortOrderChange,onResetFilters }) {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [groupedData, setGroupedData] = useState([])
     const [selected, setSelected] = useState(null)
     const [show, setShow] = useState(false);
-    const [sentiment, setSentiment] = useState('');
+    // const [sentiment, setSentiment] = useState('');
     const { cmotsNews } = useSelector(state => state.dashboardSlice);
-    const [sortOrder, setSortOrder] = useState('desc');
+    // const [sortOrder, setSortOrder] = useState('desc');
     const [isActive, setIsActive] = useState(false);
     const [isSortActive, setIsSortActive] = useState(false);
     const [sentimentLabel, setSentimentLabel] = useState('');
@@ -94,34 +94,33 @@ function NewsViewAll({ backBtnClick }) {
     useEffect(() => {
         const queryParams = `?sentiment=${sentiment}&sortOrder=${sortOrder}`;
         dispatch(fetchAllNews(queryParams));
-    }, [sentiment, sortOrder])
+    }, [sentiment, sortOrder, dispatch]);
 
     const handleResetClick = () => {
-        setSentiment('');
+        onResetFilters();
         setSentimentLabel('');
-        setSortOrder('');
         setSortLabel('');
         setIsActive(false)
         setIsSortActive(false)
     }
 
     const handleSentimentChange = (value, label) => {
-        setSentiment(value);
+        onSentimentChange(value);
         setSentimentLabel(label);
     };
 
     const handleSortChange = (value, label) => {
-        setSortOrder(value);
+        onSortOrderChange(value);
         setSortLabel(label);
     };
 
     const removeFilter = () => {
-        setSentiment('');
+        onSentimentChange('');
         setSentimentLabel('');
     };
 
     const removeSortFilter = () => {
-        setSortOrder('');
+        onSortOrderChange('');
         setSortLabel('');
     };
     return (

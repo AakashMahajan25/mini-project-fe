@@ -145,6 +145,9 @@ function Dashboard() {
     const [selectedFund, setSelectedFund] = useState('Company Data');
     const [showDropdown, setShowDropdown] = useState(false);
     const [error, setError] = useState(false);
+    const [filtersApplied, setFiltersApplied] = useState(false);
+    const [sentiment, setSentiment] = useState('');
+    const [sortOrder, setSortOrder] = useState('');
     const dropdownRef = useRef(null);
     const handleCloseSearchModal = () => {
         setShowSearchModal(false);
@@ -328,13 +331,42 @@ function Dashboard() {
         }
         dispatch(getAvaliableCredit())
         dispatch(getUserPlan());
-        const interval = setInterval(() => {
-            dispatch(fetchAllNews(''))
-        }, 60000 * 3);
-        return () => {
-            clearInterval(interval)
-        }
+        // const interval = setInterval(() => {
+        //     if (!filtersApplied) {
+        //         dispatch(fetchAllNews(''));
+        //     }
+        // }, 60000 * 3);
+        // return () => {
+        //     clearInterval(interval)
+        // }
     }, [])
+
+    useEffect(() => {
+        if (!filtersApplied) {
+            const interval = setInterval(() => {
+                dispatch(fetchAllNews(''))
+            }, 60000 * 3);
+            return () => {
+                clearInterval(interval)
+            }
+        }
+    }, [filtersApplied, dispatch]);
+
+    const handleSentimentChange = (value) => {
+        setSentiment(value);
+        setFiltersApplied(true);
+    };
+
+    const handleSortOrderChange = (value) => {
+        setSortOrder(value);
+        setFiltersApplied(true);
+    };
+
+    const handleResetFilters = () => {
+        setSentiment('');
+        setSortOrder('');
+        setFiltersApplied(false);
+    };
 
     useEffect(() => {
         getStoryData()
@@ -761,7 +793,7 @@ function Dashboard() {
                     }
                     {!showAllContent &&
                         <div className='col-lg-9 column-pad'>
-                            <NewsViewAll backBtnClick={toggleShowAllContent} newsData={cmotsNews?.rows} />
+                            <NewsViewAll backBtnClick={toggleShowAllContent} sentiment={sentiment} sortOrder={sortOrder} filtersApplied={filtersApplied} onSentimentChange={handleSentimentChange}onSortOrderChange={handleSortOrderChange}onResetFilters={handleResetFilters} newsData={cmotsNews?.rows} />
                         </div>
                     }
                 </>
