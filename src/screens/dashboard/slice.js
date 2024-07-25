@@ -358,6 +358,21 @@ export const fetchTrendingStocksFromAI = createAsyncThunk("dashboard/fetchTrendi
     }
 });
 
+export const removeTickerFromWatchList = createAsyncThunk("watchList/removeTickerFromWatchList", async (watchListTickerId) => {
+    try {
+        let data = {
+            method: METHOD_TYPE.delete,
+            url: API_ENDPOINTS.removeTickerFromWatchList + watchListTickerId,
+        };
+        const response = await api(data);
+        return response.data.data;
+
+    } catch (error) {
+        console.log('error::::', error.response)
+        throw error.response;
+    }
+});
+
 
 const dashboardSlice = createSlice({
     name: "dashboard",
@@ -534,12 +549,12 @@ const dashboardSlice = createSlice({
                     action.type === getStockOverview.fulfilled.type ||
                     action.type === getStockOverview.pending.type ||
                     action.type === getStockOverview.rejected.type ||
-                    action.type === getFinancialsPeers.fulfilled.type ||
-                    action.type === getFinancialsPeers.pending.type ||
-                    action.type === getFinancialsPeers.rejected.type ||
-                    action.type === getFinancialsShareHolding.fulfilled.type ||
-                    action.type === getFinancialsShareHolding.pending.type ||
-                    action.type === getFinancialsShareHolding.rejected.type ||
+                    // action.type === getFinancialsPeers.fulfilled.type ||
+                    // action.type === getFinancialsPeers.pending.type ||
+                    // action.type === getFinancialsPeers.rejected.type ||
+                    // action.type === getFinancialsShareHolding.fulfilled.type ||
+                    // action.type === getFinancialsShareHolding.pending.type ||
+                    // action.type === getFinancialsShareHolding.rejected.type ||
                     action.type === getStockRevenue.fulfilled.type ||
                     action.type === getStockRevenue.pending.type ||
                     action.type === getStockRevenue.rejected.type,
@@ -570,6 +585,9 @@ const dashboardSlice = createSlice({
                     action.type === deleteWatchList.fulfilled.type ||
                     action.type === deleteWatchList.pending.type ||
                     action.type === deleteWatchList.rejected.type ||
+                    action.type === removeTickerFromWatchList.fulfilled.type ||
+                    action.type === removeTickerFromWatchList.pending.type ||
+                    action.type === removeTickerFromWatchList.rejected.type ||
                     action.type === addTickertoWatchList.fulfilled.type ||
                     action.type === addTickertoWatchList.pending.type ||
                     action.type === addTickertoWatchList.rejected.type,

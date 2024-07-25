@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import './LeftBox.scss';
 import SearchIcon from '../../assets/images/search-icon.png';
 // import Tabs from '@mui/material/Tabs';
-// import Tab from '@mui/material/Tab';
+import {Tabs, Tab as MuiTab} from '@mui/material';
 import Box from '@mui/material/Box';
 import GreenArrow from '../../assets/images/green_up-arrow.png';
 import RedArrow from '../../assets/images/red_down-arrow.png';
@@ -15,7 +15,7 @@ import AddstockBtn from '../../assets/images/add-stock-btn.png';
 import CancelRed from '../../assets/images/cancel-round-red-icon.png';
 import RightGreen from '../../assets/images/right-green-circle-icon.png';
 import BlueTick from '../../assets/images/charm_tick.png';
-import { addTickertoWatchList, addWatchList, deleteWatchList, editWatchList, getFinancialsPeers, getFinancialsShareHolding, getGraphDetail, getStockBySearch, getStockOverview, getStockRevenue, getStockStatistics, getStocksCompanyDetail, getTickersById, getUserWatchLists, resetStockDetail } from '../../screens/dashboard/slice';
+import { addTickertoWatchList, addWatchList, deleteWatchList, editWatchList, getFinancialsPeers, getFinancialsShareHolding, getGraphDetail, getStockBySearch, getStockOverview, getStockRevenue, getStockStatistics, getStocksCompanyDetail, getTickersById, getUserWatchLists, removeTickerFromWatchList, resetStockDetail } from '../../screens/dashboard/slice';
 import { useDispatch, useSelector } from 'react-redux';
 import { capitalizeFirstLetter, formatPrice, trimText } from '../../utils/utils';
 import Typography from '@mui/material/Typography';
@@ -49,7 +49,7 @@ function LeftBox() {
     });
     const [value, setValue] = useState(0);
     const dispatch = useDispatch()
-    const { isLoading, watchLists, tickers, stockSearchData, stockSearchLoading, companyDetails, companyStatistics, graphDetails, companyOverview, financialPeer, financialsShareHoldings, companyRevenues } = useSelector(state => state.dashboardSlice);
+    const { isLoading, watchlistLoading, watchLists, tickers, stockSearchData, stockSearchLoading, companyDetails, companyStatistics, graphDetails, companyOverview, financialPeer, financialsShareHoldings, companyRevenues } = useSelector(state => state.dashboardSlice);
     const country = localStorage.getItem('marketType')
     const [anchorElNotification, setAnchorElNotification] = useState(null);
     const [show, setShow] = useState(false);
@@ -156,12 +156,12 @@ function LeftBox() {
         };
     }, [searchParam]);
 
-    const getWatchListData = () => {
+    const getWatchListData = (watchlist_id = null) => {
         dispatch(getUserWatchLists())
             .unwrap()
             .then(res => {
                 const id = Number(res[0]?.watchlist_id)
-                dispatch(getTickersById(id))
+                dispatch(getTickersById((watchlist_id ? watchlist_id : id)))
             })
     }
 
@@ -207,6 +207,17 @@ function LeftBox() {
         }
     }
 
+    const removeTickerFromWatchListFunc = (data) => {
+        dispatch(removeTickerFromWatchList(data?.id)).then(res => {
+            toast.success(res?.message);
+            dispatch(getTickersById(data?.watchlist_id));
+            dispatch(getUserWatchLists());
+        }).catch(error => {
+            console.log('error', error);
+            toast.error(error.message || 'Error in adding in watchlist');
+        });
+    }
+
     const handleAddNew = () => {
         dispatch(addWatchList(addName))
             .then(res => {
@@ -224,7 +235,7 @@ function LeftBox() {
             .catch(error => console.log('error', error))
     }
 
-    const handleSave = (id) => {
+    const handleSave = (id, index) => {
         setSelectedId(id)
         console.log('id', id)
         if (id) {
@@ -245,7 +256,8 @@ function LeftBox() {
                     setSelectedId('')
                     handleClose2()
                     dispatch(getUserWatchLists());
-                    getWatchListData();
+                    setValue(index);
+                    getWatchListData(id);
                 }).catch(error => 
                     {
                         console.log('error', error)
@@ -389,9 +401,9 @@ function LeftBox() {
         },
     ]
     const navigate = useNavigate();
-    const getFrruitClick = (symbol) => {
+    const getFrruitClick = (stock) => {
         navigate("/frruit-gpt", {
-            state: { question: 'What is happening in ' + symbol + ' stock' },
+            state: { question: 'What is the news on ' + stock + '?', fundamental:'news' },
         });
     };
 
@@ -413,7 +425,7 @@ function LeftBox() {
         <>
             <div className='left-box'>
                 {
-                    isLoading && <Loader />
+                    (isLoading || watchlistLoading) && <Loader />
                 }
                 <div className='box' style={{ height: window.innerHeight - 68 }}>
                     <div className="position-relative" style={{ marginBottom: 10, padding: '0px 16px' }}>
@@ -445,7 +457,7 @@ function LeftBox() {
 
                                                 <div className='d-flex justify-content-between align-items-center'>
                                                     <div>
-                                                        <img className='me-2' onClick={() => getFrruitClick(stocks?.nsesymbol)} style={{ width: 24, objectFit: 'contain', cursor: 'pointer' }} src={StockMiniLogo} alt="mini-logo" />
+                                                        <img className='me-2' onClick={() => getFrruitClick(stocks?.companyname)} style={{ width: 24, objectFit: 'contain', cursor: 'pointer' }} src={StockMiniLogo} alt="mini-logo" />
                                                     </div>
                                                     <div>
                                                         <img onClick={() => handleShow2(stocks)} style={{ width: 24, objectFit: 'contain', cursor: 'pointer' }} src={AddstockBtn} alt="mini-logo" />
@@ -483,7 +495,7 @@ function LeftBox() {
                             <div className='watchlistTextPlus' onClick={handleShow2} style={{ cursor: 'pointer', color: '#4563E4' }}>+ Watchlist</div>
                         </div>
                     </div>
-                    {/* <Box marginBottom={'20px'} sx={{ maxWidth: { xs: 320, sm: 480 }, bgcolor: 'background.paper' }} style={{ paddingLeft: watchLists?.length > 3 ? 0 : 16 }}>
+                    <Box marginBottom={'20px'} sx={{ maxWidth: { xs: 320, sm: 480 }, bgcolor: 'background.paper' }} style={{ paddingLeft: watchLists?.length > 3 ? 0 : 16 }}>
                         <Tabs
                             value={value}
                             onChange={handleChange}
@@ -493,11 +505,11 @@ function LeftBox() {
                         >
                             {
                                 watchLists?.map((item, index) => (
-                                    <Tab key={index} label={item?.watchlist_name} className='tab-css' />
+                                    <MuiTab key={index} label={item?.watchlist_name} className='tab-css' />
                                 ))
                             }
                         </Tabs>
-                    </Box> */}
+                    </Box>
 
                     <div style={{ padding: '0px 16px' }}>
                         {watchLists?.length > 0 ?
@@ -542,7 +554,7 @@ function LeftBox() {
                                         <div className="button-icon-container">
                                             <div className='d-flex justify-content-end align-items-center'>
                                                 <button className="blue-btn" style={{ padding: '3px 15px', fontSize: 12 }} onClick={() => handleShow(stock)}>Stock Details</button>
-                                                <img className='watchlist-image ms-2' style={{ cursor: 'pointer' }} src={DeleteRedIcon} alt="mini-logo" />
+                                                <img className='watchlist-image ms-2' onClick={()=>removeTickerFromWatchListFunc(stock)} style={{ cursor: 'pointer' }} src={DeleteRedIcon} alt="mini-logo" />
                                                 <img className='watchlist-image ms-2 me-2' onClick={() => getFrruitClick(stock?.ticker)} style={{ cursor: 'pointer' }} src={StockMiniLogo} alt="mini-logo" />
                                             </div>
                                         </div>
@@ -575,23 +587,23 @@ function LeftBox() {
                 <Modal.Body>
                     <div className='stock-list'>
                         <div className='d-flex align-items-center'>
-                            <div className='image-stock'>
+                            {/* <div className='image-stock'>
                                 <img src={TataLogo} />
-                            </div>
+                            </div> */}
                             <div className='stock-text'>
                                 <h3 className='stock-title'>{companyOverview?.companyDetail?.LNAME}</h3>
                                 <div className='d-flex align-items-center mt-1'>
                                     <h5 className='stock-subTitle'>{companyOverview?.companyDetail?.nsesymbol}</h5>
-                                    <h5 className='stock-price-green'>3903</h5>
-                                    <h5 className='stock-price-green'>0.5%</h5>
-                                    <img src={UpGreenArrow} className='arrow' />
+                                    {/* <h5 className='stock-price-green'>3903</h5> */}
+                                    {/* <h5 className='stock-price-green'>0.5%</h5> */}
+                                    {/* <img src={UpGreenArrow} className='arrow' /> */}
                                 </div>
                             </div>
                         </div>
-                        <div className='button-stock-list'>
+                        {/* <div className='button-stock-list'>
                             <button className='btn-green-buy'>Buy</button>
                             <button className='btn-red-sell'>Sell</button>
-                        </div>
+                        </div> */}
                     </div>
                     {/* <div class="container">
                         <div class="row">
@@ -621,7 +633,7 @@ function LeftBox() {
                                         <div>
                                             <Nav variant="underline">
                                                 <Nav.Item>
-                                                    <Nav.Link eventKey="OverView" className={window.innerWidth < 700 ? `m-0` : ''}>OverView</Nav.Link>
+                                                    <Nav.Link eventKey="OverView" className={window.innerWidth < 700 ? `m-0` : ''}>Overview</Nav.Link>
                                                 </Nav.Item>
                                                 <Nav.Item>
                                                     <Nav.Link eventKey="Revenue" className={window.innerWidth < 700 ? `m-0` : ''}>Revenue</Nav.Link>
@@ -814,7 +826,7 @@ function LeftBox() {
                         {
                             watchLists.length > 0 && watchLists.map((item, index) => (
                                 <div className='d-flex justify-content-between align-items-center' style={{ cursor: "pointer" }}>
-                                    <div className='blue-box' onClick={() => handleSave(item?.watchlist_id)} style={{ border: selectedId === item?.watchlist_id ? '1px solid #4563E4' : null }}>
+                                    <div className='blue-box' onClick={tickerName ? () => handleSave(item?.watchlist_id, index) : ()  => handleChange(null, index)} style={{ border: selectedId === item?.watchlist_id ? '1px solid #4563E4' : null }}>
                                         <div className='d-flex align-items-center justify-content-between'>
                                             <div className='d-flex align-items-center'>
                                                 {
