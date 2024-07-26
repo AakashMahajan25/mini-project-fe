@@ -426,7 +426,7 @@ function LeftBox() {
         <>
             <div className='left-box'>
                 {
-                    (location.pathname !== '/discover-correlation' && (isLoading || watchlistLoading)) && <Loader />
+                    (location.pathname !== '/discover-correlation' && (isLoading || watchlistLoading))  && <Loader />
                 }
                 <div className='box' style={{ height: window.innerHeight - 68 }}>
                     <div className="position-relative" style={{ marginBottom: 10, padding: '0px 16px' }}>
