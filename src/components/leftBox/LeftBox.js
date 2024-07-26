@@ -23,7 +23,7 @@ import Menu from '@mui/material/Menu';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import { Divider } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Modal from 'react-bootstrap/Modal';
 import TataLogo from '../../assets/images/Tata_Consultancy_Services_Logo.png'
 import UpGreenArrow from '../../assets/images/up-arrow-outline.png'
@@ -49,6 +49,7 @@ function LeftBox() {
     });
     const [value, setValue] = useState(0);
     const dispatch = useDispatch()
+    const location = useLocation()
     const { isLoading, watchlistLoading, watchLists, tickers, stockSearchData, stockSearchLoading, companyDetails, companyStatistics, graphDetails, companyOverview, financialPeer, financialsShareHoldings, companyRevenues } = useSelector(state => state.dashboardSlice);
     const country = localStorage.getItem('marketType')
     const [anchorElNotification, setAnchorElNotification] = useState(null);
@@ -425,7 +426,7 @@ function LeftBox() {
         <>
             <div className='left-box'>
                 {
-                    (isLoading || watchlistLoading) && <Loader />
+                    (location.pathname !== '/discover-correlation' && (isLoading || watchlistLoading))  && <Loader />
                 }
                 <div className='box' style={{ height: window.innerHeight - 68 }}>
                     <div className="position-relative" style={{ marginBottom: 10, padding: '0px 16px' }}>
