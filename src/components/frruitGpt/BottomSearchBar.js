@@ -168,7 +168,7 @@ function BottomSearchBar(props) {
                 <div className='customTab-frruit-gpt'>
                     <div className='d-flex align-items-center mobile-scroll-Css'>
                         <div className='d-flex align-items-center me-3'>
-                            <div className='tab-name-css px-3'>Choose Focus</div>
+                            <div className='tab-name-css px-3'>Choose Search Focus</div>
                             <img src={StraightArrowIcon} style={{ width: 20, objectFit: 'contain' }} />
                         </div>
                         <div className={(flag === 'news' || flag === 'news_bing') ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: (flag === 'news' || flag === 'news_bing') ? '#F1F4FD' : '', color: (frruitLoader && !(flag === 'news' || flag === 'news_bing')) ? '#B4B3B9' : '#4563E4', cursor: 'pointer' }}
