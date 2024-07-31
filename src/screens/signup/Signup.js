@@ -164,7 +164,7 @@ function Signup() {
     return (
         <>
             <section className='login signup-css' style={{ overflow: 'hidden' }}>
-                <div className={`row justify-content-center align-items-center login-page`} >
+                <div className={`row justify-content-center align-items-center`} >
                     <div className='col-xl-5'>
                         <div className='d-flex justify-content-center align-items-center imagecontainer'>
                             <img src={LoginImg3} style={{ objectFit: 'contain', width: '100%', height: window.innerHeight / 2 }} />
