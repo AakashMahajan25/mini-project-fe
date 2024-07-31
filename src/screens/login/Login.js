@@ -3,8 +3,12 @@ import '../login/Login.scss'
 import LoginImg from '../../assets/images/login_img.png'
 import LoginImg2 from '../../assets/images/login-side-img.png'
 import LoginImg3 from '../../assets/images/login_img3.png'
-import FrruitLogo from '../../assets/images/frruit-logo.png'
+import FrruitLogo from '../../assets/images/frruitlogoLogin.png'
+import InstagramAppLogo from '../../assets/images/instagram.png'
+import WhatsAppLogo from '../../assets/images/whatsapp.png'
+import linkedinLogo from '../../assets/images/linkedin.png'
 import MobileIcon from '../../assets/images/mobile-icon.png';
+import loginBg from '../../assets/images/loginBgImg.jpg';
 import OtpInput from 'react-otp-input';
 import { useNavigate } from 'react-router-dom';
 import Loader from '../../components/loader/Loader';
@@ -92,135 +96,175 @@ function Login() {
     }
 
     return (
-        <section className='login' style={{ height: window.innerHeight - 100 }}>
-            <div className='d-flex justify-content-center align-items-center login-page'>
-                <div className='col-xl-5'>
-                    <div className='d-flex justify-content-center align-items-center h-100 imagecontainer'>
-                        <img src={LoginImg3} style={{ objectFit: 'contain', width: '100%', height: window.innerHeight / 2 }} />
-                    </div>
-                </div>
-                <div className={showCode ? 'col-xl-7 login-form1' : 'col-xl-7 login-form'}>
-                    <div style={{ position: 'relative' }}>
-                        <p className='loginText text-center m-0 '>Login</p>
-                        <div>
-                            <img src={FrruitLogo} width={108} style={{ position: 'absolute', top: -5 }} />
-                        </div>
-                    </div>
-                    <div className="form-outline mt-4">
-                        {!showCode &&
+        <>
+            <div className='login'>
+                <div className='imageBG' style={{ height: 'calc(100svh)' }}>
+                    <img src={loginBg} className='imageHeight' style={{ height: 'calc(100svh)' }} alt="Header" />
+                    <div className='innerImgTextBox'>
+                        <div className='w-100'>
                             <>
-                                <label className='form-control-label'>Phone Number</label>
-                                <div className='d-flex justify-content-between align-items-center'>
-                                    <input
-                                        type="text"
-                                        className="form-control form-control-input me-3 nineone-input"
-                                        placeholder='+91'
-                                        defaultValue="+91"
-                                        disabled
-                                    />
-                                    <div className="position-relative" style={{ width: '100%' }}>
-                                        <input
-                                            type="text"
-                                            className="form-control form-control-input"
-                                            placeholder='0000000000'
-                                            value={phoneNumber}
-                                            style={{ color: 'black' }}
-                                            onChange={(event) => setPhoneNumber(event.target.value)}
-                                            ref={numberRef}
-                                            onKeyDown={(event) => event?.key === 'Enter' && handleGetOtp()}
-                                        />
-                                        <div className="position-absolute" style={{ left: 20, top: '28%' }}>
-                                            <img src={MobileIcon} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} />
-                                        </div>
-                                    </div>
-                                </div>
-                            </>
-                        }
-                        {showCode &&
-                            <>
-                                <label className='form-control-label'>Phone Number</label>
-                                <div className='d-flex justify-content-between align-items-center'>
-                                    <input type="text" className="form-control form-control-input me-3 nineone-input" placeholder='+91' defaultValue={"+91"} disabled></input>
-                                    <div className="position-relative" style={{ width: '100%' }}>
-                                        <input type="text" className="form-control form-control-input" placeholder='99999 99999' value={phoneNumber} disabled></input>
-
-                                        <div className="position-absolute" style={{ left: 18, top: '25%' }}>
-                                            <img src={MobileIcon} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} />
-                                        </div>
-                                    </div>
-                                </div>
-                                <a style={{ fontSize: 15, textDecoration: 'underline', color: 'blue' }} onClick={handleDifferentNumberClick}>Use a different Number</a>
-                                <div className="form-outline verification">
-                                    <label className="form-label">Type your 6 digit security code</label>
-                                    <div className='d-flex'>
-                                        <OtpInput
-                                            value={otp}
-                                            onChange={setOtp}
-                                            numInputs={6}
-                                            renderInput={(props) => <input {...props} style={{
-                                               
-                                                outline: 'none',
-                                            }}
-                                                className='verificationBox text-center me-2'
-                                                pattern="[0-9]*"
-                                                inputMode="numeric"
-                                                onKeyDown={event => event?.key === 'Enter' && handleLogin()}
-                                            />}
-                                        />
-                                    </div>
-                                </div>
-                                <p className='privacyText mt-0' style={{ fontSize: 15 }}>Didn't get the code? <a style={{ textDecoration: 'underline', color: 'blue' }}>Resend</a></p>
-                            </>
-                        }
-                        {showCode &&
-                            // <div className='d-flex justify-content-center align-items-center'>
-                            //     <button onClick={handleLogin} className='btnPrimary mt-5'>Login</button>
-                            // </div>
-                            <div className='d-flex justify-content-center align-items-center'>
-                                <button onClick={handleLogin} className='btnPrimary mt-5'>
-                                    {isLoading ? (
-                                        <div className="spinner-border text-light" role="status">
-                                            <span className="sr-only"></span>
-                                        </div>
-                                    ) : (
-                                        "Login"
-                                    )}
-                                </button>
-                            </div>
-                        }
-                        {!showCode &&
-                            <>
-                                <div className='d-flex justify-content-center align-items-center'>
-                                    {/* <button onClick={handleGetOtp} className='btnPrimary mt-5'>Get OTP</button> */}
-                                    <button onClick={handleGetOtp} className='btnPrimary mt-5'>
-                                        {isLoading ? (
-                                            <div className="spinner-border text-light" role="status">
-                                                <span className="sr-only"></span>
+                                <div className='justify-content-center align-items-center login-page'>
+                                    <div className='col-xl-7'>
+                                        {/* <div className='d-flex justify-content-center align-items-center h-100 imagecontainer'>
+                                            <img src={LoginImg3} style={{ objectFit: 'contain', width: '100%', height: window.innerHeight / 2 }} />
+                                        </div> */}
+                                        {/* <div className='login-left-part'>
+                                            <div style={{ display: 'flex', alignItems: 'self-start', height: 'auto' }}>hiiiiiiiiiiiiiiiii</div>
+                                            <div>hiiiiiiiiiiiiiiiii</div>
+                                            <div style={{ display: 'flex', alignItems: 'flex-end', height: 'auto' }}>hiiiiiiiiiiiiiiiii</div>
+                                        </div> */}
+                                        <div class="d-flex align-items-start flex-column loginleftsideCol">
+                                            <div class="mb-auto"><img className='frruitLogostyle' src={FrruitLogo} style={{ objectFit: "contain" }} /></div>
+                                            <div class="mb-auto w-100">
+                                                <div className='loginMainTextStyle'>India's 1<sup className='suptext'>ST</sup>AI Powered</div>
+                                                <div className='loginMainTextStyle'>Stock Market search Engine</div>
+                                                <div className='loginMainTextParaStyle'>The stock market search engine that will give direct answers & not just blue links</div>
                                             </div>
-                                        ) : (
-                                            "Get OTP"
-                                        )}
-                                    </button>
-                                </div>
-                                <div className='d-flex align-items-center just mt-3'>
-                                    <div className='horizontalLine w-100'></div>
-                                    <div className='mx-2' style={{ fontWeight: 700, fontSize: 20, color: '#C6C6C6' }}>OR</div>
-                                    <div className='horizontalLine w-100'></div>
-                                </div>
-                                <div className='d-flex justify-content-center align-items-center'>
-                                    <button onClick={routeChangeSignUp} className='btnSecondary mt-3'>Signup Using Phone Number</button>
+                                            <div className='hideformobile'>
+                                                <div className='FollowUsText'>Follow us on</div>
+                                                <div className='d-flex justify-content-start'>
+                                                    <img src={WhatsAppLogo} className='socialLogos' />
+                                                    <img src={InstagramAppLogo} className='socialLogos' />
+                                                    <img src={linkedinLogo} className='socialLogos' />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className='col-xl-5'>
+                                        <div className={showCode ? 'login-form1' : 'login-form'}>
+                                            <div className='d-flex justify-content-center align-items-center h-100'>
+                                                {/* <div>
+                                                    <img src={FrruitLogo} width={108} style={{ position: 'absolute', top: -5 }} />
+                                                    </div> */}
+                                                <div className="form-outline">
+                                                    <p className='loginText text-center'>Login</p>
+                                                    {!showCode &&
+                                                        <>
+                                                            <label className='form-control-label'>Phone Number</label>
+                                                            <div className='d-flex justify-content-between align-items-center'>
+                                                                <input
+                                                                    type="text"
+                                                                    className="form-control form-control-input me-3 nineone-input"
+                                                                    placeholder='+91'
+                                                                    defaultValue="+91"
+                                                                    disabled
+                                                                />
+                                                                <div className="position-relative" style={{ width: '100%' }}>
+                                                                    <input
+                                                                        type="text"
+                                                                        className="form-control form-control-input"
+                                                                        placeholder='0000000000'
+                                                                        value={phoneNumber}
+                                                                        style={{ color: 'black' }}
+                                                                        onChange={(event) => setPhoneNumber(event.target.value)}
+                                                                        ref={numberRef}
+                                                                        onKeyDown={(event) => event?.key === 'Enter' && handleGetOtp()}
+                                                                    />
+                                                                    <div className="position-absolute" style={{ left: 20, top: '28%' }}>
+                                                                        <img src={MobileIcon} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} />
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </>
+                                                    }
+                                                    {showCode &&
+                                                        <>
+                                                            <label className='form-control-label'>Phone Number</label>
+                                                            <div className='d-flex justify-content-between align-items-center'>
+                                                                <input type="text" className="form-control form-control-input me-3 nineone-input" placeholder='+91' defaultValue={"+91"} disabled></input>
+                                                                <div className="position-relative" style={{ width: '100%' }}>
+                                                                    <input type="text" className="form-control form-control-input" placeholder='99999 99999' value={phoneNumber} disabled></input>
+
+                                                                    <div className="position-absolute" style={{ left: 18, top: '25%' }}>
+                                                                        <img src={MobileIcon} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} />
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <a style={{ fontSize: 15, textDecoration: 'underline', color: 'blue' }} onClick={handleDifferentNumberClick}>Use a different Number</a>
+                                                            <div className="form-outline verification">
+                                                                <label className="form-label">Type your 6 digit security code</label>
+                                                                <div className='d-flex'>
+                                                                    <OtpInput
+                                                                        value={otp}
+                                                                        onChange={setOtp}
+                                                                        numInputs={6}
+                                                                        renderInput={(props) => <input {...props} style={{
+
+                                                                            outline: 'none',
+                                                                        }}
+                                                                            className='verificationBox text-center me-2'
+                                                                            pattern="[0-9]*"
+                                                                            inputMode="numeric"
+                                                                            onKeyDown={event => event?.key === 'Enter' && handleLogin()}
+                                                                        />}
+                                                                    />
+                                                                </div>
+                                                            </div>
+                                                            <p className='privacyText mt-0' style={{ fontSize: 15 }}>Didn't get the code? <a style={{ textDecoration: 'underline', color: 'blue' }}>Resend</a></p>
+                                                        </>
+                                                    }
+                                                    {showCode &&
+                                                        // <div className='d-flex justify-content-center align-items-center'>
+                                                        //     <button onClick={handleLogin} className='btnPrimary mt-5'>Login</button>
+                                                        // </div>
+                                                        <div className='d-flex justify-content-center align-items-center'>
+                                                            <button onClick={handleLogin} className='btnPrimary mt-5'>
+                                                                {isLoading ? (
+                                                                    <div className="spinner-border text-light" role="status">
+                                                                        <span className="sr-only"></span>
+                                                                    </div>
+                                                                ) : (
+                                                                    "Login"
+                                                                )}
+                                                            </button>
+                                                        </div>
+                                                    }
+                                                    {!showCode &&
+                                                        <>
+                                                            <div className='d-flex justify-content-center align-items-center'>
+                                                                {/* <button onClick={handleGetOtp} className='btnPrimary mt-5'>Get OTP</button> */}
+                                                                <button onClick={handleGetOtp} className='btnPrimary mt-5'>
+                                                                    {isLoading ? (
+                                                                        <div className="spinner-border text-light" role="status">
+                                                                            <span className="sr-only"></span>
+                                                                        </div>
+                                                                    ) : (
+                                                                        "Get OTP"
+                                                                    )}
+                                                                </button>
+                                                            </div>
+                                                            <div className='d-flex align-items-center just mt-3'>
+                                                                <div className='horizontalLine w-100'></div>
+                                                                <div className='mx-2' style={{ fontWeight: 700, fontSize: 20, color: '#C6C6C6' }}>OR</div>
+                                                                <div className='horizontalLine w-100'></div>
+                                                            </div>
+                                                            <div className='d-flex justify-content-center align-items-center'>
+                                                                <button onClick={routeChangeSignUp} className='btnSecondary mt-3'>Signup Using Phone Number</button>
+                                                            </div>
+                                                        </>
+                                                    }
+                                                    <p className='privacyText text-center'>By signing up, you accept our <a style={{ textDecoration: 'none' }} href=''> Terms and Conditions</a></p>
+                                                    <p className='privacyText text-center mt-0'>See our <a style={{ textDecoration: 'none' }} href=''> Privacy Policy</a></p>
+                                                </div>
+                                            </div>
+                                            <div className='followUsHideforWeb'>
+                                                <div className='FollowUsText'>Follow us on</div>
+                                                <div className='followUsDflex'>
+                                                    <img src={WhatsAppLogo} className='socialLogos' />
+                                                    <img src={InstagramAppLogo} className='socialLogos' />
+                                                    <img src={linkedinLogo} className='socialLogos me-0' />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </>
-                        }
-                        <p className='privacyText text-center'>By signing up, you accept our <a style={{ textDecoration: 'none' }} href=''> Terms and Conditions</a></p>
-                        <p className='privacyText text-center mt-0'>See our <a style={{ textDecoration: 'none' }} href=''> Privacy Policy</a></p>
+                        </div>
                     </div>
                 </div>
             </div>
-            {/* {
-                isLoading && <Loader />
-            } */}
-        </section>
+        </>
+
     )
 }
 
