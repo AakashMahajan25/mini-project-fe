@@ -1,0 +1,42 @@
+.payment-page-css{
+    .main-image{
+        width:531.06px;
+        // height:312px;
+        object-fit: contain;
+
+        @media only screen and (max-width: 500px) {
+            width:343px;
+            // height:312px;
+            object-fit: contain;
+        }
+
+    }
+
+    .payment-heading{
+        font-size: 40px;
+        font-weight: 700;
+        color:#43BE9A;
+        margin-top: 27px;
+
+        @media only screen and (max-width: 500px) {
+            font-size: 20px;
+        }
+
+    }
+
+    .payment-subheading{
+        font-size: 20px;
+        font-weight: 400;
+        color:#6F7387;
+        text-align: center;
+        margin-bottom: 32px;
+
+        @media only screen and (max-width: 500px) {
+            font-size: 16px;
+        }
+    }
+
+    .failed-text{
+        color:#EA5455
+    }
+}
