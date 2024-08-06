@@ -118,7 +118,7 @@ function Login() {
                                             <div class="mb-auto w-100">
                                                 <div className='loginMainTextStyle'>India's 1<sup className='suptext'>ST</sup>AI Powered</div>
                                                 <div className='loginMainTextStyle'>Stock Market search Engine</div>
-                                                <div className='loginMainTextParaStyle'>The stock market search engine that will give direct answers & not just blue links</div>
+                                                <div className='loginMainTextParaStyle'>Initiate dynamic conversations with Frruit to tap into both real-time and historical data on thousands of stocks , market-moving information , discover hidden correlations between financial market events and their impact on stock price movements !</div>
                                             </div>
                                             <div className='hideformobile'>
                                                 <div className='FollowUsText'>Follow us on</div>
