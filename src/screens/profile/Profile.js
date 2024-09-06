@@ -245,7 +245,7 @@ function Profile() {
                 currency: 'INR',
                 key: 'rzp_test_Ym5H3K5NhaCF0y',
                 amount: data?.order_amount * 100,
-                name: userDetails?.first_name + " " + userDetails?.last_name,
+                name: "Frruit",
                 order_id: data?.razorpay_order_id,
                 handler: async function (response) {
                     let placeOrderPayload = {
@@ -263,7 +263,12 @@ function Profile() {
                         toast.error(error.message || "Error in completing payment")
                     });
                 },
-                theme: { color: '#F37254' }
+                theme: { color: '#F37254' },
+                modal: {
+                    ondismiss: function () {
+                        toast.error('Payment was cancelled.');
+                    }
+                }
             };
 
             const paymentObject = new window.Razorpay(options);
