@@ -27,6 +27,7 @@ import PaymentHistory from '../../components/profile/paymentHistory/PaymentHisto
 import TermsAndCondition from '../../components/profile/termsAndCondition/TermsAndCondition';
 import PrivacyPolicy from '../../components/profile/privacyPolicy/PrivacyPolicy';
 import Pricing from '../../components/profile/pricing/Pricing';
+import CancellationAndRefundPolicy from '../../components/profile/cancellationAndRefundPolicy/CancellationAndRefundPolicy';
 
 function Profile() {
     const navigate = useNavigate();
@@ -47,6 +48,8 @@ function Profile() {
     const [isTermsConditionActive, setTermsConditionActiveColor] = useState(false);
     const [isPrivacyPolicyActive, setPrivacyPolicyActiveColor] = useState(false);
     const [isPricingActive, setPricingActiveColor] = useState(false);
+    const [isViewPlansActive, setViewPlansActiveColor] = useState(false);
+    const [isCancellationPolicyActive, setCancellationPolicyActiveColor] = useState(false);
 
     const handleProfileClick = () => {
         setShowProfile(true);
@@ -60,6 +63,8 @@ function Profile() {
         setTermsConditionActiveColor(false);
         setPrivacyPolicyActiveColor(false);
         setPricingActiveColor(false);
+        setViewPlansActiveColor(false)
+        setCancellationPolicyActiveColor(false)
     };
 
     const handlePaymentHistoryClick = () => {
@@ -74,6 +79,8 @@ function Profile() {
         setTermsConditionActiveColor(false);
         setPrivacyPolicyActiveColor(false);
         setPricingActiveColor(false);
+        setViewPlansActiveColor(false)
+        setCancellationPolicyActiveColor(false)
     };
 
     const handlePreferencesClick = () => {
@@ -88,6 +95,8 @@ function Profile() {
         setTermsConditionActiveColor(false);
         setPrivacyPolicyActiveColor(false);
         setPricingActiveColor(false)
+        setViewPlansActiveColor(false)
+        setCancellationPolicyActiveColor(false)
     };
     const handleHelpClick = () => {
         ReactGA.event({
@@ -108,6 +117,8 @@ function Profile() {
         setTermsConditionActiveColor(false);
         setPrivacyPolicyActiveColor(false);
         setPricingActiveColor(false)
+        setViewPlansActiveColor(false)
+        setCancellationPolicyActiveColor(false)
     };
     const handleTermsConditionClick = () => {
         setShowProfile(false);
@@ -121,6 +132,8 @@ function Profile() {
         setTermsConditionActiveColor(true);
         setPrivacyPolicyActiveColor(false);
         setPricingActiveColor(false)
+        setViewPlansActiveColor(false)
+        setCancellationPolicyActiveColor(false)
     };
     const handlePrivacyPolicyClick = () => {
         setShowProfile(false);
@@ -134,6 +147,8 @@ function Profile() {
         setTermsConditionActiveColor(false);
         setPrivacyPolicyActiveColor(true);
         setPricingActiveColor(false)
+        setViewPlansActiveColor(false)
+        setCancellationPolicyActiveColor(false)
     };
     const handlePricingClick = () => {
         setShowProfile(false);
@@ -147,6 +162,40 @@ function Profile() {
         setTermsConditionActiveColor(false);
         setPrivacyPolicyActiveColor(false);
         setPricingActiveColor(true)
+        setViewPlansActiveColor(false)
+        setCancellationPolicyActiveColor(false)
+    };
+
+    const handleViewPlansClick = () => {
+        setShowProfile(false);
+        setShowPreferences(false);
+        setShowHelpFAQ(false);
+        setIsHelpActive(false);
+        setShowCodeActiveColor(false);
+        setPreferencesActiveColor(false);
+        setPaymentHistoryActiveColor(false);
+        setPaymentHistory(false);
+        setTermsConditionActiveColor(false);
+        setPrivacyPolicyActiveColor(false);
+        setPricingActiveColor(false)
+        setViewPlansActiveColor(true)
+        setCancellationPolicyActiveColor(false)
+    };
+
+    const handleCancellationPolicyClick = () => {
+        setShowProfile(false);
+        setShowPreferences(false);
+        setShowHelpFAQ(false);
+        setIsHelpActive(false);
+        setShowCodeActiveColor(false);
+        setPreferencesActiveColor(false);
+        setPaymentHistoryActiveColor(false);
+        setPaymentHistory(false);
+        setTermsConditionActiveColor(false);
+        setPrivacyPolicyActiveColor(false);
+        setPricingActiveColor(false)
+        setViewPlansActiveColor(false)
+        setCancellationPolicyActiveColor(true)
     };
 
     const updateProfileSchema = yup.object().shape({
@@ -294,10 +343,14 @@ function Profile() {
                         handlePrivacyPolicyClick={handlePrivacyPolicyClick}
                         handlePricingClick={handlePricingClick}
                         isPricingActive={isPricingActive}
+                        handleViewPlansClick={handleViewPlansClick}
+                        isViewPlansActive={isViewPlansActive}
+                        isCancellationPolicyActive={isCancellationPolicyActive}
+                        handleCancellationPolicyClick={handleCancellationPolicyClick}
                     />
                 </div>
                 <div className='col-lg-9 col-md-9 col-sm-9 column-pad'>
-                    {!showCode && !showPreferences && !showHelpFAQ && !showPaymentHistory && !isTermsConditionActive && !isPrivacyPolicyActive && !isPricingActive &&
+                    {!showCode && !showPreferences && !showHelpFAQ && !showPaymentHistory && !isTermsConditionActive && !isPrivacyPolicyActive && !isPricingActive && !isViewPlansActive && !isCancellationPolicyActive &&
                         <div className='right-part' style={{ height: rightPartHeight, overflowY: 'scroll' }}>
                             <div className='welcome-text'>Welcome</div>
                             <div style={{ marginBottom: 20 }} className='user-text'>{userDetails?.first_name + " " + userDetails?.last_name}!</div>
@@ -344,7 +397,7 @@ function Profile() {
                                                     }
                                                 </div>
                                             </div>
-                                            <button onClick={setShowCode} className='white-btn'>View Plans<img src={BlueArrow} style={{ objectFit: 'contain', width: 6, marginLeft: 10 }} /></button>
+                                            {/* <button onClick={setShowCode} className='white-btn'>View Plans<img src={BlueArrow} style={{ objectFit: 'contain', width: 6, marginLeft: 10 }} /></button> */}
                                         </div>
                                     </div>
                                 </div>
@@ -468,7 +521,7 @@ function Profile() {
                     }
                     {showCode &&
                         <div className='right-part' style={{ height: rightPartHeight, overflowY: 'scroll' }}>
-                            <Plans handleBackButtonClick={handleBackButtonClick} upgradePlan={upgradePlan} />
+                            <Plans showBackButton handleBackButtonClick={handleBackButtonClick} upgradePlan={upgradePlan} />
                         </div>
                     }
                     {showPreferences && (
@@ -499,6 +552,16 @@ function Profile() {
                     {isPricingActive && (
                         <div className='right-part' style={{ height: rightPartHeight, overflowY: 'scroll' }}>
                             <Pricing />
+                        </div>
+                    )}
+                    {isViewPlansActive && (
+                        <div className='right-part' style={{ height: rightPartHeight, overflowY: 'scroll' }}>
+                             <Plans handleBackButtonClick={handleBackButtonClick} upgradePlan={upgradePlan} />
+                        </div>
+                    )}
+                    {isCancellationPolicyActive && (
+                        <div className='right-part' style={{ height: rightPartHeight, overflowY: 'scroll' }}>
+                             <CancellationAndRefundPolicy />
                         </div>
                     )}
                 </div>
