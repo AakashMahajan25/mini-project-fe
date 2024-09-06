@@ -5,7 +5,7 @@ import PlansCard from './PlansCard';
 import { getAllActivePlans } from '../../screens/profile/usersSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
-function Plans(props) {
+function Plans({handleBackButtonClick, showBackButton, upgradePlan}) {
     const dispatch = useDispatch();
     const Basic = [
         'News headlines & Investors Stories',
@@ -91,9 +91,11 @@ function Plans(props) {
     return (
         <>
             <div className='plans-css'>
-                <div className='d-flex justify-content-start align-items-center' style={{ marginBottom: 20 }}>
-                    <button onClick={props.handleBackButtonClick} className='light-blue-btn me-2'><img src={BackBtnArrow} style={{ width: 7, height: 13, objectFit: 'contain', marginRight: 5, marginTop: -2 }} />Back</button>
-                </div>
+                {showBackButton &&
+                    <div className='d-flex justify-content-start align-items-center' style={{ marginBottom: 20 }}>
+                        <button onClick={handleBackButtonClick} className='light-blue-btn me-2'><img src={BackBtnArrow} style={{ width: 7, height: 13, objectFit: 'contain', marginRight: 5, marginTop: -2 }} />Back</button>
+                    </div>
+                }
                 <div className='Upgrade-text'>Buy Plans !</div>
                 <div className='pera'>Lorem Ipsum is simply dummy text of the printing and typesetting industry</div>
                 <div>
@@ -147,7 +149,7 @@ function Plans(props) {
                                         forText={(plan?.price === 0) ? '' : 'For'}
                                         title={plan?.plan_name}
                                         pricingText={`INR ${plan?.price}/month`}
-                                        upgradePlan={()=> props?.upgradePlan({plan_id : plan.plan_id, order_amount : plan.price})}
+                                        upgradePlan={()=> upgradePlan({plan_id : plan.plan_id, order_amount : plan.price})}
                                         // pricingText={(currencySymbol === '₹' && plan?.price > 0) ? `₹${plan?.price}/month` : (currencySymbol === '$' && plan?.price > 0) ? `$${plan?.price}/month` : ''}
                                         creditsText={`${plan?.credits_offered} ${(plan?.validity === 30 || plan?.validity === 31 || plan?.price === 0) ? 'credits per month' : 'credits per ' + plan?.validity + ' days'}`}
                                         benefitsText="Get access to real-time market data through generative AI on"

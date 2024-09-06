@@ -5,53 +5,123 @@ function TermsAndCondition() {
         <div className='privacypolicy-css'>
             <div className=''>
                 <h3 className='main-heading'>Frruit’s TERMS OF SERVICE</h3>
-                <p className='updated-date'>Last updated: June 4th, 2024.</p>
+                {/* <p className='updated-date'>Last updated: June 4th, 2024.</p> */}
+                <p className='text-subheading1'>
+                    Welcome to the Terms of Service (these <b>“Terms”</b>) for <b>Airrchip</b> (“Company”, “we” or “us”) websites,
+                    ___, artificial-intelligence powered search engine (the “____”), related mobile application (the “App”),
+                    and any content, tools, features and functionality offered on or through our Website, and the App
+                    (collectively, the <b>“Services”</b>).
+                </p>
+                <p className='text-subheading1'>
+                    These Terms govern your access to and use of the Services. Please read these Terms carefully, as they
+                    include important information about your legal rights. By accessing and/or using the Services, you are
+                    agreeing to these Terms. If you do not understand or agree to these Terms, please do not use the Services.
+                </p>
+                <p className='text-subheading1'>
+                    For purposes of these Terms, “you” and “your” means you as the user of the Services. If you use the
+                    Services on behalf of a company or other entity then “you” includes you and that entity, and you represent
+                    and warrant that (a) you are an authorized representative of the entity with the authority to bind the entity
+                    to these Terms, and (b) you agree to these Terms on the entity’s behalf.
+                </p>
                 {/* <p className='text-subheading1'>
-                    Welcome to the Terms of Service (these “Terms”) for Perplexity AI, Inc.’s (“Company”, “we” or “us”) websites, www.perplexity.ai and https://labs.perplexity.ai (the “Websites”), artificial-intelligence powered search engine (the “Perplexity Engine”), related mobile application (the “App”), and any content, tools, features and functionality offered on or through our Website, the Perplexity Engine and the App (collectively, the “Services”). These Terms do not govern use of the Company’s APIs (which are governed by the Perplexity API Terms of Service located here: https://www.perplexity.ai/hub/legal/perplexity-api-terms-of-service) or Perplexity Pro for Enterprise (which is governed by the Perplexity Pro for Enterprise Terms located here: (https://www.perplexity.ai/hub/legal/enterprise-terms-of-service).
-                </p>
-                <p className='text-subheading1'>
-                    These Terms govern your access to and use of the Services.  Please read these Terms carefully, as they include important information about your legal rights. By accessing and/or using the Services, you are agreeing to these Terms. If you do not understand or agree to these Terms, please do not use the Services.
-                </p>
-                <p className='text-subheading1'>
-                    For purposes of these Terms, “you” and “your” means you as the user of the Services. If you use the Services on behalf of a company or other entity then “you” includes you and that entity, and you represent and warrant that (a) you are an authorized representative of the entity with the authority to bind the entity to these Terms, and (b) you agree to these Terms on the entity’s behalf.
-                </p>
-                <p className='text-subheading1'>
                     SECTION 9 CONTAINS AN ARBITRATION CLAUSE AND CLASS ACTION WAIVER. BY AGREEING TO THESE TERMS, YOU AGREE (A) TO RESOLVE ALL DISPUTES (WITH LIMITED EXCEPTION) RELATED TO THE COMPANY’S SERVICES AND/OR PRODUCTS THROUGH BINDING INDIVIDUAL ARBITRATION, WHICH MEANS THAT YOU WAIVE ANY RIGHT TO HAVE THOSE DISPUTES DECIDED BY A JUDGE OR JURY, AND (B) TO WAIVE YOUR RIGHT TO PARTICIPATE IN CLASS ACTIONS, CLASS ARBITRATIONS, OR REPRESENTATIVE ACTIONS, AS SET FORTH BELOW. YOU HAVE THE RIGHT TO OPT-OUT OF THE ARBITRATION CLAUSE AND THE CLASS ACTION WAIVER AS EXPLAINED IN SECTION 9.
-                </p>
-                <h2 className='text-heading'>1. The Services</h2>
+                </p> */}
+                <h2 className='text-heading'>A. The Services</h2>
                 <div className='box1'>
-                    <p className='subtext'>1.1 The Services</p>
+                    <p className='subtext'>1) Input and Output</p>
                     <p className='text-subheading3'>
-                        <span className='headpoint'>a.</span> As a part of the Services, you can input, upload and submit information and other materials (“Input”) into the Perplexity Engine, and the Perplexity Engine will use artificial intelligence tools and functionalities to generate responses based on your Input (“Output”). Your use of the Perplexity Engine, including any Outputs, may also be subject to license and use restrictions set forth in a third-party LLM license, if applicable. Any Input will be deemed “Your Content” under these Terms.
+                        <span className='headpoint'>i.</span> As a part of the Services, you can input, upload and submit information and other materials (“Input”) into Airrchip, and Airrchip will use artificial intelligence tools and functionalities to generate responses based on your Input (“Output”). Your use of Airrchip, including any Outputs, may also be subject to license and use restrictions set forth in a third-party LLM license, if applicable. Any Input will be deemed “Your Content” under these Terms.
                     </p>
                     <p className='text-subheading3'>
-                        <span className='headpoint'>b.</span> You may not direct the Services to generate any Output in violation of any applicable intellectual property right, contractual restriction or other law. By submitting any Input through the Services, you represent that you have obtained all rights, licenses, consents, permissions, power and/or authority necessary to submit and use (and allow us to use) such Input in connection with the Services. You represent and warrant that your submission of Input in connection with your use of the Services, including to generate Output, will not breach any law or any third party’s terms and conditions associated with such Input. You may not (i) publish any Output generated by the Services without clearly citing the Services, or (ii) misrepresent the source of any Output or the fact that it was generated by artificial intelligence.
+                        <span className='headpoint'>ii.</span> You may not direct the Services to generate any Output in violation of any applicable intellectual property right, contractual restriction or other law. By submitting any Input through the Services, you represent that you have obtained all rights, licenses, consents, permissions, power and/or authority necessary to submit and use (and allow us to use) such Input in connection with the Services. You represent and warrant that your submission of Input in connection with your use of the Services, including to generate Output, will not breach any law or any third party’s terms and conditions associated with such Input. You may not (i) publish any Output generated by the Services without clearly citing the Services, or (ii) misrepresent the source of any Output or the fact that it was generated by artificial intelligence.
                     </p>
-                    <p className='subtext'>1.2 Eligibility</p>
+                    <p className='subtext'>2) Eligibility</p>
                     <p className='text-subheading3'>
                         You must be 13 years of age or older to use the Services. Minors under the age of majority in their jurisdiction but that are at least 13 years of age are only permitted to use the Services if the minor’s parent or guardian accepts these Terms on the minor’s behalf prior to use of the Services. Children under the age of 13 are not permitted to use the Services. By using the Services, you represent and warrant that you meet these requirements.
                     </p>
                 </div>
-                <h2 className='text-heading'>2. User Accounts, SUBSCRIPTIONS and free trials</h2>
+                <h2 className='text-heading'>B. User Accounts and Subscriptions</h2>
                 <div className='box1'>
-                    <p className='subtext' style={{ marginTop: 10 }}>2.1 Creating and Safeguarding your Account</p>
+                    <p className='subtext' style={{ marginTop: 10 }}>1) Creating and Safeguarding your Account</p>
                     <p className='text-subheading3'>
-                        To use certain of the Services, you need to create an account or link another account, such as your Apple or Google account (“Account”). You agree to provide us with accurate, complete and updated information for your Account. You can access, edit and update your Account through the settings page of your Account profile. You are solely responsible for any activity on your Account and for maintaining the confidentiality and security of your password. We are not liable for any acts or omissions by you in connection with your Account. You must immediately notify us at support@perplexity.ai if you know or have any reason to suspect that your Account or password have been stolen, misappropriated or otherwise compromised, or in case of any actual or suspected unauthorized use of your Account. You agree not to create an Account if we have previously removed your Account, or we previously banned you from any of our Services, unless we provide written consent otherwise.
+                        TTo use certain of the Services, you need to create an account or link another account, such as your Apple or Google account (“Account”). You agree to provide us with accurate, complete and updated information for your Account. You can access, edit and update your Account through the settings page of your Account profile. You are solely responsible for any activity on your Account and for maintaining the confidentiality and security of your password. We are not liable for any acts or omissions by you in connection with your Account. You must immediately notify us at  ____ if you know or have any reason to suspect that your Account or password have been stolen, misappropriated or otherwise compromised, or in case of any actual or suspected unauthorized use of your Account. You agree not to create an Account if we have previously removed your Account, or we previously banned you from any of our Services, unless we provide written consent otherwise.
                     </p>
-                    <p className='subtext'>2.2 Paid Services</p>
+                    <p className='subtext'>2) Paid Services</p>
                     <p className='text-subheading3'>
-                        To use certain of the Services, you need to create an account or link another account, such as your Apple or Google account (“Account”). You agree to provide us with accurate, complete and updated information for your Account. You can access, edit and update your Account through the settings page of your Account profile. You are solely responsible for any activity on your Account and for maintaining the confidentiality and security of your password. We are not liable for any acts or omissions by you in connection with your Account. You must immediately notify us at support@perplexity.ai if you know or have any reason to suspect that your Account or password have been stolen, misappropriated or otherwise compromised, or in case of any actual or suspected unauthorized use of your Account. You agree not to create an Account if we have previously removed your Account, or we previously banned you from any of our Services, unless we provide written consent otherwise.
+                        If you subscribe to any of our paid Services, you agree to pay us the applicable fees and taxes. Failure to pay these fees and taxes will result in the termination of your access to the paid Services. You agree that (a) if you purchase a recurring subscription to any of the Services, we may store and continue billing your payment method (e.g. credit card) to avoid interruption of such Services, and (b) we may calculate taxes payable by you based on the billing information that you provide us at the time of purchase. We reserve the right to change our subscription plans or adjust pricing for the paid Services in any manner and at any time as we may determine in our sole and absolute discretion. Except as otherwise provided in these Terms, any price changes or changes to your subscription plan will take effect following reasonable notice to you. All subscriptions are payable in accordance with payment terms in effect at the time the subscription becomes payable. Payment can be made by credit card, debit card, or other means that we may make available. Subscriptions will not be processed until payment has been received in full, and any holds on your account by any other payment processor are solely your responsibility.
                     </p>
-                    <p className='subtext'>2.3 Subscription Renewals and Cancellations</p>
+                    <p className='subtext'>3) Payment</p>
                     <p className='text-subheading3'>
-                        Subscription Renewals and Cancellations. You agree that if you purchase a subscription, your subscription will automatically renew at the subscription period frequency referenced on your subscription page (or if not designated, then monthly) and at the then-current rates, and your payment method will automatically be charged at the start of each new subscription period for the fees and taxes applicable to that period.  To avoid future subscription charges, you must cancel your subscription before the subscription period renewal date through the settings page of your Account profile or by emailing support@perplexity.ai.
+                        The Services may permit you to purchase certain other products or services <b>(“Offerings”)</b>. You acknowledge and agree that all information you provide with regards to a purchase of Offerings, including, without limitation, credit card, PayPal, or other payment information, is accurate, current and complete. You represent and warrant that you have the legal right to use the payment method you provide to us or our payment processor, including, without limitation, any credit card you provide when completing a transaction. We reserve the right, with or without prior notice and in our sole and complete discretion, to (a) discontinue, modify, or limit the available quantity of, any Offerings, and (b) refuse to allow any user to purchase any Offering or deliver such Offerings to a user or a user designated address. When you purchase Offerings, you (i) agree to pay the price for such Offerings as set forth in the applicable Service, and all shipping and handling charges and all applicable taxes in connection with your purchase (the “Full Purchase Amount”), and (ii) authorize us to charge your credit card or other payment method for the Full Purchase Amount. Unless otherwise noted, all currency references are in U.S. Dollars. All fees and charges are payable in accordance with payment terms in effect at the time the fee or the charge becomes payable. Payment can be made by credit card, debit card, or through PayPal or other means that we may make available. Orders will not be processed until payment has been received in full, and any holds on your account by PayPal or any other payment processor are solely your responsibility.
+
                     </p>
-                    <p className='subtext'>2.4 No Subscription Refunds.</p>
+                    <p className='subtext'>4) Changes and Pricing.</p>
                     <p className='text-subheading3'>
-                        Except as expressly set forth in these Terms, payments for any subscriptions to the Services are nonrefundable and there are no credits for partially used periods. Following any cancellation by you, however, you will continue to have access to the paid Services through the end of the subscription period for which payment has already been made.
+                        The Company may, at any time, revise or change the pricing, availability, specifications, content, descriptions or features of any Offerings. While we attempt to be as accurate as we can in our descriptions for the Offerings, we do not warrant that Offering descriptions are accurate, complete, reliable, current, or error-free. The inclusion of any Offerings for purchase through the Services at a particular time does not imply or warrant that the Offerings will be available at any other time. We reserve the right to change prices for Offerings displayed on the Services at any time, and to correct pricing errors that may inadvertently occur (and to cancel any orders in our sole discretion that were purchased with pricing errors). All such changes shall be effective immediately upon posting of such new Offering prices to the Services and/or upon making the customer aware of the pricing error.
+                    </p>
+                    <p className='subtext'>5) Upgrades.</p>
+                    <p className='text-subheading3'>
+                        If You choose to upgrade Your Service(s) or increase the number of agents authorized to access and use a Service(s) during Your subscription term (based on the plan chosen by You) any incremental subscription charges associated with such upgrade will be charged in the current subscription period.
+                    </p>
+                    <p className='subtext'>6) Downgrades.</p>
+                    <p className='text-subheading3'>
+                        You may not downgrade Your service plan/change your usage during any Subscription Term. If You desire to downgrade Your service plan/change your usage under any Service Plan for a subsequent subscription term, You must provide the Company with thirty (30) days written notice prior to the end of Your then current subscription term. It is pertinent to note that if you have committed to usage for a particular subscription term, you are bound to that usage for that subscription term and any downgrade of Your service plan/change of usage would be applicable to the subsequent subscription term as mentioned hereinabove. Downgrading Your service plan may cause loss of content, features, or capacity of the Service as available to You under Your Account, and the Company is not responsible for such loss.
                     </p>
                 </div>
-                <h2 className='text-heading'>2. ORDERS FOR PRODUCTS AND/OR SERVICES </h2>
+                <h2 className='text-heading'>C. Rights granted to You</h2>
+                <div className='box1'>
+                    <p className='text-subheading3'>
+                        We hereby permit you to use the Services for your personal, non-commercial use only, provided that you comply with these Terms in connection with all such use. If any software, content or other materials owned or controlled by us are distributed to you as part of your use of the Services, we hereby grant you, a personal, non-assignable, non-sublicensable, non-transferrable, and non-exclusive right and license to access and display such software, content and materials provided to you as part of the Services, in each case for the sole purpose of enabling you to use the Services as permitted by these Terms. Your access and use of the Services may be interrupted from time to time for any of several reasons, including, without limitation, the malfunction of equipment, periodic updating, maintenance or repair of the Service or other actions that Company, in its sole discretion, may elect to take.
+                    </p>
+                    <p className='subtext'>1) Restrictions On Your Use of the Services.</p>
+                    <p className='text-subheading3'>You may not do any of the following in connection with your use of the Services, unless applicable laws or regulations prohibit these restrictions or you have our written permission to do so:</p>
+
+                    <p className='text-subheading3'>
+                        <span className='headpoint'>i.</span> download, modify, copy, distribute, transmit, display, perform, reproduce, duplicate, publish, license, create derivative works from, or offer for sale any information contained on, or obtained from or through, the Services, except for temporary files that are automatically cached by your web browser for display purposes, or as otherwise expressly permitted in these Terms;
+
+                    </p>
+                    <p className='text-subheading3'>
+                        <span className='headpoint'>ii.</span> duplicate, decompile, reverse engineer, disassemble or decode the Services (including any underlying idea or algorithm), or attempt to do any of the same;
+
+
+                    </p>
+                    <p className='text-subheading3'>
+                        <span className='headpoint'>iii.</span> use, reproduce or remove any copyright, trademark, service mark, trade name, slogan, logo, image, or other proprietary notation displayed on or through the Services;
+
+                    </p>
+                    <p className='text-subheading3'>
+                        <span className='headpoint'>iv.</span> use automation software (bots), hacks, modifications (mods) or any other unauthorized third-party software designed to modify the Services;
+                    </p>
+                    <p className='text-subheading3'>
+                        <span className='headpoint'>v.</span> exploit the Services for any commercial purpose, including without limitation communicating or facilitating any commercial advertisement or solicitation;
+                    </p>
+                    <p className='text-subheading3'>
+                        <span className='headpoint'>vi.</span> access or use the Services in any manner that could disable, overburden, damage, disrupt or impair the Services or interfere with any other party’s access to or use of the Services or use any device, software or routine that causes the same;
+                    </p>
+                    <p className='text-subheading3'>
+                        <span className='headpoint'>vii.</span> attempt to gain unauthorized access to, interfere with, damage or disrupt the Services, accounts registered to other users, or the computer systems or networks connected to the Services;
+                    </p>
+                    <p className='text-subheading3'>
+                        <span className='headpoint'>viii.</span> circumvent, remove, alter, deactivate, degrade or thwart any technological measure or content protections of the Services;
+                    </p>
+                    <p className='text-subheading3'>
+                        <span className='headpoint'>ix.</span> use any robot, spider, crawlers, scraper, or other automatic device, process, software or queries that intercepts, “mines,” scrapes, extracts, or otherwise accesses the Services to monitor, extract, copy or collect information or data from or through the Services, or engage in any manual process to do the same;
+                    </p>
+                    <p className='text-subheading3'>
+                        <span className='headpoint'>x.</span> introduce any viruses, trojan horses, worms, logic bombs or other materials that are malicious or technologically harmful into our systems;
+
+                    </p>
+                    <p className='text-subheading3'>
+                        <span className='headpoint'>xi.</span> submit, transmit, display, perform, post or store any content that is unlawful, defamatory, obscene, excessively violent, pornographic, invasive of privacy or publicity rights, harassing, abusive, hateful, or cruel, or otherwise use the Services in a manner that is obscene, excessively violent, harassing, hateful, cruel, abusive, pornographic, inciting, organizing, promoting or facilitating violence or criminal activities;
+                    </p>
+                    <p className='text-subheading3'>
+                        <span className='headpoint'>xii.</span> violate any applicable law or regulation in connection with your access to or use of the Services; or
+                    </p>
+                    <p className='text-subheading3'>
+                        <span className='headpoint'>xiii.</span> access or use the Services in any way not expressly permitted by these Terms.
+                    </p>
+                </div>
+                {/* <h2 className='text-heading'>2. ORDERS FOR PRODUCTS AND/OR SERVICES </h2>
                 <div className='box1'>
                     <p className='subtext' style={{ marginTop: 10 }}>3.1 Payment</p>
                     <p className='text-subheading3'>
@@ -62,6 +132,121 @@ function TermsAndCondition() {
                         We may offer certain promotional codes, referral codes, discount codes, coupon codes or similar offers (“Promotional Codes”) that may be redeemed for discounts on benefits related to the Services or future Offerings, subject to any additional terms that the Company establishes. You agree that Promotional Codes: (a) must be used in a lawful manner; (b) must be used for the intended audience and purpose; (c) may not be duplicated, sold or transferred in any manner, or made available by you to the general public (whether posted to a public forum, coupon collecting service, or otherwise), unless expressly permitted by the Company; (d) may be disabled or have additional conditions applied to them by the Company at any time for any reason without liability to the Company; (e) may only be used pursuant to the specific terms that the Company establishes for such Promotional Code; (f) are not valid for cash or other credits or points; and (g) may expire prior to your use.
                     </p>
                 </div> */}
+                <h2 className='text-heading'>D. Intellectual Property and Ownership</h2>
+                <div className='box1'>
+                    <p className='text-subheading3'>
+                        <span className='headpoint'>1) </span> The Services are made available on a limited license or access basis, and no ownership right is conveyed to you, irrespective of the use of terms such as “purchase” or “sale”. The Company and its licensors have and retain all right, title and interest, including all intellectual property rights (as more particularly set out hereinbelow), in and to the Company’s Software.  From time to time, you may choose to submit Feedback to us. The Company may in connection with any of its products or Services freely use, copy, disclose, license, distribute and exploit any Feedback in any manner without any obligation, royalty or restriction based on intellectual property rights or otherwise. No Feedback will be considered your Confidential Information, and nothing in these Terms limits the Company's right to independently use, develop, evaluate, or market products or services, whether incorporating Feedback or otherwise.
+                    </p>
+                    <p className='text-subheading3'>
+                        <span className='headpoint'>2) </span> Usage Data. Notwithstanding anything to the contrary in these Terms, the Company may collect and use usage data to develop, improve, support, and operate its Services. The Company may not share any usage data that includes your Confidential Information with a third party except (a) in accordance with the clause pertaining to confidentiality or (b) to the extent the usage data is aggregated and anonymized such that you and your users cannot be identified.
+                    </p>
+                </div>
+                <h2 className='text-heading'>E. Your Content</h2>
+                <div className='box1'>
+                    <p className='text-subheading3'>
+                        <span className='headpoint'>1) </span> In connection with your use of the Services, you may be able to post, upload, or submit content to be made available through the Services (collectively with Input, “Your Content”). As between the Company and you, the Company does not claim any ownership in Your Content; provided that, the Company or its affiliates and their respective licensors own and will continue to own the Services and any and all other software or technology that was used to generate any Output.
+                    </p>
+                    <p className='text-subheading3'>
+                        <span className='headpoint'>2) </span> In order to operate the Service, we must obtain from you certain license rights in Your Content so that actions we take in operating the Service are not considered legal violations. Accordingly, by using the Service and uploading Your Content, you grant us a license to access, use, host, cache, store, reproduce, transmit, display, publish, distribute, and modify Your Content to operate, improve, promote and provide the Services, including to reproduce, transmit, display, publish and distribute Output based on your Input. You agree that these rights and licenses are royalty free, transferable, sub-licensable, worldwide and irrevocable (for so long as Your Content is stored with us), and include a right for us to make Your Content available to, and pass these rights along to, others with whom we have contractual relationships related to the provision of the Services, solely for the purpose of providing such Services, and to otherwise permit access to or disclose Your Content to third parties if we determine such access is necessary to comply with our legal obligations.
+                    </p>
+                    <p className='text-subheading3'>
+                        <span className='headpoint'>3) </span> To the fullest extent permitted by applicable law, the Company reserves the right, and has absolute discretion, to remove, screen, edit, or delete any of Your Content at any time, for any reason, and without notice. By posting or submitting Your Content through the Services, you represent and warrant that you have, or have obtained, all rights, licenses, consents, permissions, power and/or authority necessary to grant the rights granted herein for Your Content. You agree that Your Content will not contain material subject to copyright or other proprietary rights, unless you have the necessary permission or are otherwise legally entitled to post the material and to grant us the license described above.
+                    </p>
+                </div>
+                <h2 className='text-heading'>F. Disclaimers, Limitations of Liability and Indemnification</h2>
+                <h3 className='text-heading'>1)  Disclaimers</h3>
+                <div className='box1'>
+                    <p className='text-subheading3'>
+                        <span className='headpoint'>i) </span> Your access to and use of the Services are at your own risk. You understand and agree that the Services, including but not limited to Offerings, stock recommendations, market analysis, and any other related content, are provided to you on an “AS IS” and “AS AVAILABLE” basis. Please note that the Company may occasionally produce inaccurate or inappropriate information. Please be aware that any content generated by the Company should not be considered as an investment advice, financial guidance, or an offer to buy or sell securities. The information, analysis, and recommendations provided by Company are intended solely for informational purposes.
+                    </p>
+                    <p className='text-subheading3'>
+                        <span className='headpoint'>ii) </span> Company makes no representations or warranties regarding the accuracy, completeness, quality, timeliness, or reliability of the Output. The Output is generated using a combination of algorithms, data analysis, and, where applicable, user inputs, and may be subject to errors, inaccuracies, or other limitations inherent in these processes.
+                    </p>
+                    <p className='text-subheading3'>
+                        <span className='headpoint'>iii) </span> The Website provides information about the Company’s upcoming financial markets AI research assistant app launch and allows interested users to sign up for our waitlist. However, please note that signing up for the waitlist does not guarantee access to the Company’s App or priority in the launch process. The Company reserves the right to limit or terminate access to the Company’s App for any reason, at any time, without notice. The Company also reserves the right to change or modify any aspect of the Website and/or the App or the launch process without notice. The information provided on this website is for general informational purposes only and does not constitute financial, legal, or professional advice. The Company does not make any representations or warranties, express or implied, about the completeness, accuracy, reliability, suitability, or availability of the information on this website. By signing up for the waitlist, you agree to receive updates and marketing communications from Airrchip via email or other channels. You can opt-out of these communications at any time. The Company is committed to protecting your personal information and complying with the General Data Protection Regulation (GDPR) (if and where required) and other applicable privacy laws.
+                    </p>
+                </div>
+                <u className='headpoint'>When you use our Services, you understand and agree that:</u>
+                <div className='box1'>
+                    <p className='text-subheading3'>
+                        <span className='headpoint'>i) </span> The Output provided by the Company should not be the sole basis for any investment decisions. We strongly advise you to independently verify the accuracy and appropriateness of the Output for your specific needs and to consult with a qualified financial advisor or professional before making any investment decisions.
+                    </p>
+                    <p className='text-subheading3'>
+                        <span className='headpoint'>ii) </span> The Company does not guarantee that the Output will be accurate, complete, un-biased or up-to-date. Market conditions, financial data, and other relevant factors may change, and the Output may not reflect these changes in real-time.
+                    </p>
+                    <p className='text-subheading3'>
+                        <span className='headpoint'>iii) </span> Company shall not be liable for any loss or damage, including but not limited to financial loss, that may arise from reliance on the Output provided by the Company. Users shall assume full responsibility for any investment decisions made based on the Output and acknowledge the inherent risks involved in investing.
+                    </p>
+                    <p className='text-subheading3'>
+                        <span className='headpoint'>iv) </span> Any reference to specific securities, financial products, or services within the Output does not constitute an endorsement or recommendation by Company. Such references are provided for informational purposes only.
+                    </p>
+                    <p className='text-subheading3'>
+                        <span className='headpoint'>v) </span> You shall evaluate the Output for its accuracy, completeness, and suitability for your intended use, including seeking professional review where appropriate, before using or sharing any Output.
+                    </p>
+                    <p className='text-subheading3'>
+                        <span className='headpoint'>vi) </span> The Output should not be used for making legal, financial, or other important decisions without the consultation of a qualified professional. Company disclaims any liability for decisions made based on Output.
+                    </p>
+                </div>
+                <div className='box1'>
+                    <p className='text-subheading3'>
+                        Without limiting the foregoing, to the maximum extent permitted under applicable law, the Company, its parents, affiliates, related companies, officers, directors, employees, agents, representatives, partners and licensors (the “Company Entities”) DISCLAIM ALL WARRANTIES AND CONDITIONS, WHETHER EXPRESS OR IMPLIED, OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE OR NON-INFRINGEMENT. The Company Entities make no warranty or representation and disclaim all responsibility and liability for: (a) the completeness, accuracy, availability, timeliness, security or reliability of the Services; (b) any harm to your computer system, loss of data, or other harm that results from your access to or use of the Services; (c) the operation or compatibility with any other application or any particular system or device; (d) whether the Services will meet your requirements or be available on an uninterrupted, secure or error-free basis; and (e) the deletion of, or the failure to store or transmit, Your Content and other communications maintained by the Services. No advice or information, whether oral or written, obtained from the Company Entities or through the Services, will create any warranty or representation not expressly made herein.
+                    </p>
+                    <p className='text-subheading3'>
+                        The Company shall have no responsibility or liability to you for the infringement of the rights of any third party in your use of any Output. You should not rely on the Services or any Output for advice of any kind, including medical, legal, investment, financial or other professional advice. Any Output is not a substitute for advice from a qualified professional. You acknowledge that due to the nature of generative artificial intelligence tools, other users of the Services may create and use their own Output that is similar or the same as your Output, such as because the same or similar Input was provided, and you agree that such other users can use their own individually created Output for their own internal business purposes.
+                    </p>
+                    <p className='text-subheading3'>
+                        YOU UNDERSTAND AND AGREE THAT YOU MAY BE EXPOSED TO CONTENT THAT MIGHT BE OFFENSIVE, ILLEGAL, MISLEADING, OR OTHERWISE INAPPROPRIATE, NONE OF WHICH THE COMPANY ENTITIES WILL BE RESPONSIBLE FOR.
+                    </p>
+                    <p className='text-subheading3'>
+                        By using the Services, you acknowledge and agree to the terms of this disclaimer and understand that Company shall not be held responsible for any investment outcomes or financial decisions made based on the Output provided.
+                    </p>
+                </div>
+                <h3 className='text-heading'>2)  Limitations of Liability.</h3>
+                <div className='box1'>
+                    <p className='text-subheading3'>
+                        TO THE EXTENT NOT PROHIBITED BY LAW, YOU AGREE THAT IN NO EVENT WILL THE COMPANY ENTITIES BE LIABLE (A) FOR DAMAGES OF ANY KIND, INCLUDING INDIRECT SPECIAL, EXEMPLARY, INCIDENTAL, CONSEQUENTIAL OR PUNITIVE DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES, LOSS OF USE, DATA OR PROFITS, BUSINESS INTERRUPTION OR ANY OTHER DAMAGES OR LOSSES, ARISING OUT OF OR RELATED TO YOUR USE OR INABILITY TO USE THE SERVICES), HOWEVER CAUSED AND UNDER ANY THEORY OF LIABILITY, WHETHER UNDER THESE TERMS OR OTHERWISE ARISING IN ANY WAY IN CONNECTION WITH THE SERVICES (INCLUDING ANY OUTPUT) OR THESE TERMS AND WHETHER IN CONTRACT, STRICT LIABILITY OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) EVEN IF THE COMPANY ENTITIES HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGE, OR (B) FOR ANY OTHER CLAIM, DEMAND OR DAMAGES WHATSOEVER RESULTING FROM OR ARISING OUT OF OR IN CONNECTION WITH THESE TERMS, OUTPUT, OR THE DELIVERY, USE OR PERFORMANCE OF THE SERVICES OR OUTPUT. THE COMPANY ENTITIES’ TOTAL LIABILITY TO YOU FOR ANY DAMAGES FINALLY AWARDED SHALL NOT EXCEED THE GREATER OF _____, OR THE AMOUNT YOU PAID THE COMPANY ENTITIES, IF ANY, IN THE PAST TWELVE (12) MONTHS FOR THE SERVICES (OR OFFERINGS PURCHASED ON THE SERVICES) GIVING RISE TO THE CLAIM. THE FOREGOING LIMITATIONS WILL APPLY EVEN IF THE ABOVE STATED REMEDY FAILS OF ITS ESSENTIAL PURPOSE.
+                    </p>
+                </div>
+                <h3 className='text-heading'>3)  Indemnification.</h3>
+                <div className='box1'>
+                    <p className='text-subheading3'>
+                        By entering into these Terms and accessing or using the Services, you agree that you shall defend, indemnify and hold the Company Entities harmless from and against any and all claims, costs, damages, losses, liabilities and expenses (including attorneys’ fees and costs) incurred by the Company Entities arising out of or in connection with: (a) your violation or breach of any term of these Terms or any applicable law or regulation; (b) your violation of any rights of any third party; (c) your misuse of the Services; (d) Your Content; or (e) your negligence or wilful misconduct. If you are obligated to indemnify any Company Entity hereunder, then you agree that Company (or, at its discretion, the applicable Company Entity) will have the right, in its sole discretion, to control any action or proceeding and to determine whether Company wishes to settle, and if so, on what terms, and you agree to fully cooperate with Company in the defense or settlement of such claim.
+                    </p>
+                </div>
+            </div>
+            <h2 className='text-heading'>G. TERM AND TERMINATION</h2>
+            <div className='box1'>
+                <p className='text-subheading3'>
+                    <b className='me-2'>1) Term.</b> These Terms are effective as of the Effective Date (date on which You accept these Terms) and will remain in effect until terminated in accordance with its terms.
+                </p>
+                <p className='text-subheading3'>
+                    <b className='me-2'>2) Cancellation.</b> Either Party may elect to terminate Your Account and subscription to a Service(s) at the end of Your then-current subscription term by providing notice, no less than thirty (30) days prior to the end of such subscription term.
+                </p>
+                <p className='text-subheading3'>
+                    <b className='me-2'>3) Termination for Cause.</b> Either Party may terminate these Terms at any time by delivering a written notice to the breaching Party, thirty (30) days prior to such termination. Either party may terminate the Terms (including all related Order Forms) if the other party: (a) fails to cure any material breach of its obligations under these Terms(including a failure to pay Fees) within twenty (20) days after written notice (b) ceases operation without a successor; or (c) seeks protection under any bankruptcy, receivership, trust deed, creditors’ arrangement, composition, or comparable proceeding, or if any such proceeding is instituted against that party and is not dismissed within 60 days; Except where an exclusive remedy is specified, the exercise of either party of any remedy under these Terms, including termination, will be without prejudice to any other remedies it may have under these Terms, by law or otherwise.
+
+                </p>
+                <p className='text-subheading3'>
+                    <b className='me-2'>4) Payment upon termination.</b> Except for Your termination under the above section, if You terminate Your subscription to a Service or cancel Your Account prior to the end of Your then-effective subscription term, or if We terminate or cancel Your Account pursuant to the above section, in addition to any other amounts You may owe the Company, You must immediately pay any and all unpaid subscription charges associated with the remainder of such subscription term.
+                </p>
+                <p className='text-subheading3'>
+                    <b className='me-2'>5) Surviving obligations.</b> There are certain provisions that, by their nature, should survive termination of these Terms shall survive termination. The following (without limitation) shall survive termination: any obligation on your part to pay us, indemnify us, any limitations on our liability, any terms regarding ownership of intellectual property rights, confidentiality provisions, dispute resolution provisions.
+                </p>
+            </div>
+            <h2 className='text-heading'>H. ARBITRATION AND WAIVER OF CLASS ACTION</h2>
+            <div className='box1'>
+                <p className='text-subheading3'>
+                    <b className='me-2'>1) Informal Process First.</b> You and the Company agree that in the event of any dispute, either party will first contact the other party and make a good faith sustained effort to resolve the dispute before resorting to more formal means of resolution, including without limitation, any court action, after first allowing the receiving party 30 days in which to respond. Both you and the Company agree that this dispute resolution procedure is a condition precedent which must be satisfied before initiating any arbitration against the other party.
+                </p>
+                <p className='text-subheading3'>
+                    <b className='me-2'>2) Arbitration Agreement and Class Action Waiver.</b> After the informal dispute resolution process, any remaining dispute, controversy, or claim (collectively, “Claim”) relating in any way to the Company’s services and/or products, including the Services, and any use or access or lack of access thereto, will be resolved by arbitration, including threshold questions of arbitrability of the Claim. You and the Company agree that any Claim will be settled by final and binding arbitration, using the English language, in accordance with the provisions of the Arbitration and Conciliation Act 1996. Any such arbitration proceedings shall be held in Mumbai, Maharashtra. The parties agree that the award is to be considered as the final settlement of the disputes between them
+                </p>
+            </div>
+            <h2 className='text-heading'>I. COMMUNICATIONS</h2>
+            <div className='box1'>
+                <p className='text-subheading3'>
+                    <b className='me-2'>1) Modification of Terms of Use.</b> Company reserves the right, in its sole and absolute discretion, to modify or replace, in whole or in part, these Terms of Use, or change, suspend, or discontinue the Service  at any time, and to provide you with notice of such modifications by any reasonable means, including, without limitation, by posting a notice on the Service or by sending you notice through the Service or via email. Company may also impose limits on certain features and services or restrict your access to parts or all of the Service without notice or liability. It is your responsibility to check these Terms of Use periodically for changes. You can determine when these Terms of Use were last revised by referring to the "Last Updated" legend at the top of these Terms of Use. Your continued use of the Service following the posting of any changes to these Terms of Use constitutes acceptance of those changes, however, any material change to these Terms of Use will not apply retroactively to any claim or dispute between you and us in connection with these Terms of Use that arose prior to the "Last Updated" date applicable to that version of these Terms of Use in which we included such material change. You shall also be notified of any modifications to these Terms of Use as and when effected or at least once a year. If you do not agree to any changes made to these Terms of Use, you may not access or use any of the Service. We may, at any time, modify, suspend, and/or discontinue all or part of the Service; charge, modify, or waive fees required to use the Service; or offer opportunities to some or all users of the Service.
+                </p>
             </div>
         </div>
     )
