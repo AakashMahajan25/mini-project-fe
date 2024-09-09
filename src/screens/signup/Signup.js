@@ -20,6 +20,11 @@ import CloseImg from '../../assets/images/close_icon.png';
 import Modal from 'react-bootstrap/Modal';
 import TermsAndCondition from '../../components/profile/termsAndCondition/TermsAndCondition'
 import PrivacyPolicy from '../../components/profile/privacyPolicy/PrivacyPolicy'
+import InstagramAppLogo from '../../assets/images/instagram.png'
+import WhatsAppLogo from '../../assets/images/whatsapp.png'
+import linkedinLogo from '../../assets/images/linkedin.png'
+import loginBg from '../../assets/images/loginBgImg.jpg';
+import FrruitLogo2 from '../../assets/images/frruitlogoLogin.png'
 
 function Signup() {
     let navigate = useNavigate();
@@ -163,310 +168,332 @@ function Signup() {
 
     return (
         <>
-            <section className='login signup-css' style={{ overflow: 'hidden' }}>
-                <div className={`row justify-content-center align-items-center`} >
-                    <div className='col-xl-5'>
-                        <div className='d-flex justify-content-center align-items-center imagecontainer'>
-                            <img src={LoginImg3} style={{ objectFit: 'contain', width: '100%', height: window.innerHeight / 2 }} />
-                        </div>
-                    </div>
-                    <div className='col-xl-7'>
-                        <div className={showCode ? 'login-form' : 'signup-form'} style={{ height: '100%' }}>
-                            <div style={{ position: 'relative' }}>
-                                <p className='loginText text-center m-0 '>Signup</p>
-                                <div>
-                                    <img src={FrruitLogo} width={108} style={{ position: 'absolute', top: -5 }} />
-                                </div>
-                            </div>
-                            <form onSubmit={handleSubmit(onSubmit)}>
-                                <div className="form-outline mt-4">
-                                    {!showCode && !showCode1 &&
-                                        <>
-                                            <label className='form-control-label'>First Name</label>
-                                            <div className='w-100 mb-3'>
-                                                <Controller
-                                                    control={control}
-                                                    name="first_name"
-                                                    render={({ field }) => (
-                                                        <input
-                                                            type="text"
-                                                            className={errors?.first_name ? "form-control form-control-input error-feild" : "form-control form-control-input"}
-                                                            placeholder='Enter First Name'
-                                                            style={{ color: 'black', textIndent: 0 }}
-                                                            {...field}
-                                                        />
-                                                    )}
-                                                />
-                                                {
-                                                    errors?.first_name && <p className='errorText'>{errors?.first_name?.message}</p>
-                                                }
+            <section className='login signup-css'>
+                <div className='imageBG' style={{ height: 'calc(100svh)' }}>
+                    <img src={loginBg} className='imageHeight' style={{ height: 'calc(100svh)' }} alt="Header" />
+                    <div className='innerImgTextBox'>
+                        <div className='w-100'>
+                            <>
+                                <div className='justify-content-center align-items-center login-page'>
+                                    <div className='col-xl-7'>
+                                        <div class="d-flex align-items-start flex-column loginleftsideCol">
+                                            <div class="mb-auto"><img className='frruitLogostyle' src={FrruitLogo2} style={{ objectFit: "contain" }} /></div>
+                                            <div class="mb-auto w-100">
+                                                <div className='loginMainTextStyle'>India's 1<sup className='suptext'>ST</sup>AI Powered</div>
+                                                <div className='loginMainTextStyle'>Stock Market search Engine</div>
+                                                <div className='loginMainTextParaStyle'>Initiate dynamic conversations with Frruit to tap into both real-time and historical data on thousands of stocks , market-moving information , discover hidden correlations between financial market events and their impact on stock price movements !</div>
                                             </div>
-                                            <label className='form-control-label'>Last Name</label>
-                                            <div className='w-100 mb-3'>
-                                                <Controller
-                                                    control={control}
-                                                    name="last_name"
-                                                    render={({ field }) => (
-                                                        <input
-                                                            type="text"
-                                                            className={errors?.last_name ? "form-control form-control-input error-feild" : "form-control form-control-input"}
-                                                            placeholder='Enter Last Name'
-                                                            style={{ color: 'black', textIndent: 0 }}
-                                                            {...field}
-                                                        />
-                                                    )}
-                                                />
-                                                {
-                                                    errors?.last_name && <p className='errorText'>{errors?.last_name?.message}</p>
-                                                }
-                                            </div>
-                                            <div className="position-relative" style={{ width: '100%', marginBottom: 20 }}>
-                                                <label className='form-control-label'>E-mail</label>
-                                                <Controller
-                                                    control={control}
-                                                    name="email"
-                                                    render={({ field }) => (
-                                                        <input
-                                                            type="text"
-                                                            className={errors?.email ? "form-control form-control-input error-feild" : "form-control form-control-input"}
-                                                            placeholder='Enter Email'
-                                                            style={{ color: 'black' }}
-                                                            {...field}
-                                                        />
-                                                    )}
-                                                />
-                                                {
-                                                    errors?.email && <p className='errorText'>{errors?.email?.message}</p>
-                                                }
-                                                <div className={errors?.email ? "email-error-img" : "email-img"}>
-                                                    <img src={MailIcon} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} />
+                                            <div className='hideformobile'>
+                                                <div className='FollowUsText'>Follow us on</div>
+                                                <div className='d-flex justify-content-start'>
+                                                    <img src={WhatsAppLogo} className='socialLogos' />
+                                                    <img src={InstagramAppLogo} className='socialLogos' />
+                                                    <img src={linkedinLogo} className='socialLogos' />
                                                 </div>
-                                                {/* <div className="position-absolute" style={{ left: 15, top: '53%' }}>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className='col-xl-5'>
+                                        <div className={showCode ? 'login-form' : 'signup-form'}>
+                                            <div style={{ position: 'relative' }}>
+                                                <p className='loginText text-center m-0 '>Signup</p>
+                                                <div>
+                                                    {/* <img src={FrruitLogo} width={108} style={{ position: 'absolute', top: -5 }} /> */}
+                                                </div>
+                                            </div>
+                                            <form onSubmit={handleSubmit(onSubmit)}>
+                                                <div className="form-outline mt-4">
+                                                    {!showCode && !showCode1 &&
+                                                        <>
+                                                            <label className='form-control-label'>First Name</label>
+                                                            <div className='w-100 mb-3'>
+                                                                <Controller
+                                                                    control={control}
+                                                                    name="first_name"
+                                                                    render={({ field }) => (
+                                                                        <input
+                                                                            type="text"
+                                                                            className={errors?.first_name ? "form-control form-control-input error-feild" : "form-control form-control-input"}
+                                                                            placeholder='Enter First Name'
+                                                                            style={{ color: 'black', textIndent: 0 }}
+                                                                            {...field}
+                                                                        />
+                                                                    )}
+                                                                />
+                                                                {
+                                                                    errors?.first_name && <p className='errorText'>{errors?.first_name?.message}</p>
+                                                                }
+                                                            </div>
+                                                            <label className='form-control-label'>Last Name</label>
+                                                            <div className='w-100 mb-3'>
+                                                                <Controller
+                                                                    control={control}
+                                                                    name="last_name"
+                                                                    render={({ field }) => (
+                                                                        <input
+                                                                            type="text"
+                                                                            className={errors?.last_name ? "form-control form-control-input error-feild" : "form-control form-control-input"}
+                                                                            placeholder='Enter Last Name'
+                                                                            style={{ color: 'black', textIndent: 0 }}
+                                                                            {...field}
+                                                                        />
+                                                                    )}
+                                                                />
+                                                                {
+                                                                    errors?.last_name && <p className='errorText'>{errors?.last_name?.message}</p>
+                                                                }
+                                                            </div>
+                                                            <div className="position-relative" style={{ width: '100%', marginBottom: 20 }}>
+                                                                <label className='form-control-label'>E-mail</label>
+                                                                <Controller
+                                                                    control={control}
+                                                                    name="email"
+                                                                    render={({ field }) => (
+                                                                        <input
+                                                                            type="text"
+                                                                            className={errors?.email ? "form-control form-control-input error-feild" : "form-control form-control-input"}
+                                                                            placeholder='Enter Email'
+                                                                            style={{ color: 'black' }}
+                                                                            {...field}
+                                                                        />
+                                                                    )}
+                                                                />
+                                                                {
+                                                                    errors?.email && <p className='errorText'>{errors?.email?.message}</p>
+                                                                }
+                                                                <div className={errors?.email ? "email-error-img" : "email-img"}>
+                                                                    <img src={MailIcon} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} />
+                                                                </div>
+                                                                {/* <div className="position-absolute" style={{ left: 15, top: '53%' }}>
                                             <img src={MailIcon} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} alt="Search Icon" />
                                         </div> */}
-                                            </div>
-                                            <div className="position-relative" style={{ width: '100%', marginBottom: 20 }}>
-                                                <label className='form-control-label'>Phone Number</label>
-                                                <div className='d-flex justify-content-between align-items-center'>
-                                                    <input
-                                                        type="text"
-                                                        className="form-control form-control-input nineone-input me-3"
-                                                        placeholder='+91'
-                                                        // style={{ width: '12%', textIndent: 7, color: 'black' }}
-                                                        defaultValue="+91"
-                                                        disabled
-                                                    />
-                                                    <div className="position-relative" style={{ width: '100%' }}>
-                                                        <Controller
-                                                            control={control}
-                                                            name="phone_number"
-                                                            render={({ field }) => (
-                                                                <input
-                                                                    type="text"
-                                                                    className={errors?.phone_number ? "form-control form-control-input error-feild" : "form-control form-control-input"}
-                                                                    placeholder='Enter Phone Number'
-                                                                    style={{ color: 'black' }}
-                                                                    {...field}
+                                                            </div>
+                                                            <div className="position-relative" style={{ width: '100%', marginBottom: 20 }}>
+                                                                <label className='form-control-label'>Phone Number</label>
+                                                                <div className='d-flex justify-content-between align-items-center'>
+                                                                    <input
+                                                                        type="text"
+                                                                        className="form-control form-control-input nineone-input me-3"
+                                                                        placeholder='+91'
+                                                                        // style={{ width: '12%', textIndent: 7, color: 'black' }}
+                                                                        defaultValue="+91"
+                                                                        disabled
+                                                                    />
+                                                                    <div className="position-relative" style={{ width: '100%' }}>
+                                                                        <Controller
+                                                                            control={control}
+                                                                            name="phone_number"
+                                                                            render={({ field }) => (
+                                                                                <input
+                                                                                    type="text"
+                                                                                    className={errors?.phone_number ? "form-control form-control-input error-feild" : "form-control form-control-input"}
+                                                                                    placeholder='Enter Phone Number'
+                                                                                    style={{ color: 'black' }}
+                                                                                    {...field}
+                                                                                />
+                                                                            )}
+                                                                        />
+                                                                        <div className="position-absolute" style={{ left: 15, top: '24%' }}>
+                                                                            <img src={MobileIcon} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} />
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                {
+                                                                    errors?.phone_number && <p className='errorText'>{errors?.phone_number?.message}</p>
+                                                                }
+                                                            </div>
+                                                            <label className='form-control-label'>Country</label>
+                                                            <div className='w-100 mb-3'>
+                                                                <Controller
+                                                                    control={control}
+                                                                    name="country"
+                                                                    render={({ field }) => (
+                                                                        <input
+                                                                            type="text"
+                                                                            className={errors?.country ? "form-control form-control-input error-feild" : "form-control form-control-input"}
+                                                                            placeholder='Enter Country'
+                                                                            style={{ color: 'black', textIndent: 0 }}
+                                                                            {...field}
+                                                                        />
+                                                                    )}
                                                                 />
+                                                                {
+                                                                    errors?.country && <p className='errorText'>{errors?.country?.message}</p>
+                                                                }
+                                                            </div>
+                                                            <div className="form-group mb-3">
+                                                                <label className="form-control-label" htmlFor="exampleInputEmail1">Select My Broker</label>
+                                                                <Controller
+                                                                    name="broker"
+                                                                    control={control}
+                                                                    defaultValue=""
+                                                                    rules={{ required: 'Please select your broker' }}
+                                                                    render={({ field }) => (
+                                                                        <select
+                                                                            {...field}
+                                                                            id="statusDropdown"
+                                                                            className={errors?.broker ? "form-control form-control-input error-feild" : "form-control form-control-input"}
+                                                                            style={{ textIndent: 13, fontSize: 14 }}
+                                                                        >
+                                                                            <option value="" disabled>Select</option>
+                                                                            <option>I am new to Investement</option>
+                                                                            <option>Zerodha </option>
+                                                                            <option>Upstox</option>
+                                                                            <option>Groww</option>
+                                                                            <option>Angel one</option>
+                                                                            <option>Kotak Securities</option>
+                                                                            <option>HDFC Securities</option>
+                                                                            <option>5 Paisa</option>
+                                                                            <option>Motilal Oswal Financial Services</option>
+                                                                        </select>
+                                                                    )}
+                                                                />
+                                                                {
+                                                                    errors?.broker && <p className='errorText'>{errors?.broker?.message}</p>
+                                                                }
+                                                            </div>
+                                                            <div className='checkboxRow'>
+                                                                <div className="wrap-check-43 me-2">
+                                                                    <label htmlFor="terms_and_conditions">
+                                                                        <input
+                                                                            type="checkbox"
+                                                                            id="terms_and_conditions"
+                                                                            checked={termsAccepted}
+                                                                            onChange={toggleTermsAccepted}
+                                                                        />
+                                                                        <span className="cbx">
+                                                                            <svg width="12px" height="11px" viewBox="0 0 12 11">
+                                                                                <polyline points="1 6.29411765 4.5 10 11 1"></polyline>
+                                                                            </svg>
+                                                                        </span>
+                                                                    </label>
+                                                                </div>
+                                                                <div className='termsConditioncheckboxText'>
+                                                                    I have read and agree to the <a className='termsConditionText' onClick={handleShowTermsConditions}>Terms and Conditions</a> and <a className='termsConditionText' onClick={handleShowPrivacyPolicy}> Privacy Policy</a>
+                                                                </div>
+                                                            </div>
+                                                            {showError && (
+                                                                <p className='errorText'>You must accept the terms and conditions to proceed.</p>
                                                             )}
-                                                        />
-                                                        <div className="position-absolute" style={{ left: 15, top: '24%' }}>
-                                                            <img src={MobileIcon} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                {
-                                                    errors?.phone_number && <p className='errorText'>{errors?.phone_number?.message}</p>
-                                                }
-                                            </div>
-                                            <label className='form-control-label'>Country</label>
-                                            <div className='w-100 mb-3'>
-                                                <Controller
-                                                    control={control}
-                                                    name="country"
-                                                    render={({ field }) => (
-                                                        <input
-                                                            type="text"
-                                                            className={errors?.country ? "form-control form-control-input error-feild" : "form-control form-control-input"}
-                                                            placeholder='Enter Country'
-                                                            style={{ color: 'black', textIndent: 0 }}
-                                                            {...field}
-                                                        />
-                                                    )}
-                                                />
-                                                {
-                                                    errors?.country && <p className='errorText'>{errors?.country?.message}</p>
-                                                }
-                                            </div>
-                                            <div className="form-group mb-3">
-                                                <label className="form-control-label" htmlFor="exampleInputEmail1">Select My Broker</label>
-                                                <Controller
-                                                    name="broker"
-                                                    control={control}
-                                                    defaultValue=""
-                                                    rules={{ required: 'Please select your broker' }}
-                                                    render={({ field }) => (
-                                                        <select
-                                                            {...field}
-                                                            id="statusDropdown"
-                                                            className={errors?.broker ? "form-control form-control-input error-feild" : "form-control form-control-input"}
-                                                            style={{ textIndent: 13, fontSize: 14 }}
-                                                        >
-                                                            <option value="" disabled>Select</option>
-                                                            <option>I am new to Investement</option>
-                                                            <option>Zerodha </option>
-                                                            <option>Upstox</option>
-                                                            <option>Groww</option>
-                                                            <option>Angel one</option>
-                                                            <option>Kotak Securities</option>
-                                                            <option>HDFC Securities</option>
-                                                            <option>5 Paisa</option>
-                                                            <option>Motilal Oswal Financial Services</option>
-                                                        </select>
-                                                    )}
-                                                />
-                                                {
-                                                    errors?.broker && <p className='errorText'>{errors?.broker?.message}</p>
-                                                }
-                                            </div>
-                                            <div className='checkboxRow'>
-                                                <div className="wrap-check-43 me-2">
-                                                    <label htmlFor="terms_and_conditions">
-                                                        <input
-                                                            type="checkbox"
-                                                            id="terms_and_conditions"
-                                                            checked={termsAccepted}
-                                                            onChange={toggleTermsAccepted}
-                                                        />
-                                                        <span className="cbx">
-                                                            <svg width="12px" height="11px" viewBox="0 0 12 11">
-                                                                <polyline points="1 6.29411765 4.5 10 11 1"></polyline>
-                                                            </svg>
-                                                        </span>
-                                                    </label>
-                                                </div>
-                                                <div className='termsConditioncheckboxText'>
-                                                    I have read and agree to the <a className='termsConditionText' onClick={handleShowTermsConditions}>Terms and Conditions</a> and <a className='termsConditionText' onClick={handleShowPrivacyPolicy}> Privacy Policy</a>
-                                                </div>
-                                            </div>
-                                            {showError && (
-                                                <p className='errorText'>You must accept the terms and conditions to proceed.</p>
-                                            )}
-                                        </>
-                                    }
-                                    {showCode && !showCode1 &&
-                                        <>
-                                            <div>
-                                                <p className='p-0 mt-5' style={{ fontWeight: 600, color: '#171E42' }}>Mobile number Verification</p>
-                                                <p className='p-0 m-0 privacyText'>Lorem Ipsum is simply dummy text of the printing and typesetting industry</p>
-                                            </div>
-                                            <label className='form-control-label mt-3'>Phone Number</label>
-                                            <div className='d-flex justify-content-between align-items-center'>
-                                                <input type="text" className="form-control form-control-input me-3 phone-number" placeholder='+91' defaultValue={"+91"} disabled></input>
-                                                <div className="position-relative" style={{ width: '100%' }}>
-                                                    <input type="text" className="form-control form-control-input" placeholder='99999 99999' defaultValue={allValues?.phone_number} disabled></input>
+                                                        </>
+                                                    }
+                                                    {showCode && !showCode1 &&
+                                                        <>
+                                                            <div>
+                                                                <p className='p-0 mt-5' style={{ fontWeight: 600, color: '#171E42' }}>Mobile number Verification</p>
+                                                                <p className='p-0 m-0 privacyText'>Lorem Ipsum is simply dummy text of the printing and typesetting industry</p>
+                                                            </div>
+                                                            <label className='form-control-label mt-3'>Phone Number</label>
+                                                            <div className='d-flex justify-content-between align-items-center'>
+                                                                <input type="text" className="form-control form-control-input me-3 phone-number" placeholder='+91' defaultValue={"+91"} disabled></input>
+                                                                <div className="position-relative" style={{ width: '100%' }}>
+                                                                    <input type="text" className="form-control form-control-input" placeholder='99999 99999' defaultValue={allValues?.phone_number} disabled></input>
 
-                                                    <div className="position-absolute" style={{ left: 18, top: '23%' }}>
-                                                        <img src={MobileIcon} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <a style={{ fontSize: 15, textDecoration: 'underline', color: 'blue' }} onClick={useDifferentClick}>Use a different Number</a>
+                                                                    <div className="position-absolute" style={{ left: 18, top: '23%' }}>
+                                                                        <img src={MobileIcon} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} />
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <a style={{ fontSize: 15, textDecoration: 'underline', color: 'blue' }} onClick={useDifferentClick}>Use a different Number</a>
 
-                                            <div className="form-outline verification">
-                                                <label className="form-label my-2">Type your 6 digit security code</label>
-                                                <div className='d-flex'>
-                                                    <OtpInput
-                                                        value={otp}
-                                                        onChange={setOtp}
-                                                        numInputs={6}
-                                                        renderInput={(props) => <input {...props} style={{
-                                                            width: 56.68,
-                                                            outline: 'none',
-                                                        }} className='verificationBox text-center me-2' />}
-                                                    />
-                                                </div>
-                                            </div>
-                                            <p className='privacyText mt-0' style={{ fontSize: 15 }}>Didn't get the code? <a style={{ fontSize: 15, textDecoration: 'underline', color: 'blue' }} >Resend</a></p>
-                                            <div className='d-flex justify-content-center align-items-center'>
-                                                <button type='button' onClick={verifyMobileOtp} className='btnPrimary mt-5'>
-                                                    {isLoading ? (
-                                                        <div className="spinner-border text-light" role="status">
-                                                            <span className="sr-only"></span>
-                                                        </div>
-                                                    ) : (
-                                                        "Verify"
-                                                    )}
-                                                </button>
-                                            </div>
-                                        </>
-                                    }
-                                    {showCode && showCode1 &&
-                                        <>
-                                            <div>
-                                                <p className='p-0 mt-5' style={{ fontWeight: 600, color: '#171E42' }}>Email Verification</p>
-                                                <p className='p-0 m-0 mb-3 privacyText'>Lorem Ipsum is simply dummy text of the printing and typesetting industry</p>
-                                            </div>
-                                            <div className="position-relative" style={{ width: '100%' }}>
-                                                <label className='form-control-label mb-1'>E-mail</label>
-                                                <input type="text" className="form-control form-control-input" placeholder='yaksh@airrchip.com' defaultValue={allValues?.email} disabled></input>
-                                                <div className="position-absolute" style={{ left: 15, top: '50%' }}>
-                                                    <img src={MailIcon} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} alt="Search Icon" />
-                                                </div>
-                                            </div>
-                                            <a style={{ fontSize: 15, textDecoration: 'underline', color: 'blue' }} onClick={useDifferentClick}>Use a different e-mail</a>
+                                                            <div className="form-outline verification">
+                                                                <label className="form-label my-2">Type your 6 digit security code</label>
+                                                                <div className='d-flex'>
+                                                                    <OtpInput
+                                                                        value={otp}
+                                                                        onChange={setOtp}
+                                                                        numInputs={6}
+                                                                        renderInput={(props) => <input {...props} style={{
+                                                                            width: 56.68,
+                                                                            outline: 'none',
+                                                                        }} className='verificationBox text-center me-2' />}
+                                                                    />
+                                                                </div>
+                                                            </div>
+                                                            <p className='privacyText mt-0' style={{ fontSize: 15 }}>Didn't get the code? <a style={{ fontSize: 15, textDecoration: 'underline', color: 'blue' }} >Resend</a></p>
+                                                            <div className='d-flex justify-content-center align-items-center'>
+                                                                <button type='button' onClick={verifyMobileOtp} className='btnPrimary mt-5'>
+                                                                    {isLoading ? (
+                                                                        <div className="spinner-border text-light" role="status">
+                                                                            <span className="sr-only"></span>
+                                                                        </div>
+                                                                    ) : (
+                                                                        "Verify"
+                                                                    )}
+                                                                </button>
+                                                            </div>
+                                                        </>
+                                                    }
+                                                    {showCode && showCode1 &&
+                                                        <>
+                                                            <div>
+                                                                <p className='p-0 mt-5' style={{ fontWeight: 600, color: '#171E42' }}>Email Verification</p>
+                                                                <p className='p-0 m-0 mb-3 privacyText'>Lorem Ipsum is simply dummy text of the printing and typesetting industry</p>
+                                                            </div>
+                                                            <div className="position-relative" style={{ width: '100%' }}>
+                                                                <label className='form-control-label mb-1'>E-mail</label>
+                                                                <input type="text" className="form-control form-control-input" placeholder='yaksh@airrchip.com' defaultValue={allValues?.email} disabled></input>
+                                                                <div className="position-absolute" style={{ left: 15, top: '50%' }}>
+                                                                    <img src={MailIcon} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} alt="Search Icon" />
+                                                                </div>
+                                                            </div>
+                                                            <a style={{ fontSize: 15, textDecoration: 'underline', color: 'blue' }} onClick={useDifferentClick}>Use a different e-mail</a>
 
-                                            <div className="form-outline verification">
-                                                <label className="form-label my-2">Type your 6 digit security code</label>
-                                                <div className='d-flex'>
-                                                    <OtpInput
-                                                        value={emailOtp}
-                                                        onChange={setEmailOtp}
-                                                        numInputs={6}
-                                                        renderInput={(props) => <input {...props} style={{
-                                                            width: 56.68,
-                                                            outline: 'none',
-                                                        }} className='verificationBox text-center me-2' />}
-                                                    />
-                                                </div>
-                                            </div>
-                                            <p className='privacyText mt-0' style={{ fontSize: 15 }}>Didn't get the code? <a style={{ fontSize: 15, textDecoration: 'underline', color: 'blue' }}>Resend</a></p>
-                                            <div className='d-flex justify-content-center align-items-center'>
-                                                <button type='button' className='btnPrimary mt-5' onClick={verifyEmailId}>
-                                                    {isLoading ? (
-                                                        <div className="spinner-border text-light" role="status">
-                                                            <span className="sr-only"></span>
-                                                        </div>
-                                                    ) : (
-                                                        "Verify and Signup"
-                                                    )}
-                                                </button>
-                                            </div>
-                                        </>
-                                    }
+                                                            <div className="form-outline verification">
+                                                                <label className="form-label my-2">Type your 6 digit security code</label>
+                                                                <div className='d-flex'>
+                                                                    <OtpInput
+                                                                        value={emailOtp}
+                                                                        onChange={setEmailOtp}
+                                                                        numInputs={6}
+                                                                        renderInput={(props) => <input {...props} style={{
+                                                                            width: 56.68,
+                                                                            outline: 'none',
+                                                                        }} className='verificationBox text-center me-2' />}
+                                                                    />
+                                                                </div>
+                                                            </div>
+                                                            <p className='privacyText mt-0' style={{ fontSize: 15 }}>Didn't get the code? <a style={{ fontSize: 15, textDecoration: 'underline', color: 'blue' }}>Resend</a></p>
+                                                            <div className='d-flex justify-content-center align-items-center'>
+                                                                <button type='button' className='btnPrimary mt-5' onClick={verifyEmailId}>
+                                                                    {isLoading ? (
+                                                                        <div className="spinner-border text-light" role="status">
+                                                                            <span className="sr-only"></span>
+                                                                        </div>
+                                                                    ) : (
+                                                                        "Verify and Signup"
+                                                                    )}
+                                                                </button>
+                                                            </div>
+                                                        </>
+                                                    }
 
-                                    {!showCode && !showCode1 &&
-                                        <>
-                                            <div className='d-flex justify-content-center align-items-center'>
-                                                <button type='submit' className='btnPrimary mt-4'>
-                                                    {isLoading ? (
-                                                        <div className="spinner-border text-light" role="status">
-                                                            <span className="sr-only"></span>
-                                                        </div>
-                                                    ) : (
-                                                        "Proceed and Verify"
-                                                    )}
-                                                </button>
-                                            </div>
-                                            <div className='d-flex justify-content-center align-items-center'>
-                                                <button onClick={routeChangeLogin} className='btnSecondary mt-3'>Login Using Phone Number</button>
-                                            </div>
-                                        </>
-                                    }
-                                    {/* <p className='privacyText text-center'>By signing up, you accept our <a className='termsConditionText' onClick={handleShowTermsConditions}>Terms and Conditions</a></p>
+                                                    {!showCode && !showCode1 &&
+                                                        <>
+                                                            <div className='d-flex justify-content-center align-items-center'>
+                                                                <button type='submit' className='btnPrimary mt-4'>
+                                                                    {isLoading ? (
+                                                                        <div className="spinner-border text-light" role="status">
+                                                                            <span className="sr-only"></span>
+                                                                        </div>
+                                                                    ) : (
+                                                                        "Proceed and Verify"
+                                                                    )}
+                                                                </button>
+                                                            </div>
+                                                            <div className='d-flex justify-content-center align-items-center'>
+                                                                <button onClick={routeChangeLogin} className='btnSecondary mt-3'>Login Using Phone Number</button>
+                                                            </div>
+                                                        </>
+                                                    }
+                                                    {/* <p className='privacyText text-center'>By signing up, you accept our <a className='termsConditionText' onClick={handleShowTermsConditions}>Terms and Conditions</a></p>
                                     <p className='privacyText text-center mt-0'>See our <a className='termsConditionText' onClick={handleShowPrivacyPolicy}> Privacy Policy</a></p> */}
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
                                 </div>
-                            </form>
+                            </>
                         </div>
                     </div>
                 </div>
