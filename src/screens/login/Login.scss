@@ -70,6 +70,7 @@
 
         @media only screen and (max-width: 500px) {
             display: flow-root;
+            height: 85vh;
         }
 
         .loginleftsideCol {
@@ -131,9 +132,10 @@
             margin-top: 8px;
 
             @media only screen and (max-width: 500px) {
-                font-size: 10px;
+                font-size: 12px;
                 text-align: center;
                 line-height: normal;
+                margin: 8px 10px;
             }
         }
 
@@ -178,7 +180,7 @@
         @media only screen and (max-width: 500px) {
             margin: 15px;
             padding: 15px;
-            height: 70vh;
+            height: 60vh;
         }
     }
 
@@ -197,7 +199,7 @@
         @media only screen and (max-width: 500px) {
             margin: 20px;
             padding: 15px;
-            height: 70vh;
+            height: 60vh;
         }
     }
 
