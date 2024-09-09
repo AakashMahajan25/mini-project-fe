@@ -125,4 +125,67 @@
         padding-top: 18px;
     }
 
+    .custom-table {
+        --bs-table-bg: none;
+        --bs-table-color: none;
+        --bs-table-accent-bg: none;
+        border-radius: 15px;
+        overflow: hidden;
+        border: 1px solid #d3cbcb;
+        margin-top: 20px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .custom-table thead {
+        background-color: #4563e4;
+        color: white;
+        text-align: center;
+    }
+    
+    .custom-table th, .custom-table td {
+        padding: 12px;
+        // vertical-align: middle;
+        border: 1px solid #d3cbcb;
+    }
+    
+    .custom-table tbody tr:nth-child(odd) {
+        background-color: #e5eaff;
+    }
+    
+    .custom-table tbody tr:nth-child(even) {
+        background-color: #ffffff;
+    }
+    
+    .custom-table ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+    
+    .custom-table ul li {
+        margin-bottom: 8px;
+    }
+    
+    .custom-table .no-list-style {
+        list-style: none;
+    }
+    
+
+    // .header-css{
+    //     background-color: #4563e4 !important;
+    //     color: white !important;
+    //     text-align: center;
+    // }
+
+    // .table tbody tr:nth-child(odd) {
+    //     background-color: #f9f9f9; /* Light gray */
+    // }
+    // .table tbody tr:nth-child(even) {
+    //     background-color: #e9e9e9; /* Slightly darker gray */
+    // }
+    
+    // /* Optional: Add hover effect */
+    // .table tbody tr:hover {
+    //     background-color: #d3d3d3; /* Highlight row on hover */
+    // }
 }

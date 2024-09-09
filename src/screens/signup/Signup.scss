@@ -1,5 +1,5 @@
 .signup-css {
-    margin: 50px;
+    // margin: 50px;
     .form-control-label {
         font-weight: 600;
     }
@@ -42,19 +42,28 @@
     }
 
     .signup-form {
-        padding: 24px 64px;
+        padding: 48px;
         background-color: #F1F4FD;
         border-radius: 45px;
+        overflow-y: scroll;
+        overflow-x: hidden;
+        height: 600px;
+        margin: 0px 60px;
+        scrollbar-width: none;
+
+        ::-webkit-scrollbar {
+            display: none;
+        }
 
         @media only screen and (max-width: 500px) {
             padding: 50px 20px !important;
-            margin: 0px;
+            margin: 15px;
         }
     }
 
     .nineone-input {
         width: 15%;
-        text-indent: 13px;
+        text-indent: 0px;
         color: black;
 
         @media only screen and (max-width: 500px),

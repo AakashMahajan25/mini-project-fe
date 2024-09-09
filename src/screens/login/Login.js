@@ -16,6 +16,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { loginOtp, verifyLoginOtp } from './slice';
 import { toast } from 'react-toastify';
 import ReactGA from 'react-ga4';
+import Modal from 'react-bootstrap/Modal';
+import TermsAndCondition from '../../components/profile/termsAndCondition/TermsAndCondition';
+import PrivacyPolicy from '../../components/profile/privacyPolicy/PrivacyPolicy';
+import CloseImg from '../../assets/images/close_icon.png';
 
 function Login() {
     const dispatch = useDispatch()
@@ -24,6 +28,21 @@ function Login() {
     const [showCode, setShowCode] = useState(false)
     const [otp, setOtp] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
+    const [showTermsConditions, setShowTermsConditions] = useState(false);
+    const [showPrivacyPolicy, setShowPrivacyPolicy] = useState(false);
+
+    const handleShowTermsConditions = (data) => {
+        setShowTermsConditions(true);
+    };
+    const handleCloseTermsConditions = () => {
+        setShowTermsConditions(false);
+    };
+    const handleShowPrivacyPolicy = (data) => {
+        setShowPrivacyPolicy(true);
+    };
+    const handleClosePrivacyPolicy = () => {
+        setShowPrivacyPolicy(false);
+    };
 
     const { isLoading } = useSelector(state => state?.loginSlice)
 
@@ -243,8 +262,8 @@ function Login() {
                                                             </div>
                                                         </>
                                                     }
-                                                    <p className='privacyText text-center'>By signing up, you accept our <a style={{ textDecoration: 'none' }} href=''> Terms and Conditions</a></p>
-                                                    <p className='privacyText text-center mt-0'>See our <a style={{ textDecoration: 'none' }} href=''> Privacy Policy</a></p>
+                                                    <p className='privacyText text-center'>By signing up, you accept our <a style={{ textDecoration: 'none' }} className='bluetext' onClick={handleShowTermsConditions}> Terms and Conditions</a></p>
+                                                    <p className='privacyText text-center mt-0'>See our <a style={{ textDecoration: 'none' }} className='bluetext' onClick={handleShowPrivacyPolicy}> Privacy Policy</a></p>
                                                 </div>
                                             </div>
                                             <div className='followUsHideforWeb'>
@@ -263,6 +282,52 @@ function Login() {
                     </div>
                 </div>
             </div>
+            <Modal show={showTermsConditions}
+                onHide={handleCloseTermsConditions}
+                size='lg'
+                className='viewModal2'
+                scrollable
+                centered
+            >
+                <Modal.Header>
+                    <div className='d-flex justify-content-between align-items-center mb-2'>
+                        <div className='header-text'>Terms and Conditions</div>
+                        <div onClick={() => handleCloseTermsConditions()} className=' align-items-center' style={{ cursor: 'pointer' }}>
+                            <img src={CloseImg} className='me-1' width={32} style={{ objectFit: 'contain' }} />
+                        </div>
+                    </div>
+                </Modal.Header>
+                <Modal.Body>
+                    <div className='viewModal2 '>
+                        <div className='row' style={{ marginLeft: 0 }}>
+                            <TermsAndCondition />
+                        </div>
+                    </div>
+                </Modal.Body>
+            </Modal>
+            <Modal show={showPrivacyPolicy}
+                onHide={handleClosePrivacyPolicy}
+                size='lg'
+                className='viewModal2'
+                scrollable
+                centered
+            >
+                <Modal.Header>
+                    <div className='d-flex justify-content-between align-items-center mb-2'>
+                        <div className='header-text'>Privacy Policy</div>
+                        <div onClick={() => handleClosePrivacyPolicy()} className=' align-items-center' style={{ cursor: 'pointer' }}>
+                            <img src={CloseImg} className='me-1' width={32} style={{ objectFit: 'contain' }} />
+                        </div>
+                    </div>
+                </Modal.Header>
+                <Modal.Body>
+                    <div className='viewModal2 '>
+                        <div className='row' style={{ marginLeft: 0 }}>
+                            <PrivacyPolicy />
+                        </div>
+                    </div>
+                </Modal.Body>
+            </Modal>
         </>
 
     )

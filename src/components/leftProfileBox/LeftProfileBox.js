@@ -27,7 +27,7 @@ function LeftProfileBox({ handlePreferencesClick, handleProfileClick, isPreferen
                             label: 'User Terms & Condition'
                         });
                         handleTermsConditionClick();
-                    }}>Terms and condition</div>
+                    }}>Terms and Conditions</div>
                     <div className={`mb-2 ${isPrivacyPolicyActive ? 'side-box-light-blue-btn-active' : 'side-box-light-blue-btn'}`} onClick={() => {
                         ReactGA.event({
                             category: 'Profiling',
