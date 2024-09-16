@@ -177,6 +177,7 @@ function Login() {
                                                                         style={{ color: 'black' }}
                                                                         onChange={(event) => setPhoneNumber(event.target.value)}
                                                                         ref={numberRef}
+                                                                        autoFocus
                                                                         onKeyDown={(event) => event?.key === 'Enter' && handleGetOtp()}
                                                                     />
                                                                     <div className="position-absolute" style={{ left: 20, top: '28%' }}>
@@ -207,6 +208,7 @@ function Login() {
                                                                         value={otp}
                                                                         onChange={setOtp}
                                                                         numInputs={6}
+                                                                        shouldAutoFocus
                                                                         renderInput={(props) => <input {...props} style={{
 
                                                                             outline: 'none',

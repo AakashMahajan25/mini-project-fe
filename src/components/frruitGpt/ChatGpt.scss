@@ -521,3 +521,21 @@
         border-bottom-right-radius: 5px;
     }
 }
+  
+  .chat-stream.blinking p::after {
+    content: '';
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    background-color: #4563E4;
+    border-radius: 50%;
+    margin-left: 20px;
+    /* Simulate cursor */
+    animation: blink 1s step-end infinite;
+}
+  
+  @keyframes blink {
+    50% {
+      opacity: 0;
+    }
+  }

@@ -137,7 +137,7 @@ function LeftBox() {
     };
 
     useEffect(() => {
-        dispatch(getUserWatchLists())
+        // dispatch(getUserWatchLists())
         getWatchListData()
     }, [])
 
@@ -162,7 +162,8 @@ function LeftBox() {
             .unwrap()
             .then(res => {
                 const id = Number(res[0]?.watchlist_id)
-                dispatch(getTickersById((watchlist_id ? watchlist_id : id)))
+                if(id)
+                    dispatch(getTickersById((watchlist_id ? watchlist_id : id)))
             })
     }
 
@@ -447,7 +448,7 @@ function LeftBox() {
                                         stockSearchData.length > 0 &&
                                         stockSearchData?.map((stocks, index) => (
                                             <div className='d-flex justify-content-between align-items-center mb-2' style={{ backgroundColor: '#F1F4FD', borderRadius: '15px', padding: 10 }}>
-                                                <div onClick={() => handleShow(stocks)} className='d-flex justify-content-start align-items-center' style={{ cursor: 'pointer' }}>
+                                                <div className='d-flex justify-content-start align-items-center'>
                                                     <div className='me-2 stock-name'>{trimText(stocks?.companyname, 15)}</div>
                                                     <div className='me-2 ltp-text'>{stocks?.nsesymbol}</div>
                                                     {/* <div className='me-2 stock-price'>3903</div>

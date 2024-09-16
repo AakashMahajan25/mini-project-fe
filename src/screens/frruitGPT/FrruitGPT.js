@@ -20,6 +20,7 @@ import './FrruitGPT.scss';
 import HistoryImg from '../../assets/images/history_icon.png';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import BackArrowIcon from '../../assets/images/back-btn-arrow.png'
+import { socket } from '../../utils/socket'
 
 function FrruitGPT() {
     const dispatch = useDispatch();
@@ -43,6 +44,11 @@ function FrruitGPT() {
     const handleHistoryClose = () => setShowHistory(false);
     const handleHistoryShow = () => setShowHistory(true);
     const [fundamental, setFundamental] = useState(state?.fundamental || '');
+    const [streamData, setStreamData] = useState('')
+    const [streamLinks, setStreamLinks] = useState([])
+    const [streamInitiated, setStreamInitiated] = useState(false)
+    const [streamFlag, setStreamFlag] = useState(null)
+
     useEffect(() => {
         dispatch(getPromptSuggestion())
         dispatch(getPromptList())
@@ -91,6 +97,7 @@ function FrruitGPT() {
     }
 
     const handleHistory = (Id) => {
+        clearStreamData();
         if (cancelTokens)
             cancelTokens.cancel("cancelled")
         dispatch(getPromptHistory(Id))
@@ -134,6 +141,18 @@ function FrruitGPT() {
     }
 
     const askFrruitGpt = async (promptId, title) => {
+        if (streamData) {
+            dispatch(setChatHistory([{
+                person: "bot",
+                text: streamData,
+                type: "text",
+                link: streamLinks,
+                focus_type: streamFlag
+            }]))
+            clearStreamData();
+        }
+        if(flag !== 'fund' && flag !== 'screener')
+            setStreamInitiated(true)
         setButtonStart(false)
         if (!title && !question) {
             return
@@ -144,7 +163,6 @@ function FrruitGPT() {
             action: 'newchat_gpt_question',
             label: 'New chat for GPT question'
         });
-        setButtonStart(false)
         const market = localStorage.getItem('marketType')
         const searchText = question
         setQuestion('');
@@ -163,32 +181,76 @@ function FrruitGPT() {
         dispatch(setCancelTokens(token))
 
         // if ((isFirstRender || isNewChat.current) ? (state?.fundamental && state?.fundamental === true) ? false : flag === "news" : flag === "news")
-        if ((flag || fundamental)){
+        if ((flag || fundamental)) {
             requestData["flag"] = fundamental !== '' ? fundamental : flag
+            setStreamFlag(fundamental !== '' ? fundamental : flag)
         }
 
         isNewChat.current = false
 
-        dispatch(triggerFrruitGpt({ requestData, cancelToken: token }))
-            .unwrap()
-            .then(res => {
-                if (res && res[0] && res[0]?.text !== undefined) {
-                    const token = axios.CancelToken.source()
-                    dispatch(setCancelTokens(token))
-                    dispatch(triggerFrruitGptGraph({ requestData, cancelToken: token }))
-                }
-                setQuestion('');
-                scrollDown(250)
-                setButtonStart(true)
-                setFundamental('')
-            })
-            .catch(error => {
+        if (requestData?.flag === 'fund' || requestData?.flag === 'screener') {
+            dispatch(triggerFrruitGpt({ requestData, cancelToken: token }))
+                .unwrap()
+                .then(res => {
+                    if (res && res[0] && res[0]?.text !== undefined) {
+                        const token = axios.CancelToken.source()
+                        dispatch(setCancelTokens(token))
+                        dispatch(triggerFrruitGptGraph({ requestData, cancelToken: token }))
+                    }
+                    setQuestion('');
+                    scrollDown(250)
+                    setButtonStart(true)
+                    setFundamental('')
+                })
+                .catch(error => {
+                    setButtonStart(true)
+                    setQuestion(searchText);
+                    setFundamental('')
+                    if (error?.code != "ERR_CANCELED")
+                        toast.error(error?.message)
+                })
+        } else {
+            const apitoken = localStorage.getItem('token');    
+            socket.auth = { token: apitoken };
+    
+            socket.connect();
+            socket.emit('chatStream', requestData);
+            socket.on("response", (data) => {
+                setStreamData(prev => prev + data.data)
+                scrollToBottom()
+            });
+    
+            socket.on("end", (endData) => {
+                stopStream();
+                console.log('endData::::::::::::', endData)
+                if (endData && endData?.data?.length > 0)
+                    setStreamLinks(endData?.data)
+            });
+    
+            socket.on("error", (error) => {
+                setStreamInitiated(false)
                 setButtonStart(true)
                 setQuestion(searchText);
-                setFundamental('')
-                if (error?.code != "ERR_CANCELED")
-                    toast.error(error?.message)
-            })
+                console.error("Error from server:", error);
+                toast.error(error?.message || "Something went wrong, Please try again.");
+            });
+        }
+    }
+
+    const clearStreamData = () => {
+        setStreamData('')
+        setStreamLinks([])
+        setStreamFlag(null)
+        stopStream();
+    }
+
+    const stopStream = () => {
+        socket.off("response");
+        socket.off("end");
+        socket.off("error");
+        socket.disconnect();
+        setStreamInitiated(false)
+        setButtonStart(true)
     }
 
     const handleAskPress = () => {
@@ -265,7 +327,7 @@ function FrruitGPT() {
                             <div>
                                 <button className='prompts-btn me-3' onClick={() => setShowPromptsLibrary(!showPromptsLibrary)}>
                                     {/* <img src={BackArrowIcon}/> */}
-                                        Prompts Library
+                                    Prompts Library
                                 </button>
                                 <img src={HistoryImg} onClick={handleHistoryShow} className='history-icon-css' />
                             </div>
@@ -273,6 +335,9 @@ function FrruitGPT() {
                         <ChatGpt
                             newChat={isNewChat.current}
                             containerRef={gptRef}
+                            streamData={streamData}
+                            streamInitiated={streamInitiated}
+                            streamLinks={streamLinks}
                         />
                         <PromptsLibrary
                             handlePromptClick={handlePromptClick}

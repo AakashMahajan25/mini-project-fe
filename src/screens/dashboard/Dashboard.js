@@ -328,7 +328,7 @@ function Dashboard() {
             // dispatch(getStockIndexes())
             dispatch(fetchAllNews(''))
         }
-        dispatch(getAvaliableCredit())
+        // dispatch(getAvaliableCredit())
         dispatch(getUserPlan());
         // const interval = setInterval(() => {
         //     if (!filtersApplied) {

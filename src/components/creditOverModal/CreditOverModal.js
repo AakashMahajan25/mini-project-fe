@@ -17,6 +17,7 @@ function CreditOverModal({ show, handleClose, onButtonClick }) {
                 className='CreditOverModalStyles'
                 centered
                 backdrop={ userCredits?.expired ? "static": true }
+                keyboard={false}
             >
                 <Modal.Header>
                     {

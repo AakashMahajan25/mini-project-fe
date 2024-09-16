@@ -668,6 +668,58 @@ function ChatGpt(props) {
 
                             </div>
                     )}
+                {   
+
+                    (props?.streamData || props.streamInitiated) &&
+                    <div className='leftChat'>
+                        <img src={LogoCircle} className='profile-styles' />
+                        <div className='d-flex align-items-center my-2 floatLeft'>
+                            <img src={ArrowGrey} className='arrow' />
+                            <p className='you-text'>Frruit GPT</p>
+                            <h3 className='you-text' style={{ color: "#a4a5a7", fontWeight: '400', marginBottom: 0, marginLeft: 5, fontSize: 12 }}>{getCurrentTimeWithAMPM(moment())}</h3>
+                        </div>
+                        <div className={`chat-text-container chat-stream ${props.streamInitiated && !props.streamData ? 'blinking' : ''}`}>
+                            <p><Markdown>{props?.streamData || ''}</Markdown></p>
+                        </div>
+                            {
+                                (props?.streamLinks && props?.streamLinks?.length > 0) &&
+                                <>
+                                    <div className='companyCardSTyleCss'>
+                                        <div className='cardContainer'>
+                                            {props?.streamLinks?.slice(0, 3)?.map((link, index) => (
+                                                <a href={link?.source_url} target='_blank' key={index} className='sourceCardCss'>
+                                                    <div className='Dflex-css'>
+                                                        <div className='d-flex align-items-center'>
+                                                            <div className='d-flex align-items-center'>
+                                                                <img src={link?.image_url ?? RedditLogo} className='smallCircleLogoCss me-2' alt='Company Logo' />
+                                                                {link?.source_date &&
+                                                                    <div>
+                                                                        <div className='sources-date'>{moment(link?.source_date).format('MMMM DD, YYYY')}</div>
+                                                                        <div className='sources-time'>{moment(link?.source_date).format('h:mm a')}</div>
+                                                                    </div>
+                                                                }
+                                                            </div>
+
+                                                        </div>
+                                                        <img src={TopRIghtArrow} style={{ width: 30, objectFit: 'contain' }} alt='Arrow Icon' />
+                                                    </div>
+                                                    <div className='companyNameCss mt-2'>{link?.heading ?? link?.title}</div>
+                                                </a>
+                                            ))}
+                                            {props?.streamLinks?.length > 3 && <div className='sourceCardCss d-flex align-items-center' style={{ width: 'max-content' }} onClick={() => { handleShow2(); setSourceData(props?.streamLinks) }}>
+                                                <div className='Dflex-css'>
+                                                    <div className='d-flex align-items-center'>
+                                                        <div className='companyNameCss me-2'>View All</div>
+                                                    </div>
+                                                    <img src={TopRIghtArrow} style={{ width: 30, objectFit: 'contain' }} />
+                                                </div>
+                                            </div>}
+                                        </div>
+                                    </div>
+                                </>
+                            }
+                    </div>
+                }
                 {/* <div className='sourceCardCss'>
                     <div className='Dflex-css'>
                         <div className='d-flex align-items-center'>
