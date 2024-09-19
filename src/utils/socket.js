@@ -1,6 +1,6 @@
 import { io } from 'socket.io-client';
 
-const URL = "http://18.233.54.54/chat";
+const URL = "https://api.frruit.co/chat";
 
 export const socket = io(URL, {
     autoConnect: false,
