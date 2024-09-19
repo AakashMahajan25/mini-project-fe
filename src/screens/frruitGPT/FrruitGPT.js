@@ -228,6 +228,7 @@ function FrruitGPT() {
             });
     
             socket.on("error", (error) => {
+                stopStream();
                 setStreamInitiated(false)
                 setButtonStart(true)
                 setQuestion(searchText);
