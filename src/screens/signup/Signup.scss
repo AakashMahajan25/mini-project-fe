@@ -1,4 +1,5 @@
 .signup-css {
+
     // margin: 50px;
     .form-control-label {
         font-weight: 600;
@@ -11,20 +12,19 @@
     .privacyText {
         margin-top: 24px;
     }
+
     .termsConditionText {
-        color: #4563E4;
-        font-family: Roboto;
-        font-size: 13px;
-        font-weight: 600;
-        line-height: 16px;
+        font-family: "Roboto", sans-serif;
+        color: blue;
         text-decoration: none;
         cursor: pointer;
     }
+
     .termsConditioncheckboxText {
-       color: #6F7387;
-        font-family: Roboto;
+        font-family: "Roboto", sans-serif;
         font-size: 12px;
-        font-weight: 600;
+        font-weight: 400;
+        color: #6F7387;
         // line-height: 16px;
         text-decoration: none;
         cursor: pointer;
@@ -56,15 +56,22 @@
         }
 
         @media only screen and (max-width: 500px) {
+            margin-top: 47px !important;
             padding: 30px 20px !important;
             margin: 15px;
-            height: 500px;
+            height: 468px;
+        }
+    }
+
+    .followText {
+        @media only screen and (max-width: 500px) {
+            margin-top: 2px !important;
         }
     }
 
     .nineone-input {
-        width: 15%;
-        text-indent: 0px;
+        width: 19%;
+        text-indent: 9px;
         color: black;
 
         @media only screen and (max-width: 500px),
@@ -111,7 +118,7 @@
         top: 43%;
     }
 
-    .checkboxRow{
+    .checkboxRow {
         display: flex;
         justify-content: start;
         align-items: start;
@@ -131,7 +138,7 @@
         height: 18px;
         border-radius: 4px;
         background-color:
-        #F1F4FD;
+            #F1F4FD;
         border: solid 1px #6F7387;
         // background-image: linear-gradient(#474749, #616260);
         // box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.15), inset 0 -1px 1px rgba(0, 0, 0, 0.15);
@@ -174,7 +181,7 @@
 
     .wrap-check-43 input[type="checkbox"]:checked+.cbx {
         background-color:
-        #F1F4FD;
+            #F1F4FD;
         background-image: linear-gradient(#255cd2, #1d52c1);
         border: solid 1px #255cd2;
     }
