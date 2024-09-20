@@ -135,7 +135,7 @@ function Login() {
                                         <div class="d-flex align-items-start flex-column loginleftsideCol">
                                             <div class="mb-auto"><img className='frruitLogostyle' src={FrruitLogo} style={{ objectFit: "contain" }} /></div>
                                             <div class="mb-auto w-100">
-                                                <div className='loginMainTextStyle'>India's 1<sup className='suptext'>ST</sup>AI Powered</div>
+                                                <div className='loginMainTextStyle' style={{marginTop:16}}>India's 1<sup className='suptext'>ST</sup>AI Powered</div>
                                                 <div className='loginMainTextStyle'>Stock Market search Engine</div>
                                                 <div className='loginMainTextParaStyle'>Initiate dynamic conversations with Frruit to tap into both real-time and historical data on thousands of stocks , market-moving information , discover hidden correlations between financial market events and their impact on stock price movements !</div>
                                             </div>
@@ -192,7 +192,7 @@ function Login() {
                                                             <label className='form-control-label'>Phone Number</label>
                                                             <div className='d-flex justify-content-between align-items-center'>
                                                                 <input type="text" className="form-control form-control-input me-3 nineone-input" placeholder='+91' defaultValue={"+91"} disabled></input>
-                                                                <div className="position-relative" style={{ width: '100%' }}>
+                                                                <div className="position-relative" style={{ width: '85%' }}>
                                                                     <input type="text" className="form-control form-control-input" placeholder='99999 99999' value={phoneNumber} disabled></input>
 
                                                                     <div className="position-absolute" style={{ left: 18, top: '25%' }}>
@@ -200,7 +200,7 @@ function Login() {
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <a style={{ fontSize: 15, textDecoration: 'underline', color: 'blue' }} onClick={handleDifferentNumberClick}>Use a different Number</a>
+                                                            <a style={{ fontSize: 15, textDecoration: 'underline', color: 'blue',fontFamily: "Roboto" }} onClick={handleDifferentNumberClick}>Use a different Number</a>
                                                             <div className="form-outline verification">
                                                                 <label className="form-label">Type your 6 digit security code</label>
                                                                 <div className='d-flex'>
