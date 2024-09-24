@@ -62,7 +62,7 @@ function FrruitGPT() {
         if (state?.question && state.question !== '') {
             setFlag(state?.fundamental)
             dispatch(clearChatHistory())
-            addFrruitPrompt(state?.question)
+            addFrruitPrompt(state?.question, state?.fundamental)
             clearState()
             setIsFirstRender(false)
         }
@@ -94,6 +94,7 @@ function FrruitGPT() {
         setSelectedChat(null)
         setQuestion('')
         setFlag('news')
+        clearStreamData();
     }
 
     const handleHistory = (Id) => {
@@ -125,14 +126,18 @@ function FrruitGPT() {
         }
     };
 
-    const addFrruitPrompt = (title) => {
+    const addFrruitPrompt = (title, customFlag='') => {
         setButtonStart(false)
         dispatch(addChatPrompt({ prompt_text: title }))
             .unwrap()
             .then(res => {
                 dispatch(getPromptList())
                 setSelectedChat(res.prompt_id);
-                askFrruitGpt(res.prompt_id, title);
+                if(customFlag)
+                    askFrruitGpt(res.prompt_id, title, customFlag);
+                else
+                    askFrruitGpt(res.prompt_id, title);
+
             })
             .catch(error => {
                 setButtonStart(true)
@@ -140,7 +145,8 @@ function FrruitGPT() {
             })
     }
 
-    const askFrruitGpt = async (promptId, title) => {
+    const askFrruitGpt = async (promptId, title, customFlag='') => {
+        const actualFlag = customFlag ? customFlag : (fundamental !== '' ? fundamental : flag)
         if (streamData) {
             dispatch(setChatHistory([{
                 person: "bot",
@@ -151,7 +157,7 @@ function FrruitGPT() {
             }]))
             clearStreamData();
         }
-        if(flag !== 'fund' && flag !== 'screener')
+        if(actualFlag !== 'fund' && actualFlag !== 'screener')
             setStreamInitiated(true)
         setButtonStart(false)
         if (!title && !question) {
@@ -182,8 +188,8 @@ function FrruitGPT() {
 
         // if ((isFirstRender || isNewChat.current) ? (state?.fundamental && state?.fundamental === true) ? false : flag === "news" : flag === "news")
         if ((flag || fundamental)) {
-            requestData["flag"] = fundamental !== '' ? fundamental : flag
-            setStreamFlag(fundamental !== '' ? fundamental : flag)
+            requestData["flag"] = actualFlag
+            setStreamFlag(actualFlag)
         }
 
         isNewChat.current = false
@@ -228,7 +234,7 @@ function FrruitGPT() {
             });
     
             socket.on("error", (error) => {
-                stopStream();
+                clearStreamData();
                 setStreamInitiated(false)
                 setButtonStart(true)
                 setQuestion(searchText);
