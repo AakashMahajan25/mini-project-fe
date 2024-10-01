@@ -818,7 +818,10 @@ function ChatGpt(props) {
                                                 :
                                                 <div className='chat-text-container'>
                                                     <h3 className='chat-text' style={{ fontWeight: '700' }}>Key Points:-</h3>
-                                                    <h3 className='chat-text mt-1' dangerouslySetInnerHTML={{ __html: replaceNewlinesWithBr(chat?.text?.Key_points || '') }}></h3>
+                                                    {
+                                                        chat?.text?.Key_points?.map((item) => (<h3 className='chat-text mt-1'>{item}</h3>
+                                                        ))
+                                                    }
                                                     <h3 className='chat-text mt-2' style={{ fontWeight: '700' }}>Summary:-</h3>
                                                     <h3 className='chat-text mt-1' dangerouslySetInnerHTML={{ __html: replaceNewlinesWithBr(chat?.text?.summary || '') }}></h3>
                                                     <h3 className='chat-text mt-2' style={{ fontWeight: '700' }}>Sentiment:-</h3>
