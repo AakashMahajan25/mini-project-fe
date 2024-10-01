@@ -511,7 +511,7 @@ function ChatGpt(props) {
                                             <div className='cardContainer'>
                                                 {chat.link.slice(0, 3).map((link, index) => (
                                                     <a href={link?.source_url} target='_blank' key={index} className='sourceCardCss'>
-                                                        <div className='companyNameCss mb-2' style={{ fontSize: 18, fontWeight: '600' }}>{link?.heading ?? link?.title}</div>
+                                                        <div className='companyNameCss mb-2' style={{ fontSize: 14, fontWeight: '600' }}>{link?.heading ?? link?.title}</div>
                                                         <div className='Dflex-css'>
                                                             <div className='d-flex align-items-center'>
                                                                 <div className='d-flex align-items-center'>
@@ -688,10 +688,11 @@ function ChatGpt(props) {
                                         <div className='cardContainer'>
                                             {props?.streamLinks?.slice(0, 3)?.map((link, index) => (
                                                 <a href={link?.source_url} target='_blank' key={index} className='sourceCardCss'>
+                                                     <div className='companyNameCss mb-2' style={{ fontSize: 14, fontWeight: '600' }}>{link?.heading ?? link?.title}</div>
                                                     <div className='Dflex-css'>
                                                         <div className='d-flex align-items-center'>
                                                             <div className='d-flex align-items-center'>
-                                                                <img src={link?.image_url ?? RedditLogo} className='smallCircleLogoCss me-2' alt='Company Logo' />
+                                                               {link?.image_url && <img src={link?.image_url} className='smallCircleLogoCss me-2' alt='Company Logo' />}
                                                                 {link?.source_date &&
                                                                     <div>
                                                                         <div className='sources-date'>{moment(link?.source_date).format('MMMM DD, YYYY')}</div>
@@ -703,7 +704,6 @@ function ChatGpt(props) {
                                                         </div>
                                                         <img src={TopRIghtArrow} style={{ width: 30, objectFit: 'contain' }} alt='Arrow Icon' />
                                                     </div>
-                                                    <div className='companyNameCss mt-2'>{link?.heading ?? link?.title}</div>
                                                 </a>
                                             ))}
                                             {props?.streamLinks?.length > 3 && <div className='sourceCardCss d-flex align-items-center' style={{ width: 'max-content' }} onClick={() => { handleShow2(); setSourceData(props?.streamLinks) }}>
@@ -909,7 +909,7 @@ function ChatGpt(props) {
                                     <a href={link?.source_url} target='_blank' key={index} className='sourceCardCss'>
                                         <div className='Dflex-css'>
                                             <div className='d-flex align-items-center'>
-                                                <img src={link?.image_url ?? RedditLogo} className='smallCircleLogoCss me-2' alt='Company Logo' />
+                                                {link?.image_url && <img src={link?.image_url} className='smallCircleLogoCss me-2' alt='Company Logo' />}
                                                 {link.heading && <div className='companyNameCss'>{link.heading}</div>}
                                                 {link?.source_date &&
                                                     <div>
