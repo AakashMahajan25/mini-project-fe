@@ -22,7 +22,6 @@ import UploadDocImg from '../../assets/images/doc-img.png'
 import { useNavigate } from 'react-router-dom';
 import quesIcon from '../../assets/images/i-icon.png';
 // import PieChart from '../pieChart/PieChart'
-import RedditLogo from '../../assets/images/reddit_logo.png';
 import NetworkGraph from '../networkGraph/NetworkGraph'
 import { Tooltip } from 'react-tooltip'
 import FullScreenIcon from '../../assets/images/ic_baseline_fullscreen.png'
