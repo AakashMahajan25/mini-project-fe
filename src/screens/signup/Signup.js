@@ -179,9 +179,11 @@ function Signup() {
                                         <div class="d-flex align-items-start flex-column loginleftsideCol">
                                             <div class="mb-auto"><img className='frruitLogostyle' src={FrruitLogo2} style={{ objectFit: "contain" }} /></div>
                                             <div class="mb-auto w-100">
-                                                <div className='loginMainTextStyle'>India's 1<sup className='suptext'>ST</sup>AI Powered</div>
-                                                <div className='loginMainTextStyle'>Stock Market search Engine</div>
-                                                <div className='loginMainTextParaStyle'>Initiate dynamic conversations with Frruit to tap into both real-time and historical data on thousands of stocks , market-moving information , discover hidden correlations between financial market events and their impact on stock price movements !</div>
+                                                <div className='loginStyle'>
+                                                    <div className='loginMainTextStyle' >India's 1<sup className='suptext'>ST</sup>AI Powered</div>
+                                                    <div className='loginMainTextStyle'>Stock Market search Engine</div>
+                                                    <div className='loginMainTextParaStyle'>Initiate dynamic conversations with Frruit to tap into both real-time and historical data on thousands of stocks , market-moving information , discover hidden correlations between financial market events and their impact on stock price movements !</div>
+                                                </div>
                                             </div>
                                             <div className='hideformobile'>
                                                 <div className='FollowUsText'>Follow us on</div>
@@ -279,7 +281,7 @@ function Signup() {
                                                                         defaultValue="+91"
                                                                         disabled
                                                                     />
-                                                                    <div className="position-relative" style={{ width: '100%' }}>
+                                                                    <div className="position-relative" style={{ width: '85%' }}>
                                                                         <Controller
                                                                             control={control}
                                                                             name="phone_number"
@@ -490,6 +492,14 @@ function Signup() {
                                     <p className='privacyText text-center mt-0'>See our <a className='termsConditionText' onClick={handleShowPrivacyPolicy}> Privacy Policy</a></p> */}
                                                 </div>
                                             </form>
+                                        </div>
+                                        <div className='followUsHideforWeb'>
+                                            <div className='FollowUsText followText'>Follow us on</div>
+                                            <div className='followUsDflex'>
+                                                <img src={WhatsAppLogo} className='socialLogos' />
+                                                <img src={InstagramAppLogo} className='socialLogos' />
+                                                <img src={linkedinLogo} className='socialLogos me-0' />
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

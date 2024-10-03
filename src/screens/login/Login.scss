@@ -19,6 +19,10 @@
             justify-content: center;
             align-items: center;
 
+            @media only screen and (max-width: 920px) {
+                transform: translate(-50%, -59%);
+            }
+
             .title2 {
                 font-size: 1.5rem;
                 font-weight: 500;
@@ -49,6 +53,8 @@
         }
     }
 
+    
+
     .followUsDflex {
         display: flex;
         justify-content: flex-start;
@@ -57,9 +63,10 @@
             justify-content: center;
         }
     }
-    .hideformobile{
+
+    .hideformobile {
         @media only screen and (max-width: 500px) {
-           display: none;
+            display: none;
         }
     }
 
@@ -122,6 +129,12 @@
             }
         }
 
+        .loginStyle {
+            @media only screen and (max-width: 500px) {
+                margin-top: 20px;
+            }
+        }
+
         .loginMainTextParaStyle {
             font-family: Roboto;
             font-size: 20px;
@@ -148,6 +161,7 @@
             color: #E3E8FF;
             margin-top: 8px;
             margin-bottom: 12px;
+
             @media only screen and (max-width: 500px) {
                 margin-bottom: 5px;
                 margin-top: 25px;
@@ -178,9 +192,10 @@
         border-radius: 50px;
 
         @media only screen and (max-width: 500px) {
+            margin-top: 29px !important;
             margin: 15px;
             padding: 15px;
-            height: 60vh;
+            height: 70vh;
         }
     }
 
@@ -197,9 +212,10 @@
         border-radius: 50px;
 
         @media only screen and (max-width: 500px) {
+            margin-top: 33px !important;
             margin: 20px;
             padding: 15px;
-            height: 60vh;
+            height: 70vh;
         }
     }
 
@@ -212,7 +228,8 @@
         text-align: center;
         color: #4563E4;
         margin-bottom: 50px;
-         @media only screen and (max-width: 500px) {
+
+        @media only screen and (max-width: 500px) {
             line-height: normal;
             font-size: 30px;
             margin-bottom: 20px;
@@ -266,8 +283,8 @@
     }
 
     .nineone-input {
-        width: 15%;
-        text-indent: 1px;
+        width: 22%;
+        text-indent: 12px;
         color: black;
 
         @media only screen and (max-width: 500px),
@@ -329,6 +346,7 @@
     }
 
     .privacyText {
+        font-family: "Roboto", sans-serif;
         font-size: 12px;
         font-weight: 400;
         color: #6F6B7D;
@@ -336,7 +354,8 @@
         margin-top: 40px;
     }
 
-    .bluetext{
+    .bluetext {
+        font-family: "Roboto", sans-serif;
         color: blue;
         cursor: pointer;
     }

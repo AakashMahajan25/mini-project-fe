@@ -16,6 +16,7 @@ import Offcanvas from 'react-bootstrap/Offcanvas';
 import CloseImg from '../../assets/images/close_icon.png';
 import LogOutIcon from '../../assets/images/logOutSmallIcon.png';
 import MobileMenu from '../../assets/images/hamburgerMenu.png';
+import { socket } from '../../utils/socket';
 
 function TopBar() {
   const dispatch = useDispatch();
@@ -42,6 +43,7 @@ function TopBar() {
   const routeChangeFrruitGPT = () => {
     if (cancelTokens)
       cancelTokens.cancel("cancelled")
+    socket.disconnect();
     setShow(false)
     let path = `/frruit-gpt`;
     navigate(path);

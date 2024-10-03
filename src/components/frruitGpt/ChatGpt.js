@@ -22,7 +22,6 @@ import UploadDocImg from '../../assets/images/doc-img.png'
 import { useNavigate } from 'react-router-dom';
 import quesIcon from '../../assets/images/i-icon.png';
 // import PieChart from '../pieChart/PieChart'
-import RedditLogo from '../../assets/images/reddit_logo.png';
 import NetworkGraph from '../networkGraph/NetworkGraph'
 import { Tooltip } from 'react-tooltip'
 import FullScreenIcon from '../../assets/images/ic_baseline_fullscreen.png'
@@ -511,10 +510,11 @@ function ChatGpt(props) {
                                             <div className='cardContainer'>
                                                 {chat.link.slice(0, 3).map((link, index) => (
                                                     <a href={link?.source_url} target='_blank' key={index} className='sourceCardCss'>
+                                                        <div className='companyNameCss mb-2' style={{ fontSize: 14, fontWeight: '600' }}>{link?.heading ?? link?.title}</div>
                                                         <div className='Dflex-css'>
                                                             <div className='d-flex align-items-center'>
                                                                 <div className='d-flex align-items-center'>
-                                                                    <img src={link?.image_url ?? RedditLogo} className='smallCircleLogoCss me-2' alt='Company Logo' />
+                                                                    {link?.image_url && <img src={link?.image_url} className='smallCircleLogoCss me-2' alt='Company Logo' />}
                                                                     {link?.source_date &&
                                                                         <div>
                                                                             <div className='sources-date'>{moment(link?.source_date).format('MMMM DD, YYYY')}</div>
@@ -526,7 +526,6 @@ function ChatGpt(props) {
                                                             </div>
                                                             <img src={TopRIghtArrow} style={{ width: 30, objectFit: 'contain' }} alt='Arrow Icon' />
                                                         </div>
-                                                        <div className='companyNameCss mt-2'>{link?.heading ?? link?.title}</div>
                                                     </a>
                                                 ))}
                                                 {chat.link.length > 3 && <div className='sourceCardCss d-flex align-items-center    ' style={{ width: 'max-content' }} onClick={() => { handleShow2(); setSourceData(chat.link) }}>
@@ -668,6 +667,58 @@ function ChatGpt(props) {
 
                             </div>
                     )}
+                {   
+
+                    (props?.streamData || props.streamInitiated) &&
+                    <div className='leftChat'>
+                        <img src={LogoCircle} className='profile-styles' />
+                        <div className='d-flex align-items-center my-2 floatLeft'>
+                            <img src={ArrowGrey} className='arrow' />
+                            <p className='you-text'>Frruit GPT</p>
+                            <h3 className='you-text' style={{ color: "#a4a5a7", fontWeight: '400', marginBottom: 0, marginLeft: 5, fontSize: 12 }}>{getCurrentTimeWithAMPM(moment())}</h3>
+                        </div>
+                        <div className={`chat-text-container chat-stream ${props.streamInitiated && !props.streamData ? 'blinking' : ''}`}>
+                            <p><Markdown>{props?.streamData || ''}</Markdown></p>
+                        </div>
+                            {
+                                (props?.streamLinks && props?.streamLinks?.length > 0) &&
+                                <>
+                                    <div className='companyCardSTyleCss'>
+                                        <div className='cardContainer'>
+                                            {props?.streamLinks?.slice(0, 3)?.map((link, index) => (
+                                                <a href={link?.source_url} target='_blank' key={index} className='sourceCardCss'>
+                                                     <div className='companyNameCss mb-2' style={{ fontSize: 14, fontWeight: '600' }}>{link?.heading ?? link?.title}</div>
+                                                    <div className='Dflex-css'>
+                                                        <div className='d-flex align-items-center'>
+                                                            <div className='d-flex align-items-center'>
+                                                               {link?.image_url && <img src={link?.image_url} className='smallCircleLogoCss me-2' alt='Company Logo' />}
+                                                                {link?.source_date &&
+                                                                    <div>
+                                                                        <div className='sources-date'>{moment(link?.source_date).format('MMMM DD, YYYY')}</div>
+                                                                        <div className='sources-time'>{moment(link?.source_date).format('h:mm a')}</div>
+                                                                    </div>
+                                                                }
+                                                            </div>
+
+                                                        </div>
+                                                        <img src={TopRIghtArrow} style={{ width: 30, objectFit: 'contain' }} alt='Arrow Icon' />
+                                                    </div>
+                                                </a>
+                                            ))}
+                                            {props?.streamLinks?.length > 3 && <div className='sourceCardCss d-flex align-items-center' style={{ width: 'max-content' }} onClick={() => { handleShow2(); setSourceData(props?.streamLinks) }}>
+                                                <div className='Dflex-css'>
+                                                    <div className='d-flex align-items-center'>
+                                                        <div className='companyNameCss me-2'>View All</div>
+                                                    </div>
+                                                    <img src={TopRIghtArrow} style={{ width: 30, objectFit: 'contain' }} />
+                                                </div>
+                                            </div>}
+                                        </div>
+                                    </div>
+                                </>
+                            }
+                    </div>
+                }
                 {/* <div className='sourceCardCss'>
                     <div className='Dflex-css'>
                         <div className='d-flex align-items-center'>
@@ -766,7 +817,10 @@ function ChatGpt(props) {
                                                 :
                                                 <div className='chat-text-container'>
                                                     <h3 className='chat-text' style={{ fontWeight: '700' }}>Key Points:-</h3>
-                                                    <h3 className='chat-text mt-1' dangerouslySetInnerHTML={{ __html: replaceNewlinesWithBr(chat?.text?.Key_points || '') }}></h3>
+                                                    {
+                                                        chat?.text?.Key_points?.map((item) => (<h3 className='chat-text mt-1'>{item}</h3>
+                                                        ))
+                                                    }
                                                     <h3 className='chat-text mt-2' style={{ fontWeight: '700' }}>Summary:-</h3>
                                                     <h3 className='chat-text mt-1' dangerouslySetInnerHTML={{ __html: replaceNewlinesWithBr(chat?.text?.summary || '') }}></h3>
                                                     <h3 className='chat-text mt-2' style={{ fontWeight: '700' }}>Sentiment:-</h3>
@@ -854,7 +908,7 @@ function ChatGpt(props) {
                                     <a href={link?.source_url} target='_blank' key={index} className='sourceCardCss'>
                                         <div className='Dflex-css'>
                                             <div className='d-flex align-items-center'>
-                                                <img src={link?.image_url ?? RedditLogo} className='smallCircleLogoCss me-2' alt='Company Logo' />
+                                                {link?.image_url && <img src={link?.image_url} className='smallCircleLogoCss me-2' alt='Company Logo' />}
                                                 {link.heading && <div className='companyNameCss'>{link.heading}</div>}
                                                 {link?.source_date &&
                                                     <div>
