@@ -292,6 +292,7 @@ function Signup() {
                                                                                     placeholder='Enter Phone Number'
                                                                                     style={{ color: 'black' }}
                                                                                     {...field}
+                                                                                    maxLength='15'
                                                                                 />
                                                                             )}
                                                                         />
