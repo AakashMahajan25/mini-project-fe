@@ -175,9 +175,13 @@ function Login() {
                                                                         placeholder='0000000000'
                                                                         value={phoneNumber}
                                                                         style={{ color: 'black' }}
-                                                                        onChange={(event) => setPhoneNumber(event.target.value)}
+                                                                        onChange={(event) => {
+                                                                            const numericValue = event.target.value.replace(/\D/g, '');
+                                                                            setPhoneNumber(numericValue);
+                                                                        }}
                                                                         ref={numberRef}
                                                                         autoFocus
+                                                                        maxLength='15'
                                                                         onKeyDown={(event) => event?.key === 'Enter' && handleGetOtp()}
                                                                     />
                                                                     <div className="position-absolute" style={{ left: 20, top: '28%' }}>

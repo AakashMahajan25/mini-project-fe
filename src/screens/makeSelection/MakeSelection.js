@@ -3,9 +3,20 @@ import '../makeSelection/MakeSelection.scss'
 import { Nav, Tab, Tabs } from 'react-bootstrap'
 import SelectMarket from '../../assets/images/selectMarket_img.png'
 import SideImg from '../../assets/images/login-side-img.png'
-import LoginImg3 from '../../assets/images/login_img3.png'
+import LoginImg3 from '../../assets/images/market_selection.png'
 import FrruitLogo from '../../assets/images/frruit-logo.png'
 import GreenRightIcon from '../../assets/images/right-green-circle-icon.png'
+import PurpleTick from '../../assets/images/purple-tick.png';
+import RedTick from '../../assets/images/red-tick.png';
+import PinkTick from '../../assets/images/pink-tick.png';
+import BrownTick from '../../assets/images/brown-tick.png';
+import GreenTick from '../../assets/images/green-tick.png';
+import GreenTick2 from '../../assets/images/green-tick2.png';
+import IndigoTick from '../../assets/images/indigo-tick.png';
+import OrangeTick from '../../assets/images/orange-tick.png';
+import OrangeTick2 from '../../assets/images/orange-tick2.png';
+import DarkblueTick from '../../assets/images/darkblue-tick.png';
+import LightblueTick from '../../assets/images/lightblue-tick.png';
 import { useNavigate } from 'react-router-dom'
 import ReactGA from 'react-ga4';
 
@@ -23,9 +34,23 @@ function MakeSelection() {
         navigate("/dashboard")
     }
 
+    const items = [
+        { text: 'Curated Investors Stories', icon: PurpleTick },
+        { text: 'Event driven market intelligence', icon: LightblueTick },
+        { text: 'Summarise news and get TLDRs', icon: DarkblueTick },
+        { text: 'Analysts Podcasts', icon: OrangeTick },
+        { text: 'Financial Statements', icon: RedTick },
+        { text: 'Discover YouTube insights', icon: PinkTick },
+        { text: 'Corporate Actions', icon: IndigoTick },
+        { text: 'Search for Reddit opinions', icon: OrangeTick2 },
+        { text: 'Fundamental Data', icon: BrownTick },
+        { text: 'Extract insights from Docs', icon: GreenTick2 },
+        { text: 'Agency Ratings', icon: GreenTick }
+    ];
+
     return (
         <div className='selectmarket-css'>
-            <div className='d-flex justify-content-center align-items-center'>
+            <div className='d-flex justify-content-center align-items-start'>
                 <div className='col-xl-7'>
                     <div className='selectMarket'>
                         {/* <div className='col-xl-7'>
@@ -44,9 +69,55 @@ function MakeSelection() {
                                 </Nav>
                             </Tab.Container> */}
                         {/* </div> */}
-                        <div className='beta-text'>In the beta version of our platform, we are thrilled to offer an exclusive focus on the
-                            <br /><span className='nifty-text'>Nifty 50 and Sensex 30 stocks.</span></div>
-                        <div className='white-box-make-selection'>
+                        <div className='small-blue-text'>Free Access</div>
+                        <div className='dark-blue-header-text'>Congratulations! </div>
+                        <div className='dark-blue-header-text'>You’ve been granted <span className='blue-header-text'>Free Access! </span></div>
+
+
+                        <div className='gradient-box'>
+                            <div className='dark-blue'>What’s in it for <span className='primary-blue'> you?</span></div>
+                            <div className='gradient-box2'>
+                                <div className='row d-flex align-items-center'>
+                                    <div className='col-xl-5'>
+                                        <div className='small-blue-text' style={{ fontSize: 28 }}>25 Credits</div>
+                                    </div>
+                                    <div className='col-xl-7'>
+                                        <div className='small-blue-text' style={{ fontSize: 16, fontWeight: 500 }}>1 Credit = 1000 Tokens</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className='mt-3'>
+                                {items.map((item, index) => {
+                                    if (index % 2 === 0) {
+                                        return (
+                                            <div className='row align-items-center mt-1' key={index}>
+                                                {/* On small screens (< 500px), each will take full width (col-12), otherwise use col-7 and col-5 */}
+                                                <div className='col-12 col-md-7 d-flex align-items-center'>
+                                                    <img src={item.icon} className='tick-icon' alt={`${item.text}-icon`} />
+                                                    <div className='tick-text'>{item.text}</div>
+                                                </div>
+                                                {items[index + 1] && (
+                                                    <div className='col-12 col-md-5 d-flex align-items-center mt-2 mt-md-0'>
+                                                        <img src={items[index + 1].icon} className='tick-icon' alt={`${items[index + 1].text}-icon`} />
+                                                        <div className='tick-text'>{items[index + 1].text}</div>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        );
+                                    } else {
+                                        return null;
+                                    }
+                                })}
+                            </div>
+                            <div className='mt-2'>
+                                <div className='disclaimer-text'>Disclaimer</div>
+                                <div className='desc-text mt-1'>Frruit is an AI research assistant tool powered by GPT-3.5 & BERT, a powerful generative language model from OpenAI & Google. Frruit may occasionally produce inaccurate or inappropriate information. Please be aware that any content generated by Frruit should not be considered as investment advice, or a recommendation to buy or sell securities, and it should not be the sole basis for any investment decisions. Frruit output is provided 'as is,' and Airrchip makes no guarantees regarding its accuracy, completeness, quality, timeliness, or any other attributes. We strongly advise independently verifying the accuracy of Frruit output for your specific needs.</div>
+                            </div>
+                            <button className='blue-btn px-5 mt-3' onClick={verifyProceed}>Continue</button>
+                        </div>
+                        {/* <div className='beta-text'>In the beta version of our platform, we are thrilled to offer an exclusive focus on the
+                            <br /><span className='nifty-text'>Nifty 50 and Sensex 30 stocks.</span></div> */}
+                        {/* <div className='white-box-make-selection'>
                             <div className='earlyAccessText'>Early Access</div>
                             <div className='peraText'>Lorem Ipsum is simply dummy text of the printing</div>
                             <div className='blueBG'>
@@ -83,21 +154,16 @@ function MakeSelection() {
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div>
-                            <p className='disclaimer'>Disclaimer</p>
-                            <p className='disclaimer-para' style={{ fontSize: 14 }}>Frruit is an AI research assistant tool powered by GPT-3.5 & BERT, a powerful generative language model from OpenAI & Google. Frruit may occasionally produce inaccurate or inappropriate information. Please be aware that any content generated by Frruit should not be considered as investment advice, or a recommendation to buy or sell securities, and it should not be the sole basis for any investment decisions. Frruit output is provided 'as is,' and Airrchip makes no guarantees regarding its accuracy, completeness, quality, timeliness, or any other attributes. We strongly advise independently verifying the accuracy of Frruit output for your specific needs.</p>
-                        </div>
-                        <button className='blue-btn' onClick={verifyProceed}>Continue</button>
+                        </div> */}
                     </div>
                 </div>
                 <div className='col-xl-5 makeselection-right-side'>
-                    <div className='d-flex justify-content-center align-items-center imagecontainer'>
+                    <div className='d-flex justify-content-center align-items-center'>
                         <div>
-                            <div className='d-flex justify-content-center'>
+                            {/* <div className='d-flex justify-content-center'>
                                 <img src={FrruitLogo} width={196} className='mb-5' />
-                            </div>
-                            <img src={LoginImg3} style={{ objectFit: 'contain', width: '100%', height: window.innerHeight / 1.8 }} />
+                            </div> */}
+                            <img src={LoginImg3} style={{ objectFit: 'contain', width: '100%', height: window.innerHeight / 1.5, marginTop: 100 }} />
                         </div>
                     </div>
                 </div>

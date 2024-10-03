@@ -451,6 +451,7 @@ function Dashboard() {
     };
     const toggleShowAllContent = () => {
         setShowAllContent(prevState => !prevState);
+        handleResetFilters()
     };
     const [showAllContent, setShowAllContent] = useState(true);
     const handleChange = (e) => {
