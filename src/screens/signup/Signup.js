@@ -147,7 +147,7 @@ function Signup() {
                     .unwrap()
                     .then(async (res) => {
                         localStorage.setItem('token', res.data.token)
-                        let path = `/topics`;
+                        let path = `/market`;
                         ReactGA.event({
                             category: 'User',
                             action: 'signup',
