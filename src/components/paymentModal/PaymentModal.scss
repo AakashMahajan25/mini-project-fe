@@ -1,0 +1,87 @@
+.PaymentModalStyles {
+
+    .modal-header {
+        justify-content: end;
+    }
+
+    .header{
+        padding-bottom: 0px !important;
+    }
+
+    .closeimage{
+        width:32px;
+    }
+
+    .centerImg {
+        display: flow-root;
+        text-align: center;
+
+        .successiconImage {
+            width: 93.26px;
+            height: 93.26px;
+            object-fit: contain;
+        }
+
+        .heading {
+            font-weight: 700;
+            font-family: 'Roboto', sans-serif;
+            font-size: 40px;
+            line-height: 46.88px;
+            color: #28C76F;
+            margin-bottom: 20px;
+        }
+
+        .borderline{
+            border:1px solid rgba(229, 229, 229, 0.9);
+            border-style: dashed;
+
+        }
+
+        .idtext{
+            font-weight: 400;
+            font-family: 'Roboto', sans-serif;
+            font-size: 20px;
+            line-height: 23.44px;
+            color: #171E42;
+            margin-top: 15px;
+            margin-bottom: 15px;
+        }
+
+        .subheading {
+            font-weight: 400;
+            font-family: 'Roboto', sans-serif;
+            font-size: 20px;
+            line-height: 23.44px;
+            color: #6F7387;
+            margin-bottom: 20px;
+        }
+
+        .box-heading{
+            font-weight: 400;
+            font-family: 'Roboto', sans-serif;
+            font-size: 20px;
+            line-height: 23.44px;
+            text-align: center;
+            color: #171E42;
+        }
+
+        .amount-text{
+            font-weight: 600;
+            font-family: 'Roboto', sans-serif;
+            font-size: 32px;
+            line-height: 37.5px;
+            color: #171E42;
+            margin-top: 16px;
+        }
+
+        .credit-text{
+            font-weight: 600;
+            font-family: 'Roboto', sans-serif;
+            font-size: 32px;
+            line-height: 37.5px;
+            color: #4563E4;
+            margin-top: 16px;
+        }
+
+    }
+}
