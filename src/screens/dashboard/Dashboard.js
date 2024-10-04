@@ -45,6 +45,7 @@ import CreditOverModal from '../../components/creditOverModal/CreditOverModal';
 import ActivateWebSearch from '../../components/activateWebSearch/ActivateWebSearch';
 import ArrowDownIcon from '../../assets/images/accordiun-down-arrow.png'
 import RightIcon from '../../assets/images/charm_tick.png'
+import PaymentModal from '../../components/paymentModal/PaymentModal';
 
 const storyEnum = {
     watchlist_news: 'isWatchlistViewed',
@@ -509,9 +510,9 @@ function Dashboard() {
     const handleOptionClick = (value) => {
         setSelectedFund(value);
         setShowDropdown(false);
-        if(value === 'Stock Screener'){
+        if (value === 'Stock Screener') {
             setFlag('screener')
-        }else{
+        } else {
             setFlag('fund')
         }
     };
@@ -614,6 +615,12 @@ function Dashboard() {
                                         </div>
                                     </div>
                                     <div className='dashboard-container'>
+                                        {/* <PaymentModal
+                                            type="failed"
+                                            transactid='101-0150133-0001689'
+                                            amount='₹80'
+                                            credits='750'
+                                        /> */}
                                         <div className='suggested-prompts-container'>
                                             {mostOnFrruitGpt?.rows?.length > 0 &&
                                                 <>
@@ -749,7 +756,7 @@ function Dashboard() {
                                                         }
                                                     </div>
                                                 }
-                                                 {error && <div className='error-message'>Please enter a search query.</div>}
+                                                {error && <div className='error-message'>Please enter a search query.</div>}
                                                 {showDropdown && (
                                                     <div className='dropdownMenuForFunds' ref={dropdownRef}>
                                                         <div className='text-box'>
@@ -779,7 +786,7 @@ function Dashboard() {
                                                     </div>
                                                 }
                                             </>
-                                           
+
                                         </div>
                                     </div>
                                 </div>
@@ -793,7 +800,7 @@ function Dashboard() {
                     }
                     {!showAllContent &&
                         <div className='col-lg-9 column-pad'>
-                            <NewsViewAll backBtnClick={toggleShowAllContent} sentiment={sentiment} sortOrder={sortOrder} filtersApplied={filtersApplied} onSentimentChange={handleSentimentChange}onSortOrderChange={handleSortOrderChange}onResetFilters={handleResetFilters} newsData={cmotsNews?.rows} />
+                            <NewsViewAll backBtnClick={toggleShowAllContent} sentiment={sentiment} sortOrder={sortOrder} filtersApplied={filtersApplied} onSentimentChange={handleSentimentChange} onSortOrderChange={handleSortOrderChange} onResetFilters={handleResetFilters} newsData={cmotsNews?.rows} />
                         </div>
                     }
                 </>
