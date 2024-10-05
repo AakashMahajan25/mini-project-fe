@@ -79,7 +79,6 @@ function Login() {
 
             })
             .catch((error) => {
-                console.log('error', error)
                 toast.error(error?.message)
             })
     }
@@ -109,7 +108,6 @@ function Login() {
                 toast.success("Logged In Successfully")
             })
             .catch((error) => {
-                console.log('error', error)
                 toast.error(error?.message)
             })
     }

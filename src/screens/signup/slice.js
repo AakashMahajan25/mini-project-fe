@@ -21,7 +21,6 @@ export const signupOtp = createAsyncThunk("signUp/signupOtp", async (requestData
         return response.data;
 
     } catch (error) {
-        console.log('error::::', error.response)
         throw error.response.data.message;
     }
 });
@@ -37,7 +36,6 @@ export const verifyOtp = createAsyncThunk("signUp/verifyOtp", async (requestData
         return response.data;
 
     } catch (error) {
-        console.log('error::::', error.response)
 
         throw error.response.data.message;
     }
@@ -54,7 +52,6 @@ export const signupUser = createAsyncThunk("signUp/signupUser", async (requestDa
         return response.data;
 
     } catch (error) {
-        console.log('error::::', error.response)
 
         throw error.response.data;
     }
@@ -70,7 +67,6 @@ export const getAllTopics = createAsyncThunk("signUp/getAllTopics", async (reque
         return response.data.data;
 
     } catch (error) {
-        console.log('error::::', error.response)
         throw error.response.data.message;
     }
 });
@@ -86,7 +82,6 @@ export const addTopics = createAsyncThunk("signUp/addTopics", async (requestData
         return response.data;
 
     } catch (error) {
-        console.log('error::::', error.response)
         throw error.response.data.message;
     }
 });
@@ -101,7 +96,6 @@ export const searchTopics = createAsyncThunk("signUp/searchTopics", async (searc
         return response.data.data;
 
     } catch (error) {
-        console.log('error::::', error.response)
         throw error.response.data.message;
     }
 });

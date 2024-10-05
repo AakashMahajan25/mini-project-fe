@@ -5,27 +5,7 @@ import SuccessIcon from '../../assets/images/SuccessIcon.png';
 import FailedIcon from '../../assets/images/FailedIcon.png';
 import './PaymentModal.scss';
 
-function PaymentModal({ type, transactid, amount, credits }) {
-
-    const [show, setShow] = useState(false);
-
-    const handleShow = () => {
-        setShow(true);
-    }
-
-    const handleClose = () => {
-        setShow(false);
-    }
-
-    const handleClose1 = () => {
-        console.log('Proceed button clicked=======');
-        setShow(false);
-    };
-
-    const handleClose2 = () => {
-        console.log('Close button clicked=========');
-        setShow(false);
-    };
+function PaymentModal({ type, transactid, amount, credits, show = false, onPress=()=>{} }) {
 
     const renderModalContent = () => {
         switch (type) {
@@ -76,18 +56,15 @@ function PaymentModal({ type, transactid, amount, credits }) {
     };
 
     return (
-        <>
-            <button onClick={handleShow} className='open-modal-btn'>Open Modal</button>
-
             <Modal
                 show={show}
-                onHide={handleClose}
+                onHide={()=>onPress('close')}
                 size='lg'
                 className='PaymentModalStyles'
                 centered
             >
                 <Modal.Header className='header'>
-                    <div onClick={() => handleClose2()} className=' align-items-center' style={{ cursor: 'pointer' }}>
+                    <div onClick={()=>onPress('close')} className=' align-items-center' style={{ cursor: 'pointer' }}>
                         <img src={CloseImg} className='me-1 closeimage' width={32} style={{ objectFit: 'contain' }} />
                     </div>
                 </Modal.Header>
@@ -95,14 +72,13 @@ function PaymentModal({ type, transactid, amount, credits }) {
                     <div className='centerImg'>
                         {renderModalContent()}
                         <div className='d-flex justify-content-center align-items-center'>
-                            <button onClick={() => handleClose1()} type="submit" className='blue-btn px-5'>
+                            <button onClick={()=>onPress(type)} type="submit" className='blue-btn px-5'>
                                 {type === 'success' ? 'Got it!' : 'Try Again'}
                             </button>
                         </div>
                     </div>
                 </Modal.Body>
             </Modal>
-        </>
     )
 }
 

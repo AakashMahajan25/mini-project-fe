@@ -70,7 +70,6 @@ export const addChatPrompt = createAsyncThunk("fruitGpt/addChatPrompt", async (r
         return response.data.data;
 
     } catch (error) {
-        console.log('error::::', error.response)
         throw error.response;
     }
 });
@@ -85,7 +84,6 @@ export const getPromptHistory = createAsyncThunk("fruitGpt/getPromptHistory", as
         return response.data.data;
 
     } catch (error) {
-        console.log('error::::', error.response)
         throw error.response;
     }
 });
@@ -143,7 +141,6 @@ export const triggerFrruitGptGraph = createAsyncThunk("fruitGpt/triggerFrruitGpt
         return chatData;
     } catch (error) {
         dispatch(setCancelTokens(null))
-        console.log('error::::', error.response)
         throw error.response;
     }
 });
@@ -172,7 +169,6 @@ export const deletePrompt = createAsyncThunk("watchList/deletePrompt", async (pr
         return response.data.data;
 
     } catch (error) {
-        console.log('error::::', error.response)
         throw error.response;
     }
 });

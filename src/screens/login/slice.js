@@ -20,7 +20,6 @@ export const loginOtp = createAsyncThunk("login/loginOtp", async (requestData) =
         return response.data;
 
     } catch (error) {
-        console.log('error::::', error.response)
         throw error.response.data.message;
     }
 });
@@ -36,7 +35,6 @@ export const verifyLoginOtp = createAsyncThunk("login/verifyLoginOtp", async (re
         return response.data;
 
     } catch (error) {
-        console.log('error::::', error.response)
         throw error.response.data.message;
     }
 });

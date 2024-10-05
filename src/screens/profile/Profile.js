@@ -28,6 +28,7 @@ import TermsAndCondition from '../../components/profile/termsAndCondition/TermsA
 import PrivacyPolicy from '../../components/profile/privacyPolicy/PrivacyPolicy';
 import Pricing from '../../components/profile/pricing/Pricing';
 import CancellationAndRefundPolicy from '../../components/profile/cancellationAndRefundPolicy/CancellationAndRefundPolicy';
+import PaymentModal from '../../components/paymentModal/PaymentModal';
 
 function Profile() {
     const navigate = useNavigate();
@@ -50,6 +51,9 @@ function Profile() {
     const [isPricingActive, setPricingActiveColor] = useState(false);
     const [isViewPlansActive, setViewPlansActiveColor] = useState(false);
     const [isCancellationPolicyActive, setCancellationPolicyActiveColor] = useState(false);
+    const [paymentModalType, setPaymentModalType] = useState("success")
+    const [showPaymentConfirmation, setShowPaymentConfirmation] = useState(false)
+    const [paymentData, setPaymentData] = useState(null)
 
     const handleProfileClick = () => {
         setShowProfile(true);
@@ -211,7 +215,7 @@ function Profile() {
     })
 
 
-    const { userCredits, isLoading, userDetails, userPlan, faqs, orderHistory } = useSelector(state => state.userSlice)
+    const { userCredits, isLoading, userDetails, userPlan, faqs, orderHistory, paymentLoader } = useSelector(state => state.userSlice)
 
     useEffect(() => {
         dispatch(getAvaliableCredit()).unwrap().then(() => {
@@ -306,10 +310,16 @@ function Profile() {
                         razorpay_signature: response.razorpay_signature,
                     }
                     dispatch(placeOrder(placeOrderPayload)).unwrap().then(async (data) => {
-                        toast.success(data.message || 'Order Successfully Placed');
-                        window.location.reload();
+                        setPaymentModalType("success")
+                        setPaymentData({...data, ...payload})
+                        setShowPaymentConfirmation(true)
                     }).catch((error) => {
-                        toast.error(error.message || "Error in completing payment")
+                        setPaymentModalType("failed")
+                        setPaymentData({
+                            razorpay_order_id: response.razorpay_order_id,
+                            ...payload
+                        })
+                        setShowPaymentConfirmation(true)
                     });
                 },
                 theme: { color: '#F37254' },
@@ -328,6 +338,24 @@ function Profile() {
     };
 
     const rightPartHeight = window.innerWidth > 768 ? window.innerHeight - 68 : window.innerHeight - 122;
+
+    const handlePaymentModel = (type) => {
+        switch (type) {
+            case "failed":
+                setShowPaymentConfirmation(false);
+                upgradePlan({ plan_id: paymentData?.plan_id, order_amount: paymentData?.order_amount })
+                break;
+            case "success":
+                setShowPaymentConfirmation(false);
+                setPaymentData(null)
+                window.location.reload();
+                break;
+            default:
+                setShowPaymentConfirmation(false);
+                setPaymentData(null)
+                break;
+        }
+    }
 
     return (
         <>
@@ -571,9 +599,17 @@ function Profile() {
                     )}
                 </div>
             </div>
-            {/* {
-                isLoading && <Loader />
-            } */}
+            {
+                paymentLoader && <Loader />
+            }
+            <PaymentModal
+                show={showPaymentConfirmation}
+                type={paymentModalType}
+                transactid={paymentData?.razorpay_order_id}
+                amount={'₹'+paymentData?.order_amount}
+                credits={paymentData?.credits_offered}
+                onPress={handlePaymentModel}
+            />
         </>
     )
 }

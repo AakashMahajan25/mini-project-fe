@@ -50,7 +50,6 @@ export const getUploadURL = createAsyncThunk("contentGpt/getUploadURL", async (f
         return response.data;
 
     } catch (error) {
-        console.log('error::::', error.response)
         throw error.response;
     }
 });
@@ -65,7 +64,6 @@ export const updateUploadURL = createAsyncThunk("contentGpt/updateUploadURL", as
         const response = await axios.put(url, file, config);
         return response;
     } catch (error) {
-        console.log('error::::', error);
         throw error;
     }
 });
@@ -81,7 +79,6 @@ export const addDocument = createAsyncThunk("contentGpt/addDocument", async (req
         return response.data.data;
 
     } catch (error) {
-        console.log('error::::', error.response)
         throw error.response;
     }
 });
@@ -139,7 +136,6 @@ export const getContentPromptHistory = createAsyncThunk("fruitGpt/getContentProm
         return response.data.data;
 
     } catch (error) {
-        console.log('error::::', error.response)
         throw error.response;
     }
 });
@@ -168,7 +164,6 @@ export const deleteContentPrompt = createAsyncThunk("watchList/deleteContentProm
         return response.data.data;
 
     } catch (error) {
-        console.log('error::::', error.response)
         throw error.response;
     }
 });
@@ -201,7 +196,6 @@ export const triggerContentLinkGraph = createAsyncThunk("fruitGpt/triggerContent
         return chatData;
     } catch (error) {
         dispatch(setCancelTokens(null))
-        console.log('error::::', error.response)
         throw error.response;
     }
 });
@@ -233,7 +227,6 @@ export const triggerContentAttachmentGraph = createAsyncThunk("fruitGpt/triggerC
         return chatData;
     } catch (error) {
         dispatch(setCancelTokens(null))
-        console.log('error::::', error.response)
         throw error.response;
     }
 });

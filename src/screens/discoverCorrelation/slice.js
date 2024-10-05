@@ -17,7 +17,6 @@ export const getTrendingEvents = createAsyncThunk("marketIntelligence/getTrendin
         return response.data.data;
 
     } catch (error) {
-        console.log('error::::', error.response)
         throw error.response;
     }
 });

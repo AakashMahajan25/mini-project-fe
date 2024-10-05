@@ -197,7 +197,6 @@ function MarketContentGPT() {
     }
 
     const handleAskPress = async (type) => {
-        console.log('type============', type)
         if (type === 'link') {
             if (!question) return;
             handleNewChat()
@@ -274,8 +273,7 @@ function MarketContentGPT() {
             handleShow2={handleShow2}
         />
     );
-    console.log('buttonStart', buttonStart)
-    console.log('question', question)
+
     return (
         <>
             <div className='market-content-gpt-css'>

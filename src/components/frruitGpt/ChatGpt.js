@@ -719,6 +719,20 @@ function ChatGpt(props) {
                             }
                     </div>
                 }
+                {
+                    frruitLoader &&
+                    <div className='leftChat'>
+                        <img src={LogoCircle} className='profile-styles' />
+                        <div className='d-flex align-items-center my-2 floatLeft'>
+                            <img src={ArrowGrey} className='arrow' />
+                            <p className='you-text'>Frruit GPT</p>
+                            <h3 className='you-text' style={{ color: "#a4a5a7", fontWeight: '400', marginBottom: 0, marginLeft: 5, fontSize: 12 }}>{getCurrentTimeWithAMPM(moment())}</h3>
+                        </div>
+                        <div className={`chat-text-container chat-stream ${ frruitLoader ? 'blinking' : ''}`}>
+                            <p></p>
+                        </div>
+                    </div>
+                }
                 {/* <div className='sourceCardCss'>
                     <div className='Dflex-css'>
                         <div className='d-flex align-items-center'>
@@ -855,7 +869,7 @@ function ChatGpt(props) {
                     )}
                 <div className='d-flex align-items-center'>
                     {
-                        (frruitLoader || contentGPTLoader) &&
+                        (contentGPTLoader) &&
                         <section {...containerProps} style={{ marginLeft: -20 }}>
                             {indicatorEl} {/* renders only while loading */}
                         </section>

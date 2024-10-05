@@ -26,8 +26,6 @@ function TopBar() {
   const { userDetails } = useSelector(state => state.userSlice)
   const { cancelTokens } = useSelector(state => state.contentGPTSlice);
 
-
-  console.log('userDetails', userDetails)
   const location = useLocation()
   let navigate = useNavigate();
   const routeChangeDashboard = () => {

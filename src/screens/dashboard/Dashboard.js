@@ -615,12 +615,6 @@ function Dashboard() {
                                         </div>
                                     </div>
                                     <div className='dashboard-container'>
-                                        {/* <PaymentModal
-                                            type="failed"
-                                            transactid='101-0150133-0001689'
-                                            amount='₹80'
-                                            credits='750'
-                                        /> */}
                                         <div className='suggested-prompts-container'>
                                             {mostOnFrruitGpt?.rows?.length > 0 &&
                                                 <>

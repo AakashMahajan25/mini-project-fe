@@ -15,7 +15,6 @@ function PieChart(props) {
         }
 
         if (!graphData || !graphData.labels || !graphData.data) {
-            console.error('Invalid graphData structure');
             return;
         }
 
