@@ -5,6 +5,8 @@ import LoginImg from '../../assets/images/login_img.png'
 import LoginImg2 from '../../assets/images/login-side-img.png'
 import LoginImg3 from '../../assets/images/login_img3.png'
 import FrruitLogo from '../../assets/images/frruit-logo.png'
+import PhoneOtpImage from '../../assets/images/PhoneOtpImage.png';
+import EmailOtpImage from '../../assets/images/EmailOtpImage.png';
 import MobileIcon from '../../assets/images/mobile-icon.png';
 import OtpInput from 'react-otp-input';
 import { useNavigate } from 'react-router';
@@ -182,7 +184,7 @@ function Signup() {
                                                 <div className='loginStyle'>
                                                     <div className='loginMainTextStyle' >India's 1<sup className='suptext'>ST</sup>AI Powered</div>
                                                     <div className='loginMainTextStyle'>Stock Market search Engine</div>
-                                                    <div className='loginMainTextParaStyle'>Initiate dynamic conversations with Frruit to tap into both real-time and historical data on thousands of stocks , market-moving information , discover hidden correlations between financial market events and their impact on stock price movements !</div>
+                                                    <div className='loginMainTextParaStyle'>The stock market search engine that will give direct answers & not just blue links</div>
                                                 </div>
                                             </div>
                                             <div className='hideformobile'>
@@ -198,7 +200,7 @@ function Signup() {
                                     <div className='col-xl-5'>
                                         <div className={showCode ? 'login-form' : 'signup-form'}>
                                             <div style={{ position: 'relative' }}>
-                                                <p className='loginText text-center m-0 '>Signup</p>
+                                                {/* <p className='loginText text-center m-0 '>Signup</p> */}
                                                 <div>
                                                     {/* <img src={FrruitLogo} width={108} style={{ position: 'absolute', top: -5 }} /> */}
                                                 </div>
@@ -383,39 +385,51 @@ function Signup() {
                                                     {showCode && !showCode1 &&
                                                         <>
                                                             <div>
-                                                                <p className='p-0 mt-5' style={{ fontWeight: 600, color: '#171E42' }}>Mobile number Verification</p>
-                                                                <p className='p-0 m-0 privacyText'>Lorem Ipsum is simply dummy text of the printing and typesetting industry</p>
-                                                            </div>
-                                                            <label className='form-control-label mt-3'>Phone Number</label>
-                                                            <div className='d-flex justify-content-between align-items-center'>
-                                                                <input type="text" className="form-control form-control-input me-3 phone-number" placeholder='+91' defaultValue={"+91"} disabled></input>
-                                                                <div className="position-relative" style={{ width: '100%' }}>
-                                                                    <input type="text" className="form-control form-control-input" placeholder='99999 99999' defaultValue={allValues?.phone_number} disabled></input>
+                                                                <div className='d-flex flex-column align-items-center'>
+                                                                    <img src={PhoneOtpImage} className='phoneotpimg' />
+                                                                    <p className='p-0 otpheader'>Please check your Phone</p>
+                                                                    <p className='p-0 m-0 otpsubheader text-center'>We have sent a message with the verification code on </p>
+                                                                </div>
 
-                                                                    <div className="position-absolute" style={{ left: 18, top: '23%' }}>
-                                                                        <img src={MobileIcon} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} />
+
+                                                                {/* <label className='form-control-label mt-3'>Phone Number</label>
+                                                                <div className='d-flex justify-content-between align-items-center'>
+                                                                    <input type="text" className="form-control form-control-input me-3 phone-number" placeholder='+91' defaultValue={"+91"} disabled></input>
+                                                                    <div className="position-relative" style={{ width: '100%' }}>
+                                                                        <input type="text" className="form-control form-control-input" placeholder='99999 99999' defaultValue={allValues?.phone_number} disabled></input>
+
+                                                                        <div className="position-absolute" style={{ left: 18, top: '23%' }}>
+                                                                            <img src={MobileIcon} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} />
+                                                                        </div>
+                                                                    </div>
+                                                                </div> */}
+                                                                <div className='d-flex justify-content-center align-items-center'>
+                                                                    <p className='number-text'>+91 9999999999</p>
+                                                                    <a style={{ fontSize: 15, textDecoration: 'underline', color: 'blue' }} onClick={useDifferentClick}>Use a different Number</a>
+                                                                </div>
+
+
+                                                                <div className="form-outline verification">
+                                                                    <div className='d-flex flex-column align-items-center'>
+                                                                        <label className="typeheader my-2 justify-content-center">Type your 6 digit security code</label>
+                                                                        <div className='d-flex'>
+                                                                            <OtpInput
+                                                                                value={otp}
+                                                                                onChange={setOtp}
+                                                                                numInputs={6}
+                                                                                renderInput={(props) => <input {...props} style={{
+                                                                                    width: 56.68,
+                                                                                    outline: 'none',
+                                                                                }} className='verificationBox text-center me-2' />}
+                                                                            />
+                                                                        </div>
+                                                                        <p className='privacyText resendtext'>Didn't get the code? <a style={{ fontSize: 15, textDecoration: 'underline', color: 'blue' }} >Resend</a></p>
                                                                     </div>
                                                                 </div>
-                                                            </div>
-                                                            <a style={{ fontSize: 15, textDecoration: 'underline', color: 'blue' }} onClick={useDifferentClick}>Use a different Number</a>
 
-                                                            <div className="form-outline verification">
-                                                                <label className="form-label my-2">Type your 6 digit security code</label>
-                                                                <div className='d-flex'>
-                                                                    <OtpInput
-                                                                        value={otp}
-                                                                        onChange={setOtp}
-                                                                        numInputs={6}
-                                                                        renderInput={(props) => <input {...props} style={{
-                                                                            width: 56.68,
-                                                                            outline: 'none',
-                                                                        }} className='verificationBox text-center me-2' />}
-                                                                    />
-                                                                </div>
                                                             </div>
-                                                            <p className='privacyText mt-0' style={{ fontSize: 15 }}>Didn't get the code? <a style={{ fontSize: 15, textDecoration: 'underline', color: 'blue' }} >Resend</a></p>
                                                             <div className='d-flex justify-content-center align-items-center'>
-                                                                <button type='button' onClick={verifyMobileOtp} className='btnPrimary mt-5'>
+                                                                <button type='button' onClick={verifyMobileOtp} className='btnPrimary mt-4'>
                                                                     {isLoading ? (
                                                                         <div className="spinner-border text-light" role="status">
                                                                             <span className="sr-only"></span>
@@ -425,40 +439,52 @@ function Signup() {
                                                                     )}
                                                                 </button>
                                                             </div>
+
+                                                            <p className='privacyText text-center'>By signing up, you accept our <a style={{ textDecoration: 'none' }} className='bluetext'> Terms and Conditions</a></p>
+                                                            <p className='privacyText text-center mt-0'>See our <a style={{ textDecoration: 'none' }} className='bluetext'> Privacy Policy</a></p>
+
                                                         </>
                                                     }
                                                     {showCode && showCode1 &&
                                                         <>
-                                                            <div>
-                                                                <p className='p-0 mt-5' style={{ fontWeight: 600, color: '#171E42' }}>Email Verification</p>
-                                                                <p className='p-0 m-0 mb-3 privacyText'>Lorem Ipsum is simply dummy text of the printing and typesetting industry</p>
+                                                            <div className='d-flex flex-column align-items-center'>
+                                                                <img src={EmailOtpImage} className='phoneotpimg' />
+                                                                <p className='p-0 otpheader'>Please check your Email</p>
+                                                                <p className='p-0 m-0 otpsubheader text-center'>We have sent a email with the verification code on </p>
                                                             </div>
-                                                            <div className="position-relative" style={{ width: '100%' }}>
+                                                            {/* <div className="position-relative" style={{ width: '100%' }}>
                                                                 <label className='form-control-label mb-1'>E-mail</label>
                                                                 <input type="text" className="form-control form-control-input" placeholder='yaksh@airrchip.com' defaultValue={allValues?.email} disabled></input>
                                                                 <div className="position-absolute" style={{ left: 15, top: '50%' }}>
                                                                     <img src={MailIcon} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} alt="Search Icon" />
                                                                 </div>
+                                                            </div> */}
+
+                                                            <div className='d-flex justify-content-center align-items-center'>
+                                                                <p className='number-text'>Hiteshsutar@airrchip.com</p>
+                                                                <a style={{ fontSize: 15, textDecoration: 'underline', color: 'blue' }} onClick={useDifferentClick}>Use a different e-mail</a>
                                                             </div>
-                                                            <a style={{ fontSize: 15, textDecoration: 'underline', color: 'blue' }} onClick={useDifferentClick}>Use a different e-mail</a>
 
                                                             <div className="form-outline verification">
-                                                                <label className="form-label my-2">Type your 6 digit security code</label>
-                                                                <div className='d-flex'>
-                                                                    <OtpInput
-                                                                        value={emailOtp}
-                                                                        onChange={setEmailOtp}
-                                                                        numInputs={6}
-                                                                        renderInput={(props) => <input {...props} style={{
-                                                                            width: 56.68,
-                                                                            outline: 'none',
-                                                                        }} className='verificationBox text-center me-2' />}
-                                                                    />
+                                                                <div className='d-flex flex-column align-items-center'>
+                                                                    <label className="typeheader my-2 justify-content-center">Type your 6 digit security code</label>
+                                                                    <div className='d-flex'>
+                                                                        <OtpInput
+                                                                            value={emailOtp}
+                                                                            onChange={setEmailOtp}
+                                                                            numInputs={6}
+                                                                            renderInput={(props) => <input {...props} style={{
+                                                                                width: 56.68,
+                                                                                outline: 'none',
+                                                                            }} className='verificationBox text-center me-2' />}
+                                                                        />
+                                                                    </div>
+                                                                    <p className='privacyText resendtext mt-0' style={{ fontSize: 15 }}>Didn't get the code? <a style={{ fontSize: 15, textDecoration: 'underline', color: 'blue' }}>Resend</a></p>
                                                                 </div>
                                                             </div>
-                                                            <p className='privacyText mt-0' style={{ fontSize: 15 }}>Didn't get the code? <a style={{ fontSize: 15, textDecoration: 'underline', color: 'blue' }}>Resend</a></p>
+                                                            
                                                             <div className='d-flex justify-content-center align-items-center'>
-                                                                <button type='button' className='btnPrimary mt-5' onClick={verifyEmailId}>
+                                                                <button type='button' className='btnPrimary mt-4' onClick={verifyEmailId}>
                                                                     {isLoading ? (
                                                                         <div className="spinner-border text-light" role="status">
                                                                             <span className="sr-only"></span>
@@ -468,6 +494,10 @@ function Signup() {
                                                                     )}
                                                                 </button>
                                                             </div>
+
+                                                            <p className='privacyText text-center'>By signing up, you accept our <a style={{ textDecoration: 'none' }} className='bluetext'> Terms and Conditions</a></p>
+                                                            <p className='privacyText text-center mt-0'>See our <a style={{ textDecoration: 'none' }} className='bluetext'> Privacy Policy</a></p>
+
                                                         </>
                                                     }
 
