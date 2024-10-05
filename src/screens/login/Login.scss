@@ -74,6 +74,7 @@
     .login-page {
         height: 100vh;
         display: flex;
+        margin-top: 0px;
 
         @media only screen and (max-width: 500px) {
             display: flow-root;
@@ -184,18 +185,20 @@
     }
 
     .login-form {
-        height: 80vh;
+        height: 94vh;
         padding: 37px;
-        margin: 60px;
+        margin-left: 60px;
+        margin-right: 60px;
         // margin-right: 60px !important;
         background-color: #Fff;
         border-radius: 50px;
 
         @media only screen and (max-width: 500px) {
-            margin-top: 29px !important;
+            margin-top: 13px !important;
             margin: 15px;
             padding: 15px;
-            height: 70vh;
+            height: 72vh;
+            border-radius: 20px !important;
         }
     }
 
@@ -316,7 +319,7 @@
         @media only screen and (max-width: 500px) {
             // margin-right: 0 !important;
             height: 40px;
-            width: 40px;
+            width: 40px !important;
         }
     }
 
@@ -335,6 +338,11 @@
 
     .verification {
         margin-top: 38px;
+
+        @media only screen and (max-width: 500px) {
+           margin-top: 15px;
+        }
+
     }
 
     // a {
@@ -352,6 +360,16 @@
         color: #6F6B7D;
         margin: 0;
         margin-top: 40px;
+    }
+
+    .resendtext{
+        font-size: 15px;
+        margin-top: 20px !important;
+
+        @media only screen and (max-width: 500px) {
+            margin-top: 20px !important;
+         }
+
     }
 
     .bluetext {
