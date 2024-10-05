@@ -228,7 +228,6 @@ function FrruitGPT() {
     
             socket.on("end", (endData) => {
                 stopStream();
-                console.log('endData::::::::::::', endData)
                 if (endData && endData?.data?.length > 0)
                     setStreamLinks(endData?.data)
             });
@@ -238,7 +237,6 @@ function FrruitGPT() {
                 setStreamInitiated(false)
                 setButtonStart(true)
                 setQuestion(searchText);
-                console.error("Error from server:", error);
                 toast.error(error?.message || "Something went wrong, Please try again.");
             });
         }

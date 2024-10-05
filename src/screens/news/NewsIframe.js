@@ -19,7 +19,6 @@ function NewsIframe() {
         return () => window.removeEventListener('resize', handleResize);
     }, []);
 
-console.log('state', state)
     const goBack = () => {
         navigate(-1)
     }

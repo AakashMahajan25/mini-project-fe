@@ -23,8 +23,6 @@ export default function WalkThrough() {
     const [currentSlide, setCurrentSlide] = useState(0);
     const navigate = useNavigate();
     const [selectedIndex, setSelectedIndex] = useState(0);
-    //   console.log('currentLanguageCode==========', currentLanguageCode);
-
 
     const handleNavigate = () => {
         navigate('/companyverification');

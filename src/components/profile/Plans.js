@@ -50,7 +50,6 @@ function Plans({handleBackButtonClick, showBackButton, upgradePlan}) {
 
     const { activePlanList } = useSelector(state => state.userSlice);
     const [currencySymbol, setCurrencySymbol] = useState('');
-    console.log('activePlanList::::', activePlanList)
     useEffect(() => {
         // Use a free IP geolocation API (replace with your own API if needed)
         const apiUrl = 'https://ipapi.co/json/';
@@ -63,7 +62,6 @@ function Plans({handleBackButtonClick, showBackButton, upgradePlan}) {
 
                 // Extract the country code from the geolocation data
                 const userCountry = data.country;
-                console.log('userCountry:::', userCountry)
 
                 // Determine the currency symbol based on the country
                 switch (userCountry) {
@@ -79,8 +77,6 @@ function Plans({handleBackButtonClick, showBackButton, upgradePlan}) {
                 console.error('Error getting geolocation:', error);
             }
         };
-        console.log('currencySymbol:::', currencySymbol)
-
         getGeolocation();
     }, []);
 

@@ -215,7 +215,6 @@ function LeftBox() {
             dispatch(getTickersById(data?.watchlist_id));
             dispatch(getUserWatchLists());
         }).catch(error => {
-            console.log('error', error);
             toast.error(error.message || 'Error in adding in watchlist');
         });
     }
@@ -239,7 +238,6 @@ function LeftBox() {
 
     const handleSave = (id, index) => {
         setSelectedId(id)
-        console.log('id', id)
         if (id) {
             const data = {
                 watchlist_id: id,
@@ -262,7 +260,6 @@ function LeftBox() {
                     getWatchListData(id);
                 }).catch(error => 
                     {
-                        console.log('error', error)
                         toast.error(error.message || 'Error in adding in watchlist');
                     }
             
@@ -276,7 +273,6 @@ function LeftBox() {
         dispatch(getFinancialsPeers(queryParams)).unwrap().then(res => {
 
         }).catch(error => {
-            console.log('error', error)
             toast.error(error.message || 'Error in fetching peers');
         });
     }
@@ -286,7 +282,6 @@ function LeftBox() {
         dispatch(getFinancialsShareHolding(queryParams)).unwrap().then(res => {
 
         }).catch(error => {
-            console.log('error', error)
             toast.error(error.message || 'Error in fetching shareholding');
         });
     }
@@ -296,7 +291,6 @@ function LeftBox() {
         dispatch(getStockRevenue(queryParams)).unwrap().then(res => {
 
         }).catch(error => {
-            console.log('error', error)
             toast.error(error.message || 'Error in fetching shareholding');
         });
     }

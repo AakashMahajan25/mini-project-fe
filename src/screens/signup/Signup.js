@@ -96,7 +96,6 @@ function Signup() {
                 toast.success("OTP has sent successfully");
             })
             .catch((error) => {
-                console.log('error', JSON.stringify(error, null, 2));
                 toast.error(error.message || "Unable to proceed");
             })
     }
@@ -122,7 +121,6 @@ function Signup() {
                 setShowCode1(true)
             })
             .catch((error) => {
-                console.log('error', JSON.stringify(error, null, 2))
                 toast.error(error.message || 'Failed to verify otp');
             })
     }
@@ -157,7 +155,6 @@ function Signup() {
                         toast.success(res.message)
                     })
                     .catch((error) => {
-                        console.log('error', JSON.stringify(error, null, 2))
                         toast.error(error.message)
                     })
             })

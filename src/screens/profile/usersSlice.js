@@ -14,6 +14,7 @@ const initialState = {
     orderHistory: null,
     isLoading: false,
     error: null,
+    paymentLoader: false
 };
 
 export const getUserDetails = createAsyncThunk("users/getUserDetails", async () => {
@@ -26,7 +27,6 @@ export const getUserDetails = createAsyncThunk("users/getUserDetails", async () 
         return response.data.data;
 
     } catch (error) {
-        console.log('error::::', error.response)
         throw error.response;
     }
 });
@@ -42,7 +42,6 @@ export const updateProfile = createAsyncThunk("users/updateProfile", async (requ
         return response.data;
 
     } catch (error) {
-        console.log('error::::', error.response)
         throw error.response;
     }
 });
@@ -57,7 +56,6 @@ export const getUserPlan = createAsyncThunk("users/getUserActivePlan", async () 
         return response.data.data;
 
     } catch (error) {
-        console.log('error::::', error.response)
         throw error.response;
     }
 });
@@ -72,7 +70,6 @@ export const getUserTopics = createAsyncThunk("users/getUserTopics", async () =>
         return response.data.data;
 
     } catch (error) {
-        console.log('error::::', error.response)
         throw error.response;
     }
 });
@@ -88,7 +85,6 @@ export const updateUserTopics = createAsyncThunk("users/updateUserTopics", async
         return response.data;
 
     } catch (error) {
-        console.log('error::::', error.response)
         throw error.response;
     }
 });
@@ -103,7 +99,6 @@ export const getAvaliableCredit = createAsyncThunk("users/getAvaliableCredit", a
         return response.data.data;
 
     } catch (error) {
-        console.log('error::::', error.response)
         throw error.response;
     }
 });
@@ -132,7 +127,6 @@ export const getFaqs = createAsyncThunk("users/getFaqs", async () => {
         return response.data.result;
 
     } catch (error) {
-        console.log('error::::', error.response)
         throw error.response;
     }
 });
@@ -177,7 +171,6 @@ export const getUserOrderHistory = createAsyncThunk("users/getUserOrderHistory",
         return response.data.data;
 
     } catch (error) {
-        console.log('error::::', error.response)
         throw error.response;
     }
 });
@@ -191,6 +184,9 @@ const userSlice = createSlice({
     extraReducers: (builder) => {
         const handleLoading = (state, action) => {
             state.isLoading = action.meta.requestStatus === 'pending';
+        };
+        const paymentLoading = (state, action) => {
+            state.paymentLoader = action.meta.requestStatus === 'pending';
         };
 
         builder
@@ -240,13 +236,17 @@ const userSlice = createSlice({
                     action.type === initiateOrder.rejected.type ||
                     action.type === initiateOrder.pending.type ||
                     action.type === initiateOrder.fulfilled.type ||
-                    action.type === placeOrder.rejected.type ||
-                    action.type === placeOrder.pending.type ||
-                    action.type === placeOrder.fulfilled.type ||
                     action.type === getUserOrderHistory.rejected.type ||
                     action.type === getUserOrderHistory.pending.type ||
                     action.type === getUserOrderHistory.fulfilled.type,
                 handleLoading
+            )
+            .addMatcher(
+                (action) =>
+                    action.type === placeOrder.rejected.type ||
+                    action.type === placeOrder.pending.type ||
+                    action.type === placeOrder.fulfilled.type,
+                paymentLoading
             )
     }
 

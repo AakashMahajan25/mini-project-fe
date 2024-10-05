@@ -250,7 +250,6 @@ export const editWatchList = createAsyncThunk("watchList/editWatchList", async (
         return response.data.data;
 
     } catch (error) {
-        console.log('error::::', error.response)
         throw error.response;
     }
 });
@@ -265,7 +264,6 @@ export const deleteWatchList = createAsyncThunk("watchList/deleteWatchList", asy
         return response.data.data;
 
     } catch (error) {
-        console.log('error::::', error.response)
         throw error.response;
     }
 });
@@ -281,7 +279,6 @@ export const addWatchList = createAsyncThunk("watchList/addWatchList", async (wa
         return response.data.data;
 
     } catch (error) {
-        console.log('error::::', error.response)
         throw error.response;
     }
 });
@@ -296,7 +293,6 @@ export const getStocksCompanyDetail = createAsyncThunk("watchList/getStocksCompa
         return response.data.data;
 
     } catch (error) {
-        console.log('error::::', error.response)
         throw error.response;
     }
 });
@@ -310,7 +306,6 @@ export const getStockStatistics = createAsyncThunk("watchList/getStockStatistics
         return response.data.data;
 
     } catch (error) {
-        console.log('error::::', error.response)
         throw error.response;
     }
 });
@@ -325,7 +320,6 @@ export const getGraphDetail = createAsyncThunk("watchList/getGraphDetail", async
         return response.data.data;
 
     } catch (error) {
-        console.log('error::::', error.response)
         throw error.response;
     }
 });
@@ -368,7 +362,6 @@ export const removeTickerFromWatchList = createAsyncThunk("watchList/removeTicke
         return response.data.data;
 
     } catch (error) {
-        console.log('error::::', error.response)
         throw error.response;
     }
 });
