@@ -15,7 +15,7 @@ import * as yup from 'yup';
 import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useDispatch, useSelector } from 'react-redux';
-import { signupOtp, signupUser, verifyOtp } from './slice';
+import { resendOtp, signupOtp, signupUser, verifyOtp } from './slice';
 import { toast } from 'react-toastify';
 import ReactGA from 'react-ga4';
 import CloseImg from '../../assets/images/close_icon.png';
@@ -183,6 +183,30 @@ function Signup() {
             })
             .catch((error) => {
                 toast.error(error.data)
+            })
+    }
+
+    const handleResendOtp = (type) => {
+        const data = {};
+
+        if(type === "email"){
+            data["type"] = 'email'
+            data["email"] = allValues?.email
+            data["mobile"] = "+91" + allValues?.phone_number
+        } else {
+            data["type"] = 'mobile'
+            data["mobile"] = "+91" + allValues?.phone_number
+        }
+
+        dispatch(resendOtp(data))
+            .unwrap()
+            .then(async (res) => {
+                toast.success(res.message)
+                setTimerEnded(false)
+                setTimer(60)
+            })
+            .catch((error) => {
+                toast.error(error.message || 'Failed to resend otp');
             })
     }
 
@@ -446,7 +470,7 @@ function Signup() {
                                                                         </div>
                                                                         {
                                                                             timerEnded ? 
-                                                                            <p className='privacyText resendtext mt-0' style={{ fontSize: 15 }}>Didn't get the code? <a style={{ fontSize: 15, textDecoration: 'underline', color: 'blue' }}>Resend</a></p> :
+                                                                            <p className='privacyText resendtext mt-0' style={{ fontSize: 15 }}>Didn't get the code? <a style={{ fontSize: 15, textDecoration: 'underline', color: 'blue' }} onClick={()=>handleResendOtp("mobile")}>Resend</a></p> :
                                                                             <p className='privacyText resendtext mt-0' style={{ fontSize: 15 }}>Request new OTP in 00:{formattedTime}</p>
                                                                         }
                                                                     </div>
@@ -503,7 +527,7 @@ function Signup() {
                                                                     </div>
                                                                     {
                                                                         timerEnded ? 
-                                                                        <p className='privacyText resendtext mt-0' style={{ fontSize: 15 }}>Didn't get the code? <a style={{ fontSize: 15, textDecoration: 'underline', color: 'blue' }}>Resend</a></p> :
+                                                                        <p className='privacyText resendtext mt-0' style={{ fontSize: 15 }}>Didn't get the code? <a style={{ fontSize: 15, textDecoration: 'underline', color: 'blue' }} onClick={()=>handleResendOtp("email")}>Resend</a></p> :
                                                                         <p className='privacyText resendtext mt-0' style={{ fontSize: 15 }}>Request new OTP in 00:{formattedTime}</p>
                                                                     }
                                                                 </div>
