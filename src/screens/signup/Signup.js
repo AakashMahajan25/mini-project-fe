@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import '../login/Login.scss'
 import '../signup/Signup.scss'
 import LoginImg from '../../assets/images/login_img.png'
@@ -40,6 +40,10 @@ function Signup() {
     const [termsAccepted, setTermsAccepted] = useState(false);
     const [showError, setShowError] = useState(false);
     const { isLoading } = useSelector(state => state?.signupSlice)
+    const [timer, setTimer] = useState(60)
+    const [timerEnded, setTimerEnded] = useState(true)
+
+    const formattedTime = String(timer).padStart(2, '0');
 
     const signupSchema = yup.object().shape({
         first_name: yup.string().required("Please enter first name."),
@@ -53,6 +57,19 @@ function Signup() {
     const { control, handleSubmit, formState: { errors }, watch } = useForm({
         resolver: yupResolver(signupSchema)
     })
+
+    useEffect(() => {
+        if (timer === 0) {
+            setTimerEnded(true);
+            return;
+        }
+
+        const timerInterval = setInterval(() => {
+            setTimer((prevTime) => prevTime - 1);
+        }, 1000);
+
+        return () => clearInterval(timerInterval);
+    }, [timer]);
 
     const allValues = watch()
 
@@ -94,6 +111,8 @@ function Signup() {
         dispatch(signupOtp({ type: 'mobile', email: data.email, mobile: "+91" + data?.phone_number }))
             .unwrap()
             .then((res) => {
+                setTimerEnded(false)
+                setTimer(60)
                 setShowCode(true)
                 toast.success("OTP has sent successfully");
             })
@@ -120,6 +139,8 @@ function Signup() {
             .then(async (res) => {
                 toast.success(res.message)
                 // await dispatch(signupOtp({ type: 'email', email: allValues?.email, mobile: "+91" + allValues?.phone_number }))
+                setTimerEnded(false)
+                setTimer(60)
                 setShowCode1(true)
             })
             .catch((error) => {
@@ -197,7 +218,10 @@ function Signup() {
                                     <div className='col-xl-5'>
                                         <div className={showCode ? 'login-form' : 'signup-form'}>
                                             <div style={{ position: 'relative' }}>
-                                                {/* <p className='loginText text-center m-0 '>Signup</p> */}
+                                                {
+                                                    !showCode && !showCode1 &&
+                                                    <p className='loginText text-center m-0 '>Signup</p>
+                                                }
                                                 <div>
                                                     {/* <img src={FrruitLogo} width={108} style={{ position: 'absolute', top: -5 }} /> */}
                                                 </div>
@@ -401,7 +425,7 @@ function Signup() {
                                                                     </div>
                                                                 </div> */}
                                                                 <div className='d-flex justify-content-center align-items-center'>
-                                                                    <p className='number-text'>+91 9999999999</p>
+                                                                    <p className='number-text'>+91 {allValues?.phone_number}</p>
                                                                     <a style={{ fontSize: 15, textDecoration: 'underline', color: 'blue' }} onClick={useDifferentClick}>Use a different Number</a>
                                                                 </div>
 
@@ -420,7 +444,11 @@ function Signup() {
                                                                                 }} className='verificationBox text-center me-2' />}
                                                                             />
                                                                         </div>
-                                                                        <p className='privacyText resendtext'>Didn't get the code? <a style={{ fontSize: 15, textDecoration: 'underline', color: 'blue' }} >Resend</a></p>
+                                                                        {
+                                                                            timerEnded ? 
+                                                                            <p className='privacyText resendtext mt-0' style={{ fontSize: 15 }}>Didn't get the code? <a style={{ fontSize: 15, textDecoration: 'underline', color: 'blue' }}>Resend</a></p> :
+                                                                            <p className='privacyText resendtext mt-0' style={{ fontSize: 15 }}>Request new OTP in 00:{formattedTime}</p>
+                                                                        }
                                                                     </div>
                                                                 </div>
 
@@ -446,7 +474,7 @@ function Signup() {
                                                         <>
                                                             <div className='d-flex flex-column align-items-center'>
                                                                 <img src={EmailOtpImage} className='phoneotpimg' />
-                                                                <p className='p-0 otpheader'>Please check your Email</p>
+                                                                <p className='p-0 otpheader'>Please check your E-mail</p>
                                                                 <p className='p-0 m-0 otpsubheader text-center'>We have sent a email with the verification code on </p>
                                                             </div>
                                                             {/* <div className="position-relative" style={{ width: '100%' }}>
@@ -458,7 +486,7 @@ function Signup() {
                                                             </div> */}
 
                                                             <div className='d-flex justify-content-center align-items-center'>
-                                                                <p className='number-text'>Hiteshsutar@airrchip.com</p>
+                                                                <p className='number-text'>{allValues?.email}</p>
                                                                 <a style={{ fontSize: 15, textDecoration: 'underline', color: 'blue' }} onClick={useDifferentClick}>Use a different e-mail</a>
                                                             </div>
 
@@ -476,7 +504,11 @@ function Signup() {
                                                                             }} className='verificationBox text-center me-2' />}
                                                                         />
                                                                     </div>
-                                                                    <p className='privacyText resendtext mt-0' style={{ fontSize: 15 }}>Didn't get the code? <a style={{ fontSize: 15, textDecoration: 'underline', color: 'blue' }}>Resend</a></p>
+                                                                    {
+                                                                        timerEnded ? 
+                                                                        <p className='privacyText resendtext mt-0' style={{ fontSize: 15 }}>Didn't get the code? <a style={{ fontSize: 15, textDecoration: 'underline', color: 'blue' }}>Resend</a></p> :
+                                                                        <p className='privacyText resendtext mt-0' style={{ fontSize: 15 }}>Request new OTP in 00:{formattedTime}</p>
+                                                                    }
                                                                 </div>
                                                             </div>
                                                             
