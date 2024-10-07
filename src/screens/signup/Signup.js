@@ -251,7 +251,7 @@ function Signup() {
                                                 </div>
                                             </div>
                                             <form onSubmit={handleSubmit(onSubmit)}>
-                                                <div className="form-outline mt-4">
+                                                <div className="form-outline mt-2">
                                                     {!showCode && !showCode1 &&
                                                         <>
                                                             <label className='form-control-label'>First Name</label>
@@ -489,9 +489,6 @@ function Signup() {
                                                                 </button>
                                                             </div>
 
-                                                            <p className='privacyText text-center'>By signing up, you accept our <a style={{ textDecoration: 'none' }} className='bluetext'> Terms and Conditions</a></p>
-                                                            <p className='privacyText text-center mt-0'>See our <a style={{ textDecoration: 'none' }} className='bluetext'> Privacy Policy</a></p>
-
                                                         </>
                                                     }
                                                     {showCode && showCode1 &&
@@ -547,9 +544,6 @@ function Signup() {
                                                                     )}
                                                                 </button>
                                                             </div>
-
-                                                            <p className='privacyText text-center'>By signing up, you accept our <a style={{ textDecoration: 'none' }} className='bluetext'> Terms and Conditions</a></p>
-                                                            <p className='privacyText text-center mt-0'>See our <a style={{ textDecoration: 'none' }} className='bluetext'> Privacy Policy</a></p>
 
                                                         </>
                                                     }

@@ -185,7 +185,7 @@
     }
 
     .login-form {
-        height: 94vh;
+        height: 85vh;
         padding: 37px;
         margin-left: 60px;
         margin-right: 60px;
@@ -194,10 +194,10 @@
         border-radius: 50px;
 
         @media only screen and (max-width: 500px) {
-            margin-top: 13px !important;
+            margin-top: 30px !important;
             margin: 15px;
             padding: 15px;
-            height: 72vh;
+            height: 65vh;
             border-radius: 20px !important;
         }
     }
