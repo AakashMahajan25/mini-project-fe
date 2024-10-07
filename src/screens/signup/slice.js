@@ -100,6 +100,22 @@ export const searchTopics = createAsyncThunk("signUp/searchTopics", async (searc
     }
 });
 
+export const resendOtp = createAsyncThunk("signUp/resendOtp", async (requestData) => {
+    try {
+        let data = {
+            method: METHOD_TYPE.post,
+            url: API_ENDPOINTS.resendOtp,
+            data: requestData
+        };
+        const response = await api(data);
+        return response.data;
+
+    } catch (error) {
+
+        throw error.response.data.message;
+    }
+});
+
 
 const signupSlice = createSlice({
     name: "signUp",
@@ -134,7 +150,10 @@ const signupSlice = createSlice({
                     action.type === addTopics.rejected.type ||
                     action.type === searchTopics.pending.type ||
                     action.type === searchTopics.fulfilled.type ||
-                    action.type === searchTopics.rejected.type,
+                    action.type === searchTopics.rejected.type ||
+                    action.type === resendOtp.pending.type ||
+                    action.type === resendOtp.fulfilled.type ||
+                    action.type === resendOtp.rejected.type,
                 handleLoading
             );
     }
