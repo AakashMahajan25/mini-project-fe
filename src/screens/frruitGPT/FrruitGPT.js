@@ -43,7 +43,7 @@ function FrruitGPT() {
     const [show, setShow] = useState(false)
     const handleHistoryClose = () => setShowHistory(false);
     const handleHistoryShow = () => setShowHistory(true);
-    const [fundamental, setFundamental] = useState(state?.fundamental || '');
+    const [fundamental, setFundamental] = useState('');
     const [streamData, setStreamData] = useState('')
     const [streamLinks, setStreamLinks] = useState([])
     const [streamInitiated, setStreamInitiated] = useState(false)
@@ -146,7 +146,7 @@ function FrruitGPT() {
     }
 
     const askFrruitGpt = async (promptId, title, customFlag='') => {
-        const actualFlag = customFlag ? customFlag : (fundamental !== '' ? fundamental : flag)
+        const actualFlag = customFlag ? customFlag : flag
         if (streamData) {
             dispatch(setChatHistory([{
                 person: "bot",
@@ -187,7 +187,7 @@ function FrruitGPT() {
         dispatch(setCancelTokens(token))
 
         // if ((isFirstRender || isNewChat.current) ? (state?.fundamental && state?.fundamental === true) ? false : flag === "news" : flag === "news")
-        if ((flag || fundamental)) {
+        if ((flag)) {
             requestData["flag"] = actualFlag
             setStreamFlag(actualFlag)
         }
