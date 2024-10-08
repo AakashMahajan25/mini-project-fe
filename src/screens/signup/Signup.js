@@ -382,7 +382,7 @@ function Signup() {
                                                                         <select
                                                                             {...field}
                                                                             id="statusDropdown"
-                                                                            className={errors?.broker ? "form-control form-control-input error-feild" : "form-control form-control-input"}
+                                                                            className={errors?.broker ? "form-control form-control-input error-feild" : "form-control form-control-input form-select"}
                                                                             style={{ textIndent: 13, fontSize: 14 }}
                                                                         >
                                                                             <option value="" disabled>Select</option>
@@ -450,7 +450,7 @@ function Signup() {
                                                                 </div> */}
                                                                 <div className='d-flex justify-content-center align-items-center'>
                                                                     <p className='number-text'>+91 {allValues?.phone_number}</p>
-                                                                    <a style={{ fontSize: 15, textDecoration: 'underline', color: 'blue' }} onClick={useDifferentClick}>Use a different Number</a>
+                                                                    <a style={{ cursor:'pointer', fontSize: 15, textDecoration: 'underline', color: 'blue' }} onClick={useDifferentClick}>Use a different Number</a>
                                                                 </div>
 
 
@@ -470,7 +470,7 @@ function Signup() {
                                                                         </div>
                                                                         {
                                                                             timerEnded ? 
-                                                                            <p className='privacyText resendtext mt-0' style={{ fontSize: 15 }}>Didn't get the code? <a style={{ fontSize: 15, textDecoration: 'underline', color: 'blue' }} onClick={()=>handleResendOtp("mobile")}>Resend</a></p> :
+                                                                            <p className='privacyText resendtext mt-0' style={{ fontSize: 15 }}>Didn't get the code? <a style={{ cursor: "pointer", fontSize: 15, textDecoration: 'underline', color: 'blue' }} onClick={()=>handleResendOtp("mobile")}>Resend</a></p> :
                                                                             <p className='privacyText resendtext mt-0' style={{ fontSize: 15 }}>Request new OTP in 00:{formattedTime}</p>
                                                                         }
                                                                     </div>
@@ -508,7 +508,7 @@ function Signup() {
 
                                                             <div className='d-flex justify-content-center align-items-center'>
                                                                 <p className='number-text'>{allValues?.email}</p>
-                                                                <a style={{ fontSize: 15, textDecoration: 'underline', color: 'blue' }} onClick={useDifferentClick}>Use a different e-mail</a>
+                                                                <a style={{ cursor:'pointer', fontSize: 15, textDecoration: 'underline', color: 'blue' }} onClick={useDifferentClick}>Use a different e-mail</a>
                                                             </div>
 
                                                             <div className="form-outline verification">
@@ -527,7 +527,7 @@ function Signup() {
                                                                     </div>
                                                                     {
                                                                         timerEnded ? 
-                                                                        <p className='privacyText resendtext mt-0' style={{ fontSize: 15 }}>Didn't get the code? <a style={{ fontSize: 15, textDecoration: 'underline', color: 'blue' }} onClick={()=>handleResendOtp("email")}>Resend</a></p> :
+                                                                        <p className='privacyText resendtext mt-0' style={{ fontSize: 15 }}>Didn't get the code? <a style={{cursor:'pointer', fontSize: 15, textDecoration: 'underline', color: 'blue' }} onClick={()=>handleResendOtp("email")}>Resend</a></p> :
                                                                         <p className='privacyText resendtext mt-0' style={{ fontSize: 15 }}>Request new OTP in 00:{formattedTime}</p>
                                                                     }
                                                                 </div>
