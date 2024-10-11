@@ -29,6 +29,7 @@ import PrivacyPolicy from '../../components/profile/privacyPolicy/PrivacyPolicy'
 import Pricing from '../../components/profile/pricing/Pricing';
 import CancellationAndRefundPolicy from '../../components/profile/cancellationAndRefundPolicy/CancellationAndRefundPolicy';
 import PaymentModal from '../../components/paymentModal/PaymentModal';
+import Feedback from '../../components/profile/feedback/Feedback';
 
 function Profile() {
     const navigate = useNavigate();
@@ -53,6 +54,7 @@ function Profile() {
     const [isCancellationPolicyActive, setCancellationPolicyActiveColor] = useState(false);
     const [paymentModalType, setPaymentModalType] = useState("success")
     const [showPaymentConfirmation, setShowPaymentConfirmation] = useState(false)
+    const [isFeedbackActive, setFeedbackActiveColor] = useState(false);
     const [paymentData, setPaymentData] = useState(null)
 
     const handleProfileClick = () => {
@@ -69,6 +71,7 @@ function Profile() {
         setPricingActiveColor(false);
         setViewPlansActiveColor(false)
         setCancellationPolicyActiveColor(false)
+        setFeedbackActiveColor(false)
     };
 
     const handlePaymentHistoryClick = () => {
@@ -85,6 +88,7 @@ function Profile() {
         setPricingActiveColor(false);
         setViewPlansActiveColor(false)
         setCancellationPolicyActiveColor(false)
+        setFeedbackActiveColor(false)
     };
 
     const handlePreferencesClick = () => {
@@ -101,6 +105,7 @@ function Profile() {
         setPricingActiveColor(false)
         setViewPlansActiveColor(false)
         setCancellationPolicyActiveColor(false)
+        setFeedbackActiveColor(false)
     };
     const handleHelpClick = () => {
         ReactGA.event({
@@ -123,6 +128,7 @@ function Profile() {
         setPricingActiveColor(false)
         setViewPlansActiveColor(false)
         setCancellationPolicyActiveColor(false)
+        setFeedbackActiveColor(false)
     };
     const handleTermsConditionClick = () => {
         setShowProfile(false);
@@ -138,6 +144,7 @@ function Profile() {
         setPricingActiveColor(false)
         setViewPlansActiveColor(false)
         setCancellationPolicyActiveColor(false)
+        setFeedbackActiveColor(false)
     };
     const handlePrivacyPolicyClick = () => {
         setShowProfile(false);
@@ -153,6 +160,7 @@ function Profile() {
         setPricingActiveColor(false)
         setViewPlansActiveColor(false)
         setCancellationPolicyActiveColor(false)
+        setFeedbackActiveColor(false)
     };
     const handlePricingClick = () => {
         setShowProfile(false);
@@ -168,6 +176,7 @@ function Profile() {
         setPricingActiveColor(true)
         setViewPlansActiveColor(false)
         setCancellationPolicyActiveColor(false)
+        setFeedbackActiveColor(false)
     };
 
     const handleViewPlansClick = () => {
@@ -184,6 +193,7 @@ function Profile() {
         setPricingActiveColor(false)
         setViewPlansActiveColor(true)
         setCancellationPolicyActiveColor(false)
+        setFeedbackActiveColor(false)
     };
 
     const handleCancellationPolicyClick = () => {
@@ -200,6 +210,24 @@ function Profile() {
         setPricingActiveColor(false)
         setViewPlansActiveColor(false)
         setCancellationPolicyActiveColor(true)
+        setFeedbackActiveColor(false)
+    };
+
+    const handleFeedbackClick = () => {
+        setShowProfile(false);
+        setShowPreferences(false);
+        setShowHelpFAQ(false);
+        setIsHelpActive(false);
+        setShowCodeActiveColor(false);
+        setPreferencesActiveColor(false);
+        setPaymentHistoryActiveColor(false);
+        setPaymentHistory(false);
+        setTermsConditionActiveColor(false);
+        setPrivacyPolicyActiveColor(false);
+        setPricingActiveColor(false)
+        setViewPlansActiveColor(false)
+        setCancellationPolicyActiveColor(false)
+        setFeedbackActiveColor(true)
     };
 
     const updateProfileSchema = yup.object().shape({
@@ -380,10 +408,12 @@ function Profile() {
                         isViewPlansActive={isViewPlansActive}
                         isCancellationPolicyActive={isCancellationPolicyActive}
                         handleCancellationPolicyClick={handleCancellationPolicyClick}
+                        isFeedbackActive={isFeedbackActive}
+                        handleFeedbackClick={handleFeedbackClick}
                     />
                 </div>
                 <div className='col-lg-9 col-md-9 col-sm-9 column-pad'>
-                    {!showCode && !showPreferences && !showHelpFAQ && !showPaymentHistory && !isTermsConditionActive && !isPrivacyPolicyActive && !isPricingActive && !isViewPlansActive && !isCancellationPolicyActive &&
+                    {!showCode && !showPreferences && !showHelpFAQ && !showPaymentHistory && !isTermsConditionActive && !isPrivacyPolicyActive && !isPricingActive && !isViewPlansActive && !isCancellationPolicyActive && !isFeedbackActive &&
                         <div className='right-part' style={{ height: rightPartHeight, overflowY: 'scroll' }}>
                             <div className='welcome-text'>Welcome</div>
                             <div style={{ marginBottom: 20 }} className='user-text'>{userDetails?.first_name + " " + userDetails?.last_name}!</div>
@@ -493,14 +523,14 @@ function Profile() {
                                                 </div>
                                             </div>
                                         </div>
-                                        <label className='form-control-label'>Phone Number</label>
+                                        {/* <label className='form-control-label'>Phone Number</label> */}
                                         <div className='row m-0'>
                                             {/* <div className='col-lg-2 column-pad'>
                                         <div className='me-2'>
                                             <input style={{textIndent:'12px'}} type="text" className="form-control form-control-input" placeholder='+91' defaultValue={"+91"} disabled></input>
                                         </div>
                                     </div> */}
-                                            <div className='col-lg-12 column-pad'>
+                                            {/* <div className='col-lg-12 column-pad'>
                                                 <div className="position-relative" style={{ width: '100%', marginBottom: 20 }}>
                                                     <Controller
                                                         control={control}
@@ -516,12 +546,12 @@ function Profile() {
                                                         )}
                                                     />
                                                     {errors?.phone_number && <p style={{ color: 'red' }}>{errors?.phone_number?.message}</p>}
-                                                    {/* <input type="text" className="form-control form-control-input" placeholder='Enter Phone Number'></input> */}
+                                                    <input type="text" className="form-control form-control-input" placeholder='Enter Phone Number'></input>
                                                     <div className="position-absolute" style={{ left: 17, top: '22%' }}>
                                                         <img src={MobileIcon} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} alt="Search Icon" />
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div> */}
                                         </div>
                                         <div className="position-relative" style={{ width: '100%', marginBottom: 20 }}>
                                             <label className='form-control-label'>Email Address</label>
@@ -595,6 +625,11 @@ function Profile() {
                     {isCancellationPolicyActive && (
                         <div className='right-part' style={{ height: rightPartHeight, overflowY: 'scroll' }}>
                              <CancellationAndRefundPolicy />
+                        </div>
+                    )}
+                    {isFeedbackActive && (
+                        <div className='right-part' style={{ height: rightPartHeight, overflowY: 'scroll' }}>
+                             <Feedback />
                         </div>
                     )}
                 </div>
