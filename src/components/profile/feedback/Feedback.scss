@@ -1,0 +1,124 @@
+.feedback-css {
+    background-color: #E5ECFF;
+    border-radius: 20px;
+    padding: 24px;
+
+    .feedback-text {
+        font-size: 36px;
+        font-weight: 600;
+        line-height: 23px;
+        font-family: 'Roboto', sans-serif;
+        color: #4563E4;
+        margin-bottom: 10px;
+    }
+
+    .errorText {
+        font-size: 13px;
+        font-weight: 500;
+        color: red;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .white-background {
+        background-color: #FFFFFF;
+        border-radius: 20px;
+        padding: 24px;
+    }
+
+    .top-text {
+        font-size: 20px;
+        font-weight: 600;
+        line-height: 23px;
+        font-family: 'Roboto', sans-serif;
+        color: #4563E4;
+        margin-bottom: 10px;
+    }
+
+    .feedback-icon {
+        width: 300px;
+        height: 300px;
+        object-fit: contain;
+    }
+
+    .right-side {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 100%;
+    }
+
+    .margin-class{
+        @media only screen and (max-width: 500px) {
+            margin-top: 20px;
+          }
+    }
+
+    .small-icon {
+        height: 24px;
+        width: 24px;
+        object-fit: contain;
+        margin-right: 8px;
+    }
+
+    .black-text {
+        font-size: 14px;
+        font-weight: 500;
+        color: #171E42;
+    }
+
+    .upload-box {
+        border: 0.66px dashed #376FFF;
+        border-radius: 15px;
+        padding: 16px;
+        // display: flex;
+        // align-items: center;
+        // justify-content: center;
+    }
+
+    .drag-files {
+        font-size: 14px;
+        font-weight: 700;
+        color: #333333;
+        text-align: center;
+    }
+
+    .grey-text {
+        font-size: 12px;
+        font-weight: 400;
+        color: #8B9299;
+        text-align: center;
+    }
+
+    .browse-btn {
+        background-color: #F1F4FD;
+        border-radius: 12px;
+        padding: 5px 20px;
+        margin-top: 16px;
+        cursor: pointer;
+    }
+
+    .browse-text {
+        font-size: 16px;
+        font-weight: 600;
+        text-align: center;
+        color: #4563E4;
+    }
+
+    .jpg-icon {
+        width: 32px;
+        height: 32px;
+        object-fit: contain;
+    }
+
+    .image-name {
+        font-size: 14px;
+        font-weight: 600;
+        color: #333333;
+    }
+
+    .date-text {
+        font-size: 12px;
+        font-weight: 400;
+        color: #8B9299;
+    }
+}

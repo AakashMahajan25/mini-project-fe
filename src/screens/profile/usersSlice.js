@@ -175,6 +175,20 @@ export const getUserOrderHistory = createAsyncThunk("users/getUserOrderHistory",
     }
 });
 
+export const userFeedback = createAsyncThunk("users/userFeedback", async (payload) => {
+    try {
+        let data = {
+            method: METHOD_TYPE.post,
+            url: API_ENDPOINTS.userFeedback,
+            data : payload
+        };
+        const response = await api(data);
+        return response.data.data;
+
+    } catch (error) {
+        throw error.response.data;
+    }
+});
 
 const userSlice = createSlice({
     name: "users",
@@ -238,7 +252,10 @@ const userSlice = createSlice({
                     action.type === initiateOrder.fulfilled.type ||
                     action.type === getUserOrderHistory.rejected.type ||
                     action.type === getUserOrderHistory.pending.type ||
-                    action.type === getUserOrderHistory.fulfilled.type,
+                    action.type === getUserOrderHistory.fulfilled.type||
+                    action.type === userFeedback.rejected.type ||
+                    action.type === userFeedback.pending.type ||
+                    action.type === userFeedback.fulfilled.type,
                 handleLoading
             )
             .addMatcher(

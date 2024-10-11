@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { Nav } from 'react-bootstrap';
 import ReactGA from 'react-ga4';
 
-function LeftProfileBox({ handlePreferencesClick, handleProfileClick, isPreferencesActive, isPaymentHistoryActive, isshowCodeActive, isHelpActive, handleHelpClick, handlePaymentHistoryClick, isTermsConditionActive, handleTermsConditionClick, isPrivacyPolicyActive, handlePrivacyPolicyClick,isPricingActive,handlePricingClick, isViewPlansActive, handleViewPlansClick, isCancellationPolicyActive,handleCancellationPolicyClick }) {
+function LeftProfileBox({ handlePreferencesClick, handleProfileClick, isPreferencesActive, isPaymentHistoryActive, isshowCodeActive, isHelpActive, handleHelpClick, handlePaymentHistoryClick, isTermsConditionActive, handleTermsConditionClick, isPrivacyPolicyActive, handlePrivacyPolicyClick,isPricingActive,handlePricingClick, isViewPlansActive, handleViewPlansClick, isCancellationPolicyActive,handleCancellationPolicyClick, isFeedbackActive, handleFeedbackClick }) {
     const navigate = useNavigate();
 
 
@@ -18,6 +18,7 @@ function LeftProfileBox({ handlePreferencesClick, handleProfileClick, isPreferen
                     {/* <div className={`mb-2 ${isPreferencesActive ? 'side-box-light-blue-btn-active' : 'side-box-light-blue-btn'}`} onClick={handlePreferencesClick}>Preferences</div> */}
                     <div className={`mb-2 ${isViewPlansActive ? 'side-box-light-blue-btn-active' : 'side-box-light-blue-btn'}`} onClick={handleViewPlansClick}>View Plans</div>
                     <div className={`mb-2 ${isPricingActive ? 'side-box-light-blue-btn-active' : 'side-box-light-blue-btn'}`} onClick={handlePricingClick}>Pricing</div>
+                    <div className={`mb-2 ${isFeedbackActive ? 'side-box-light-blue-btn-active' : 'side-box-light-blue-btn'}`} onClick={handleFeedbackClick}>Feedback</div>
                     <div className={`mb-2 ${isHelpActive ? 'side-box-light-blue-btn-active' : 'side-box-light-blue-btn'}`} onClick={handleHelpClick}>Help and FAQ</div>
                     <div className={`mb-2 ${isCancellationPolicyActive ? 'side-box-light-blue-btn-active' : 'side-box-light-blue-btn'}`} onClick={handleCancellationPolicyClick}>Cancellation and Refund Policy</div>
                     <div className={`mb-2 ${isTermsConditionActive ? 'side-box-light-blue-btn-active' : 'side-box-light-blue-btn'}`} onClick={() => {
