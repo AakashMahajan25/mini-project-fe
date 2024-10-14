@@ -869,7 +869,7 @@ function ChatGpt(props) {
                     )}
                 <div className='d-flex align-items-center'>
                     {
-                        (contentGPTLoader) &&
+                        (contentGPTLoader) && path &&
                         <section {...containerProps} style={{ marginLeft: -20 }}>
                             {indicatorEl} {/* renders only while loading */}
                         </section>
