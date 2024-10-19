@@ -491,7 +491,7 @@ function ChatGpt(props) {
                                         </div>
                                     </>
                                 }
-                                {
+                                {/* {
                                     chat.type === 'text' ?
                                         <>
                                             <div className='chat-text-container'>
@@ -502,6 +502,26 @@ function ChatGpt(props) {
                                             </div>
                                         </>
                                         : renderGraph(chat?.text)
+                                } */}
+                                {
+                                    chat.type === 'text' ? (
+                                        <>
+                                            <div className='chat-text-container'>
+                                                {chat?.focus_type === 'screener' ? (
+                                                    <div className='screener-table-container'>
+                                                        <h3
+                                                            className='chat-text mt-1 screener-table'
+                                                            dangerouslySetInnerHTML={{ __html: chat?.text }}
+                                                        ></h3>
+                                                    </div>
+                                                ) : (
+                                                    <Markdown>{chat?.text || ''}</Markdown>
+                                                )}
+                                            </div>
+                                        </>
+                                    ) : (
+                                        renderGraph(chat?.text)
+                                    )
                                 }
                                 {
                                     (chat.link && chat.link.length > 0) &&
@@ -667,7 +687,7 @@ function ChatGpt(props) {
 
                             </div>
                     )}
-                {   
+                {
 
                     (props?.streamData || props.streamInitiated) &&
                     <div className='leftChat'>
@@ -680,43 +700,43 @@ function ChatGpt(props) {
                         <div className={`chat-text-container chat-stream ${props.streamInitiated && !props.streamData ? 'blinking' : ''}`}>
                             <p><Markdown>{props?.streamData || ''}</Markdown></p>
                         </div>
-                            {
-                                (props?.streamLinks && props?.streamLinks?.length > 0) &&
-                                <>
-                                    <div className='companyCardSTyleCss'>
-                                        <div className='cardContainer'>
-                                            {props?.streamLinks?.slice(0, 3)?.map((link, index) => (
-                                                <a href={link?.source_url} target='_blank' key={index} className='sourceCardCss'>
-                                                     <div className='companyNameCss mb-2' style={{ fontSize: 14, fontWeight: '600' }}>{link?.heading ?? link?.title}</div>
-                                                    <div className='Dflex-css'>
-                                                        <div className='d-flex align-items-center'>
-                                                            <div className='d-flex align-items-center'>
-                                                               {link?.image_url && <img src={link?.image_url} className='smallCircleLogoCss me-2' alt='Company Logo' />}
-                                                                {link?.source_date &&
-                                                                    <div>
-                                                                        <div className='sources-date'>{moment(link?.source_date).format('MMMM DD, YYYY')}</div>
-                                                                        <div className='sources-time'>{moment(link?.source_date).format('h:mm a')}</div>
-                                                                    </div>
-                                                                }
-                                                            </div>
-
-                                                        </div>
-                                                        <img src={TopRIghtArrow} style={{ width: 30, objectFit: 'contain' }} alt='Arrow Icon' />
-                                                    </div>
-                                                </a>
-                                            ))}
-                                            {props?.streamLinks?.length > 3 && <div className='sourceCardCss d-flex align-items-center' style={{ width: 'max-content' }} onClick={() => { handleShow2(); setSourceData(props?.streamLinks) }}>
+                        {
+                            (props?.streamLinks && props?.streamLinks?.length > 0) &&
+                            <>
+                                <div className='companyCardSTyleCss'>
+                                    <div className='cardContainer'>
+                                        {props?.streamLinks?.slice(0, 3)?.map((link, index) => (
+                                            <a href={link?.source_url} target='_blank' key={index} className='sourceCardCss'>
+                                                <div className='companyNameCss mb-2' style={{ fontSize: 14, fontWeight: '600' }}>{link?.heading ?? link?.title}</div>
                                                 <div className='Dflex-css'>
                                                     <div className='d-flex align-items-center'>
-                                                        <div className='companyNameCss me-2'>View All</div>
+                                                        <div className='d-flex align-items-center'>
+                                                            {link?.image_url && <img src={link?.image_url} className='smallCircleLogoCss me-2' alt='Company Logo' />}
+                                                            {link?.source_date &&
+                                                                <div>
+                                                                    <div className='sources-date'>{moment(link?.source_date).format('MMMM DD, YYYY')}</div>
+                                                                    <div className='sources-time'>{moment(link?.source_date).format('h:mm a')}</div>
+                                                                </div>
+                                                            }
+                                                        </div>
+
                                                     </div>
-                                                    <img src={TopRIghtArrow} style={{ width: 30, objectFit: 'contain' }} />
+                                                    <img src={TopRIghtArrow} style={{ width: 30, objectFit: 'contain' }} alt='Arrow Icon' />
                                                 </div>
-                                            </div>}
-                                        </div>
+                                            </a>
+                                        ))}
+                                        {props?.streamLinks?.length > 3 && <div className='sourceCardCss d-flex align-items-center' style={{ width: 'max-content' }} onClick={() => { handleShow2(); setSourceData(props?.streamLinks) }}>
+                                            <div className='Dflex-css'>
+                                                <div className='d-flex align-items-center'>
+                                                    <div className='companyNameCss me-2'>View All</div>
+                                                </div>
+                                                <img src={TopRIghtArrow} style={{ width: 30, objectFit: 'contain' }} />
+                                            </div>
+                                        </div>}
                                     </div>
-                                </>
-                            }
+                                </div>
+                            </>
+                        }
                     </div>
                 }
                 {
@@ -728,7 +748,7 @@ function ChatGpt(props) {
                             <p className='you-text'>Frruit GPT</p>
                             <h3 className='you-text' style={{ color: "#a4a5a7", fontWeight: '400', marginBottom: 0, marginLeft: 5, fontSize: 12 }}>{getCurrentTimeWithAMPM(moment())}</h3>
                         </div>
-                        <div className={`chat-text-container chat-stream ${ frruitLoader ? 'blinking' : ''}`}>
+                        <div className={`chat-text-container chat-stream ${frruitLoader ? 'blinking' : ''}`}>
                             <p></p>
                         </div>
                     </div>
@@ -844,8 +864,8 @@ function ChatGpt(props) {
                                         </>
                                         :
                                         <>
-                                            {chat.render_type === 'graph' 
-                                            ?
+                                            {chat.render_type === 'graph'
+                                                ?
                                                 // <div style={{ position: 'relative', border: '1px solid #4563E4', borderRadius: 8, padding: 10 }}>
                                                 //     <div onClick={() => handleShow(chat?.text?.Graph)} style={{ position: 'absolute', right: 20, top: 0, display: 'flex', alignItems: 'center', cursor: 'pointer', backgroundColor: "white", padding: 5, zIndex: 100 }}>
                                                 //         <div style={{ color: '#4563E4' }}>Full Screen</div>
