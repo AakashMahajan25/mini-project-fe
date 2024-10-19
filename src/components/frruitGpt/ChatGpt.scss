@@ -78,6 +78,7 @@
         flex-direction: column;
         margin-right: 20px;
         width: 60%;
+
         @media only screen and (max-width: 500px) {
             width: 70%;
         }
@@ -168,10 +169,24 @@
 
     .leftChat {
         margin-left: 20px;
-        padding-right: 50px;
+        // padding-right: 50px;
+        padding-right: 20px;
 
         @media only screen and (max-width: 500px) {
             padding-right: 20px;
+        }
+
+        .screener-table-container {
+            overflow-x: auto;
+            max-width: 100%;
+        }
+
+        .screener-table {
+            white-space: nowrap;
+        }
+
+        .screener-table-container::-webkit-scrollbar {
+            height: 7px;
         }
 
         .profile-styles {
@@ -483,18 +498,21 @@
     background: #4563E4;
 }
 
-.screener-table{
+.screener-table {
     table {
         border: 0px solid green !important;
         width: 100%;
         border-collapse: separate;
-            border-spacing: 0 16px;
+        border-spacing: 0 16px;
     }
-   thead tr {
+
+    thead tr {
         background-color: #fff;
-        text-align: center !important; /* Change this to your desired background color */
-      }
-    tr{
+        text-align: center !important;
+        /* Change this to your desired background color */
+    }
+
+    tr {
         margin-top: 8px;
         margin-bottom: 8px;
         background-color: rgba(241, 244, 253, 1);
@@ -504,25 +522,29 @@
             box-shadow: 0px 3px 12px 0px rgba(0, 0, 0, 0.1);
         }
     }
-    tbody tr th{
-        text-align:center;
+
+    tbody tr th {
+        text-align: center;
         padding-left: 15px;
     }
-    td{
-        text-align:center;
+
+    td {
+        text-align: center;
         padding: 15px;
     }
-    tr th:first-child{
+
+    tr th:first-child {
         border-top-left-radius: 5px;
         border-bottom-left-radius: 5px;
     }
-    td:last-child{
+
+    td:last-child {
         border-top-right-radius: 5px;
         border-bottom-right-radius: 5px;
     }
 }
-  
-  .chat-stream.blinking p::after {
+
+.chat-stream.blinking p::after {
     content: '';
     display: inline-block;
     width: 10px;
@@ -533,9 +555,9 @@
     /* Simulate cursor */
     animation: blink 1s step-end infinite;
 }
-  
-  @keyframes blink {
+
+@keyframes blink {
     50% {
-      opacity: 0;
+        opacity: 0;
     }
-  }
+}
