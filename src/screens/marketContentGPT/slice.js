@@ -314,6 +314,12 @@ const contentGPTSlice = createSlice({
                     action.type === searchContentPrompt.pending.type ||
                     action.type === searchContentPrompt.fulfilled.type ||
                     action.type === searchContentPrompt.rejected.type ||
+                    action.type === getUploadURL.pending.type ||
+                    action.type === getUploadURL.fulfilled.type ||
+                    action.type === getUploadURL.rejected.type||
+                    action.type === updateUploadURL.pending.type ||
+                    action.type === updateUploadURL.fulfilled.type ||
+                    action.type === updateUploadURL.rejected.type ||
                     action.type === deleteContentPrompt.pending.type ||
                     action.type === deleteContentPrompt.fulfilled.type ||
                     action.type === deleteContentPrompt.rejected.type,
@@ -349,6 +355,12 @@ const contentGPTSlice = createSlice({
                     action.type === triggerContentLinkGraph.pending.type ||
                     action.type === triggerContentLinkGraph.fulfilled.type ||
                     action.type === triggerContentLinkGraph.rejected.type ||
+                    action.type === getUploadURL.pending.type ||
+                    action.type === getUploadURL.fulfilled.type ||
+                    action.type === getUploadURL.rejected.type||
+                    action.type === updateUploadURL.pending.type ||
+                    action.type === updateUploadURL.fulfilled.type ||
+                    action.type === updateUploadURL.rejected.type ||
                     action.type === triggerContentAttachmentGraph.pending.type ||
                     action.type === triggerContentAttachmentGraph.fulfilled.type ||
                     action.type === triggerContentAttachmentGraph.rejected.type,

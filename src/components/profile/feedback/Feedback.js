@@ -29,7 +29,7 @@ function Feedback() {
         attachment: yup.array().min(1, "At least one image is required")
     });
 
-    const { control, handleSubmit, formState: { errors }, setValue, reset } = useForm({
+    const { control, handleSubmit, formState: { errors }, setValue, reset, clearErrors } = useForm({
         resolver: yupResolver(feedbackSchema)
     });
 
@@ -58,6 +58,7 @@ function Feedback() {
         });
         setSelectedFiles(prevFiles => [...prevFiles, ...newFiles]);
         setValue("attachment", [...selectedFiles, ...newFiles]);
+        clearErrors("attachment");
     };
 
     const onSubmit = async (data) => {
@@ -65,7 +66,7 @@ function Feedback() {
             if (selectedFiles.length > 0) {
                 const attachmentUrls = [];
 
-                for (const file of selectedFiles) { 
+                for (const file of selectedFiles) {
                     await dispatch(getUploadURL(file)).unwrap()
                         .then(async (res) => {
                             const fileData = { url: res.data, file };
@@ -76,7 +77,7 @@ function Feedback() {
                             console.error('Error getting upload URL:', error);
                         });
                 }
-                
+
                 const requestData = {
                     title: data.title,
                     notes: data.notes,
@@ -148,25 +149,31 @@ function Feedback() {
                                     </div>
 
                                     <label className='form-control-label'>Attachment</label>
-                                    <div className='upload-box'>
-                                        <div>
-                                            <div className='drag-files'>Drop your files or click to upload</div>
-                                            <div className='grey-text'>supported file types: jpg, png</div>
-                                            <div className='d-flex justify-content-center'>
-                                                <p className='browse-btn' onClick={handleBrowseClick}>
-                                                    <div className='browse-text'>Browse</div>
-                                                </p>
-                                                <input
-                                                    type="file"
-                                                    ref={fileInputRef}
-                                                    style={{ display: 'none' }}
-                                                    onChange={handleFileChange}
-                                                    accept=".jpg,.png"
-                                                    multiple
-                                                />
+                                    <Controller
+                                        control={control}
+                                        name="attachment"
+                                        render={({ field }) => (
+                                            <div className='upload-box'>
+                                                <div>
+                                                    <div className='drag-files'>Drop your files or click to upload</div>
+                                                    <div className='grey-text'>supported file types: jpg, png</div>
+                                                    <div className='d-flex justify-content-center'>
+                                                        <p className='browse-btn' onClick={handleBrowseClick}>
+                                                            <div className='browse-text'>Browse</div>
+                                                        </p>
+                                                        <input
+                                                            type="file"
+                                                            ref={fileInputRef}
+                                                            style={{ display: 'none' }}
+                                                            onChange={handleFileChange}
+                                                            accept=".jpg,.png"
+                                                            multiple
+                                                        />
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </div>
+                                        )}
+                                    />
                                     {errors?.attachment && <p className='errorText'>{errors?.attachment?.message}</p>}
 
                                     {selectedFiles.map((file, index) => (
@@ -187,9 +194,9 @@ function Feedback() {
                                     ))}
                                 </div>
                                 <div className='d-flex justify-content-end'>
-                                    <button className='blue-btn mt-3' style={{width: 180}} type='submit'>
+                                    <button className='blue-btn mt-3' style={{ width: 180 }} type='submit'>
                                         {isLoading ? (
-                                            <div style={{height: 20, width: 20}} className="spinner-border text-light" role="status">
+                                            <div style={{ height: 20, width: 20 }} className="spinner-border text-light" role="status">
                                                 <span className="sr-only"></span>
                                             </div>
                                         ) : (
