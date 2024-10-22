@@ -29,7 +29,7 @@ function Feedback() {
         attachment: yup.array().min(1, "At least one image is required")
     });
 
-    const { control, handleSubmit, formState: { errors }, setValue, reset, clearErrors } = useForm({
+    const { control, handleSubmit, formState: { errors }, setValue, reset } = useForm({
         resolver: yupResolver(feedbackSchema)
     });
 
@@ -58,7 +58,6 @@ function Feedback() {
         });
         setSelectedFiles(prevFiles => [...prevFiles, ...newFiles]);
         setValue("attachment", [...selectedFiles, ...newFiles]);
-        clearErrors("attachment");
     };
 
     const onSubmit = async (data) => {
