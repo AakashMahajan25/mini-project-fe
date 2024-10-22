@@ -149,32 +149,26 @@ function Feedback() {
                                     </div>
 
                                     <label className='form-control-label'>Attachment</label>
-                                    <Controller
-                                        control={control}
-                                        name="attachment"
-                                        render={({ field }) => (
-                                            <div className='upload-box'>
-                                                <div>
-                                                    <div className='drag-files'>Drop your files or click to upload</div>
-                                                    <div className='grey-text'>supported file types: jpg, png</div>
-                                                    <div className='d-flex justify-content-center'>
-                                                        <p className='browse-btn' onClick={handleBrowseClick}>
-                                                            <div className='browse-text'>Browse</div>
-                                                        </p>
-                                                        <input
-                                                            type="file"
-                                                            ref={fileInputRef}
-                                                            style={{ display: 'none' }}
-                                                            onChange={handleFileChange}
-                                                            accept=".jpg,.png"
-                                                            multiple
-                                                        />
-                                                    </div>
-                                                </div>
+                                    <div className='upload-box'>
+                                        <div>
+                                            <div className='drag-files'>Drop your files or click to upload</div>
+                                            <div className='grey-text'>supported file types: jpg, png</div>
+                                            <div className='d-flex justify-content-center'>
+                                                <p className='browse-btn' onClick={handleBrowseClick}>
+                                                    <div className='browse-text'>Browse</div>
+                                                </p>
+                                                <input
+                                                    type="file"
+                                                    ref={fileInputRef}
+                                                    style={{ display: 'none' }}
+                                                    onChange={handleFileChange}
+                                                    accept=".jpg,.png"
+                                                    multiple
+                                                />
                                             </div>
-                                        )}
-                                    />
-                                    {errors?.attachment && <p className='errorText'>{errors?.attachment?.message}</p>}
+                                        </div>
+                                    </div>
+                                    {/* {errors?.attachment && <p className='errorText'>{errors?.attachment?.message}</p>} */}
 
                                     {selectedFiles.map((file, index) => (
                                         <div className='d-flex justify-content-between mt-3' key={index}>
