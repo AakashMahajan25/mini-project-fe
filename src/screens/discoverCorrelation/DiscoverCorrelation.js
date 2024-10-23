@@ -28,6 +28,7 @@ import LeftArrow from '../../assets/images/LeftArrow.png'
 import Rightarrow from '../../assets/images/RightArrow.png';
 import StockImage from '../../assets/images/SimilarDays 1.png';
 import ReturnsImage from '../../assets/images/ReturnsImage.png';
+import GraphBarImage from '../../assets/images/graphbar3.png';
 import EarthIcon from '../../assets/images/earth_icon.png';
 import EconomicIcon from '../../assets/images/Economy_icon.png';
 import ArrowRight from '../../assets/images/arrows_right.png';
@@ -610,7 +611,7 @@ function DiscoverCorrelation() {
                                                                     <img src={StockImage} className="graph-banner" alt="" />
                                                                 </div>
                                                                 <h1 className="mb-0 pb-0 primary-header" style={{ fontSize: 35 }}>
-                                                                    Similar Days
+                                                                    Find Similar Days
                                                                 </h1>
                                                                 <p className="primary-subheading">
                                                                     Identify the similar days of the past that get flagged through AI driven pattern recognition
@@ -624,10 +625,10 @@ function DiscoverCorrelation() {
                                                                 <img src={ReturnsImage} className="graph-banner" alt="" />
                                                             </div>
                                                             <h1 className="mb-0 pb-0 primary-header" style={{ fontSize: 35 }}>
-                                                                Similar Days
+                                                                Returns
                                                             </h1>
                                                             <p className="primary-subheading">
-                                                                Identify the similar days of the past that get flagged through AI driven pattern recognition
+                                                                Get insights on average returns and extract the alpha from the stock price movements based on market various events
                                                             </p>
                                                         </div>
                                                     </div>
@@ -635,13 +636,13 @@ function DiscoverCorrelation() {
                                                         <div className="">
                                                             <div className='container'>
                                                                 <div className='d-flex justify-content-center'>
-                                                                    <img src={ReturnsImage} className="graph-banner" alt="" />
+                                                                    <img src={GraphBarImage} className="graph-banner" alt="" />
                                                                 </div>
                                                                 <h1 className="mb-0 pb-0 primary-header" style={{ fontSize: 35 }}>
-                                                                    Similar Days
+                                                                    Factors Affecting
                                                                 </h1>
                                                                 <p className="primary-subheading">
-                                                                    Identify the similar days of the past that get flagged through AI driven pattern recognition
+                                                                    Figure out the factors that influence the stock price movements and do cross referencing of the impacts of market events
                                                                 </p>
                                                             </div>
                                                         </div>
