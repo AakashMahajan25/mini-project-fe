@@ -357,6 +357,7 @@ function FrruitGPT() {
                             flag={flag}
                             setFlag={setFlag}
                             buttonStart={buttonStart}
+                            isNewChat={isNewChat.current}
                         />
                     </div>
                 </div>

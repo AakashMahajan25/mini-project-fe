@@ -42,6 +42,7 @@ function BottomSearchBar(props) {
         flag = '',
         buttonStart = true,
         setFlag = () => { },
+        isNewChat = false
     } = props
 
     useEffect(() => {
@@ -60,6 +61,12 @@ function BottomSearchBar(props) {
             setFlag('news')
         }
     }, [showWebSearch])
+
+    useEffect(() => {
+      if(isNewChat)
+        setShowWebSearch(false);
+
+    }, [isNewChat])
 
     useEffect(() => {
         if (flag === 'news_bing' && !showWebSearch) {
