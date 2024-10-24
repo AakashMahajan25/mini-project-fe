@@ -133,16 +133,22 @@ function Login() {
                                         <div class="d-flex align-items-start flex-column loginleftsideCol">
                                             <div class="mb-auto"><img className='frruitLogostyle' src={FrruitLogo} style={{ objectFit: "contain" }} /></div>
                                             <div class="mb-auto w-100">
-                                                <div className='loginMainTextStyle' style={{marginTop:16}}>India's 1<sup className='suptext'>ST</sup>AI Powered</div>
+                                                <div className='loginMainTextStyle' >India's 1<sup className='suptext'>ST</sup>AI Powered</div>
                                                 <div className='loginMainTextStyle'>Stock Market search Engine</div>
-                                                <div className='loginMainTextParaStyle'>The stock market search engine that will give direct answers & not just blue links</div>
+                                                <div className='loginMainTextParaStyle'>
+                                                    Initiate dynamic conversations with Frruit to tap into both real-time and historical data on thousands of stocks , market-moving information , discover hidden correlations between financial market events and their impact on stock price movements !No more navigating through mountains of data or struggling through complicated research reports.Our intuitive natural language interface instantly serves up the jargon free crucial insights, empowering you to make better informed decisions !
+                                                </div>
                                             </div>
                                             <div className='hideformobile'>
                                                 <div className='FollowUsText'>Follow us on</div>
                                                 <div className='d-flex justify-content-start'>
-                                                    <img src={WhatsAppLogo} className='socialLogos' />
-                                                    <img src={InstagramAppLogo} className='socialLogos' />
-                                                    <img src={linkedinLogo} className='socialLogos' />
+                                                    {/* <img src={WhatsAppLogo} className='socialLogos' /> */}
+                                                    <a href='https://www.instagram.com/frruitapp/?igsh=MW1iNmF0OWtrOXdvYw%3D%3D'>
+                                                        <img src={InstagramAppLogo} className='socialLogos' />
+                                                    </a>
+                                                    <a href='https://ae.linkedin.com/company/frruit'>
+                                                        <img src={linkedinLogo} className='socialLogos' />
+                                                    </a>
                                                 </div>
                                             </div>
                                         </div>
@@ -202,7 +208,7 @@ function Login() {
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <a style={{ fontSize: 15, textDecoration: 'underline', color: 'blue',fontFamily: "Roboto" }} onClick={handleDifferentNumberClick}>Use a different Number</a>
+                                                            <a style={{ fontSize: 15, textDecoration: 'underline', color: 'blue', fontFamily: "Roboto" }} onClick={handleDifferentNumberClick}>Use a different Number</a>
                                                             <div className="form-outline verification">
                                                                 <label className="form-label">Type your 6 digit security code</label>
                                                                 <div className='d-flex'>
@@ -256,13 +262,13 @@ function Login() {
                                                                     )}
                                                                 </button>
                                                             </div>
-                                                            <div className='d-flex align-items-center just mt-3'>
+                                                            <div className='d-flex align-items-center just mt-3 linebox'>
                                                                 <div className='horizontalLine w-100'></div>
                                                                 <div className='mx-2' style={{ fontWeight: 700, fontSize: 20, color: '#C6C6C6' }}>OR</div>
                                                                 <div className='horizontalLine w-100'></div>
                                                             </div>
                                                             <div className='d-flex justify-content-center align-items-center'>
-                                                                <button onClick={routeChangeSignUp} className='btnSecondary mt-3'>Signup Using Phone Number</button>
+                                                                <button onClick={routeChangeSignUp} className='btnSecondary mt-3'>Sign Up</button>
                                                             </div>
                                                         </>
                                                     }
@@ -270,10 +276,11 @@ function Login() {
                                                     <p className='privacyText text-center mt-0'>See our <a style={{ textDecoration: 'none' }} className='bluetext' onClick={handleShowPrivacyPolicy}> Privacy Policy</a></p>
                                                 </div>
                                             </div>
+                                            
                                             <div className='followUsHideforWeb'>
                                                 <div className='FollowUsText'>Follow us on</div>
                                                 <div className='followUsDflex'>
-                                                    <img src={WhatsAppLogo} className='socialLogos' />
+                                                    {/* <img src={WhatsAppLogo} className='socialLogos' /> */}
                                                     <img src={InstagramAppLogo} className='socialLogos' />
                                                     <img src={linkedinLogo} className='socialLogos me-0' />
                                                 </div>
