@@ -10,7 +10,7 @@ function PlansCard({ features, title, pricingText, creditsText, benefitsText, bu
                 <div>
                     <div className='forText' style={{ marginTop: applyMargin ? 22 : 0, minHeight:22 }}>{forText}</div>
                     <div className='PlanTitle'>{title}</div>
-                    <div className='PlanPricingText'>{pricingText}</div>
+                    <div className='PlanPricingText'>{pricingText}<span className='TaxesText'> (incl. of all taxes)</span></div>
                 </div>
                 <div>
                     <div className='CreditsText'>Credits</div>
