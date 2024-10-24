@@ -51,7 +51,8 @@ const initialState = {
     companyOverview: {},
     financialPeer : [],
     financialsShareHoldings : [],
-    companyRevenues : {}
+    companyRevenues : {},
+    getResults: []
 }
 
 export const getStockOverview = createAsyncThunk("dashboard/getStockOverview", async (queryParams) => {
@@ -366,6 +367,20 @@ export const removeTickerFromWatchList = createAsyncThunk("watchList/removeTicke
     }
 });
 
+export const getFinancialsResults = createAsyncThunk("stocks/getFinancialsResults", async (queryParams) => {
+    try {
+        let data = {
+            method: METHOD_TYPE.get,
+            url: API_ENDPOINTS.getFinancialsResults + queryParams,
+        };
+        const response = await api(data);
+        return response.data.data;
+
+    } catch (error) {
+        throw error?.response?.data;
+    }
+});
+
 
 const dashboardSlice = createSlice({
     name: "dashboard",
@@ -473,6 +488,9 @@ const dashboardSlice = createSlice({
             .addCase(fetchAllNews.fulfilled, (state, action) => {
                 state.cmotsNews = action.payload;
             })
+            .addCase(getFinancialsResults.fulfilled, (state, action) => {
+                state.getResults = action.payload;
+            })
             .addCase(getInvestorStories.fulfilled, (state, action) => {
                 const watchlist = Object.values(action.payload["watchlist_news"] || []).flat();
                 const session = Object.values(action.payload["session_news"] || []).flat();
@@ -550,7 +568,10 @@ const dashboardSlice = createSlice({
                     // action.type === getFinancialsShareHolding.rejected.type ||
                     action.type === getStockRevenue.fulfilled.type ||
                     action.type === getStockRevenue.pending.type ||
-                    action.type === getStockRevenue.rejected.type,
+                    action.type === getStockRevenue.rejected.type ||
+                    action.type === getFinancialsResults.fulfilled.type ||
+                    action.type === getFinancialsResults.pending.type ||
+                    action.type === getFinancialsResults.rejected.type,
                     
                 handleLoading
             )

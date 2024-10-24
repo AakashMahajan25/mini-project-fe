@@ -5,7 +5,7 @@ import ResultsPage from './ResultsPage';
 import ShareholdingPage from './ShareholdingPage';
 import PeersPage from './PeersPage';
 
-function FinancialPage({getFinancialsPeers, financialPeer, financialsShareHoldings, getFinancialsShareHolding}) {
+function FinancialPage({getFinancialsPeers, financialPeer, financialsShareHoldings, getFinancialsShareHolding, getFinancialsResults}) {
 
     const [activeTab, setActiveTab] = useState("Results");
 
@@ -18,6 +18,10 @@ function FinancialPage({getFinancialsPeers, financialPeer, financialsShareHoldin
 
         if(key === 'Shareholdings'){
             getFinancialsShareHolding();
+        }
+
+        if(key === "Results"){
+            getFinancialsResults()
         }
     };
 
