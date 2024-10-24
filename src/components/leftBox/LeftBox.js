@@ -117,6 +117,7 @@ function LeftBox() {
         }).catch(error => {
             toast.error(error?.message)
         });
+        dispatch(getStockRevenue(queryParams))
         // const queryParams = `?symbol=${tickerSymbol}`
         // dispatch(getStocksCompanyDetail(queryParams))
         // dispatch(getStockStatistics(queryParams))
