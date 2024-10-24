@@ -15,7 +15,7 @@ import AddstockBtn from '../../assets/images/add-stock-btn.png';
 import CancelRed from '../../assets/images/cancel-round-red-icon.png';
 import RightGreen from '../../assets/images/right-green-circle-icon.png';
 import BlueTick from '../../assets/images/charm_tick.png';
-import { addTickertoWatchList, addWatchList, deleteWatchList, editWatchList, getFinancialsPeers, getFinancialsShareHolding, getGraphDetail, getStockBySearch, getStockOverview, getStockRevenue, getStockStatistics, getStocksCompanyDetail, getTickersById, getUserWatchLists, removeTickerFromWatchList, resetStockDetail } from '../../screens/dashboard/slice';
+import { addTickertoWatchList, addWatchList, deleteWatchList, editWatchList, getFinancialsPeers, getFinancialsResults, getFinancialsShareHolding, getGraphDetail, getStockBySearch, getStockOverview, getStockRevenue, getStockStatistics, getStocksCompanyDetail, getTickersById, getUserWatchLists, removeTickerFromWatchList, resetStockDetail } from '../../screens/dashboard/slice';
 import { useDispatch, useSelector } from 'react-redux';
 import { capitalizeFirstLetter, formatPrice, trimText } from '../../utils/utils';
 import Typography from '@mui/material/Typography';
@@ -117,6 +117,7 @@ function LeftBox() {
         }).catch(error => {
             toast.error(error?.message)
         });
+        dispatch(getFinancialsResults(queryParams))
         // const queryParams = `?symbol=${tickerSymbol}`
         // dispatch(getStocksCompanyDetail(queryParams))
         // dispatch(getStockStatistics(queryParams))
@@ -284,6 +285,15 @@ function LeftBox() {
         }).catch(error => {
             toast.error(error.message || 'Error in fetching shareholding');
         });
+    }
+
+    const getFinancialsResultsFunc = () => {
+        const queryParams = `?cocode=${cocode}`
+        dispatch(getFinancialsResults(queryParams)).unwrap().then(res => {
+
+        }).catch(error => {
+            toast.error(error.message || 'Error in fetching shareholding');
+        })
     }
 
     const getStockRevenueFunc = () => {
@@ -652,7 +662,7 @@ function LeftBox() {
                                                 <RevenuePage getStockRevenue={getStockRevenueFunc} companyRevenues={companyRevenues}/>
                                             </Tab.Pane>
                                             <Tab.Pane eventKey="Financials">
-                                                <FinancialPage financialPeer={financialPeer} getFinancialsPeers={getFinancialsPeersFunc} getFinancialsShareHolding={getFinancialsShareHoldingFunc} financialsShareHoldings={financialsShareHoldings} />
+                                                <FinancialPage financialPeer={financialPeer} getFinancialsPeers={getFinancialsPeersFunc} getFinancialsShareHolding={getFinancialsShareHoldingFunc} financialsShareHoldings={financialsShareHoldings} getFinancialsResults={getFinancialsResultsFunc} />
 
                                             </Tab.Pane>
                                             {/* <Tab.Pane eventKey="Events">
