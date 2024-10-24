@@ -109,7 +109,7 @@ function PaymentHistory() {
                 headers={tableHeaders}
                 actionsHeaderText=''
                 showSearchBarButtons
-                showActions
+                // showActions
                 showView
                 onViewClick={handleViewClick}
             />

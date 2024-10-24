@@ -133,7 +133,7 @@ function Login() {
                                         <div class="d-flex align-items-start flex-column loginleftsideCol">
                                             <div class="mb-auto"><img className='frruitLogostyle' src={FrruitLogo} style={{ objectFit: "contain" }} /></div>
                                             <div class="mb-auto w-100">
-                                                <div className='loginMainTextStyle' >India's 1<sup className='suptext'>ST</sup>AI Powered</div>
+                                                <div className='loginMainTextStyle' style={{ marginTop: 16 }}>India's 1<sup className='suptext'>ST</sup>AI Powered</div>
                                                 <div className='loginMainTextStyle'>Stock Market search Engine</div>
                                                 <div className='loginMainTextParaStyle'>
                                                     Initiate dynamic conversations with Frruit to tap into both real-time and historical data on thousands of stocks , market-moving information , discover hidden correlations between financial market events and their impact on stock price movements !No more navigating through mountains of data or struggling through complicated research reports.Our intuitive natural language interface instantly serves up the jargon free crucial insights, empowering you to make better informed decisions !
@@ -151,6 +151,7 @@ function Login() {
                                                     </a>
                                                 </div>
                                             </div>
+                                            <div style={{ color: '#FFF', fontSize: 14, fontWeight: 500, marginTop: 12 }}>Data provided by C-MOTS Internet Technologies Pvt Ltd</div>
                                         </div>
                                     </div>
                                     <div className='col-xl-5'>

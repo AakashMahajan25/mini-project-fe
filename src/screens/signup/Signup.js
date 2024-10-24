@@ -5,8 +5,8 @@ import LoginImg from '../../assets/images/login_img.png'
 import LoginImg2 from '../../assets/images/login-side-img.png'
 import LoginImg3 from '../../assets/images/login_img3.png'
 import FrruitLogo from '../../assets/images/frruit-logo.png'
-import PhoneOtpImage from '../../assets/images/PhoneOtpImage.png';
-import EmailOtpImage from '../../assets/images/EmailOtpImage.png';
+import PhoneOtpImage from '../../assets/images/SignUpotp.png';
+import EmailOtpImage from '../../assets/images/EmailOtpImg.png';
 import MobileIcon from '../../assets/images/mobile-icon.png';
 import OtpInput from 'react-otp-input';
 import { useNavigate } from 'react-router';
@@ -243,6 +243,7 @@ function Signup() {
                                                     </a>
                                                 </div>
                                             </div>
+                                            <div style={{ color: '#FFF', fontSize: 14, fontWeight: 500, marginTop: 12 }}>Data provided by C-MOTS Internet Technologies Pvt Ltd</div>
                                         </div>
                                     </div>
                                     <div className='col-xl-5'>
