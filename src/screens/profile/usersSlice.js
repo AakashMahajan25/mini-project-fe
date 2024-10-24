@@ -244,6 +244,7 @@ const userSlice = createSlice({
                     action.type === getUserTopics.rejected.type ||
                     action.type === getAllActivePlans.pending.type ||
                     action.type === getAllActivePlans.rejected.type ||
+                    action.type === getAllActivePlans.fulfilled.type ||
                     action.type === getFaqs.rejected.type ||
                     action.type === getFaqs.pending.type ||
                     action.type === getFaqs.fulfilled.type ||
