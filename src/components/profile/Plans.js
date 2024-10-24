@@ -159,7 +159,7 @@ function Plans({handleBackButtonClick, showBackButton, upgradePlan}) {
                                 cardBackground="linear-gradient(194.74deg, #5F7DFF 0%, #3F5AD1 94.44%)"
                                 showStarIcon={true}
                                 forText='For'
-                                title="API Access Plan"
+                                title="Enterprise Plan"
                                 pricingText="Custom pricing"
                                 creditsText="On Request"
                                 benefitsText="Get access to real-time market data through generative AI on"

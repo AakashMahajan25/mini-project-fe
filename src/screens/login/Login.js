@@ -134,9 +134,15 @@ function Login() {
                                             <div class="mb-auto"><img className='frruitLogostyle' src={FrruitLogo} style={{ objectFit: "contain" }} /></div>
                                             <div class="mb-auto w-100">
                                                 <div className='loginMainTextStyle' style={{ marginTop: 16 }}>India's 1<sup className='suptext'>ST</sup>AI Powered</div>
-                                                <div className='loginMainTextStyle'>Stock Market search Engine</div>
+                                                <div className='loginMainTextStyle'>capital markets research engine</div>
                                                 <div className='loginMainTextParaStyle'>
-                                                    Initiate dynamic conversations with Frruit to tap into both real-time and historical data on thousands of stocks , market-moving information , discover hidden correlations between financial market events and their impact on stock price movements !No more navigating through mountains of data or struggling through complicated research reports.Our intuitive natural language interface instantly serves up the jargon free crucial insights, empowering you to make better informed decisions !
+                                                    Initiate dynamic conversations with Frruit to tap into both real-time and historical data on thousands of stocks , market-moving information , discover hidden correlations between financial market events and their impact on stock price movements !
+                                                </div>
+                                                <div className='loginMainTextParaStyle'>
+                                                    No more navigating through mountains of data or struggling through complicated research reports.
+                                                </div>
+                                                <div className='loginMainTextParaStyle'>
+                                                    ur intuitive natural language interface instantly serves up the jargon free crucial insights, empowering you to make better informed decisions !
                                                 </div>
                                             </div>
                                             <div className='hideformobile'>
@@ -277,7 +283,7 @@ function Login() {
                                                     <p className='privacyText text-center mt-0'>See our <a style={{ textDecoration: 'none' }} className='bluetext' onClick={handleShowPrivacyPolicy}> Privacy Policy</a></p>
                                                 </div>
                                             </div>
-                                            
+
                                             <div className='followUsHideforWeb'>
                                                 <div className='FollowUsText'>Follow us on</div>
                                                 <div className='followUsDflex'>
