@@ -1,38 +1,38 @@
-import React from 'react'
+import React, { useEffect } from 'react';
 import CustomTable from '../customTable/CustomTable';
+import moment from 'moment';
+import { useDispatch, useSelector } from 'react-redux';
+import { getFinancialsResults } from '../../screens/dashboard/slice';
+import { toast } from 'react-toastify';
 
 function ResultsPage() {
+    const { getResults } = useSelector(state => state.dashboardSlice);
 
-    const tableHeaders = ['', 'Mar 24(Cr.)', 'YoY Change', 'QoQ Change'];
-
-    const userData = [
-        {
-            type: 'Sales',
-            croreunits: '1,24,222',
-            yoychange: '117%',
-            qoqchange: '8.81%',
-        },
-        {
-            type: 'Operating Profit',
-            croreunits: '31,571',
-            yoychange: '58.16%',
-            qoqchange: '22.15%',
-        },
-        {
-            type: 'Net Profit',
-            croreunits: '17,622',
-            yoychange: '39.92%',
-            qoqchange: '2.11%',
-        },
-    ];
-
-    const pieData = {
-        labels: ['Consultancy services', 'Equipment and software licences'],
-        data: [98, 2],
+    const formatLatestQuarter = () => {
+        if (getResults.length > 0) {
+            const latestQuarter = getResults[0].latest_quarter;
+            const year = latestQuarter.slice(0, 4);
+            const month = latestQuarter.slice(4, 6);
+            return moment(`${year}-${month}-01`).format('MMMM YY');
+        }
+        return 'Latest Quarter';
     };
 
-    const customColors = ['#4CAF50', '#FFC107', '#2196F3'];
-    
+    const tableHeaders = ['', formatLatestQuarter(), 'YoY Change', 'QoQ Change'];
+
+    const formatToTwoDecimalPlaces = (number) => {
+        return Number(number).toFixed(2);
+    };
+
+    const userData = getResults.map(obj => {
+        return {
+            type: obj?.type,
+            latest_value: `${formatToTwoDecimalPlaces(obj['latest_value'])}`,
+            yoy: `${formatToTwoDecimalPlaces(obj['yoy'])}%`,
+            qoq: `${formatToTwoDecimalPlaces(obj['qoq'])}%`,
+        };
+    });
+
     return (
         <div className='mt-4'>
             <CustomTable
