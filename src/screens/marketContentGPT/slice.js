@@ -44,7 +44,7 @@ export const getUploadURL = createAsyncThunk("contentGpt/getUploadURL", async (f
     try {
         let data = {
             method: METHOD_TYPE.get,
-            url: `${API_ENDPOINTS.get_uploadUrl}?fileName=${fileDetail.name}&fileType=${fileDetail.type}`,
+            url: `${API_ENDPOINTS.get_uploadUrl}?fileName=${encodeURIComponent(fileDetail.name)}&fileType=${encodeURIComponent(fileDetail.type)}`,
         };
         const response = await api(data);
         return response.data;
