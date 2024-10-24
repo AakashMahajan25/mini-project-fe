@@ -133,7 +133,7 @@ function Login() {
                                         <div class="d-flex align-items-start flex-column loginleftsideCol">
                                             <div class="mb-auto"><img className='frruitLogostyle' src={FrruitLogo} style={{ objectFit: "contain" }} /></div>
                                             <div class="mb-auto w-100">
-                                                <div className='loginMainTextStyle' style={{marginTop:16}}>India's 1<sup className='suptext'>ST</sup>AI Powered</div>
+                                                <div className='loginMainTextStyle' style={{ marginTop: 16 }}>India's 1<sup className='suptext'>ST</sup>AI Powered</div>
                                                 <div className='loginMainTextStyle'>Stock Market search Engine</div>
                                                 <div className='loginMainTextParaStyle'>The stock market search engine that will give direct answers & not just blue links</div>
                                             </div>
@@ -145,6 +145,7 @@ function Login() {
                                                     <img src={linkedinLogo} className='socialLogos' />
                                                 </div>
                                             </div>
+                                            <div style={{ color: '#FFF', fontSize: 14, fontWeight: 500, marginTop: 12 }}>Data provided by C-MOTS Internet Technologies Pvt Ltd</div>
                                         </div>
                                     </div>
                                     <div className='col-xl-5'>
@@ -202,7 +203,7 @@ function Login() {
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <a style={{ fontSize: 15, textDecoration: 'underline', color: 'blue',fontFamily: "Roboto" }} onClick={handleDifferentNumberClick}>Use a different Number</a>
+                                                            <a style={{ fontSize: 15, textDecoration: 'underline', color: 'blue', fontFamily: "Roboto" }} onClick={handleDifferentNumberClick}>Use a different Number</a>
                                                             <div className="form-outline verification">
                                                                 <label className="form-label">Type your 6 digit security code</label>
                                                                 <div className='d-flex'>
