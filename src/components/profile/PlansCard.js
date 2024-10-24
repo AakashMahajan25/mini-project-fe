@@ -8,7 +8,7 @@ function PlansCard({ features, title, pricingText, creditsText, benefitsText, bu
             <div className='card' style={{ background: cardBackground }}>
                 {showStarIcon && <img src={StarPlans} width={25} style={{ objectFit: 'contain', position: 'absolute', right: 12, top: 12 }} />}
                 <div>
-                    <div className='forText' style={{ marginTop: applyMargin ? 22 : 0, minHeight:22 }}>{forText}</div>
+                    {/* <div className='forText' style={{ marginTop: applyMargin ? 22 : 0, minHeight:22 }}>{forText}</div> */}
                     <div className='PlanTitle'>{title}</div>
                     <div className='PlanPricingText'>{pricingText}<span className='TaxesText'> (incl. of all taxes)</span></div>
                 </div>
@@ -18,7 +18,7 @@ function PlansCard({ features, title, pricingText, creditsText, benefitsText, bu
                 </div>
                 <div>
                     <div className='CreditsText'>Feature Benefits</div>
-                    <div className='CreditsLimitText' style={{ marginBottom: 12 }}>{benefitsText}</div>
+                    <div className='CreditsLimitText' style={{ marginBottom: 12, fontSize: 12 }}>{benefitsText}</div>
                 </div>
                 {features.map((feature, index) => (
                     <div key={index} className='d-flex align-items-start mb-1'>
