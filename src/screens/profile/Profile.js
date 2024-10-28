@@ -30,6 +30,7 @@ import Pricing from '../../components/profile/pricing/Pricing';
 import CancellationAndRefundPolicy from '../../components/profile/cancellationAndRefundPolicy/CancellationAndRefundPolicy';
 import PaymentModal from '../../components/paymentModal/PaymentModal';
 import Feedback from '../../components/profile/feedback/Feedback';
+import AboutAirrchip from '../../components/profile/aboutAirrchip/AboutAirrchip';
 
 function Profile() {
     const navigate = useNavigate();
@@ -56,6 +57,7 @@ function Profile() {
     const [showPaymentConfirmation, setShowPaymentConfirmation] = useState(false)
     const [isFeedbackActive, setFeedbackActiveColor] = useState(false);
     const [paymentData, setPaymentData] = useState(null)
+    const [isAboutAirrchipActive, setAboutAirrchipActiveColor] = useState(false);
 
     const handleProfileClick = () => {
         setShowProfile(true);
@@ -72,6 +74,7 @@ function Profile() {
         setViewPlansActiveColor(false)
         setCancellationPolicyActiveColor(false)
         setFeedbackActiveColor(false)
+        setAboutAirrchipActiveColor(false)
     };
 
     const handlePaymentHistoryClick = () => {
@@ -89,6 +92,7 @@ function Profile() {
         setViewPlansActiveColor(false)
         setCancellationPolicyActiveColor(false)
         setFeedbackActiveColor(false)
+        setAboutAirrchipActiveColor(false)
     };
 
     const handlePreferencesClick = () => {
@@ -106,6 +110,7 @@ function Profile() {
         setViewPlansActiveColor(false)
         setCancellationPolicyActiveColor(false)
         setFeedbackActiveColor(false)
+        setAboutAirrchipActiveColor(false)
     };
     const handleHelpClick = () => {
         ReactGA.event({
@@ -129,6 +134,7 @@ function Profile() {
         setViewPlansActiveColor(false)
         setCancellationPolicyActiveColor(false)
         setFeedbackActiveColor(false)
+        setAboutAirrchipActiveColor(false)
     };
     const handleTermsConditionClick = () => {
         setShowProfile(false);
@@ -145,6 +151,7 @@ function Profile() {
         setViewPlansActiveColor(false)
         setCancellationPolicyActiveColor(false)
         setFeedbackActiveColor(false)
+        setAboutAirrchipActiveColor(false)
     };
     const handlePrivacyPolicyClick = () => {
         setShowProfile(false);
@@ -161,6 +168,7 @@ function Profile() {
         setViewPlansActiveColor(false)
         setCancellationPolicyActiveColor(false)
         setFeedbackActiveColor(false)
+        setAboutAirrchipActiveColor(false)
     };
     const handlePricingClick = () => {
         setShowProfile(false);
@@ -177,6 +185,7 @@ function Profile() {
         setViewPlansActiveColor(false)
         setCancellationPolicyActiveColor(false)
         setFeedbackActiveColor(false)
+        setAboutAirrchipActiveColor(false)
     };
 
     const handleViewPlansClick = () => {
@@ -194,6 +203,7 @@ function Profile() {
         setViewPlansActiveColor(true)
         setCancellationPolicyActiveColor(false)
         setFeedbackActiveColor(false)
+        setAboutAirrchipActiveColor(false)
     };
 
     const handleCancellationPolicyClick = () => {
@@ -211,6 +221,7 @@ function Profile() {
         setViewPlansActiveColor(false)
         setCancellationPolicyActiveColor(true)
         setFeedbackActiveColor(false)
+        setAboutAirrchipActiveColor(false)
     };
 
     const handleFeedbackClick = () => {
@@ -228,7 +239,27 @@ function Profile() {
         setViewPlansActiveColor(false)
         setCancellationPolicyActiveColor(false)
         setFeedbackActiveColor(true)
+        setAboutAirrchipActiveColor(false)
     };
+
+    const handleAboutAirrchipClick = () => {
+        setShowProfile(false);
+        setShowPreferences(false);
+        setShowHelpFAQ(false);
+        setIsHelpActive(false);
+        setShowCodeActiveColor(false);
+        setPreferencesActiveColor(false);
+        setPaymentHistoryActiveColor(false);
+        setPaymentHistory(false);
+        setTermsConditionActiveColor(false);
+        setPrivacyPolicyActiveColor(false);
+        setPricingActiveColor(false)
+        setViewPlansActiveColor(false)
+        setCancellationPolicyActiveColor(false)
+        setFeedbackActiveColor(false)
+        setAboutAirrchipActiveColor(true)
+    };
+
 
     const updateProfileSchema = yup.object().shape({
         first_name: yup.string().required("Please enter first name."),
@@ -410,10 +441,12 @@ function Profile() {
                         handleCancellationPolicyClick={handleCancellationPolicyClick}
                         isFeedbackActive={isFeedbackActive}
                         handleFeedbackClick={handleFeedbackClick}
+                        isAboutAirrchipActive={isAboutAirrchipActive}
+                        handleAboutAirrchipClick={handleAboutAirrchipClick}
                     />
                 </div>
                 <div className='col-lg-9 col-md-9 col-sm-9 column-pad'>
-                    {!showCode && !showPreferences && !showHelpFAQ && !showPaymentHistory && !isTermsConditionActive && !isPrivacyPolicyActive && !isPricingActive && !isViewPlansActive && !isCancellationPolicyActive && !isFeedbackActive &&
+                    {!showCode && !showPreferences && !showHelpFAQ && !showPaymentHistory && !isTermsConditionActive && !isPrivacyPolicyActive && !isPricingActive && !isViewPlansActive && !isCancellationPolicyActive && !isFeedbackActive && !isAboutAirrchipActive &&
                         <div className='right-part' style={{ height: rightPartHeight, overflowY: 'scroll' }}>
                             <div className='welcome-text'>Welcome</div>
                             <div style={{ marginBottom: 20 }} className='user-text'>{userDetails?.first_name + " " + userDetails?.last_name}!</div>
@@ -630,6 +663,11 @@ function Profile() {
                     {isFeedbackActive && (
                         <div className='right-part' style={{ height: rightPartHeight, overflowY: 'scroll' }}>
                              <Feedback />
+                        </div>
+                    )}
+                    {isAboutAirrchipActive && (
+                        <div className='right-part' style={{ height: rightPartHeight, overflowY: 'scroll' }}>
+                             <AboutAirrchip />
                         </div>
                     )}
                 </div>

@@ -632,7 +632,7 @@ function Dashboard() {
                                                                 <div onClick={() => { routePromptFrruitGPT(text?.question, 'fund') }} key={index} className='col-lg-6'>
                                                                     <div className='mostOnFrruitBox mb-2' style={{ marginRight: 10 }}>
                                                                         <div className='d-flex justify-content-between align-items-center' >
-                                                                            <p className='text'>{text?.question}</p>
+                                                                            <p className='text'>{text?.question?.replace(/\b\w/g, char => char.toUpperCase())}</p>
                                                                             <img style={{ width: 24, objectFit: 'contain' }} src={RightArrow} alt={`Arrow ${index}`} />
                                                                         </div>
                                                                     </div>
@@ -875,7 +875,7 @@ function Dashboard() {
                             <div>
                                 {mostOnFrruitGpt?.rows?.map((text, index) => (
                                     <div onClick={() => { routePromptFrruitGPT(text?.question, 'fund') }} key={index} className='d-flex justify-content-between align-items-center blue-box mb-2' style={{ cursor: 'pointer' }}>
-                                        <div>{text?.question}</div>
+                                        <p className='text'>{text?.question?.replace(/\b\w/g, char => char.toUpperCase())}</p>
                                         <img src={RightBlueArrow} className='me-1' width={10} style={{ objectFit: 'contain' }} />
                                     </div>
                                 ))}

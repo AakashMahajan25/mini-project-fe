@@ -94,10 +94,12 @@ function CreditOverModal({ show, handleClose, onButtonClick }) {
                 <Modal.Body>
                     <div className='centerImg'>
                         <img src={CreditExhausted} className='CreditExhaustedImg' />
-                        <div className='creditExhaustedText'>{userCredits?.expired ? 'Plan Expired' : '80% Credit Exhausted'}</div>
-                        <div className='creditExhaustedSmallText'>{userCredits?.expired ? "Your plan has expired" : "You've used 80% of your available credits."}</div>
+                        <div className='creditExhaustedText'>{userCredits?.planId !== 2 ? userCredits?.expired ? 'Plan Expired' : 'You have 20 credits or less remaining' : userCredits?.expired ? 'Plan Expired' : 'You have 5 credits or less remaining'}</div>
+                        <div className='creditExhaustedSmallText'>{userCredits?.planId !== 2 ? userCredits?.expired ? "Your plan has expired" : "Please renew the plan or purchase a plan to continue accessing Frruit" : userCredits?.expired ? "Your plan has expired" : "Please purchase a plan to continue accessing Frruit"}</div>
                         <div className='d-flex justify-content-center align-items-center'>
+                        {userCredits?.planId !== 2 &&
                             <button onClick={() => upgradePlan()} type="submit" className='light-blue-btn2 me-3'>Renew Plan</button>
+                        }
                             <button onClick={() => onButtonClick()} type="submit" className='blue-btn'>View Other Plans</button>
                         </div>
                     </div>

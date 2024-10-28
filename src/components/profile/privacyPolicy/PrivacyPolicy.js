@@ -4,7 +4,7 @@ import '../privacyPolicy/PrivacyPolicy.scss';
 function PrivacyPolicy() {
     return (
         <div className='privacypolicy-css'>
-            <h3 className='main-heading'>Frruit’s Privacy Policy</h3>
+            <h3 className='main-heading'>Frruit Privacy Policy</h3>
             {/* <p className='updated-date'>Last updated: June 4th, 2024.</p>
             <p className='text-subheading1'>
                 Please read this Privacy Notice carefully.  By using any of the Services, you agree to the collection, use, and disclosure of your information as described in this Privacy Notice.  If you do not agree to this Privacy Notice, please do not use or access the Services.
@@ -12,7 +12,7 @@ function PrivacyPolicy() {
 
             <h2 className='text-heading'>1.INTRODUCTION </h2>
             <p className='text-subheading2'>
-                1.1. At Airrchip <b>(“we”, “Company”)</b>, we respect your privacy and data protection rights and recognize the importance of protecting the personal data we collect and process. This Privacy Policy is designed to help you to understand what personal data we collect about you and how we use and share it.
+                1.1. At Airrchip Communications Private Limited <b>(“we”, “Company”)</b>, we respect your privacy and data protection rights and recognize the importance of protecting the personal data we collect and process. This Privacy Policy is designed to help you to understand what personal data we collect about you and how we use and share it.
             </p>
 
             <p className='text-subheading2'>
@@ -31,7 +31,7 @@ function PrivacyPolicy() {
                 1.5. Acceptance of this Policy does not constitute consent as a legal basis for processing your personal information under the EU or UK General Data Protection Regulation (GDPR). For further information regarding our GDPR obligations, please see the EU/UK GDPR Section below. (SHOULD WE ADD SEPARATE PROVISIONS FOR CCPA, GDPR etc)
             </p> */}
 
-            <h2 className='text-heading'>2.PERSONAL DATA COLLECTED BY AIRCHIP</h2>
+            <h2 className='text-heading'>2.PERSONAL DATA COLLECTED BY AIRRCHIP</h2>
             <p className='text-subheading3'>
                 2.1.  The Company may collect several types of information about its Users. Some of this information may be given voluntarily by the User while availing Services offered on the Website and/ or [while registering oneself on the Website]; and while some information may be collected automatically when the User is surfing the Website.
             </p>
@@ -46,7 +46,7 @@ function PrivacyPolicy() {
                         <th scope="col">Purposes for Collection</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody className='text-subheading3'>
                     <tr>
                         <td scope="row">
                             <ul>
@@ -165,7 +165,7 @@ function PrivacyPolicy() {
             <div>
                 <h2 className='text-heading'>3. Your Data Controller</h2>
                 <p className='text-subheading3'>
-                    Company is your Data Controller and responsible for your Personal Data. Any inquiries about your data should be sent to us by email to info@airrchip.app.
+                    Company is your Data Controller and responsible for your Personal Data. Any inquiries about your data should be sent to us by email to <span style={{color:'#4563E4'}}>support@airrchip.com</span>.
                 </p>
             </div>
 
@@ -342,10 +342,10 @@ function PrivacyPolicy() {
             <div>
                 <h2 className='text-heading'>9. Accuracy of and Access to Personal Information</h2>
                 <p className='text-subheading4'>
-                    9.1. The Company will not be responsible for the accuracy or authenticity of the Personal Information (including Sensitive Personal Data), if any that is provided by you. It is the responsibility of the User to notify the Company through the Website of any changes to their Personal Information. To attain this end, the User may request the Website for reasonable access to, and correction of, their Personal Information collected by the Website by emailing their request/clarification at [_______]. The Company makes good efforts to provide its Users with reasonable access to their respective Personal Information and shall ensure that any Personal Information found to be inaccurate and brought to the notice of the Company by the User is rectified or amended as feasible. The Company may however before processing such requests, ask the User to identify themselves and the information /data requested to be modified by them in order to avoid repetitive and/or illegitimate requests. The Company shall not be responsible for any delay in updating such information.
+                    9.1. The Company will not be responsible for the accuracy or authenticity of the Personal Information (including Sensitive Personal Data), if any that is provided by you. It is the responsibility of the User to notify the Company through the Website of any changes to their Personal Information. To attain this end, the User may request the Website for reasonable access to, and correction of, their Personal Information collected by the Website by emailing their request/clarification at <span style={{color:'#4563E4'}}>support@airrchip.com</span>. The Company makes good efforts to provide its Users with reasonable access to their respective Personal Information and shall ensure that any Personal Information found to be inaccurate and brought to the notice of the Company by the User is rectified or amended as feasible. The Company may however before processing such requests, ask the User to identify themselves and the information /data requested to be modified by them in order to avoid repetitive and/or illegitimate requests. The Company shall not be responsible for any delay in updating such information.
                 </p>
                 <p className='text-subheading4'>
-                    9.2. In the event a User requests the Company to delete his/her Personal Information and/or his account, the Company shall ensure that such Personal Information/ user account is deleted within reasonable time period of receiving such a request. The Company may however before processing such requests, ask the User to identify themselves and the information /data requested to be deleted by them in order to avoid any illegitimate/bogus requests. Once the Personal Information/ user account is deleted, all data in respect thereof shall cease to be accessible to the User, and the Company may thereafter send an email to such User apprising him/her of such deletion. The User may contact the Company by emailing their request on ______________.
+                    9.2. In the event a User requests the Company to delete his/her Personal Information and/or his account, the Company shall ensure that such Personal Information/ user account is deleted within reasonable time period of receiving such a request. The Company may however before processing such requests, ask the User to identify themselves and the information /data requested to be deleted by them in order to avoid any illegitimate/bogus requests. Once the Personal Information/ user account is deleted, all data in respect thereof shall cease to be accessible to the User, and the Company may thereafter send an email to such User apprising him/her of such deletion. The User may contact the Company by emailing their request on <span style={{color:'#4563E4'}}>support@airrchip.com</span>
                 </p>
 
                 <p className='text-subheading4'>

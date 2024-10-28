@@ -6,10 +6,11 @@
     }
 
     .pricing-header-text {
-        font-size: 36px;
         font-weight: 600;
+        font-size: 28px;
+        line-height: 30.13px;
         color: #4563E4;
-        text-align: center;
+        // text-align: center;
     }
 
     .pricing-text {
@@ -81,6 +82,12 @@
         font-size: 14px;
         font-weight: 400;
         color: #6F7387;
+    }
+
+    .small-grey-text {
+        font-size: 12px;
+        font-weight: 400;
+        color: #676c83;
     }
 
     .dark-grey-text{

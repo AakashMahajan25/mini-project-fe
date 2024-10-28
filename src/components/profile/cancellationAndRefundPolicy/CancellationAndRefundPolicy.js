@@ -4,7 +4,7 @@ function CancellationAndRefundPolicy() {
     return (
         <div className='privacypolicy-css'>
             <div className=''>
-                <h3 className='main-heading'>Frruit’s Cancellation and Refund Policy</h3>
+                <h3 className='main-heading'>Frruit Cancellation and Refund Policy</h3>
                 <h2 className='text-heading'>1. Overview </h2>
                 <div className='box1'>
                     <p className='text-subheading3'>
@@ -15,7 +15,7 @@ function CancellationAndRefundPolicy() {
                 <div className='box1'>
                     <div className='box1'>
                         <p className='text-subheading3'>
-                            <b className='me-2'>i) Manual Cancellation: </b> Since our subscriptions do not renew automatically, you have full control over your subscription status. To cancel your subscription or to avoid future subscription charges, simply log in to your account and follow the provided instructions for cancellation. Alternatively, you can contact our support team at [•] for assistance.
+                            <b className='me-2'>i) Manual Cancellation: </b> Since our subscriptions do not renew automatically, you have full control over your subscription status. To cancel your subscription or to avoid future subscription charges, simply log in to your account and follow the provided instructions for cancellation. Alternatively, you can contact our support team at <span style={{color:'#4563E4'}}>support@airrchip.com</span> for assistance.
                         </p>
                         <p className='text-subheading3'>
                             <b className='me-2'>ii) Effective Date: </b> Your subscription will be cancelled immediately upon confirmation of your request. You will not be billed for the next billing cycle, but please note that you will retain access to the software until the end of your current billing period.
@@ -46,7 +46,7 @@ function CancellationAndRefundPolicy() {
                         </div>
                     </div>
                     <p className='text-subheading3'>
-                        <b className='me-2'>iii) Refund Process:  </b> To request a refund, please contact our support team at [•] with your order details and reason for the refund. Our team will review your request and respond within 7 business days. If approved, refunds will be processed back to the original payment method and may take additional time to reflect in your account depending on your bank's policies.
+                        <b className='me-2'>iii) Refund Process:  </b> To request a refund, please contact our support team at <span style={{color:'#4563E4'}}>support@airrchip.com</span> with your order details and reason for the refund. Our team will review your request and respond within 7 business days. If approved, refunds will be processed back to the original payment method and may take additional time to reflect in your account depending on your bank's policies.
                     </p>
                 </div>
                 <h2 className='text-heading'>4. Changes to the Policy </h2>
@@ -58,7 +58,7 @@ function CancellationAndRefundPolicy() {
                 <h2 className='text-heading'>5. Contact Us  </h2>
                 <div className='box1'>
                     <p className='text-subheading3'>
-                        If you have any questions or need assistance with cancellation or refunds, please contact our support team at [support@example.com] or visit our support page at [support.example.com].
+                        If you have any questions or need assistance with cancellation or refunds, please contact our support team at <span style={{color:'#4563E4'}}>support@airrchip.com</span>.
                     </p>
                 </div>
             </div>

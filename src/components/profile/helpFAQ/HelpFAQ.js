@@ -25,13 +25,13 @@ function HelpFAQ({faqs}) {
                         <div className='col-lg-6 col-sm-12 column-pad'>
                             <div className='contact-blue-box'>
                                 <img className='me-2' src={MailIcon} width={24} style={{ objectFit: 'contain' }} />
-                                <div className='blue-box-text'>airrchip@airrchip.com</div>
+                                <div className='blue-box-text'>support@airrchip.com</div>
                             </div>
                         </div>
                         <div className='col-lg-6 col-sm-12 column-pad'>
                             <div className='contact-blue-box'>
                                 <img className='me-2' src={PhoneIcon} width={24} style={{ objectFit: 'contain' }} />
-                                <div className='blue-box-text'>+91 99999 99999</div>
+                                <div className='blue-box-text'>+91 8369894335</div>
                             </div>
                         </div>
                     </div>

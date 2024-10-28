@@ -93,7 +93,7 @@ function Plans({handleBackButtonClick, showBackButton, upgradePlan}) {
                     </div>
                 }
                 <div className='Upgrade-text'>Buy Plans !</div>
-                <div className='pera'>Lorem Ipsum is simply dummy text of the printing and typesetting industry</div>
+                {/* <div className='pera'>Lorem Ipsum is simply dummy text of the printing and typesetting industry</div> */}
                 <div>
                     <div className='row'>
                         {/* <div className='col-lg-3'>
@@ -144,7 +144,7 @@ function Plans({handleBackButtonClick, showBackButton, upgradePlan}) {
                                         showStarIcon={(plan?.price === 0) ? false : true}
                                         forText={(plan?.price === 0) ? '' : 'For'}
                                         title={plan?.plan_name}
-                                        pricingText={`Rs ${plan?.price} INR/month`}
+                                        pricingText={`₹ ${plan?.price} INR/month`}
                                         upgradePlan={()=> upgradePlan({plan_id : plan.plan_id, order_amount : plan.price})}
                                         // pricingText={(currencySymbol === '₹' && plan?.price > 0) ? `₹${plan?.price}/month` : (currencySymbol === '$' && plan?.price > 0) ? `$${plan?.price}/month` : ''}
                                         creditsText={`${plan?.credits_offered} ${(plan?.validity === 30 || plan?.validity === 31 || plan?.price === 0) ? 'credits per month' : 'credits per ' + plan?.validity + ' days'}`}
