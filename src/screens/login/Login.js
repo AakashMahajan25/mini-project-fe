@@ -98,7 +98,7 @@ function Login() {
             .unwrap()
             .then(async (res) => {
                 localStorage.setItem('token', res.data.token)
-                let path = `/market`;
+                let path = `/dashboard`;
                 navigate(path);
                 ReactGA.event({
                     category: 'User',
