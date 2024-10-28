@@ -100,7 +100,7 @@ function CreditOverModal({ show, handleClose, onButtonClick }) {
                         {userCredits?.planId !== 2 &&
                             <button onClick={() => upgradePlan()} type="submit" className='light-blue-btn2 me-3'>Renew Plan</button>
                         }
-                            <button onClick={() => onButtonClick()} type="submit" className='blue-btn'>View Other Plans</button>
+                            <button onClick={() => onButtonClick()} type="submit" className='blue-btn'>{userCredits?.planId !== 2 ? "View Other Plans" : "Buy Plan"}</button>
                         </div>
                     </div>
                 </Modal.Body>
