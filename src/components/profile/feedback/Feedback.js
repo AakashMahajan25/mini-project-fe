@@ -119,7 +119,7 @@ function Feedback() {
                                                 <input
                                                     type="text"
                                                     className={errors?.title ? "form-control form-control-input error-feild" : "form-control form-control-input"}
-                                                    placeholder='lorem ipsum'
+                                                    placeholder='Subject'
                                                     style={{ color: 'black', textIndent: 0 }}
                                                     {...field}
                                                 />

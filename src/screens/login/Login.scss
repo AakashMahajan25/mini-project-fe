@@ -116,7 +116,7 @@
 
         .loginMainTextStyle {
             font-family: Roboto;
-            font-size: 42px;
+            font-size: 38px;
             font-weight: 900;
             line-height: 49px;
             letter-spacing: 0em;
@@ -140,10 +140,10 @@
             font-family: Roboto;
             font-size: 14px;
             font-weight: 400;
-            line-height: 25px;
+            line-height: 21px;
             letter-spacing: 0em;
             color: #fff;
-            margin-top: 8px;
+            margin-top: 4px;
 
             @media only screen and (max-width: 500px) {
                 // font-size: 12px;
@@ -154,9 +154,18 @@
             }
         }
 
+        .small-desc-text{ 
+            font-family: Roboto;
+            font-size: 12px;
+            font-weight: 400;
+            line-height: 16px;
+            letter-spacing: 0em;
+            color: #fff;
+        }
+
         .FollowUsText {
             font-family: Roboto;
-            font-size: 24px;
+            font-size: 20px;
             font-weight: 400;
             line-height: 28px;
             letter-spacing: 0em;
@@ -172,8 +181,8 @@
         }
 
         .socialLogos {
-            width: 45px;
-            height: 45px;
+            width: 35px;
+            height: 35px;
             object-fit: contain;
             margin-right: 10px;
             cursor: pointer;

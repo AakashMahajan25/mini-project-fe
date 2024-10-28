@@ -7,25 +7,25 @@ function Pricing() {
     return (
         <div className='pricing-page-css'>
             <div className='pricing-header-text'>Pricing</div>
-            <div className='pricing-text'>Flexible Pricing. Charges based on your usage</div>
+            {/* <div className='pricing-text'>Flexible Pricing. Charges based on your usage</div> */}
             <div className='container-box'>
-                <div className='header-text'>Lorem Ipsum</div>
+                <div className='header-text'>Pay-as-you-go and Transparent</div>
                 <div className='desc-text'>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam vehicula, eros sit amet cursus gravida, velit nisi venenatis erat, sed pulvinar turpis ex id magna. Sed suscipit, nisi non tincidunt facilisis, metus orci lacinia lectus, a bibendum sapien velit eu justo
+                Access real-time market insights with simple, usage-based pricing—1 credit equals 1,000 tokens, consumed as you interact with our AI-powered search. Pay only for what you need, keeping costs transparent and manageable.
                 </div>
                 <div className='table-component mt-3'>
                     <div className='col-lg-7 col-sm-12 table-heading'>
                         <div className={window.innerWidth < 500 ? 'd-flex align-items-center justify-content-between' : 'row'}>
-                            <div className='col-lg-5 col-sm-5 table-header'>Token Consumption</div>
-                            <div className='col-lg-5 col-sm-5 table-header'>Credits Burn</div>
-                            <div className='col-lg-2 col-sm-2 table-header'>Pricing</div>
+                            <div className='col-lg-6 col-sm-5 table-header'>Token Consumption</div>
+                            <div className='col-lg-6 col-sm-5 table-header'>Credits Usage</div>
+                            {/* <div className='col-lg-2 col-sm-2 table-header'>Pricing</div> */}
                         </div>
                     </div>
                     <div className='table-row col-lg-7 col-sm-12'>
                         <div className={window.innerWidth < 500 ? 'd-flex align-items-center justify-content-between' : 'row'}>
-                            <div className='col-lg-5 col-sm-5 table-row-text'>1000</div>
-                            <div className='col-lg-5 col-sm-5 table-row-text'>1</div>
-                            <div className='col-lg-2 col-sm-2 table-row-text'>$0.50</div>
+                            <div className='col-lg-6 col-sm-5 table-row-text'>1000</div>
+                            <div className='col-lg-6 col-sm-5 table-row-text'>1</div>
+                            {/* <div className='col-lg-2 col-sm-2 table-row-text'>$0.50</div> */}
                         </div>
                     </div>
                 </div>
@@ -33,31 +33,31 @@ function Pricing() {
                 <div className='row'>
                     <div className='col-lg-3'>
                         <div className='container-box'>
-                            <div className='blue-text mb-3'>Basic</div>
-                            <div className='grey-text'>Credits: <span className='dark-grey-text'>50</span></div>
-                            <div className='grey-text'>Tokens: <span className='dark-grey-text'>50000</span></div>
-                            <div className='grey-text'>Cost:  <span className='dark-grey-text'>0$/month</span></div>
+                            <div className='blue-text mb-3'>Retail Investors Lite</div>
+                            <div className='grey-text'>Credits: <span className='dark-grey-text'>200</span></div>
+                            <div className='grey-text'>Tokens: <span className='dark-grey-text'>200000</span></div>
+                            <div className='grey-text'>Cost:  <span className='dark-grey-text'>₹ 365 INR/month <span className='small-grey-text'>(incl. of all taxes)</span></span></div>
                         </div>
                     </div>
                     <div className='col-lg-3'>
                         <div className='container-box'>
-                            <div className='blue-text mb-3'>Retail Investor</div>
-                            <div className='grey-text'>Credits: <span className='dark-grey-text'>725</span></div>
-                            <div className='grey-text'>Tokens: <span className='dark-grey-text'>7250000</span></div>
-                            <div className='grey-text'>Cost:  <span className='dark-grey-text'>14$/month</span></div>
+                            <div className='blue-text mb-3'>Retail Investors Pro</div>
+                            <div className='grey-text'>Credits: <span className='dark-grey-text'>550</span></div>
+                            <div className='grey-text'>Tokens: <span className='dark-grey-text'>550000</span></div>
+                            <div className='grey-text'>Cost:  <span className='dark-grey-text'>₹ 950 INR/month <span className='small-grey-text'>(incl. of all taxes)</span></span></div>
                         </div>
                     </div>
                     <div className='col-lg-3'>
                         <div className='container-box'>
                             <div className='blue-text mb-3'>Finance Professional</div>
-                            <div className='grey-text'>Credits: <span className='dark-grey-text'>2500</span></div>
-                            <div className='grey-text'>Tokens: <span className='dark-grey-text'>2500k</span></div>
-                            <div className='grey-text'>Cost:  <span className='dark-grey-text'>45$/month</span></div>
+                            <div className='grey-text'>Credits: <span className='dark-grey-text'>2000</span></div>
+                            <div className='grey-text'>Tokens: <span className='dark-grey-text'>2000k</span></div>
+                            <div className='grey-text'>Cost:  <span className='dark-grey-text'>₹ 3200 INR/month <span className='small-grey-text'>(incl. of all taxes)</span></span></div>
                         </div>
                     </div>
                     <div className='col-lg-3'>
                         <div className='container-box'>
-                            <div className='blue-text mb-3'>API Access Plan</div>
+                            <div className='blue-text mb-3'>Enterprise Plan</div>
                             <div className='grey-text'>Credits: <span className='dark-grey-text'>On Request</span></div>
                             <div className='grey-text'>Tokens: <span className='dark-grey-text'>-</span></div>
                             <div className='grey-text'>Cost:  <span className='dark-grey-text'>Custom Pricing</span></div>
