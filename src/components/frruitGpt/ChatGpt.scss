@@ -433,6 +433,10 @@
             cursor: pointer;
             text-decoration: none;
             align-self: stretch;
+
+            @media only screen and (max-width: 1024px) {
+                margin-bottom: 16px;
+            }
         }
 
         .Dflex-css {
