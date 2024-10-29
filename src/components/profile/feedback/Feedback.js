@@ -212,7 +212,7 @@ function Feedback() {
                                 <div className='d-flex align-items-center'>
                                     <img src={PhoneImg} className='small-icon' />
                                     <div className='black-text'>+91 8369894335</div>
-                                </div>
+                                </div> 
                                 <div className='d-flex align-items-center mt-2'>
                                     <img src={MailImg} className='small-icon' />
                                     <div className='black-text'>support@airrchip.com</div>
