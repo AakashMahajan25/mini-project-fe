@@ -211,11 +211,11 @@ function Feedback() {
                             <div>
                                 <div className='d-flex align-items-center'>
                                     <img src={PhoneImg} className='small-icon' />
-                                    <div className='black-text'>airrchip@airrchip.com</div>
-                                </div>
+                                    <div className='black-text'>+91 8369894335</div>
+                                </div> 
                                 <div className='d-flex align-items-center mt-2'>
                                     <img src={MailImg} className='small-icon' />
-                                    <div className='black-text'>airrchip@airrchip.com</div>
+                                    <div className='black-text'>support@airrchip.com</div>
                                 </div>
                             </div>
                         </div>
