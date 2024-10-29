@@ -153,7 +153,10 @@ const signupSlice = createSlice({
                     action.type === searchTopics.rejected.type ||
                     action.type === resendOtp.pending.type ||
                     action.type === resendOtp.fulfilled.type ||
-                    action.type === resendOtp.rejected.type,
+                    action.type === resendOtp.rejected.type ||
+                    action.type === signupUser.pending.type ||
+                    action.type === signupUser.fulfilled.type ||
+                    action.type === signupUser.rejected.type,
                 handleLoading
             );
     }
