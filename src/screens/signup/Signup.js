@@ -42,6 +42,7 @@ function Signup() {
     const { isLoading } = useSelector(state => state?.signupSlice)
     const [timer, setTimer] = useState(60)
     const [timerEnded, setTimerEnded] = useState(true)
+    const [differentClick, setDifferentClick] = useState(false)
 
     const formattedTime = String(timer).padStart(2, '0');
 
@@ -92,8 +93,9 @@ function Signup() {
     };
 
     const useDifferentClick = () => {
-        setShowCode(false);
-        setShowCode1(false);
+        // setShowCode(false);
+        // setShowCode1(false);
+        setDifferentClick(true)
         setOtp('');
         setEmailOtp('');
     }
@@ -108,13 +110,14 @@ function Signup() {
             setShowError(true);
             return;
         }
-        dispatch(signupOtp({ type: 'mobile', email: data.email, mobile: "+91" + data?.phone_number }))
+        dispatch(signupOtp({ type: 'mobile', mobile: "+91" + data?.phone_number }))
             .unwrap()
             .then((res) => {
                 setTimerEnded(false)
                 setTimer(60)
                 setShowCode(true)
                 toast.success("OTP has sent successfully");
+                setDifferentClick(false)
             })
             .catch((error) => {
                 toast.error(error.message || "Unable to proceed");
@@ -138,13 +141,26 @@ function Signup() {
             .unwrap()
             .then(async (res) => {
                 toast.success(res.message)
-                // await dispatch(signupOtp({ type: 'email', email: allValues?.email, mobile: "+91" + allValues?.phone_number }))
-                setTimerEnded(false)
-                setTimer(60)
-                setShowCode1(true)
+                dispatch(signupOtp({ type: 'email', email: allValues?.email }))
+                    .then(() => {
+                        setTimerEnded(false)
+                        setTimer(60)
+                        setShowCode1(true)
+                        setDifferentClick(false)
+                    })
             })
             .catch((error) => {
                 toast.error(error.message || 'Failed to verify otp');
+            })
+    }
+
+    const sendEmailOTP = () => {
+        dispatch(signupOtp({ type: 'email', email: allValues?.email }))
+            .then(() => {
+                setTimerEnded(false)
+                setTimer(60)
+                setShowCode1(true)
+                setDifferentClick(false)
             })
     }
 
@@ -465,43 +481,76 @@ function Signup() {
                                                                         </div>
                                                                     </div>
                                                                 </div> */}
-                                                                <div className='d-flex justify-content-center align-items-center'>
-                                                                    <p className='number-text'>+91 {allValues?.phone_number}</p>
-                                                                    <a style={{ cursor: 'pointer', fontSize: 15, textDecoration: 'underline', color: 'blue' }} onClick={useDifferentClick}>Use a different Number</a>
-                                                                </div>
+                                                                {
+                                                                    !differentClick ?
+                                                                        <>
+                                                                            <div className='d-flex justify-content-center align-items-center'>
+                                                                                <p className='number-text'>+91 {allValues?.phone_number}</p>
+                                                                                <a style={{ cursor: 'pointer', fontSize: 15, textDecoration: 'underline', color: 'blue' }} onClick={useDifferentClick}>Use a different Number</a>
+                                                                            </div>
+                                                                            <div className="form-outline verification">
+                                                                                <div className='d-flex flex-column align-items-center'>
+                                                                                    <label className="typeheader my-2 justify-content-center">Type your 6 digit security code</label>
+                                                                                    <div className='d-flex'>
+                                                                                        <OtpInput
+                                                                                            value={otp}
+                                                                                            onChange={setOtp}
+                                                                                            numInputs={6}
+                                                                                            renderInput={(props) => <input {...props} style={{
+                                                                                                width: 56.68,
+                                                                                                outline: 'none',
+                                                                                            }} className='verificationBox text-center me-2' />}
+                                                                                        />
+                                                                                    </div>
+                                                                                    {
+                                                                                        timerEnded ?
+                                                                                            <p className='privacyText resendtext mt-0' style={{ fontSize: 15 }}>Didn't get the code? <a style={{ cursor: "pointer", fontSize: 15, textDecoration: 'underline', color: 'blue' }} onClick={() => handleResendOtp("mobile")}>Resend</a></p> :
+                                                                                            <p className='privacyText resendtext mt-0' style={{ fontSize: 15 }}>Request new OTP in 00:{formattedTime}</p>
+                                                                                    }
+                                                                                </div>
+                                                                            </div>
+                                                                        </>
 
-
-                                                                <div className="form-outline verification">
-                                                                    <div className='d-flex flex-column align-items-center'>
-                                                                        <label className="typeheader my-2 justify-content-center">Type your 6 digit security code</label>
-                                                                        <div className='d-flex'>
-                                                                            <OtpInput
-                                                                                value={otp}
-                                                                                onChange={setOtp}
-                                                                                numInputs={6}
-                                                                                renderInput={(props) => <input {...props} style={{
-                                                                                    width: 56.68,
-                                                                                    outline: 'none',
-                                                                                }} className='verificationBox text-center me-2' />}
+                                                                        :
+                                                                        <div className='d-flex justify-content-between align-items-center'>
+                                                                            <input
+                                                                                type="text"
+                                                                                className="form-control form-control-input nineone-input me-3"
+                                                                                placeholder='+91'
+                                                                                // style={{ width: '12%', textIndent: 7, color: 'black' }}
+                                                                                defaultValue="+91"
+                                                                                disabled
                                                                             />
+                                                                            <div className="position-relative" style={{ width: '85%' }}>
+                                                                                <Controller
+                                                                                    control={control}
+                                                                                    name="phone_number"
+                                                                                    render={({ field }) => (
+                                                                                        <input
+                                                                                            type="text"
+                                                                                            className={errors?.phone_number ? "form-control form-control-input error-feild" : "form-control form-control-input"}
+                                                                                            placeholder='Enter Phone Number'
+                                                                                            style={{ color: 'black' }}
+                                                                                            {...field}
+                                                                                            maxLength='15'
+                                                                                        />
+                                                                                    )}
+                                                                                />
+                                                                                <div className="position-absolute" style={{ left: 15, top: '24%' }}>
+                                                                                    <img src={MobileIcon} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} />
+                                                                                </div>
+                                                                            </div>
                                                                         </div>
-                                                                        {
-                                                                            timerEnded ?
-                                                                                <p className='privacyText resendtext mt-0' style={{ fontSize: 15 }}>Didn't get the code? <a style={{ cursor: "pointer", fontSize: 15, textDecoration: 'underline', color: 'blue' }} onClick={() => handleResendOtp("mobile")}>Resend</a></p> :
-                                                                                <p className='privacyText resendtext mt-0' style={{ fontSize: 15 }}>Request new OTP in 00:{formattedTime}</p>
-                                                                        }
-                                                                    </div>
-                                                                </div>
-
+                                                                }
                                                             </div>
                                                             <div className='d-flex justify-content-center align-items-center'>
-                                                                <button type='button' onClick={verifyMobileOtp} className='btnPrimary mt-4'>
+                                                                <button type='button' onClick={() => differentClick ? onSubmit({ type: "mobile", phone_number: allValues?.phone_number }) : verifyMobileOtp()} className='btnPrimary mt-4'>
                                                                     {isLoading ? (
                                                                         <div className="spinner-border text-light" role="status">
                                                                             <span className="sr-only"></span>
                                                                         </div>
                                                                     ) : (
-                                                                        "Verify"
+                                                                        differentClick ? "Send OTP" : "Verify"
                                                                     )}
                                                                 </button>
                                                             </div>
@@ -522,42 +571,69 @@ function Signup() {
                                                                     <img src={MailIcon} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} alt="Search Icon" />
                                                                 </div>
                                                             </div> */}
+                                                            {
+                                                                !differentClick ?
+                                                                    <>
+                                                                        <div className='d-flex justify-content-center align-items-center'>
+                                                                            <p className='number-text'>{allValues?.email}</p>
+                                                                            <a style={{ cursor: 'pointer', fontSize: 15, textDecoration: 'underline', color: 'blue' }} onClick={useDifferentClick}>Use a different e-mail</a>
+                                                                        </div>
 
-                                                            <div className='d-flex justify-content-center align-items-center'>
-                                                                <p className='number-text'>{allValues?.email}</p>
-                                                                <a style={{ cursor: 'pointer', fontSize: 15, textDecoration: 'underline', color: 'blue' }} onClick={useDifferentClick}>Use a different e-mail</a>
-                                                            </div>
+                                                                        <div className="form-outline verification">
+                                                                            <div className='d-flex flex-column align-items-center'>
+                                                                                <label className="typeheader my-2 justify-content-center">Type your 6 digit security code</label>
+                                                                                <div className='d-flex'>
+                                                                                    <OtpInput
+                                                                                        value={emailOtp}
+                                                                                        onChange={setEmailOtp}
+                                                                                        numInputs={6}
+                                                                                        renderInput={(props) => <input {...props} style={{
+                                                                                            width: 56.68,
+                                                                                            outline: 'none',
+                                                                                        }} className='verificationBox text-center me-2' />}
+                                                                                    />
+                                                                                </div>
+                                                                                {
+                                                                                    timerEnded ?
+                                                                                        <p className='privacyText resendtext mt-0' style={{ fontSize: 15 }}>Didn't get the code? <a style={{ cursor: 'pointer', fontSize: 15, textDecoration: 'underline', color: 'blue' }} onClick={() => handleResendOtp("email")}>Resend</a></p> :
+                                                                                        <p className='privacyText resendtext mt-0' style={{ fontSize: 15 }}>Request new OTP in 00:{formattedTime}</p>
+                                                                                }
+                                                                            </div>
+                                                                        </div>
 
-                                                            <div className="form-outline verification">
-                                                                <div className='d-flex flex-column align-items-center'>
-                                                                    <label className="typeheader my-2 justify-content-center">Type your 6 digit security code</label>
-                                                                    <div className='d-flex'>
-                                                                        <OtpInput
-                                                                            value={emailOtp}
-                                                                            onChange={setEmailOtp}
-                                                                            numInputs={6}
-                                                                            renderInput={(props) => <input {...props} style={{
-                                                                                width: 56.68,
-                                                                                outline: 'none',
-                                                                            }} className='verificationBox text-center me-2' />}
+                                                                    </>
+                                                                    :
+                                                                    <>
+                                                                        <Controller
+                                                                            control={control}
+                                                                            name="email"
+                                                                            render={({ field }) => (
+                                                                                <input
+                                                                                    type="text"
+                                                                                    className={errors?.email ? "form-control form-control-input error-feild" : "form-control form-control-input"}
+                                                                                    placeholder='Enter Email'
+                                                                                    style={{ color: 'black' }}
+                                                                                    {...field}
+                                                                                />
+                                                                            )}
                                                                         />
-                                                                    </div>
-                                                                    {
-                                                                        timerEnded ?
-                                                                            <p className='privacyText resendtext mt-0' style={{ fontSize: 15 }}>Didn't get the code? <a style={{ cursor: 'pointer', fontSize: 15, textDecoration: 'underline', color: 'blue' }} onClick={() => handleResendOtp("email")}>Resend</a></p> :
-                                                                            <p className='privacyText resendtext mt-0' style={{ fontSize: 15 }}>Request new OTP in 00:{formattedTime}</p>
-                                                                    }
-                                                                </div>
-                                                            </div>
+                                                                        {
+                                                                            errors?.email && <p className='errorText'>{errors?.email?.message}</p>
+                                                                        }
+                                                                        <div className={errors?.email ? "email-error-img" : "email-img"}>
+                                                                            <img src={MailIcon} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} />
+                                                                        </div>
+                                                                    </>
 
+                                                            }
                                                             <div className='d-flex justify-content-center align-items-center'>
-                                                                <button type='button' className='btnPrimary mt-4' onClick={verifyEmailId}>
+                                                                <button type='button' className='btnPrimary mt-4' onClick={differentClick ? sendEmailOTP : verifyEmailId}>
                                                                     {isLoading ? (
                                                                         <div className="spinner-border text-light" role="status">
                                                                             <span className="sr-only"></span>
                                                                         </div>
                                                                     ) : (
-                                                                        "Verify and Signup"
+                                                                        differentClick ? "Send OTP" : "Verify and Signup"
                                                                     )}
                                                                 </button>
                                                             </div>
