@@ -282,12 +282,13 @@ function BottomSearchBar(props) {
                         </div>
                     </div>
                 )}
-                {(flag === 'news') &&
+                {(flag === 'news' || flag === 'news_bing') &&
                     <div className="form-check form-switch checkbox-position hide-in-desktop">
                         <input
                             className="form-check-input"
                             type="checkbox"
                             onChange={handleWebSearchChange}
+                            checked={showWebSearch}
                         /> <span className={showWebSearch ? 'web-search-active' : 'web-search-default'}>Web Search</span>
                     </div>
                 }
