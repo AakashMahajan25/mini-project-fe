@@ -299,8 +299,12 @@ function Login() {
                                                 <div className='followUsDflex'>
                                                 <div className='FollowUsText me-3'>Follow us on</div>
                                                     {/* <img src={WhatsAppLogo} className='socialLogos' /> */}
-                                                    <img src={InstagramAppLogo} className='socialLogos' />
-                                                    <img src={linkedinLogo} className='socialLogos me-0' />
+                                                    <a href='https://www.instagram.com/frruitapp/?igsh=MW1iNmF0OWtrOXdvYw%3D%3D'>
+                                                        <img src={InstagramAppLogo} className='socialLogos' />
+                                                    </a>
+                                                    <a href='https://ae.linkedin.com/company/frruit'>
+                                                        <img src={linkedinLogo} className='socialLogos me-0' />
+                                                    </a>
                                                 </div>
                                                 <div className='loginMainTextParaStyle' style={{ display: 'block',fontWeight: 600 }}>Disclaimer</div>
                                                 <div className='small-desc-text'>
