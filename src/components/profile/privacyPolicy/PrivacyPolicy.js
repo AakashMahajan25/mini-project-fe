@@ -43,7 +43,7 @@ function PrivacyPolicy() {
                 <thead class="table-header">
                     <tr class="header-css">
                         <th scope="col" style={{fontFamily: '"Roboto", sans-serif'}}>Categories of Personal Information</th>
-                        <th scope="col" style={{fontFamily: '"Roboto", sans-serif'}}>Purposes for Collection</th>
+                        <th scope="col" style={{fontFamily: '"Roboto", sans-serif'}} >Purposes for Collection</th>
                     </tr>
                 </thead>
                 <tbody className='text-subheading3'>
