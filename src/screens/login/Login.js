@@ -139,6 +139,7 @@ function Login() {
                                         <div class="d-flex align-items-start flex-column loginleftsideCol">
                                             <div class="mb-auto"><img className='frruitLogostyle' src={FrruitLogo} style={{ objectFit: "contain" }} /></div>
                                             <div class="mb-auto w-100">
+                                                
                                                 <div className='loginMainTextStyle' style={{ marginTop: 16 }}>India's 1<sup className='suptext'>ST</sup>AI Powered</div>
                                                 <div className='loginMainTextStyle'>capital markets search engine</div>
                                                 <div className='loginMainTextParaStyle'>
