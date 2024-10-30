@@ -242,7 +242,10 @@ function Signup() {
                                                 <div className='loginStyle'>
                                                     <div className='loginMainTextStyle' >India's 1<sup className='suptext'>ST</sup>AI Powered</div>
                                                     <div className='loginMainTextStyle'>capital markets search engine</div>
-                                                    <div className='loginMainTextParaStyle'>
+                                                    <div className='loginMainTextParaStyle' style={{ fontSize: 18 }}>
+                                                        Get actionable capital market insights instantly through conversational search!
+                                                    </div>
+                                                    {/* <div className='loginMainTextParaStyle'>
                                                         Initiate dynamic conversations with Frruit to tap into both real-time and historical data on thousands of stocks , market-moving information , discover hidden correlations between financial market events and their impact on stock price movements !
                                                     </div>
                                                     <div className='loginMainTextParaStyle'>
@@ -250,7 +253,7 @@ function Signup() {
                                                     </div>
                                                     <div className='loginMainTextParaStyle'>
                                                         Our intuitive natural language interface instantly serves up the jargon free crucial insights, empowering you to make better informed decisions !
-                                                    </div>
+                                                    </div> */}
                                                 </div>
                                             </div>
                                             <div className='hideformobile'>
