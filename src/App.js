@@ -17,7 +17,7 @@ function App() {
   const location = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const isExcludedPage = ['/login', '/signUp', '/', '/topics', '/market','/walkthrough'].includes(location.pathname);
+  const isExcludedPage = ['/login', '/signup','/signUp', '/', '/topics', '/market','/walkthrough'].includes(location.pathname);
   const isAuthenticated = localStorage.getItem('token');
   const [showCreditModal, setShowCreditModal] = useState(false);
   const { userCredits } = useSelector(state => state.userSlice);
