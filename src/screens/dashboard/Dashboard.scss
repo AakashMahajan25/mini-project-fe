@@ -54,6 +54,11 @@
 
         @media only screen and (max-width: 500px) {
             margin-top: 12px;
+            overflow-y: scroll;
+
+            &::-webkit-scrollbar {
+                display: none;
+            }
         }
 
         .dashboard-container {
@@ -421,6 +426,9 @@
 
     .customTab-frruit-gpt {
         margin-bottom: 6px;
+        @media only screen and (max-width: 768px) {
+            margin-bottom: 0px;
+        }
 
         .mobile-scroll-Css {
             overflow-y: auto;
@@ -527,6 +535,7 @@
             position: relative;
             left: -10px;
             top: 8px;
+            margin-bottom: 12px;
         }
     }
 }
