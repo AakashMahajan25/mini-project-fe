@@ -141,14 +141,8 @@ function Login() {
                                             <div className={window.innerWidth < 520 ? "w-100" : "mb-auto w-100"}>
                                                 <div className='loginMainTextStyle' style={{ marginTop: 16 }}>India's 1<sup className='suptext'>ST</sup>AI Powered</div>
                                                 <div className='loginMainTextStyle'>capital markets search engine</div>
-                                                <div className='loginMainTextParaStyle'>
-                                                    Initiate dynamic conversations with Frruit to tap into both real-time and historical data on thousands of stocks , market-moving information , discover hidden correlations between financial market events and their impact on stock price movements !
-                                                </div>
-                                                <div className='loginMainTextParaStyle'>
-                                                    No more navigating through mountains of data or struggling through complicated search reports.
-                                                </div>
-                                                <div className='loginMainTextParaStyle'>
-                                                    Our intuitive natural language interface instantly serves up the jargon free crucial insights, empowering you to make better informed decisions !
+                                                <div className='loginMainTextParaStyle' style={{fontSize: 18}}>
+                                                Get actionable capital market insights instantly through conversational search!
                                                 </div>
                                             </div>
                                             <div className='hideformobile'>
