@@ -565,7 +565,7 @@ function Signup() {
                                                             <div className={differentClick ? 'd-flex flex-column justify-content-center align-items-center' : 'd-flex flex-column align-items-center'}>
                                                                 <img src={EmailOtpImage} className='phoneotpimg' />
                                                                 <p className='p-0 otpheader mt-2'>{differentClick ? 'Confirm Your New Email' : 'Please check your E-mail'}</p>
-                                                                <p className='p-0 m-0 otpsubheader text-center'>{differentClick ? 'You’ve chosen a different email. Verify it to receive your OTP.' : 'We have sent a email with the verification code on'}</p>
+                                                                <p className='p-0 m-0 otpsubheader text-center'>{differentClick ? 'You’ve chosen a different email. Verify it to receive your OTP.' : 'Please check your mail inbox or spam. We have sent a email with the verification code on'}</p>
                                                             </div>
                                                             {/* <div className="position-relative" style={{ width: '100%' }}>
                                                                 <label className='form-control-label mb-1'>E-mail</label>
