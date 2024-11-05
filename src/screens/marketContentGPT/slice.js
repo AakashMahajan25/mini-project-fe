@@ -79,7 +79,7 @@ export const addDocument = createAsyncThunk("contentGpt/addDocument", async (req
         return response.data.data;
 
     } catch (error) {
-        throw error.response;
+        throw error?.response?.data;
     }
 });
 
