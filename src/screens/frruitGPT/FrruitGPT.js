@@ -262,6 +262,10 @@ function FrruitGPT() {
         if (!question) {
             return;
         }
+        if(question?.trim()?.length < 12 && flag !== 'news'){
+            toast.error("Please rephrase the question to a minimum of 12 characters.");
+            return;
+        }
         if (isNewChat.current)
             addFrruitPrompt(question)
         else
