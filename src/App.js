@@ -26,18 +26,18 @@ function App() {
     ReactGA.initialize('G-PJPZEYMZY8', { debug: true });
   }, []);
 
-  useEffect(() => {
-    if(!isExcludedPage)
-    dispatch(getAvaliableCredit());
-  }, [location])
+  // useEffect(() => {
+  //   if(!isExcludedPage)
+  //   dispatch(getAvaliableCredit());
+  // }, [location])
 
-  useEffect(() => {
-    if(['/dashboard', '/frruit-gpt', '/market-content-gpt', '/discover-correlation'].includes(location.pathname) || (location.pathname === "/profile" && !location?.state?.plans)){
-      if(userCredits?.expired || userCredits?.warning){
-        setShowCreditModal(true)
-      }
-    }
-  }, [userCredits])
+  // useEffect(() => {
+  //   if(['/dashboard', '/frruit-gpt', '/market-content-gpt', '/discover-correlation'].includes(location.pathname) || (location.pathname === "/profile" && !location?.state?.plans)){
+  //     if(userCredits?.expired || userCredits?.warning){
+  //       setShowCreditModal(true)
+  //     }
+  //   }
+  // }, [userCredits])
 
   const handleCloseCreditModal = () => setShowCreditModal(false);
 
@@ -59,9 +59,9 @@ function App() {
         </Routes>
       </div>
       
-      {showCreditModal &&
+      {/* {showCreditModal &&
         <CreditOverModal show={showCreditModal} handleClose={handleCloseCreditModal} onButtonClick={handleCreditButton} />
-      }
+      } */}
       
       <ToastContainer />
       {

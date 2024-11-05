@@ -99,6 +99,17 @@ function BottomBar(props) {
     const handleFileChange = (event) => {
         const file = event.target.files[0];
         if (file) {
+            const validTypes = [
+                'application/pdf',
+                'application/vnd.openxmlformats-officedocument.wordprocessingml.document', // DOCX
+                'application/msword', // DOC
+            ];
+    
+            if (!validTypes.includes(file.type)) {
+                toast.error('Please select a valid file type: PDF, DOC or DOCX.');
+                setSelectedFile(null);
+                return;
+            }
             const modifiedName = addTimestampToFileName(replaceSpaceWithUnderscore(file.name));
             const modifiedFile = new File([file], modifiedName, { type: file.type });
             setSelectedFile(modifiedFile);
