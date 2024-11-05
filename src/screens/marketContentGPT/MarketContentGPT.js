@@ -311,15 +311,14 @@ function MarketContentGPT() {
             >
                 <Modal.Header>
                     <div className='d-flex justify-content-between align-items-center mb-2'>
-                        <div className='header-text'>Are you sure you want to Delete ?</div>
+                    <div className='header-text'>Confirm Deletion</div>
                         <div onClick={() => handleClose2()} className=' align-items-center' style={{ cursor: 'pointer' }}>
                             <img src={CloseImg} className='me-1' width={32} style={{ objectFit: 'contain' }} />
                         </div>
                     </div>
                 </Modal.Header>
                 <Modal.Body>
-                    <div className='body-text-css'>Lorem Ipsum is simply dummy text of the printing
-                        and typesetting industry</div>
+                    <div className='body-text-css'>Are you sure you want to delete this ? This action cannot be undone.</div>
                 </Modal.Body>
                 <Modal.Footer>
                     <div className='d-flex justify-content-center align-items-center'>

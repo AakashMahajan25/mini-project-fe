@@ -141,10 +141,11 @@ function Login() {
                                             <div className={window.innerWidth < 520 ? "w-100" : "mb-auto w-100"}>
                                                 <div className='loginMainTextStyle' style={{ marginTop: 16 }}>India's 1<sup className='suptext'>ST</sup>AI Powered</div>
                                                 <div className='loginMainTextStyle'>capital markets search engine</div>
-                                                <div className='loginMainTextParaStyle' style={{fontSize: 18}}>
+                                                <div className='loginMainTextParaStyle' style={{fontSize: 16}}>
                                                 Get actionable capital market insights instantly through conversational search!
                                                 </div>
                                             </div>
+                                            <div className='loginMainTextParaStyle hideformobile mb-5' style={{fontSize: 36, fontWeight: 700}}>Search for free, discover fast !</div>
                                             <div className='hideformobile'>
                                                 <div className='loginMainTextParaStyle' style={{ fontWeight: 600 }}>Disclaimer</div>
                                                 <div className='small-desc-text'>
@@ -172,6 +173,7 @@ function Login() {
                                                     </div> */}
                                                 <div className="form-outline">
                                                     <p className='loginText text-center'>Login</p>
+                                                    <div className='loginText followUsHideforWeb' style={{fontSize: 20, fontWeight: 700}}>Search for free, discover fast !</div>
                                                     {!showCode &&
                                                         <>
                                                             <label className='form-control-label'>Phone Number</label>

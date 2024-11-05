@@ -10,15 +10,18 @@ function PlansCard({ features, title, pricingText, creditsText, benefitsText, bu
                 <div>
                     {/* <div className='forText' style={{ marginTop: applyMargin ? 22 : 0, minHeight:22 }}>{forText}</div> */}
                     <div className='PlanTitle'>{title}</div>
-                    <div className='PlanPricingText'>{pricingText}<span className='TaxesText'> (incl. of all taxes)</span></div>
+                    <div className='PlanPricingText'>
+                        {pricingText}
+                        {/* <span className='TaxesText'> (incl. of all taxes)</span> */}
+                    </div>
                 </div>
-                <div>
+                {/* <div>
                     <div className='CreditsText'>Credits</div>
                     <div className='CreditsLimitText'>{creditsText}</div>
-                </div>
+                </div> */}
                 <div>
                     <div className='CreditsText'>Feature Benefits</div>
-                    <div className='CreditsLimitText' style={{ marginBottom: 12, fontSize: 12 }}>{benefitsText}</div>
+                    <div className='CreditsLimitText' style={{ marginBottom: 12 }}>{benefitsText}</div>
                 </div>
                 {features.map((feature, index) => (
                     <div key={index} className='d-flex align-items-start mb-1'>

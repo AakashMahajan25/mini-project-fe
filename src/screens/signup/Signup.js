@@ -242,9 +242,9 @@ function Signup() {
                                                 <div className='loginStyle'>
                                                     <div className='loginMainTextStyle' >India's 1<sup className='suptext'>ST</sup>AI Powered</div>
                                                     <div className='loginMainTextStyle'>capital markets search engine</div>
-                                                    <div className='loginMainTextParaStyle' style={{ fontSize: 18 }}>
+                                                    <div className='loginMainTextParaStyle' style={{ fontSize: 16 }}>
                                                         Get actionable capital market insights instantly through conversational search!
-                                                    </div>
+                                                    </div> 
                                                     {/* <div className='loginMainTextParaStyle'>
                                                         Initiate dynamic conversations with Frruit to tap into both real-time and historical data on thousands of stocks , market-moving information , discover hidden correlations between financial market events and their impact on stock price movements !
                                                     </div>
@@ -256,6 +256,7 @@ function Signup() {
                                                     </div> */}
                                                 </div>
                                             </div>
+                                            <div className='loginMainTextParaStyle hideformobile mb-5' style={{fontSize: 36, fontWeight: 700}}>Search for free, discover fast !</div>
                                             <div className='hideformobile'>
                                                 <div className='loginMainTextParaStyle' style={{ fontWeight: 600 }}>Disclaimer</div>
                                                 <div className='small-desc-text'>
@@ -279,8 +280,12 @@ function Signup() {
                                         <div className={showCode ? 'login-form' : 'signup-form'}>
                                             <div style={{ position: 'relative' }}>
                                                 {
-                                                    !showCode && !showCode1 &&
+                                                    !showCode && !showCode1 && 
+                                                    <>
                                                     <p className='loginText text-center m-0 '>Signup</p>
+                                                    <div className='loginText followUsHideforWeb mt-2' style={{fontSize: 20, fontWeight: 700}}>Search for free, discover fast !</div>
+                                                    </>
+                                                    
                                                 }
                                                 <div>
                                                     {/* <img src={FrruitLogo} width={108} style={{ position: 'absolute', top: -5 }} /> */}
