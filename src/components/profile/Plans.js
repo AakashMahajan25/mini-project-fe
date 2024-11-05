@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import './Plans.scss'
 import BackBtnArrow from '../../assets/images/back-btn-arrow.png';
+import PlansPageImg from '../../assets/images/enterprise_plan_img.png';
 import PlansCard from './PlansCard';
 import { getAllActivePlans } from '../../screens/profile/usersSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
-function Plans({handleBackButtonClick, showBackButton, upgradePlan}) {
+function Plans({ handleBackButtonClick, showBackButton, upgradePlan }) {
     const dispatch = useDispatch();
     const Basic = [
         'News headlines & Investors Stories',
@@ -92,7 +93,7 @@ function Plans({handleBackButtonClick, showBackButton, upgradePlan}) {
                         <button onClick={handleBackButtonClick} className='light-blue-btn me-2'><img src={BackBtnArrow} style={{ width: 7, height: 13, objectFit: 'contain', marginRight: 5, marginTop: -2 }} />Back</button>
                     </div>
                 }
-                <div className='Upgrade-text'>Buy Plans !</div>
+                <div className='Upgrade-text'>For Financial Institutions</div>
                 {/* <div className='pera'>Lorem Ipsum is simply dummy text of the printing and typesetting industry</div> */}
                 <div>
                     <div className='row'>
@@ -136,7 +137,7 @@ function Plans({handleBackButtonClick, showBackButton, upgradePlan}) {
                                 buttonText="Upgrade"
                             />
                         </div> */}
-                        {activePlanList &&
+                        {/* {activePlanList &&
                             activePlanList.map((plan, i) => (
                                 <div className='col-lg-3 col-md-6' key={'planlist' + i}>
                                     <PlansCard
@@ -153,20 +154,25 @@ function Plans({handleBackButtonClick, showBackButton, upgradePlan}) {
                                         buttonText="Buy Now" //"Upgrade"
                                     />
                                 </div>
-                            ))}
-                        <div className='col-lg-3 col-md-6'>
+                            ))} */}
+                        <div className='col-lg-6 col-md-6'>
                             <PlansCard
                                 cardBackground="linear-gradient(194.74deg, #5F7DFF 0%, #3F5AD1 94.44%)"
                                 showStarIcon={true}
                                 forText='For'
-                                title="Enterprise Plan"
-                                pricingText="Custom pricing"
+                                title="Enterprise AI Plan"
+                                pricingText="On request custom pricing"
                                 creditsText="On Request"
                                 benefitsText="Get access to real-time market data through generative AI on"
                                 features={APIAccessPlan}
                                 buttonText="Contact us"
                                 type="custom"
                             />
+                        </div>
+                        <div className='col-lg-6 col-md-6' style={{ marginTop: 100 }}>
+                            <div className='d-flex align-items-center justify-content-center'>
+                                <img src={PlansPageImg} style={{  width: 270 }} />
+                            </div>
                         </div>
                     </div>
                 </div>

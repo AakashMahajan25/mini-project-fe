@@ -482,7 +482,7 @@ function Dashboard() {
     // const handleCheckboxChange = () => {
     //     setShowSuggestions(!showSuggestions);
     // };
-    const placeholderText = (flag === 'news' || flag === 'news_bing') ? 'Search news, summarize, and get TLDRs' : flag === 'fund' ? 'Compare company data, financials,stock screener and actions' : flag === 'youtube' ? 'Discover insights from YouTube videos' : 'Search discussions and opinions on Reddit'
+    const placeholderText = (flag === 'news' || flag === 'news_bing') ? 'Search news, summarize, and get TLDRs' : flag === 'fund' ? 'Compare company data, financials,stock screener and actions' : flag === 'youtube' ? 'Discover insights from videos' : 'Search discussions and opinions on social media'
 
     useEffect(() => {
         if (showWebSearch) {
@@ -684,10 +684,10 @@ function Dashboard() {
                                                         > Fundamentals </div>
                                                         <div className={flag === 'youtube' ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: flag === 'youtube' ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
                                                             onClick={() => setFlag('youtube')}
-                                                        > Youtube </div>
+                                                        > Videos </div>
                                                         <div className={flag === 'reddit' ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: flag === 'reddit' ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
                                                             onClick={() => setFlag('reddit')}
-                                                        > Reddit </div>
+                                                        > Social Media </div>
                                                         {/* <div className={flag === 'news' ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: flag === 'news' ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
                                                             onClick={() => setFlag('news')}
                                                         > News </div>

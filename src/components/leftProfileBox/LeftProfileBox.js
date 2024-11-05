@@ -15,14 +15,14 @@ function LeftProfileBox({ handlePreferencesClick, handleProfileClick, isPreferen
             <div className='profile-left-box' >
                 <div className='box' style={{ height: window.innerWidth < 500 ? '' : window.innerHeight - 68 }}>
                     <div className={`mb-2 ${isshowCodeActive ? 'side-box-light-blue-btn-active' : 'side-box-light-blue-btn'}`} onClick={handleProfileClick}>Profile</div>
-                    <div className={`mb-2 ${isPaymentHistoryActive ? 'side-box-light-blue-btn-active' : 'side-box-light-blue-btn'}`} onClick={handlePaymentHistoryClick}>Payment History</div>
+                    {/* <div className={`mb-2 ${isPaymentHistoryActive ? 'side-box-light-blue-btn-active' : 'side-box-light-blue-btn'}`} onClick={handlePaymentHistoryClick}>Payment History</div> */}
                     {/* <div className={`mb-2 ${isPreferencesActive ? 'side-box-light-blue-btn-active' : 'side-box-light-blue-btn'}`} onClick={handlePreferencesClick}>Preferences</div> */}
-                    <div className={`mb-2 ${isViewPlansActive ? 'side-box-light-blue-btn-active' : 'side-box-light-blue-btn'}`} onClick={handleViewPlansClick}>View Plans</div>
-                    <div className={`mb-2 ${isPricingActive ? 'side-box-light-blue-btn-active' : 'side-box-light-blue-btn'}`} onClick={handlePricingClick}>Pricing</div>
+                    <div className={`mb-2 ${isViewPlansActive ? 'side-box-light-blue-btn-active' : 'side-box-light-blue-btn'}`} onClick={handleViewPlansClick}>Enterprise AI Plan</div>
+                    {/* <div className={`mb-2 ${isPricingActive ? 'side-box-light-blue-btn-active' : 'side-box-light-blue-btn'}`} onClick={handlePricingClick}>Pricing</div> */}
                     <div className={`mb-2 ${isAboutAirrchipActive ? 'side-box-light-blue-btn-active' : 'side-box-light-blue-btn'}`} onClick={handleAboutAirrchipClick}>About Airrchip</div>
                     <div className={`mb-2 ${isFeedbackActive ? 'side-box-light-blue-btn-active' : 'side-box-light-blue-btn'}`} onClick={handleFeedbackClick}>Feedback</div>
                     <div className={`mb-2 ${isHelpActive ? 'side-box-light-blue-btn-active' : 'side-box-light-blue-btn'}`} onClick={handleHelpClick}>Help and FAQ</div>
-                    <div className={`mb-2 ${isCancellationPolicyActive ? 'side-box-light-blue-btn-active' : 'side-box-light-blue-btn'}`} onClick={handleCancellationPolicyClick}>Cancellation and Refund Policy</div>
+                    {/* <div className={`mb-2 ${isCancellationPolicyActive ? 'side-box-light-blue-btn-active' : 'side-box-light-blue-btn'}`} onClick={handleCancellationPolicyClick}>Cancellation and Refund Policy</div> */}
                     <div className={`mb-2 ${isTermsConditionActive ? 'side-box-light-blue-btn-active' : 'side-box-light-blue-btn'}`} onClick={() => {
                         ReactGA.event({
                             category: 'Profiling',

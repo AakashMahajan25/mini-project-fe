@@ -277,15 +277,15 @@ function Profile() {
     const { userCredits, isLoading, userDetails, userPlan, faqs, orderHistory, paymentLoader } = useSelector(state => state.userSlice)
 
     useEffect(() => {
-        dispatch(getAvaliableCredit()).unwrap().then(() => {
-            ReactGA.event({
-                category: 'Profiling',
-                action: 'user_avaliablecredit',
-                label: 'User Avaliable Credit'
-            });
-        }).catch(err => {
+        // dispatch(getAvaliableCredit()).unwrap().then(() => {
+        //     ReactGA.event({
+        //         category: 'Profiling',
+        //         action: 'user_avaliablecredit',
+        //         label: 'User Avaliable Credit'
+        //     });
+        // }).catch(err => {
 
-        });
+        // });
         dispatch(getUserDetails()).then(() => {
             ReactGA.event({
                 category: 'Profiling',
@@ -320,6 +320,7 @@ function Profile() {
         dispatch(updateProfile(data))
             .unwrap()
             .then(async (res) => {
+                dispatch(getUserDetails())
                 toast.success("Profile Updated Successfully")
             })
             .catch((error) => {
@@ -449,18 +450,18 @@ function Profile() {
                     {!showCode && !showPreferences && !showHelpFAQ && !showPaymentHistory && !isTermsConditionActive && !isPrivacyPolicyActive && !isPricingActive && !isViewPlansActive && !isCancellationPolicyActive && !isFeedbackActive && !isAboutAirrchipActive &&
                         <div className='right-part' style={{ height: rightPartHeight, overflowY: 'scroll' }}>
                             <div className='welcome-text'>Welcome</div>
-                            <div style={{ marginBottom: 20 }} className='user-text'>{userDetails?.first_name + " " + userDetails?.last_name}!</div>
-                            <div className='row m-0'>
+                            <div style={{ marginBottom: 20 }} className='user-text'>{userDetails?.first_name + " " + userDetails?.last_name}</div>
+                            {/* <div className='row m-0'>
                                 <div className='col-lg-6 column-pad' style={{ marginBottom: 20 }}>
                                     <div className='cardCustomMarginRight'>
                                         <div className='blue-box'>
                                             <div className='d-flex justify-content-between align-items-center' style={{ marginBottom: 10 }}>
-                                                <div className='text-1'>Available Credits</div>
+                                                <div className='text-1'>Available Credits</div> */}
                                                 {/* <div className='d-flex align-items-center'>
                                                     <div className='text-2'>History</div>
                                                     <img src={WhiteArrow} style={{ width: 18, objectFit: 'contain' }} />
                                                 </div> */}
-                                            </div>
+                                            {/* </div>
                                             <div className='light-blue-box' style={{ width: 'fit-content', marginBottom: 28 }}>
                                                 <div className='d-flex justify-content-start align-items-center'>
                                                     <div className='text-3'>{userCredits ? parseFloat(userCredits?.totalCredits - userCredits?.usedCredits).toFixed(2) : '00'}</div>
@@ -468,12 +469,12 @@ function Profile() {
                                                 </div>
                                             </div>
                                             <div className='transactionHistoryRow'>
-                                                <div className='text-2'>1 Credit = 1000 Tokens</div>
+                                                <div className='text-2'>1 Credit = 1000 Tokens</div> */}
                                                 {/* <div className='innerTransactionHistoryRow' onClick={handlePaymentHistoryClick}>
                                                     <div className='text-2'>Transaction History</div>
                                                     <img src={WhiteArrow} className='whiteArrowstyle' />
                                                 </div> */}
-                                            </div>
+                                            {/* </div>
                                         </div>
                                     </div>
                                 </div>
@@ -492,12 +493,12 @@ function Profile() {
                                                         </>
                                                     }
                                                 </div>
-                                            </div>
+                                            </div> */}
                                             {/* <button onClick={setShowCode} className='white-btn'>View Plans<img src={BlueArrow} style={{ objectFit: 'contain', width: 6, marginLeft: 10 }} /></button> */}
-                                        </div>
+                                        {/* </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> */}
                             <div className='row m-0'>
                                 <div className='col-lg-6 column-pad'>
                                     <form onSubmit={handleSubmit(onSubmit)}>

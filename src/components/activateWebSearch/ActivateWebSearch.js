@@ -24,7 +24,7 @@ function ActivateWebSearch({ show2, handleClose2, handleClose1 }) {
                         <img src={RocketImage} className='RocketImageImg' />
                         <div className='webSearchText'>Activate Web Search to enhance your news search experience!</div>
                         <div className='subheading'>
-                            By enabling this feature, Frruit will not only pull results from premium data sources but also extend the search across the internet, providing you with even broader insights. Please note that activating web search incurs an additional <b>3-credit</b> charge per search.
+                            By enabling this feature, Frruit will not only pull results from premium data sources but also extend the search across the internet, providing you with even broader insights
                         </div>
                         <div className='proceed-text text-center'>
                             Do you want to proceed?
