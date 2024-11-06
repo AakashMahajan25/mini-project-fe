@@ -230,7 +230,7 @@ function Signup() {
         <>
             <section className='login signup-css'>
                 <div className='imageBG' style={{ height: 'calc(100svh)' }}>
-                    <img src={loginBg} className='imageHeight' style={{ height: 'calc(100svh)' }} alt="Header" />
+                    <img src={loginBg} className='imageHeight' style={{ height: 'calc(118svh)' }} alt="Header" />
                     <div className='innerImgTextBox'>
                         <div className='w-100'>
                             <>
@@ -283,7 +283,7 @@ function Signup() {
                                                     !showCode && !showCode1 && 
                                                     <>
                                                     <p className='loginText text-center m-0 '>Signup</p>
-                                                    <div className='loginText followUsHideforWeb mt-2' style={{fontSize: 20, fontWeight: 700}}>Search for free, discover fast !</div>
+                                                    <div className='loginText followUsHideforWeb mt-2' style={{fontSize: 18, fontWeight: 700}}>Search for free, discover fast !</div>
                                                     </>
                                                     
                                                 }
