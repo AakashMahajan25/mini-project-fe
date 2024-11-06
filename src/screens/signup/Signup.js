@@ -431,11 +431,24 @@ function Signup() {
                                                                             <option>Zerodha </option>
                                                                             <option>Upstox</option>
                                                                             <option>Groww</option>
-                                                                            <option>Angel one</option>
+                                                                            <option>Angel One</option>
+                                                                            <option>ICICI Securities Ltd.</option>
+                                                                            <option>5 Paisa</option>
                                                                             <option>Kotak Securities</option>
                                                                             <option>HDFC Securities</option>
-                                                                            <option>5 Paisa</option>
+                                                                            <option>IIFL / India Infoline Securities</option>
                                                                             <option>Motilal Oswal Financial Services</option>
+                                                                            <option>Sharekhan Ltd.</option>
+                                                                            <option>SBICAP Securities Ltd.</option>
+                                                                            <option>Paytm Money</option>
+                                                                            <option>Axis Direct</option>
+                                                                            <option>Choice Equity Broking</option>
+                                                                            <option>Geojit Financial Services</option>
+                                                                            <option>Edelweiss Broking Ltd.</option>
+                                                                            <option>SMC Global</option>
+                                                                            <option>Religare Broking Ltd.</option>
+                                                                            <option>Alice Blue</option>
+                                                                            <option>Dhan</option>
                                                                         </select>
                                                                     )}
                                                                 />
