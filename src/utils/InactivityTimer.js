@@ -12,7 +12,7 @@ const InactivityTimer = () => {
             logoutTimer = setTimeout(() => {
                 // Logout the user after timeout
                 handleLogout()
-            }, 30 * 60 * 1000);
+            }, 60 * 60 * 1000);
         };
 
         const handleUserActivity = () => {
@@ -32,7 +32,7 @@ const InactivityTimer = () => {
             window.removeEventListener('mousemove', handleUserActivity);
             window.removeEventListener('keydown', handleUserActivity);
         };
-    }, [30 * 60 * 1000]);
+    }, [60 * 60 * 1000]);
 
     const handleLogout = () => {
         localStorage.clear();
