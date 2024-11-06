@@ -816,7 +816,7 @@ function LeftBox() {
                                 <div className='blue-box'>
                                     <div className='d-flex align-items-center justify-content-between'>
                                         <div>
-                                            <input type="text" className="form-control form-control-search-custom" placeholder='Add Wacthlist' value={addName} onChange={event => setAddName(event.target.value)} />
+                                            <input type="text" className="form-control form-control-search-custom" placeholder='Add Watchlist' value={addName} onChange={event => setAddName(event.target.value)} />
                                             <div className='watchlist-text2'>{'0'}</div>
                                         </div>
                                         <div className='d-flex justify-content-between align-items-center'>
