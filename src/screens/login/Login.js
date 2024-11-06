@@ -86,7 +86,7 @@ function Login() {
     const handleLogin = async () => {
         const regex = /^[0-9]{0,6}$/; // Regular expression to match 6 digits
         if (!regex.test(otp) || otp?.length < 6) {
-            toast.error("Please enter valid otp")
+            toast.error("Please enter valid OTP")
             return;
         }
         const requestData = {
