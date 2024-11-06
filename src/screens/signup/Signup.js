@@ -230,7 +230,7 @@ function Signup() {
         <>
             <section className='login signup-css'>
                 <div className='imageBG' style={{ height: 'calc(100svh)' }}>
-                    <img src={loginBg} className='imageHeight' style={{ height: 'calc(100svh)' }} alt="Header" />
+                    <img src={loginBg} className='imageHeight' style={ window.innerWidth >= 526 ? { height: 'calc(100svh)' } : { height: 'calc(118svh)' }} alt="Header" />
                     <div className='innerImgTextBox'>
                         <div className='w-100'>
                             <> 
