@@ -377,7 +377,7 @@ function Signup() {
                                                                                 <input
                                                                                     type="text"
                                                                                     className={errors?.phone_number ? "form-control form-control-input error-feild" : "form-control form-control-input"}
-                                                                                    placeholder='Enter Phone Number'
+                                                                                    placeholder='Phone Number'
                                                                                     style={{ color: 'black' }}
                                                                                     {...field}
                                                                                     maxLength='15'
