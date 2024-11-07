@@ -565,3 +565,31 @@
         opacity: 0;
     }
 }
+
+.blue-box-alert{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: #F1F4FD;
+    padding: 16px;
+    border-radius: 15px;
+
+    .alert-img{
+        width: 32px;
+        margin-right: 8px;
+        object-fit: contain;
+    }
+
+    .alert-desc {
+        font-family: 'Roboto', sans-serif;
+        font-size: 12px;
+        font-weight: 500;
+        line-height: 16px;
+        color: #6F7387;
+        text-align: justify;
+
+        @media only screen and (max-width: 768px) {
+            font-size: 10px;
+        }
+    }
+}

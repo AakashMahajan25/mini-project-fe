@@ -31,6 +31,7 @@ import Markdown from 'react-markdown'
 import moment from 'moment'
 import { InfinitySpin } from 'react-loader-spinner'
 import CustomTable from '../customTable/CustomTable'
+import AlertImg from '../../assets/images/exclamation.png'
 
 function ChatGpt(props) {
     const { chatSuggestions } = useSelector(state => state.fruitGPTSlice);
@@ -428,7 +429,7 @@ function ChatGpt(props) {
                 marginBottom: path ? (window.innerWidth < 786 ? 80 : 20) : (window.innerWidth < 786 ? 80 : 20)
             }} ref={containerRef}>
                 {
-                    (newChat && !path) && <div className='default-screens-content' style={{ height: window.innerHeight - 310 }}>
+                    (newChat && !path) && <div className='default-screens-content' style={{ height: window.innerHeight - 240 }}>
                         <div className='text-center'>
                             <img src={LogoCircle} width={57} style={{ objectFit: 'contain' }} />
                             <div className='help-text'>How can I help you today ?</div>
@@ -446,6 +447,10 @@ function ChatGpt(props) {
                                         </Tooltip>
                                     </div>
                                 ))}
+                            </div>
+                            <div className='blue-box-alert'>
+                                <img src={AlertImg} className='alert-img' />
+                                <div className='alert-desc'>While we strive to deliver the best actionable insights using AI. Gathering and analyzing company data or videos may take a moment, so we kindly ask for your patience while we process everything!</div>
                             </div>
                         </div>
                     </div>
