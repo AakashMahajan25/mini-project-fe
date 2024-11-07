@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import '../login/Login.scss'
 import LoginImg from '../../assets/images/login_img.png'
 import LoginImg2 from '../../assets/images/login-side-img.png'
@@ -20,6 +20,7 @@ import Modal from 'react-bootstrap/Modal';
 import TermsAndCondition from '../../components/profile/termsAndCondition/TermsAndCondition';
 import PrivacyPolicy from '../../components/profile/privacyPolicy/PrivacyPolicy';
 import CloseImg from '../../assets/images/close_icon.png';
+import { resendOtp } from '../signup/slice'
 
 function Login() {
     const dispatch = useDispatch()
@@ -30,6 +31,8 @@ function Login() {
     const [phoneNumber, setPhoneNumber] = useState('');
     const [showTermsConditions, setShowTermsConditions] = useState(false);
     const [showPrivacyPolicy, setShowPrivacyPolicy] = useState(false);
+    const [timer, setTimer] = useState(60)
+    const [timerEnded, setTimerEnded] = useState(true)
 
     const handleShowTermsConditions = (data) => {
         setShowTermsConditions(true);
@@ -45,6 +48,21 @@ function Login() {
     };
 
     const { isLoading } = useSelector(state => state?.loginSlice)
+
+    const formattedTime = String(timer).padStart(2, '0');
+
+    useEffect(() => {
+        if (timer === 0) {
+            setTimerEnded(true);
+            return;
+        }
+
+        const timerInterval = setInterval(() => {
+            setTimer((prevTime) => prevTime - 1);
+        }, 1000);
+
+        return () => clearInterval(timerInterval);
+    }, [timer]);
 
     const routeChangeSignUp = () => {
         let path = `/signUp`;
@@ -74,9 +92,10 @@ function Login() {
         dispatch(loginOtp(data))
             .unwrap()
             .then((res) => {
+                setTimerEnded(false)
+                setTimer(60)
                 setShowCode(true)
                 toast.success(res?.message)
-
             })
             .catch((error) => {
                 toast.error(error?.message)
@@ -115,6 +134,24 @@ function Login() {
             })
             .catch((error) => {
                 toast.error(error?.message)
+            })
+    }
+
+    const handleResendOtp = () => {
+        const data = {
+            type: 'mobile',
+            mobile: "+91" + phoneNumber
+        }
+
+        dispatch(resendOtp(data))
+            .unwrap()
+            .then(async (res) => {
+                toast.success(res.message)
+                setTimerEnded(false)
+                setTimer(60)
+            })
+            .catch((error) => {
+                toast.error(error.message || 'Failed to resend otp');
             })
     }
 
@@ -242,7 +279,12 @@ function Login() {
                                                                     />
                                                                 </div>
                                                             </div>
-                                                            <p className='privacyText mt-0' style={{ fontSize: 15 }}>Didn't get the code? <a style={{ textDecoration: 'underline', color: 'blue' }}>Resend</a></p>
+                                                            {
+                                                                timerEnded ?
+                                                                    <p className='privacyText resendtext mt-0' style={{ fontSize: 15 }}>Didn't get the code? <a style={{ cursor: "pointer", fontSize: 15, textDecoration: 'underline', color: 'blue' }} onClick={handleResendOtp}>Resend</a></p> :
+                                                                    <p className='privacyText resendtext mt-0' style={{ fontSize: 15 }}>Request new OTP in 00:{formattedTime}</p>
+                                                            }
+                                                            {/* <p className='privacyText mt-0' style={{ fontSize: 15 }}>Didn't get the code? <a style={{ textDecoration: 'underline', color: 'blue' }}>Resend</a></p> */}
                                                         </>
                                                     }
                                                     {showCode &&
