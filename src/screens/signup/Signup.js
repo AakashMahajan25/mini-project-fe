@@ -230,7 +230,7 @@ function Signup() {
         <>
             <section className='login signup-css'>
                 <div className='imageBG' style={{ height: 'calc(100svh)' }}>
-                    <img src={loginBg} className='imageHeight' style={ window.innerWidth >= 526 ? { height: 'calc(100svh)' } : { height: 'calc(118svh)' }} alt="Header" />
+                    <img src={loginBg} className='imageHeight' alt="Header" />
                     <div className='innerImgTextBox'>
                         <div className='w-100'>
                             <>
@@ -377,7 +377,7 @@ function Signup() {
                                                                                 <input
                                                                                     type="text"
                                                                                     className={errors?.phone_number ? "form-control form-control-input error-feild" : "form-control form-control-input"}
-                                                                                    placeholder='Enter Phone Number'
+                                                                                    placeholder='Phone Number'
                                                                                     style={{ color: 'black' }}
                                                                                     {...field}
                                                                                     maxLength='15'
@@ -431,11 +431,24 @@ function Signup() {
                                                                             <option>Zerodha </option>
                                                                             <option>Upstox</option>
                                                                             <option>Groww</option>
-                                                                            <option>Angel one</option>
+                                                                            <option>Angel One</option>
+                                                                            <option>ICICI Securities Ltd.</option>
+                                                                            <option>5 Paisa</option>
                                                                             <option>Kotak Securities</option>
                                                                             <option>HDFC Securities</option>
-                                                                            <option>5 Paisa</option>
+                                                                            <option>IIFL / India Infoline Securities</option>
                                                                             <option>Motilal Oswal Financial Services</option>
+                                                                            <option>Sharekhan Ltd.</option>
+                                                                            <option>SBICAP Securities Ltd.</option>
+                                                                            <option>Paytm Money</option>
+                                                                            <option>Axis Direct</option>
+                                                                            <option>Choice Equity Broking</option>
+                                                                            <option>Geojit Financial Services</option>
+                                                                            <option>Edelweiss Broking Ltd.</option>
+                                                                            <option>SMC Global</option>
+                                                                            <option>Religare Broking Ltd.</option>
+                                                                            <option>Alice Blue</option>
+                                                                            <option>Dhan</option>
                                                                         </select>
                                                                     )}
                                                                 />
@@ -687,7 +700,7 @@ function Signup() {
                                                 </a>
                                             </div>
                                             <div className='loginMainTextParaStyle' style={{ display: 'block', fontWeight: 600 }}>Disclaimer</div>
-                                            <div className='small-desc-text px-2'>
+                                            <div className='small-desc-text px-3 mb-4' style={{textAlign: 'justify'}}>
                                                 Frruit is an AI powered capital markets search engine built using powerful generative AI large language models. Frruit may occasionally produce inaccurate or inappropriate information. Please be aware that any content generated by Frruit should not be considered as investment advice, or a recommendation to buy or sell securities, and it should not be the sole basis for any investment decisions. Frruit output is provided 'as is,' and Airrchip makes no guarantees regarding its accuracy, completeness, quality, timeliness, or any other attributes. We strongly advise independently verifying the accuracy of Frruit output for your specific needs.
                                             </div>
                                         </div>
