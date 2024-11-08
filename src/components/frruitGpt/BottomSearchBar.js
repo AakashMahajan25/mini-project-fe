@@ -266,7 +266,7 @@ function BottomSearchBar(props) {
                                                                 flag === 'news_bing' ? 'News + Web' :
                                                                     flag === 'screener' ? 'Screener' :
                                                                         'Choose your focus'
-                                            }
+                                            } 
                                         </div>
                                         <img src={WhiteChevronImg} className="white-chevron" />
                                     </div>
