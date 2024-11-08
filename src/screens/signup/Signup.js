@@ -27,6 +27,7 @@ import WhatsAppLogo from '../../assets/images/whatsapp.png'
 import linkedinLogo from '../../assets/images/linkedin.png'
 import loginBg from '../../assets/images/loginBgImg.jpg';
 import FrruitLogo2 from '../../assets/images/frruitlogoLogin.png'
+import Select from 'react-select';
 
 function Signup() {
     let navigate = useNavigate();
@@ -226,6 +227,230 @@ function Signup() {
             })
     }
 
+    const brokerOptions = [
+        { value: 'Select', label: 'Select', isDisabled: true },
+        { value: 'I am new to investment', label: 'I am new to investment' },
+        { value: 'Zerodha', label: 'Zerodha' },
+        { value: 'Upstox', label: 'Upstox' },
+        { value: 'Groww', label: 'Groww' },
+        { value: 'Angel One', label: 'Angel One' },
+        { value: 'ICICI Securities Ltd.', label: 'ICICI Securities Ltd.' },
+        { value: '5 Paisa', label: '5 Paisa' },
+        { value: 'Kotak Securities', label: 'Kotak Securities' },
+        { value: 'HDFC Securities', label: 'HDFC Securities' },
+        { value: 'IIFL / India Infoline Securities', label: 'IIFL / India Infoline Securities' },
+        { value: 'Motilal Oswal Financial Services', label: 'Motilal Oswal Financial Services' },
+        { value: 'Sharekhan Ltd.', label: 'Sharekhan Ltd.' },
+        { value: 'SBICAP Securities Ltd.', label: 'SBICAP Securities Ltd.' },
+        { value: 'Paytm Money', label: 'Paytm Money' },
+        { value: 'Axis Direct', label: 'Axis Direct' },
+        { value: 'Choice Equity Broking', label: 'Choice Equity Broking' },
+        { value: 'Geojit Financial Services', label: 'Geojit Financial Services' },
+        { value: 'Edelweiss Broking Ltd.', label: 'Edelweiss Broking Ltd.' },
+        { value: 'SMC Global', label: 'SMC Global' },
+        { value: 'Religare Broking Ltd.', label: 'Religare Broking Ltd.' },
+        { value: 'Alice Blue', label: 'Alice Blue' },
+        { value: 'Dhan', label: 'Dhan' },
+    ];    
+
+    const countryList = [
+        { value: 'Select', label: 'Select', isDisabled: true },
+        { value: 'Afghanistan', label: 'Afghanistan' },
+        { value: 'Albania', label: 'Albania' },
+        { value: 'Algeria', label: 'Algeria' },
+        { value: 'Andorra', label: 'Andorra' },
+        { value: 'Angola', label: 'Angola' },
+        { value: 'Antigua and Barbuda', label: 'Antigua and Barbuda' },
+        { value: 'Argentina', label: 'Argentina' },
+        { value: 'Armenia', label: 'Armenia' },
+        { value: 'Australia', label: 'Australia' },
+        { value: 'Austria', label: 'Austria' },
+        { value: 'Azerbaijan', label: 'Azerbaijan' },
+        { value: 'Bahamas', label: 'Bahamas' },
+        { value: 'Bahrain', label: 'Bahrain' },
+        { value: 'Bangladesh', label: 'Bangladesh' },
+        { value: 'Barbados', label: 'Barbados' },
+        { value: 'Belarus', label: 'Belarus' },
+        { value: 'Belgium', label: 'Belgium' },
+        { value: 'Belize', label: 'Belize' },
+        { value: 'Benin', label: 'Benin' },
+        { value: 'Bhutan', label: 'Bhutan' },
+        { value: 'Bolivia', label: 'Bolivia' },
+        { value: 'Bosnia and Herzegovina', label: 'Bosnia and Herzegovina' },
+        { value: 'Botswana', label: 'Botswana' },
+        { value: 'Brazil', label: 'Brazil' },
+        { value: 'Brunei', label: 'Brunei' },
+        { value: 'Bulgaria', label: 'Bulgaria' },
+        { value: 'Burkina Faso', label: 'Burkina Faso' },
+        { value: 'Burundi', label: 'Burundi' },
+        { value: 'Cabo Verde', label: 'Cabo Verde' },
+        { value: 'Cambodia', label: 'Cambodia' },
+        { value: 'Cameroon', label: 'Cameroon' },
+        { value: 'Canada', label: 'Canada' },
+        { value: 'Central African Republic', label: 'Central African Republic' },
+        { value: 'Chad', label: 'Chad' },
+        { value: 'Chile', label: 'Chile' },
+        { value: 'China', label: 'China' },
+        { value: 'Colombia', label: 'Colombia' },
+        { value: 'Comoros', label: 'Comoros' },
+        { value: 'Congo, Democratic Republic of the', label: 'Congo, Democratic Republic of the' },
+        { value: 'Congo, Republic of the', label: 'Congo, Republic of the' },
+        { value: 'Costa Rica', label: 'Costa Rica' },
+        { value: 'Croatia', label: 'Croatia' },
+        { value: 'Cuba', label: 'Cuba' },
+        { value: 'Cyprus', label: 'Cyprus' },
+        { value: 'Czech Republic', label: 'Czech Republic' },
+        { value: 'Denmark', label: 'Denmark' },
+        { value: 'Djibouti', label: 'Djibouti' },
+        { value: 'Dominica', label: 'Dominica' },
+        { value: 'Dominican Republic', label: 'Dominican Republic' },
+        { value: 'Ecuador', label: 'Ecuador' },
+        { value: 'Egypt', label: 'Egypt' },
+        { value: 'El Salvador', label: 'El Salvador' },
+        { value: 'Equatorial Guinea', label: 'Equatorial Guinea' },
+        { value: 'Eritrea', label: 'Eritrea' },
+        { value: 'Estonia', label: 'Estonia' },
+        { value: 'Eswatini', label: 'Eswatini' },
+        { value: 'Ethiopia', label: 'Ethiopia' },
+        { value: 'Fiji', label: 'Fiji' },
+        { value: 'Finland', label: 'Finland' },
+        { value: 'France', label: 'France' },
+        { value: 'Gabon', label: 'Gabon' },
+        { value: 'Gambia', label: 'Gambia' },
+        { value: 'Georgia', label: 'Georgia' },
+        { value: 'Germany', label: 'Germany' },
+        { value: 'Ghana', label: 'Ghana' },
+        { value: 'Greece', label: 'Greece' },
+        { value: 'Grenada', label: 'Grenada' },
+        { value: 'Guatemala', label: 'Guatemala' },
+        { value: 'Guinea', label: 'Guinea' },
+        { value: 'Guinea-Bissau', label: 'Guinea-Bissau' },
+        { value: 'Guyana', label: 'Guyana' },
+        { value: 'Haiti', label: 'Haiti' },
+        { value: 'Honduras', label: 'Honduras' },
+        { value: 'Hungary', label: 'Hungary' },
+        { value: 'Iceland', label: 'Iceland' },
+        { value: 'India', label: 'India' },
+        { value: 'Indonesia', label: 'Indonesia' },
+        { value: 'Iran', label: 'Iran' },
+        { value: 'Iraq', label: 'Iraq' },
+        { value: 'Ireland', label: 'Ireland' },
+        { value: 'Israel', label: 'Israel' },
+        { value: 'Italy', label: 'Italy' },
+        { value: 'Jamaica', label: 'Jamaica' },
+        { value: 'Japan', label: 'Japan' },
+        { value: 'Jordan', label: 'Jordan' },
+        { value: 'Kazakhstan', label: 'Kazakhstan' },
+        { value: 'Kenya', label: 'Kenya' },
+        { value: 'Kiribati', label: 'Kiribati' },
+        { value: 'Korea, North', label: 'Korea, North' },
+        { value: 'Korea, South', label: 'Korea, South' },
+        { value: 'Kuwait', label: 'Kuwait' },
+        { value: 'Kyrgyzstan', label: 'Kyrgyzstan' },
+        { value: 'Laos', label: 'Laos' },
+        { value: 'Latvia', label: 'Latvia' },
+        { value: 'Lebanon', label: 'Lebanon' },
+        { value: 'Lesotho', label: 'Lesotho' },
+        { value: 'Liberia', label: 'Liberia' },
+        { value: 'Libya', label: 'Libya' },
+        { value: 'Liechtenstein', label: 'Liechtenstein' },
+        { value: 'Lithuania', label: 'Lithuania' },
+        { value: 'Luxembourg', label: 'Luxembourg' },
+        { value: 'Madagascar', label: 'Madagascar' },
+        { value: 'Malawi', label: 'Malawi' },
+        { value: 'Malaysia', label: 'Malaysia' },
+        { value: 'Maldives', label: 'Maldives' },
+        { value: 'Mali', label: 'Mali' },
+        { value: 'Malta', label: 'Malta' },
+        { value: 'Marshall Islands', label: 'Marshall Islands' },
+        { value: 'Mauritania', label: 'Mauritania' },
+        { value: 'Mauritius', label: 'Mauritius' },
+        { value: 'Mexico', label: 'Mexico' },
+        { value: 'Micronesia', label: 'Micronesia' },
+        { value: 'Moldova', label: 'Moldova' },
+        { value: 'Monaco', label: 'Monaco' },
+        { value: 'Mongolia', label: 'Mongolia' },
+        { value: 'Montenegro', label: 'Montenegro' },
+        { value: 'Morocco', label: 'Morocco' },
+        { value: 'Mozambique', label: 'Mozambique' },
+        { value: 'Myanmar', label: 'Myanmar' },
+        { value: 'Namibia', label: 'Namibia' },
+        { value: 'Nauru', label: 'Nauru' },
+        { value: 'Nepal', label: 'Nepal' },
+        { value: 'Netherlands', label: 'Netherlands' },
+        { value: 'New Zealand', label: 'New Zealand' },
+        { value: 'Nicaragua', label: 'Nicaragua' },
+        { value: 'Niger', label: 'Niger' },
+        { value: 'Nigeria', label: 'Nigeria' },
+        { value: 'North Macedonia', label: 'North Macedonia' },
+        { value: 'Norway', label: 'Norway' },
+        { value: 'Oman', label: 'Oman' },
+        { value: 'Pakistan', label: 'Pakistan' },
+        { value: 'Palau', label: 'Palau' },
+        { value: 'Panama', label: 'Panama' },
+        { value: 'Papua New Guinea', label: 'Papua New Guinea' },
+        { value: 'Paraguay', label: 'Paraguay' },
+        { value: 'Peru', label: 'Peru' },
+        { value: 'Philippines', label: 'Philippines' },
+        { value: 'Poland', label: 'Poland' },
+        { value: 'Portugal', label: 'Portugal' },
+        { value: 'Qatar', label: 'Qatar' },
+        { value: 'Romania', label: 'Romania' },
+        { value: 'Russia', label: 'Russia' },
+        { value: 'Rwanda', label: 'Rwanda' },
+        { value: 'Saint Kitts and Nevis', label: 'Saint Kitts and Nevis' },
+        { value: 'Saint Lucia', label: 'Saint Lucia' },
+        { value: 'Saint Vincent and the Grenadines', label: 'Saint Vincent and the Grenadines' },
+        { value: 'Samoa', label: 'Samoa' },
+        { value: 'San Marino', label: 'San Marino' },
+        { value: 'Sao Tome and Principe', label: 'Sao Tome and Principe' },
+        { value: 'Saudi Arabia', label: 'Saudi Arabia' },
+        { value: 'Senegal', label: 'Senegal' },
+        { value: 'Serbia', label: 'Serbia' },
+        { value: 'Seychelles', label: 'Seychelles' },
+        { value: 'Sierra Leone', label: 'Sierra Leone' },
+        { value: 'Singapore', label: 'Singapore' },
+        { value: 'Slovakia', label: 'Slovakia' },
+        { value: 'Slovenia', label: 'Slovenia' },
+        { value: 'Solomon Islands', label: 'Solomon Islands' },
+        { value: 'Somalia', label: 'Somalia' },
+        { value: 'South Africa', label: 'South Africa' },
+        { value: 'South Sudan', label: 'South Sudan' },
+        { value: 'Spain', label: 'Spain' },
+        { value: 'Sri Lanka', label: 'Sri Lanka' },
+        { value: 'Sudan', label: 'Sudan' },
+        { value: 'Suriname', label: 'Suriname' },
+        { value: 'Sweden', label: 'Sweden' },
+        { value: 'Switzerland', label: 'Switzerland' },
+        { value: 'Syria', label: 'Syria' },
+        { value: 'Taiwan', label: 'Taiwan' },
+        { value: 'Tajikistan', label: 'Tajikistan' },
+        { value: 'Tanzania', label: 'Tanzania' },
+        { value: 'Thailand', label: 'Thailand' },
+        { value: 'Timor-Leste', label: 'Timor-Leste' },
+        { value: 'Togo', label: 'Togo' },
+        { value: 'Tonga', label: 'Tonga' },
+        { value: 'Trinidad and Tobago', label: 'Trinidad and Tobago' },
+        { value: 'Tunisia', label: 'Tunisia' },
+        { value: 'Turkey', label: 'Turkey' },
+        { value: 'Turkmenistan', label: 'Turkmenistan' },
+        { value: 'Tuvalu', label: 'Tuvalu' },
+        { value: 'Uganda', label: 'Uganda' },
+        { value: 'Ukraine', label: 'Ukraine' },
+        { value: 'United Arab Emirates', label: 'United Arab Emirates' },
+        { value: 'United Kingdom', label: 'United Kingdom' },
+        { value: 'United States', label: 'United States' },
+        { value: 'Uruguay', label: 'Uruguay' },
+        { value: 'Uzbekistan', label: 'Uzbekistan' },
+        { value: 'Vanuatu', label: 'Vanuatu' },
+        { value: 'Vatican City', label: 'Vatican City' },
+        { value: 'Venezuela', label: 'Venezuela' },
+        { value: 'Vietnam', label: 'Vietnam' },
+        { value: 'Yemen', label: 'Yemen' },
+        { value: 'Zambia', label: 'Zambia' },
+        { value: 'Zimbabwe', label: 'Zimbabwe' },
+    ];
+
     return (
         <>
             <section className='login signup-css'>
@@ -395,66 +620,80 @@ function Signup() {
                                                             </div>
                                                             <label className='form-control-label'>Country</label>
                                                             <div className='w-100 mb-3'>
-                                                                <Controller
-                                                                    control={control}
-                                                                    name="country"
-                                                                    render={({ field }) => (
-                                                                        <input
-                                                                            type="text"
-                                                                            className={errors?.country ? "form-control form-control-input error-feild" : "form-control form-control-input"}
-                                                                            placeholder='Enter Country'
-                                                                            style={{ color: 'black', textIndent: 0 }}
-                                                                            {...field}
-                                                                        />
-                                                                    )}
-                                                                />
-                                                                {
-                                                                    errors?.country && <p className='errorText'>{errors?.country?.message}</p>
-                                                                }
+                                                            <Controller
+                                                                control={control}
+                                                                name="country"
+                                                                render={({ field }) => (
+                                                                    <Select
+                                                                        {...field}
+                                                                        options={countryList} 
+                                                                        placeholder="Select Country"
+                                                                        classNamePrefix="react-select"
+                                                                        styles={{
+                                                                            menu: (provided) => ({
+                                                                                ...provided,
+                                                                                border: 'none',
+                                                                                maxHeight: 400,
+                                                                                overflowY: 'auto',
+                                                                            }),
+                                                                            control: (provided) => ({
+                                                                                ...provided,
+                                                                                height: 48,
+                                                                                borderRadius: 15,
+                                                                                borderColor: errors?.country ? 'red' : '#BDC3DD',
+                                                                            }),
+                                                                        }}
+                                                                        value={
+                                                                            field.value
+                                                                                ? countryList.find(option => option.value === field.value)
+                                                                                : null
+                                                                        }
+                                                                        onChange={(selectedOption) => field.onChange(selectedOption?.value)}
+                                                                    />
+                                                                )}
+                                                            />
+                                                            {
+                                                                errors?.country && <p className='errorText'>{errors?.country?.message}</p>
+                                                            }
                                                             </div>
                                                             <div className="form-group mb-3">
-                                                                <label className="form-control-label" htmlFor="exampleInputEmail1">Select My Broker</label>
-                                                                <Controller
-                                                                    name="broker"
-                                                                    control={control}
-                                                                    defaultValue=""
-                                                                    rules={{ required: 'Please select your broker' }}
-                                                                    render={({ field }) => (
-                                                                        <select
-                                                                            {...field}
-                                                                            id="statusDropdown"
-                                                                            className={errors?.broker ? "form-control form-control-input error-feild" : "form-control form-control-input form-select"}
-                                                                            style={{ textIndent: 13, fontSize: 14 }}
-                                                                        >
-                                                                            <option value="" disabled>Select</option>
-                                                                            <option>I am new to Investement</option>
-                                                                            <option>Zerodha </option>
-                                                                            <option>Upstox</option>
-                                                                            <option>Groww</option>
-                                                                            <option>Angel One</option>
-                                                                            <option>ICICI Securities Ltd.</option>
-                                                                            <option>5 Paisa</option>
-                                                                            <option>Kotak Securities</option>
-                                                                            <option>HDFC Securities</option>
-                                                                            <option>IIFL / India Infoline Securities</option>
-                                                                            <option>Motilal Oswal Financial Services</option>
-                                                                            <option>Sharekhan Ltd.</option>
-                                                                            <option>SBICAP Securities Ltd.</option>
-                                                                            <option>Paytm Money</option>
-                                                                            <option>Axis Direct</option>
-                                                                            <option>Choice Equity Broking</option>
-                                                                            <option>Geojit Financial Services</option>
-                                                                            <option>Edelweiss Broking Ltd.</option>
-                                                                            <option>SMC Global</option>
-                                                                            <option>Religare Broking Ltd.</option>
-                                                                            <option>Alice Blue</option>
-                                                                            <option>Dhan</option>
-                                                                        </select>
-                                                                    )}
-                                                                />
-                                                                {
-                                                                    errors?.broker && <p className='errorText'>{errors?.broker?.message}</p>
-                                                                }
+                                                            <label className="form-control-label" htmlFor="broker">Select My Broker</label>
+                                                            <Controller
+                                                                name="broker"
+                                                                control={control}
+                                                                defaultValue=""
+                                                                rules={{ required: 'Please select your broker' }}
+                                                                render={({ field }) => (
+                                                                    <Select
+                                                                        {...field}
+                                                                        options={brokerOptions}
+                                                                        placeholder="Select Broker"
+                                                                        classNamePrefix="react-select"
+                                                                        styles={{
+                                                                            menu: (provided) => ({
+                                                                                ...provided,
+                                                                                border: 'none',
+                                                                                maxHeight: 400,
+                                                                                overflowY: 'auto',
+                                                                            }),
+                                                                            control: (provided) => ({
+                                                                                ...provided,
+                                                                                height: 48, borderRadius: 15,
+                                                                                borderColor: errors?.broker ? 'red' : '#BDC3DD',
+                                                                            }),
+                                                                        }}
+                                                                        value={
+                                                                            field.value
+                                                                                ? brokerOptions.find(option => option.value === field.value)
+                                                                                : null
+                                                                        }
+                                                                        onChange={(selectedOption) => field.onChange(selectedOption?.value)}
+                                                                    />
+                                                                )}
+                                                            />
+                                                            {
+                                                                errors?.broker && <p className='errorText'>{errors?.broker?.message}</p>
+                                                            }
                                                             </div>
                                                             <div className='checkboxRow'>
                                                                 <div className="wrap-check-43 me-2">
