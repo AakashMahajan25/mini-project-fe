@@ -498,3 +498,104 @@ button:not(:disabled) {
       display: none !important;
   }
 }
+
+.responsive-search-box {
+  border: 1px solid #EDEDED;
+  border-radius: 10px;
+  padding: 8px 15px;
+
+  .responsive-input-field {
+    border: none;
+  }
+
+  .responsive-input-field:focus-visible {
+    outline: none;
+  }
+
+  .flags-blue-button{
+    display: flex;
+    align-items: center;
+    padding: 2px 12px;
+    border-radius: 25px;
+    background-color: #4563E4; 
+  }
+
+  .flag-white-text{
+    color: #ffffff;
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 21px;
+  }
+
+  .white-chevron {
+    width: 20px;
+    height: 20px;
+  }
+
+  .header-text-focus{
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 21.48px;
+    color: #4563E4;
+  }
+}
+
+@keyframes slideUp {
+  0% {
+    transform: translateY(100%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.custom-bottom-modal {
+  .modal-dialog {
+    position: fixed;
+    bottom: 0 !important;
+    left: 0;
+    right: 0;
+    margin: 0;
+    width: 100%;
+    max-width: 100%;
+    animation: slideUp 0.3s ease-out;
+  }
+
+  .modal-header-text {
+    font-family: 'Roboto', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 21.48px;
+    color: #4563E4;
+  }
+
+  .active-flag-box {
+    background-color: #F1F4FD;
+    border-radius: 12px;
+    padding: 12px;
+  }
+
+  .inactive-flag-box{
+    background-color: #F5F5F5;
+    border-radius: 12px;
+    padding: 12px;
+  }
+
+  .flag-name {
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 18px;
+    color: #171E42;
+  }
+
+  .flag-desc {
+    font-family: 'Roboto', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 16px;
+    color: #6F7387;
+  }
+}
