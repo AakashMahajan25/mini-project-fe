@@ -46,6 +46,9 @@ import ActivateWebSearch from '../../components/activateWebSearch/ActivateWebSea
 import ArrowDownIcon from '../../assets/images/accordiun-down-arrow.png'
 import RightIcon from '../../assets/images/charm_tick.png'
 import PaymentModal from '../../components/paymentModal/PaymentModal';
+import WhiteChevronImg from '../../assets/images/white-dropdown.png'
+import CloseImage from '../../assets/images/close_icon.png'
+import SelectedFlagIcon from '../../assets/images/selected-flag.png'
 
 const storyEnum = {
     watchlist_news: 'isWatchlistViewed',
@@ -134,6 +137,7 @@ function Dashboard() {
     const [show, setShow] = useState(false);
     const [show2, setShow2] = useState(false);
     const [show3, setShow3] = useState(false);
+    const [show4, setShow4] = useState(false);
     const [activeIndex, setActiveIndex] = useState(0);
     const [stories, setStories] = useState([]);
     const [storyType, setStoryType] = useState([]);
@@ -178,6 +182,14 @@ function Dashboard() {
         setShow3(false);
     };
 
+    const handleFlagShow = () => {
+        setShow4(true)
+    };
+
+    const handleFlagClose = () => {
+        setShow4(false)
+    };
+
     const storiesData = [
         { src: Stories1, onClick: handleShow, storyType: 'watchlist_news', title: 'WatchList', lightBackground: '#EFF2FF', color: '#5F7DFF', },
         { src: Stories2, onClick: handleShow, storyType: 'session_news', title: 'Session', lightBackground: '#EEF6EE', color: '#54A153', },
@@ -186,6 +198,15 @@ function Dashboard() {
         { src: Stories5, onClick: handleShow, storyType: 'economy_news', title: 'Economy', lightBackground: '#F3F0FC', color: '#8361D9', },
         { src: Stories6, onClick: handleShow, storyType: 'corporate_results_news', title: 'Corporate Results', lightBackground: '#FEF9E9', color: '#ECBE1C', },
         { src: Stories7, onClick: handleShow, storyType: 'market_news', title: 'Market', lightBackground: '#EDF9F5', color: '#43BE9A', },
+    ];
+
+    const flagList = [
+        { name: 'News', flag: 'news', description: 'Search news, summarize & get TLDRs across premium data sources' },
+        { name: 'News + Web', flag: 'news_bing', description: 'Search across the entire internet' },
+        { name: 'Fundamentals', flag: 'fund', description: 'Compare company fundamentals data, financials, stock screener, and corporate actions' },
+        { name: 'Screener', flag: 'screener', description: 'Screen markets in real time based on your queries' },
+        { name: 'Videos', flag: 'youtube', description: 'Discover insights from videos without watching' },
+        { name: 'Social Media', flag: 'reddit', description: 'Search discussions and opinions on social media' }
     ];
 
     const dispatch = useDispatch()
@@ -482,7 +503,7 @@ function Dashboard() {
     // const handleCheckboxChange = () => {
     //     setShowSuggestions(!showSuggestions);
     // };
-    const placeholderText = (flag === 'news' || flag === 'news_bing') ? 'Search news, summarize, and get TLDRs' : flag === 'fund' ? 'Compare company data, financials,stock screener and actions' : flag === 'youtube' ? 'Discover insights from videos' : 'Search discussions and opinions on social media'
+    const placeholderText = (flag === 'news' || flag === 'news_bing') ? 'Search news, summarize & get TLDRs' : (flag === 'fund'|| flag === 'screener') ? 'Compare company data, financials,stock screener and actions' : flag === 'youtube' ? 'Discover insights from videos without watching' : 'Search discussions and opinions on social media'
 
     useEffect(() => {
         if (showWebSearch) {
@@ -670,7 +691,7 @@ function Dashboard() {
                                                 </>
                                             }
                                             <>
-                                                <div className='customTab-frruit-gpt'>
+                                                <div className='customTab-frruit-gpt hide-in-mobile'>
                                                     <div className='d-flex align-items-center mobile-scroll-Css'>
                                                         <div className='d-flex align-items-center me-3'>
                                                             <div className='tab-name-css'>Choose Search Focus</div>
@@ -706,7 +727,7 @@ function Dashboard() {
                                                     </div>
                                                 </div>
                                                 <div className='search-dashboard-main d-flex align-items-end'>
-                                                    <div class="form-group">
+                                                    <div class="form-group hide-in-mobile">
                                                         <div style={{ position: 'relative' }}>
                                                             {(flag === 'news' || flag === 'news_bing') &&
                                                                 <div className="form-check form-switch checkbox-position hide-in-mobile">
@@ -734,6 +755,53 @@ function Dashboard() {
                                                                 placeholder={placeholderText}
                                                                 onKeyDown={handleKeyPress}
                                                             />
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group hide-in-desktop">
+                                                        <div className="form-group hide-in-desktop">
+                                                            <div className="responsive-search-box">
+                                                                <div className="d-flex justify-content-between align-items-center">
+                                                                    <div className='header-text-focus'>Select focus</div>
+                                                                    <div className="flags-blue-button" onClick={handleFlagShow}>
+                                                                        <div className="flag-white-text">
+                                                                            {
+                                                                                flag === 'news' ? 'News' :
+                                                                                    flag === 'fund' ? 'Fundamentals' :
+                                                                                        flag === 'youtube' ? 'Videos' :
+                                                                                            flag === 'reddit' ? 'Social Media' :
+                                                                                                flag === 'news_bing' ? 'News + Web' :
+                                                                                                    flag === 'screener' ? 'Screener' :
+                                                                                                        'Choose your focus'
+                                                                            }
+                                                                        </div>
+                                                                        <img src={WhiteChevronImg} className="white-chevron" />
+                                                                    </div>
+                                                                    {/* {(flag === 'news' || flag === 'news_bing') &&
+                                                                        <div className="form-check form-switch hide-in-desktop">
+                                                                            <input
+                                                                                className="form-check-input me-1"
+                                                                                type="checkbox"
+                                                                                onChange={handleWebSearchChange}
+                                                                                checked={showWebSearch}
+                                                                            /> <span className={showWebSearch ? 'web-search-active' : 'web-search-default'}>Activate Web Search</span>
+                                                                        </div>
+                                                                    }
+                                                                    {(flag === 'fund' || flag === 'screener') &&
+                                                                        <div className="fundDropDownPosition hide-in-desktop" onClick={handleFundClick}>
+                                                                            <div className='searchInputDropdowntext'>{selectedFund}<img src={ArrowDownIcon} style={{ width: 16, height: 16, objectFit: 'contain', marginLeft: 3 }} className={showDropdown ? 'rotate-icon rotated' : 'rotate-icon'} /></div>
+                                                                        </div>
+                                                                    } */}
+                                                                </div>
+                                                                <div style={{ position: 'relative' }} className='mt-3'>
+                                                                    <input
+                                                                        className="responsive-input-field w-100"
+                                                                        value={question}
+                                                                        onChange={handleChange}
+                                                                        placeholder='Ask anything'
+                                                                        onKeyDown={handleKeyPress}
+                                                                    />
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     <img className='send-image' src={SendIcon} alt='Send' onClick={() => routePromptFrruitGPT(question, flag)} />
@@ -766,7 +834,7 @@ function Dashboard() {
                                                     </div>
                                                 )}
                                                 {(flag === 'news' || flag === 'news_bing') &&
-                                                    <div className="form-check form-switch checkbox-position hide-in-desktop">
+                                                    <div className="form-check form-switch checkbox-position hide-in-desktop hide-in-mobile">
                                                         <input
                                                             className="form-check-input"
                                                             type="checkbox"
@@ -775,7 +843,7 @@ function Dashboard() {
                                                     </div>
                                                 }
                                                 {(flag === 'fund') &&
-                                                    <div className="fundDropDownPosition hide-in-desktop" onClick={handleFundClick}>
+                                                    <div className="fundDropDownPosition hide-in-desktop hide-in-mobile" onClick={handleFundClick}>
                                                         <div className='searchInputDropdowntext'>{selectedFund}<img src={ArrowDownIcon} style={{ width: 24, height: 24, objectFit: 'contain', marginLeft: 5 }} className={showDropdown ? 'rotate-icon rotated' : 'rotate-icon'} /></div>
                                                     </div>
                                                 }
@@ -909,6 +977,37 @@ function Dashboard() {
                                 ))}
                             </div>
                         </div>
+                    </Modal.Body>
+                </Modal>
+                <Modal
+                    show={show4}
+                    onHide={handleFlagClose}
+                    size="lg"
+                    className="custom-bottom-modal"
+                >
+                    <Modal.Header className='pb-0'>
+                        <div className="modal-header-text">Select focus</div>
+                        <img src={CloseImage} style={{ width: 24 }} onClick={handleFlagClose} />
+                    </Modal.Header>
+                    <Modal.Body className='pt-0'>
+                        {flagList.map((item, index) => (
+                            <div
+                                key={index}
+                                className={`${flag === item.flag ? 'active-flag-box' : 'inactive-flag-box'} mt-3`}
+                                onClick={() => { setFlag(item.flag); handleFlagClose() }}
+                                style={{
+                                    cursor: 'pointer',
+                                    backgroundColor: flag === item.flag ? '#F1F4FD' : '',
+                                    color: flag === item.flag ? '#4563E4' : '#B4B3B9'
+                                }}
+                            >
+                                <div className="d-flex justify-content-between align-items-center">
+                                    <div className="flag-name">{item.name}</div>
+                                    {flag === item.flag && <img src={SelectedFlagIcon} style={{ width: 20 }} />}
+                                </div>
+                                <div className="flag-desc mt-2">{item.description}</div>
+                            </div>
+                        ))}
                     </Modal.Body>
                 </Modal>
             </div>
