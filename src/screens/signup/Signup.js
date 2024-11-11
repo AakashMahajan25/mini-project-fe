@@ -27,6 +27,9 @@ import WhatsAppLogo from '../../assets/images/whatsapp.png'
 import linkedinLogo from '../../assets/images/linkedin.png'
 import loginBg from '../../assets/images/loginBgImg.jpg';
 import FrruitLogo2 from '../../assets/images/frruitlogoLogin.png'
+import Select from 'react-select';
+import countryList from './countryList.json';
+import brokerOptions from './brokerOptions.json';
 
 function Signup() {
     let navigate = useNavigate();
@@ -395,66 +398,80 @@ function Signup() {
                                                             </div>
                                                             <label className='form-control-label'>Country</label>
                                                             <div className='w-100 mb-3'>
-                                                                <Controller
-                                                                    control={control}
-                                                                    name="country"
-                                                                    render={({ field }) => (
-                                                                        <input
-                                                                            type="text"
-                                                                            className={errors?.country ? "form-control form-control-input error-feild" : "form-control form-control-input"}
-                                                                            placeholder='Enter Country'
-                                                                            style={{ color: 'black', textIndent: 0 }}
-                                                                            {...field}
-                                                                        />
-                                                                    )}
-                                                                />
-                                                                {
-                                                                    errors?.country && <p className='errorText'>{errors?.country?.message}</p>
-                                                                }
+                                                            <Controller
+                                                                control={control}
+                                                                name="country"
+                                                                render={({ field }) => (
+                                                                    <Select
+                                                                        {...field}
+                                                                        options={countryList} 
+                                                                        placeholder="Select Country"
+                                                                        classNamePrefix="react-select"
+                                                                        styles={{
+                                                                            menu: (provided) => ({
+                                                                                ...provided,
+                                                                                border: 'none',
+                                                                                maxHeight: 400,
+                                                                                overflowY: 'auto',
+                                                                            }),
+                                                                            control: (provided) => ({
+                                                                                ...provided,
+                                                                                height: 48,
+                                                                                borderRadius: 15,
+                                                                                borderColor: errors?.country ? 'red' : '#BDC3DD',
+                                                                            }),
+                                                                        }}
+                                                                        value={
+                                                                            field.value
+                                                                                ? countryList.find(option => option.value === field.value)
+                                                                                : null
+                                                                        }
+                                                                        onChange={(selectedOption) => field.onChange(selectedOption?.value)}
+                                                                    />
+                                                                )}
+                                                            />
+                                                            {
+                                                                errors?.country && <p className='errorText'>{errors?.country?.message}</p>
+                                                            }
                                                             </div>
                                                             <div className="form-group mb-3">
-                                                                <label className="form-control-label" htmlFor="exampleInputEmail1">Select My Broker</label>
-                                                                <Controller
-                                                                    name="broker"
-                                                                    control={control}
-                                                                    defaultValue=""
-                                                                    rules={{ required: 'Please select your broker' }}
-                                                                    render={({ field }) => (
-                                                                        <select
-                                                                            {...field}
-                                                                            id="statusDropdown"
-                                                                            className={errors?.broker ? "form-control form-control-input error-feild" : "form-control form-control-input form-select"}
-                                                                            style={{ textIndent: 13, fontSize: 14 }}
-                                                                        >
-                                                                            <option value="" disabled>Select</option>
-                                                                            <option>I am new to Investement</option>
-                                                                            <option>Zerodha </option>
-                                                                            <option>Upstox</option>
-                                                                            <option>Groww</option>
-                                                                            <option>Angel One</option>
-                                                                            <option>ICICI Securities Ltd.</option>
-                                                                            <option>5 Paisa</option>
-                                                                            <option>Kotak Securities</option>
-                                                                            <option>HDFC Securities</option>
-                                                                            <option>IIFL / India Infoline Securities</option>
-                                                                            <option>Motilal Oswal Financial Services</option>
-                                                                            <option>Sharekhan Ltd.</option>
-                                                                            <option>SBICAP Securities Ltd.</option>
-                                                                            <option>Paytm Money</option>
-                                                                            <option>Axis Direct</option>
-                                                                            <option>Choice Equity Broking</option>
-                                                                            <option>Geojit Financial Services</option>
-                                                                            <option>Edelweiss Broking Ltd.</option>
-                                                                            <option>SMC Global</option>
-                                                                            <option>Religare Broking Ltd.</option>
-                                                                            <option>Alice Blue</option>
-                                                                            <option>Dhan</option>
-                                                                        </select>
-                                                                    )}
-                                                                />
-                                                                {
-                                                                    errors?.broker && <p className='errorText'>{errors?.broker?.message}</p>
-                                                                }
+                                                            <label className="form-control-label" htmlFor="broker">Select My Broker</label>
+                                                            <Controller
+                                                                name="broker"
+                                                                control={control}
+                                                                defaultValue=""
+                                                                rules={{ required: 'Please select your broker' }}
+                                                                render={({ field }) => (
+                                                                    <Select
+                                                                        {...field}
+                                                                        options={brokerOptions}
+                                                                        placeholder="Select Broker"
+                                                                        classNamePrefix="react-select"
+                                                                        styles={{
+                                                                            menu: (provided) => ({
+                                                                                ...provided,
+                                                                                border: 'none',
+                                                                                maxHeight: 400,
+                                                                                overflowY: 'auto',
+                                                                            }),
+                                                                            control: (provided) => ({
+                                                                                ...provided,
+                                                                                height: 48, borderRadius: 15,
+                                                                                borderColor: errors?.broker ? 'red' : '#BDC3DD',
+                                                                            }),
+                                                                        }}
+                                                                        value={
+                                                                            field.value
+                                                                                ? brokerOptions.find(option => option.value === field.value)
+                                                                                : null
+                                                                        }
+                                                                        onChange={(selectedOption) => field.onChange(selectedOption?.value)}
+                                                                    />
+                                                                )}
+                                                            />
+                                                            {
+                                                                errors?.broker && <p className='errorText'>{errors?.broker?.message}</p>
+                                                            }
                                                             </div>
                                                             <div className='checkboxRow'>
                                                                 <div className="wrap-check-43 me-2">
