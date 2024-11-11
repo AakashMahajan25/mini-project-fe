@@ -66,7 +66,7 @@ function TrendingStocksCard({ name, symbol, change, changesPercentage, price, st
     return (
         <div>
             <div className='trendingStockCard' style={{ marginRight: 10 }}>
-                <div className='card'>
+                <div className='card' onClick={getFrruitClick}>
                     <div className='d-flex align-items-center justify-content-between' style={{ marginBottom: 6 }}>
                         <p className='text me-2'>{stock_ticker}</p>
                         {/* <div className='d-flex justify-content-between align-items-center' >
@@ -78,7 +78,7 @@ function TrendingStocksCard({ name, symbol, change, changesPercentage, price, st
                         {/* <div className='mx-1'>
                             <button className='blue-btn  d-flex align-items-center justify-content-center' onClick={getFrruitClick}>{'Get Frruit'}  <img src={RightWhiteArrow} style={{ width: 6, objectFit: 'contain', marginLeft: 5 }} /></button>
                         </div> */}
-                        <img className='ms-2'  onClick={getFrruitClick} style={{ cursor: 'pointer',width:24 }} src={StockMiniLogo} alt="mini-logo" />
+                        <img className='ms-2'  style={{ cursor: 'pointer',width:24 }} src={StockMiniLogo} alt="mini-logo" />
                     </div>
                     <p className='stockname'>{name}</p>
                     <div>

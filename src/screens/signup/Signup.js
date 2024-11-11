@@ -50,8 +50,15 @@ function Signup() {
     const formattedTime = String(timer).padStart(2, '0');
 
     const signupSchema = yup.object().shape({
-        first_name: yup.string().required("Please enter first name."),
-        last_name: yup.string().required("Please enter last name."),
+        first_name: yup
+            .string()
+            .min(2, "First name must be at least 2 characters.")
+            .matches(/^[A-Za-z\s]+$/, "First name should not contain numbers or special characters.")
+            .required("Please enter first name."),
+        last_name: yup.string()
+            .min(2, "Last name must be at least 2 characters.")
+            .matches(/^[A-Za-z\s]+$/, "Last name should not contain numbers or special characters.")
+            .required("Please enter last name."),
         email: yup.string().email('Please enter valid Email Id').required("Please enter Email Id."),
         phone_number: yup.string().matches(/^\d{10}$/, 'Please enter proper phone number.').required("Please enter phone number."),
         country: yup.string().required("Please enter country."),
