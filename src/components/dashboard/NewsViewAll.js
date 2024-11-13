@@ -128,7 +128,7 @@ function NewsViewAll({ backBtnClick,sentiment,sortOrder,filtersApplied,onSentime
             <div className='news-view-all'>
                 <div className='d-flex justify-content-between align-items-center' style={{ marginBottom: 20,position:'relative' }}>
                     <button onClick={backBtnClick} className='light-blue-btn'>
-                        <img src={BackBtnArrow} style={{ width: 7, height: 13, objectFit: 'contain', marginRight: 5, marginTop: -2 }} />
+                        <img src={BackBtnArrow} style={{ width: 6, height: 11, objectFit: 'contain', marginRight: 4, marginTop: -2 }} />
                         Back
                     </button>
                     <div className='d-flex align-items-center justify-content-center'>

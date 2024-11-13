@@ -49,6 +49,14 @@ import PaymentModal from '../../components/paymentModal/PaymentModal';
 import WhiteChevronImg from '../../assets/images/white-dropdown.png'
 import CloseImage from '../../assets/images/close_icon.png'
 import SelectedFlagIcon from '../../assets/images/selected-flag.png'
+import SendIconMobile from '../../assets/images/send_icon_mobile.png'
+import PopularQuestions from './PopularQuestions';
+import InvestorStories from './InvestorStories';
+import RoundChevronRight from '../../assets/images/navigate_icon.png'
+import TrendingStockImg from '../../assets/images/trending_stocks_img.png'
+import ContentSearchImg from '../../assets/images/content_search_img.png'
+import QuestionImage from '../../assets/images/popular_questions_img.png'
+import AlertImg from '../../assets/images/exclamation.png'
 
 const storyEnum = {
     watchlist_news: 'isWatchlistViewed',
@@ -188,6 +196,46 @@ function Dashboard() {
 
     const handleFlagClose = () => {
         setShow4(false)
+    };
+
+    const handleBackButtonClick = () => {
+        setShowPopularOpinions(!showPopularOpinions);
+        setShowAllContent(true)
+    };
+
+    const handleInvestorStoriesBackClick = () => {
+        setShowInvestorStories(!showInvestorStories);
+        setShowAllContent(true)
+    };
+
+    const stockboxData = [
+        {
+            imagesource: TrendingStockImg,
+            title: 'Investor Stories & Trending Stocks',
+            subtitle: '"Lorem ipsum dolor sit amet, consec teur adipiscing elit.'
+        },
+        {
+            imagesource: ContentSearchImg,
+            title: 'Content Search',
+            subtitle: '"Lorem ipsum dolor sit amet, consec teur adipiscing elit.'
+        },
+        {
+            imagesource: QuestionImage,
+            title: 'Popular Questions',
+            subtitle: '"Lorem ipsum dolor sit amet, consec teur adipiscing elit.'
+        },
+    ]
+
+    const handleClick = (title) => {
+        if (title === 'Popular Questions') {
+            setShowPopularOpinions(!showPopularOpinions);
+            setShowAllContent(false);
+        } else if (title === 'Investor Stories & Trending Stocks') {
+            setShowInvestorStories(!showInvestorStories);
+            setShowAllContent(false);
+        } else if(title === 'Content Search') {
+            navigate("/market-content-gpt")
+        } 
     };
 
     const storiesData = [
@@ -469,13 +517,18 @@ function Dashboard() {
     }
 
     const handleViewAllClick = () => {
-        setShowAllContent(!showAllContent);
+        setShowAllContent(false);
+        setShowInvestorStories(false);
+        setShowPopularOpinions(false);
     };
     const toggleShowAllContent = () => {
         setShowAllContent(prevState => !prevState);
         handleResetFilters()
     };
     const [showAllContent, setShowAllContent] = useState(true);
+    const [showPopularOpinions, setShowPopularOpinions] = useState(false);
+    const [showInvestorStories, setShowInvestorStories] = useState(false);
+
     const handleChange = (e) => {
         setQuestion(e.target.value)
         if (e.target.value.trim()) {
@@ -584,16 +637,65 @@ function Dashboard() {
                 )}
                 <>
                     {showAllContent &&
-                        <div className='col-lg-6 column-pad'
+                        <div className='col-lg-7 column-pad'
                         // style={{position: 'relative'}}
                         >
                             <div className='hide-on-large-screens-dashboard'>
-                                <div className='dashboardTextForMobile'>Dashboard</div>
+                                <div className='dashboardTextForMobile'>Home</div>
                                 <div onClick={handleViewAllClick} className='dashboardTextForMobile'>Latest News<img src={RightWhiteArrow} width={16} height={16} style={{ objectFit: 'contain', cursor: 'pointer' }} /></div>
                             </div>
                             <div className='dashboard'>
                                 <div className='d-flex flex-column justify-content-between mb-3' style={{ height: window.innerWidth > 768 ? window.innerHeight - 102 : window.innerHeight - 115 }}>
-                                    <div className='d-flex flex-column'>
+                                    <div>
+                                        <div style={{ height: 160, marginTop:16 }}>
+                                            <p className='title-header'>Welcome To <span style={{color: '#4563e4'}}>Frruit</span></p>
+                                            <div className='subheader mx-3'>You can now ask questions just like a regular internet search or GPT, accessing premium information on 6,000+ stocks and market-moving insights.</div>
+                                            <div className='subheader mx-3' style={{fontSize: 13, color: '#4563E4', marginTop:28}}>Frruit does not offer personalized investment advice or buy/sell recommendations</div>
+                                        </div>
+
+                                        <p className='explore-text mb-auto p-2'>Ready to explore?</p>
+
+                                        <div className='row px-4 mt-2'>
+                                            {stockboxData.map((item, index) => (
+                                                <>
+                                                    <div className='col-xl-4' onClick={() => handleClick(item.title)} style={{cursor:'pointer'}}>
+                                                        <div className='stockbox'>
+                                                            <div className='hide-in-mobile'>
+                                                                <div className='d-flex justify-content-between'>
+                                                                    <img src={item.imagesource} className='icon-image' />
+                                                                    <button className='btn1' >
+                                                                        <img src={RoundChevronRight} className='icon-image2' />
+                                                                    </button>
+                                                                </div>
+                                                                <div>
+                                                                    <p className='boxheader'>{item.title}</p>
+                                                                    <p className='boxsubheader'>{item.subtitle}</p>
+                                                                </div>
+                                                            </div>
+
+                                                            <div className='d-flex justify-content-between hide-in-desktop'>
+                                                                <img src={item.imagesource} className='icon-image' />
+                                                                <div style={{ marginLeft: 10 }}>
+                                                                    <p className='boxheader'>{item.title}</p>
+                                                                    <p className='boxsubheader'>{item.subtitle}</p>
+                                                                </div>
+                                                                <button className='btn1' onClick={() => handleClick(item.title)}>
+                                                                    <img src={RoundChevronRight} className='icon-image2' />
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </>
+                                            ))}
+                                        </div>
+                                    </div>
+                                    <div className='blue-box-alert mx-4'>
+                                        <div className='d-flex justify-content-center'>
+                                        <img src={AlertImg} className='alert-img' />
+                                        </div>
+                                        <div className='alert-desc'>While we strive to deliver the best actionable insights using AI. Gathering and analyzing company data or videos may take a moment, so we kindly ask for your patience while we process everything!</div>
+                                    </div>
+                                    {/* <div className='d-flex flex-column'>
                                         {
                                             shouldShowStory &&
                                             <div className='dashboard-container'>
@@ -602,14 +704,14 @@ function Dashboard() {
                                                     {storiesData.map((img, i) => {
                                                         return (
                                                             !storyViewed[storyEnum[img?.storyType]] && investorStory[storyEnum2[img?.storyType]]?.length > 0 ?
-                                                                <div className='d-flex flex-column align-items-center' style={{ marginRight: 20, cursor: 'pointer' }} onClick={() => handleShow({ storyType: img.storyType })}>
+                                                                <div className='d-flex flex-column align-items-center' style={{ marginRight: 20, cursor: 'pointer' }} onClick={() => handleShow({ storyType: img.storyType })}> */}
                                                                     {/* <img
                                                                     key={'MStories' + i}
                                                                     style={{ width: 60, objectFit: 'contain', cursor: 'pointer'}}
                                                                     src={img.src}
                                                                     // alt={`Story ${index}`}
                                                                     /> */}
-                                                                    <div key={'MStories' + i} className='d-flex align-items-center justify-content-center storyOuterContainer' style={{ border: `1px solid ${img?.color}`, borderRadius: 35 }}>
+                                                                    {/* <div key={'MStories' + i} className='d-flex align-items-center justify-content-center storyOuterContainer' style={{ border: `1px solid ${img?.color}`, borderRadius: 35 }}>
                                                                         <p className='storyCircleInnerText' style={{ background: img?.lightBackground, borderRadius: 25, textAlign: 'center', fontWeight: '700', color: img?.color }}>{img?.title.slice(0, 1)}
                                                                         </p>
                                                                     </div>
@@ -634,15 +736,15 @@ function Dashboard() {
                                                 ))}
                                             </Slider>
                                         </div>
-                                    </div>
+                                    </div> */}
                                     <div className='dashboard-container'>
                                         <div className='suggested-prompts-container'>
-                                            {mostOnFrruitGpt?.rows?.length > 0 &&
+                                            {/* {mostOnFrruitGpt?.rows?.length > 0 &&
                                                 <>
                                                     <div className='box-content position-relative'>
                                                         <div className='d-flex align-items-center justify-content-between'>
                                                             <div className='title'>Most on Frruit</div>
-                                                            <div onClick={handleShow2} style={{ cursor: 'pointer', color: '#4563E4', fontWeight: 600 }}>View All</div>
+                                                            <div onClick={handleInvestorStoriesClick} style={{ cursor: 'pointer', color: '#4563E4', fontWeight: 600 }}>View All</div>
                                                         </div>
                                                         <Slider
                                                             prevArrow={<PreviousBtn2 />}
@@ -662,8 +764,8 @@ function Dashboard() {
                                                         </Slider>
                                                     </div>
                                                 </>
-                                            }
-                                            {chatSuggestions?.length > 0 &&
+                                            } */}
+                                            {/* {chatSuggestions?.length > 0 &&
                                                 <>
                                                     <p className='stories-title'>Suggested Prompts</p>
                                                     <div className='row' >
@@ -689,7 +791,7 @@ function Dashboard() {
                                                         </Slider>
                                                     </div>
                                                 </>
-                                            }
+                                            } */}
                                             <>
                                                 <div className='customTab-frruit-gpt hide-in-mobile'>
                                                     <div className='d-flex align-items-center mobile-scroll-Css'>
@@ -792,7 +894,7 @@ function Dashboard() {
                                                                         </div>
                                                                     } */}
                                                                 </div>
-                                                                <div style={{ position: 'relative' }} className='mt-3'>
+                                                                <div style={{ position: 'relative' }} className='mt-3 d-flex justify-content-start'>
                                                                     <input
                                                                         className="responsive-input-field w-100"
                                                                         value={question}
@@ -800,11 +902,12 @@ function Dashboard() {
                                                                         placeholder='Ask anything'
                                                                         onKeyDown={handleKeyPress}
                                                                     />
+                                                                    <img className='send-image' src={SendIconMobile} alt='Send' onClick={() => routePromptFrruitGPT(question, flag)} />            
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <img className='send-image' src={SendIcon} alt='Send' onClick={() => routePromptFrruitGPT(question, flag)} />
+                                                    <img className='send-image hide-in-mobile' src={SendIcon} alt='Send' onClick={() => routePromptFrruitGPT(question, flag)} />
                                                 </div>
                                                 {(flag === 'news' && question.length > 0 && suggestedQuestionsList.length > 0) &&
                                                     <div className='suggestions-box'>
@@ -856,13 +959,23 @@ function Dashboard() {
                         </div>
                     }
                     {showAllContent &&
-                        <div className='col-lg-3 column-pad dashboardRightBoxNewsHide'>
+                        <div className='col-lg-2 column-pad dashboardRightBoxNewsHide'>
                             <DashboardRightBox newsData={cmotsNews?.rows} mostFrruitData={mostOnFrruitGpt?.rows} onViewAllClick={handleViewAllClick} />
                         </div>
                     }
-                    {!showAllContent &&
+                    {!showAllContent && !showPopularOpinions && !showInvestorStories &&
                         <div className='col-lg-9 column-pad'>
                             <NewsViewAll backBtnClick={toggleShowAllContent} sentiment={sentiment} sortOrder={sortOrder} filtersApplied={filtersApplied} onSentimentChange={handleSentimentChange} onSortOrderChange={handleSortOrderChange} onResetFilters={handleResetFilters} newsData={cmotsNews?.rows} />
+                        </div>
+                    }
+                    {!showAllContent && showPopularOpinions && 
+                        <div className='col-lg-9 column-pad'>
+                            <PopularQuestions mostOnFrruitGpt={mostOnFrruitGpt} handleBackButtonClick={handleBackButtonClick} chatSuggestions={chatSuggestions} handleViewAllClick={handleViewAllClick} />
+                        </div>
+                    }
+                    {!showAllContent && !showPopularOpinions && showInvestorStories &&
+                        <div className='col-lg-9 column-pad'>
+                            <InvestorStories handleInvestorStoriesBackClick={handleInvestorStoriesBackClick} handleViewAllClick={handleViewAllClick} shouldShowStory={shouldShowStory} storiesData={storiesData} investorStory={investorStory} storyEnum={storyEnum} storyEnum2={storyEnum2} storyViewed={storyViewed} handleShow={handleShow} trendingStocks={trendingStocks} />
                         </div>
                     }
                 </>
@@ -902,7 +1015,7 @@ function Dashboard() {
                                 {stories.map((story, index) => {
                                     return (
                                         <div className='d-flex justify-content-center'>
-                                            <div key={index} style={{ position: 'relative', width: 800, height: 470, background: story.themeBg, borderRadius: 20, padding: 20 }}>
+                                            <div key={index} style={{ position: 'relative', width: 800, height: 470, background: story.themeBg, borderRadius: 20, padding: 20 }} className='mobile-vertical-scroll'>
                                                 {/* <div style={{ background: 'white', borderRadius: 20, padding: 16, width: '100%', marginTop: 20, height: 250 }}>
                                                     <img src={story.viewImage} style={{ objectFit: 'cover', borderRadius: 20, filter: 'grayscale(60%)', width: '100%', height: 220 }} />
                                                 </div> */}

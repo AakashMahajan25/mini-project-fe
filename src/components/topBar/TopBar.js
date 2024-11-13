@@ -87,7 +87,7 @@ function TopBar() {
                 <img className="logo" style={{ width: 155 }} src={FrruitLogo} alt="" />
               </a>
               <div className='d-flex align-items-center justify-content-between'>
-                <div className={location.pathname === '/dashboard' ? 'web-nav-text-active' : 'web-nav-text'} onClick={routeChangeDashboard}>Dashboard</div>
+                <div className={location.pathname === '/dashboard' ? 'web-nav-text-active' : 'web-nav-text'} onClick={routeChangeDashboard}>Home</div>
                 <div className={location.pathname === '/frruit-gpt' ? 'web-nav-text-active' : 'web-nav-text'} onClick={routeChangeFrruitGPT}>Frruit Search</div>
                 <div className={location.pathname === '/market-content-gpt' ? 'web-nav-text-active' : 'web-nav-text'} onClick={routeChangeMarketContentGPT}>Content Search</div>
                 <div className={location.pathname === '/discover-correlation' ? 'web-nav-text-active' : 'web-nav-text'} onClick={routeChangeDiscoverCorrelation}>Discover Correlation</div>
@@ -157,7 +157,7 @@ function TopBar() {
           <div style={{ borderBottom: '1px solid #EDEDED' }}></div>
           <Offcanvas.Body>
             <div className='menu-container-offcanvas'>
-              <div className={location.pathname === '/dashboard' ? 'web-nav-text-mobile-offcanvas-active' : 'web-nav-text-mobile-offcanvas'} onClick={routeChangeDashboard}>Dashboard</div>
+              <div className={location.pathname === '/dashboard' ? 'web-nav-text-mobile-offcanvas-active' : 'web-nav-text-mobile-offcanvas'} onClick={routeChangeDashboard}>Home</div>
               <div className={location.pathname === '/frruit-gpt' ? 'web-nav-text-mobile-offcanvas-active' : 'web-nav-text-mobile-offcanvas'} onClick={routeChangeFrruitGPT}>Frruit Search</div>
               <div className={location.pathname === '/market-content-gpt' ? 'web-nav-text-mobile-offcanvas-active' : 'web-nav-text-mobile-offcanvas'} onClick={routeChangeMarketContentGPT}>Content Search</div>
               <div className={location.pathname === '/discover-correlation' ? 'web-nav-text-mobile-offcanvas-active' : 'web-nav-text-mobile-offcanvas'} onClick={routeChangeDiscoverCorrelation}>Discover Correlation</div>
