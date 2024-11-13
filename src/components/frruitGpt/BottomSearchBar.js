@@ -17,6 +17,7 @@ import ActivateWebSearch from '../activateWebSearch/ActivateWebSearch'
 import WhiteChevronImg from '../../assets/images/white-dropdown.png'
 import CloseImage from '../../assets/images/close_icon.png'
 import SelectedFlagIcon from '../../assets/images/selected-flag.png'
+import SendIconMobile from '../../assets/images/send_icon_mobile.png'
 
 function BottomSearchBar(props) {
 
@@ -271,7 +272,7 @@ function BottomSearchBar(props) {
                                         <img src={WhiteChevronImg} className="white-chevron" />
                                     </div>
                                 </div>
-                                <div style={{ position: 'relative' }} className='mt-3'>
+                                <div style={{ position: 'relative' }} className='mt-3 d-flex justify-content-start'>
                                     <input
                                         className="responsive-input-field w-100"
                                         value={question}
@@ -280,6 +281,15 @@ function BottomSearchBar(props) {
                                         placeholder='Ask anything'
                                         onKeyDown={handleKeyPress}
                                     />
+                                    <div className='sendIcon ms-3' onClick={() => {
+                                        if (question.length === 0) {
+                                            setError(true);  // Set error if input is empty
+                                        } else {
+                                            handleAskPress();
+                                        }
+                                    }} style={{ cursor: buttonStart && 'pointer', opacity: buttonStart ? 1 : 0.5, }}>
+                                        <img src={SendIconMobile} className='sendIcon-styles' />
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -288,7 +298,7 @@ function BottomSearchBar(props) {
                     {/* <div className='sendIcon ms-3' onClick={handleAskPress} style={{ cursor: buttonStart && 'pointer', opacity: buttonStart ? 1 : 0.5, }}>
                         <img src={SendIcon} className='sendIcon-styles' />
                     </div> */}
-                    <div className='sendIcon ms-3' onClick={() => {
+                    <div className='sendIcon ms-3 hide-in-mobile' onClick={() => {
                         if (question.length === 0) {
                             setError(true);  // Set error if input is empty
                         } else {
