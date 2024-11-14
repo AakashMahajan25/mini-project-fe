@@ -427,10 +427,37 @@
             }
         }
 
+        .blue-box-dashboard{
+            display: flex;
+            justify-content: center;
+            background-color: #F1F4FD;
+            padding: 8px 12px;
+            border-radius: 10px;
+
+            @media only screen and (max-width: 768px) {
+                margin: 0px 24px;
+                padding: 12px;
+                width: 100%;
+            }
+        }
+
+        .alert-desc-dashboard {
+            font-family: 'Roboto', sans-serif;
+            font-size: 12px;
+            font-weight: 500;
+            line-height: 16px;
+            color: #6F7387;
+            text-align: center;
+    
+            @media only screen and (max-width: 768px) {
+                font-size: 10px;
+            }
+        }
     }
 
     .customTab-frruit-gpt {
         margin-bottom: 6px;
+
         @media only screen and (max-width: 768px) {
             margin-bottom: 0px;
         }
@@ -553,7 +580,7 @@
         color: #171E42;
 
         @media only screen and (max-width: 500px) {
-            font-size: 20px;
+            font-size: 18px;
         }
 
     }
@@ -589,11 +616,13 @@
         border: 1px solid #E5E5E5;
         border-radius: 12px;
         padding: 16px;
-        // min-height: 180px;
+        display: flex;
+        align-items: stretch;
+        height: 100%;
 
         @media only screen and (max-width: 500px) {
+            height: auto;
             margin-bottom: 8px;
-            // min-height: 80px;
             padding: 12px 8px;
         }
     }
