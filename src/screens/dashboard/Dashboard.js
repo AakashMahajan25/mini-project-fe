@@ -645,17 +645,17 @@ function Dashboard() {
                                 <div onClick={handleViewAllClick} className='dashboardTextForMobile'>Latest News<img src={RightWhiteArrow} width={16} height={16} style={{ objectFit: 'contain', cursor: 'pointer' }} /></div>
                             </div>
                             <div className='dashboard'>
-                                <div className='d-flex flex-column justify-content-between mb-3' style={{ height: window.innerWidth > 768 ? window.innerHeight - 102 : window.innerHeight - 115 }}>
+                                <div className='d-flex flex-column justify-content-between' style={{ height: window.innerWidth > 768 ? window.innerHeight - 102 : window.innerHeight - 115 }}>
                                     <div>
-                                        <div style={{ height: 160, marginTop:16 }}>
-                                            <p className='title-header'>Welcome To <span style={{color: '#4563e4'}}>Frruit</span></p>
-                                            <div className='subheader mx-3'>You can now ask questions just like a regular internet search or GPT, accessing premium information on 6,000+ stocks and market-moving insights.</div>
-                                            <div className='subheader mx-3' style={{fontSize: 13, color: '#4563E4', marginTop:28}}>Frruit does not offer personalized investment advice or buy/sell recommendations</div>
+                                        <div style={{ marginTop:12 }}>
+                                            <p className='title-header px-3'>Perform AI search across
+                                                <span style={{color: '#4563e4'}}> 5000+</span> stocks
+                                                </p>
+                                            {/* <div className='subheader mx-3'>You can now ask questions just like a regular internet search or GPT, accessing premium information on 6,000+ stocks and market-moving insights.</div> */}
                                         </div>
-
-                                        <p className='explore-text mb-auto p-2'>Ready to explore?</p>
-
-                                        <div className='row px-4 mt-2'>
+                                    </div>
+                                        <div className='row px-4'>
+                                            <p className='explore-text mb-auto p-2'>You may want to explore?</p>
                                             {stockboxData.map((item, index) => (
                                                 <>
                                                     <div className='col-xl-4' onClick={() => handleClick(item.title)} style={{cursor:'pointer'}}>
@@ -688,13 +688,17 @@ function Dashboard() {
                                                 </>
                                             ))}
                                         </div>
-                                    </div>
-                                    <div className='blue-box-alert mx-4'>
+                                    <div>
+                                    <div className={ window.innerWidth >= 500 ? 'blue-box-alert mx-4 mt-2' : 'blue-box-alert mx-4 mb-0' }>
                                         <div className='d-flex justify-content-center'>
                                         <img src={AlertImg} className='alert-img' />
                                         </div>
                                         <div className='alert-desc'>While we strive to deliver the best actionable insights using AI. Gathering and analyzing company data or videos may take a moment, so we kindly ask for your patience while we process everything!</div>
                                     </div>
+                                    <div className={ window.innerWidth >= 500 ? 'd-flex justify-content-center mt-3' : 'd-flex justify-content-center mt-2'}>
+                                        <p className='blue-box-dashboard alert-desc-dashboard'>Frruit doesn’t provide personalized stock advice or buy/sell recommendations.</p>
+                                        </div>
+                                        </div>
                                     {/* <div className='d-flex flex-column'>
                                         {
                                             shouldShowStory &&
