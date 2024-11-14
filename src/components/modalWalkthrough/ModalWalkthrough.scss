@@ -1,0 +1,86 @@
+.view-walkthrough-modal {
+    .modal-content {
+        background: linear-gradient(223.26deg, #DDDEFF 1.03%, #EEEFFF 41.49%, #FFFFFF 98.91%);
+        border-radius: 10px;
+    }
+
+    .flex-end {
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    .carousel-control-next-icon {
+        display: none;
+    }
+
+    .carousel-control-prev-icon {
+        display: none;
+    }
+
+    .carousel-indicators [data-bs-target] {
+        height: 12px;
+        width: 12px;
+        border-radius: 50%;
+        background-color: #4563E4 !important;
+    }
+
+    .carousel-indicators {
+        margin-bottom: 0;
+    }
+
+    .absolute-image {
+        width: 150px;
+        position: absolute;
+        right: 0px;
+        top: 130px
+    }
+
+    .carousel-text {
+        font-family: 'Roboto', sans-serif;
+        font-size: 20px;
+        font-weight: 500;
+        text-align: center;
+        color: #333333;
+    }
+
+    .carousel_desc-text {
+        font-family: 'Roboto', sans-serif;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 16.41px;
+        text-align: center;
+        color: #6F7387;
+        margin: 10px 28px 0;
+    }
+
+    .back-button {
+        background-color: #FFFFFF;
+        border-radius: 50px;
+        width: 48%;
+        border: 1px solid #E5E5E5E5;
+        height: 36px;
+        font-family: 'Roboto', sans-serif;
+        font-size: 12px;
+        font-weight: 500;
+        color: #333333;
+    }
+
+    .next-button{
+        background-color: #3F5AD1;
+        border-radius: 50px;
+        width: 48%;
+        border: none;
+        height: 36px;
+        font-family: 'Roboto', sans-serif;
+        font-size: 12px;
+        font-weight: 500;
+        color: #FFFFFF;
+    }
+
+    .back-arrow {
+        width: 7px;
+        height: 10px;
+        object-fit:contain;
+        margin-bottom: 2px;
+    }
+}

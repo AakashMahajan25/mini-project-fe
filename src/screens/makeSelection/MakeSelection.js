@@ -31,7 +31,7 @@ function MakeSelection() {
             action: 'market_selection',
             label: 'User Market Selected'
         });
-        navigate("/dashboard")
+        navigate('/dashboard', { state: { from: '/market' } });
     }
 
     const items = [

@@ -21,7 +21,7 @@ import './Dashboard.scss';
 import '../../components/frruitGpt/BottomSearchBar.scss'
 import TrendingStocksCard from '../../components/trendingStocks/TrendingStocksCard';
 import Slider from 'react-slick';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Modal from 'react-bootstrap/Modal';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAllNews, fetchTrendingStocksFromAI, getInvestorStories, getMostOnFrruitGpt, getStockIndexes, getTrendingNews, getTrendingStocks, setStoryIndex, setStoryViewed } from './slice';
@@ -57,6 +57,7 @@ import TrendingStockImg from '../../assets/images/trending_stocks_img.png'
 import ContentSearchImg from '../../assets/images/content_search_img.png'
 import QuestionImage from '../../assets/images/popular_questions_img.png'
 import AlertImg from '../../assets/images/exclamation.png'
+import ModalWalkthrough from '../../components/modalWalkthrough/ModalWalkthrough';
 
 const storyEnum = {
     watchlist_news: 'isWatchlistViewed',
@@ -162,6 +163,8 @@ function Dashboard() {
     const [sentiment, setSentiment] = useState('');
     const [sortOrder, setSortOrder] = useState('');
     const dropdownRef = useRef(null);
+    const location = useLocation();
+    const [showModalWalkthrough, setShowModalWalkthrough] = useState(false);
     const handleCloseSearchModal = () => {
         setShowSearchModal(false);
         setShowWebSearch(false);
@@ -617,11 +620,22 @@ function Dashboard() {
         return () => clearTimeout(searchQuestion)
     }, [question])
 
+    useEffect(() => {
+        if (location.state?.from === '/market') {
+            setShowModalWalkthrough(true);
+        } else {
+            setShowModalWalkthrough(false);
+        }
+    }, [location.state]);
+
     return (
         <>
             {
                 ((indexLoader || investorStoryLoading || suggestionLoader) && !isData) &&
                 <Loader />
+            }
+            {showModalWalkthrough && 
+                <ModalWalkthrough showModalWalkthrough={showModalWalkthrough} setShowModalWalkthrough={setShowModalWalkthrough} />
             }
             {/* {showCreditModal &&
                 <CreditOverModal show={showCreditModal} handleClose={handleCloseCreditModal} onButtonClick={handleCreditButton} />
@@ -748,7 +762,7 @@ function Dashboard() {
                                                     <div className='box-content position-relative'>
                                                         <div className='d-flex align-items-center justify-content-between'>
                                                             <div className='title'>Most on Frruit</div>
-                                                            <div onClick={handleInvestorStoriesClick} style={{ cursor: 'pointer', color: '#4563E4', fontWeight: 600 }}>View All</div>
+                                                            <div onClick={handleShow2} style={{ cursor: 'pointer', color: '#4563E4', fontWeight: 600 }}>View All</div>
                                                         </div>
                                                         <Slider
                                                             prevArrow={<PreviousBtn2 />}
