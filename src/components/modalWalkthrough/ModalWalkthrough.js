@@ -42,7 +42,7 @@ function ModalWalkthrough({ showModalWalkthrough, setShowModalWalkthrough }) {
             mainImage: SocialMediaWalkthrough,
             overlayImage: SocialMediaWalkthrough2,
             title: 'Social Media',
-            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', 
         },
     ];
 
