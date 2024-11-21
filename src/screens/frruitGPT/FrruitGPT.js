@@ -157,7 +157,7 @@ function FrruitGPT() {
             }]))
             clearStreamData();
         }
-        if(actualFlag !== 'fund' && actualFlag !== 'screener')
+        if(actualFlag !== 'screener')
             setStreamInitiated(true)
         setButtonStart(false)
         if (!title && !question) {
@@ -194,7 +194,7 @@ function FrruitGPT() {
 
         isNewChat.current = false
 
-        if (requestData?.flag === 'fund' || requestData?.flag === 'screener') {
+        if (requestData?.flag === 'screener') {
             dispatch(triggerFrruitGpt({ requestData, cancelToken: token }))
                 .unwrap()
                 .then(res => {
