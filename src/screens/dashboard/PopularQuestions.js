@@ -53,7 +53,7 @@ function PopularQuestions({ handleBackButtonClick, mostOnFrruitGpt, chatSuggesti
                     <button onClick={handleBackButtonClick} className='light-blue-btn me-2'><img src={BackBtnArrow} style={{ width: 7, height: 13, objectFit: 'contain', marginRight: 5, marginTop: -2 }} />Back</button>
                 </div>
                 <div className='heading-text'>Popular Questions</div>
-                <div className='desc-text mt-1'>Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea</div>
+                <div className='desc-text mt-1'>Explore popular and most-asked questions to guide your AI search</div>
                 {mostOnFrruitGpt?.rows?.length > 0 &&
                     <>
                         <div className='box-content position-relative mt-3'>

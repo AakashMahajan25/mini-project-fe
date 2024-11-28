@@ -27,7 +27,7 @@ function InvestorStories({ handleInvestorStoriesBackClick, handleViewAllClick, s
                     <button onClick={handleInvestorStoriesBackClick} className='light-blue-btn me-2'><img src={BackBtnArrow} style={{ width: 7, height: 13, objectFit: 'contain', marginRight: 5, marginTop: -2 }} />Back</button>
                 </div>
                 <div className='heading-text'>Investor Stories & Trending Stocks </div>
-                <div className='desc-text mt-2'>Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea</div>
+                <div className='desc-text mt-2'>Explore trending stocks and investor stories, curated by AI</div>
                 {
                     shouldShowStory &&
                     <div className='dashboard-container'>

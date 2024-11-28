@@ -215,17 +215,17 @@ function Dashboard() {
         {
             imagesource: TrendingStockImg,
             title: 'Investor Stories & Trending Stocks',
-            subtitle: '"Lorem ipsum dolor sit amet, consec teur adipiscing elit.'
+            subtitle: 'Explore trending stocks and investor stories, curated by AI'
         },
         {
             imagesource: ContentSearchImg,
             title: 'Content Search',
-            subtitle: '"Lorem ipsum dolor sit amet, consec teur adipiscing elit.'
+            subtitle: 'Uplaod documents and videos to extract key insights instantly with AI'
         },
         {
             imagesource: QuestionImage,
             title: 'Popular Questions',
-            subtitle: '"Lorem ipsum dolor sit amet, consec teur adipiscing elit.'
+            subtitle: 'Explore popular and most-asked questions to guide your AI search'
         },
     ]
 
@@ -659,7 +659,7 @@ function Dashboard() {
                                 <div onClick={handleViewAllClick} className='dashboardTextForMobile'>Latest News<img src={RightWhiteArrow} width={16} height={16} style={{ objectFit: 'contain', cursor: 'pointer' }} /></div>
                             </div>
                             <div className='dashboard'>
-                                <div className='d-flex flex-column justify-content-between' style={{ height: window.innerWidth > 768 ? window.innerHeight - 102 : window.innerHeight - 115 }}>
+                                <div className='d-flex flex-column justify-content-between mb-3' style={{ height: window.innerWidth > 768 ? window.innerHeight - 102 : window.innerHeight - 115 }}>
                                     <div>
                                         <div style={{ marginTop:12 }}>
                                             <p className='title-header px-3'>Perform AI search across
