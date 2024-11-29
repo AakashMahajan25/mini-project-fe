@@ -220,7 +220,7 @@ function Dashboard() {
         {
             imagesource: ContentSearchImg,
             title: 'Content Search',
-            subtitle: 'Uplaod documents and videos to extract key insights instantly with AI'
+            subtitle: 'Upload documents and videos to extract key insights instantly with AI'
         },
         {
             imagesource: QuestionImage,
