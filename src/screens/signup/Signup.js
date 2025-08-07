@@ -46,9 +46,11 @@ function Signup() {
     const [timer, setTimer] = useState(60)
     const [timerEnded, setTimerEnded] = useState(true)
     const [differentClick, setDifferentClick] = useState(false)
+    const [selectedCountryCode, setSelectedCountryCode] = useState("+91"); // Default to India
 
     const formattedTime = String(timer).padStart(2, '0');
 
+    // Update the validation schema to handle international phone numbers
     const signupSchema = yup.object().shape({
         first_name: yup
             .string()
@@ -60,7 +62,9 @@ function Signup() {
             .matches(/^[A-Za-z\s]+$/, "Last name should not contain numbers or special characters.")
             .required("Please enter last name."),
         email: yup.string().email('Please enter valid Email Id').required("Please enter Email Id."),
-        phone_number: yup.string().matches(/^\d{10}$/, 'Please enter proper phone number.').required("Please enter phone number."),
+        phone_number: yup.string()
+            .matches(/^\d{6,15}$/, 'Please enter a valid phone number (6-15 digits).')
+            .required("Please enter phone number."),
         country: yup.string().required("Please enter country."),
         broker: yup.string().required("Please select broker."),
     })
@@ -115,12 +119,19 @@ function Signup() {
         if (showError) setShowError(false);
     };
 
+    const handleCountryChange = (selectedOption) => {
+        if (selectedOption && selectedOption.value !== "Select") {
+            const country = countryList.find(country => country.value === selectedOption.value);
+            setSelectedCountryCode(country?.dialCode || "+91");
+        }
+    };
+
     const onSubmit = (data) => {
         if (!termsAccepted) {
             setShowError(true);
             return;
         }
-        dispatch(signupOtp({ type: 'mobile', mobile: "+91" + data?.phone_number }))
+        dispatch(signupOtp({ type: 'mobile', mobile: selectedCountryCode + data?.phone_number }))
             .unwrap()
             .then((res) => {
                 setTimerEnded(false)
@@ -135,7 +146,7 @@ function Signup() {
     }
 
     const verifyMobileOtp = () => {
-        const regex = /^[0-9]{0,6}$/; // Regular expression to match 6 digits
+        const regex = /^[0-9]{0,6}$/;
         if (!regex.test(otp) || otp?.length < 6) {
             toast.error("Please enter valid OTP");
             return;
@@ -145,7 +156,7 @@ function Signup() {
             otp,
             type: 'mobile',
             email: allValues?.email,
-            mobile: "+91" + allValues?.phone_number,
+            mobile: selectedCountryCode + allValues?.phone_number,
         }
         dispatch(verifyOtp(data))
             .unwrap()
@@ -164,6 +175,7 @@ function Signup() {
             })
     }
 
+    // Add the missing sendEmailOTP function
     const sendEmailOTP = () => {
         dispatch(signupOtp({ type: 'email', email: allValues?.email }))
             .then(() => {
@@ -175,7 +187,7 @@ function Signup() {
     }
 
     const verifyEmailId = () => {
-        const regex = /^[0-9]{0,6}$/; // Regular expression to match 6 digits
+        const regex = /^[0-9]{0,6}$/;
         if (!regex.test(emailOtp) || emailOtp?.length < 6) {
             toast.error("Please enter valid otp");
             return;
@@ -185,12 +197,12 @@ function Signup() {
             otp: emailOtp,
             type: 'email',
             email: allValues?.email,
-            mobile: "+91" + allValues?.phone_number,
+            mobile: selectedCountryCode + allValues?.phone_number,
         }
         dispatch(verifyOtp(data))
             .unwrap()
             .then((res) => {
-                dispatch(signupUser({ ...allValues, phone_number: "+91" + allValues?.phone_number }))
+                dispatch(signupUser({ ...allValues, phone_number: selectedCountryCode + allValues?.phone_number }))
                     .unwrap()
                     .then(async (res) => {
                         localStorage.setItem('token', res.data.token)
@@ -212,16 +224,17 @@ function Signup() {
             })
     }
 
+    // Update handleResendOtp function
     const handleResendOtp = (type) => {
         const data = {};
 
         if (type === "email") {
             data["type"] = 'email'
             data["email"] = allValues?.email
-            data["mobile"] = "+91" + allValues?.phone_number
+            data["mobile"] = selectedCountryCode + allValues?.phone_number
         } else {
             data["type"] = 'mobile'
-            data["mobile"] = "+91" + allValues?.phone_number
+            data["mobile"] = selectedCountryCode + allValues?.phone_number
         }
 
         dispatch(resendOtp(data))
@@ -368,41 +381,6 @@ function Signup() {
                                             <img src={MailIcon} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} alt="Search Icon" />
                                         </div> */}
                                                             </div>
-                                                            <div className="position-relative" style={{ width: '100%', marginBottom: 20 }}>
-                                                                <label className='form-control-label'>Phone Number</label>
-                                                                <div className='d-flex justify-content-between align-items-center'>
-                                                                    <input
-                                                                        type="text"
-                                                                        className="form-control form-control-input nineone-input me-3"
-                                                                        placeholder='+91'
-                                                                        // style={{ width: '12%', textIndent: 7, color: 'black' }}
-                                                                        defaultValue="+91"
-                                                                        disabled
-                                                                    />
-                                                                    <div className="position-relative" style={{ width: '85%' }}>
-                                                                        <Controller
-                                                                            control={control}
-                                                                            name="phone_number"
-                                                                            render={({ field }) => (
-                                                                                <input
-                                                                                    type="text"
-                                                                                    className={errors?.phone_number ? "form-control form-control-input error-feild" : "form-control form-control-input"}
-                                                                                    placeholder='Phone Number'
-                                                                                    style={{ color: 'black' }}
-                                                                                    {...field}
-                                                                                    maxLength='15'
-                                                                                />
-                                                                            )}
-                                                                        />
-                                                                        <div className="position-absolute" style={{ left: 15, top: '24%' }}>
-                                                                            <img src={MobileIcon} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} />
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                {
-                                                                    errors?.phone_number && <p className='errorText'>{errors?.phone_number?.message}</p>
-                                                                }
-                                                            </div>
                                                             <label className='form-control-label'>Country</label>
                                                             <div className='w-100 mb-3'>
                                                             <Controller
@@ -427,19 +405,68 @@ function Signup() {
                                                                                 borderRadius: 15,
                                                                                 borderColor: errors?.country ? 'red' : '#BDC3DD',
                                                                             }),
+                                                                            option: (provided, state) => ({
+                                                                                ...provided,
+                                                                                backgroundColor: state.isSelected ? '#007bff' : state.isFocused ? '#f0f0f0' : 'white',
+                                                                                color: state.isSelected ? 'white' : 'black',
+                                                                            }),
                                                                         }}
                                                                         value={
                                                                             field.value
                                                                                 ? countryList.find(option => option.value === field.value)
                                                                                 : null
                                                                         }
-                                                                        onChange={(selectedOption) => field.onChange(selectedOption?.value)}
+                                                                        onChange={(selectedOption) => {
+                                                                            field.onChange(selectedOption?.value);
+                                                                            handleCountryChange(selectedOption);
+                                                                        }}
+                                                                        formatOptionLabel={(option) => (
+                                                                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                                                                <span>{option.label}</span>
+                                                                                {option.dialCode && <span style={{ color: '#666', fontSize: '14px' }}>{option.dialCode}</span>}
+                                                                            </div>
+                                                                        )}
                                                                     />
                                                                 )}
                                                             />
                                                             {
                                                                 errors?.country && <p className='errorText'>{errors?.country?.message}</p>
                                                             }
+                                                            </div>
+                                                            <div className="position-relative" style={{ width: '100%', marginBottom: 20 }}>
+                                                                <label className='form-control-label'>Phone Number</label>
+                                                                <div className='d-flex justify-content-between align-items-center'>
+                                                                    <input
+                                                                        type="text"
+                                                                        className="form-control form-control-input nineone-input me-3"
+                                                                        placeholder='Country Code'
+                                                                        style={{ width: '25%', textIndent: 7, color: 'black' }}
+                                                                        value={selectedCountryCode}
+                                                                        disabled
+                                                                    />
+                                                                    <div className="position-relative" style={{ width: '70%' }}>
+                                                                        <Controller
+                                                                            control={control}
+                                                                            name="phone_number"
+                                                                            render={({ field }) => (
+                                                                                <input
+                                                                                    type="text"
+                                                                                    className={errors?.phone_number ? "form-control form-control-input error-feild" : "form-control form-control-input"}
+                                                                                    placeholder='Phone Number'
+                                                                                    style={{ color: 'black' }}
+                                                                                    {...field}
+                                                                                    maxLength='15'
+                                                                                />
+                                                                            )}
+                                                                        />
+                                                                        <div className="position-absolute" style={{ left: 15, top: '24%' }}>
+                                                                            <img src={MobileIcon} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} />
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                {
+                                                                    errors?.phone_number && <p className='errorText'>{errors?.phone_number?.message}</p>
+                                                                }
                                                             </div>
                                                             <div className="form-group mb-3">
                                                             <label className="form-control-label" htmlFor="broker">Select My Broker</label>
@@ -530,7 +557,7 @@ function Signup() {
                                                                     !differentClick ?
                                                                         <>
                                                                             <div className='d-flex justify-content-center align-items-center'>
-                                                                                <p className='number-text'>+91 {allValues?.phone_number}</p>
+                                                                                <p className='number-text'>{selectedCountryCode} {allValues?.phone_number}</p>
                                                                                 <a style={{ cursor: 'pointer', fontSize: 15, textDecoration: 'underline', color: 'blue' }} onClick={useDifferentClick}>Use a different Number</a>
                                                                             </div>
                                                                             <div className="form-outline verification">
