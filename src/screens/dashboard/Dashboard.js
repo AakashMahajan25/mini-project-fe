@@ -214,8 +214,8 @@ function Dashboard() {
     const stockboxData = [
         {
             imagesource: TrendingStockImg,
-            title: 'Investor Stories & Trending Stocks',
-            subtitle: 'Explore trending stocks and investor stories, curated by AI'
+            title: 'Trending Stocks',
+            subtitle: 'Explore trending stocks curated by AI'
         },
         {
             imagesource: ContentSearchImg,
@@ -252,7 +252,7 @@ function Dashboard() {
     ];
 
     const flagList = [
-        { name: 'News', flag: 'news', description: 'Search news, summarize & get TLDRs across premium data sources' },
+        { name: 'All', flag: 'news', description: 'Search news, summarize & get TLDRs across premium data sources' },
         { name: 'News + Web', flag: 'news_bing', description: 'Search across the entire internet' },
         { name: 'Fundamentals', flag: 'fund', description: 'Compare company fundamentals data, financials, stock screener, and corporate actions' },
         { name: 'Screener', flag: 'screener', description: 'Screen markets in real time based on your queries' },
@@ -661,7 +661,7 @@ function Dashboard() {
                                     <div>
                                         <div style={{ marginTop: 12, textAlign: 'center' }}>
                                             <p className='title-header px-3'>Perform AI search across
-                                                <span style={{ color: '#4563e4' }}> 5000+</span> stocks
+                                                <span style={{ color: '#4563e4' }}> Financial Markets</span> 
                                             </p>
                                         </div>
                                     </div>
@@ -718,7 +718,7 @@ function Dashboard() {
                                                         </div>
                                                         <div className={(flag === 'news' || flag === 'news_bing') ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: (flag === 'news' || flag === 'news_bing') ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
                                                             onClick={() => setFlag('news')}
-                                                        > News </div>
+                                                        > All </div>
                                                         <div className={(flag === 'fund' || flag === 'screener') ? `tab-name-css tab-box-css` : `tab-name-css`} style={{ backgroundColor: (flag === 'fund' || flag === 'screener') ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
                                                             onClick={() => selectedFund === 'Company Data' ? setFlag('fund') : setFlag('screener')}
                                                         > Fundamentals </div>
@@ -733,7 +733,7 @@ function Dashboard() {
                                                 <div className='search-dashboard-main d-flex align-items-end'>
                                                     <div class="form-group hide-in-mobile">
                                                         <div style={{ position: 'relative' }}>
-                                                            {(flag === 'news' || flag === 'news_bing') &&
+                                                            {/* {(flag === 'news' || flag === 'news_bing') &&
                                                                 <div className="form-check form-switch checkbox-position hide-in-mobile">
                                                                     <input
                                                                         style={{ cursor: 'pointer' }}
@@ -743,7 +743,7 @@ function Dashboard() {
                                                                         checked={showWebSearch}
                                                                     /> <span className={showWebSearch ? 'web-search-active' : 'web-search-default'}>Web Search</span>
                                                                 </div>
-                                                            }
+                                                            } */}
                                                             {(flag === 'fund' || flag === 'screener') &&
                                                                 <div className="fundDropDownPosition hide-in-mobile" onClick={handleFundClick}>
                                                                     <div className='searchInputDropdowntext'>{selectedFund}<img src={ArrowDownIcon} style={{ width: 24, height: 24, objectFit: 'contain', marginLeft: 5 }} className={showDropdown ? 'rotate-icon rotated' : 'rotate-icon'} /></div>
@@ -767,7 +767,7 @@ function Dashboard() {
                                                                     <div className="flags-blue-button" onClick={handleFlagShow}>
                                                                         <div className="flag-white-text">
                                                                             {
-                                                                                flag === 'news' ? 'News' :
+                                                                                flag === 'news' ? 'All' :
                                                                                     flag === 'fund' ? 'Fundamentals' :
                                                                                         flag === 'youtube' ? 'Videos' :
                                                                                             flag === 'reddit' ? 'Social Media' :
@@ -821,7 +821,8 @@ function Dashboard() {
                                                         </div>
                                                     </div>
                                                 )}
-                                                {(flag === 'news' || flag === 'news_bing') &&
+                                                {/* Web Search toggle hidden - removed for now */}
+                                                {/* {(flag === 'news' || flag === 'news_bing') &&
                                                     <div className="form-check form-switch checkbox-position hide-in-desktop hide-in-mobile">
                                                         <input
                                                             className="form-check-input"
@@ -829,7 +830,7 @@ function Dashboard() {
                                                             onChange={handleWebSearchChange}
                                                         /> <span className={showWebSearch ? 'web-search-active' : 'web-search-default'}>Web Search</span>
                                                     </div>
-                                                }
+                                                } */}
                                                 {(flag === 'fund') &&
                                                     <div className="fundDropDownPosition hide-in-desktop hide-in-mobile" onClick={handleFundClick}>
                                                         <div className='searchInputDropdowntext'>{selectedFund}<img src={ArrowDownIcon} style={{ width: 24, height: 24, objectFit: 'contain', marginLeft: 5 }} className={showDropdown ? 'rotate-icon rotated' : 'rotate-icon'} /></div>
@@ -842,6 +843,11 @@ function Dashboard() {
                             </div>
                         </div>
                     }
+                    {/* {showAllContent &&
+                        // <div className='col-lg-2 column-pad dashboardRightBoxNewsHide'>
+                        //     <DashboardRightBox newsData={cmotsNews?.rows} mostFrruitData={mostOnFrruitGpt?.rows} onViewAllClick={handleViewAllClick} />
+                        // </div>
+                    } */}
                     {!showAllContent && !showPopularOpinions && !showInvestorStories &&
                         <div className='col-lg-9 column-pad'>
                             <NewsViewAll backBtnClick={toggleShowAllContent} sentiment={sentiment} sortOrder={sortOrder} filtersApplied={filtersApplied} onSentimentChange={handleSentimentChange} onSortOrderChange={handleSortOrderChange} onResetFilters={handleResetFilters} newsData={cmotsNews?.rows} />

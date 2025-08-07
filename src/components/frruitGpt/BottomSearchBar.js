@@ -226,7 +226,8 @@ function BottomSearchBar(props) {
                 <div className='d-flex justify-content-between align-items-end'>
                     <div class="form-group hide-in-mobile">
                         <div style={{ position: 'relative' }}>
-                            {(flag === 'news' || flag === 'news_bing') &&
+                            {/* Web Search toggle hidden - removed for now */}
+                            {/* {(flag === 'news' || flag === 'news_bing') &&
                                 <div className="form-check form-switch checkbox-position hide-in-mobile">
                                     <input
                                         style={{ cursor: 'pointer' }}
@@ -236,7 +237,7 @@ function BottomSearchBar(props) {
                                         checked={showWebSearch}
                                     /> <span className={showWebSearch ? 'web-search-active' : 'web-search-default'}>Web Search</span>
                                 </div>
-                            }
+                            } */}
                             {(flag === 'fund' || flag === 'screener') &&
                                 <div className="fundDropDownPosition hide-in-mobile" onClick={handleFundClick}>
                                     <div className='searchInputDropdowntext'>{selectedFund}<img src={ArrowDownIcon} style={{ width: 24, height: 24, objectFit: 'contain', marginLeft: 5 }} className={showDropdown ? 'rotate-icon rotated' : 'rotate-icon'} /></div>
@@ -347,7 +348,8 @@ function BottomSearchBar(props) {
                         </div>
                     </div>
                 )}
-                {(flag === 'news' || flag === 'news_bing') &&
+                {/* Web Search toggle hidden - removed for now */}
+                {/* {(flag === 'news' || flag === 'news_bing') &&
                     <div className="form-check form-switch checkbox-position hide-in-desktop hide-in-mobile">
                         <input
                             className="form-check-input"
@@ -356,7 +358,7 @@ function BottomSearchBar(props) {
                             checked={showWebSearch}
                         /> <span className={showWebSearch ? 'web-search-active' : 'web-search-default'}>Web Search</span>
                     </div>
-                }
+                } */}
                 {(flag === 'fund' || flag === 'screener') &&
                     <div className="fundDropDownPosition hide-in-desktop hide-in-mobile" onClick={handleFundClick}>
                         <div className='searchInputDropdowntext'>{selectedFund}<img src={ArrowDownIcon} style={{ width: 24, height: 24, objectFit: 'contain', marginLeft: 5 }} className={showDropdown ? 'rotate-icon rotated' : 'rotate-icon'} /></div>
