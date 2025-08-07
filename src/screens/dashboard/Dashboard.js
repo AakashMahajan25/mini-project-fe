@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
-import LeftBox from '../../components/leftBox/LeftBox';
-import DashboardRightBox from '../../components/dashboardRightBox/DashboardRightBox';
+// import LeftBox from '../../components/leftBox/LeftBox';
+// import DashboardRightBox from '../../components/dashboardRightBox/DashboardRightBox';
 import Stories1 from '../../assets/images/watchlist_news.png';
 import Stories2 from '../../assets/images/session_news.png';
 import Stories3 from '../../assets/images/hot_pursuit_news.png';
@@ -264,15 +264,15 @@ function Dashboard() {
     const { trendingStocks, trendingNews, mostOnFrruitGpt, storyViewed, investorStory, storyIndex, isLoading, investorStoryLoading, indexLoader, stockIndexes, investorStoryError, cmotsNews } = useSelector(state => state.dashboardSlice);
     const { chatSuggestions, suggestionLoader, suggestionError, suggestedQuestionsList } = useSelector(state => state.fruitGPTSlice);
     const { userCredits, userPlan } = useSelector(state => state.userSlice)
-    const [showLeftBox, setShowLeftBox] = useState(true);
-    useEffect(() => {
-        const handleResize = () => {
-            setShowLeftBox(window.innerWidth >= 769);
-        };
-        window.addEventListener('resize', handleResize);
-        handleResize();
-        return () => window.removeEventListener('resize', handleResize);
-    }, []);
+    // const [showLeftBox, setShowLeftBox] = useState(true);
+    // useEffect(() => {
+    //     const handleResize = () => {
+    //         setShowLeftBox(window.innerWidth >= 769);
+    //     };
+    //     window.addEventListener('resize', handleResize);
+    //     handleResize();
+    //     return () => window.removeEventListener('resize', handleResize);
+    // }, []);
 
     const settings = {
         dots: false,
@@ -644,16 +644,14 @@ function Dashboard() {
                 <ActivateWebSearch show2={showSearchModal} handleClose2={handleCloseSearchModal} handleClose1={handleWebSearchProceed} />
             }
             <div className='dashboardHome row justify-content-between m-0'>
-                {showLeftBox && (
+                {/* {showLeftBox && (
                     <div className='col-lg-3 column-pad dashboardLeftboxHideClass'>
                         <LeftBox />
                     </div>
-                )}
+                )} */}
                 <>
                     {showAllContent &&
-                        <div className='col-lg-7 column-pad'
-                        // style={{position: 'relative'}}
-                        >
+                        <div className='col-lg-7 column-pad mx-auto' style={{ float: 'none' }}>
                             <div className='hide-on-large-screens-dashboard'>
                                 <div className='dashboardTextForMobile'>Home</div>
                                 <div onClick={handleViewAllClick} className='dashboardTextForMobile'>Latest News<img src={RightWhiteArrow} width={16} height={16} style={{ objectFit: 'contain', cursor: 'pointer' }} /></div>
@@ -661,158 +659,59 @@ function Dashboard() {
                             <div className='dashboard'>
                                 <div className='d-flex flex-column justify-content-between mb-3' style={{ height: window.innerWidth > 768 ? window.innerHeight - 102 : window.innerHeight - 115 }}>
                                     <div>
-                                        <div style={{ marginTop:12 }}>
+                                        <div style={{ marginTop: 12, textAlign: 'center' }}>
                                             <p className='title-header px-3'>Perform AI search across
-                                                <span style={{color: '#4563e4'}}> 5000+</span> stocks
-                                                </p>
-                                            {/* <div className='subheader mx-3'>You can now ask questions just like a regular internet search or GPT, accessing premium information on 6,000+ stocks and market-moving insights.</div> */}
+                                                <span style={{ color: '#4563e4' }}> 5000+</span> stocks
+                                            </p>
                                         </div>
                                     </div>
-                                        <div className='row px-4'>
-                                            <p className='explore-text mb-auto p-2'>You may want to explore?</p>
-                                            {stockboxData.map((item, index) => (
-                                                <>
-                                                    <div className='col-xl-4' onClick={() => handleClick(item.title)} style={{cursor:'pointer'}}>
-                                                        <div className='stockbox'>
-                                                            <div className='hide-in-mobile'>
-                                                                <div className='d-flex justify-content-between'>
-                                                                    <img src={item.imagesource} className='icon-image' />
-                                                                    <button className='btn1' >
-                                                                        <img src={RoundChevronRight} className='icon-image2' />
-                                                                    </button>
-                                                                </div>
-                                                                <div>
-                                                                    <p className='boxheader'>{item.title}</p>
-                                                                    <p className='boxsubheader'>{item.subtitle}</p>
-                                                                </div>
-                                                            </div>
-
-                                                            <div className='d-flex justify-content-between hide-in-desktop'>
-                                                                <img src={item.imagesource} className='icon-image' />
-                                                                <div style={{ marginLeft: 10 }}>
-                                                                    <p className='boxheader'>{item.title}</p>
-                                                                    <p className='boxsubheader'>{item.subtitle}</p>
-                                                                </div>
-                                                                <button className='btn1' onClick={() => handleClick(item.title)}>
-                                                                    <img src={RoundChevronRight} className='icon-image2' />
-                                                                </button>
-                                                            </div>
+                                    <div className='row px-4 justify-content-center'>
+                                        <p className='explore-text mb-auto p-2 text-center' style={{ width: '100%' }}>You may want to explore?</p>
+                                        {stockboxData.map((item, index) => (
+                                            <div className='col-xl-4 d-flex justify-content-center' key={index} onClick={() => handleClick(item.title)} style={{ cursor: 'pointer' }}>
+                                                <div className='stockbox'>
+                                                    <div className='hide-in-mobile'>
+                                                        <div className='d-flex justify-content-between'>
+                                                            <img src={item.imagesource} className='icon-image' />
+                                                            <button className='btn1' >
+                                                                <img src={RoundChevronRight} className='icon-image2' />
+                                                            </button>
+                                                        </div>
+                                                        <div>
+                                                            <p className='boxheader'>{item.title}</p>
+                                                            <p className='boxsubheader'>{item.subtitle}</p>
                                                         </div>
                                                     </div>
-                                                </>
-                                            ))}
-                                        </div>
-                                    <div>
-                                    <div className={ window.innerWidth >= 500 ? 'blue-box-alert mx-4 mt-2' : 'blue-box-alert mx-4 mb-0' }>
-                                        <div className='d-flex justify-content-center'>
-                                        <img src={AlertImg} className='alert-img' />
-                                        </div>
-                                        <div className='alert-desc'>While we strive to deliver the best actionable insights using AI. Gathering and analyzing company data or videos may take a moment, so we kindly ask for your patience while we process everything!</div>
-                                    </div>
-                                    <div className={ window.innerWidth >= 500 ? 'd-flex justify-content-center mt-3' : 'd-flex justify-content-center mt-2'}>
-                                        <p className='blue-box-dashboard alert-desc-dashboard'>Frruit doesn’t provide personalized stock advice or buy/sell recommendations.</p>
-                                        </div>
-                                        </div>
-                                    {/* <div className='d-flex flex-column'>
-                                        {
-                                            shouldShowStory &&
-                                            <div className='dashboard-container'>
-                                                <p className='stories-title' style={{ marginBottom: 10 }}>Investors Stories</p>
-                                                <div className='d-flex align-items-start mobile-scroll-dashboard'>
-                                                    {storiesData.map((img, i) => {
-                                                        return (
-                                                            !storyViewed[storyEnum[img?.storyType]] && investorStory[storyEnum2[img?.storyType]]?.length > 0 ?
-                                                                <div className='d-flex flex-column align-items-center' style={{ marginRight: 20, cursor: 'pointer' }} onClick={() => handleShow({ storyType: img.storyType })}> */}
-                                                                    {/* <img
-                                                                    key={'MStories' + i}
-                                                                    style={{ width: 60, objectFit: 'contain', cursor: 'pointer'}}
-                                                                    src={img.src}
-                                                                    // alt={`Story ${index}`}
-                                                                    /> */}
-                                                                    {/* <div key={'MStories' + i} className='d-flex align-items-center justify-content-center storyOuterContainer' style={{ border: `1px solid ${img?.color}`, borderRadius: 35 }}>
-                                                                        <p className='storyCircleInnerText' style={{ background: img?.lightBackground, borderRadius: 25, textAlign: 'center', fontWeight: '700', color: img?.color }}>{img?.title.slice(0, 1)}
-                                                                        </p>
-                                                                    </div>
-                                                                    <p style={{ marginBottom: 0, fontSize: 13, color: '#6F7387', fontWeight: '500', textAlign: 'center' }}>{img?.title}</p>
-                                                                </div>
-                                                                :
-                                                                null
-                                                        )
-                                                    }
-                                                    )}
+                                                    <div className='d-flex justify-content-between hide-in-desktop'>
+                                                        <img src={item.imagesource} className='icon-image' />
+                                                        <div style={{ marginLeft: 10 }}>
+                                                            <p className='boxheader'>{item.title}</p>
+                                                            <p className='boxsubheader'>{item.subtitle}</p>
+                                                        </div>
+                                                        <button className='btn1' onClick={() => handleClick(item.title)}>
+                                                            <img src={RoundChevronRight} className='icon-image2' />
+                                                        </button>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        }
-                                        <div className='dashboard-slider'>
-                                            <div className='d-flex align-items-center justify-content-between'>
-                                                <p className='stories-title' style={{ marginBottom: 10 }}>Trending stocks for today</p>
-                                                <p className='stories-title marginCustomDashboard' style={{ marginBottom: 10, color: '#4563E4', cursor: 'pointer' }} onClick={handleShow3}>View All</p>
+                                        ))}
+                                    </div>
+                                    <div>
+                                        <div className={window.innerWidth >= 500 ? 'blue-box-alert mx-4 mt-2' : 'blue-box-alert mx-4 mb-0'} style={{ textAlign: 'center' }}>
+                                            <div className='d-flex justify-content-center'>
+                                                <img src={AlertImg} className='alert-img' />
                                             </div>
-                                            <Slider {...settings}>
-                                                {trendingStocks?.slice(0, 10).map((stockData, index) => (
-                                                    <TrendingStocksCard key={index} {...stockData} />
-                                                ))}
-                                            </Slider>
+                                            <div className='alert-desc'>While we strive to deliver the best actionable insights using AI. Gathering and analyzing company data or videos may take a moment, so we kindly ask for your patience while we process everything!</div>
                                         </div>
-                                    </div> */}
+                                        <div className={window.innerWidth >= 500 ? 'd-flex justify-content-center mt-3' : 'd-flex justify-content-center mt-2'}>
+                                            <p className='blue-box-dashboard alert-desc-dashboard text-center'>Frruit doesn’t provide personalized stock advice or buy/sell recommendations.</p>
+                                        </div>
+                                    </div>
                                     <div className='dashboard-container'>
                                         <div className='suggested-prompts-container'>
-                                            {/* {mostOnFrruitGpt?.rows?.length > 0 &&
-                                                <>
-                                                    <div className='box-content position-relative'>
-                                                        <div className='d-flex align-items-center justify-content-between'>
-                                                            <div className='title'>Most on Frruit</div>
-                                                            <div onClick={handleShow2} style={{ cursor: 'pointer', color: '#4563E4', fontWeight: 600 }}>View All</div>
-                                                        </div>
-                                                        <Slider
-                                                            prevArrow={<PreviousBtn2 />}
-                                                            nextArrow={<NextBtn2 />}
-                                                            {...suggestionSettings}
-                                                        >
-                                                            {mostOnFrruitGpt?.rows?.slice(0, 4).map((text, index) => (
-                                                                <div onClick={() => { routePromptFrruitGPT(text?.question, 'fund') }} key={index} className='col-lg-6'>
-                                                                    <div className='mostOnFrruitBox mb-2' style={{ marginRight: 10 }}>
-                                                                        <div className='d-flex justify-content-between align-items-center' >
-                                                                            <p className='text'>{text?.question?.replace(/\b\w/g, char => char.toUpperCase())}</p>
-                                                                            <img style={{ width: 24, objectFit: 'contain' }} src={RightArrow} alt={`Arrow ${index}`} />
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            ))}
-                                                        </Slider>
-                                                    </div>
-                                                </>
-                                            } */}
-                                            {/* {chatSuggestions?.length > 0 &&
-                                                <>
-                                                    <p className='stories-title'>Suggested Prompts</p>
-                                                    <div className='row' >
-                                                        <Slider
-                                                            prevArrow={<PreviousBtn3 />}
-                                                            nextArrow={<NextBtn3 />}
-                                                            {...suggestionSettings}>
-                                                            {chatSuggestions.map((item, index) => (
-                                                                <div onClick={() => { routePromptFrruitGPT(item?.prompt_text, 'fund') }} key={index} className='col-lg-6' style={{ cursor: 'pointer' }}>
-                                                                    <div className='prompts-text-bg' style={{ marginRight: 10, cursor: 'pointer' }}>
-                                                                        <div className=' d-flex justify-content-between align-items-center w-100' >
-                                                                            <p className='prompts-text'>{item?.prompt_text}</p>
-                                                                            <img style={{ width: 24, objectFit: 'contain' }} src={quesIcon} className={`my-anchor-element-${index}`} />
-                                                                        </div>
-
-                                                                    </div>
-                                                                    <Tooltip absolute fixed anchorSelect={`.my-anchor-element-${index}`} place="left" className="bg-primary">
-                                                                        <div style={{ width: '370px', fontSize: '14px' }}>
-                                                                            {item?.prompt_description ? item?.prompt_description : item?.prompt_text}</div>
-                                                                    </Tooltip>
-                                                                </div>
-                                                            ))}
-                                                        </Slider>
-                                                    </div>
-                                                </>
-                                            } */}
                                             <>
                                                 <div className='customTab-frruit-gpt hide-in-mobile'>
-                                                    <div className='d-flex align-items-center mobile-scroll-Css'>
+                                                    <div className='d-flex align-items-center justify-content-center mobile-scroll-Css'>
                                                         <div className='d-flex align-items-center me-3'>
                                                             <div className='tab-name-css'>Choose Search Focus</div>
                                                             <img src={StraightArrowIcon} style={{ width: 20, objectFit: 'contain' }} />
@@ -829,21 +728,6 @@ function Dashboard() {
                                                         <div className={flag === 'reddit' ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: flag === 'reddit' ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
                                                             onClick={() => setFlag('reddit')}
                                                         > Social Media </div>
-                                                        {/* <div className={flag === 'news' ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: flag === 'news' ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
-                                                            onClick={() => setFlag('news')}
-                                                        > News </div>
-                                                        <div className={flag == 'fundamentals' ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: flag == 'fundamentals' ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
-                                                            onClick={() => setFlag('fundamentals')}
-                                                        > Fundamentals </div>
-                                                        <div className={flag == 'youTube' ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: flag == 'youTube' ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
-                                                            onClick={() => setFlag('youTube')}
-                                                        > YouTube </div>
-                                                        <div className={flag == 'reddit' ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: flag == 'reddit' ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
-                                                            onClick={() => setFlag('reddit')}
-                                                        >Reddit </div>
-                                                        <div className={flag == 'similarDays' ? `tab-name-css tab-box-css` : `tab-name-css`} style={{ backgroundColor: flag == 'similarDays' ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
-                                                            onClick={() => setFlag('similarDays')}
-                                                        >Similar Days </div> */}
                                                     </div>
                                                 </div>
                                                 <div className='search-dashboard-main d-flex align-items-end'>
@@ -866,8 +750,6 @@ function Dashboard() {
                                                                 </div>
                                                             }
                                                             <input
-                                                                // className={(flag === 'news' || flag === 'news_bing') ? "form-control-newsTab" : 'form-control'}
-                                                                // className='form-control'
                                                                 className={`${(flag === 'news' || flag === 'news_bing') && question.length > 0 && suggestedQuestionsList.length > 0 ? 'form-control-suggestion' : (flag === 'news' || flag === 'news_bing') ? 'form-control-newsTab' : (flag === 'fund' || flag === 'screener') ? (showDropdown ? 'form-control-funds-only' : 'form-control-fund') : 'form-control'}`}
                                                                 style={{ height: 48 }}
                                                                 value={question}
@@ -896,21 +778,6 @@ function Dashboard() {
                                                                         </div>
                                                                         <img src={WhiteChevronImg} className="white-chevron" />
                                                                     </div>
-                                                                    {/* {(flag === 'news' || flag === 'news_bing') &&
-                                                                        <div className="form-check form-switch hide-in-desktop">
-                                                                            <input
-                                                                                className="form-check-input me-1"
-                                                                                type="checkbox"
-                                                                                onChange={handleWebSearchChange}
-                                                                                checked={showWebSearch}
-                                                                            /> <span className={showWebSearch ? 'web-search-active' : 'web-search-default'}>Activate Web Search</span>
-                                                                        </div>
-                                                                    }
-                                                                    {(flag === 'fund' || flag === 'screener') &&
-                                                                        <div className="fundDropDownPosition hide-in-desktop" onClick={handleFundClick}>
-                                                                            <div className='searchInputDropdowntext'>{selectedFund}<img src={ArrowDownIcon} style={{ width: 16, height: 16, objectFit: 'contain', marginLeft: 3 }} className={showDropdown ? 'rotate-icon rotated' : 'rotate-icon'} /></div>
-                                                                        </div>
-                                                                    } */}
                                                                 </div>
                                                                 <div style={{ position: 'relative' }} className='mt-3 d-flex justify-content-start'>
                                                                     <input
@@ -969,16 +836,10 @@ function Dashboard() {
                                                     </div>
                                                 }
                                             </>
-
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    }
-                    {showAllContent &&
-                        <div className='col-lg-2 column-pad dashboardRightBoxNewsHide'>
-                            <DashboardRightBox newsData={cmotsNews?.rows} mostFrruitData={mostOnFrruitGpt?.rows} onViewAllClick={handleViewAllClick} />
                         </div>
                     }
                     {!showAllContent && !showPopularOpinions && !showInvestorStories &&
