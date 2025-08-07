@@ -16,7 +16,9 @@ import Loader from '../../components/loader/Loader';
 import * as yup from 'yup';
 import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from "@hookform/resolvers/yup";
-import { getAvaliableCredit, getFaqs, getUserDetails, getUserOrderHistory, getUserPlan, initiateOrder, placeOrder, updateProfile } from './usersSlice';
+// COMMENTED OUT FOR FUTURE PAYMENT GATEWAY INTEGRATION
+// import { getAvaliableCredit, getFaqs, getUserDetails, getUserOrderHistory, getUserPlan, initiateOrder, placeOrder, updateProfile } from './usersSlice';
+import { getAvaliableCredit, getFaqs, getUserDetails, getUserOrderHistory, getUserPlan, updateProfile } from './usersSlice';
 import Plans from '../../components/profile/Plans';
 import Preferences from '../../components/profile/Preferences';
 import { getStockIndexes } from '../dashboard/slice';
@@ -28,7 +30,8 @@ import TermsAndCondition from '../../components/profile/termsAndCondition/TermsA
 import PrivacyPolicy from '../../components/profile/privacyPolicy/PrivacyPolicy';
 import Pricing from '../../components/profile/pricing/Pricing';
 import CancellationAndRefundPolicy from '../../components/profile/cancellationAndRefundPolicy/CancellationAndRefundPolicy';
-import PaymentModal from '../../components/paymentModal/PaymentModal';
+// COMMENTED OUT FOR FUTURE PAYMENT GATEWAY INTEGRATION
+// import PaymentModal from '../../components/paymentModal/PaymentModal';
 import Feedback from '../../components/profile/feedback/Feedback';
 import AboutAirrchip from '../../components/profile/aboutAirrchip/AboutAirrchip';
 
@@ -53,10 +56,11 @@ function Profile() {
     const [isPricingActive, setPricingActiveColor] = useState(false);
     const [isViewPlansActive, setViewPlansActiveColor] = useState(false);
     const [isCancellationPolicyActive, setCancellationPolicyActiveColor] = useState(false);
-    const [paymentModalType, setPaymentModalType] = useState("success")
-    const [showPaymentConfirmation, setShowPaymentConfirmation] = useState(false)
+    // COMMENTED OUT FOR FUTURE PAYMENT GATEWAY INTEGRATION
+    // const [paymentModalType, setPaymentModalType] = useState("success")
+    // const [showPaymentConfirmation, setShowPaymentConfirmation] = useState(false)
+    // const [paymentData, setPaymentData] = useState(null)
     const [isFeedbackActive, setFeedbackActiveColor] = useState(false);
-    const [paymentData, setPaymentData] = useState(null)
     const [isAboutAirrchipActive, setAboutAirrchipActiveColor] = useState(false);
 
     const handleProfileClick = () => {
@@ -274,7 +278,9 @@ function Profile() {
     })
 
 
-    const { userCredits, isLoading, userDetails, userPlan, faqs, orderHistory, paymentLoader } = useSelector(state => state.userSlice)
+    const { userCredits, isLoading, userDetails, userPlan, faqs, orderHistory } = useSelector(state => state.userSlice)
+    // COMMENTED OUT FOR FUTURE PAYMENT GATEWAY INTEGRATION
+    // const { userCredits, isLoading, userDetails, userPlan, faqs, orderHistory, paymentLoader } = useSelector(state => state.userSlice)
 
     useEffect(() => {
         // dispatch(getAvaliableCredit()).unwrap().then(() => {
@@ -328,73 +334,87 @@ function Profile() {
             })
     }
 
-    function loadScript(src) {
-        return new Promise((resolve) => {
-            const script = document.createElement("script");
-            script.src = src;
-            script.onload = () => {
-                resolve(true);
-            };
-            script.onerror = () => {
-                resolve(false);
-            };
-            document.body.appendChild(script);
-        });
-    }
+    // COMMENTED OUT FOR FUTURE PAYMENT GATEWAY INTEGRATION
+    // function loadScript(src) {
+    //     return new Promise((resolve) => {
+    //         const script = document.createElement("script");
+    //         script.src = src;
+    //         script.onload = () => {
+    //             resolve(true);
+    //         };
+    //         script.onerror = () => {
+    //             resolve(false);
+    //         };
+    //         document.body.appendChild(script);
+    //     });
+    // }
 
+    // COMMENTED OUT FOR FUTURE PAYMENT GATEWAY INTEGRATION
+    // const upgradePlan = async (payload) => {
+    //     const res = await loadScript(
+    //         "https://checkout.razorpay.com/v1/checkout.js"
+    //     );
+
+    //     if (!res) {
+    //         alert("Razorpay SDK failed to load. Are you online?");
+    //         return;
+    //     }
+
+    //     dispatch(initiateOrder(payload)).unwrap().then(async (data) => {
+    //         const options = {
+    //             description: 'Credits towards credit purchase',
+    //             currency: 'INR',
+    //             key: 'rzp_test_Ym5H3K5NhaCF0y',
+    //             amount: data?.order_amount * 100,
+    //             name: "Frruit",
+    //             order_id: data?.razorpay_order_id,
+    //             handler: async function (response) {
+    //                 let placeOrderPayload = {
+    //                     "order_id": data?.order_id,
+    //                     "plan_id": payload.plan_id,
+    //                     "payment_status": "paid",
+    //                     razorpay_payment_id: response.razorpay_payment_id,
+    //                     razorpay_order_id: response.razorpay_order_id,
+    //                     razorpay_signature: response.razorpay_signature,
+    //                 }
+    //                 dispatch(placeOrder(placeOrderPayload)).unwrap().then(async (data) => {
+    //                     setPaymentModalType("success")
+    //                     setPaymentData({...data, ...payload})
+    //                     setShowPaymentConfirmation(true)
+    //                 }).catch((error) => {
+    //                     setPaymentModalType("failed")
+    //                     setPaymentData({
+    //                         razorpay_order_id: response.razorpay_order_id,
+    //                         ...payload
+    //                     })
+    //                     setShowPaymentConfirmation(true)
+    //                 });
+    //             },
+    //             theme: { color: '#F37254' },
+    //             modal: {
+    //                 ondismiss: function () {
+    //                     toast.error('Payment was cancelled.');
+    //                 }
+    //             }
+    //         };
+
+    //         const paymentObject = new window.Razorpay(options);
+    //         paymentObject.open();
+    //     }).catch((error) => {
+    //         toast.error(error.message || "Error in initiating order")
+    //     });
+    // };
+
+    // COMMENTED OUT FOR FUTURE PAYMENT GATEWAY INTEGRATION
+    // const upgradePlan = async (payload) => {
+    //     // Placeholder for future payment gateway integration
+    //     toast.info("Payment functionality temporarily disabled");
+    // };
+
+    // COMMENTED OUT FOR FUTURE PAYMENT GATEWAY INTEGRATION
     const upgradePlan = async (payload) => {
-        const res = await loadScript(
-            "https://checkout.razorpay.com/v1/checkout.js"
-        );
-
-        if (!res) {
-            alert("Razorpay SDK failed to load. Are you online?");
-            return;
-        }
-
-        dispatch(initiateOrder(payload)).unwrap().then(async (data) => {
-            const options = {
-                description: 'Credits towards credit purchase',
-                currency: 'INR',
-                key: 'rzp_test_Ym5H3K5NhaCF0y',
-                amount: data?.order_amount * 100,
-                name: "Frruit",
-                order_id: data?.razorpay_order_id,
-                handler: async function (response) {
-                    let placeOrderPayload = {
-                        "order_id": data?.order_id,
-                        "plan_id": payload.plan_id,
-                        "payment_status": "paid",
-                        razorpay_payment_id: response.razorpay_payment_id,
-                        razorpay_order_id: response.razorpay_order_id,
-                        razorpay_signature: response.razorpay_signature,
-                    }
-                    dispatch(placeOrder(placeOrderPayload)).unwrap().then(async (data) => {
-                        setPaymentModalType("success")
-                        setPaymentData({...data, ...payload})
-                        setShowPaymentConfirmation(true)
-                    }).catch((error) => {
-                        setPaymentModalType("failed")
-                        setPaymentData({
-                            razorpay_order_id: response.razorpay_order_id,
-                            ...payload
-                        })
-                        setShowPaymentConfirmation(true)
-                    });
-                },
-                theme: { color: '#F37254' },
-                modal: {
-                    ondismiss: function () {
-                        toast.error('Payment was cancelled.');
-                    }
-                }
-            };
-
-            const paymentObject = new window.Razorpay(options);
-            paymentObject.open();
-        }).catch((error) => {
-            toast.error(error.message || "Error in initiating order")
-        });
+        // Placeholder for future payment gateway integration
+        toast.info("Payment functionality temporarily disabled");
     };
 
     const rightPartHeight = window.innerWidth > 768 ? window.innerHeight - 68 : window.innerHeight - 122;
@@ -402,17 +422,17 @@ function Profile() {
     const handlePaymentModel = (type) => {
         switch (type) {
             case "failed":
-                setShowPaymentConfirmation(false);
-                upgradePlan({ plan_id: paymentData?.plan_id, order_amount: paymentData?.order_amount })
+                // setShowPaymentConfirmation(false);
+                // upgradePlan({ plan_id: paymentData?.plan_id, order_amount: paymentData?.order_amount })
                 break;
             case "success":
-                setShowPaymentConfirmation(false);
-                setPaymentData(null)
+                // setShowPaymentConfirmation(false);
+                // setPaymentData(null)
                 window.location.reload();
                 break;
             default:
-                setShowPaymentConfirmation(false);
-                setPaymentData(null)
+                // setShowPaymentConfirmation(false);
+                // setPaymentData(null)
                 break;
         }
     }
@@ -674,16 +694,17 @@ function Profile() {
                 </div>
             </div>
             {
-                paymentLoader && <Loader />
+                // paymentLoader && <Loader />
             }
-            <PaymentModal
+            {/* COMMENTED OUT FOR FUTURE PAYMENT GATEWAY INTEGRATION */}
+            {/* <PaymentModal
                 show={showPaymentConfirmation}
                 type={paymentModalType}
                 transactid={paymentData?.razorpay_order_id}
                 amount={'₹'+paymentData?.order_amount}
                 credits={paymentData?.credits_offered}
                 onPress={handlePaymentModel}
-            />
+            /> */}
         </>
     )
 }

@@ -45,7 +45,8 @@ import CreditOverModal from '../../components/creditOverModal/CreditOverModal';
 import ActivateWebSearch from '../../components/activateWebSearch/ActivateWebSearch';
 import ArrowDownIcon from '../../assets/images/accordiun-down-arrow.png'
 import RightIcon from '../../assets/images/charm_tick.png'
-import PaymentModal from '../../components/paymentModal/PaymentModal';
+// COMMENTED OUT FOR FUTURE PAYMENT GATEWAY INTEGRATION
+// import PaymentModal from '../../components/paymentModal/PaymentModal';
 import WhiteChevronImg from '../../assets/images/white-dropdown.png'
 import CloseImage from '../../assets/images/close_icon.png'
 import SelectedFlagIcon from '../../assets/images/selected-flag.png'
