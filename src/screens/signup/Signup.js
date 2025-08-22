@@ -1,13 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import '../login/Login.scss'
 import '../signup/Signup.scss'
-import LoginImg from '../../assets/images/login_img.png'
-import LoginImg2 from '../../assets/images/login-side-img.png'
-import LoginImg3 from '../../assets/images/login_img3.png'
-import FrruitLogo from '../../assets/images/frruit-logo.png'
-import PhoneOtpImage from '../../assets/images/SignUpotp.png';
+
 import EmailOtpImage from '../../assets/images/EmailOtpImg.png';
-import MobileIcon from '../../assets/images/mobile-icon.png';
 import OtpInput from 'react-otp-input';
 import { useNavigate } from 'react-router';
 import MailIcon from '../../assets/images/mail-icon.png';
@@ -23,21 +18,17 @@ import Modal from 'react-bootstrap/Modal';
 import TermsAndCondition from '../../components/profile/termsAndCondition/TermsAndCondition'
 import PrivacyPolicy from '../../components/profile/privacyPolicy/PrivacyPolicy'
 import InstagramAppLogo from '../../assets/images/instagram.png'
-import WhatsAppLogo from '../../assets/images/whatsapp.png'
+
 import linkedinLogo from '../../assets/images/linkedin.png'
 import loginBg from '../../assets/images/loginBgImg.jpg';
 import FrruitLogo2 from '../../assets/images/frruitlogoLogin.png'
-import Select from 'react-select';
-import countryList from './countryList.json';
-import brokerOptions from './brokerOptions.json';
+
 
 function Signup() {
     let navigate = useNavigate();
     const dispatch = useDispatch();
     const [showCode, setShowCode] = useState(false)
-    const [showCode1, setShowCode1] = useState(false)
     const [otp, setOtp] = useState('');
-    const [emailOtp, setEmailOtp] = useState('')
     const [showTermsConditions, setShowTermsConditions] = useState(false);
     const [showPrivacyPolicy, setShowPrivacyPolicy] = useState(false);
     const [termsAccepted, setTermsAccepted] = useState(false);
@@ -46,11 +37,11 @@ function Signup() {
     const [timer, setTimer] = useState(60)
     const [timerEnded, setTimerEnded] = useState(true)
     const [differentClick, setDifferentClick] = useState(false)
-    const [selectedCountryCode, setSelectedCountryCode] = useState("+91"); // Default to India
+
 
     const formattedTime = String(timer).padStart(2, '0');
 
-    // Update the validation schema to handle international phone numbers
+    // Updated validation schema for email-only signup
     const signupSchema = yup.object().shape({
         first_name: yup
             .string()
@@ -62,11 +53,6 @@ function Signup() {
             .matches(/^[A-Za-z\s]+$/, "Last name should not contain numbers or special characters.")
             .required("Please enter last name."),
         email: yup.string().email('Please enter valid Email Id').required("Please enter Email Id."),
-        phone_number: yup.string()
-            .matches(/^\d{6,15}$/, 'Please enter a valid phone number (6-15 digits).')
-            .required("Please enter phone number."),
-        country: yup.string().required("Please enter country."),
-        broker: yup.string().required("Please select broker."),
     })
 
     const { control, handleSubmit, formState: { errors }, watch } = useForm({
@@ -107,11 +93,8 @@ function Signup() {
     };
 
     const useDifferentClick = () => {
-        // setShowCode(false);
-        // setShowCode1(false);
         setDifferentClick(true)
         setOtp('');
-        setEmailOtp('');
     }
 
     const toggleTermsAccepted = () => {
@@ -119,19 +102,12 @@ function Signup() {
         if (showError) setShowError(false);
     };
 
-    const handleCountryChange = (selectedOption) => {
-        if (selectedOption && selectedOption.value !== "Select") {
-            const country = countryList.find(country => country.value === selectedOption.value);
-            setSelectedCountryCode(country?.dialCode || "+91");
-        }
-    };
-
     const onSubmit = (data) => {
         if (!termsAccepted) {
             setShowError(true);
             return;
         }
-        dispatch(signupOtp({ type: 'mobile', mobile: selectedCountryCode + data?.phone_number }))
+        dispatch(signupOtp({ type: 'email', email: data?.email }))
             .unwrap()
             .then((res) => {
                 setTimerEnded(false)
@@ -145,7 +121,7 @@ function Signup() {
             })
     }
 
-    const verifyMobileOtp = () => {
+    const verifyEmailOtp = () => {
         const regex = /^[0-9]{0,6}$/;
         if (!regex.test(otp) || otp?.length < 6) {
             toast.error("Please enter valid OTP");
@@ -154,55 +130,15 @@ function Signup() {
 
         const data = {
             otp,
-            type: 'mobile',
+            type: 'email',
             email: allValues?.email,
-            mobile: selectedCountryCode + allValues?.phone_number,
         }
         dispatch(verifyOtp(data))
             .unwrap()
             .then(async (res) => {
                 toast.success(res.message)
-                dispatch(signupOtp({ type: 'email', email: allValues?.email }))
-                    .then(() => {
-                        setTimerEnded(false)
-                        setTimer(60)
-                        setShowCode1(true)
-                        setDifferentClick(false)
-                    })
-            })
-            .catch((error) => {
-                toast.error(error.message || 'Failed to verify otp');
-            })
-    }
-
-    // Add the missing sendEmailOTP function
-    const sendEmailOTP = () => {
-        dispatch(signupOtp({ type: 'email', email: allValues?.email }))
-            .then(() => {
-                setTimerEnded(false)
-                setTimer(60)
-                setShowCode1(true)
-                setDifferentClick(false)
-            })
-    }
-
-    const verifyEmailId = () => {
-        const regex = /^[0-9]{0,6}$/;
-        if (!regex.test(emailOtp) || emailOtp?.length < 6) {
-            toast.error("Please enter valid otp");
-            return;
-        }
-
-        const data = {
-            otp: emailOtp,
-            type: 'email',
-            email: allValues?.email,
-            mobile: selectedCountryCode + allValues?.phone_number,
-        }
-        dispatch(verifyOtp(data))
-            .unwrap()
-            .then((res) => {
-                dispatch(signupUser({ ...allValues, phone_number: selectedCountryCode + allValues?.phone_number }))
+                // After email verification, proceed to signup
+                dispatch(signupUser({ ...allValues }))
                     .unwrap()
                     .then(async (res) => {
                         localStorage.setItem('token', res.data.token)
@@ -220,22 +156,16 @@ function Signup() {
                     })
             })
             .catch((error) => {
-                toast.error(error.data)
+                toast.error(error.message || 'Failed to verify otp');
             })
     }
 
-    // Update handleResendOtp function
-    const handleResendOtp = (type) => {
-        const data = {};
-
-        if (type === "email") {
-            data["type"] = 'email'
-            data["email"] = allValues?.email
-            data["mobile"] = selectedCountryCode + allValues?.phone_number
-        } else {
-            data["type"] = 'mobile'
-            data["mobile"] = selectedCountryCode + allValues?.phone_number
-        }
+    // Update handleResendOtp function for email-only flow
+    const handleResendOtp = () => {
+        const data = {
+            type: 'email',
+            email: allValues?.email
+        };
 
         dispatch(resendOtp(data))
             .unwrap()
@@ -263,8 +193,8 @@ function Signup() {
                                             <div class="mb-auto"><img className='frruitLogostyle' src={FrruitLogo2} style={{ objectFit: "contain" }} /></div>
                                             <div className={window.innerWidth < 520 ? "w-100" : "mb-auto w-100"}>
                                                 <div className='loginStyle'>
-                                                    <div className='loginMainTextStyle' >India's 1<sup className='suptext'>ST</sup>AI Powered</div>
-                                                    <div className='loginMainTextStyle'>financial markets search engine</div>
+                                                    <div className='loginMainTextStyle'>AI Powered financial</div>
+                                                    <div className='loginMainTextStyle'>markets search engine</div>
                                                     <div className='loginMainTextParaStyle' style={{ fontSize: 16 }}>
                                                         Get actionable financial market insights instantly through conversational search!
                                                     </div> 
@@ -296,14 +226,14 @@ function Signup() {
                                                     </a>
                                                 </div>
                                             </div>
-                                            <div className='hideformobile' style={{ color: '#FFF', fontSize: 14, fontWeight: 500, marginTop: 4 }}>Data provided by C-MOTS Internet Technologies Pvt Ltd</div>
+                                            {/* <div className='hideformobile' style={{ color: '#FFF', fontSize: 14, fontWeight: 500, marginTop: 4 }}>Data provided by C-MOTS Internet Technologies Pvt Ltd</div> */}
                                         </div>
                                     </div>
                                     <div className='col-xl-5'>
                                         <div className={showCode ? 'login-form' : 'signup-form'}>
                                             <div style={{ position: 'relative' }}>
                                                 {
-                                                    !showCode && !showCode1 && 
+                                                    !showCode && 
                                                     <>
                                                     <p className='loginText text-center m-0 '>Signup</p>
                                                     <div className='loginText followUsHideforWeb mt-2' style={{fontSize: 18, fontWeight: 700}}>Search for free, discover fast !</div>
@@ -316,7 +246,7 @@ function Signup() {
                                             </div>
                                             <form onSubmit={handleSubmit(onSubmit)}>
                                                 <div className="form-outline mt-2">
-                                                    {!showCode && !showCode1 &&
+                                                    {!showCode &&
                                                         <>
                                                             <label className='form-control-label'>First Name</label>
                                                             <div className='w-100 mb-3'>
@@ -377,135 +307,6 @@ function Signup() {
                                                                 <div className={errors?.email ? "email-error-img" : "email-img"}>
                                                                     <img src={MailIcon} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} />
                                                                 </div>
-                                                                {/* <div className="position-absolute" style={{ left: 15, top: '53%' }}>
-                                            <img src={MailIcon} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} alt="Search Icon" />
-                                        </div> */}
-                                                            </div>
-                                                            <label className='form-control-label'>Country</label>
-                                                            <div className='w-100 mb-3'>
-                                                            <Controller
-                                                                control={control}
-                                                                name="country"
-                                                                render={({ field }) => (
-                                                                    <Select
-                                                                        {...field}
-                                                                        options={countryList} 
-                                                                        placeholder="Select Country"
-                                                                        classNamePrefix="react-select"
-                                                                        styles={{
-                                                                            menu: (provided) => ({
-                                                                                ...provided,
-                                                                                border: 'none',
-                                                                                maxHeight: 400,
-                                                                                overflowY: 'auto',
-                                                                            }),
-                                                                            control: (provided) => ({
-                                                                                ...provided,
-                                                                                height: 48,
-                                                                                borderRadius: 15,
-                                                                                borderColor: errors?.country ? 'red' : '#BDC3DD',
-                                                                            }),
-                                                                            option: (provided, state) => ({
-                                                                                ...provided,
-                                                                                backgroundColor: state.isSelected ? '#007bff' : state.isFocused ? '#f0f0f0' : 'white',
-                                                                                color: state.isSelected ? 'white' : 'black',
-                                                                            }),
-                                                                        }}
-                                                                        value={
-                                                                            field.value
-                                                                                ? countryList.find(option => option.value === field.value)
-                                                                                : null
-                                                                        }
-                                                                        onChange={(selectedOption) => {
-                                                                            field.onChange(selectedOption?.value);
-                                                                            handleCountryChange(selectedOption);
-                                                                        }}
-                                                                        formatOptionLabel={(option) => (
-                                                                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                                                                <span>{option.label}</span>
-                                                                                {option.dialCode && <span style={{ color: '#666', fontSize: '14px' }}>{option.dialCode}</span>}
-                                                                            </div>
-                                                                        )}
-                                                                    />
-                                                                )}
-                                                            />
-                                                            {
-                                                                errors?.country && <p className='errorText'>{errors?.country?.message}</p>
-                                                            }
-                                                            </div>
-                                                            <div className="position-relative" style={{ width: '100%', marginBottom: 20 }}>
-                                                                <label className='form-control-label'>Phone Number</label>
-                                                                <div className='d-flex justify-content-between align-items-center'>
-                                                                    <input
-                                                                        type="text"
-                                                                        className="form-control form-control-input nineone-input me-3"
-                                                                        placeholder='Country Code'
-                                                                        style={{ width: '25%', textIndent: 7, color: 'black' }}
-                                                                        value={selectedCountryCode}
-                                                                        disabled
-                                                                    />
-                                                                    <div className="position-relative" style={{ width: '70%' }}>
-                                                                        <Controller
-                                                                            control={control}
-                                                                            name="phone_number"
-                                                                            render={({ field }) => (
-                                                                                <input
-                                                                                    type="text"
-                                                                                    className={errors?.phone_number ? "form-control form-control-input error-feild" : "form-control form-control-input"}
-                                                                                    placeholder='Phone Number'
-                                                                                    style={{ color: 'black' }}
-                                                                                    {...field}
-                                                                                    maxLength='15'
-                                                                                />
-                                                                            )}
-                                                                        />
-                                                                        <div className="position-absolute" style={{ left: 15, top: '24%' }}>
-                                                                            <img src={MobileIcon} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} />
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                {
-                                                                    errors?.phone_number && <p className='errorText'>{errors?.phone_number?.message}</p>
-                                                                }
-                                                            </div>
-                                                            <div className="form-group mb-3">
-                                                            <label className="form-control-label" htmlFor="broker">Select My Broker</label>
-                                                            <Controller
-                                                                name="broker"
-                                                                control={control}
-                                                                defaultValue=""
-                                                                rules={{ required: 'Please select your broker' }}
-                                                                render={({ field }) => (
-                                                                    <Select
-                                                                        {...field}
-                                                                        options={brokerOptions}
-                                                                        placeholder="Select Broker"
-                                                                        classNamePrefix="react-select"
-                                                                        styles={{
-                                                                            menu: (provided) => ({
-                                                                                ...provided,
-                                                                                border: 'none',
-                                                                                maxHeight: 400,
-                                                                                overflowY: 'auto',
-                                                                            }),
-                                                                            control: (provided) => ({
-                                                                                ...provided,
-                                                                                height: 48, borderRadius: 15,
-                                                                                borderColor: errors?.broker ? 'red' : '#BDC3DD',
-                                                                            }),
-                                                                        }}
-                                                                        value={
-                                                                            field.value
-                                                                                ? brokerOptions.find(option => option.value === field.value)
-                                                                                : null
-                                                                        }
-                                                                        onChange={(selectedOption) => field.onChange(selectedOption?.value)}
-                                                                    />
-                                                                )}
-                                                            />
-                                                            {
-                                                                errors?.broker && <p className='errorText'>{errors?.broker?.message}</p>
-                                                            }
                                                             </div>
                                                             <div className='checkboxRow'>
                                                                 <div className="wrap-check-43 me-2">
@@ -532,33 +333,21 @@ function Signup() {
                                                             )}
                                                         </>
                                                     }
-                                                    {showCode && !showCode1 &&
+                                                    {showCode &&
                                                         <>
                                                             <div>
                                                                 <div className='d-flex flex-column align-items-center'>
-                                                                    <img src={PhoneOtpImage} className='phoneotpimg' />
-                                                                    <p className='p-0 otpheader'>Please check your Phone</p>
-                                                                    <p className='p-0 m-0 otpsubheader text-center'>We have sent a message with the verification code on </p>
+                                                                    <img src={EmailOtpImage} className='phoneotpimg' />
+                                                                    <p className='p-0 otpheader'>Please check your Email</p>
+                                                                    <p className='p-0 m-0 otpsubheader text-center'>We have sent a verification code to your email </p>
                                                                 </div>
 
-
-                                                                {/* <label className='form-control-label mt-3'>Phone Number</label>
-                                                                <div className='d-flex justify-content-between align-items-center'>
-                                                                    <input type="text" className="form-control form-control-input me-3 phone-number" placeholder='+91' defaultValue={"+91"} disabled></input>
-                                                                    <div className="position-relative" style={{ width: '100%' }}>
-                                                                        <input type="text" className="form-control form-control-input" placeholder='99999 99999' defaultValue={allValues?.phone_number} disabled></input>
-
-                                                                        <div className="position-absolute" style={{ left: 18, top: '23%' }}>
-                                                                            <img src={MobileIcon} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} />
-                                                                        </div>
-                                                                    </div>
-                                                                </div> */}
                                                                 {
                                                                     !differentClick ?
                                                                         <>
                                                                             <div className='d-flex justify-content-center align-items-center'>
-                                                                                <p className='number-text'>{selectedCountryCode} {allValues?.phone_number}</p>
-                                                                                <a style={{ cursor: 'pointer', fontSize: 15, textDecoration: 'underline', color: 'blue' }} onClick={useDifferentClick}>Use a different Number</a>
+                                                                                <p className='number-text'>{allValues?.email}</p>
+                                                                                <a style={{ cursor: 'pointer', fontSize: 15, textDecoration: 'underline', color: 'blue' }} onClick={useDifferentClick}>Use a different email</a>
                                                                             </div>
                                                                             <div className="form-outline verification">
                                                                                 <div className='d-flex flex-column align-items-center'>
@@ -576,132 +365,40 @@ function Signup() {
                                                                                     </div>
                                                                                     {
                                                                                         timerEnded ?
-                                                                                            <p className='privacyText resendtext mt-0' style={{ fontSize: 15 }}>Didn't get the code? <a style={{ cursor: "pointer", fontSize: 15, textDecoration: 'underline', color: 'blue' }} onClick={() => handleResendOtp("mobile")}>Resend</a></p> :
+                                                                                            <p className='privacyText resendtext mt-0' style={{ fontSize: 15 }}>Didn't get the code? <a style={{ cursor: "pointer", fontSize: 15, textDecoration: 'underline', color: 'blue' }} onClick={handleResendOtp}>Resend</a></p> :
                                                                                             <p className='privacyText resendtext mt-0' style={{ fontSize: 15 }}>Request new OTP in 00:{formattedTime}</p>
                                                                                     }
                                                                                 </div>
                                                                             </div>
                                                                         </>
-
                                                                         :
-                                                                        <div className='d-flex justify-content-between align-items-center'>
-                                                                            <input
-                                                                                type="text"
-                                                                                className="form-control form-control-input nineone-input me-3"
-                                                                                placeholder='+91'
-                                                                                // style={{ width: '12%', textIndent: 7, color: 'black' }}
-                                                                                defaultValue="+91"
-                                                                                disabled
-                                                                            />
-                                                                            <div className="position-relative" style={{ width: '85%' }}>
+                                                                        <>
+                                                                            <div className="position-relative mt-5" style={{ width: '100%', marginBottom: 20 }}>
                                                                                 <Controller
                                                                                     control={control}
-                                                                                    name="phone_number"
+                                                                                    name="email"
                                                                                     render={({ field }) => (
                                                                                         <input
                                                                                             type="text"
-                                                                                            className={errors?.phone_number ? "form-control form-control-input error-feild" : "form-control form-control-input"}
-                                                                                            placeholder='Enter Phone Number'
+                                                                                            className={errors?.email ? "form-control form-control-input error-feild" : "form-control form-control-input"}
+                                                                                            placeholder='Enter Email'
                                                                                             style={{ color: 'black' }}
                                                                                             {...field}
-                                                                                            maxLength='15'
                                                                                         />
                                                                                     )}
                                                                                 />
-                                                                                <div className="position-absolute" style={{ left: 15, top: '24%' }}>
-                                                                                    <img src={MobileIcon} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} />
+                                                                                {
+                                                                                    errors?.email && <p className='errorText'>{errors?.email?.message}</p>   
+                                                                                }
+                                                                                <div className={errors?.email ? "email-error-img" : "email-img"} style={errors?.email ? {top: '15%'} : {top:'22%'}}>
+                                                                                    <img src={MailIcon} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} />
                                                                                 </div>
                                                                             </div>
-                                                                        </div>
+                                                                        </>
                                                                 }
                                                             </div>
                                                             <div className='d-flex justify-content-center align-items-center'>
-                                                                <button type='button' onClick={() => differentClick ? onSubmit({ type: "mobile", phone_number: allValues?.phone_number }) : verifyMobileOtp()} className='btnPrimary mt-4'>
-                                                                    {isLoading ? (
-                                                                        <div className="spinner-border text-light" role="status">
-                                                                            <span className="sr-only"></span>
-                                                                        </div>
-                                                                    ) : (
-                                                                        differentClick ? "Send OTP" : "Verify"
-                                                                    )}
-                                                                </button>
-                                                            </div>
-
-                                                        </>
-                                                    }
-                                                    {showCode && showCode1 &&
-                                                        <>
-                                                            <div className={differentClick ? 'd-flex flex-column justify-content-center align-items-center' : 'd-flex flex-column align-items-center'}>
-                                                                <img src={EmailOtpImage} className='phoneotpimg' />
-                                                                <p className='p-0 otpheader mt-2'>{differentClick ? 'Confirm Your New Email' : 'Please check your E-mail'}</p>
-                                                                <p className='p-0 m-0 otpsubheader text-center'>{differentClick ? 'You’ve chosen a different email. Verify it to receive your OTP.' : 'Please check your mail inbox or spam. We have sent a email with the verification code on'}</p>
-                                                            </div>
-                                                            {/* <div className="position-relative" style={{ width: '100%' }}>
-                                                                <label className='form-control-label mb-1'>E-mail</label>
-                                                                <input type="text" className="form-control form-control-input" placeholder='yaksh@airrchip.com' defaultValue={allValues?.email} disabled></input>
-                                                                <div className="position-absolute" style={{ left: 15, top: '50%' }}>
-                                                                    <img src={MailIcon} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} alt="Search Icon" />
-                                                                </div>
-                                                            </div> */}
-                                                            {
-                                                                !differentClick ?
-                                                                    <>
-                                                                        <div className='d-flex justify-content-center align-items-center'>
-                                                                            <p className='number-text'>{allValues?.email}</p>
-                                                                            <a style={{ cursor: 'pointer', fontSize: 15, textDecoration: 'underline', color: 'blue' }} onClick={useDifferentClick}>Use a different e-mail</a>
-                                                                        </div>
-
-                                                                        <div className="form-outline verification">
-                                                                            <div className='d-flex flex-column align-items-center'>
-                                                                                <label className="typeheader my-2 justify-content-center">Type your 6 digit security code</label>
-                                                                                <div className='d-flex'>
-                                                                                    <OtpInput
-                                                                                        value={emailOtp}
-                                                                                        onChange={setEmailOtp}
-                                                                                        numInputs={6}
-                                                                                        renderInput={(props) => <input {...props} style={{
-                                                                                            width: 56.68,
-                                                                                            outline: 'none',
-                                                                                        }} className='verificationBox text-center me-2' />}
-                                                                                    />
-                                                                                </div>
-                                                                                {
-                                                                                    timerEnded ?
-                                                                                        <p className='privacyText resendtext mt-0' style={{ fontSize: 15 }}>Didn't get the code? <a style={{ cursor: 'pointer', fontSize: 15, textDecoration: 'underline', color: 'blue' }} onClick={() => handleResendOtp("email")}>Resend</a></p> :
-                                                                                        <p className='privacyText resendtext mt-0' style={{ fontSize: 15 }}>Request new OTP in 00:{formattedTime}</p>
-                                                                                }
-                                                                            </div>
-                                                                        </div>
-
-                                                                    </>
-                                                                    :
-                                                                    <>
-                                                                    <div className="position-relative mt-5" style={{ width: '100%', marginBottom: 20 }}>
-                                                                        <Controller
-                                                                            control={control}
-                                                                            name="email"
-                                                                            render={({ field }) => (
-                                                                                <input
-                                                                                    type="text"
-                                                                                    className={errors?.email ? "form-control form-control-input error-feild" : "form-control form-control-input"}
-                                                                                    placeholder='Enter Email'
-                                                                                    style={{ color: 'black' }}
-                                                                                    {...field}
-                                                                                />
-                                                                            )}
-                                                                        />
-                                                                        {
-                                                                            errors?.email && <p className='errorText'>{errors?.email?.message}</p>   
-                                                                        }
-                                                                        <div className={errors?.email ? "email-error-img" : "email-img"} style={errors?.email ? {top: '15%'} : {top:'22%'}}>
-                                                                            <img src={MailIcon} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} />
-                                                                        </div>
-                                                                        </div>
-                                                                    </>
-
-                                                            }
-                                                            <div className='d-flex justify-content-center align-items-center'>
-                                                                <button type='button' className='btnPrimary mt-4' onClick={differentClick ? sendEmailOTP : verifyEmailId}>
+                                                                <button type='button' onClick={() => differentClick ? onSubmit(allValues) : verifyEmailOtp()} className='btnPrimary mt-4'>
                                                                     {isLoading ? (
                                                                         <div className="spinner-border text-light" role="status">
                                                                             <span className="sr-only"></span>
@@ -711,11 +408,11 @@ function Signup() {
                                                                     )}
                                                                 </button>
                                                             </div>
-
                                                         </>
                                                     }
 
-                                                    {!showCode && !showCode1 &&
+
+                                                    {!showCode &&
                                                         <>
                                                             <div className='d-flex justify-content-center align-items-center'>
                                                                 <button type='submit' className='btnPrimary mt-4'>
@@ -729,9 +426,8 @@ function Signup() {
                                                                 </button>
                                                             </div>
                                                             <div className='d-flex justify-content-center align-items-center'>
-                                                                <button onClick={routeChangeLogin} className='btnSecondary mt-3'>Login Using Phone Number</button>
+                                                                <button onClick={routeChangeLogin} className='btnSecondary mt-3'>Login Using Email</button>
                                                             </div>
-                                                            <div className='followUsHideforWeb' style={{ color: '#6F6B7D', fontSize: 12, fontWeight: 400, marginTop: 20 }}>Data provided by C-MOTS Internet Technologies Pvt Ltd</div>
                                                         </>
                                                     }
                                                     {/* <p className='privacyText text-center'>By signing up, you accept our <a className='termsConditionText' onClick={handleShowTermsConditions}>Terms and Conditions</a></p>

@@ -7,7 +7,7 @@ import FrruitLogo from '../../assets/images/frruitlogoLogin.png'
 import InstagramAppLogo from '../../assets/images/instagram.png'
 import WhatsAppLogo from '../../assets/images/whatsapp.png'
 import linkedinLogo from '../../assets/images/linkedin.png'
-import MobileIcon from '../../assets/images/mobile-icon.png';
+import MailIcon from '../../assets/images/mail-icon.png';
 import loginBg from '../../assets/images/loginBgImg.jpg';
 import OtpInput from 'react-otp-input';
 import { useNavigate } from 'react-router-dom';
@@ -28,7 +28,7 @@ function Login() {
     const numberRef = useRef(null)
     const [showCode, setShowCode] = useState(false)
     const [otp, setOtp] = useState('');
-    const [phoneNumber, setPhoneNumber] = useState('');
+    const [email, setEmail] = useState('');
     const [showTermsConditions, setShowTermsConditions] = useState(false);
     const [showPrivacyPolicy, setShowPrivacyPolicy] = useState(false);
     const [timer, setTimer] = useState(60)
@@ -69,7 +69,7 @@ function Login() {
         navigate(path);
     }
 
-    const handleDifferentNumberClick = () => {
+    const handleDifferentEmailClick = () => {
         setShowCode(false);
         setOtp('')
         if (numberRef?.current) {
@@ -78,16 +78,15 @@ function Login() {
     };
 
     const handleGetOtp = () => {
-        if (!phoneNumber) {
-            toast.error("Please enter Phone number")
+        if (!email) {
+            toast.error("Please enter Email address")
             if (numberRef?.current) {
                 numberRef?.current.focus()
             }
             return;
         }
         const data = {
-            type: 'mobile',
-            mobile: "+91" + phoneNumber
+            email: email
         }
         dispatch(loginOtp(data))
             .unwrap()
@@ -110,8 +109,7 @@ function Login() {
         }
         const requestData = {
             otp,
-            type: 'mobile',
-            mobile: "+91" + phoneNumber
+            email: email
         }
         await dispatch(verifyLoginOtp(requestData))
             .unwrap()
@@ -139,8 +137,8 @@ function Login() {
 
     const handleResendOtp = () => {
         const data = {
-            type: 'mobile',
-            mobile: "+91" + phoneNumber
+            type: 'email',
+            email: email
         }
 
         dispatch(resendOtp(data))
@@ -176,8 +174,8 @@ function Login() {
                                         <div class="d-flex align-items-start flex-column loginleftsideCol">
                                             <div class="mb-auto"><img className='frruitLogostyle' src={FrruitLogo} style={{ objectFit: "contain" }} /></div>
                                             <div className={window.innerWidth < 520 ? "w-100" : "mb-auto w-100"}>
-                                                <div className='loginMainTextStyle' style={{ marginTop: 16 }}>India's 1<sup className='suptext'>ST</sup>AI Powered</div>
-                                                <div className='loginMainTextStyle'>financial markets search engine</div>
+                                                <div className='loginMainTextStyle' style={{ marginTop: 16 }}>AI Powered financial</div>
+                                                <div className='loginMainTextStyle'>markets search engine</div>
                                                 <div className='loginMainTextParaStyle' style={{fontSize: 16}}>
                                                 Get actionable financial market insights instantly through conversational search!
                                                 </div>
@@ -199,7 +197,7 @@ function Login() {
                                                     </a>
                                                 </div>
                                             </div>
-                                            <div className='hideformobile' style={{ color: '#FFF', fontSize: 14, fontWeight: 500, marginTop: 4 }}>Data provided by C-MOTS Internet Technologies Pvt Ltd</div>
+                                            {/* <div className='hideformobile' style={{ color: '#FFF', fontSize: 14, fontWeight: 500, marginTop: 4 }}>Data provided by C-MOTS Internet Technologies Pvt Ltd</div> */}
                                         </div>
                                     </div>
                                     <div className='col-xl-5'>
@@ -213,52 +211,37 @@ function Login() {
                                                     <div className='loginText followUsHideforWeb' style={{fontSize: 18, fontWeight: 700}}>Search for free, discover fast !</div>
                                                     {!showCode &&
                                                         <>
-                                                            <label className='form-control-label'>Phone Number</label>
-                                                            <div className='d-flex justify-content-between align-items-center'>
+                                                            <label className='form-control-label'>Email Address</label>
+                                                            <div className="position-relative" style={{ width: '100%' }}>
                                                                 <input
-                                                                    type="text"
-                                                                    className="form-control form-control-input me-3 nineone-input"
-                                                                    placeholder='+91'
-                                                                    defaultValue="+91"
-                                                                    disabled
+                                                                    type="email"
+                                                                    className="form-control form-control-input"
+                                                                    placeholder='Enter your email address'
+                                                                    value={email}
+                                                                    style={{ color: 'black' }}
+                                                                    onChange={(event) => {
+                                                                        setEmail(event.target.value);
+                                                                    }}
+                                                                    ref={numberRef}
+                                                                    autoFocus
+                                                                    onKeyDown={(event) => event?.key === 'Enter' && handleGetOtp()}
                                                                 />
-                                                                <div className="position-relative" style={{ width: '100%' }}>
-                                                                    <input
-                                                                        type="text"
-                                                                        className="form-control form-control-input"
-                                                                        placeholder='0000000000'
-                                                                        value={phoneNumber}
-                                                                        style={{ color: 'black' }}
-                                                                        onChange={(event) => {
-                                                                            const numericValue = event.target.value.replace(/\D/g, '');
-                                                                            setPhoneNumber(numericValue);
-                                                                        }}
-                                                                        ref={numberRef}
-                                                                        autoFocus
-                                                                        maxLength='15'
-                                                                        onKeyDown={(event) => event?.key === 'Enter' && handleGetOtp()}
-                                                                    />
-                                                                    <div className="position-absolute" style={{ left: 20, top: '28%' }}>
-                                                                        <img src={MobileIcon} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} />
-                                                                    </div>
+                                                                <div className="position-absolute" style={{ left: 20, top: '28%' }}>
+                                                                    <img src={MailIcon} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} />
                                                                 </div>
                                                             </div>
                                                         </>
                                                     }
                                                     {showCode &&
                                                         <>
-                                                            <label className='form-control-label'>Phone Number</label>
-                                                            <div className='d-flex justify-content-between align-items-center'>
-                                                                <input type="text" className="form-control form-control-input me-3 nineone-input" placeholder='+91' defaultValue={"+91"} disabled></input>
-                                                                <div className="position-relative" style={{ width: '85%' }}>
-                                                                    <input type="text" className="form-control form-control-input" placeholder='99999 99999' value={phoneNumber} disabled></input>
-
-                                                                    <div className="position-absolute" style={{ left: 18, top: '25%' }}>
-                                                                        <img src={MobileIcon} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} />
-                                                                    </div>
+                                                            <label className='form-control-label'>Email Address</label>
+                                                            <div className="position-relative" style={{ width: '100%' }}>
+                                                                <input type="email" className="form-control form-control-input" placeholder='your@email.com' value={email} disabled></input>
+                                                                <div className="position-absolute" style={{ left: 18, top: '25%' }}>
+                                                                    <img src={MailIcon} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} />
                                                                 </div>
                                                             </div>
-                                                            <a style={{ fontSize: 15, textDecoration: 'underline', color: 'blue', fontFamily: "Roboto" }} onClick={handleDifferentNumberClick}>Use a different Number</a>
+                                                            <a style={{ fontSize: 15, textDecoration: 'underline', color: 'blue', fontFamily: "Roboto" }} onClick={handleDifferentEmailClick}>Use a different Email</a>
                                                             <div className="form-outline verification">
                                                                 <label className="form-label">Type your 6 digit security code</label>
                                                                 <div className='d-flex'>
@@ -323,13 +306,13 @@ function Login() {
                                                                 <div className='horizontalLine w-100'></div>
                                                             </div>
                                                             <div className='d-flex justify-content-center align-items-center'>
-                                                                <button onClick={routeChangeSignUp} className='btnSecondary mt-3'>Sign Up</button>
+                                                                <button onClick={routeChangeSignUp} className='btnSecondary mt-3'>Sign Up with Email</button>
                                                             </div>
                                                         </>
                                                     }
                                                     <p className='privacyText text-center'>By signing up, you accept our <a style={{ textDecoration: 'none' }} className='bluetext' onClick={handleShowTermsConditions}> Terms and Conditions</a></p>
                                                     <p className='privacyText text-center mt-0'>See our <a style={{ textDecoration: 'none' }} className='bluetext' onClick={handleShowPrivacyPolicy}> Privacy Policy</a></p>
-                                                    <div className='followUsHideforWeb' style={{ color: '#6F6B7D', fontSize: 12, fontWeight: 400, marginTop: 20 }}>Data provided by C-MOTS Internet Technologies Pvt Ltd</div>
+                                                    {/* <div className='followUsHideforWeb' style={{ color: '#6F6B7D', fontSize: 12, fontWeight: 400, marginTop: 20 }}>Data provided by C-MOTS Internet Technologies Pvt Ltd</div> */}
                                                 </div>
                                             </div>
 

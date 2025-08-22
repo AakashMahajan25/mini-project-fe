@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-      baseURL: 'https://api.frruit.co/api/',
+      baseURL: 'http://localhost:3000/api/',
    //    baseURL: 'http://18.233.54.54/api/', // Your API base URL
   // baseURL: "http://localhost:4000/api/", // Your Local API base URL
   headers: {
