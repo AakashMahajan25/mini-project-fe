@@ -6,7 +6,7 @@ function AboutAirrchip() {
         <div className='about-airrchip-css'>
             <div className='about-airrchip-text'>About Frruit by Airrchip</div>
             <div className='text-subheading'>
-                Welcome to Frruit, the revolutionary AI-powered capital markets search engine designed to revolutionise the landscape of capital markets . At Airrchip, we believe that access to high-quality financial insights should be democratized, empowering retail investors and wealth managers alike to make informed decisions without the barriers traditionally associated with financial data.
+                Welcome to Frruit, the revolutionary AI-powered financial markets search engine designed to revolutionise the landscape of financial markets . At Airrchip, we believe that access to high-quality financial insights should be democratized, empowering retail investors and wealth managers alike to make informed decisions without the barriers traditionally associated with financial data.
             </div>
             <div className='text-heading mt-0'>Who we are ?</div>
             <div className='text-subheading'>
@@ -18,11 +18,11 @@ function AboutAirrchip() {
 
             <div className='text-heading mt-0'>Our Mission</div>
             <div className='text-subheading'>
-                Our mission is simple yet profound: to harness the power of artificial intelligence to provide real-time, actionable insights that enhance investment decision-making. We aim to break down the complexities of capital markets, making them accessible and understandable for everyone.
+                Our mission is simple yet profound: to harness the power of artificial intelligence to provide real-time, actionable insights that enhance investment decision-making. We aim to break down the complexities of financial markets, making them accessible and understandable for everyone.
             </div>
             <div className='text-heading mt-0'>Our Story</div>
             <div className='text-subheading'>
-                Frruit was born out of a vision to address the challenges faced by investors today. At Airrchip, we recognized the need for a tool that could analyze unstructured data, deliver curated investor stories, and facilitate dynamic conversations around thousands of stocks.With our extensive background in technology and finance, we set out to create a solution that would revolutionize capital markets.
+                Frruit was born out of a vision to address the challenges faced by investors today. At Airrchip, we recognized the need for a tool that could analyze unstructured data, deliver curated investor stories, and facilitate dynamic conversations around thousands of stocks.With our extensive background in technology and finance, we set out to create a solution that would revolutionize financial markets.
             </div>
             <div className='text-heading mt-0'>What Sets Us Apart</div>
             <div className='text-subheading'>
@@ -36,7 +36,7 @@ function AboutAirrchip() {
             </div>
             <div className='text-heading mt-0'>Our Vision</div>
             <div className='text-subheading'>
-                At Frruit, we envision a future where every investor—regardless of experience—has access to the insights needed to navigate the capital markets confidently. We are committed to continuously evolving our platform to meet the needs of our users and adapt to the ever-changing financial landscape.
+                At Frruit, we envision a future where every investor—regardless of experience—has access to the insights needed to navigate the financial markets confidently. We are committed to continuously evolving our platform to meet the needs of our users and adapt to the ever-changing financial landscape.
             </div>
         </div>
     )

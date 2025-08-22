@@ -82,16 +82,16 @@ function DiscoverCorrelation() {
     // const tabData = [
     //     { label: 'Regulatory Event' },
     //     { label: 'Corporate Action Events' },
-    //     { label: 'Capital Market Events' },
+    //     { label: 'Financial Market Events' },
     //     { label: 'Regulatory Event2' },
     //     { label: 'Corporate Action Events2' },
-    //     { label: 'Capital Market Events2' },
+    //     { label: 'Financial Market Events2' },
     //     { label: 'Regulatory Event3' },
     //     { label: 'Corporate Action Events3' },
-    //     { label: 'Capital Market Events3' },
+    //     { label: 'Financial Market Events3' },
     //     { label: 'Regulatory Event4' },
     //     { label: 'Corporate Action Events4' },
-    //     { label: 'Capital Market Events4' },
+    //     { label: 'Financial Market Events4' },
     // ];
     // const stockData = [
     //     {

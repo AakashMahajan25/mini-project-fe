@@ -460,7 +460,7 @@ function ChatGpt(props) {
                         <div className='text-center'>
                             <img src={DefaultImg} className='default-screens-content-img-css' />
                             <div className='help-text'>How can I help you today ?</div>
-                            <div className='default-para-text'>Supercharge your investment decisions : Attach documents or YouTube links on capital markets for GPT-driven insights!</div>
+                            <div className='default-para-text'>Supercharge your investment decisions : Attach documents or YouTube links on financial markets for GPT-driven insights!</div>
                         </div>
                     </div>
 
