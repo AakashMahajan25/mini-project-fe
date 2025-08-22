@@ -22,6 +22,8 @@ import InstagramAppLogo from '../../assets/images/instagram.png'
 import linkedinLogo from '../../assets/images/linkedin.png'
 import loginBg from '../../assets/images/loginBgImg.jpg';
 import FrruitLogo2 from '../../assets/images/frruitlogoLogin.png'
+import Select from 'react-select';
+import countryList from './countryList.json';
 
 
 function Signup() {
@@ -41,7 +43,7 @@ function Signup() {
 
     const formattedTime = String(timer).padStart(2, '0');
 
-    // Updated validation schema for email-only signup
+    // Updated validation schema - removed phone number and broker only
     const signupSchema = yup.object().shape({
         first_name: yup
             .string()
@@ -53,6 +55,7 @@ function Signup() {
             .matches(/^[A-Za-z\s]+$/, "Last name should not contain numbers or special characters.")
             .required("Please enter last name."),
         email: yup.string().email('Please enter valid Email Id').required("Please enter Email Id."),
+        country: yup.string().required("Please enter country."),
     })
 
     const { control, handleSubmit, formState: { errors }, watch } = useForm({
@@ -307,6 +310,51 @@ function Signup() {
                                                                 <div className={errors?.email ? "email-error-img" : "email-img"}>
                                                                     <img src={MailIcon} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} />
                                                                 </div>
+                                                            </div>
+                                                            <label className='form-control-label'>Country</label>
+                                                            <div className='w-100 mb-3'>
+                                                            <Controller
+                                                                control={control}
+                                                                name="country"
+                                                                render={({ field }) => (
+                                                                    <Select
+                                                                        {...field}
+                                                                        options={countryList} 
+                                                                        placeholder="Select Country"
+                                                                        classNamePrefix="react-select"
+                                                                        styles={{
+                                                                            menu: (provided) => ({
+                                                                                ...provided,
+                                                                                border: 'none',
+                                                                                maxHeight: 400,
+                                                                                overflowY: 'auto',
+                                                                            }),
+                                                                            control: (provided) => ({
+                                                                                ...provided,
+                                                                                height: 48,
+                                                                                borderRadius: 15,
+                                                                                borderColor: errors?.country ? 'red' : '#BDC3DD',
+                                                                            }),
+                                                                            option: (provided, state) => ({
+                                                                                ...provided,
+                                                                                backgroundColor: state.isSelected ? '#007bff' : state.isFocused ? '#f0f0f0' : 'white',
+                                                                                color: state.isSelected ? 'white' : 'black',
+                                                                            }),
+                                                                        }}
+                                                                        value={
+                                                                            field.value
+                                                                                ? countryList.find(option => option.value === field.value)
+                                                                                : null
+                                                                        }
+                                                                        onChange={(selectedOption) => {
+                                                                            field.onChange(selectedOption?.value);
+                                                                        }}
+                                                                    />
+                                                                )}
+                                                            />
+                                                            {
+                                                                errors?.country && <p className='errorText'>{errors?.country?.message}</p>
+                                                            }
                                                             </div>
                                                             <div className='checkboxRow'>
                                                                 <div className="wrap-check-43 me-2">

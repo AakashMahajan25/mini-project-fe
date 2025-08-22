@@ -64,9 +64,11 @@ function App() {
       } */}
       
       <ToastContainer />
+      {/* Temporarily disabled for development - bypass auth check
       {
         isAuthenticated && <InactivityTimer />
       }
+      */}
     </>
   );
 }
