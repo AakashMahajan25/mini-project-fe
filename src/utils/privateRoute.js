@@ -7,24 +7,19 @@ const PrivateRoute = ({
 }) => {
     const history = useNavigate();
     const location = useLocation();
-    // Temporarily disabled for development - bypass auth interceptor
-    // responseInterceptor(history)
+    
+    responseInterceptor(history);
     const isAuthenticated = localStorage.getItem('token');
 
-    // Temporarily disabled for development - bypass auth check
-    // if (isAuthenticated) {
-    //     return <Component />
-        
-    // } else {
-    //     return <Navigate
-    //         to={"/login"}
-    //         replace
-    //         state={{ from: location.pathname }}
-    //     />
-    // }
-    
-    // Always allow access during development
-    return <Component />
+    if (isAuthenticated) {
+        return <Component />
+    } else {
+        return <Navigate
+            to={"/login"}
+            replace
+            state={{ from: location.pathname }}
+        />
+    }
 }
 
 export default PrivateRoute;

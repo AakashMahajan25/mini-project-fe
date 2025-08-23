@@ -9,9 +9,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import InactivityTimer from './utils/InactivityTimer';
 import ReactGA from 'react-ga4';
 import { useEffect, useState } from 'react';
-import CreditOverModal from './components/creditOverModal/CreditOverModal';
+// import CreditOverModal from './components/creditOverModal/CreditOverModal';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAvaliableCredit } from './screens/profile/usersSlice';
+// import { getAvaliableCredit } from './screens/profile/usersSlice';
 
 function App() {
   const location = useLocation();
@@ -64,11 +64,10 @@ function App() {
       } */}
       
       <ToastContainer />
-      {/* Temporarily disabled for development - bypass auth check
       {
         isAuthenticated && <InactivityTimer />
       }
-      */}
+     
     </>
   );
 }
