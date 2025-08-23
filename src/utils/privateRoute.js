@@ -7,12 +7,12 @@ const PrivateRoute = ({
 }) => {
     const history = useNavigate();
     const location = useLocation();
-    responseInterceptor(history)
+    
+    responseInterceptor(history);
     const isAuthenticated = localStorage.getItem('token');
 
     if (isAuthenticated) {
         return <Component />
-        
     } else {
         return <Navigate
             to={"/login"}

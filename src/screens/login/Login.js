@@ -201,7 +201,7 @@ function Login() {
                                         </div>
                                     </div>
                                     <div className='col-xl-5'>
-                                        <div className={showCode ? 'login-form1' : 'login-form'}>
+                                        <div className='login-form'>
                                             <div className='d-flex justify-content-center align-items-center h-100'>
                                                 {/* <div>
                                                     <img src={FrruitLogo} width={108} style={{ position: 'absolute', top: -5 }} />
@@ -226,7 +226,7 @@ function Login() {
                                                                     autoFocus
                                                                     onKeyDown={(event) => event?.key === 'Enter' && handleGetOtp()}
                                                                 />
-                                                                <div className="position-absolute" style={{ left: 20, top: '28%' }}>
+                                                                <div className="position-absolute" style={{ left: 18, top: '25%' }}>
                                                                     <img src={MailIcon} style={{ width: 20, objectFit: 'contain', cursor: 'pointer' }} />
                                                                 </div>
                                                             </div>

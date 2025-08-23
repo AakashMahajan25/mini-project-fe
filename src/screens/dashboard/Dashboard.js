@@ -254,11 +254,11 @@ function Dashboard() {
 
     const flagList = [
         { name: 'All', flag: 'news', description: 'Search news, summarize & get TLDRs across premium data sources' },
-        { name: 'News + Web', flag: 'news_bing', description: 'Search across the entire internet' },
+        // { name: 'News + Web', flag: 'news_bing', description: 'Search across the entire internet' },
         { name: 'Fundamentals', flag: 'fund', description: 'Compare company fundamentals data, financials, stock screener, and corporate actions' },
-        { name: 'Screener', flag: 'screener', description: 'Screen markets in real time based on your queries' },
-        { name: 'Videos', flag: 'youtube', description: 'Discover insights from videos without watching' },
-        { name: 'Social Media', flag: 'reddit', description: 'Search discussions and opinions on social media' }
+        // { name: 'Screener', flag: 'screener', description: 'Screen markets in real time based on your queries' },
+        // { name: 'Videos', flag: 'youtube', description: 'Discover insights from videos without watching' },
+        { name: 'Social Opinions', flag: 'reddit', description: 'Search discussions and opinions on social media' }
     ];
 
     const dispatch = useDispatch()
@@ -655,7 +655,7 @@ function Dashboard() {
                         <div className='col-lg-7 column-pad mx-auto' style={{ float: 'none' }}>
                             <div className='hide-on-large-screens-dashboard'>
                                 <div className='dashboardTextForMobile'>Home</div>
-                                <div onClick={handleViewAllClick} className='dashboardTextForMobile'>Latest News<img src={RightWhiteArrow} width={16} height={16} style={{ objectFit: 'contain', cursor: 'pointer' }} /></div>
+                                {/* <div onClick={handleViewAllClick} className='dashboardTextForMobile'>Latest News<img src={RightWhiteArrow} width={16} height={16} style={{ objectFit: 'contain', cursor: 'pointer' }} /></div> */}
                             </div>
                             <div className='dashboard'>
                                 <div className='d-flex flex-column justify-content-between mb-3' style={{ height: window.innerWidth > 768 ? window.innerHeight - 102 : window.innerHeight - 115 }}>
@@ -670,7 +670,7 @@ function Dashboard() {
                                         <p className='explore-text mb-auto p-2 text-center' style={{ width: '100%' }}>You may want to explore?</p>
                                         {stockboxData.map((item, index) => (
                                             <div className='col-xl-4 d-flex justify-content-center' key={index} onClick={() => handleClick(item.title)} style={{ cursor: 'pointer' }}>
-                                                <div className='stockbox'>
+                                                <div className='stockbox' style={{ width: '100%', maxWidth: '300px' }}>
                                                     <div className='hide-in-mobile'>
                                                         <div className='d-flex justify-content-between'>
                                                             <img src={item.imagesource} className='icon-image' />
@@ -705,7 +705,7 @@ function Dashboard() {
                                             <div className='alert-desc'>While we strive to deliver the best actionable insights using AI. Gathering and analyzing company data or videos may take a moment, so we kindly ask for your patience while we process everything!</div>
                                         </div>
                                         <div className={window.innerWidth >= 500 ? 'd-flex justify-content-center mt-3' : 'd-flex justify-content-center mt-2'}>
-                                            <p className='blue-box-dashboard alert-desc-dashboard text-center'>Frruit doesn’t provide personalized stock advice or buy/sell recommendations.</p>
+                                            <p className='blue-box-dashboard alert-desc-dashboard text-center'>Frruit doesn't provide personalized stock advice or buy/sell recommendations.</p>
                                         </div>
                                     </div>
                                     <div className='dashboard-container'>
@@ -723,12 +723,12 @@ function Dashboard() {
                                                         <div className={(flag === 'fund' || flag === 'screener') ? `tab-name-css tab-box-css` : `tab-name-css`} style={{ backgroundColor: (flag === 'fund' || flag === 'screener') ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
                                                             onClick={() => selectedFund === 'Company Data' ? setFlag('fund') : setFlag('screener')}
                                                         > Fundamentals </div>
-                                                        <div className={flag === 'youtube' ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: flag === 'youtube' ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
+                                                        {/* <div className={flag === 'youtube' ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: flag === 'youtube' ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
                                                             onClick={() => setFlag('youtube')}
-                                                        > Videos </div>
+                                                        > Videos </div> */}
                                                         <div className={flag === 'reddit' ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: flag === 'reddit' ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
                                                             onClick={() => setFlag('reddit')}
-                                                        > Social Media </div>
+                                                        > Social Opinions </div>
                                                     </div>
                                                 </div>
                                                 <div className='search-dashboard-main d-flex align-items-end'>
