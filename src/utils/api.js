@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-      baseURL: 'https://frruitapi.airrchip.com/',
+      baseURL: 'https://frruitapi.airrchip.com/api/',
    //    baseURL: 'http://18.233.54.54/api/', // Your API base URL
   // baseURL: "http://localhost:4000/api/", // Your Local API base URL
   headers: {
