@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { API_ENDPOINTS, METHOD_TYPE } from "../../utils/apiUrls";
 import api from "../../utils/api";
-import axios from "axios";
 
 
 const initialState = {
@@ -121,9 +120,9 @@ export const getFaqs = createAsyncThunk("users/getFaqs", async () => {
     try {
         let data = {
             method: METHOD_TYPE.get,
-            url: 'https://frruit.co/api/getfaqs',
+            url: API_ENDPOINTS.getFaqs,
         };
-        const response = await axios(data);
+        const response = await api(data);
         return response.data.result;
 
     } catch (error) {

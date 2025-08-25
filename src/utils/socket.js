@@ -1,8 +1,9 @@
 import { io } from 'socket.io-client';
 
-const URL = "https://api.frruit.co/chat";
+// Use the same base URL as the API but for socket connection
+const SOCKET_URL = "https://frruitapi.airrchip.com/chat";
 
-export const socket = io(URL, {
+export const socket = io(SOCKET_URL, {
     autoConnect: false,
     auth: {
         token: localStorage.getItem('token')

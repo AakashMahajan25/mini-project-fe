@@ -52,7 +52,7 @@ export const API_ENDPOINTS = {
     getInvestorStories: 'users/getInvestorStories',
     triggerGPTGraph: 'prompts/triggerGraph',
     triggerContentPrompt: 'contentPrompt/triggerContentPrompt',
-    get_uploadUrl: '/contentPrompt/getSignedUrl',
+    get_uploadUrl: 'contentPrompt/getSignedUrl',
     triggerDocumentChat: 'contentPrompt/triggerDocumentChat',
     addDocument: 'contentPrompt/addDocument',
     getContentPromptList: 'contentPrompt/getContentPromptHistory?type=',
@@ -74,5 +74,6 @@ export const API_ENDPOINTS = {
     getStockRevenue : 'stocks/getStockRevenue',
     resendOtp: 'users/resendOtp',
     userFeedback: 'users/userFeedback',
-    getFinancialsResults: 'stocks/getFinancialsResults'
+    getFinancialsResults: 'stocks/getFinancialsResults',
+    getFaqs: 'getfaqs'
 }
