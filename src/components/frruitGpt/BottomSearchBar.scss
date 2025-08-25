@@ -127,6 +127,15 @@
             height: 56px;
             padding: 6px 16px 6px 16px;
             width: 100%;
+            text-align: center !important;
+
+            &::placeholder {
+                text-align: center !important;
+            }
+
+            &:focus {
+                text-align: center !important;
+            }
 
             @media only screen and (max-width: 500px) {
                 padding: 6px 16px 6px 16px;
@@ -162,6 +171,15 @@
             height: 56px;
             padding: 6px 16px 6px 16px;
             width: 100%;
+            text-align: center !important;
+
+            &::placeholder {
+                text-align: center !important;
+            }
+
+            &:focus {
+                text-align: center !important;
+            }
 
             @media only screen and (max-width: 500px) {
                 padding: 6px 16px 6px 16px;

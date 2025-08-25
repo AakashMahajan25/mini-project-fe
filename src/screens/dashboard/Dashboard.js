@@ -239,7 +239,9 @@ function Dashboard() {
             setShowAllContent(false);
         } else if(title === 'Content Search') {
             navigate("/market-content-gpt")
-        } 
+        } else if(title === 'Trending Stocks') {
+            setShow3(true);
+        }
     };
 
     const storiesData = [
