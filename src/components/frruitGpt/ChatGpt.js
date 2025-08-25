@@ -41,6 +41,82 @@ function ChatGpt(props) {
     const [modalGraphData, setModalGraphData] = useState('');
     const [sourceData, setSourceData] = useState([]);
     const path = location.pathname === '/market-content-gpt'
+
+    // Function to parse progress and stream content
+    const parseStreamContent = (content) => {
+        if (!content) return <p></p>;
+
+        // Check if content contains progress indicators
+        const progressRegex = /Progress:\s*\|([█▓▒░\-]+)\|\s*(\d+)%\s*(.+?)\s*\[K/g;
+        const thinkingRegex = /#Thinking\s*\.\.\.?/g;
+        
+        let hasProgress = false;
+        let latestProgress = null;
+        let cleanContent = content;
+
+        // Extract the latest progress information
+        let match;
+        while ((match = progressRegex.exec(content)) !== null) {
+            hasProgress = true;
+            const [fullMatch, bar, percentage, status] = match;
+            latestProgress = {
+                percentage: parseInt(percentage),
+                status: status.trim(),
+                bar: bar
+            };
+        }
+
+        // Remove all progress lines and thinking indicators
+        cleanContent = content
+            .replace(/Progress:\s*\|[█▓▒░\-]+\|\s*\d+%\s*.+?\s*\[K/g, '')
+            .replace(/#Thinking\s*\.\.\.?/g, '')
+            .trim();
+
+        // Check if we should show thinking indicator
+        const isActiveThinking = content.includes('#Thinking') && cleanContent.length < 50;
+
+        return (
+            <div>
+                {/* Render progress bar if we have progress info */}
+                {hasProgress && latestProgress && (
+                    <div className="progress-container">
+                        <div className="progress-status">{latestProgress.status}</div>
+                        <div className="progress-bar-wrapper">
+                            <div className="progress-bar">
+                                <div 
+                                    className="progress-fill" 
+                                    style={{ width: `${latestProgress.percentage}%` }}
+                                ></div>
+                            </div>
+                            <span className="progress-percentage">{latestProgress.percentage}%</span>
+                        </div>
+                    </div>
+                )}
+                
+                {/* Render thinking indicator */}
+                {isActiveThinking && (
+                    <div className="thinking-indicator">
+                        <div className="thinking-dots">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                        <span className="thinking-text">Analyzing and preparing response...</span>
+                    </div>
+                )}
+                
+                {/* Render main content if available */}
+                {cleanContent && (
+                    <Markdown>{cleanContent}</Markdown>
+                )}
+                
+                {/* Show placeholder if no content and not thinking/progress */}
+                {!cleanContent && !hasProgress && !isActiveThinking && (
+                    <p></p>
+                )}
+            </div>
+        );
+    };
     const handleShow2 = () => {
         setShow2(true);
     }
@@ -520,7 +596,7 @@ function ChatGpt(props) {
                                                         ></h3>
                                                     </div>
                                                 ) : (
-                                                    <Markdown>{chat?.text || ''}</Markdown>
+                                                    parseStreamContent(chat?.text || '')
                                                 )}
                                             </div>
                                         </>
@@ -703,7 +779,7 @@ function ChatGpt(props) {
                             <h3 className='you-text' style={{ color: "#a4a5a7", fontWeight: '400', marginBottom: 0, marginLeft: 5, fontSize: 12 }}>{getCurrentTimeWithAMPM(moment())}</h3>
                         </div>
                         <div className={`chat-text-container chat-stream ${props.streamInitiated && !props.streamData ? 'blinking' : ''}`}>
-                            <p><Markdown>{props?.streamData || ''}</Markdown></p>
+                            {parseStreamContent(props?.streamData || '')}
                         </div>
                         {
                             (props?.streamLinks && props?.streamLinks?.length > 0) &&
