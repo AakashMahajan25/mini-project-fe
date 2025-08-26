@@ -25,7 +25,7 @@ import quesIcon from '../../assets/images/i-icon.png';
 import NetworkGraph from '../networkGraph/NetworkGraph'
 import { Tooltip } from 'react-tooltip'
 import FullScreenIcon from '../../assets/images/ic_baseline_fullscreen.png'
-import { Modal } from 'react-bootstrap'
+import { Modal, Nav, Tab } from 'react-bootstrap'
 import LineGraph from '../graph/LineGraph'
 import Markdown from 'react-markdown'
 import moment from 'moment'
@@ -40,22 +40,66 @@ function ChatGpt(props) {
     const [show2, setShow2] = useState(false);
     const [modalGraphData, setModalGraphData] = useState('');
     const [sourceData, setSourceData] = useState([]);
+    const [tabStates, setTabStates] = useState({});
     const path = location.pathname === '/market-content-gpt'
+
+    // Function to parse sources from stream content
+    const parseSourcesFromContent = (content) => {
+        if (!content) return { cleanContent: '', sources: [], readingStatus: null };
+        
+        // Extract sources pattern: "Reading sources | 10 articles/discussions {JSON_DATA}"
+        const sourcesRegex = /Reading sources\s*\|\s*(\d+)\s*(articles?|discussions?)\s*([\s\S]*?)(?=\n\n|$)/gi;
+        let sources = [];
+        let readingStatus = null;
+        let cleanContent = content;
+        
+        let match;
+        while ((match = sourcesRegex.exec(content)) !== null) {
+            const [fullMatch, count, type, jsonData] = match;
+            readingStatus = `Reading ${count} ${type}`;
+            
+            // Extract JSON objects from the data
+            const jsonRegex = /{[^{}]*}/g;
+            let jsonMatch;
+            while ((jsonMatch = jsonRegex.exec(jsonData)) !== null) {
+                try {
+                    const source = JSON.parse(jsonMatch[0]);
+                    if (source.title && source.url) {
+                        sources.push({
+                            title: source.title,
+                            source_url: source.url,
+                            heading: source.title
+                        });
+                    }
+                } catch (e) {
+                    console.warn('Failed to parse source JSON:', jsonMatch[0]);
+                }
+            }
+            
+            // Remove the sources section from content
+            cleanContent = content.replace(fullMatch, '').trim();
+        }
+        
+        return { cleanContent, sources, readingStatus };
+    };
 
     // Function to parse progress and stream content
     const parseStreamContent = (content) => {
-        if (!content) return <p></p>;
+        if (!content) return { answer: <p></p>, steps: [], sources: [], readingStatus: null };
+
+        // First parse sources
+        const { cleanContent: contentWithoutSources, sources, readingStatus } = parseSourcesFromContent(content);
 
         // Extract thinking steps and progress information
         const progressRegex = /Progress:\s*\|([█▓▒░\-]+)\|\s*(\d+)%\s*(.+?)\s*\[K/g;
         const thinkingRegex = /#Thinking\s*\.\.\.?/g;
         
         let thinkingSteps = [];
-        let cleanContent = content;
+        let cleanContent = contentWithoutSources;
 
         // Extract thinking steps from progress indicators
         let match;
-        while ((match = progressRegex.exec(content)) !== null) {
+        while ((match = progressRegex.exec(contentWithoutSources)) !== null) {
             const [fullMatch, bar, percentage, status] = match;
             thinkingSteps.push({
                 step: status.trim(),
@@ -64,51 +108,160 @@ function ChatGpt(props) {
         }
 
         // Remove all progress lines and thinking indicators from main content
-        cleanContent = content
+        cleanContent = contentWithoutSources
             .replace(/Progress:\s*\|[█▓▒░\-]+\|\s*\d+%\s*.+?\s*\[K/g, '')
             .replace(/#Thinking\s*\.\.\.?/g, '')
             .trim();
 
         // Check if we should show active thinking indicator
-        const isActiveThinking = content.includes('#Thinking') && cleanContent.length < 50;
+        const isActiveThinking = contentWithoutSources.includes('#Thinking') && cleanContent.length < 50;
         
         // Determine if thinking is complete (has substantial content)
         const isThinkingComplete = cleanContent.length > 100 || (cleanContent.length > 50 && !isActiveThinking);
 
-        return (
+                const answerContent = (
             <div>
-                {/* Show thinking steps only if thinking is not complete */}
-                {thinkingSteps.length > 0 && !isThinkingComplete && (
-                    <div className="thinking-steps">
-                        {thinkingSteps.map((step, index) => (
-                            <div key={index} className="thinking-step">
-                                <span className="thinking-step-text">{step.step}</span>
-                            </div>
-                        ))}
-                    </div>
-                )}
-                
-                {/* Render active thinking indicator */}
-                {isActiveThinking && (
-                    <div className="thinking-indicator">
-                        <div className="thinking-dots">
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                        </div>
-                        <span className="thinking-text">Analyzing and preparing response...</span>
-                    </div>
-                )}
-                
                 {/* Render main content if available */}
                 {cleanContent && (
                     <Markdown>{cleanContent}</Markdown>
                 )}
                 
-                {/* Show placeholder if no content and not thinking */}
-                {!cleanContent && !isActiveThinking && thinkingSteps.length === 0 && (
+                {/* Show placeholder if no content */}
+                {!cleanContent && (
                     <p></p>
                 )}
+                            </div>
+        );
+
+        const stepsContent = thinkingSteps.length > 0 ? thinkingSteps : [];
+        
+        return { answer: answerContent, steps: stepsContent, sources, readingStatus };
+    };
+
+    // Function to check if content has substantial answer (not just sources)
+    const hasSubstantialContent = (content) => {
+        if (!content) return false;
+        
+        // Parse the content to get clean answer content
+        const { cleanContent } = parseSourcesFromContent(content);
+        
+        // Remove progress indicators and other metadata
+        const actualContent = cleanContent
+            .replace(/Progress:\s*\|[█▓▒░\-]+\|\s*\d+%\s*.+?\s*\[K/g, '')
+            .replace(/#Thinking\s*\.\.\.?/g, '')
+            .trim();
+            
+        // Consider it substantial if there's at least 50 characters of actual content
+        return actualContent.length >= 50;
+    };
+
+    // Function to get or set tab state for a specific response
+    const getTabState = (responseId) => {
+        return tabStates[responseId] || 'answer';
+    };
+
+    const setTabState = (responseId, tabKey) => {
+        setTabStates(prev => ({
+            ...prev,
+            [responseId]: tabKey
+        }));
+    };
+
+    // Function to render tabbed content
+    const renderTabbedContent = (content, streamLinks = [], responseId = 'stream') => {
+        const parsed = parseStreamContent(content);
+        const allSources = [...parsed.sources, ...streamLinks];
+        const currentTab = getTabState(responseId);
+        
+        return (
+            <div className="response-tabs">
+                <Tab.Container activeKey={currentTab} onSelect={(k) => setTabState(responseId, k)}>
+                    <Nav variant="tabs" className="custom-tabs">
+                        <Nav.Item>
+                            <Nav.Link eventKey="answer">
+                                <svg className="tab-icon" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd" />
+                                </svg>
+                                Answer
+                            </Nav.Link>
+                        </Nav.Item>
+                        <Nav.Item>
+                            <Nav.Link eventKey="steps">
+                                <svg className="tab-icon" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fillRule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd" />
+                                </svg>
+                                Steps {parsed.steps.length > 0 && <span className="step-count">({parsed.steps.length})</span>}
+                            </Nav.Link>
+                        </Nav.Item>
+                        <Nav.Item>
+                            <Nav.Link eventKey="sources">
+                                <svg className="tab-icon" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fillRule="evenodd" d="M3 4a1 1 0 011-1h4a1 1 0 010 2H6.414l2.293 2.293a1 1 0 11-1.414 1.414L5 6.414V8a1 1 0 01-2 0V4zm9 1a1 1 0 010-2h4a1 1 0 011 1v4a1 1 0 01-2 0V6.414l-2.293 2.293a1 1 0 11-1.414-1.414L13.586 5H12zm-9 7a1 1 0 012 0v1.586l2.293-2.293a1 1 0 111.414 1.414L6.414 15H8a1 1 0 010 2H4a1 1 0 01-1-1v-4zm13-1a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 010-2h1.586l-2.293-2.293a1 1 0 111.414-1.414L15 13.586V12a1 1 0 011-1z" clipRule="evenodd" />
+                                </svg>
+                                Sources {allSources.length > 0 && <span className="step-count">({allSources.length})</span>}
+                            </Nav.Link>
+                        </Nav.Item>
+                    </Nav>
+                    <Tab.Content className="tab-content-area">
+                        <Tab.Pane eventKey="answer">
+                            {parsed.answer}
+                        </Tab.Pane>
+                        <Tab.Pane eventKey="steps">
+                            {parsed.steps.length > 0 ? (
+                                <div className="steps-container">
+                                    {parsed.steps.map((step, index) => (
+                                        <div key={index} className="step-item">
+                                            <div className="step-number">{index + 1}</div>
+                                            <div className="step-content">
+                                                <span className="step-text">{step.step}</span>
+                                                {step.percentage && (
+                                                    <div className="step-progress">
+                                                        <div className="progress-bar">
+                                                            <div 
+                                                                className="progress-fill" 
+                                                                style={{ width: `${step.percentage}%` }}
+                                                            ></div>
+                                                        </div>
+                                                        <span className="progress-text">{step.percentage}%</span>
+                    </div>
+                )}
+                        </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            ) : (
+                                <div className="no-steps">
+                                    <p>No detailed steps available for this response.</p>
+                    </div>
+                )}
+                        </Tab.Pane>
+                        <Tab.Pane eventKey="sources">
+                            {allSources.length > 0 ? (
+                                <div className="sources-list-container">
+                                    <ol className="sources-list">
+                                        {allSources.map((link, index) => (
+                                            <li key={index} className="source-item">
+                                                <a href={link?.source_url} target='_blank' rel='noopener noreferrer' className="source-link">
+                                                    <div className="source-title">{link?.heading ?? link?.title}</div>
+                                                    <div className="source-url">{link?.source_url}</div>
+                                                    {link?.source_date && (
+                                                        <div className="source-date">
+                                                            {moment(link?.source_date).format('MMMM DD, YYYY • h:mm a')}
+                                                        </div>
+                                                    )}
+                                                </a>
+                                            </li>
+                                        ))}
+                                    </ol>
+                                </div>
+                            ) : (
+                                <div className="no-sources">
+                                    <p>No sources available for this response.</p>
+                                </div>
+                            )}
+                        </Tab.Pane>
+                    </Tab.Content>
+                </Tab.Container>
             </div>
         );
     };
@@ -562,23 +715,11 @@ function ChatGpt(props) {
                                         <img src={LogoCircle} className='profile-styles' />
                                         <div className='d-flex align-items-center my-2 floatLeft'>
                                             <img src={ArrowGrey} className='arrow' />
-                                            <p className='you-text'>Frruit GPT</p>
+                                            <p className='you-text'>Frruit</p>
                                             <h3 className='you-text' style={{ color: "#a4a5a7", fontWeight: '400', marginBottom: 0, marginLeft: 5, fontSize: 12 }}>{getCurrentTimeWithAMPM(chat?.createdAt)}</h3>
                                         </div>
                                     </>
                                 }
-                                {/* {
-                                    chat.type === 'text' ?
-                                        <>
-                                            <div className='chat-text-container'>
-                                                {(chat?.focus_type === 'screener') ?
-                                                    <h3 className='chat-text mt-1 screener-table' dangerouslySetInnerHTML={{ __html: chat?.text }}></h3>
-                                                    :
-                                                    <Markdown>{chat?.text || ''}</Markdown>}
-                                            </div>
-                                        </>
-                                        : renderGraph(chat?.text)
-                                } */}
                                 {
                                     chat.type === 'text' ? (
                                         <>
@@ -591,7 +732,7 @@ function ChatGpt(props) {
                                                         ></h3>
                                                     </div>
                                                 ) : (
-                                                    parseStreamContent(chat?.text || '')
+                                                    renderTabbedContent(chat?.text || '', chat?.link || [], `chat-${index}`)
                                                 )}
                                             </div>
                                         </>
@@ -599,43 +740,7 @@ function ChatGpt(props) {
                                         renderGraph(chat?.text)
                                     )
                                 }
-                                {
-                                    (chat.link && chat.link.length > 0) &&
-                                    <>
-                                        <div className='companyCardSTyleCss'>
-                                            <div className='cardContainer'>
-                                                {chat.link.slice(0, 3).map((link, index) => (
-                                                    <a href={link?.source_url} target='_blank' key={index} className='sourceCardCss'>
-                                                        <div className='companyNameCss mb-2' style={{ fontSize: 14, fontWeight: '600' }}>{link?.heading ?? link?.title}</div>
-                                                        <div className='Dflex-css'>
-                                                            <div className='d-flex align-items-center'>
-                                                                <div className='d-flex align-items-center'>
-                                                                    {link?.image_url && <img src={link?.image_url} className='smallCircleLogoCss me-2' alt='Company Logo' />}
-                                                                    {link?.source_date &&
-                                                                        <div>
-                                                                            <div className='sources-date'>{moment(link?.source_date).format('MMMM DD, YYYY')}</div>
-                                                                            <div className='sources-time'>{moment(link?.source_date).format('h:mm a')}</div>
-                                                                        </div>
-                                                                    }
-                                                                </div>
 
-                                                            </div>
-                                                            <img src={TopRIghtArrow} style={{ width: 30, objectFit: 'contain' }} alt='Arrow Icon' />
-                                                        </div>
-                                                    </a>
-                                                ))}
-                                                {chat.link.length > 3 && <div className='sourceCardCss d-flex align-items-center    ' style={{ width: 'max-content' }} onClick={() => { handleShow2(); setSourceData(chat.link) }}>
-                                                    <div className='Dflex-css'>
-                                                        <div className='d-flex align-items-center'>
-                                                            <div className='companyNameCss me-2'>View All</div>
-                                                        </div>
-                                                        <img src={TopRIghtArrow} style={{ width: 30, objectFit: 'contain' }} />
-                                                    </div>
-                                                </div>}
-                                            </div>
-                                        </div>
-                                    </>
-                                }
                                 {/* {
                                     <div key={index} className='newsBox' style={{ marginBottom: 20, cursor: 'pointer',border:'1px solid #4563E4',width:'fit-content',padding:"10px 16px",borderRadius:16,backgroundColor:'#F1F4FD' }}>
                                         <div className='d-flex justify-content-start'>
@@ -770,49 +875,17 @@ function ChatGpt(props) {
                         <img src={LogoCircle} className='profile-styles' />
                         <div className='d-flex align-items-center my-2 floatLeft'>
                             <img src={ArrowGrey} className='arrow' />
-                            <p className='you-text'>Frruit GPT</p>
+                            <p className='you-text'>Frruit</p>
                             <h3 className='you-text' style={{ color: "#a4a5a7", fontWeight: '400', marginBottom: 0, marginLeft: 5, fontSize: 12 }}>{getCurrentTimeWithAMPM(moment())}</h3>
                         </div>
                         <div className={`chat-text-container chat-stream ${props.streamInitiated && !props.streamData ? 'blinking' : ''}`}>
-                            {parseStreamContent(props?.streamData || '')}
+                            {props?.streamData && hasSubstantialContent(props.streamData) ? renderTabbedContent(props?.streamData || '', props?.streamLinks || [], 'stream') : (
+                                <div className="loading-blip">
+                                    <div className="single-blip"></div>
                         </div>
-                        {
-                            (props?.streamLinks && props?.streamLinks?.length > 0) &&
-                            <>
-                                <div className='companyCardSTyleCss'>
-                                    <div className='cardContainer'>
-                                        {props?.streamLinks?.slice(0, 3)?.map((link, index) => (
-                                            <a href={link?.source_url} target='_blank' key={index} className='sourceCardCss'>
-                                                <div className='companyNameCss mb-2' style={{ fontSize: 14, fontWeight: '600' }}>{link?.heading ?? link?.title}</div>
-                                                <div className='Dflex-css'>
-                                                    <div className='d-flex align-items-center'>
-                                                        <div className='d-flex align-items-center'>
-                                                            {link?.image_url && <img src={link?.image_url} className='smallCircleLogoCss me-2' alt='Company Logo' />}
-                                                            {link?.source_date &&
-                                                                <div>
-                                                                    <div className='sources-date'>{moment(link?.source_date).format('MMMM DD, YYYY')}</div>
-                                                                    <div className='sources-time'>{moment(link?.source_date).format('h:mm a')}</div>
-                                                                </div>
-                                                            }
+                            )}
                                                         </div>
 
-                                                    </div>
-                                                    <img src={TopRIghtArrow} style={{ width: 30, objectFit: 'contain' }} alt='Arrow Icon' />
-                                                </div>
-                                            </a>
-                                        ))}
-                                        {props?.streamLinks?.length > 3 && <div className='sourceCardCss d-flex align-items-center' style={{ width: 'max-content' }} onClick={() => { handleShow2(); setSourceData(props?.streamLinks) }}>
-                                            <div className='Dflex-css'>
-                                                <div className='d-flex align-items-center'>
-                                                    <div className='companyNameCss me-2'>View All</div>
-                                                </div>
-                                                <img src={TopRIghtArrow} style={{ width: 30, objectFit: 'contain' }} />
-                                            </div>
-                                        </div>}
-                                    </div>
-                                </div>
-                            </>
-                        }
                     </div>
                 }
                 {
@@ -821,11 +894,13 @@ function ChatGpt(props) {
                         <img src={LogoCircle} className='profile-styles' />
                         <div className='d-flex align-items-center my-2 floatLeft'>
                             <img src={ArrowGrey} className='arrow' />
-                            <p className='you-text'>Frruit GPT</p>
+                            <p className='you-text'>Frruit</p>
                             <h3 className='you-text' style={{ color: "#a4a5a7", fontWeight: '400', marginBottom: 0, marginLeft: 5, fontSize: 12 }}>{getCurrentTimeWithAMPM(moment())}</h3>
                         </div>
                         <div className={`chat-text-container chat-stream ${frruitLoader ? 'blinking' : ''}`}>
-                            <p></p>
+                            <div className="loading-blip">
+                                <div className="single-blip"></div>
+                            </div>
                         </div>
                     </div>
                 }

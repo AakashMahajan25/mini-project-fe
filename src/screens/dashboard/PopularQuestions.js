@@ -46,7 +46,7 @@ function PopularQuestions({ handleBackButtonClick, mostOnFrruitGpt, chatSuggesti
         <>
             <div className='hide-on-large-screens-dashboard'>
                 <div className='dashboardTextForMobile'>Home</div>
-                <div onClick={handleViewAllClick} className='dashboardTextForMobile'>Latest News<img src={RightWhiteArrow} width={16} height={16} style={{ objectFit: 'contain', cursor: 'pointer' }} /></div>
+                {/* <div onClick={handleViewAllClick} className='dashboardTextForMobile'>Latest News<img src={RightWhiteArrow} width={16} height={16} style={{ objectFit: 'contain', cursor: 'pointer' }} /></div> */}
             </div>
             <div className='popular-questions-css'>
                 <div className='d-flex justify-content-start align-items-center' style={{ marginBottom: 20 }}>
@@ -63,7 +63,7 @@ function PopularQuestions({ handleBackButtonClick, mostOnFrruitGpt, chatSuggesti
                             </div>
                             <div className='row mt-1 hide-in-mobile'>
                                 {mostOnFrruitGpt?.rows?.slice(0, 9).map((text, index) => (
-                                    <div onClick={() => { routePromptFrruitGPT(text?.question, 'fund') }} key={index} className='col-lg-4'>
+                                    <div onClick={() => { routePromptFrruitGPT(text?.question, 'news_bing') }} key={index} className='col-lg-4'>
                                         <div className='mostOnFrruitBox mb-2'>
                                             <div className='d-flex justify-content-between align-items-center' >
                                                 <p className='text'>{text?.question?.replace(/\b\w/g, char => char.toUpperCase())}</p>
@@ -78,7 +78,7 @@ function PopularQuestions({ handleBackButtonClick, mostOnFrruitGpt, chatSuggesti
                                     <div className="d-flex mb-3 mobile-scroll" key={startIdx}>
                                         {mostOnFrruitGpt?.rows?.slice(startIdx, startIdx + 3).map((text, index) => (
                                             <div
-                                                onClick={() => { routePromptFrruitGPT(text?.question, 'fund') }}
+                                                onClick={() => { routePromptFrruitGPT(text?.question, 'news_bing') }}
                                                 key={index}
                                                 className="col-11 me-3"
                                             >
@@ -111,7 +111,7 @@ function PopularQuestions({ handleBackButtonClick, mostOnFrruitGpt, chatSuggesti
                         </div>
                         <div className='row hide-in-mobile' >
                             {chatSuggestions.slice(0, 9).map((item, index) => (
-                                <div onClick={() => { routePromptFrruitGPT(item?.prompt_text, 'fund') }} key={index} className='col-lg-4' style={{ cursor: 'pointer' }}>
+                                <div onClick={() => { routePromptFrruitGPT(item?.prompt_text, 'news_bing') }} key={index} className='col-lg-4' style={{ cursor: 'pointer' }}>
                                     <div className='prompts-text-bg mt-2' style={{ cursor: 'pointer' }}>
                                         <div className=' d-flex justify-content-between align-items-center w-100' >
                                             <p className='prompts-text'>{item?.prompt_text}</p>
@@ -134,7 +134,7 @@ function PopularQuestions({ handleBackButtonClick, mostOnFrruitGpt, chatSuggesti
                                 >
                                     {chatSuggestions.slice(startIdx, startIdx + 3).map((item, index) => (
                                         <div
-                                            onClick={() => { routePromptFrruitGPT(item?.prompt_text, 'fund') }}
+                                            onClick={() => { routePromptFrruitGPT(item?.prompt_text, 'news_bing') }}
                                             key={index}
                                             className="col-11 me-3"
                                             style={{ cursor: 'pointer' }}
@@ -190,7 +190,7 @@ function PopularQuestions({ handleBackButtonClick, mostOnFrruitGpt, chatSuggesti
                     <div className='viewModal'>
                         <div>
                             {mostOnFrruitGpt?.rows?.map((text, index) => (
-                                <div onClick={() => { routePromptFrruitGPT(text?.question, 'fund') }} key={index} className='d-flex justify-content-between align-items-center blue-box mb-2' style={{ cursor: 'pointer' }}>
+                                <div onClick={() => { routePromptFrruitGPT(text?.question, 'news_bing') }} key={index} className='d-flex justify-content-between align-items-center blue-box mb-2' style={{ cursor: 'pointer' }}>
                                     <p className='text'>{text?.question?.replace(/\b\w/g, char => char.toUpperCase())}</p>
                                     <img src={RightBlueArrow} className='me-1 ms-2' width={10} style={{ objectFit: 'contain' }} />
                                 </div>
@@ -219,7 +219,7 @@ function PopularQuestions({ handleBackButtonClick, mostOnFrruitGpt, chatSuggesti
                     <div className='viewModal'>
                         <div>
                             {chatSuggestions?.map((text, index) => (
-                                <div onClick={() => { routePromptFrruitGPT(text?.prompt_text, 'fund') }} key={index} className='d-flex justify-content-between align-items-center blue-box mb-2' style={{ cursor: 'pointer' }}>
+                                <div onClick={() => { routePromptFrruitGPT(text?.prompt_text, 'news_bing') }} key={index} className='d-flex justify-content-between align-items-center blue-box mb-2' style={{ cursor: 'pointer' }}>
                                     <p className='text'>{text?.prompt_text?.replace(/\b\w/g, char => char.toUpperCase())}</p>
                                     <div>
                                         <img style={{ width: 24, objectFit: 'contain' }} src={quesIcon} className={`my-anchor-element-${index} hide-in-mobile`} />

@@ -127,7 +127,15 @@
                     height: 56px;
                     padding: 6px 16px 6px 16px;
                     width: 100%;
-                    text-align: center;
+                    text-align: left !important;
+
+                    &::placeholder {
+                        text-align: left !important;
+                    }
+
+                    &:focus {
+                        text-align: left !important;
+                    }
 
                     @media only screen and (max-width: 500px) {
                         padding: 6px 16px 6px 16px;
@@ -141,7 +149,15 @@
                     height: 56px;
                     padding: 6px 16px 6px 16px;
                     width: 100%;
-                    text-align: center;
+                    text-align: left !important;
+
+                    &::placeholder {
+                        text-align: left !important;
+                    }
+
+                    &:focus {
+                        text-align: left !important;
+                    }
 
                     @media only screen and (max-width: 500px) {
                         padding: 6px 16px 6px 16px;
@@ -155,7 +171,15 @@
                     height: 56px;
                     padding: 6px 16px;
                     position: relative;
-                    text-align: center;
+                    text-align: left !important;
+
+                    &::placeholder {
+                        text-align: left !important;
+                    }
+
+                    &:focus {
+                        text-align: left !important;
+                    }
                 }
 
                 // .form-control::placeholder {
@@ -171,7 +195,15 @@
                     height: 56px;
                     padding: 6px 16px 6px 16px;
                     width: 100%;
-                    text-align: center;
+                    text-align: left !important;
+
+                    &::placeholder {
+                        text-align: left !important;
+                    }
+
+                    &:focus {
+                        text-align: left !important;
+                    }
 
                     @media only screen and (max-width: 500px) {
                         padding: 6px 16px 6px 16px;
@@ -191,7 +223,15 @@
                     height: 56px;
                     padding: 6px 16px 6px 16px;
                     width: 100%;
-                    text-align: center;
+                    text-align: left !important;
+
+                    &::placeholder {
+                        text-align: left !important;
+                    }
+
+                    &:focus {
+                        text-align: left !important;
+                    }
 
                     @media only screen and (max-width: 500px) {
                         padding: 6px 16px 6px 16px;
@@ -321,6 +361,7 @@
 
         .dashboard-slider {
             padding-left: 20px;
+            padding-right: 20px;
 
             @media only screen and (max-width: 500px) {
                 padding-right: 20px;
@@ -516,7 +557,15 @@
         height: 56px;
         padding: 6px 16px;
         width: 100%;
-        text-align: center;
+        text-align: left !important;
+
+        &::placeholder {
+            text-align: left !important;
+        }
+
+        &:focus {
+            text-align: left !important;
+        }
     }
 
     .suggestions-box {
@@ -560,7 +609,15 @@
         height: 56px;
         padding: 6px 16px 6px 16px;
         width: 100%;
-        text-align: center;
+        text-align: left !important;
+
+        &::placeholder {
+            text-align: left !important;
+        }
+
+        &:focus {
+            text-align: left !important;
+        }
 
         @media only screen and (max-width: 500px) {
             padding: 6px 16px 6px 16px;

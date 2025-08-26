@@ -1,4 +1,6 @@
 .trendingStockCard {
+    width: 100%;
+    
     .card {
         height: 82px;
         background-color: #F1F4FD;
@@ -6,6 +8,7 @@
         border-radius: 12px;
         border: 0px;
         cursor: pointer;
+        width: 100%;
     }
 
     .stockname {

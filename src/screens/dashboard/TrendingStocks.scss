@@ -1,0 +1,62 @@
+.trending-stocks-css {
+    padding: 20px;
+    
+    .heading-text {
+        font-size: 24px;
+        font-weight: 700;
+        color: #1A1A1A;
+        margin-bottom: 8px;
+    }
+    
+    .desc-text {
+        font-size: 16px;
+        color: #666666;
+        line-height: 1.5;
+    }
+    
+    .box-content {
+        padding: 0;
+        width: 100%;
+        
+        .row {
+            margin-left: 0;
+            margin-right: 0;
+        }
+    }
+    
+    .light-blue-btn {
+        background: #F1F4FD;
+        border: none;
+        border-radius: 8px;
+        padding: 8px 16px;
+        color: #4563E4;
+        font-weight: 600;
+        font-size: 14px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        transition: all 0.3s ease;
+        
+        &:hover {
+            background: #E5EAFF;
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .trending-stocks-css {
+        padding: 16px;
+        
+        .heading-text {
+            font-size: 20px;
+        }
+        
+        .desc-text {
+            font-size: 14px;
+        }
+        
+        .box-content {
+            padding: 0;
+        }
+    }
+}

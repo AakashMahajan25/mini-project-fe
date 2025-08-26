@@ -20,24 +20,24 @@ function ModalWalkthrough({ showModalWalkthrough, setShowModalWalkthrough }) {
     const handleClose = () => setShowModalWalkthrough(false);
 
     const slidesData = [
-        {
-            mainImage: FundamentalWalkthrough,
-            overlayImage: FundamentalWalkthrough2,
-            title: 'Fundamentals',
-            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-        },
+        // {
+        //     mainImage: FundamentalWalkthrough,
+        //     overlayImage: FundamentalWalkthrough2,
+        //     title: 'Fundamentals',
+        //     description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+        // },
         {
             mainImage: NewsWalkthrough,
             overlayImage: NewsWalkthrough2,
             title: 'News',
             description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
         },
-        {
-            mainImage: VideosWalkthrough,
-            overlayImage: VideosWalkthrough2,
-            title: 'Videos',
-            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-        },
+        // {
+        //     mainImage: VideosWalkthrough,
+        //     overlayImage: VideosWalkthrough2,
+        //     title: 'Videos',
+        //     description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+        // },
         {
             mainImage: SocialMediaWalkthrough,
             overlayImage: SocialMediaWalkthrough2,

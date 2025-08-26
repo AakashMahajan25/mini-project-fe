@@ -20,7 +20,7 @@ function InvestorStories({ handleInvestorStoriesBackClick, handleViewAllClick, s
         <>
             <div className='hide-on-large-screens-dashboard'>
                 <div className='dashboardTextForMobile'>Home</div>
-                <div onClick={handleViewAllClick} className='dashboardTextForMobile'>Latest News<img src={RightWhiteArrow} width={16} height={16} style={{ objectFit: 'contain', cursor: 'pointer' }} /></div>
+                {/* <div onClick={handleViewAllClick} className='dashboardTextForMobile'>Latest News<img src={RightWhiteArrow} width={16} height={16} style={{ objectFit: 'contain', cursor: 'pointer' }} /></div> */}
             </div>
             <div className='popular-questions-css'>
                 <div className='d-flex justify-content-start align-items-center' style={{ marginBottom: 20 }}>
@@ -58,14 +58,14 @@ function InvestorStories({ handleInvestorStoriesBackClick, handleViewAllClick, s
                     </div>
                     <div className='row hide-in-mobile'>
                         {trendingStocks?.slice(0, 12).map((stockData, index) => (
-                            <div className='col-lg-3 col-6 pe-0' style={{marginTop: 16}}>
+                            <div className='col-lg-3 col-md-4 col-sm-6 col-6 mb-3 px-2' style={{marginTop: 16}}>
                                 <TrendingStocksCard key={index} {...stockData} />
                             </div>
                         ))}
                     </div>
                     <div className='row hide-in-desktop'>
                         {trendingStocks?.slice(0, 6).map((stockData, index) => (
-                            <div className='col-lg-3 col-6 pe-0' style={{marginTop: 20}}>
+                            <div className='col-lg-3 col-md-4 col-sm-6 col-6 mb-3 px-2' style={{marginTop: 20}}>
                                 <TrendingStocksCard key={index} {...stockData} />
                             </div>
                         ))}
@@ -90,9 +90,9 @@ function InvestorStories({ handleInvestorStoriesBackClick, handleViewAllClick, s
                 </Modal.Header>
                 <Modal.Body>
                     <div className='viewModal2'>
-                        <div className='row' style={{ marginLeft: 0 }}>
+                        <div className='row' style={{ marginLeft: 0, marginRight: 0 }}>
                             {trendingStocks?.map((stockData, index) => (
-                                <div className='col-lg-6 column-pad mb-3 pointer'>
+                                <div className='col-lg-3 col-md-4 col-sm-6 col-6 mb-3 px-2 pointer'>
                                     <TrendingStocksCard key={index} {...stockData} />
                                 </div>
                             ))}

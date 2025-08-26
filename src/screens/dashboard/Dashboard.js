@@ -59,6 +59,7 @@ import ContentSearchImg from '../../assets/images/content_search_img.png'
 import QuestionImage from '../../assets/images/popular_questions_img.png'
 import AlertImg from '../../assets/images/exclamation.png'
 import ModalWalkthrough from '../../components/modalWalkthrough/ModalWalkthrough';
+import TrendingStocks from './TrendingStocks';
 
 const storyEnum = {
     watchlist_news: 'isWatchlistViewed',
@@ -212,6 +213,11 @@ function Dashboard() {
         setShowAllContent(true)
     };
 
+    const handleTrendingStocksBackClick = () => {
+        setShowTrendingStocks(!showTrendingStocks);
+        setShowAllContent(true)
+    };
+
     const stockboxData = [
         {
             imagesource: TrendingStockImg,
@@ -240,7 +246,8 @@ function Dashboard() {
         } else if(title === 'Content Search') {
             navigate("/market-content-gpt")
         } else if(title === 'Trending Stocks') {
-            setShow3(true);
+            setShowTrendingStocks(!showTrendingStocks);
+            setShowAllContent(false);
         }
     };
 
@@ -534,6 +541,7 @@ function Dashboard() {
     const [showAllContent, setShowAllContent] = useState(true);
     const [showPopularOpinions, setShowPopularOpinions] = useState(false);
     const [showInvestorStories, setShowInvestorStories] = useState(false);
+    const [showTrendingStocks, setShowTrendingStocks] = useState(false);
 
     const handleChange = (e) => {
         setQuestion(e.target.value)
@@ -669,7 +677,7 @@ function Dashboard() {
                                         </div>
                                     </div>
                                     <div className='row px-4 justify-content-center'>
-                                        <p className='explore-text mb-auto p-2 text-center' style={{ width: '100%' }}>You may want to explore?</p>
+                                        <p className='explore-text mb-auto p-2 text-center mb-16' style={{ width: '100%' }}>You may want to explore?</p>
                                         {stockboxData.map((item, index) => (
                                             <div className='col-xl-4 d-flex justify-content-center' key={index} onClick={() => handleClick(item.title)} style={{ cursor: 'pointer' }}>
                                                 <div className='stockbox' style={{ width: '100%', maxWidth: '300px', position: 'relative' }}>
@@ -700,21 +708,22 @@ function Dashboard() {
                                         ))}
                                     </div>
                                     <div>
-                                        <div className={window.innerWidth >= 500 ? 'blue-box-alert mx-4 mt-2' : 'blue-box-alert mx-4 mb-0'} style={{ textAlign: 'center' }}>
+                                        {/* <div className={window.innerWidth >= 500 ? 'blue-box-alert mx-4 mt-2' : 'blue-box-alert mx-4 mb-0'} style={{ textAlign: 'center' }}>
                                             <div className='d-flex justify-content-center'>
                                                 <img src={AlertImg} className='alert-img' />
                                             </div>
-                                            <div className='alert-desc'>While we strive to deliver the best actionable insights using AI. Gathering and analyzing company data or videos may take a moment, so we kindly ask for your patience while we process everything!</div>
-                                        </div>
-                                        <div className={window.innerWidth >= 500 ? 'd-flex justify-content-center mt-3' : 'd-flex justify-content-center mt-2'}>
-                                            <p className='blue-box-dashboard alert-desc-dashboard text-center'>Frruit doesn't provide personalized stock advice or buy/sell recommendations.</p>
-                                        </div>
+                                            // {/* <div className='alert-desc'>While we strive to deliver the best actionable insights using AI. Gathering and analyzing company data or videos may take a moment, so we kindly ask for your patience while we process everything!</div> 
+                                        </div> */}
+                                        
                                     </div>
                                     <div className='dashboard-container'>
+                                    <div className={window.innerWidth >= 500 ? 'd-flex justify-content-center mt-3' : 'd-flex justify-content-center mt-2'}>
+                                            <p className='blue-box-dashboard alert-desc-dashboard text-center'>Frruit doesn't provide personalized stock advice or buy/sell recommendations.</p>
+                                        </div>
                                         <div className='suggested-prompts-container'>
                                             <>
                                                 <div className='customTab-frruit-gpt hide-in-mobile'>
-                                                    <div className='d-flex align-items-center justify-content-center mobile-scroll-Css'>
+                                                    <div className='d-flex align-items-center justify-content-start mobile-scroll-Css'>
                                                         <div className='d-flex align-items-center me-3'>
                                                             <div className='tab-name-css'>Choose Search Focus</div>
                                                             <img src={StraightArrowIcon} style={{ width: 20, objectFit: 'contain' }} />
@@ -851,19 +860,24 @@ function Dashboard() {
                         //     <DashboardRightBox newsData={cmotsNews?.rows} mostFrruitData={mostOnFrruitGpt?.rows} onViewAllClick={handleViewAllClick} />
                         // </div>
                     } */}
-                    {!showAllContent && !showPopularOpinions && !showInvestorStories &&
-                        <div className='col-lg-9 column-pad'>
+                    {!showAllContent && !showPopularOpinions && !showInvestorStories && !showTrendingStocks &&
+                        <div className='col-lg-12 column-pad'>
                             <NewsViewAll backBtnClick={toggleShowAllContent} sentiment={sentiment} sortOrder={sortOrder} filtersApplied={filtersApplied} onSentimentChange={handleSentimentChange} onSortOrderChange={handleSortOrderChange} onResetFilters={handleResetFilters} newsData={cmotsNews?.rows} />
                         </div>
                     }
                     {!showAllContent && showPopularOpinions && 
-                        <div className='col-lg-9 column-pad'>
+                        <div className='col-lg-12 column-pad'>
                             <PopularQuestions mostOnFrruitGpt={mostOnFrruitGpt} handleBackButtonClick={handleBackButtonClick} chatSuggestions={chatSuggestions} handleViewAllClick={handleViewAllClick} />
                         </div>
                     }
                     {!showAllContent && !showPopularOpinions && showInvestorStories &&
-                        <div className='col-lg-9 column-pad'>
+                        <div className='col-lg-12 column-pad'>
                             <InvestorStories handleInvestorStoriesBackClick={handleInvestorStoriesBackClick} handleViewAllClick={handleViewAllClick} shouldShowStory={shouldShowStory} storiesData={storiesData} investorStory={investorStory} storyEnum={storyEnum} storyEnum2={storyEnum2} storyViewed={storyViewed} handleShow={handleShow} trendingStocks={trendingStocks} />
+                        </div>
+                    }
+                    {!showAllContent && !showPopularOpinions && !showInvestorStories && showTrendingStocks &&
+                        <div className='col-lg-12 column-pad'>
+                            <TrendingStocks handleBackButtonClick={handleTrendingStocksBackClick} trendingStocks={trendingStocks} />
                         </div>
                     }
                 </>
@@ -969,10 +983,10 @@ function Dashboard() {
                     </Modal.Header>
                     <Modal.Body>
                         <div className='viewModal2 '>
-                            <div className='row' style={{ marginLeft: 0 }}>
+                            <div className='row' style={{ marginLeft: 0, marginRight: 0 }}>
 
                                 {trendingStocks?.map((stockData, index) => (
-                                    <div className='col-lg-6 column-pad mb-3 pointer'>
+                                    <div className='col-lg-3 col-md-4 col-sm-6 col-6 mb-3 px-2 pointer'>
                                         <TrendingStocksCard key={index} {...stockData} />
                                     </div>
                                 ))}

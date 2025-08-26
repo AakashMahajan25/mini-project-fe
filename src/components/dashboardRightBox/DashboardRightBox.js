@@ -78,7 +78,7 @@ function DashboardRightBox({ newsData, mostFrruitData, onViewAllClick }) {
                         {newsData?.length > 0 &&
                             <>
                                 <div className='d-flex justify-content-between align-items-center'>
-                                    <div className='title' style={{ marginBottom: 20 }}>Latest News</div>
+                                    {/* <div className='title' style={{ marginBottom: 20 }}>Latest News</div> */}
                                     <div className='viewAllTeaxt' onClick={onViewAllClick} style={{ marginBottom: 20 }}>View All</div>
                                 </div>
                                 {
