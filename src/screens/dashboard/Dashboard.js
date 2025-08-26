@@ -218,11 +218,11 @@ function Dashboard() {
             title: 'Trending Stocks',
             subtitle: 'Explore trending stocks curated by AI'
         },
-        {
-            imagesource: ContentSearchImg,
-            title: 'Content Search',
-            subtitle: 'Upload documents and videos to extract key insights instantly with AI'
-        },
+        // {
+        //     imagesource: ContentSearchImg,
+        //     title: 'Content Search',
+        //     subtitle: 'Upload documents and videos to extract key insights instantly with AI'
+        // },
         {
             imagesource: QuestionImage,
             title: 'Popular Questions',
@@ -257,7 +257,7 @@ function Dashboard() {
     const flagList = [
         { name: 'All', flag: 'news', description: 'Search news, summarize & get TLDRs across premium data sources' },
         // { name: 'News + Web', flag: 'news_bing', description: 'Search across the entire internet' },
-        { name: 'Fundamentals', flag: 'fund', description: 'Compare company fundamentals data, financials, stock screener, and corporate actions' },
+        // { name: 'Fundamentals', flag: 'fund', description: 'Compare company fundamentals data, financials, stock screener, and corporate actions' },
         // { name: 'Screener', flag: 'screener', description: 'Screen markets in real time based on your queries' },
         // { name: 'Videos', flag: 'youtube', description: 'Discover insights from videos without watching' },
         { name: 'Social Opinions', flag: 'reddit', description: 'Search discussions and opinions on social media' }
@@ -672,11 +672,11 @@ function Dashboard() {
                                         <p className='explore-text mb-auto p-2 text-center' style={{ width: '100%' }}>You may want to explore?</p>
                                         {stockboxData.map((item, index) => (
                                             <div className='col-xl-4 d-flex justify-content-center' key={index} onClick={() => handleClick(item.title)} style={{ cursor: 'pointer' }}>
-                                                <div className='stockbox' style={{ width: '100%', maxWidth: '300px' }}>
+                                                <div className='stockbox' style={{ width: '100%', maxWidth: '300px', position: 'relative' }}>
                                                     <div className='hide-in-mobile'>
                                                         <div className='d-flex justify-content-between'>
                                                             <img src={item.imagesource} className='icon-image' />
-                                                            <button className='btn1' >
+                                                            <button className='btn1' style={{ position: 'absolute', top: '16px', right: '16px' }}>
                                                                 <img src={RoundChevronRight} className='icon-image2' />
                                                             </button>
                                                         </div>
@@ -685,13 +685,13 @@ function Dashboard() {
                                                             <p className='boxsubheader'>{item.subtitle}</p>
                                                         </div>
                                                     </div>
-                                                    <div className='d-flex justify-content-between hide-in-desktop'>
+                                                    <div className='d-flex justify-content-between align-items-start hide-in-desktop'>
                                                         <img src={item.imagesource} className='icon-image' />
-                                                        <div style={{ marginLeft: 10 }}>
+                                                        <div style={{ marginLeft: 10, flex: 1 }}>
                                                             <p className='boxheader'>{item.title}</p>
                                                             <p className='boxsubheader'>{item.subtitle}</p>
                                                         </div>
-                                                        <button className='btn1' onClick={() => handleClick(item.title)}>
+                                                        <button className='btn1' onClick={() => handleClick(item.title)} style={{ marginLeft: 'auto' }}>
                                                             <img src={RoundChevronRight} className='icon-image2' />
                                                         </button>
                                                     </div>
@@ -722,9 +722,9 @@ function Dashboard() {
                                                         <div className={(flag === 'news' || flag === 'news_bing') ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: (flag === 'news' || flag === 'news_bing') ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
                                                             onClick={() => setFlag('news')}
                                                         > All </div>
-                                                        <div className={(flag === 'fund' || flag === 'screener') ? `tab-name-css tab-box-css` : `tab-name-css`} style={{ backgroundColor: (flag === 'fund' || flag === 'screener') ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
+                                                        {/* <div className={(flag === 'fund' || flag === 'screener') ? `tab-name-css tab-box-css` : `tab-name-css`} style={{ backgroundColor: (flag === 'fund' || flag === 'screener') ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
                                                             onClick={() => selectedFund === 'Company Data' ? setFlag('fund') : setFlag('screener')}
-                                                        > Fundamentals </div>
+                                                        > Fundamentals </div> */}
                                                         {/* <div className={flag === 'youtube' ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: flag === 'youtube' ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
                                                             onClick={() => setFlag('youtube')}
                                                         > Videos </div> */}

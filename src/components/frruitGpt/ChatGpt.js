@@ -46,54 +46,49 @@ function ChatGpt(props) {
     const parseStreamContent = (content) => {
         if (!content) return <p></p>;
 
-        // Check if content contains progress indicators
+        // Extract thinking steps and progress information
         const progressRegex = /Progress:\s*\|([█▓▒░\-]+)\|\s*(\d+)%\s*(.+?)\s*\[K/g;
         const thinkingRegex = /#Thinking\s*\.\.\.?/g;
         
-        let hasProgress = false;
-        let latestProgress = null;
+        let thinkingSteps = [];
         let cleanContent = content;
 
-        // Extract the latest progress information
+        // Extract thinking steps from progress indicators
         let match;
         while ((match = progressRegex.exec(content)) !== null) {
-            hasProgress = true;
             const [fullMatch, bar, percentage, status] = match;
-            latestProgress = {
-                percentage: parseInt(percentage),
-                status: status.trim(),
-                bar: bar
-            };
+            thinkingSteps.push({
+                step: status.trim(),
+                percentage: parseInt(percentage)
+            });
         }
 
-        // Remove all progress lines and thinking indicators
+        // Remove all progress lines and thinking indicators from main content
         cleanContent = content
             .replace(/Progress:\s*\|[█▓▒░\-]+\|\s*\d+%\s*.+?\s*\[K/g, '')
             .replace(/#Thinking\s*\.\.\.?/g, '')
             .trim();
 
-        // Check if we should show thinking indicator
+        // Check if we should show active thinking indicator
         const isActiveThinking = content.includes('#Thinking') && cleanContent.length < 50;
+        
+        // Determine if thinking is complete (has substantial content)
+        const isThinkingComplete = cleanContent.length > 100 || (cleanContent.length > 50 && !isActiveThinking);
 
         return (
             <div>
-                {/* Render progress bar if we have progress info */}
-                {hasProgress && latestProgress && (
-                    <div className="progress-container">
-                        <div className="progress-status">{latestProgress.status}</div>
-                        <div className="progress-bar-wrapper">
-                            <div className="progress-bar">
-                                <div 
-                                    className="progress-fill" 
-                                    style={{ width: `${latestProgress.percentage}%` }}
-                                ></div>
+                {/* Show thinking steps only if thinking is not complete */}
+                {thinkingSteps.length > 0 && !isThinkingComplete && (
+                    <div className="thinking-steps">
+                        {thinkingSteps.map((step, index) => (
+                            <div key={index} className="thinking-step">
+                                <span className="thinking-step-text">{step.step}</span>
                             </div>
-                            <span className="progress-percentage">{latestProgress.percentage}%</span>
-                        </div>
+                        ))}
                     </div>
                 )}
                 
-                {/* Render thinking indicator */}
+                {/* Render active thinking indicator */}
                 {isActiveThinking && (
                     <div className="thinking-indicator">
                         <div className="thinking-dots">
@@ -110,8 +105,8 @@ function ChatGpt(props) {
                     <Markdown>{cleanContent}</Markdown>
                 )}
                 
-                {/* Show placeholder if no content and not thinking/progress */}
-                {!cleanContent && !hasProgress && !isActiveThinking && (
+                {/* Show placeholder if no content and not thinking */}
+                {!cleanContent && !isActiveThinking && thinkingSteps.length === 0 && (
                     <p></p>
                 )}
             </div>
@@ -554,7 +549,7 @@ function ChatGpt(props) {
                                     <div className='chat-text-container'>
                                         <h3 className='chat-text'>{chat?.text}</h3>
                                         <div className='d-flex justify-content-end'>
-                                            <h3 className='chat-text' style={{ color: "#a4a5a7", fontWeight: '400', fontSize: 12 }}>{getCurrentTimeWithAMPM(chat?.createdAt)}</h3>
+                                            <h3 className='chat-text' style={{ color: "rgba(255, 255, 255, 0.8)", fontWeight: '400', fontSize: 12 }}>{getCurrentTimeWithAMPM(chat?.createdAt)}</h3>
                                         </div>
                                     </div>
                                 </div>
@@ -898,7 +893,7 @@ function ChatGpt(props) {
                                     <div className='chat-text-container'>
                                         <h3 className='chat-text'>{chat?.text}</h3>
                                         <div className='d-flex justify-content-end'>
-                                            <h3 className='chat-text' style={{ color: "#a4a5a7", fontWeight: '400', fontSize: 12 }}>{getCurrentTimeWithAMPM(chat?.createdAt)}</h3>
+                                            <h3 className='chat-text' style={{ color: "rgba(255, 255, 255, 0.8)", fontWeight: '400', fontSize: 12 }}>{getCurrentTimeWithAMPM(chat?.createdAt)}</h3>
                                         </div>
                                     </div>
                                 </div>
