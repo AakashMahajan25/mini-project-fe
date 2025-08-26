@@ -860,9 +860,10 @@
 // Loading Blip Styles
 .loading-blip {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     justify-content: flex-start;
     padding: 20px;
+    gap: 12px;
 }
 
 .single-blip {
@@ -871,6 +872,16 @@
     background-color: #4563E4;
     border-radius: 50%;
     animation: single-blip-pulse 1.5s ease-in-out infinite;
+    flex-shrink: 0;
+}
+
+.current-step-text {
+    font-size: 14px;
+    color: #6B7280;
+    font-weight: 500;
+    line-height: 1.4;
+    opacity: 0.8;
+    font-style: italic;
 }
 
 @keyframes single-blip-pulse {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useImperativeHandle, forwardRef } from 'react'
 import './ChatGpt.scss'
 import ProfileIcon from '../../assets/images/profile_image.png'
 import ArrowGrey from '../../assets/images/arrow-right-grey.png'
@@ -33,7 +33,7 @@ import { InfinitySpin } from 'react-loader-spinner'
 import CustomTable from '../customTable/CustomTable'
 import AlertImg from '../../assets/images/exclamation.png'
 
-function ChatGpt(props) {
+const ChatGpt = forwardRef((props, ref) => {
     const { chatSuggestions } = useSelector(state => state.fruitGPTSlice);
     const location = useLocation()
     const [show, setShow] = useState(false);
@@ -43,12 +43,19 @@ function ChatGpt(props) {
     const [tabStates, setTabStates] = useState({});
     const path = location.pathname === '/market-content-gpt'
 
+    // Expose functions to parent component
+    useImperativeHandle(ref, () => ({
+        clearTabStates: () => {
+            setTabStates({});
+        }
+    }));
+
     // Function to parse sources from stream content
     const parseSourcesFromContent = (content) => {
         if (!content) return { cleanContent: '', sources: [], readingStatus: null };
         
         // Extract sources pattern: "Reading sources | 10 articles/discussions {JSON_DATA}"
-        const sourcesRegex = /Reading sources\s*\|\s*(\d+)\s*(articles?|discussions?)\s*([\s\S]*?)(?=\n\n|$)/gi;
+        const sourcesRegex = /& Reading sources\s*\|\s*(\d+)\s*(articles?|discussions?)\s*([\s\S]*?)(?=&|\n\n|$)/gi;
         let sources = [];
         let readingStatus = null;
         let cleanContent = content;
@@ -76,8 +83,8 @@ function ChatGpt(props) {
                 }
             }
             
-            // Remove the sources section from content
-            cleanContent = content.replace(fullMatch, '').trim();
+            // Remove only the sources section, stop at next & marker or double newline
+            cleanContent = cleanContent.replace(fullMatch, '').trim();
         }
         
         return { cleanContent, sources, readingStatus };
@@ -92,7 +99,8 @@ function ChatGpt(props) {
 
         // Extract thinking steps and progress information
         const progressRegex = /Progress:\s*\|([█▓▒░\-]+)\|\s*(\d+)%\s*(.+?)\s*\[K/g;
-        const thinkingRegex = /#Thinking\s*\.\.\.?/g;
+        const thinkingRegex = /^&\s*Thinking\s*\.\.\.?$/gm;
+        const stepMarkersRegex = /^&\s*(?!Thinking\s*\.\.\.?)(?!Reading sources)(.+?)$/gm;
         
         let thinkingSteps = [];
         let cleanContent = contentWithoutSources;
@@ -107,14 +115,33 @@ function ChatGpt(props) {
             });
         }
 
-        // Remove all progress lines and thinking indicators from main content
+        // Extract & Thinking patterns
+        while ((match = thinkingRegex.exec(contentWithoutSources)) !== null) {
+            const [fullMatch] = match;
+            thinkingSteps.push({
+                step: "Thinking ...",
+                percentage: null
+            });
+        }
+
+        // Extract step markers (lines starting with & but not & Thinking or & Reading sources)
+        while ((match = stepMarkersRegex.exec(contentWithoutSources)) !== null) {
+            const [fullMatch, stepText] = match;
+            thinkingSteps.push({
+                step: stepText.trim(),
+                percentage: null
+            });
+        }
+
+        // Remove all progress lines, thinking indicators, and step markers from main content
         cleanContent = contentWithoutSources
             .replace(/Progress:\s*\|[█▓▒░\-]+\|\s*\d+%\s*.+?\s*\[K/g, '')
-            .replace(/#Thinking\s*\.\.\.?/g, '')
+            .replace(/^&\s*Thinking\s*\.\.\.?$/gm, '')
+            .replace(/^&\s*(.+?)$/gm, '')
             .trim();
 
         // Check if we should show active thinking indicator
-        const isActiveThinking = contentWithoutSources.includes('#Thinking') && cleanContent.length < 50;
+        const isActiveThinking = contentWithoutSources.includes('& Thinking') && cleanContent.length < 50;
         
         // Determine if thinking is complete (has substantial content)
         const isThinkingComplete = cleanContent.length > 100 || (cleanContent.length > 50 && !isActiveThinking);
@@ -134,8 +161,9 @@ function ChatGpt(props) {
         );
 
         const stepsContent = thinkingSteps.length > 0 ? thinkingSteps : [];
+        const currentStep = thinkingSteps.length > 0 ? thinkingSteps[thinkingSteps.length - 1].step : null;
         
-        return { answer: answerContent, steps: stepsContent, sources, readingStatus };
+        return { answer: answerContent, steps: stepsContent, sources, readingStatus, currentStep };
     };
 
     // Function to check if content has substantial answer (not just sources)
@@ -148,11 +176,13 @@ function ChatGpt(props) {
         // Remove progress indicators and other metadata
         const actualContent = cleanContent
             .replace(/Progress:\s*\|[█▓▒░\-]+\|\s*\d+%\s*.+?\s*\[K/g, '')
-            .replace(/#Thinking\s*\.\.\.?/g, '')
+            .replace(/^&\s*Thinking\s*\.\.\.?$/gm, '')
+            .replace(/^&\s*(.+?)$/gm, '')
             .trim();
             
-        // Consider it substantial if there's at least 50 characters of actual content
-        return actualContent.length >= 50;
+        // Consider it substantial if there's at least 100 characters of actual content
+        // This gives more time for steps to be processed during streaming
+        return actualContent.length >= 100;
     };
 
     // Function to get or set tab state for a specific response
@@ -586,7 +616,7 @@ function ChatGpt(props) {
     const navigate = useNavigate();
     const routeChangeFrruitGPT = (question) => {
         navigate("/frruit-gpt", {
-            state: { question, fundamental: 'fund' },
+            state: { question, fundamental: 'news_bing' },
         });
     };
     const handleShow = (data) => {
@@ -878,11 +908,17 @@ function ChatGpt(props) {
                             <p className='you-text'>Frruit</p>
                             <h3 className='you-text' style={{ color: "#a4a5a7", fontWeight: '400', marginBottom: 0, marginLeft: 5, fontSize: 12 }}>{getCurrentTimeWithAMPM(moment())}</h3>
                         </div>
-                        <div className={`chat-text-container chat-stream ${props.streamInitiated && !props.streamData ? 'blinking' : ''}`}>
+                                                <div className={`chat-text-container chat-stream ${props.streamInitiated && !props.streamData ? 'blinking' : ''}`}>
                             {props?.streamData && hasSubstantialContent(props.streamData) ? renderTabbedContent(props?.streamData || '', props?.streamLinks || [], 'stream') : (
                                 <div className="loading-blip">
                                     <div className="single-blip"></div>
-                        </div>
+                                    {props?.streamData && (() => {
+                                        const parsed = parseStreamContent(props.streamData);
+                                        return parsed.currentStep && (
+                                            <span className="current-step-text">{parsed.currentStep}</span>
+                                        );
+                                    })()}
+        </div>
                             )}
                                                         </div>
 
@@ -1114,6 +1150,6 @@ function ChatGpt(props) {
             </Modal>
         </>
     )
-}
+});
 
 export default ChatGpt
