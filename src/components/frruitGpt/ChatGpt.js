@@ -55,8 +55,8 @@ const ChatGpt = forwardRef((props, ref) => {
     const parseSourcesFromContent = (content) => {
         if (!content) return { cleanContent: '', sources: [], readingStatus: null };
         
-        // Extract sources pattern: "Reading sources | 10 articles/discussions {JSON_DATA}"
-        const sourcesRegex = /& Reading sources\s*\|\s*(\d+)\s*(articles?|discussions?)\s*([\s\S]*?)(?=&|\n\n|$)/gi;
+        // Extract sources pattern: supports both "Reading sources" and "Creating enhanced context"
+        const sourcesRegex = /& (?:Reading sources|Creating enhanced context)\s*(?:\|\s*(\d+)\s*(articles?|discussions?))?\s*([\s\S]*?)(?=&|\n\n|$)/gi;
         let sources = [];
         let readingStatus = null;
         let cleanContent = content;
@@ -64,7 +64,13 @@ const ChatGpt = forwardRef((props, ref) => {
         let match;
         while ((match = sourcesRegex.exec(content)) !== null) {
             const [fullMatch, count, type, jsonData] = match;
-            readingStatus = `Reading ${count} ${type}`;
+            
+            // Set reading status based on the pattern found
+            if (fullMatch.includes('Reading sources')) {
+                readingStatus = count ? `Reading ${count} ${type}` : 'Reading sources';
+            } else if (fullMatch.includes('Creating enhanced context')) {
+                readingStatus = count ? `Creating enhanced context from ${count} ${type}` : 'Creating enhanced context';
+            }
             
             // Extract JSON objects from the data
             const jsonRegex = /{[^{}]*}/g;
@@ -81,12 +87,25 @@ const ChatGpt = forwardRef((props, ref) => {
                     }
                 } catch (e) {
                     console.warn('Failed to parse source JSON:', jsonMatch[0]);
+                    // Fallback: try to extract title and URL manually
+                    const titleMatch = jsonMatch[0].match(/"title":\s*"([^"]*)"/);
+                    const urlMatch = jsonMatch[0].match(/"url":\s*"([^"]*)"/);
+                    if (titleMatch && urlMatch) {
+                        sources.push({
+                            title: titleMatch[1],
+                            source_url: urlMatch[1],
+                            heading: titleMatch[1]
+                        });
+                    }
                 }
             }
             
             // Remove only the sources section, stop at next & marker or double newline
             cleanContent = cleanContent.replace(fullMatch, '').trim();
         }
+        
+        // Additional cleanup: remove any remaining source JSON objects that might have been missed
+        cleanContent = cleanContent.replace(/\{"title":\s*"[^"]*",\s*"url":\s*"[^"]*"\}/g, '').trim();
         
         return { cleanContent, sources, readingStatus };
     };
@@ -101,7 +120,7 @@ const ChatGpt = forwardRef((props, ref) => {
         // Extract thinking steps and progress information
         const progressRegex = /Progress:\s*\|([█▓▒░\-]+)\|\s*(\d+)%\s*(.+?)\s*\[K/g;
         const thinkingRegex = /^&\s*Thinking\s*\.\.\.?$/gm;
-        const stepMarkersRegex = /^&\s*(?!Thinking\s*\.\.\.?)(?!Reading sources)(.+?)$/gm;
+        const stepMarkersRegex = /^&\s*(?!Thinking\s*\.\.\.?)(?!Reading sources)(?!Creating enhanced context)(.+?)$/gm;
         
         let thinkingSteps = [];
         let cleanContent = contentWithoutSources;
@@ -125,7 +144,7 @@ const ChatGpt = forwardRef((props, ref) => {
             });
         }
 
-        // Extract step markers (lines starting with & but not & Thinking or & Reading sources)
+        // Extract step markers (lines starting with & but not & Thinking, & Reading sources, or & Creating enhanced context)
         while ((match = stepMarkersRegex.exec(contentWithoutSources)) !== null) {
             const [fullMatch, stepText] = match;
             thinkingSteps.push({
