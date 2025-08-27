@@ -29,8 +29,8 @@ function ModalWalkthrough({ showModalWalkthrough, setShowModalWalkthrough }) {
         {
             mainImage: NewsWalkthrough,
             overlayImage: NewsWalkthrough2,
-            title: 'News',
-            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+            title: 'AI Search',
+            description: 'Markets move fast. Our AI searches the web, connects the dots, and gives you a single story you can act on — in seconds.',
         },
         // {
         //     mainImage: VideosWalkthrough,
@@ -42,7 +42,7 @@ function ModalWalkthrough({ showModalWalkthrough, setShowModalWalkthrough }) {
             mainImage: SocialMediaWalkthrough,
             overlayImage: SocialMediaWalkthrough2,
             title: 'Social Media',
-            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', 
+            description: 'Markets move fast. Our AI searches the web, connects the dots, and gives you a single story you can act on — in seconds.', 
         },
     ];
 
