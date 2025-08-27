@@ -55,8 +55,8 @@ const ChatGpt = forwardRef((props, ref) => {
     const parseSourcesFromContent = (content) => {
         if (!content) return { cleanContent: '', sources: [], readingStatus: null };
         
-        // Extract sources pattern: supports both "Reading sources" and "Creating enhanced context"
-        const sourcesRegex = /& (?:Reading sources|Creating enhanced context)\s*(?:\|\s*(\d+)\s*(articles?|discussions?))?\s*([\s\S]*?)(?=&|\n\n|$)/gi;
+        // Extract sources pattern: supports "Reading sources", "Creating enhanced context", and "Searching sources"
+        const sourcesRegex = /& (?:Reading sources|Creating enhanced context|Searching sources)\s*(?:\|\s*(\d+)\s*(articles?|discussions?))?\s*([\s\S]*?)(?=&|\n\n|$)/gi;
         let sources = [];
         let readingStatus = null;
         let cleanContent = content;
@@ -70,6 +70,8 @@ const ChatGpt = forwardRef((props, ref) => {
                 readingStatus = count ? `Reading ${count} ${type}` : 'Reading sources';
             } else if (fullMatch.includes('Creating enhanced context')) {
                 readingStatus = count ? `Creating enhanced context from ${count} ${type}` : 'Creating enhanced context';
+            } else if (fullMatch.includes('Searching sources')) {
+                readingStatus = count ? `Searching ${count} ${type}` : 'Searching sources';
             }
             
             // Extract JSON objects from the data
@@ -120,7 +122,7 @@ const ChatGpt = forwardRef((props, ref) => {
         // Extract thinking steps and progress information
         const progressRegex = /Progress:\s*\|([█▓▒░\-]+)\|\s*(\d+)%\s*(.+?)\s*\[K/g;
         const thinkingRegex = /^&\s*Thinking\s*\.\.\.?$/gm;
-        const stepMarkersRegex = /^&\s*(?!Thinking\s*\.\.\.?)(?!Reading sources)(?!Creating enhanced context)(.+?)$/gm;
+        const stepMarkersRegex = /^&\s*(?!Thinking\s*\.\.\.?)(?!Reading sources)(?!Creating enhanced context)(?!Searching sources)(.+?)$/gm;
         
         let thinkingSteps = [];
         let cleanContent = contentWithoutSources;
@@ -144,7 +146,7 @@ const ChatGpt = forwardRef((props, ref) => {
             });
         }
 
-        // Extract step markers (lines starting with & but not & Thinking, & Reading sources, or & Creating enhanced context)
+        // Extract step markers (lines starting with & but not & Thinking, & Reading sources, & Creating enhanced context, or & Searching sources)
         while ((match = stepMarkersRegex.exec(contentWithoutSources)) !== null) {
             const [fullMatch, stepText] = match;
             thinkingSteps.push({
