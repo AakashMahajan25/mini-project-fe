@@ -60,7 +60,7 @@ function PopularQuestions({ handleBackButtonClick, mostOnFrruitGpt, chatSuggesti
                 </div>
                 <div className='heading-text'>Popular Questions</div>
                 <div className='desc-text mt-1'>Explore popular and most-asked questions to guide your AI search</div>
-                {mostOnFrruitGpt?.rows?.length > 0 &&
+                {/* {mostOnFrruitGpt?.rows?.length > 0 &&
                     <>
                         <div className='box-content position-relative mt-3'>
                             <div className='d-flex align-items-center justify-content-between'>
@@ -108,7 +108,7 @@ function PopularQuestions({ handleBackButtonClick, mostOnFrruitGpt, chatSuggesti
 
                         </div>
                     </>
-                }
+                } */}
                 {chatSuggestions?.length > 0 &&
                     <>
                         <div className='d-flex align-items-center justify-content-between'>

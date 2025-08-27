@@ -2,19 +2,34 @@
     padding: 16px 20px 16px 16px;
 
     .heading-text {
-        font-family: 'Roboto', sans-serif;
-        font-size: 18px;
-        font-weight: 500;
-        line-height: 21.09px;
-        color: #4563E4;
+        font-size: 24px;
+        font-weight: 700;
+        color: #1A1A1A;
+        margin-bottom: 8px;
     }
 
     .desc-text {
-        font-family: 'Roboto', sans-serif;
+        font-size: 16px;
+        color: #666666;
+        line-height: 1.5;
+    }
+    
+    .light-blue-btn {
+        background: #F1F4FD;
+        border: none;
+        border-radius: 8px;
+        padding: 8px 16px;
+        color: #4563E4;
+        font-weight: 600;
         font-size: 14px;
-        font-weight: 400;
-        line-height: 21px;
-        color: #6F7387;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        transition: all 0.3s ease;
+        
+        &:hover {
+            background: #E5EAFF;
+        }
     }
 
     .title {
@@ -165,6 +180,18 @@
 
         .mobile-scroll-dashboard::-webkit-scrollbar {
             display: none;
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .popular-questions-css {
+        .heading-text {
+            font-size: 20px;
+        }
+        
+        .desc-text {
+            font-size: 14px;
         }
     }
 }
