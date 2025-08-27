@@ -414,13 +414,13 @@ function DiscoverCorrelation() {
     return (
         <>
             <div className='row justify-content-between m-0'>
-                {showLeftBox && (
+                {/* {showLeftBox && (
                     <div className='col-xl-3 col-lg-4 column-pad'>
                         <LeftBox />
                     </div>
-                )}
+                )} */}
 
-                <div className='col-xl-9 col-lg-8 column-pad Discover-Correlation-css'>
+                <div className='col-12 column-pad Discover-Correlation-css'>
                     <div className='DiscoverCorrelationHeightDiv'>
                         {/* {!showEventDetails && (
                             <>

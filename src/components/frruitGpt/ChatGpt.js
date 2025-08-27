@@ -28,6 +28,7 @@ import FullScreenIcon from '../../assets/images/ic_baseline_fullscreen.png'
 import { Modal, Nav, Tab } from 'react-bootstrap'
 import LineGraph from '../graph/LineGraph'
 import Markdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 import moment from 'moment'
 import { InfinitySpin } from 'react-loader-spinner'
 import CustomTable from '../customTable/CustomTable'
@@ -150,7 +151,7 @@ const ChatGpt = forwardRef((props, ref) => {
             <div>
                 {/* Render main content if available */}
                 {cleanContent && (
-                    <Markdown>{cleanContent}</Markdown>
+                    <Markdown remarkPlugins={[remarkGfm]}>{cleanContent}</Markdown>
                 )}
                 
                 {/* Show placeholder if no content */}
@@ -209,20 +210,18 @@ const ChatGpt = forwardRef((props, ref) => {
                     <Nav variant="tabs" className="custom-tabs">
                         <Nav.Item>
                             <Nav.Link eventKey="answer">
-                                <svg className="tab-icon" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd" />
-                                </svg>
+                                <img src="/bot.png" alt="AI Bot" className="tab-icon" width="16" height="16" />
                                 Answer
                             </Nav.Link>
                         </Nav.Item>
-                        <Nav.Item>
+                        {/* <Nav.Item>
                             <Nav.Link eventKey="steps">
                                 <svg className="tab-icon" viewBox="0 0 20 20" fill="currentColor">
                                     <path fillRule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd" />
                                 </svg>
                                 Steps {parsed.steps.length > 0 && <span className="step-count">({parsed.steps.length})</span>}
                             </Nav.Link>
-                        </Nav.Item>
+                        </Nav.Item> */}
                         <Nav.Item>
                             <Nav.Link eventKey="sources">
                                 <svg className="tab-icon" viewBox="0 0 20 20" fill="currentColor">
@@ -676,7 +675,7 @@ const ChatGpt = forwardRef((props, ref) => {
         <>
             <div className='ChatGpt' style={{
                 height: path ? (window.innerWidth < 786 ? window.innerHeight - 170: window.innerHeight - 200) : (window.innerWidth < 786 ? window.innerHeight - 175 : window.innerHeight - 205),
-                paddingBottom: chatHistory.length === 0 && !path ? 0 : 100,
+                paddingBottom: chatHistory.length === 0 && !path ? 0 : 40,
                 marginTop: window.innerWidth < 500 ? 0 : (path ? (contentChatHistory.length === 0 ? 10 : 10) : 0),
                 // marginTop: path ? (contentChatHistory.length === 0 ? 10 : 10) : 0,
                 // marginBottom: window.innerWidth < 786 ? 80 : 20,
@@ -1063,7 +1062,7 @@ const ChatGpt = forwardRef((props, ref) => {
                                                 <></>
                                                 :
                                                 <div className='chat-text-container'>
-                                                    <Markdown>{chat?.text || ''}</Markdown>
+                                                    <Markdown remarkPlugins={[remarkGfm]}>{chat?.text || ''}</Markdown>
                                                 </div>
                                             }
 

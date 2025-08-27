@@ -70,8 +70,8 @@ function MakeSelection() {
                             </Tab.Container> */}
                         {/* </div> */}
                         {/* <div className='small-blue-text'>Free Access</div> */}
-                        <div className='dark-blue-header-text'>Welcome to Frruit – </div>
-                        <div className='dark-blue-header-text'>making financial markets <br /><span className='blue-header-text'>simple, smart, and easy </span><br />to explore for every investor.</div>
+                        <div className='dark-blue-header-text'>Welcome to Frruit – making financial markets</div>
+                        <div className='dark-blue-header-text'> <span className='blue-header-text'>simple, smart, and easy </span>to explore for every investor.</div>
 
 
                         <div className='gradient-box'>

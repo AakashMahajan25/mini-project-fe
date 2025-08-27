@@ -4,42 +4,48 @@ import BackBtnArrow from '../../assets/images/back-btn-arrow.png';
 import RightArrow from '../../assets/images/right-arrow.png';
 import ReactGA from 'react-ga4';
 import { useNavigate } from 'react-router-dom';
-import Modal from 'react-bootstrap/Modal';
 import RightBlueArrow from '../../assets/images/blue-right-arrow.png';
-import CloseImg from '../../assets/images/close_icon.png';
 import { Tooltip } from 'react-tooltip'
 import quesIcon from '../../assets/images/i-icon.png';
 import RightWhiteArrow from '../../assets/images/right-arrow.png';
+import RightDrawer from '../../components/rightDrawer/RightDrawer';
 
 function PopularQuestions({ handleBackButtonClick, mostOnFrruitGpt, chatSuggestions, handleViewAllClick }) {
     const navigate = useNavigate();
-    const [show, setShow] = useState(false);
-    const [show2, setShow2] = useState(false);
+    const [showMostOnFrruitDrawer, setShowMostOnFrruitDrawer] = useState(false);
+    const [showSuggestedPromptsDrawer, setShowSuggestedPromptsDrawer] = useState(false);
+    
     const routePromptFrruitGPT = (question, flag) => {
+        // Add validation to prevent empty or null questions
+        if (!question || question.trim() === '') {
+            console.warn('Empty or invalid question passed to routePromptFrruitGPT:', question);
+            return;
+        }
+        
         ReactGA.event({
             category: 'Dashboard',
             action: 'mostonfrruit_prompt_click',
             label: 'MostonFrruit Prompt Click'
         });
         navigate("/frruit-gpt", {
-            state: { question, fundamental: flag },
+            state: { question: question.trim(), fundamental: flag },
         });
     };
 
-    const handleShow = () => {
-        setShow(true);
+    const handleShowMostOnFrruit = () => {
+        setShowMostOnFrruitDrawer(true);
     };
 
-    const handleClose = () => {
-        setShow(false);
+    const handleCloseMostOnFrruit = () => {
+        setShowMostOnFrruitDrawer(false);
     };
 
-    const handleShow2 = () => {
-        setShow2(true);
+    const handleShowSuggestedPrompts = () => {
+        setShowSuggestedPromptsDrawer(true);
     };
 
-    const handleClose2 = () => {
-        setShow2(false);
+    const handleCloseSuggestedPrompts = () => {
+        setShowSuggestedPromptsDrawer(false);
     };
 
     return (
@@ -59,10 +65,10 @@ function PopularQuestions({ handleBackButtonClick, mostOnFrruitGpt, chatSuggesti
                         <div className='box-content position-relative mt-3'>
                             <div className='d-flex align-items-center justify-content-between'>
                                 <div className='title'>Most on Frruit</div>
-                                <div onClick={handleShow} style={{ cursor: 'pointer', color: '#4563E4', fontWeight: 600 }}>View All</div>
+                                <div onClick={handleShowMostOnFrruit} style={{ cursor: 'pointer', color: '#4563E4', fontWeight: 600 }}>View All</div>
                             </div>
                             <div className='row mt-1 hide-in-mobile'>
-                                {mostOnFrruitGpt?.rows?.slice(0, 9).map((text, index) => (
+                                {mostOnFrruitGpt?.rows?.filter(text => text?.question && text.question.trim() !== '').slice(0, 9).map((text, index) => (
                                     <div onClick={() => { routePromptFrruitGPT(text?.question, 'news_bing') }} key={index} className='col-lg-4'>
                                         <div className='mostOnFrruitBox mb-2'>
                                             <div className='d-flex justify-content-between align-items-center' >
@@ -76,7 +82,7 @@ function PopularQuestions({ handleBackButtonClick, mostOnFrruitGpt, chatSuggesti
                             <div className="d-flex flex-column mt-3 hide-in-desktop " >
                                 {[0, 3].map((startIdx) => (
                                     <div className="d-flex mb-3 mobile-scroll" key={startIdx}>
-                                        {mostOnFrruitGpt?.rows?.slice(startIdx, startIdx + 3).map((text, index) => (
+                                        {mostOnFrruitGpt?.rows?.filter(text => text?.question && text.question.trim() !== '').slice(startIdx, startIdx + 3).map((text, index) => (
                                             <div
                                                 onClick={() => { routePromptFrruitGPT(text?.question, 'news_bing') }}
                                                 key={index}
@@ -107,10 +113,10 @@ function PopularQuestions({ handleBackButtonClick, mostOnFrruitGpt, chatSuggesti
                     <>
                         <div className='d-flex align-items-center justify-content-between'>
                             <div className='title mt-3'>Suggested Prompts</div>
-                            <div onClick={handleShow2} style={{ cursor: 'pointer', color: '#4563E4', fontWeight: 600 }}>View All</div>
+                            <div onClick={handleShowSuggestedPrompts} style={{ cursor: 'pointer', color: '#4563E4', fontWeight: 600 }}>View All</div>
                         </div>
                         <div className='row hide-in-mobile' >
-                            {chatSuggestions.slice(0, 9).map((item, index) => (
+                            {chatSuggestions.filter(item => item?.prompt_text && item.prompt_text.trim() !== '').slice(0, 9).map((item, index) => (
                                 <div onClick={() => { routePromptFrruitGPT(item?.prompt_text, 'news_bing') }} key={index} className='col-lg-4' style={{ cursor: 'pointer' }}>
                                     <div className='prompts-text-bg mt-2' style={{ cursor: 'pointer' }}>
                                         <div className=' d-flex justify-content-between align-items-center w-100' >
@@ -132,7 +138,7 @@ function PopularQuestions({ handleBackButtonClick, mostOnFrruitGpt, chatSuggesti
                                     className="d-flex mb-3 mobile-scroll"
                                     key={startIdx}
                                 >
-                                    {chatSuggestions.slice(startIdx, startIdx + 3).map((item, index) => (
+                                    {chatSuggestions.filter(item => item?.prompt_text && item.prompt_text.trim() !== '').slice(startIdx, startIdx + 3).map((item, index) => (
                                         <div
                                             onClick={() => { routePromptFrruitGPT(item?.prompt_text, 'news_bing') }}
                                             key={index}
@@ -170,71 +176,53 @@ function PopularQuestions({ handleBackButtonClick, mostOnFrruitGpt, chatSuggesti
                     </>
                 }
             </div>
-            <Modal
-                show={show}
-                onHide={handleClose}
-                size='lg'
-                className='viewModal'
-                scrollable
-                centered
+            {/* Right Drawer for Most on Frruit */}
+            <RightDrawer
+                isOpen={showMostOnFrruitDrawer}
+                onClose={handleCloseMostOnFrruit}
+                title="Most on Frruit"
+                width="500px"
             >
-                <Modal.Header>
-                    <div className='d-flex justify-content-between align-items-center mb-2'>
-                        <div className='header-text'>Most on Frruit</div>
-                        <div onClick={() => handleClose()} className=' align-items-center' style={{ cursor: 'pointer' }}>
-                            <img src={CloseImg} className='me-1' width={32} style={{ objectFit: 'contain' }} />
-                        </div>
+                <div className='viewModal'>
+                    <div>
+                        {mostOnFrruitGpt?.rows?.filter(text => text?.question && text.question.trim() !== '').map((text, index) => (
+                            <div onClick={() => { routePromptFrruitGPT(text?.question, 'news_bing'); handleCloseMostOnFrruit(); }} key={index} className='d-flex justify-content-between align-items-center blue-box mb-2' style={{ cursor: 'pointer' }}>
+                                <p className='text'>{text?.question?.replace(/\b\w/g, char => char.toUpperCase())}</p>
+                                <img src={RightBlueArrow} className='me-1 ms-2' width={10} style={{ objectFit: 'contain' }} />
+                            </div>
+                        ))}
                     </div>
-                </Modal.Header>
-                <Modal.Body>
-                    <div className='viewModal'>
-                        <div>
-                            {mostOnFrruitGpt?.rows?.map((text, index) => (
-                                <div onClick={() => { routePromptFrruitGPT(text?.question, 'news_bing') }} key={index} className='d-flex justify-content-between align-items-center blue-box mb-2' style={{ cursor: 'pointer' }}>
-                                    <p className='text'>{text?.question?.replace(/\b\w/g, char => char.toUpperCase())}</p>
-                                    <img src={RightBlueArrow} className='me-1 ms-2' width={10} style={{ objectFit: 'contain' }} />
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </Modal.Body>
-            </Modal>
-            <Modal
-                show={show2}
-                onHide={handleClose2}
-                size='lg'
-                className='viewModal'
-                scrollable
-                centered
+                </div>
+            </RightDrawer>
+
+            {/* Right Drawer for Suggested Prompts */}
+            <RightDrawer
+                isOpen={showSuggestedPromptsDrawer}
+                onClose={handleCloseSuggestedPrompts}
+                title="Suggested Prompts"
+                width="500px"
             >
-                <Modal.Header>
-                    <div className='d-flex justify-content-between align-items-center mb-2'>
-                        <div className='header-text'>Suggested Prompts</div>
-                        <div onClick={() => handleClose2()} className=' align-items-center' style={{ cursor: 'pointer' }}>
-                            <img src={CloseImg} className='me-1' width={32} style={{ objectFit: 'contain' }} />
-                        </div>
-                    </div>
-                </Modal.Header>
-                <Modal.Body>
-                    <div className='viewModal'>
-                        <div>
-                            {chatSuggestions?.map((text, index) => (
-                                <div onClick={() => { routePromptFrruitGPT(text?.prompt_text, 'news_bing') }} key={index} className='d-flex justify-content-between align-items-center blue-box mb-2' style={{ cursor: 'pointer' }}>
-                                    <p className='text'>{text?.prompt_text?.replace(/\b\w/g, char => char.toUpperCase())}</p>
-                                    <div>
-                                        <img style={{ width: 24, objectFit: 'contain' }} src={quesIcon} className={`my-anchor-element-${index} hide-in-mobile`} />
-                                        <img src={RightBlueArrow} className='me-1 ms-3' width={10} style={{ objectFit: 'contain' }} />
+                <div className='viewModal'>
+                    <div>
+                        {chatSuggestions?.filter(text => text?.prompt_text && text.prompt_text.trim() !== '').map((text, index) => (
+                            <div onClick={() => { routePromptFrruitGPT(text?.prompt_text, 'news_bing'); handleCloseSuggestedPrompts(); }} key={index} className='prompts-text-bg' style={{ cursor: 'pointer' }}>
+                                <div className='d-flex justify-content-between align-items-center w-100'>
+                                    <p className='prompts-text'>{text?.prompt_text?.replace(/\b\w/g, char => char.toUpperCase())}</p>
+                                    <div className='d-flex align-items-center'>
+                                        <img style={{ width: 24, height: 24, objectFit: 'contain' }} src={quesIcon} className={`my-anchor-element-drawer-${index} hide-in-mobile`} />
+                                        <img src={RightBlueArrow} className='ms-2' width={10} height={10} style={{ objectFit: 'contain' }} />
                                     </div>
-                                    <Tooltip absolute fixed anchorSelect={`.my-anchor-element-${index}`} place="left" className="bg-primary  hide-in-mobile">
+                                    <Tooltip absolute fixed anchorSelect={`.my-anchor-element-drawer-${index}`} place="left" className="bg-primary hide-in-mobile">
                                         <div style={{ width: '370px', fontSize: '14px' }}>
-                                            {text?.prompt_description ? text?.prompt_description : text?.prompt_text}</div>
+                                            {text?.prompt_description ? text?.prompt_description : text?.prompt_text}
+                                        </div>
                                     </Tooltip>
                                 </div>
-                            ))}
-                        </div>
+                            </div>
+                        ))}
                     </div>
-                </Modal.Body>
-            </Modal>
+                </div>
+            </RightDrawer>
         </>
     )
 }
