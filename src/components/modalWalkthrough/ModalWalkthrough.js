@@ -41,8 +41,8 @@ function ModalWalkthrough({ showModalWalkthrough, setShowModalWalkthrough }) {
         {
             mainImage: SocialMediaWalkthrough,
             overlayImage: SocialMediaWalkthrough2,
-            title: 'Social Media',
-            description: 'Markets move fast. Our AI searches the web, connects the dots, and gives you a single story you can act on — in seconds.', 
+            title: 'Social Media Opinions',
+            description: 'Social opinions decoded . AI shows you the pulse of social media in seconds', 
         },
     ];
 
