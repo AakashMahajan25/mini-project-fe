@@ -53,13 +53,14 @@ const ChatGpt = forwardRef((props, ref) => {
 
     // Function to parse sources from stream content
     const parseSourcesFromContent = (content) => {
-        if (!content) return { cleanContent: '', sources: [], readingStatus: null };
+        if (!content) return { cleanContent: '', sources: [], readingStatus: null, inlineCitations: new Map() };
         
         // Extract sources pattern: supports "Reading sources", "Creating enhanced context", and "Searching sources"
         const sourcesRegex = /& (?:Reading sources|Creating enhanced context|Searching sources)\s*(?:\|\s*(\d+)\s*(articles?|discussions?))?\s*([\s\S]*?)(?=&|\n\n|$)/gi;
         let sources = [];
         let readingStatus = null;
         let cleanContent = content;
+        let inlineCitations = new Map();
         
         let match;
         while ((match = sourcesRegex.exec(content)) !== null) {
@@ -106,10 +107,120 @@ const ChatGpt = forwardRef((props, ref) => {
             cleanContent = cleanContent.replace(fullMatch, '').trim();
         }
         
+        // Parse &sources section with JSON array format - more robust approach
+        const sourcesSectionRegex = /&sources\s*([\s\S]*?)(?=\n\n|\n# |$)/gi;
+        let sourcesSectionMatch;
+        while ((sourcesSectionMatch = sourcesSectionRegex.exec(content)) !== null) {
+            const [fullMatch, sourcesContent] = sourcesSectionMatch;
+            
+            try {
+                // Extract just the JSON array part
+                const jsonMatch = sourcesContent.match(/\[([\s\S]*?)\]/);
+                if (jsonMatch) {
+                    const sourcesArray = JSON.parse(jsonMatch[0]);
+                    sourcesArray.forEach(source => {
+                        if (source.id && source.title && source.url) {
+                            inlineCitations.set(parseInt(source.id), {
+                                id: parseInt(source.id),
+                                title: source.title,
+                                source_url: source.url,
+                                heading: source.title
+                            });
+                        }
+                    });
+                }
+            } catch (e) {
+                console.warn('Failed to parse sources JSON array:', e);
+                console.warn('Content:', sourcesContent);
+            }
+            
+            // Remove the entire &sources section from content
+            cleanContent = cleanContent.replace(fullMatch, '').trim();
+        }
+        
+        // Additional cleanup for any leftover source-related content
+        cleanContent = cleanContent.replace(/&sources[\s\S]*?(?=\n#|\n\n|$)/gm, '').trim();
+        cleanContent = cleanContent.replace(/^\s*\[\s*\{[\s\S]*?\]\s*$/gm, '').trim();
+        cleanContent = cleanContent.replace(/^\s*\{\s*"[\s\S]*?\}\s*$/gm, '').trim();
+        cleanContent = cleanContent.replace(/^\s*\{\s*".*$/gm, '').trim();
+        
         // Additional cleanup: remove any remaining source JSON objects that might have been missed
         cleanContent = cleanContent.replace(/\{"title":\s*"[^"]*",\s*"url":\s*"[^"]*"\}/g, '').trim();
         
-        return { cleanContent, sources, readingStatus };
+        return { cleanContent, sources, readingStatus, inlineCitations };
+    };
+
+    // Function to extract company name from URL or title
+    const extractCompanyName = (url, title) => {
+        try {
+            const domain = new URL(url).hostname.toLowerCase();
+            
+            // Common news/financial sites mapping
+            const domainMapping = {
+                'thehindubusinessline.com': 'Hindu BL',
+                'moneycontrol.com': 'MoneyControl',
+                'economictimes.indiatimes.com': 'Economic Times',
+                'livemint.com': 'LiveMint',
+                'business-standard.com': 'Business Standard',
+                'financialexpress.com': 'Financial Express',
+                'businesstoday.in': 'Business Today',
+                'etnownews.com': 'ET Now',
+                'goodreturns.in': 'GoodReturns',
+                'tradebrains.in': 'TradeBrains',
+                'trademint.in': 'TradeMint',
+                'timesnownews.com': 'Times Now',
+                'trendlyne.com': 'Trendlyne',
+                'en.wikipedia.org': 'Wikipedia',
+                'reuters.com': 'Reuters',
+                'bloomberg.com': 'Bloomberg',
+                'cnbc.com': 'CNBC',
+                'marketwatch.com': 'MarketWatch'
+            };
+            
+            if (domainMapping[domain]) {
+                return domainMapping[domain];
+            }
+            
+            // Fallback: extract from domain
+            const cleanDomain = domain.replace(/^www\./, '').split('.')[0];
+            return cleanDomain.charAt(0).toUpperCase() + cleanDomain.slice(1);
+        } catch (e) {
+            return 'Source';
+        }
+    };
+
+    // Function to generate company badge
+    const generateCompanyBadge = (companyName, citationId, sourceUrl, title) => {
+        const getInitials = (name) => {
+            return name.split(' ')
+                .map(word => word.charAt(0))
+                .join('')
+                .substring(0, 2)
+                .toUpperCase();
+        };
+        
+        const getCompanyColor = (name) => {
+            const colors = [
+                '#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', 
+                '#FFEAA7', '#DDA0DD', '#FFB347', '#87CEEB',
+                '#F4A460', '#98FB98', '#FFE4B5', '#B0E0E6'
+            ];
+            let hash = 0;
+            for (let i = 0; i < name.length; i++) {
+                hash = name.charCodeAt(i) + ((hash << 5) - hash);
+            }
+            return colors[Math.abs(hash) % colors.length];
+        };
+        
+        const initials = getInitials(companyName);
+        const bgColor = getCompanyColor(companyName);
+        
+        return `<span class="company-badge" 
+                      style="background-color: ${bgColor};" 
+                      onclick="window.open('${sourceUrl}', '_blank')" 
+                      title="${title} - ${companyName}">
+                    ${initials}
+                </span>`;
     };
 
     // Function to parse progress and stream content
@@ -117,7 +228,7 @@ const ChatGpt = forwardRef((props, ref) => {
         if (!content) return { answer: <p></p>, steps: [], sources: [], readingStatus: null };
 
         // First parse sources
-        const { cleanContent: contentWithoutSources, sources, readingStatus } = parseSourcesFromContent(content);
+        const { cleanContent: contentWithoutSources, sources, readingStatus, inlineCitations } = parseSourcesFromContent(content);
 
         // Extract thinking steps and progress information
         const progressRegex = /Progress:\s*\|([█▓▒░\-]+)\|\s*(\d+)%\s*(.+?)\s*\[K/g;
@@ -168,24 +279,166 @@ const ChatGpt = forwardRef((props, ref) => {
         // Determine if thinking is complete (has substantial content)
         const isThinkingComplete = cleanContent.length > 100 || (cleanContent.length > 50 && !isActiveThinking);
 
-                const answerContent = (
+        // Debug and render content with citation badges
+        const renderContentWithBadges = (content) => {
+            if (!content) {
+                return <Markdown remarkPlugins={[remarkGfm]}>{content}</Markdown>;
+            }
+
+            // Debug: Log the citations to see if they're being parsed
+            console.log('inlineCitations:', inlineCitations);
+            console.log('content contains citations:', content.includes('['));
+
+            // If no citations, render normally
+            if (inlineCitations.size === 0) {
+                console.log('No citations found, rendering normally');
+                return <Markdown remarkPlugins={[remarkGfm]}>{content}</Markdown>;
+            }
+
+            // Try a different approach - pre-process content then use dangerouslySetInnerHTML
+            let processedContent = content;
+            
+            // Replace [1], [2], [3] with company badges
+            processedContent = processedContent.replace(/\[(\d+)\]/g, (match, citationId) => {
+                const citation = inlineCitations.get(parseInt(citationId));
+                console.log(`Processing citation ${citationId}:`, citation);
+                
+                if (citation) {
+                    const companyName = extractCompanyName(citation.source_url, citation.title);
+                    const getInitials = (name) => {
+                        return name.split(' ')
+                            .map(word => word.charAt(0))
+                            .join('')
+                            .substring(0, 2)
+                            .toUpperCase();
+                    };
+                    
+                    const getCompanyColor = (name) => {
+                        const colors = [
+                            '#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', 
+                            '#FFEAA7', '#DDA0DD', '#FFB347', '#87CEEB',
+                            '#F4A460', '#98FB98', '#FFE4B5', '#B0E0E6'
+                        ];
+                        let hash = 0;
+                        for (let i = 0; i < name.length; i++) {
+                            hash = name.charCodeAt(i) + ((hash << 5) - hash);
+                        }
+                        return colors[Math.abs(hash) % colors.length];
+                    };
+                    
+                    const initials = getInitials(companyName);
+                    const bgColor = getCompanyColor(companyName);
+                    
+                    return `<span class="company-badge" style="background-color: ${bgColor}; display: inline-block; min-width: 24px; height: 24px; padding: 4px 6px; margin: 0 2px; border-radius: 12px; color: white; font-size: 10px; font-weight: 700; text-align: center; line-height: 16px; cursor: pointer; vertical-align: middle; user-select: none; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);" onclick="window.open('${citation.source_url}', '_blank')" title="${citation.title} - ${companyName}">${initials}</span>`;
+                }
+                return match;
+            });
+
+            // If content was modified (has citations), we need special handling
+            if (processedContent !== content) {
+                console.log('Content modified with badges, using mixed approach');
+                
+                // Use a hybrid approach - render markdown normally but replace citations afterward
+                const MarkdownWithBadges = () => {
+                    const containerRef = React.useRef(null);
+                    
+                    React.useEffect(() => {
+                        if (containerRef.current) {
+                            // After markdown renders, find and replace citation text with badges
+                            const textNodes = [];
+                            const walker = document.createTreeWalker(
+                                containerRef.current,
+                                NodeFilter.SHOW_TEXT,
+                                null,
+                                false
+                            );
+                            
+                            let node;
+                            while (node = walker.nextNode()) {
+                                if (node.textContent.includes('[') && /\[\d+\]/.test(node.textContent)) {
+                                    textNodes.push(node);
+                                }
+                            }
+                            
+                            // Replace citations in text nodes
+                            textNodes.forEach(textNode => {
+                                const parent = textNode.parentNode;
+                                const text = textNode.textContent;
+                                
+                                // Split text by citation patterns
+                                const parts = text.split(/(\[\d+\])/g);
+                                const fragment = document.createDocumentFragment();
+                                
+                                parts.forEach(part => {
+                                    const citationMatch = part.match(/\[(\d+)\]/);
+                                    if (citationMatch) {
+                                        const citationId = parseInt(citationMatch[1]);
+                                        const citation = inlineCitations.get(citationId);
+                                        
+                                        if (citation) {
+                                            const companyName = extractCompanyName(citation.source_url, citation.title);
+                                            
+                                            // Create simple grey source badge
+                                            const badge = document.createElement('span');
+                                            badge.className = 'source-badge';
+                                            badge.textContent = 'Source';
+                                            badge.title = `${citation.title} - ${companyName}`;
+                                            badge.style.cursor = 'pointer';
+                                            badge.onclick = () => window.open(citation.source_url, '_blank');
+                                            
+                                            fragment.appendChild(badge);
+                                        } else {
+                                            fragment.appendChild(document.createTextNode(part));
+                                        }
+                                    } else {
+                                        fragment.appendChild(document.createTextNode(part));
+                                    }
+                                });
+                                
+                                parent.replaceChild(fragment, textNode);
+                            });
+                        }
+                    }, []);
+                    
+                    return (
+                        <div ref={containerRef}>
+                            <Markdown remarkPlugins={[remarkGfm]}>{content}</Markdown>
+                        </div>
+                    );
+                };
+                
+                return (
+                    <div>
+                        <MarkdownWithBadges />
+                        <div style={{ fontSize: '12px', color: '#666', marginTop: '10px' }}>
+                            Debug: Found {inlineCitations.size} citations
+                        </div>
+                    </div>
+                );
+            }
+
+            return <Markdown remarkPlugins={[remarkGfm]}>{content}</Markdown>;
+        };
+
+        // Combine all sources (streaming sources + inline citations)
+        const allSources = [...sources, ...Array.from(inlineCitations.values())];
+
+        const answerContent = (
             <div>
                 {/* Render main content if available */}
-                {cleanContent && (
-                    <Markdown remarkPlugins={[remarkGfm]}>{cleanContent}</Markdown>
-                )}
+                {cleanContent && renderContentWithBadges(cleanContent)}
                 
                 {/* Show placeholder if no content */}
                 {!cleanContent && (
                     <p></p>
                 )}
-                            </div>
+            </div>
         );
 
         const stepsContent = thinkingSteps.length > 0 ? thinkingSteps : [];
         const currentStep = thinkingSteps.length > 0 ? thinkingSteps[thinkingSteps.length - 1].step : null;
         
-        return { answer: answerContent, steps: stepsContent, sources, readingStatus, currentStep };
+        return { answer: answerContent, steps: stepsContent, sources: allSources, readingStatus, currentStep };
     };
 
     // Function to check if content has substantial answer (not just sources)
