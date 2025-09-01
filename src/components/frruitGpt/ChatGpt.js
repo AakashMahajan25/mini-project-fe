@@ -122,6 +122,7 @@ const ChatGpt = forwardRef((props, ref) => {
                         if (source.id && source.title && source.url) {
                             inlineCitations.set(parseInt(source.id), {
                                 id: parseInt(source.id),
+                                name: source.name, // Add name field
                                 title: source.title,
                                 source_url: source.url,
                                 heading: source.title
@@ -285,61 +286,15 @@ const ChatGpt = forwardRef((props, ref) => {
                 return <Markdown remarkPlugins={[remarkGfm]}>{content}</Markdown>;
             }
 
-            // Debug: Log the citations to see if they're being parsed
-            console.log('inlineCitations:', inlineCitations);
-            console.log('content contains citations:', content.includes('['));
+
 
             // If no citations, render normally
             if (inlineCitations.size === 0) {
-                console.log('No citations found, rendering normally');
                 return <Markdown remarkPlugins={[remarkGfm]}>{content}</Markdown>;
             }
 
-            // Try a different approach - pre-process content then use dangerouslySetInnerHTML
-            let processedContent = content;
-            
-            // Replace [1], [2], [3] with company badges
-            processedContent = processedContent.replace(/\[(\d+)\]/g, (match, citationId) => {
-                const citation = inlineCitations.get(parseInt(citationId));
-                console.log(`Processing citation ${citationId}:`, citation);
-                
-                if (citation) {
-                    const companyName = extractCompanyName(citation.source_url, citation.title);
-                    const getInitials = (name) => {
-                        return name.split(' ')
-                            .map(word => word.charAt(0))
-                            .join('')
-                            .substring(0, 2)
-                            .toUpperCase();
-                    };
-                    
-                    const getCompanyColor = (name) => {
-                        const colors = [
-                            '#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', 
-                            '#FFEAA7', '#DDA0DD', '#FFB347', '#87CEEB',
-                            '#F4A460', '#98FB98', '#FFE4B5', '#B0E0E6'
-                        ];
-                        let hash = 0;
-                        for (let i = 0; i < name.length; i++) {
-                            hash = name.charCodeAt(i) + ((hash << 5) - hash);
-                        }
-                        return colors[Math.abs(hash) % colors.length];
-                    };
-                    
-                    const initials = getInitials(companyName);
-                    const bgColor = getCompanyColor(companyName);
-                    
-                    return `<span class="company-badge" style="background-color: ${bgColor}; display: inline-block; min-width: 24px; height: 24px; padding: 4px 6px; margin: 0 2px; border-radius: 12px; color: white; font-size: 10px; font-weight: 700; text-align: center; line-height: 16px; cursor: pointer; vertical-align: middle; user-select: none; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);" onclick="window.open('${citation.source_url}', '_blank')" title="${citation.title} - ${companyName}">${initials}</span>`;
-                }
-                return match;
-            });
-
-            // If content was modified (has citations), we need special handling
-            if (processedContent !== content) {
-                console.log('Content modified with badges, using mixed approach');
-                
-                // Use a hybrid approach - render markdown normally but replace citations afterward
-                const MarkdownWithBadges = () => {
+            // Use a hybrid approach - render markdown normally but replace citations afterward
+            const MarkdownWithBadges = () => {
                     const containerRef = React.useRef(null);
                     
                     React.useEffect(() => {
@@ -378,10 +333,10 @@ const ChatGpt = forwardRef((props, ref) => {
                                         if (citation) {
                                             const companyName = extractCompanyName(citation.source_url, citation.title);
                                             
-                                            // Create simple grey source badge
+                                            // Create simple grey source badge with name
                                             const badge = document.createElement('span');
                                             badge.className = 'source-badge';
-                                            badge.textContent = 'Source';
+                                            badge.textContent = citation.name || 'Source'; // Use name field if available, fallback to 'Source'
                                             badge.title = `${citation.title} - ${companyName}`;
                                             badge.style.cursor = 'pointer';
                                             badge.onclick = () => window.open(citation.source_url, '_blank');
@@ -405,25 +360,15 @@ const ChatGpt = forwardRef((props, ref) => {
                             <Markdown remarkPlugins={[remarkGfm]}>{content}</Markdown>
                         </div>
                     );
-                };
+            };
                 
-                return (
-                    <div>
-                        <MarkdownWithBadges />
-                        <div style={{ fontSize: '12px', color: '#666', marginTop: '10px' }}>
-                            Debug: Found {inlineCitations.size} citations
-                        </div>
-                    </div>
-                );
-            }
-
-            return <Markdown remarkPlugins={[remarkGfm]}>{content}</Markdown>;
+            return <MarkdownWithBadges />;
         };
 
         // Combine all sources (streaming sources + inline citations)
         const allSources = [...sources, ...Array.from(inlineCitations.values())];
 
-        const answerContent = (
+                const answerContent = (
             <div>
                 {/* Render main content if available */}
                 {cleanContent && renderContentWithBadges(cleanContent)}
@@ -432,7 +377,7 @@ const ChatGpt = forwardRef((props, ref) => {
                 {!cleanContent && (
                     <p></p>
                 )}
-            </div>
+                            </div>
         );
 
         const stepsContent = thinkingSteps.length > 0 ? thinkingSteps : [];
