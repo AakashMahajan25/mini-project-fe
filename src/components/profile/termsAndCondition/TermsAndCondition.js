@@ -4,10 +4,10 @@ function TermsAndCondition() {
     return (
         <div className='privacypolicy-css'>
             <div className=''>
-                <h3 className='main-heading'>Frruit TERMS OF SERVICE</h3>
+                <h3 className='main-heading'>Frruit Terms Of Service</h3>
                 {/* <p className='updated-date'>Last updated: June 4th, 2024.</p> */}
                 <p className='text-subheading1'>
-                    Welcome to the Terms of Service (these <b>“Terms”</b>) for <b>Airrchip Communications Private Limited</b> (“Company”, “we” or “us”) websites,
+                    Welcome to the Terms of Service (these <b>“Terms”</b>) for <b>Airrchip Communications Private Limited & Airrchip Technology Ltd</b> (“Company”, “we” or “us”) websites,
                     Airrchip, artificial-intelligence powered search engine (the Frruit), related mobile application (the Frruit),
                     and any content, tools, features and functionality offered on or through our Website, and the App
                     (collectively, the <b>“Services”</b>).

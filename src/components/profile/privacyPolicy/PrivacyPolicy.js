@@ -12,7 +12,7 @@ function PrivacyPolicy() {
 
             <h2 className='text-heading'>1.INTRODUCTION </h2>
             <p className='text-subheading2'>
-                1.1. At Airrchip Communications Private Limited <b>(“we”, “Company”)</b>, we respect your privacy and data protection rights and recognize the importance of protecting the personal data we collect and process. This Privacy Policy is designed to help you to understand what personal data we collect about you and how we use and share it.
+                1.1. At Airrchip Communications Private Limited & Airrchip Technology Ltd <b>(“we”, “Company”)</b>, we respect your privacy and data protection rights and recognize the importance of protecting the personal data we collect and process. This Privacy Policy is designed to help you to understand what personal data we collect about you and how we use and share it.
             </p>
 
             <p className='text-subheading2'>
