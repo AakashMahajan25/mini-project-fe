@@ -20,8 +20,8 @@ function LeftProfileBox({ handlePreferencesClick, handleProfileClick, isPreferen
                     <div className={`mb-2 ${isViewPlansActive ? 'side-box-light-blue-btn-active' : 'side-box-light-blue-btn'}`} onClick={handleViewPlansClick}>Enterprise AI Plan</div>
                     {/* <div className={`mb-2 ${isPricingActive ? 'side-box-light-blue-btn-active' : 'side-box-light-blue-btn'}`} onClick={handlePricingClick}>Pricing</div> */}
                     <div className={`mb-2 ${isAboutAirrchipActive ? 'side-box-light-blue-btn-active' : 'side-box-light-blue-btn'}`} onClick={handleAboutAirrchipClick}>About Airrchip</div>
-                    <div className={`mb-2 ${isFeedbackActive ? 'side-box-light-blue-btn-active' : 'side-box-light-blue-btn'}`} onClick={handleFeedbackClick}>Feedback</div>
-                    <div className={`mb-2 ${isHelpActive ? 'side-box-light-blue-btn-active' : 'side-box-light-blue-btn'}`} onClick={handleHelpClick}>Help and FAQ</div>
+                    {/* <div className={`mb-2 ${isFeedbackActive ? 'side-box-light-blue-btn-active' : 'side-box-light-blue-btn'}`} onClick={handleFeedbackClick}>Feedback</div> */}
+                    {/* <div className={`mb-2 ${isHelpActive ? 'side-box-light-blue-btn-active' : 'side-box-light-blue-btn'}`} onClick={handleHelpClick}>Help and FAQ</div> */}
                     {/* <div className={`mb-2 ${isCancellationPolicyActive ? 'side-box-light-blue-btn-active' : 'side-box-light-blue-btn'}`} onClick={handleCancellationPolicyClick}>Cancellation and Refund Policy</div> */}
                     <div className={`mb-2 ${isTermsConditionActive ? 'side-box-light-blue-btn-active' : 'side-box-light-blue-btn'}`} onClick={() => {
                         ReactGA.event({

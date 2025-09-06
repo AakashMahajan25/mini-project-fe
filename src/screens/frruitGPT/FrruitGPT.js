@@ -333,13 +333,13 @@ function FrruitGPT() {
                     <div className='col-xl-9 col-md-9 col-sm-9 column-pad'>
                         <div className='hide-on-large-screens'>
                             <div>Frruit GPT</div>
-                            <div>
+                            {/* <div>
                                 <button className='prompts-btn me-3' onClick={() => setShowPromptsLibrary(!showPromptsLibrary)}>
-                                    {/* <img src={BackArrowIcon}/> */}
+                                    {/* <img src={BackArrowIcon}/> 
                                     Prompts Library
                                 </button>
                                 <img src={HistoryImg} onClick={handleHistoryShow} className='history-icon-css' />
-                            </div>
+                            </div> */}
                         </div>
                         <ChatGpt
                             newChat={isNewChat.current}
@@ -348,12 +348,12 @@ function FrruitGPT() {
                             streamInitiated={streamInitiated}
                             streamLinks={streamLinks}
                         />
-                        <PromptsLibrary
+                        {/* <PromptsLibrary
                             handlePromptClick={handlePromptClick}
                             show={showPromptsLibrary}
                             setShow={setShowPromptsLibrary}
                             setFlag={setFlag}
-                        />
+                        /> */}
                         <BottomSearchBar
                             setQuestion={setQuestion}
                             question={question}
