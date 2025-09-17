@@ -75,5 +75,6 @@ export const API_ENDPOINTS = {
     resendOtp: 'users/resendOtp',
     userFeedback: 'users/userFeedback',
     getFinancialsResults: 'stocks/getFinancialsResults',
-    getFaqs: 'getfaqs'
+    getFaqs: 'getfaqs',
+    getTrendingDashboardData: 'stocks/getTrendingDashboardData'
 }

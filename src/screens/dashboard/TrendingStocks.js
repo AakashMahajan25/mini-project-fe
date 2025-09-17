@@ -314,7 +314,7 @@ function TrendingStocks({ handleBackButtonClick, trendingStocks: initialTrending
                     <div className='box-content position-relative mt-3'>
                         <div className='row'>
                             {trendingStocks.map((stockData, index) => (
-                                <div key={index} className='col-lg-3 col-md-4 col-sm-6 col-6 mb-3 px-2'>
+                                <div key={index} className='col-lg-3 col-md-4 col-sm-6 col-12 mb-3 px-2'>
                                     <TrendingStocksCard {...stockData} />
                                 </div>
                             ))}

@@ -205,6 +205,7 @@ function Dashboard() {
     const [show2, setShow2] = useState(false);
     const [show3, setShow3] = useState(false);
     const [show4, setShow4] = useState(false);
+    const [show5, setShow5] = useState(false);
     const [activeIndex, setActiveIndex] = useState(0);
     const [stories, setStories] = useState([]);
     const [storyType, setStoryType] = useState([]);
@@ -286,6 +287,14 @@ function Dashboard() {
 
     const handleFlagClose = () => {
         setShow4(false)
+    };
+
+    const handleCountryShow = () => {
+        setShow5(true)
+    };
+
+    const handleCountryClose = () => {
+        setShow5(false)
     };
 
     const handleBackButtonClick = () => {
@@ -481,6 +490,26 @@ function Dashboard() {
 
         if (selectedCountryObj) {
 
+            localStorage.setItem("selectedCountry", selectedCountryObj.code);
+        } else {
+            console.log("ERROR: Country object not found!");
+        }
+    };
+
+    const handleCountrySelectMobile = (countryName) => {
+        // Prevent selection if already selected
+        if (selectedCountry === countryName) {
+            return;
+        }
+
+        setSelectedCountry(countryName);
+
+        // Find the country code and store it in localStorage
+        const selectedCountryObj = countries.find(
+            (country) => country.name === countryName
+        );
+
+        if (selectedCountryObj) {
             localStorage.setItem("selectedCountry", selectedCountryObj.code);
         } else {
             console.log("ERROR: Country object not found!");
@@ -834,10 +863,10 @@ function Dashboard() {
                                         <div className='mb-4'>
                                             <p className='explore-text mb-3 p-2' style={{ textAlign: 'left' }}>You may want to explore?</p>
                                         </div>
-                                        <div className='row justify-content-center' style={{gap:30}}>
+                                        <div className='row justify-content-center' style={{gap: window.innerWidth <= 768 ? 10 : 30}}>
                                             {stockboxData.map((item, index) => (
-                                                <div className='col-xl-4 col-lg-4 col-md-6 col-sm-12 d-flex justify-content-center mb-3' key={index} onClick={() => handleClick(item.title)} style={{ cursor: 'pointer', flex: '1 1 0', maxWidth: 'calc(50% - 15px)' }}>
-                                                    <div className='stockbox' style={{ width: '100%', minHeight: '140px', position: 'relative', display: 'flex', flexDirection: 'column' }}>
+                                                <div className='col-xl-4 col-lg-4 col-md-6 col-sm-12 d-flex justify-content-center mb-3' key={index} onClick={() => handleClick(item.title)} style={{ cursor: 'pointer', flex: '1 1 0', maxWidth: window.innerWidth <= 768 ? 'calc(100% - 10px)' : 'calc(50% - 15px)' }}>
+                                                    <div className='stockbox' style={{ width: '100%', minHeight: window.innerWidth <= 768 ? '100px' : '140px', position: 'relative', display: 'flex', flexDirection: 'column' }}>
                                                         <div className='hide-in-mobile' style={{ flex: 1 }}>
                                                             <div className='d-flex justify-content-between'>
                                                                 {/* <img src={item.imagesource} className='icon-image' /> */}
@@ -852,13 +881,10 @@ function Dashboard() {
                                                         </div>
                                                         <div className='d-flex justify-content-between align-items-center hide-in-desktop'>
                                                             {/* <img src={item.imagesource} className='icon-image' /> */}
-                                                            <div style={{ marginLeft: 10, flex: 1, paddingRight: '10px' }}>
-                                                                <p className='boxheader' style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{item.title}</p>
-                                                                <p className='boxsubheader'>{item.subtitle}</p>
+                                                            <div style={{ marginLeft: window.innerWidth <= 768 ? 8 : 10, flex: 1, paddingRight: window.innerWidth <= 768 ? '8px' : '10px' }}>
+                                                                <p className='boxheader' style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', fontSize: window.innerWidth <= 768 ? '14px' : 'inherit' }}>{item.title}</p>
+                                                                <p className='boxsubheader' style={{ fontSize: window.innerWidth <= 768 ? '12px' : 'inherit' }}>{item.subtitle}</p>
                                                             </div>
-                                                            <button className='btn1' onClick={() => handleClick(item.title)} style={{ marginLeft: 'auto', flexShrink: 0 }}>
-                                                                <img src={RoundChevronRight} className='icon-image2' />
-                                                            </button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1235,19 +1261,39 @@ function Dashboard() {
                                                             <div className="responsive-search-box">
                                                                 <div className="d-flex justify-content-between align-items-center">
                                                                     <div className='header-text-focus'>Select focus</div>
-                                                                    <div className="flags-blue-button" onClick={handleFlagShow}>
-                                                                        <div className="flag-white-text">
-                                                                            {
-                                                                                flag === 'news' ? 'All' :
-                                                                                    flag === 'fund' ? 'Fundamentals' :
-                                                                                        flag === 'youtube' ? 'Videos' :
-                                                                                            flag === 'reddit' ? 'Social Media' :
-                                                                                                flag === 'news_bing' ? 'News + Web' :
-                                                                                                    flag === 'screener' ? 'Screener' :
-                                                                                                        'Choose your focus'
-                                                                            }
+                                                                    <div className="d-flex" style={{ gap: '8px' }}>
+                                                                        <div className="flags-blue-button" onClick={handleCountryShow} style={{ minWidth: 'auto', padding: '6px 12px' }}>
+                                                                            <div className="flag-white-text d-flex align-items-center">
+                                                                                <div style={{
+                                                                                    width: '16px',
+                                                                                    height: '12px',
+                                                                                    marginRight: '4px',
+                                                                                    display: 'flex',
+                                                                                    alignItems: 'center',
+                                                                                    justifyContent: 'center',
+                                                                                    borderRadius: '2px',
+                                                                                    overflow: 'hidden'
+                                                                                }}>
+                                                                                    <FlagIcon countryCode={countries.find(c => c.name === selectedCountry)?.code} size={16} />
+                                                                                </div>
+                                                                                {countries.find(c => c.name === selectedCountry)?.code}
+                                                                            </div>
+                                                                            <img src={WhiteChevronImg} className="white-chevron" />
                                                                         </div>
-                                                                        <img src={WhiteChevronImg} className="white-chevron" />
+                                                                        <div className="flags-blue-button" onClick={handleFlagShow}>
+                                                                            <div className="flag-white-text">
+                                                                                {
+                                                                                    flag === 'news' ? 'All' :
+                                                                                        flag === 'fund' ? 'Fundamentals' :
+                                                                                            flag === 'youtube' ? 'Videos' :
+                                                                                                flag === 'reddit' ? 'Social Media' :
+                                                                                                    flag === 'news_bing' ? 'News + Web' :
+                                                                                                        flag === 'screener' ? 'Screener' :
+                                                                                                            'Choose your focus'
+                                                                                }
+                                                                            </div>
+                                                                            <img src={WhiteChevronImg} className="white-chevron" />
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                                 <div style={{ position: 'relative' }} className='mt-3 d-flex justify-content-start'>
@@ -1445,7 +1491,7 @@ function Dashboard() {
                             <div className='row' style={{ marginLeft: 0, marginRight: 0 }}>
 
                                 {trendingStocks?.map((stockData, index) => (
-                                    <div className='col-lg-3 col-md-4 col-sm-6 col-6 mb-3 px-2 pointer'>
+                                    <div className='col-lg-3 col-md-4 col-sm-6 col-12 mb-3 px-2 pointer'>
                                         <TrendingStocksCard key={index} {...stockData} />
                                     </div>
                                 ))}
@@ -1480,6 +1526,50 @@ function Dashboard() {
                                     {flag === item.flag && <img src={SelectedFlagIcon} style={{ width: 20 }} />}
                                 </div>
                                 <div className="flag-desc mt-2">{item.description}</div>
+                            </div>
+                        ))}
+                    </Modal.Body>
+                </Modal>
+                <Modal
+                    show={show5}
+                    onHide={handleCountryClose}
+                    size="lg"
+                    className="custom-bottom-modal"
+                >
+                    <Modal.Header className='pb-0'>
+                        <div className="modal-header-text">Select market</div>
+                        <img src={CloseImage} style={{ width: 24 }} onClick={handleCountryClose} />
+                    </Modal.Header>
+                    <Modal.Body className='pt-0'>
+                        {countries.map((country, index) => (
+                            <div
+                                key={index}
+                                className={`${selectedCountry === country.name ? 'active-flag-box' : 'inactive-flag-box'} mt-3`}
+                                onClick={() => { handleCountrySelectMobile(country.name); handleCountryClose() }}
+                                style={{
+                                    cursor: 'pointer',
+                                    backgroundColor: selectedCountry === country.name ? '#F1F4FD' : '',
+                                    color: selectedCountry === country.name ? '#4563E4' : '#B4B3B9'
+                                }}
+                            >
+                                <div className="d-flex justify-content-between align-items-center">
+                                    <div className="d-flex align-items-center">
+                                        <div style={{
+                                            width: '20px',
+                                            height: '15px',
+                                            marginRight: '12px',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                            borderRadius: '2px',
+                                            overflow: 'hidden'
+                                        }}>
+                                            <FlagIcon countryCode={country.code} size={20} />
+                                        </div>
+                                        <div className="flag-name">{country.name}</div>
+                                    </div>
+                                    {selectedCountry === country.name && <img src={SelectedFlagIcon} style={{ width: 20 }} />}
+                                </div>
                             </div>
                         ))}
                     </Modal.Body>

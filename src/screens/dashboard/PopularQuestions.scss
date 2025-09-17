@@ -184,6 +184,101 @@
     }
 }
 
+    // Market Summary Styles
+    .market-summary-card {
+        background: #F8F9FB;
+        border-radius: 12px;
+        padding: 16px;
+        height: 100%;
+        border: 1px solid #E8ECFF;
+        transition: all 0.3s ease;
+
+        &:hover {
+            border-color: #4563E4;
+            box-shadow: 0 2px 8px rgba(69, 99, 228, 0.1);
+        }
+
+        .market-summary-title {
+            font-weight: 600;
+            font-size: 14px;
+            color: #171E42;
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+
+        .market-summary-text {
+            font-weight: 400;
+            font-size: 12px;
+            color: #6F7387;
+            line-height: 1.5;
+            margin-bottom: 8px;
+        }
+
+        .market-summary-age {
+            font-weight: 500;
+            font-size: 11px;
+            color: #4563E4;
+        }
+    }
+
+    // Standout Stocks Styles
+    .standout-section {
+        .standout-section-title {
+            font-weight: 600;
+            font-size: 16px;
+            color: #171E42;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #E8ECFF;
+        }
+
+        .standout-stock-card {
+            background: #FFFFFF;
+            border: 1px solid #E8ECFF;
+            border-radius: 8px;
+            padding: 12px;
+            transition: all 0.3s ease;
+
+            &:hover {
+                border-color: #4563E4;
+                box-shadow: 0 2px 4px rgba(69, 99, 228, 0.1);
+            }
+
+            .stock-info {
+                flex: 1;
+                margin-right: 12px;
+
+                .stock-name {
+                    font-weight: 600;
+                    font-size: 14px;
+                    color: #171E42;
+                    margin-bottom: 4px;
+                }
+
+                .stock-reason {
+                    font-weight: 400;
+                    font-size: 11px;
+                    color: #6F7387;
+                    line-height: 1.4;
+                }
+            }
+
+            .stock-change {
+                font-weight: 700;
+                font-size: 14px;
+                white-space: nowrap;
+
+                &.positive {
+                    color: #22C55E;
+                }
+
+                &.negative {
+                    color: #EF4444;
+                }
+            }
+        }
+    }
+
 @media (max-width: 768px) {
     .popular-questions-css {
         .heading-text {
@@ -192,6 +287,40 @@
         
         .desc-text {
             font-size: 14px;
+        }
+
+        .market-summary-card {
+            margin-bottom: 12px;
+            
+            .market-summary-title {
+                font-size: 13px;
+            }
+
+            .market-summary-text {
+                font-size: 11px;
+            }
+        }
+
+        .standout-section {
+            .standout-section-title {
+                font-size: 15px;
+            }
+
+            .standout-stock-card {
+                .stock-info {
+                    .stock-name {
+                        font-size: 13px;
+                    }
+
+                    .stock-reason {
+                        font-size: 10px;
+                    }
+                }
+
+                .stock-change {
+                    font-size: 13px;
+                }
+            }
         }
     }
 }

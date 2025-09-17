@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import './PopularQuestions.scss'
 import BackBtnArrow from '../../assets/images/back-btn-arrow.png';
 import RightArrow from '../../assets/images/right-arrow.png';
@@ -9,9 +9,13 @@ import { Tooltip } from 'react-tooltip'
 import quesIcon from '../../assets/images/i-icon.png';
 import RightWhiteArrow from '../../assets/images/right-arrow.png';
 import RightDrawer from '../../components/rightDrawer/RightDrawer';
+import { useDispatch, useSelector } from 'react-redux';
+import { getTrendingDashboardData } from './slice';
 
 function PopularQuestions({ handleBackButtonClick, mostOnFrruitGpt, chatSuggestions, handleViewAllClick }) {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const { marketSummaryData, marketSummaryLoading, marketSummaryError } = useSelector(state => state.dashboardSlice);
     const [showMostOnFrruitDrawer, setShowMostOnFrruitDrawer] = useState(false);
     const [showSuggestedPromptsDrawer, setShowSuggestedPromptsDrawer] = useState(false);
     
@@ -48,6 +52,10 @@ function PopularQuestions({ handleBackButtonClick, mostOnFrruitGpt, chatSuggesti
         setShowSuggestedPromptsDrawer(false);
     };
 
+    useEffect(() => {
+        dispatch(getTrendingDashboardData());
+    }, [dispatch]);
+
     return (
         <>
             <div className='hide-on-large-screens-dashboard'>
@@ -60,55 +68,80 @@ function PopularQuestions({ handleBackButtonClick, mostOnFrruitGpt, chatSuggesti
                 </div>
                 <div className='heading-text'>Market Summary and Standout Stocks</div>
                 <div className='desc-text mt-1'>Get comprehensive market insights and discover trending stocks</div>
-                {/* {mostOnFrruitGpt?.rows?.length > 0 &&
+                
+                {marketSummaryLoading && (
+                    <div className='d-flex justify-content-center align-items-center mt-5'>
+                        <div className='spinner-border text-primary' role='status'>
+                            <span className='visually-hidden'>Loading...</span>
+                        </div>
+                        <span className='ms-2'>Loading market summary...</span>
+                    </div>
+                )}
+                
+                {marketSummaryError && (
+                    <div className='alert alert-danger mt-3' role='alert'>
+                        Error loading market summary: {marketSummaryError}
+                    </div>
+                )}
+                
+                {marketSummaryData && (
                     <>
+                        {/* Market Summary Section */}
                         <div className='box-content position-relative mt-3'>
-                            <div className='d-flex align-items-center justify-content-between'>
-                                <div className='title'>Most on Frruit</div>
-                                <div onClick={handleShowMostOnFrruit} style={{ cursor: 'pointer', color: '#4563E4', fontWeight: 600 }}>View All</div>
-                            </div>
-                            <div className='row mt-1 hide-in-mobile'>
-                                {mostOnFrruitGpt?.rows?.filter(text => text?.question && text.question.trim() !== '').slice(0, 9).map((text, index) => (
-                                    <div onClick={() => { routePromptFrruitGPT(text?.question, 'news_bing') }} key={index} className='col-lg-4'>
-                                        <div className='mostOnFrruitBox mb-2'>
-                                            <div className='d-flex justify-content-between align-items-center' >
-                                                <p className='text'>{text?.question?.replace(/\b\w/g, char => char.toUpperCase())}</p>
-                                                <img style={{ width: 24, objectFit: 'contain' }} src={RightArrow} alt={`Arrow ${index}`} />
-                                            </div>
+                            <div className='title mb-3'>Market Summary</div>
+                            <div className='row'>
+                                {marketSummaryData.market_summary?.summary_points?.slice(0, 6).map((point, index) => (
+                                    <div key={index} className='col-lg-6 col-md-6 col-sm-12 mb-3'>
+                                        <div className='market-summary-card'>
+                                            <div className='market-summary-title'>{point.title}</div>
+                                            <div className='market-summary-text'>{point.summary}</div>
+                                            <div className='market-summary-age'>{point.age}</div>
                                         </div>
                                     </div>
                                 ))}
                             </div>
-                            <div className="d-flex flex-column mt-3 hide-in-desktop " >
-                                {[0, 3].map((startIdx) => (
-                                    <div className="d-flex mb-3 mobile-scroll" key={startIdx}>
-                                        {mostOnFrruitGpt?.rows?.filter(text => text?.question && text.question.trim() !== '').slice(startIdx, startIdx + 3).map((text, index) => (
-                                            <div
-                                                onClick={() => { routePromptFrruitGPT(text?.question, 'news_bing') }}
-                                                key={index}
-                                                className="col-11 me-3"
-                                            >
-                                                <div className="mostOnFrruitBox mb-2">
-                                                    <div className="d-flex justify-content-between align-items-center">
-                                                        <p className="text">
-                                                            {text?.question?.replace(/\b\w/g, char => char.toUpperCase())}
-                                                        </p>
-                                                        <img
-                                                            style={{ width: 24, objectFit: 'contain' }}
-                                                            src={RightArrow}
-                                                            alt={`Arrow ${index}`}
-                                                        />
+                        </div>
+
+                        {/* Standout Stocks Section */}
+                        <div className='box-content position-relative mt-3'>
+                            <div className='title mb-3'>Standout Stocks</div>
+                            <div className='row'>
+                                <div className='col-lg-6 col-md-6 col-sm-12 mb-3'>
+                                    <div className='standout-section'>
+                                        <div className='standout-section-title'>Top Gainers</div>
+                                        {marketSummaryData.standouts_analysis?.topGainers?.map((stock, index) => (
+                                            <div key={index} className='standout-stock-card mb-2'>
+                                                <div className='d-flex justify-content-between align-items-start'>
+                                                    <div className='stock-info'>
+                                                        <div className='stock-name'>{stock.name}</div>
+                                                        <div className='stock-reason'>{stock.reason}</div>
                                                     </div>
+                                                    <div className='stock-change positive'>+{stock.change}</div>
                                                 </div>
                                             </div>
                                         ))}
                                     </div>
-                                ))}
+                                </div>
+                                <div className='col-lg-6 col-md-6 col-sm-12 mb-3'>
+                                    <div className='standout-section'>
+                                        <div className='standout-section-title'>Top Losers</div>
+                                        {marketSummaryData.standouts_analysis?.topLosers?.map((stock, index) => (
+                                            <div key={index} className='standout-stock-card mb-2'>
+                                                <div className='d-flex justify-content-between align-items-start'>
+                                                    <div className='stock-info'>
+                                                        <div className='stock-name'>{stock.name}</div>
+                                                        <div className='stock-reason'>{stock.reason}</div>
+                                                    </div>
+                                                    <div className='stock-change negative'>{stock.change}</div>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
                             </div>
-
                         </div>
                     </>
-                } */}
+                )}
                 {chatSuggestions?.length > 0 &&
                     <>
                         <div className='d-flex align-items-center justify-content-between'>

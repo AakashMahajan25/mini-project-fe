@@ -52,7 +52,10 @@ const initialState = {
     financialPeer : [],
     financialsShareHoldings : [],
     companyRevenues : {},
-    getResults: []
+    getResults: [],
+    marketSummaryData: null,
+    marketSummaryLoading: false,
+    marketSummaryError: null
 }
 
 export const getStockOverview = createAsyncThunk("dashboard/getStockOverview", async (queryParams) => {
@@ -390,6 +393,19 @@ export const getFinancialsResults = createAsyncThunk("stocks/getFinancialsResult
     }
 });
 
+export const getTrendingDashboardData = createAsyncThunk("dashboard/getTrendingDashboardData", async () => {
+    try {
+        let data = {
+            method: METHOD_TYPE.get,
+            url: API_ENDPOINTS.getTrendingDashboardData
+        };
+        const response = await api(data);
+        return response.data;
+    } catch (error) {
+        console.log('Error in getTrendingDashboardData:', error);
+        throw error;
+    }
+});
 
 const dashboardSlice = createSlice({
     name: "dashboard",
@@ -446,6 +462,9 @@ const dashboardSlice = createSlice({
         };
         const handleStockSearchLoading = (state, action) => {
             state.stockSearchLoading = action.meta.requestStatus === 'pending';
+        };
+        const handleMarketSummaryLoading = (state, action) => {
+            state.marketSummaryLoading = action.meta.requestStatus === 'pending';
         };
         const handleWatchlistLoading = (state, action) => {
             state.watchlistLoading = action.meta.requestStatus === 'pending';
@@ -543,6 +562,14 @@ const dashboardSlice = createSlice({
             .addCase(getStockIndexes.fulfilled, (state, action) => {
                 state.stockIndexes = action.payload;
             })
+            .addCase(getTrendingDashboardData.fulfilled, (state, action) => {
+                state.marketSummaryData = action.payload;
+                state.marketSummaryError = null;
+            })
+            .addCase(getTrendingDashboardData.rejected, (state, action) => {
+                state.marketSummaryData = null;
+                state.marketSummaryError = action.error.message;
+            })
             .addMatcher(
                 (action) =>
                     action.type === getTrendingStocks.pending.type ||
@@ -636,6 +663,13 @@ const dashboardSlice = createSlice({
                     action.type === fetchTrendingStocksFromAI.fulfilled.type ||
                     action.type === fetchTrendingStocksFromAI.pending.type ||
                     action.type === fetchTrendingStocksFromAI.rejected.type,
+            )
+            .addMatcher(
+                (action) =>
+                    action.type === getTrendingDashboardData.fulfilled.type ||
+                    action.type === getTrendingDashboardData.pending.type ||
+                    action.type === getTrendingDashboardData.rejected.type,
+                handleMarketSummaryLoading
             );
     }
 });
