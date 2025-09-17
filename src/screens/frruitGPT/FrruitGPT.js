@@ -20,7 +20,7 @@ import './FrruitGPT.scss';
 import HistoryImg from '../../assets/images/history_icon.png';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import BackArrowIcon from '../../assets/images/back-btn-arrow.png'
-import { socket } from '../../utils/socket'
+import { createSocket } from '../../utils/socket'
 
 function FrruitGPT() {
     const dispatch = useDispatch();
@@ -169,7 +169,7 @@ function FrruitGPT() {
             action: 'newchat_gpt_question',
             label: 'New chat for GPT question'
         });
-        const market = localStorage.getItem('marketType')
+        const market = localStorage.getItem('selectedCountry')
         const searchText = question
         setQuestion('');
         const requestData = {
@@ -216,24 +216,40 @@ function FrruitGPT() {
                         toast.error(error?.message)
                 })
         } else {
-            const apitoken = localStorage.getItem('token');    
-            socket.auth = { token: apitoken };
-    
-            socket.connect();
-            socket.emit('chatStream', requestData);
-            socket.on("response", (data) => {
+            const apitoken = localStorage.getItem('token');
+            const selectedCountry = localStorage.getItem('selectedCountry');
+            const countryCode = selectedCountry || 'IN'; // selectedCountry already contains the country code
+
+            // Create a new socket instance with the correct market parameter
+            const currentSocket = createSocket(countryCode);
+
+            currentSocket.auth = {
+                token: apitoken,
+                market: countryCode
+            };
+
+            currentSocket.connect();
+
+            // Include country in the request data
+            const requestDataWithCountry = {
+                ...requestData,
+                market: countryCode
+            };
+
+            currentSocket.emit('chatStream', requestDataWithCountry);
+            currentSocket.on("response", (data) => {
                 setStreamData(prev => prev + data.data)
                 scrollToBottom()
             });
-    
-            socket.on("end", (endData) => {
-                stopStream();
+
+            currentSocket.on("end", (endData) => {
+                stopStream(currentSocket);
                 if (endData && endData?.data?.length > 0)
                     setStreamLinks(endData?.data)
             });
-    
-            socket.on("error", (error) => {
-                clearStreamData();
+
+            currentSocket.on("error", (error) => {
+                clearStreamData(currentSocket);
                 setStreamInitiated(false)
                 setButtonStart(true)
                 setQuestion(searchText);
@@ -242,18 +258,19 @@ function FrruitGPT() {
         }
     }
 
-    const clearStreamData = () => {
+    const clearStreamData = (socketInstance = null) => {
         setStreamData('')
         setStreamLinks([])
         setStreamFlag(null)
-        stopStream();
+        stopStream(socketInstance);
     }
 
-    const stopStream = () => {
-        socket.off("response");
-        socket.off("end");
-        socket.off("error");
-        socket.disconnect();
+    const stopStream = (socketInstance = null) => {
+        const targetSocket = socketInstance || createSocket();
+        targetSocket.off("response");
+        targetSocket.off("end");
+        targetSocket.off("error");
+        targetSocket.disconnect();
         setStreamInitiated(false)
         setButtonStart(true)
     }

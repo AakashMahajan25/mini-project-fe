@@ -1,4 +1,19 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
+import ReactDOM from 'react-dom';
+
+
+
+// Mui Dropdown
+import {
+    FormControl,
+    InputLabel,
+    Select,
+    MenuItem,
+    Box,
+    Typography
+} from "@mui/material";
+// import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+
 // import LeftBox from '../../components/leftBox/LeftBox';
 // import DashboardRightBox from '../../components/dashboardRightBox/DashboardRightBox';
 import Stories1 from '../../assets/images/watchlist_news.png';
@@ -61,6 +76,43 @@ import AlertImg from '../../assets/images/exclamation.png'
 import ModalWalkthrough from '../../components/modalWalkthrough/ModalWalkthrough';
 import TrendingStocks from './TrendingStocks';
 
+// Flag components
+const FlagIcon = ({ countryCode, size = 20, className = '' }) => {
+    const flagUrls = {
+        'US': 'https://flagcdn.com/32x24/us.png',
+        'IN': 'https://flagcdn.com/32x24/in.png',
+        'GB': 'https://flagcdn.com/32x24/gb.png',
+        'CA': 'https://flagcdn.com/32x24/ca.png',
+        'AU': 'https://flagcdn.com/32x24/au.png',
+        'DE': 'https://flagcdn.com/32x24/de.png',
+        'FR': 'https://flagcdn.com/32x24/fr.png',
+        'JP': 'https://flagcdn.com/32x24/jp.png',
+        'CN': 'https://flagcdn.com/32x24/cn.png',
+        'BR': 'https://flagcdn.com/32x24/br.png'
+    };
+
+    const flagUrl = flagUrls[countryCode];
+
+    if (!flagUrl) {
+        return <span style={{ fontSize: '16px' }}>🏳️</span>;
+    }
+
+    return (
+        <img
+            src={flagUrl}
+            alt={`${countryCode} flag`}
+            className={className}
+            style={{
+                width: size,
+                height: size * 0.75,
+                objectFit: 'contain',
+                borderRadius: '2px',
+                display: 'block'
+            }}
+        />
+    );
+};
+
 const storyEnum = {
     watchlist_news: 'isWatchlistViewed',
     session_news: 'isSessionViewed',
@@ -95,6 +147,10 @@ const rightPositionModal = window.innerWidth < 768 ? -80 : -80;
 const topPositionModal = window.innerWidth < 768 ? -10 : -10;
 
 function Dashboard() {
+
+  
+
+
     // const [showSuggestions, setShowSuggestions] = useState(false);
     const PreviousBtn = (props) => {
         const { className, onClick } = props
@@ -165,8 +221,37 @@ function Dashboard() {
     const [sentiment, setSentiment] = useState('');
     const [sortOrder, setSortOrder] = useState('');
     const dropdownRef = useRef(null);
+    const countryDropdownRef = useRef(null);
     const location = useLocation();
+    const countries = [
+        { code: 'IN', name: 'India Markets' },
+        { code: 'US', name: 'US Markets' },
+    ];
+
     const [showModalWalkthrough, setShowModalWalkthrough] = useState(false);
+    const [selectedCountry, setSelectedCountry] = useState(() => {
+        // Initialize from localStorage or default to India
+        const savedCountryCode = localStorage.getItem("selectedCountry");
+
+        if (savedCountryCode) {
+            const savedCountryObj = countries.find(
+                (country) => country.code === savedCountryCode
+            );
+            if (savedCountryObj) {
+                return savedCountryObj.name;
+            } else {
+                // Invalid code in localStorage, reset to default
+                localStorage.setItem("selectedCountry", "IN");
+                return "India";
+            }
+        }
+        // No saved value, set default
+        localStorage.setItem("selectedCountry", "IN");
+        return "India";
+    });
+    const [showCountryDropdown, setShowCountryDropdown] = useState(false);
+    const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
+
     const handleCloseSearchModal = () => {
         setShowSearchModal(false);
         setShowWebSearch(false);
@@ -221,8 +306,8 @@ function Dashboard() {
     const stockboxData = [
         {
             imagesource: TrendingStockImg,
-            title: 'Trending Stocks',
-            subtitle: 'Explore trending stocks curated by AI'
+            title: 'Trending Stocks for Today',
+            subtitle: 'Explore trending stocks for today curated by AI'
         },
         // {
         //     imagesource: ContentSearchImg,
@@ -231,21 +316,21 @@ function Dashboard() {
         // },
         {
             imagesource: QuestionImage,
-            title: 'Popular Questions',
-            subtitle: 'Explore popular and most-asked questions to guide your AI search'
+            title: 'Market Summary and Standout Stocks',
+            subtitle: 'Get comprehensive market insights and discover trending stocks'
         },
     ]
 
     const handleClick = (title) => {
-        if (title === 'Popular Questions') {
+        if (title === 'Market Summary and Standout Stocks') {
             setShowPopularOpinions(!showPopularOpinions);
             setShowAllContent(false);
         } else if (title === 'Investor Stories & Trending Stocks') {
             setShowInvestorStories(!showInvestorStories);
             setShowAllContent(false);
-        } else if(title === 'Content Search') {
+        } else if (title === 'Content Search') {
             navigate("/market-content-gpt")
-        } else if(title === 'Trending Stocks') {
+        } else if (title === 'Trending Stocks') {
             setShowTrendingStocks(!showTrendingStocks);
             setShowAllContent(false);
         }
@@ -372,6 +457,58 @@ function Dashboard() {
         navigate("/frruit-gpt", {
             state: { question, fundamental: flag },
         });
+    };
+
+
+    const handleCountrySelect = (event) => {
+        const countryName = event.target.value; 
+
+
+        // Prevent selection if already selected
+        if (selectedCountry === countryName) {
+
+            return;
+        }
+
+
+        setSelectedCountry(countryName);
+
+        // Find the country code and store it in localStorage
+        const selectedCountryObj = countries.find(
+            (country) => country.name === countryName
+        );
+
+
+        if (selectedCountryObj) {
+
+            localStorage.setItem("selectedCountry", selectedCountryObj.code);
+        } else {
+            console.log("ERROR: Country object not found!");
+        }
+    };
+
+
+    // Ensure selectedCountry is properly initialized from localStorage on mount
+    useEffect(() => {
+        const savedCountryCode = localStorage.getItem('selectedCountry');
+        if (savedCountryCode) {
+            const savedCountryObj = countries.find(country => country.code === savedCountryCode);
+            if (savedCountryObj && savedCountryObj.name !== selectedCountry) {
+                console.log('Correcting selectedCountry from localStorage:', savedCountryObj.name);
+                setSelectedCountry(savedCountryObj.name);
+            }
+        }
+    }, []);
+
+    const handleCountryDropdownToggle = () => {
+        if (!showCountryDropdown && countryDropdownRef.current) {
+            const rect = countryDropdownRef.current.getBoundingClientRect();
+            setDropdownPosition({
+                top: rect.top - 8, // Position above the button with some margin
+                left: rect.right - 200 // Align with the right edge of the button
+            });
+        }
+        setShowCountryDropdown(!showCountryDropdown);
     };
 
     useEffect(() => {
@@ -570,7 +707,7 @@ function Dashboard() {
     // const handleCheckboxChange = () => {
     //     setShowSuggestions(!showSuggestions);
     // };
-    const placeholderText = (flag === 'news' || flag === 'news_bing') ? 'Search news, summarize & get TLDRs' : (flag === 'fund'|| flag === 'screener') ? 'Compare company data, financials,stock screener and actions' : flag === 'youtube' ? 'Discover insights from videos without watching' : 'Search discussions and opinions on social media'
+    const placeholderText = (flag === 'news' || flag === 'news_bing') ? 'Search news, summarize & get TLDRs' : (flag === 'fund' || flag === 'screener') ? 'Compare company data, financials,stock screener and actions' : flag === 'youtube' ? 'Discover insights from videos without watching' : 'Search discussions and opinions on social media'
 
     useEffect(() => {
         if (showWebSearch) {
@@ -616,6 +753,19 @@ function Dashboard() {
         };
     }, []);
 
+    // Click outside handler for country dropdown
+    useEffect(() => {
+        function handleCountryClickOutside(event) {
+            if (countryDropdownRef.current && !countryDropdownRef.current.contains(event.target)) {
+                setShowCountryDropdown(false);
+            }
+        }
+        document.addEventListener("mousedown", handleCountryClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleCountryClickOutside);
+        };
+    }, []);
+
     const routeChangeFrruitGPT = (question) => {
         navigate("/frruit-gpt", {
             state: { question, fundamental: 'news' },
@@ -645,7 +795,7 @@ function Dashboard() {
                 ((indexLoader || investorStoryLoading || suggestionLoader) && !isData) &&
                 <Loader />
             }
-            {showModalWalkthrough && 
+            {showModalWalkthrough &&
                 <ModalWalkthrough showModalWalkthrough={showModalWalkthrough} setShowModalWalkthrough={setShowModalWalkthrough} />
             }
             {/* {showCreditModal &&
@@ -670,42 +820,46 @@ function Dashboard() {
                             <div className='dashboard'>
                                 <div className='d-flex flex-column justify-content-between mb-3' style={{ height: window.innerWidth > 768 ? window.innerHeight - 102 : window.innerHeight - 115 }}>
                                     <div>
-                                        <div style={{ marginTop: 12, textAlign: 'center' }}>
+                                        {/* <div style={{ marginTop: 12, textAlign: 'center' }}>
                                             <p className='title-header px-3'>Perform AI search across
                                                 <span style={{ color: '#4563e4' }}> Financial Markets</span> 
                                             </p>
-                                        </div>
+                                        </div> */}
                                     </div>
-                                    <div className='row px-4 justify-content-center'>
-                                        <p className='explore-text mb-auto p-2 text-center mb-16' style={{ width: '100%' }}>You may want to explore?</p>
-                                        {stockboxData.map((item, index) => (
-                                            <div className='col-xl-4 d-flex justify-content-center' key={index} onClick={() => handleClick(item.title)} style={{ cursor: 'pointer' }}>
-                                                <div className='stockbox' style={{ width: '100%', maxWidth: '300px', position: 'relative' }}>
-                                                    <div className='hide-in-mobile'>
-                                                        <div className='d-flex justify-content-between'>
-                                                            <img src={item.imagesource} className='icon-image' />
-                                                            <button className='btn1' style={{ position: 'absolute', top: '16px', right: '16px' }}>
+                                    <div className='row px-4'>
+                                        <div className='mb-4'>
+                                            <p className='explore-text mb-3 p-2' style={{ textAlign: 'left' }}>You may want to explore?</p>
+                                        </div>
+                                        <div className='row justify-content-center' style={{gap:30}}>
+                                            {stockboxData.map((item, index) => (
+                                                <div className='col-xl-4 col-lg-4 col-md-6 col-sm-12 d-flex justify-content-center mb-3' key={index} onClick={() => handleClick(item.title)} style={{ cursor: 'pointer', flex: '1 1 0', maxWidth: 'calc(50% - 15px)' }}>
+                                                    <div className='stockbox' style={{ width: '100%', minHeight: '140px', position: 'relative', display: 'flex', flexDirection: 'column' }}>
+                                                        <div className='hide-in-mobile' style={{ flex: 1 }}>
+                                                            <div className='d-flex justify-content-between'>
+                                                                {/* <img src={item.imagesource} className='icon-image' /> */}
+                                                                <button className='btn1' style={{ position: 'absolute', top: '50%', right: '16px', transform: 'translateY(-50%)' }}>
+                                                                    <img src={RoundChevronRight} className='icon-image2' />
+                                                                </button>
+                                                            </div>
+                                                            <div style={{ paddingRight: '50px', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                                                                <p className='boxheader' style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{item.title}</p>
+                                                                <p className='boxsubheader'>{item.subtitle}</p>
+                                                            </div>
+                                                        </div>
+                                                        <div className='d-flex justify-content-between align-items-center hide-in-desktop'>
+                                                            {/* <img src={item.imagesource} className='icon-image' /> */}
+                                                            <div style={{ marginLeft: 10, flex: 1, paddingRight: '10px' }}>
+                                                                <p className='boxheader' style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{item.title}</p>
+                                                                <p className='boxsubheader'>{item.subtitle}</p>
+                                                            </div>
+                                                            <button className='btn1' onClick={() => handleClick(item.title)} style={{ marginLeft: 'auto', flexShrink: 0 }}>
                                                                 <img src={RoundChevronRight} className='icon-image2' />
                                                             </button>
                                                         </div>
-                                                        <div>
-                                                            <p className='boxheader'>{item.title}</p>
-                                                            <p className='boxsubheader'>{item.subtitle}</p>
-                                                        </div>
-                                                    </div>
-                                                    <div className='d-flex justify-content-between align-items-start hide-in-desktop'>
-                                                        <img src={item.imagesource} className='icon-image' />
-                                                        <div style={{ marginLeft: 10, flex: 1 }}>
-                                                            <p className='boxheader'>{item.title}</p>
-                                                            <p className='boxsubheader'>{item.subtitle}</p>
-                                                        </div>
-                                                        <button className='btn1' onClick={() => handleClick(item.title)} style={{ marginLeft: 'auto' }}>
-                                                            <img src={RoundChevronRight} className='icon-image2' />
-                                                        </button>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        ))}
+                                            ))}
+                                        </div>
                                     </div>
                                     <div>
                                         {/* <div className={window.innerWidth >= 500 ? 'blue-box-alert mx-4 mt-2' : 'blue-box-alert mx-4 mb-0'} style={{ textAlign: 'center' }}>
@@ -714,32 +868,333 @@ function Dashboard() {
                                             </div>
                                             // {/* <div className='alert-desc'>While we strive to deliver the best actionable insights using AI. Gathering and analyzing company data or videos may take a moment, so we kindly ask for your patience while we process everything!</div> 
                                         </div> */}
-                                        
+
                                     </div>
                                     <div className='dashboard-container'>
-                                    <div className={window.innerWidth >= 500 ? 'd-flex justify-content-center mt-3' : 'd-flex justify-content-center mt-2'}>
+                                        <div className={window.innerWidth >= 500 ? 'd-flex justify-content-center mt-3' : 'd-flex justify-content-center mt-2'}>
                                             <p className='blue-box-dashboard alert-desc-dashboard text-center'>Frruit doesn't provide personalized stock advice or buy/sell recommendations.</p>
                                         </div>
                                         <div className='suggested-prompts-container'>
                                             <>
                                                 <div className='customTab-frruit-gpt hide-in-mobile'>
-                                                    <div className='d-flex align-items-center justify-content-start mobile-scroll-Css'>
-                                                        <div className='d-flex align-items-center me-3'>
-                                                            <div className='tab-name-css'>Choose Search Focus</div>
-                                                            <img src={StraightArrowIcon} style={{ width: 20, objectFit: 'contain' }} />
+                                                    <div className='d-flex align-items-center justify-content-between mobile-scroll-Css'>
+                                                        <div className='d-flex align-items-center'>
+                                                            <FormControl
+                                                                sx={{
+                                                                    background: "#F1F4FD",
+                                                                    borderRadius: "8px",
+                                                                    border: "1px solid #E8ECFF",
+                                                                    minWidth: "160px",
+                                                                    width: "180px",
+                                                                    "& .MuiOutlinedInput-notchedOutline": {
+                                                                        border: "none"
+                                                                    },
+                                                                    "&:hover": {
+                                                                        background: "#E8ECFF"
+                                                                    }
+                                                                }}
+                                                            >
+                                                                <Select
+                                                                    labelId="country-label"
+                                                                    value={selectedCountry}
+                                                                    onChange={handleCountrySelect}
+                                                                    displayEmpty
+                                                                    sx={{
+                                                                        height: "36px",
+                                                                        px: 1.5,
+                                                                        fontSize: "14px",
+                                                                        fontWeight: "500",
+                                                                        color: "#4563E4",
+                                                                        display: "flex",
+                                                                        alignItems: "center",
+                                                                        "& .MuiSelect-select": {
+                                                                            display: "flex",
+                                                                            alignItems: "center",
+                                                                            py: 0,
+                                                                            pr: "24px !important"
+                                                                        },
+                                                                        "& .MuiSelect-icon": {
+                                                                            color: "#4563E4"
+                                                                        }
+                                                                    }}
+                                                                    renderValue={(value) => {
+                                                                        if (!value) return "Select a country";
+                                                                        const country = countries.find((c) => c.name === value);
+                                                                        return (
+                                                                            <Box display="flex" alignItems="center">
+                                                                                <Box
+                                                                                    sx={{
+                                                                                        width: "16px",
+                                                                                        height: "12px",
+                                                                                        display: "flex",
+                                                                                        alignItems: "center",
+                                                                                        justifyContent: "center",
+                                                                                        marginRight: "6px",
+                                                                                        borderRadius: "2px",
+                                                                                        overflow: "hidden"
+                                                                                    }}
+                                                                                >
+                                                                                    <FlagIcon countryCode={country?.code} size={16} />
+                                                                                </Box>
+                                                                                <Typography
+                                                                                    sx={{
+                                                                                        fontWeight: 500,
+                                                                                        fontSize: "14px",
+                                                                                        color: "#4563E4",
+                                                                                        whiteSpace: "nowrap",
+                                                                                        overflow: "hidden",
+                                                                                        textOverflow: "ellipsis"
+                                                                                    }}
+                                                                                >
+                                                                                    {country?.name}
+                                                                                </Typography>
+                                                                            </Box>
+                                                                        );
+                                                                    }}
+                                                                    MenuProps={{
+                                                                        PaperProps: {
+                                                                            sx: {
+                                                                                borderRadius: "8px",
+                                                                                border: "1px solid #E8ECFF",
+                                                                                backgroundColor: "white",
+                                                                                boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+                                                                                mt: -1
+                                                                            }
+                                                                        },
+                                                                        anchorOrigin: {
+                                                                            vertical: 'top',
+                                                                            horizontal: 'left',
+                                                                        },
+                                                                        transformOrigin: {
+                                                                            vertical: 'bottom',
+                                                                            horizontal: 'left',
+                                                                        }
+                                                                    }}
+                                                                >
+                                                                    {countries.map((country) => (
+                                                                        <MenuItem
+                                                                            key={country.code}
+                                                                            value={country.name}
+                                                                            sx={{
+                                                                                display: "flex",
+                                                                                alignItems: "center",
+                                                                                height: "40px",
+                                                                                padding: "8px 12px",
+                                                                                fontSize: "14px",
+                                                                                fontWeight: "500",
+                                                                                color: "#4563E4",
+                                                                                backgroundColor: "transparent",
+                                                                                "&.Mui-selected": {
+                                                                                    backgroundColor: "#F1F4FD",
+                                                                                    color: "#4563E4"
+                                                                                },
+                                                                                "&:hover": {
+                                                                                    backgroundColor: "#F1F4FD"
+                                                                                }
+                                                                            }}
+                                                                        >
+                                                                            <Box marginRight="8px">
+                                                                                <FlagIcon countryCode={country.code} size={16} />
+                                                                            </Box>
+                                                                            <Typography sx={{ fontSize: "14px", fontWeight: "500", color: "#4563E4" }}>
+                                                                                {country.name}
+                                                                            </Typography>
+                                                                            {selectedCountry === country.name && (
+                                                                                <Box
+                                                                                    sx={{
+                                                                                        width: "6px",
+                                                                                        height: "6px",
+                                                                                        backgroundColor: "#4563E4",
+                                                                                        borderRadius: "50%",
+                                                                                        marginLeft: "auto"
+                                                                                    }}
+                                                                                />
+                                                                            )}
+                                                                        </MenuItem>
+                                                                    ))}
+                                                                </Select>
+                                                            </FormControl>
+                                                            <img src={StraightArrowIcon} style={{ width: 20, objectFit: 'contain', marginLeft: 10, marginRight: 10 }} />
+                                                            <div className={(flag === 'news' || flag === 'news_bing') ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: (flag === 'news' || flag === 'news_bing') ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
+                                                                onClick={() => setFlag('news')}
+                                                            > All </div>
+                                                            {/* <div className={(flag === 'fund' || flag === 'screener') ? `tab-name-css tab-box-css` : `tab-name-css`} style={{ backgroundColor: (flag === 'fund' || flag === 'screener') ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
+                                                                onClick={() => selectedFund === 'Company Data' ? setFlag('fund') : setFlag('screener')}
+                                                            > Fundamentals </div> */}
+                                                            {/* <div className={flag === 'youtube' ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: flag === 'youtube' ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
+                                                                onClick={() => setFlag('youtube')}
+                                                            > Videos </div> */}
+                                                            <div className={flag === 'reddit' ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: flag === 'reddit' ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
+                                                                onClick={() => setFlag('reddit')}
+                                                            > Social Opinions </div>
                                                         </div>
-                                                        <div className={(flag === 'news' || flag === 'news_bing') ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: (flag === 'news' || flag === 'news_bing') ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
-                                                            onClick={() => setFlag('news')}
-                                                        > All </div>
-                                                        {/* <div className={(flag === 'fund' || flag === 'screener') ? `tab-name-css tab-box-css` : `tab-name-css`} style={{ backgroundColor: (flag === 'fund' || flag === 'screener') ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
-                                                            onClick={() => selectedFund === 'Company Data' ? setFlag('fund') : setFlag('screener')}
-                                                        > Fundamentals </div> */}
-                                                        {/* <div className={flag === 'youtube' ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: flag === 'youtube' ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
-                                                            onClick={() => setFlag('youtube')}
-                                                        > Videos </div> */}
-                                                        <div className={flag === 'reddit' ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: flag === 'reddit' ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
-                                                            onClick={() => setFlag('reddit')}
-                                                        > Social Opinions </div>
+                                                        {/* <div className='country-dropdown position-relative'>
+                                                            <button
+                                                                ref={countryDropdownRef}
+                                                                className='country-selector-btn d-flex align-items-center justify-content-between'
+                                                                onClick={handleCountryDropdownToggle}
+                                                                style={{
+                                                                    background: 'white',
+                                                                    border: '1px solid #dee2e6',
+                                                                    borderRadius: '12px',
+                                                                    padding: '12px 16px',
+                                                                    fontSize: '14px',
+                                                                    fontWeight: '500',
+                                                                    cursor: 'pointer',
+                                                                    minWidth: '180px',
+                                                                    height: '48px',
+                                                                    color: '#2c3e50',
+                                                                    pointerEvents: "auto"
+                                                                }}
+                                                            >
+                                                                <div className='d-flex align-items-center' style={{ flex: 1 }}>
+                                                                    <div style={{
+                                                                        width: '24px',
+                                                                        height: '18px',
+                                                                        marginRight: '10px',
+                                                                        display: 'flex',
+                                                                        alignItems: 'center',
+                                                                        justifyContent: 'center',
+                                                                        borderRadius: '2px',
+                                                                        overflow: 'hidden',
+                                                                        backgroundColor: 'transparent'
+                                                                    }}>
+                                                                        <FlagIcon countryCode={countries.find(c => c.name === selectedCountry)?.code} size={24} />
+                                                                    </div>
+                                                                    <span style={{
+                                                                        fontWeight: '600',
+                                                                        color: '#2c3e50',
+                                                                        whiteSpace: 'nowrap',
+                                                                        overflow: 'hidden',
+                                                                        textOverflow: 'ellipsis'
+                                                                    }}>
+                                                                        {selectedCountry}
+                                                                    </span>
+                                                                </div>
+                                                                <div style={{
+                                                                    width: '20px',
+                                                                    height: '20px',
+                                                                    display: 'flex',
+                                                                    alignItems: 'center',
+                                                                    justifyContent: 'center',
+                                                                    marginLeft: '8px'
+                                                                }}>
+                                                                    <img
+                                                                        src={ArrowDownIcon}
+                                                                        style={{
+                                                                            width: '16px',
+                                                                            height: '16px',
+                                                                            transform: showCountryDropdown ? 'rotate(180deg)' : 'rotate(0deg)',
+                                                                            transition: 'transform 0.3s ease',
+                                                                            filter: 'brightness(0.6)'
+                                                                        }}
+                                                                        alt='dropdown'
+                                                                    />
+                                                                </div>
+                                                            </button>
+
+                                                            {showCountryDropdown && ReactDOM.createPortal(
+                                                                <div
+                                                                    className="country-dropdown-overlay"
+                                                                    style={{
+                                                                        position: 'fixed',
+                                                                        top: 0,
+                                                                        left: 0,
+                                                                        right: 0,
+                                                                        bottom: 0,
+                                                                        zIndex: 9999,
+                                                                        background: 'transparent'
+                                                                    }}
+                                                                    onClick={(e) => {
+                                                                        e.stopPropagation();
+                                                                        setShowCountryDropdown(false);
+                                                                    }}
+                                                                >
+                                                                    <div
+                                                                        className="country-dropdown-menu"
+                                                                        style={{
+                                                                            position: 'fixed',
+                                                                            top: `${dropdownPosition.top}px`,
+                                                                            left: `${dropdownPosition.left}px`,
+                                                                            background: 'white',
+                                                                            border: '1px solid #dee2e6',
+                                                                            borderRadius: '12px',
+                                                                            zIndex: 10000,
+                                                                            minWidth: '200px',
+                                                                            width: '200px',
+                                                                            pointerEvents: 'auto',
+                                                                            maxHeight: '300px',
+                                                                            overflowY: 'auto',
+                                                                            boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)'
+                                                                        }}
+                                                                        onClick={(e) => {
+                                                                            e.stopPropagation(); // Prevent overlay click
+                                                                        }}
+                                                                    >
+                                                                        {countries.map((country, index) => (
+                                                                            <div
+                                                                                key={country.code}
+                                                                                className="country-option d-flex align-items-center"
+                                                                                onClick={(e) => {
+                                                                                    console.log("ITEM CLICK START", country.name);
+                                                                                    e.preventDefault();
+                                                                                    e.stopPropagation();
+                                                                                    handleCountrySelect(country.name);
+                                                                                    console.log("ITEM CLICK END");
+                                                                                }}
+                                                                                onMouseDown={(e) => {
+                                                                                    // Prevent button from losing focus
+                                                                                    e.preventDefault();
+                                                                                }}
+                                                                                style={{
+                                                                                    padding: '12px 16px',
+                                                                                    cursor: 'pointer',
+                                                                                    borderBottom: index < countries.length - 1 ? '1px solid #f1f3f4' : 'none',
+                                                                                    backgroundColor: selectedCountry === country.name ? '#e3f2fd' : 'transparent',
+                                                                                    borderRadius:
+                                                                                        index === 0
+                                                                                            ? '12px 12px 0 0'
+                                                                                            : index === countries.length - 1
+                                                                                                ? '0 0 12px 12px'
+                                                                                                : '0',
+                                                                                    height: '48px',
+                                                                                    transition: 'background-color 0.2s ease'
+                                                                                }}
+                                                                                onMouseEnter={(e) => {
+                                                                                    if (selectedCountry !== country.name) {
+                                                                                        e.target.style.backgroundColor = '#f8f9fa';
+                                                                                    }
+                                                                                }}
+                                                                                onMouseLeave={(e) => {
+                                                                                    if (selectedCountry !== country.name) {
+                                                                                        e.target.style.backgroundColor = 'transparent';
+                                                                                    }
+                                                                                }}
+                                                                            >
+                                                                                <div style={{ marginRight: '12px' }}>
+                                                                                    <FlagIcon countryCode={country.code} size={22} />
+                                                                                </div>
+                                                                                <span style={{ pointerEvents: 'none' }}>{country.name}</span>
+                                                                                {selectedCountry === country.name && (
+                                                                                    <div
+                                                                                        style={{
+                                                                                            width: '8px',
+                                                                                            height: '8px',
+                                                                                            backgroundColor: '#1565c0',
+                                                                                            borderRadius: '50%',
+                                                                                            marginLeft: 'auto',
+                                                                                            pointerEvents: 'none'
+                                                                                        }}
+                                                                                    />
+                                                                                )}
+                                                                            </div>
+                                                                        ))}
+                                                                    </div>
+                                                                </div>,
+                                                                document.body
+                                                            )}
+                                                        </div> */}
+
                                                     </div>
                                                 </div>
                                                 <div className='search-dashboard-main d-flex align-items-end'>
@@ -799,7 +1254,7 @@ function Dashboard() {
                                                                         placeholder='Ask anything'
                                                                         onKeyDown={handleKeyPress}
                                                                     />
-                                                                    <img className='send-image' src={SendIconMobile} alt='Send' onClick={() => routePromptFrruitGPT(question, flag)} />            
+                                                                    <img className='send-image' src={SendIconMobile} alt='Send' onClick={() => routePromptFrruitGPT(question, flag)} />
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -865,7 +1320,7 @@ function Dashboard() {
                             <NewsViewAll backBtnClick={toggleShowAllContent} sentiment={sentiment} sortOrder={sortOrder} filtersApplied={filtersApplied} onSentimentChange={handleSentimentChange} onSortOrderChange={handleSortOrderChange} onResetFilters={handleResetFilters} newsData={cmotsNews?.rows} />
                         </div>
                     }
-                    {!showAllContent && showPopularOpinions && 
+                    {!showAllContent && showPopularOpinions &&
                         <div className='col-lg-12 column-pad'>
                             <PopularQuestions mostOnFrruitGpt={mostOnFrruitGpt} handleBackButtonClick={handleBackButtonClick} chatSuggestions={chatSuggestions} handleViewAllClick={handleViewAllClick} />
                         </div>

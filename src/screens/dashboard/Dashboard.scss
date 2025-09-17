@@ -1,5 +1,5 @@
 .dashboardHome {
-    overflow-y: hidden;
+    overflow-y: visible;
 
     .error-message{
         color: red;
@@ -419,6 +419,7 @@
 
         .suggested-prompts-container {
             margin-top: 20px;
+            overflow: visible;
 
             .prompts-text-bg {
                 border-radius: 15px;

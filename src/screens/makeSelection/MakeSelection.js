@@ -22,10 +22,10 @@ import ReactGA from 'react-ga4';
 
 function MakeSelection() {
     const navigate = useNavigate();
-    const [selected, setSelected] = useState('IND')
+    const [selected, setSelected] = useState('IN')
 
     const verifyProceed = () => {
-        localStorage.setItem('marketType', selected)
+        localStorage.setItem('selectedCountry', selected)
         ReactGA.event({
             category: 'User',
             action: 'market_selection',

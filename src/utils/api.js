@@ -14,6 +14,7 @@ api.interceptors.request.use(function (config) {
   const token = localStorage.getItem('token');
   token && (config.headers.Authorization = "Bearer " + token);
   config.headers.platform = 'web';
+
   return config;
 });
 

@@ -58,8 +58,8 @@ function PopularQuestions({ handleBackButtonClick, mostOnFrruitGpt, chatSuggesti
                 <div className='d-flex justify-content-start align-items-center' style={{ marginBottom: 20 }}>
                     <button onClick={handleBackButtonClick} className='light-blue-btn me-2'><img src={BackBtnArrow} style={{ width: 7, height: 13, objectFit: 'contain', marginRight: 5, marginTop: -2 }} />Back</button>
                 </div>
-                <div className='heading-text'>Popular Questions</div>
-                <div className='desc-text mt-1'>Explore popular and most-asked questions to guide your AI search</div>
+                <div className='heading-text'>Market Summary and Standout Stocks</div>
+                <div className='desc-text mt-1'>Get comprehensive market insights and discover trending stocks</div>
                 {/* {mostOnFrruitGpt?.rows?.length > 0 &&
                     <>
                         <div className='box-content position-relative mt-3'>

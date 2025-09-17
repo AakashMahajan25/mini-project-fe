@@ -19,6 +19,15 @@ import CloseImage from '../../assets/images/close_icon.png'
 import SelectedFlagIcon from '../../assets/images/selected-flag.png'
 import SendIconMobile from '../../assets/images/send_icon_mobile.png'
 
+import {
+    FormControl,
+    InputLabel,
+    Select,
+    MenuItem,
+    Box,
+    Typography
+} from "@mui/material";
+
 function BottomSearchBar(props) {
 
     const [showFundamentals, setShowFundamentals] = useState(false);
@@ -27,13 +36,101 @@ function BottomSearchBar(props) {
     const [showWebSearch, setShowWebSearch] = useState(false);
     const [selectedFund, setSelectedFund] = useState('Company Data');
     const [showDropdown, setShowDropdown] = useState(false);
-    const [error, setError] = useState(false); 
+    const [error, setError] = useState(false);
     const dropdownRef = useRef(null);
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const { suggestedQuestionsList, isLoading, frruitLoader } = useSelector(state => state.fruitGPTSlice);
     const [showSearchModal, setShowSearchModal] = useState(false);
     const [show, setShow] = useState(false);
+
+    const countries = [
+        { code: 'IN', name: 'India Markets' },
+        { code: 'US', name: 'US Markets' },
+    ];
+
+    // Flag components
+    const FlagIcon = ({ countryCode, size = 20, className = '' }) => {
+        const flagUrls = {
+            'US': 'https://flagcdn.com/32x24/us.png',
+            'IN': 'https://flagcdn.com/32x24/in.png',
+           
+        };
+
+        const flagUrl = flagUrls[countryCode];
+
+        if (!flagUrl) {
+            return <span style={{ fontSize: '16px' }}>🏳️</span>;
+        }
+
+        return (
+            <img
+                src={flagUrl}
+                alt={`${countryCode} flag`}
+                className={className}
+                style={{
+                    width: size,
+                    height: size * 0.75,
+                    objectFit: 'contain',
+                    borderRadius: '2px',
+                    display: 'block'
+                }}
+            />
+        );
+    };
+
+
+
+    const [selectedCountry, setSelectedCountry] = useState(() => {
+        // Initialize from localStorage or default to India
+        const savedCountryCode = localStorage.getItem("selectedCountry");
+
+        if (savedCountryCode) {
+            const savedCountryObj = countries.find(
+                (country) => country.code === savedCountryCode
+            );
+            if (savedCountryObj) {
+                return savedCountryObj.name;
+            } else {
+                // Invalid code in localStorage, reset to default
+                localStorage.setItem("selectedCountry", "IN");
+                return "India";
+            }
+        }
+        // No saved value, set default
+        localStorage.setItem("selectedCountry", "IN");
+        return "India";
+    });
+
+
+    const handleCountrySelect = (event) => {
+        const countryName = event.target.value; // ✅ FIX: get value from event
+
+
+        // Prevent selection if already selected
+        if (selectedCountry === countryName) {
+
+            return;
+        }
+
+
+        setSelectedCountry(countryName);
+
+        // Find the country code and store it in localStorage
+        const selectedCountryObj = countries.find(
+            (country) => country.name === countryName
+        );
+
+
+        if (selectedCountryObj) {
+
+            localStorage.setItem("selectedCountry", selectedCountryObj.code);
+        } else {
+            console.log("ERROR: Country object not found!");
+        }
+    };
+
+
     const handleCloseSearchModal = () => {
         setShowSearchModal(false);
         setShowWebSearch(false);
@@ -85,8 +182,8 @@ function BottomSearchBar(props) {
     }, [showWebSearch])
 
     useEffect(() => {
-      if(isNewChat)
-        setShowWebSearch(false);
+        if (isNewChat)
+            setShowWebSearch(false);
 
     }, [isNewChat])
 
@@ -161,9 +258,9 @@ function BottomSearchBar(props) {
     const handleOptionClick = (value) => {
         setSelectedFund(value);
         setShowDropdown(false);
-        if(value === 'Stock Screener'){
+        if (value === 'Stock Screener') {
             setFlag('screener')
-        }else{
+        } else {
             setFlag('fund')
         }
     };
@@ -178,7 +275,7 @@ function BottomSearchBar(props) {
             document.removeEventListener("mousedown", handleClickOutside);
         };
     }, []);
-    const placeholderText = (flag === 'news' || flag === 'news_bing') ? 'Search news, summarize & get TLDRs' : (flag === 'fund'|| flag === 'screener') ? 'Compare company fundamentals data, financials, stock screener and corporate actions' : flag === 'youtube' ? 'Discover insights from videos without watching' : 'Search discussions and opinions on social media'
+    const placeholderText = (flag === 'news' || flag === 'news_bing') ? 'Search news, summarize & get TLDRs' : (flag === 'fund' || flag === 'screener') ? 'Compare company fundamentals data, financials, stock screener and corporate actions' : flag === 'youtube' ? 'Discover insights from videos without watching' : 'Search discussions and opinions on social media'
     return (
         <>
             {showSearchModal &&
@@ -197,8 +294,142 @@ function BottomSearchBar(props) {
                 <div className='customTab-frruit-gpt hide-in-mobile'>
                     <div className='d-flex align-items-center mobile-scroll-Css'>
                         <div className='d-flex align-items-center me-3'>
-                            <div className='tab-name-css px-3'>Choose Search Focus</div>
-                            <img src={StraightArrowIcon} style={{ width: 20, objectFit: 'contain' }} />
+                        <FormControl
+                                                                sx={{
+                                                                    background: "#F1F4FD",
+                                                                    borderRadius: "8px",
+                                                                    border: "1px solid #E8ECFF",
+                                                                    minWidth: "160px",
+                                                                    width: "180px",
+                                                                    "& .MuiOutlinedInput-notchedOutline": {
+                                                                        border: "none"
+                                                                    },
+                                                                    "&:hover": {
+                                                                        background: "#E8ECFF"
+                                                                    }
+                                                                }}
+                                                            >
+                                                                <Select
+                                                                    labelId="country-label"
+                                                                    value={selectedCountry}
+                                                                    onChange={handleCountrySelect}
+                                                                    displayEmpty
+                                                                    sx={{
+                                                                        height: "36px",
+                                                                        px: 1.5,
+                                                                        fontSize: "14px",
+                                                                        fontWeight: "500",
+                                                                        color: "#4563E4",
+                                                                        display: "flex",
+                                                                        alignItems: "center",
+                                                                        "& .MuiSelect-select": {
+                                                                            display: "flex",
+                                                                            alignItems: "center",
+                                                                            py: 0,
+                                                                            pr: "24px !important"
+                                                                        },
+                                                                        "& .MuiSelect-icon": {
+                                                                            color: "#4563E4"
+                                                                        }
+                                                                    }}
+                                                                    renderValue={(value) => {
+                                                                        if (!value) return "Select a country";
+                                                                        const country = countries.find((c) => c.name === value);
+                                                                        return (
+                                                                            <Box display="flex" alignItems="center">
+                                                                                <Box
+                                                                                    sx={{
+                                                                                        width: "16px",
+                                                                                        height: "12px",
+                                                                                        display: "flex",
+                                                                                        alignItems: "center",
+                                                                                        justifyContent: "center",
+                                                                                        marginRight: "6px",
+                                                                                        borderRadius: "2px",
+                                                                                        overflow: "hidden"
+                                                                                    }}
+                                                                                >
+                                                                                    <FlagIcon countryCode={country?.code} size={16} />
+                                                                                </Box>
+                                                                                <Typography
+                                                                                    sx={{
+                                                                                        fontWeight: 500,
+                                                                                        fontSize: "14px",
+                                                                                        color: "#4563E4",
+                                                                                        whiteSpace: "nowrap",
+                                                                                        overflow: "hidden",
+                                                                                        textOverflow: "ellipsis"
+                                                                                    }}
+                                                                                >
+                                                                                    {country?.name}
+                                                                                </Typography>
+                                                                            </Box>
+                                                                        );
+                                                                    }}
+                                                                    MenuProps={{
+                                                                        PaperProps: {
+                                                                            sx: {
+                                                                                borderRadius: "8px",
+                                                                                border: "1px solid #E8ECFF",
+                                                                                backgroundColor: "white",
+                                                                                boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+                                                                                mt: -1
+                                                                            }
+                                                                        },
+                                                                        anchorOrigin: {
+                                                                            vertical: 'top',
+                                                                            horizontal: 'left',
+                                                                        },
+                                                                        transformOrigin: {
+                                                                            vertical: 'bottom',
+                                                                            horizontal: 'left',
+                                                                        }
+                                                                    }}
+                                                                >
+                                                                    {countries.map((country) => (
+                                                                        <MenuItem
+                                                                            key={country.code}
+                                                                            value={country.name}
+                                                                            sx={{
+                                                                                display: "flex",
+                                                                                alignItems: "center",
+                                                                                height: "40px",
+                                                                                padding: "8px 12px",
+                                                                                fontSize: "14px",
+                                                                                fontWeight: "500",
+                                                                                color: "#4563E4",
+                                                                                backgroundColor: "transparent",
+                                                                                "&.Mui-selected": {
+                                                                                    backgroundColor: "#F1F4FD",
+                                                                                    color: "#4563E4"
+                                                                                },
+                                                                                "&:hover": {
+                                                                                    backgroundColor: "#F1F4FD"
+                                                                                }
+                                                                            }}
+                                                                        >
+                                                                            <Box marginRight="8px">
+                                                                                <FlagIcon countryCode={country.code} size={16} />
+                                                                            </Box>
+                                                                            <Typography sx={{ fontSize: "14px", fontWeight: "500", color: "#4563E4" }}>
+                                                                                {country.name}
+                                                                            </Typography>
+                                                                            {selectedCountry === country.name && (
+                                                                                <Box
+                                                                                    sx={{
+                                                                                        width: "6px",
+                                                                                        height: "6px",
+                                                                                        backgroundColor: "#4563E4",
+                                                                                        borderRadius: "50%",
+                                                                                        marginLeft: "auto"
+                                                                                    }}
+                                                                                />
+                                                                            )}
+                                                                        </MenuItem>
+                                                                    ))}
+                                                                </Select>
+                                                            </FormControl>
+                            <img src={StraightArrowIcon} style={{ width: 20, objectFit: 'contain', marginLeft: 16}} />
                         </div>
                         <div className={(flag === 'news' || flag === 'news_bing') ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: (flag === 'news' || flag === 'news_bing') ? '#F1F4FD' : '', color: (frruitLoader && !(flag === 'news' || flag === 'news_bing')) ? '#B4B3B9' : '#4563E4', cursor: 'pointer' }}
                             onClick={frruitLoader ? undefined : () => showWebSearch ? setFlag('news_bing') : setFlag('news')}
@@ -221,8 +452,118 @@ function BottomSearchBar(props) {
                             <div className={flag == 'similarDays' ? `tab-name-css tab-box-css` : `tab-name-css`} style={{ backgroundColor: flag == 'similarDays' ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
                                 onClick={() => setFlag('similarDays')}
                             >Similar Days </div> */}
+
+                       
                     </div>
                 </div>
+
+                {/* Mobile Country Selector */}
+                <div className='hide-in-desktop'>
+                    <div className='mobile-country-selector mb-3'>
+                        <FormControl
+                            sx={{
+                                background: "#f8f9fa",
+                                borderRadius: "12px",
+                                border: "1px solid #e9ecef",
+                                width: "100%",
+                                "& .MuiOutlinedInput-notchedOutline": {
+                                    border: "none"
+                                }
+                            }}
+                        >
+                            <Select
+                                labelId="mobile-country-label"
+                                value={selectedCountry}
+                                onChange={handleCountrySelect}
+                                displayEmpty
+                                sx={{
+                                    height: "44px",
+                                    px: 2,
+                                    fontSize: "14px",
+                                    fontWeight: "400",
+                                    color: "#2c3e50",
+                                    display: "flex",
+                                    alignItems: "center",
+                                    overflow: "hidden",
+                                    "& .MuiSelect-select": {
+                                        display: "flex",
+                                        alignItems: "center",
+                                        py: 0
+                                    }
+                                }}
+                                renderValue={(value) => {
+                                    if (!value) return "Select a country";
+                                    const country = countries.find((c) => c.name === value);
+                                    return (
+                                        <Box display="flex" alignItems="center">
+                                            <Box
+                                                sx={{
+                                                    width: "24px",
+                                                    height: "18px",
+                                                    display: "flex",
+                                                    alignItems: "center",
+                                                    justifyContent: "center",
+                                                    marginRight: "12px",
+                                                    borderRadius: "2px",
+                                                    overflow: "hidden"
+                                                }}
+                                            >
+                                                <FlagIcon countryCode={country?.code} size={22} />
+                                            </Box>
+                                            <Typography
+                                                sx={{
+                                                    fontWeight: 400,
+                                                    fontSize: "14px",
+                                                    whiteSpace: "nowrap",
+                                                    overflow: "hidden",
+                                                    textOverflow: "ellipsis"
+                                                }}
+                                            >
+                                                {country?.name}
+                                            </Typography>
+                                        </Box>
+                                    );
+                                }}
+                            >
+                                {countries.map((country) => (
+                                    <MenuItem
+                                        key={country.code}
+                                        value={country.name}
+                                        sx={{
+                                            display: "flex",
+                                            alignItems: "center",
+                                            height: "48px",
+                                            padding: "12px 16px",
+                                            "&.Mui-selected": {
+                                                backgroundColor: "#e3f2fd !important"
+                                            },
+                                            "&:hover": {
+                                                backgroundColor: "#f8f9fa"
+                                            }
+                                        }}
+                                    >
+                                        <Box marginRight="12px">
+                                            <FlagIcon countryCode={country.code} size={22} />
+                                        </Box>
+                                        <Typography sx={{ fontSize: "14px" }}>{country.name}</Typography>
+                                        {selectedCountry === country.name && (
+                                            <Box
+                                                sx={{
+                                                    width: "8px",
+                                                    height: "8px",
+                                                    backgroundColor: "#1565c0",
+                                                    borderRadius: "50%",
+                                                    marginLeft: "auto"
+                                                }}
+                                            />
+                                        )}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+                    </div>
+                </div>
+
                 <div className='d-flex justify-content-between align-items-end'>
                     <div class="form-group hide-in-mobile">
                         <div style={{ position: 'relative' }}>
@@ -261,14 +602,14 @@ function BottomSearchBar(props) {
                                     <div className="flags-blue-button" onClick={handleFlagShow}>
                                         <div className="flag-white-text">
                                             {
-                                                flag === 'news' ? 'News' :
+                                                flag === 'news' ? 'All' :
                                                     flag === 'fund' ? 'Fundamentals' :
                                                         flag === 'youtube' ? 'Videos' :
-                                                            flag === 'reddit' ? 'Social Media' :
+                                                            flag === 'reddit' ? 'Social Opinions' :
                                                                 flag === 'news_bing' ? 'News + Web' :
                                                                     flag === 'screener' ? 'Screener' :
                                                                         'Choose your focus'
-                                            } 
+                                            }
                                         </div>
                                         <img src={WhiteChevronImg} className="white-chevron" />
                                     </div>
@@ -279,7 +620,7 @@ function BottomSearchBar(props) {
                                         value={question}
                                         disabled={!buttonStart}
                                         onChange={handleChange}
-                                        placeholder='Ask anything'
+                                        placeholder={placeholderText}
                                         onKeyDown={handleKeyPress}
                                     />
                                     <div className='sendIcon ms-3' onClick={() => {

@@ -341,9 +341,18 @@ export const fetchAllNews = createAsyncThunk("dashboard/fetchAllNews", async (qu
 
 export const fetchTrendingStocksFromAI = createAsyncThunk("dashboard/fetchTrendingStocksFromAI", async () => {
     try {
+        // Determine the endpoint based on selected country
+        const selectedCountry = localStorage.getItem('selectedCountry');
+        const countryCode = selectedCountry === 'India' ? 'IN' : 'US';
+
+        // Use different endpoint for US vs India
+        const endpoint = countryCode === 'US'
+            ? 'stocks/fetch_trending_stocks_us_ai'
+            : API_ENDPOINTS.fetchTrendingStocksFromAI;
+
         let data = {
             method: METHOD_TYPE.get,
-            url: API_ENDPOINTS.fetchTrendingStocksFromAI,
+            url: endpoint,
         };
         const response = await api(data);
         return response.data.data;

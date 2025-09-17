@@ -114,7 +114,7 @@ function Login() {
         await dispatch(verifyLoginOtp(requestData))
             .unwrap()
             .then(async (res) => {
-                localStorage.setItem('marketType', 'IND')
+                localStorage.setItem('selectedCountry', 'IN')
                 ReactGA.event({
                     category: 'User',
                     action: 'market_selection',

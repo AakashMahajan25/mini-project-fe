@@ -51,7 +51,7 @@ function LeftBox() {
     const dispatch = useDispatch()
     const location = useLocation()
     const { isLoading, watchlistLoading, watchLists, tickers, stockSearchData, stockSearchLoading, companyDetails, companyStatistics, graphDetails, companyOverview, financialPeer, financialsShareHoldings, companyRevenues } = useSelector(state => state.dashboardSlice);
-    const country = localStorage.getItem('marketType')
+    const country = localStorage.getItem('selectedCountry')
     const [anchorElNotification, setAnchorElNotification] = useState(null);
     const [show, setShow] = useState(false);
     const [searchParam, setSearchParam] = useState('')

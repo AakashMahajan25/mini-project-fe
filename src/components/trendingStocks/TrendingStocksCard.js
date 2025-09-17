@@ -16,7 +16,7 @@ import StockMiniLogo from '../../assets/images/frruit-mini-logo.png';
 function TrendingStocksCard({ name, symbol, change, changesPercentage, price, stock_name, ticker, stock_ticker }) {
     const navigate = useNavigate();
     const isPositiveChange = parseFloat(changesPercentage) > 0;
-    const country = localStorage.getItem('marketType')
+    const country = localStorage.getItem('selectedCountry')
     const [showPopUp, setShowPopUp] = useState(false)
     const dataForMapping = [
         { text1: 'Px/Chg 1D (USD)', text2: '1379.76/-5.41%', text3: '0.00' },
