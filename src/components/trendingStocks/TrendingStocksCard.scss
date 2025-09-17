@@ -2,13 +2,25 @@
     width: 100%;
     
     .card {
-        height: 82px;
+        height: 100px;
         background-color: #F1F4FD;
         padding: 11px;
         border-radius: 12px;
         border: 0px;
         cursor: pointer;
         width: 100%;
+    }
+
+    @media only screen and (max-width: 768px) {
+        .card {
+            height: 110px;
+            padding: 12px;
+        }
+
+        .stock-relevance {
+            font-size: 10px;
+            padding: 1px 3px;
+        }
     }
 
     .stockname {
@@ -32,6 +44,26 @@
         font-family: 'Roboto', sans-serif;
         font-size: 14px;
         line-height: 17.6px;
+    }
+
+    .stock-relevance {
+        font-weight: 600;
+        font-family: 'Roboto', sans-serif;
+        font-size: 12px;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-weight: bold;
+        white-space: nowrap;
+
+        &.positive {
+            color: #28C76F;
+            background-color: rgba(40, 199, 111, 0.1);
+        }
+
+        &.negative {
+            color: #EA5455;
+            background-color: rgba(234, 84, 85, 0.1);
+        }
     }
 
     .green-btn {

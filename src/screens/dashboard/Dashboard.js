@@ -330,7 +330,7 @@ function Dashboard() {
             setShowAllContent(false);
         } else if (title === 'Content Search') {
             navigate("/market-content-gpt")
-        } else if (title === 'Trending Stocks') {
+        } else if (title === 'Trending Stocks for Today') {
             setShowTrendingStocks(!showTrendingStocks);
             setShowAllContent(false);
         }
@@ -513,7 +513,8 @@ function Dashboard() {
 
     useEffect(() => {
         if ((!isData)) {
-            dispatch(getTrendingStocks()).unwrap()
+            const currentCountryCode = localStorage.getItem("selectedCountry") || 'IN';
+            dispatch(getTrendingStocks(currentCountryCode)).unwrap()
                 .then((res) => {
                     ReactGA.event({
                         category: 'Dashboard',
@@ -558,6 +559,9 @@ function Dashboard() {
         // return () => {
         //     clearInterval(interval)
         // }
+
+        // Set trendingCountry to IN whenever Dashboard loads
+        localStorage.setItem("trendingCountry", "IN");
     }, [])
 
     useEffect(() => {

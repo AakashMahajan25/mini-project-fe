@@ -111,11 +111,11 @@ export const getStockRevenue = createAsyncThunk("dashboard/getStockRevenue", asy
     }
 });
 
-export const getTrendingStocks = createAsyncThunk("dashboard/getTrendingStocks", async () => {
+export const getTrendingStocks = createAsyncThunk("dashboard/getTrendingStocks", async (market = 'IN') => {
     try {
         let data = {
             method: METHOD_TYPE.get,
-            url: API_ENDPOINTS.trendingLatestStocks,
+            url: `${API_ENDPOINTS.trendingLatestStocks}?market=${market}`,
         };
         const response = await api(data);
         return response.data.data;

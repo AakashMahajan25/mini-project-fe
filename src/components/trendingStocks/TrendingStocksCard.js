@@ -13,9 +13,9 @@ import TataLogo from '../../assets/images/Tata_Consultancy_Services_Logo.png'
 import UpGreenArrow from '../../assets/images/up-arrow-outline.png'
 import DiscoverCorrelationGraph from '../../components/graph/DiscoverCorrelationGraph'
 import StockMiniLogo from '../../assets/images/frruit-mini-logo.png';
-function TrendingStocksCard({ name, symbol, change, changesPercentage, price, stock_name, ticker, stock_ticker }) {
+function TrendingStocksCard({ name, stock_ticker, stock_relevance, reason }) {
     const navigate = useNavigate();
-    const isPositiveChange = parseFloat(changesPercentage) > 0;
+    const isPositiveChange = stock_relevance && stock_relevance.startsWith('+');
     const country = localStorage.getItem('selectedCountry')
     const [showPopUp, setShowPopUp] = useState(false)
     const dataForMapping = [
@@ -68,19 +68,17 @@ function TrendingStocksCard({ name, symbol, change, changesPercentage, price, st
             <div className='trendingStockCard' style={{ marginRight: 10 }}>
                 <div className='card' onClick={getFrruitClick}>
                     <div className='d-flex align-items-center justify-content-between' style={{ marginBottom: 6 }}>
-                        <p className='text me-2'>{stock_ticker}</p>
-                        {/* <div className='d-flex justify-content-between align-items-center' >
-                            <p className={`text2 me-2`} style={{ color: isPositiveChange ? '#28C76F' : '#EA5455' }}>{formatPrice(price, country)}</p>
-                            <p className={`text2 me-2`} style={{ color: isPositiveChange ? '#28C76F' : '#EA5455' }}>{`${isPositiveChange ? '+' + change : change}`}</p>
-                            <p className={`text2`} style={{ color: isPositiveChange ? '#28C76F' : '#EA5455' }}>{`(${parseFloat(changesPercentage).toFixed(2) + '%'})`}</p>
-                            <img src={isPositiveChange ? UpArrow : DownArrow} style={{ width: 18, objectFit: 'contain' }} alt='Arrow' />
-                        </div> */}
-                        {/* <div className='mx-1'>
-                            <button className='blue-btn  d-flex align-items-center justify-content-center' onClick={getFrruitClick}>{'Get Frruit'}  <img src={RightWhiteArrow} style={{ width: 6, objectFit: 'contain', marginLeft: 5 }} /></button>
-                        </div> */}
-                        <img className='ms-2' style={{ cursor: 'pointer',width:24 }} src={StockMiniLogo} alt="mini-logo" />
+                        <p className='text me-2'>{stock_ticker || 'N/A'}</p>
+                        <img className='ms-2' style={{ cursor: 'pointer', width: 24 }} src={StockMiniLogo} alt="mini-logo" />
                     </div>
-                    <p className='stockname'>{name}</p>
+                    <p className='stockname'>{name || 'Unknown Stock'}</p>
+                    {stock_relevance && (
+                        <div className='d-flex align-items-center mt-1'>
+                            <span className={`stock-relevance ${isPositiveChange ? 'positive' : 'negative'}`}>
+                                {stock_relevance}
+                            </span>
+                        </div>
+                    )}
                     <div>
                         <div className='row px-2'>
                             {/* <div className='col-lg-4 column-pad'>
@@ -271,13 +269,13 @@ function TrendingStocksCard({ name, symbol, change, changesPercentage, price, st
 }
 
 TrendingStocksCard.propTypes = {
-    stockName: PropTypes.string.isRequired,
-    ltpLabel: PropTypes.string.isRequired,
-    ltpValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-    percentageChange: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-    buyButtonText: PropTypes.string.isRequired,
-    sellButtonText: PropTypes.string.isRequired,
-    fruitButtonText: PropTypes.string.isRequired,
+    name: PropTypes.string,
+    stock_ticker: PropTypes.string,
+    stock_relevance: PropTypes.string,
+    reason: PropTypes.string,
+    isActive: PropTypes.bool,
+    createdAt: PropTypes.string,
+    updatedAt: PropTypes.string,
 };
 
 export default TrendingStocksCard;
