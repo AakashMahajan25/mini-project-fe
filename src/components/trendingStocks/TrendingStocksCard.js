@@ -73,7 +73,7 @@ function TrendingStocksCard({ name, stock_ticker, stock_relevance, reason }) {
                     </div>
                     <p className='stockname'>{name || 'Unknown Stock'}</p>
                     {stock_relevance && (
-                        <div className='d-flex align-items-center mt-1'>
+                        <div className='d-flex align-items-center mt-2'>
                             <span className={`stock-relevance ${isPositiveChange ? 'positive' : 'negative'}`}>
                                 {stock_relevance}
                             </span>

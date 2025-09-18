@@ -145,6 +145,14 @@ function BottomSearchBar(props) {
         setShow(false)
     };
 
+    const handleCountryModalShow = () => {
+        setShowWebSearch(true)
+    };
+
+    const handleCountryModalClose = () => {
+        setShowWebSearch(false)
+    };
+
     const flagList = [
         { name: 'All', flag: 'news', description: 'Search news, summarize & get TLDRs across premium data sources' },
         // { name: 'News + Web', flag: 'news_bing', description: 'Search across the entire internet' },
@@ -457,112 +465,6 @@ function BottomSearchBar(props) {
                     </div>
                 </div>
 
-                {/* Mobile Country Selector */}
-                <div className='hide-in-desktop'>
-                    <div className='mobile-country-selector mb-3'>
-                        <FormControl
-                            sx={{
-                                background: "#f8f9fa",
-                                borderRadius: "12px",
-                                border: "1px solid #e9ecef",
-                                width: "100%",
-                                "& .MuiOutlinedInput-notchedOutline": {
-                                    border: "none"
-                                }
-                            }}
-                        >
-                            <Select
-                                labelId="mobile-country-label"
-                                value={selectedCountry}
-                                onChange={handleCountrySelect}
-                                displayEmpty
-                                sx={{
-                                    height: "44px",
-                                    px: 2,
-                                    fontSize: "14px",
-                                    fontWeight: "400",
-                                    color: "#2c3e50",
-                                    display: "flex",
-                                    alignItems: "center",
-                                    overflow: "hidden",
-                                    "& .MuiSelect-select": {
-                                        display: "flex",
-                                        alignItems: "center",
-                                        py: 0
-                                    }
-                                }}
-                                renderValue={(value) => {
-                                    if (!value) return "Select a country";
-                                    const country = countries.find((c) => c.name === value);
-                                    return (
-                                        <Box display="flex" alignItems="center">
-                                            <Box
-                                                sx={{
-                                                    width: "24px",
-                                                    height: "18px",
-                                                    display: "flex",
-                                                    alignItems: "center",
-                                                    justifyContent: "center",
-                                                    marginRight: "12px",
-                                                    borderRadius: "2px",
-                                                    overflow: "hidden"
-                                                }}
-                                            >
-                                                <FlagIcon countryCode={country?.code} size={22} />
-                                            </Box>
-                                            <Typography
-                                                sx={{
-                                                    fontWeight: 400,
-                                                    fontSize: "14px",
-                                                    whiteSpace: "nowrap",
-                                                    overflow: "hidden",
-                                                    textOverflow: "ellipsis"
-                                                }}
-                                            >
-                                                {country?.name}
-                                            </Typography>
-                                        </Box>
-                                    );
-                                }}
-                            >
-                                {countries.map((country) => (
-                                    <MenuItem
-                                        key={country.code}
-                                        value={country.name}
-                                        sx={{
-                                            display: "flex",
-                                            alignItems: "center",
-                                            height: "48px",
-                                            padding: "12px 16px",
-                                            "&.Mui-selected": {
-                                                backgroundColor: "#e3f2fd !important"
-                                            },
-                                            "&:hover": {
-                                                backgroundColor: "#f8f9fa"
-                                            }
-                                        }}
-                                    >
-                                        <Box marginRight="12px">
-                                            <FlagIcon countryCode={country.code} size={22} />
-                                        </Box>
-                                        <Typography sx={{ fontSize: "14px" }}>{country.name}</Typography>
-                                        {selectedCountry === country.name && (
-                                            <Box
-                                                sx={{
-                                                    width: "8px",
-                                                    height: "8px",
-                                                    backgroundColor: "#1565c0",
-                                                    borderRadius: "50%",
-                                                    marginLeft: "auto"
-                                                }}
-                                            />
-                                        )}
-                                    </MenuItem>
-                                ))}
-                            </Select>
-                        </FormControl>
-                    </div>
-                </div>
 
                 <div className='d-flex justify-content-between align-items-end'>
                     <div class="form-group hide-in-mobile">
@@ -599,19 +501,39 @@ function BottomSearchBar(props) {
                             <div className="responsive-search-box">
                                 <div className="d-flex justify-content-between align-items-center">
                                     <div className='header-text-focus'>Select focus</div>
-                                    <div className="flags-blue-button" onClick={handleFlagShow}>
-                                        <div className="flag-white-text">
-                                            {
-                                                flag === 'news' ? 'All' :
-                                                    flag === 'fund' ? 'Fundamentals' :
-                                                        flag === 'youtube' ? 'Videos' :
-                                                            flag === 'reddit' ? 'Social Opinions' :
-                                                                flag === 'news_bing' ? 'News + Web' :
-                                                                    flag === 'screener' ? 'Screener' :
-                                                                        'Choose your focus'
-                                            }
+                                    <div className="d-flex" style={{ gap: '8px' }}>
+                                        <div className="flags-blue-button" onClick={handleCountryModalShow}>
+                                            <div className="flag-white-text d-flex align-items-center">
+                                                <div style={{
+                                                    width: '16px',
+                                                    height: '12px',
+                                                    marginRight: '4px',
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    justifyContent: 'center',
+                                                    borderRadius: '2px',
+                                                    overflow: 'hidden'
+                                                }}>
+                                                    <FlagIcon countryCode={countries.find(c => c.name === selectedCountry)?.code} size={16} />
+                                                </div>
+                                                {countries.find(c => c.name === selectedCountry)?.code}
+                                            </div>
+                                            <img src={WhiteChevronImg} className="white-chevron" />
                                         </div>
-                                        <img src={WhiteChevronImg} className="white-chevron" />
+                                        <div className="flags-blue-button" onClick={handleFlagShow}>
+                                            <div className="flag-white-text">
+                                                {
+                                                    flag === 'news' ? 'All' :
+                                                        flag === 'fund' ? 'Fundamentals' :
+                                                            flag === 'youtube' ? 'Videos' :
+                                                                flag === 'reddit' ? 'Social Opinions' :
+                                                                    flag === 'news_bing' ? 'News + Web' :
+                                                                        flag === 'screener' ? 'Screener' :
+                                                                            'Choose your focus'
+                                                }
+                                            </div>
+                                            <img src={WhiteChevronImg} className="white-chevron" />
+                                        </div>
                                     </div>
                                 </div>
                                 <div style={{ position: 'relative' }} className='mt-3 d-flex justify-content-start'>
@@ -741,6 +663,83 @@ function BottomSearchBar(props) {
                                 {flag === item.flag && <img src={SelectedFlagIcon} style={{ width: 20 }} />}
                             </div>
                             <div className="flag-desc mt-2">{item.description}</div>
+                        </div>
+                    ))}
+                </Modal.Body>
+            </Modal>
+            {/* Focus Selection Modal */}
+            <Modal
+                show={show}
+                onHide={handleFlagClose}
+                size="lg"
+                className="custom-bottom-modal"
+            >
+                <Modal.Header className='pb-0'>
+                    <div className="modal-header-text">Select focus</div>
+                    <img src={CloseImage} style={{ width: 24 }} onClick={handleFlagClose} />
+                </Modal.Header>
+                <Modal.Body className='pt-0'>
+                    {flagList.map((item, index) => (
+                        <div
+                            key={index}
+                            className={`${flag === item.flag ? 'active-flag-box' : 'inactive-flag-box'} mt-3`}
+                            onClick={() => { setFlag(item.flag); handleFlagClose() }}
+                            style={{
+                                cursor: 'pointer',
+                                backgroundColor: flag === item.flag ? '#F1F4FD' : '',
+                                color: flag === item.flag ? '#4563E4' : '#B4B3B9'
+                            }}
+                        >
+                            <div className="d-flex justify-content-between align-items-center">
+                                <div className="flag-name">{item.name}</div>
+                                {flag === item.flag && <img src={SelectedFlagIcon} style={{ width: 20 }} />}
+                            </div>
+                            <div className="flag-desc mt-2">{item.description}</div>
+                        </div>
+                    ))}
+                </Modal.Body>
+            </Modal>
+            {/* Country Selection Modal */}
+            <Modal
+                show={showWebSearch}
+                onHide={handleCountryModalClose}
+                size="lg"
+                className="custom-bottom-modal"
+            >
+                <Modal.Header className='pb-0'>
+                    <div className="modal-header-text">Select market</div>
+                    <img src={CloseImage} style={{ width: 24 }} onClick={handleCountryModalClose} />
+                </Modal.Header>
+                <Modal.Body className='pt-0'>
+                    {countries.map((country, index) => (
+                        <div
+                            key={index}
+                            className={`${selectedCountry === country.name ? 'active-flag-box' : 'inactive-flag-box'} mt-3`}
+                            onClick={() => { handleCountrySelect({ target: { value: country.name } }); handleCountryModalClose() }}
+                            style={{
+                                cursor: 'pointer',
+                                backgroundColor: selectedCountry === country.name ? '#F1F4FD' : '',
+                                color: selectedCountry === country.name ? '#4563E4' : '#B4B3B9'
+                            }}
+                        >
+                            <div className="d-flex justify-content-between align-items-center">
+                                <div className="d-flex align-items-center">
+                                    <div style={{
+                                        width: '20px',
+                                        height: '15px',
+                                        marginRight: '12px',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        borderRadius: '2px',
+                                        overflow: 'hidden'
+                                    }}>
+                                        <FlagIcon countryCode={country.code} size={20} />
+                                    </div>
+                                    <div className="flag-name">{country.name}</div>
+                                </div>
+                                {selectedCountry === country.name && <img src={SelectedFlagIcon} style={{ width: 20 }} />}
+                            </div>
                         </div>
                     ))}
                 </Modal.Body>

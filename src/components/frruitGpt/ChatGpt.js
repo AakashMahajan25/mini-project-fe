@@ -905,7 +905,7 @@ const ChatGpt = forwardRef((props, ref) => {
                         <div className='text-center'>
                             <img src={LogoCircle} width={57} style={{ objectFit: 'contain' }} />
                             <div className='help-text'>How can I help you today ?</div>
-                            <div className='row'>
+                            {/* <div className='row'>
                                 {chatSuggestions?.slice(0, window.innerWidth < 600 ? 2 : 4).map((item, index) => (
                                     <div key={index} className='col-lg-6 col-md-12 column-pad' style={{ cursor: 'pointer' }} onClick={() => routeChangeFrruitGPT(item?.prompt_text)}>
                                         <div className='prompts-text-bg'>
@@ -919,7 +919,7 @@ const ChatGpt = forwardRef((props, ref) => {
                                         </Tooltip>
                                     </div>
                                 ))}
-                            </div>
+                            </div> */}
                             <div className='blue-box-alert'>
                                 <img src={AlertImg} className='alert-img' />
                                 <div className='alert-desc'>While we strive to deliver the best actionable insights using AI. Gathering and analyzing company data or videos may take a moment, so we kindly ask for your patience while we process everything!</div>

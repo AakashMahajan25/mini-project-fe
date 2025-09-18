@@ -39,7 +39,7 @@ import Slider from 'react-slick';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Modal from 'react-bootstrap/Modal';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchAllNews, fetchTrendingStocksFromAI, getInvestorStories, getMostOnFrruitGpt, getStockIndexes, getTrendingNews, getTrendingStocks, setStoryIndex, setStoryViewed } from './slice';
+import { fetchAllNews, fetchTrendingStocksFromAI, getInvestorStories, getMostOnFrruitGpt, getStockIndexes, getTrendingNews, getTrendingStocks, setStoryIndex, setStoryViewed, getTrendingDashboardData } from './slice';
 import { getPromptSuggestion, searchSuggestedPrompt } from '../frruitGPT/slice';
 // import { searchSuggestedPrompt } from '../../screens/frruitGPT/slice'
 import Loader from '../../components/loader/Loader';
@@ -365,7 +365,7 @@ function Dashboard() {
     ];
 
     const dispatch = useDispatch()
-    const { trendingStocks, trendingNews, mostOnFrruitGpt, storyViewed, investorStory, storyIndex, isLoading, investorStoryLoading, indexLoader, stockIndexes, investorStoryError, cmotsNews } = useSelector(state => state.dashboardSlice);
+    const { trendingStocks, trendingNews, mostOnFrruitGpt, storyViewed, investorStory, storyIndex, isLoading, investorStoryLoading, indexLoader, stockIndexes, investorStoryError, cmotsNews, marketSummaryData, marketSummaryLoading, marketSummaryError } = useSelector(state => state.dashboardSlice);
     const { chatSuggestions, suggestionLoader, suggestionError, suggestedQuestionsList } = useSelector(state => state.fruitGPTSlice);
     const { userCredits, userPlan } = useSelector(state => state.userSlice)
     // const [showLeftBox, setShowLeftBox] = useState(true);
@@ -574,6 +574,18 @@ function Dashboard() {
                     });
                 }).catch(err => {
 
+                });
+            // Get the market from localStorage summaryMarket or default to 'IN'
+            const summaryMarket = localStorage.getItem('summaryMarket') || 'IN';
+            dispatch(getTrendingDashboardData(summaryMarket)).unwrap()
+                .then((res) => {
+                    ReactGA.event({
+                        category: 'Dashboard',
+                        action: 'get_trending_dashboard_data',
+                        label: 'Get Trending Dashboard Data'
+                    });
+                }).catch(err => {
+                    console.log('Error fetching trending dashboard data:', err);
                 });
             // dispatch(getStockIndexes())
             dispatch(fetchAllNews(''))
@@ -861,7 +873,7 @@ function Dashboard() {
                                     </div>
                                     <div className='row px-4'>
                                         <div className='mb-4'>
-                                            <p className='explore-text mb-3 p-2' style={{ textAlign: 'left' }}>You may want to explore?</p>
+                                            <p className='explore-text mb-3 p-2' style={{ textAlign: 'center' }}>You may want to explore?</p>
                                         </div>
                                         <div className='row justify-content-center' style={{gap: window.innerWidth <= 768 ? 10 : 30}}>
                                             {stockboxData.map((item, index) => (
@@ -1372,7 +1384,16 @@ function Dashboard() {
                     }
                     {!showAllContent && showPopularOpinions &&
                         <div className='col-lg-12 column-pad'>
-                            <PopularQuestions mostOnFrruitGpt={mostOnFrruitGpt} handleBackButtonClick={handleBackButtonClick} chatSuggestions={chatSuggestions} handleViewAllClick={handleViewAllClick} />
+                            <PopularQuestions
+                                mostOnFrruitGpt={mostOnFrruitGpt}
+                                handleBackButtonClick={handleBackButtonClick}
+                                chatSuggestions={chatSuggestions}
+                                handleViewAllClick={handleViewAllClick}
+                                marketSummaryData={marketSummaryData}
+                                marketSummaryLoading={marketSummaryLoading}
+                                marketSummaryError={marketSummaryError}
+                                dispatch={dispatch}
+                            />
                         </div>
                     }
                     {!showAllContent && !showPopularOpinions && showInvestorStories &&

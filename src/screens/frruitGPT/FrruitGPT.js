@@ -21,6 +21,46 @@ import HistoryImg from '../../assets/images/history_icon.png';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import BackArrowIcon from '../../assets/images/back-btn-arrow.png'
 import { createSocket } from '../../utils/socket'
+import CloseImage from '../../assets/images/close_icon.png'
+import SelectedFlagIcon from '../../assets/images/selected-flag.png'
+import WhiteChevronImg from '../../assets/images/white-dropdown.png'
+
+// Flag components
+const FlagIcon = ({ countryCode, size = 20, className = '' }) => {
+    const flagUrls = {
+        'US': 'https://flagcdn.com/32x24/us.png',
+        'IN': 'https://flagcdn.com/32x24/in.png',
+        'GB': 'https://flagcdn.com/32x24/gb.png',
+        'CA': 'https://flagcdn.com/32x24/ca.png',
+        'AU': 'https://flagcdn.com/32x24/au.png',
+        'DE': 'https://flagcdn.com/32x24/de.png',
+        'FR': 'https://flagcdn.com/32x24/fr.png',
+        'JP': 'https://flagcdn.com/32x24/jp.png',
+        'CN': 'https://flagcdn.com/32x24/cn.png',
+        'BR': 'https://flagcdn.com/32x24/br.png'
+    };
+
+    const flagUrl = flagUrls[countryCode];
+
+    if (!flagUrl) {
+        return <span style={{ fontSize: '16px' }}>🏳️</span>;
+    }
+
+    return (
+        <img
+            src={flagUrl}
+            alt={`${countryCode} flag`}
+            className={className}
+            style={{
+                width: size,
+                height: size * 0.75,
+                objectFit: 'contain',
+                borderRadius: '2px',
+                display: 'block'
+            }}
+        />
+    );
+};
 
 function FrruitGPT() {
     const dispatch = useDispatch();
@@ -48,6 +88,35 @@ function FrruitGPT() {
     const [streamLinks, setStreamLinks] = useState([])
     const [streamInitiated, setStreamInitiated] = useState(false)
     const [streamFlag, setStreamFlag] = useState(null)
+
+    // Country selector states
+    const countries = [
+        { code: 'IN', name: 'India Markets' },
+        { code: 'US', name: 'US Markets' },
+    ];
+
+    const [selectedCountry, setSelectedCountry] = useState(() => {
+        // Initialize from localStorage or default to India
+        const savedCountryCode = localStorage.getItem("selectedCountry");
+
+        if (savedCountryCode) {
+            const savedCountryObj = countries.find(
+                (country) => country.code === savedCountryCode
+            );
+            if (savedCountryObj) {
+                return savedCountryObj.name;
+            } else {
+                // Invalid code in localStorage, reset to default
+                localStorage.setItem("selectedCountry", "IN");
+                return "India Markets";
+            }
+        }
+        // No saved value, set default
+        localStorage.setItem("selectedCountry", "IN");
+        return "India Markets";
+    });
+
+    const [showCountryModal, setShowCountryModal] = useState(false);
 
     useEffect(() => {
         dispatch(getPromptSuggestion())
@@ -323,6 +392,30 @@ function FrruitGPT() {
             dispatch(clearChatHistory())
         }
     }
+
+    // Country selector handlers
+    const handleCountryShow = () => setShowCountryModal(true);
+    const handleCountryClose = () => setShowCountryModal(false);
+
+    const handleCountrySelectMobile = (countryName) => {
+        // Prevent selection if already selected
+        if (selectedCountry === countryName) {
+            return;
+        }
+
+        setSelectedCountry(countryName);
+
+        // Find the country code and store it in localStorage
+        const selectedCountryObj = countries.find(
+            (country) => country.name === countryName
+        );
+
+        if (selectedCountryObj) {
+            localStorage.setItem("selectedCountry", selectedCountryObj.code);
+        } else {
+            console.log("ERROR: Country object not found!");
+        }
+    };
     const leftBoxComponent = (
         <FrruitGPTLeftBox
             handleNewChat={handleNewChat}

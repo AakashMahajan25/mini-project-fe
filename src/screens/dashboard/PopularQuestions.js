@@ -5,24 +5,120 @@ import RightArrow from '../../assets/images/right-arrow.png';
 import ReactGA from 'react-ga4';
 import { useNavigate } from 'react-router-dom';
 import RightBlueArrow from '../../assets/images/blue-right-arrow.png';
-import { Tooltip } from 'react-tooltip'
-import quesIcon from '../../assets/images/i-icon.png';
 import RightWhiteArrow from '../../assets/images/right-arrow.png';
 import RightDrawer from '../../components/rightDrawer/RightDrawer';
-import { useDispatch, useSelector } from 'react-redux';
 import { getTrendingDashboardData } from './slice';
 
-function PopularQuestions({ handleBackButtonClick, mostOnFrruitGpt, chatSuggestions, handleViewAllClick }) {
+// Mui Dropdown
+import {
+    FormControl,
+    InputLabel,
+    Select,
+    MenuItem,
+    Box,
+    Typography
+} from "@mui/material";
+
+// Flag components
+const FlagIcon = ({ countryCode, size = 20, className = '' }) => {
+    const flagUrls = {
+        'US': 'https://flagcdn.com/32x24/us.png',
+        'IN': 'https://flagcdn.com/32x24/in.png',
+        'GB': 'https://flagcdn.com/32x24/gb.png',
+        'CA': 'https://flagcdn.com/32x24/ca.png',
+        'AU': 'https://flagcdn.com/32x24/au.png',
+        'DE': 'https://flagcdn.com/32x24/de.png',
+        'FR': 'https://flagcdn.com/32x24/fr.png',
+        'JP': 'https://flagcdn.com/32x24/jp.png',
+        'CN': 'https://flagcdn.com/32x24/cn.png',
+        'BR': 'https://flagcdn.com/32x24/br.png'
+    };
+
+    const flagUrl = flagUrls[countryCode];
+
+    if (!flagUrl) {
+        return <span style={{ fontSize: '16px' }}>🏳️</span>;
+    }
+
+    return (
+        <img
+            src={flagUrl}
+            alt={`${countryCode} flag`}
+            className={className}
+            style={{
+                width: size,
+                height: size * 0.75,
+                objectFit: 'contain',
+                borderRadius: '2px',
+                display: 'block'
+            }}
+        />
+    );
+};
+
+// Utility function to format time difference
+const formatTimeDifference = (lastUpdatedUtc) => {
+    if (!lastUpdatedUtc) return 'Unknown';
+
+    try {
+        const now = new Date();
+        const updated = new Date(lastUpdatedUtc);
+        const diffInSeconds = Math.floor((now - updated) / 1000);
+
+        if (diffInSeconds < 60) return 'Just now';
+        if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)} minutes ago`;
+        if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)} hours ago`;
+        if (diffInSeconds < 604800) return `${Math.floor(diffInSeconds / 86400)} days ago`;
+
+        return updated.toLocaleDateString();
+    } catch (error) {
+        return 'Unknown';
+    }
+};
+
+function PopularQuestions({
+    handleBackButtonClick,
+    mostOnFrruitGpt,
+    chatSuggestions,
+    handleViewAllClick,
+    marketSummaryData,
+    marketSummaryLoading,
+    marketSummaryError,
+    dispatch
+}) {
     const navigate = useNavigate();
-    const dispatch = useDispatch();
-    const { marketSummaryData, marketSummaryLoading, marketSummaryError } = useSelector(state => state.dashboardSlice);
     const [showMostOnFrruitDrawer, setShowMostOnFrruitDrawer] = useState(false);
-    const [showSuggestedPromptsDrawer, setShowSuggestedPromptsDrawer] = useState(false);
+    const [showSourcesDrawer, setShowSourcesDrawer] = useState(false);
+
+    const countries = [
+        { code: 'IN', name: 'India Markets' },
+        { code: 'US', name: 'US Markets' },
+    ];
+
+    const [selectedSummaryCountry, setSelectedSummaryCountry] = useState(() => {
+        // Initialize from localStorage or default to India
+        const savedCountryCode = localStorage.getItem("summaryMarket");
+
+        if (savedCountryCode) {
+            const savedCountryObj = countries.find(
+                (country) => country.code === savedCountryCode
+            );
+            if (savedCountryObj) {
+                return savedCountryObj.name;
+            } else {
+                // Invalid code in localStorage, reset to default
+                localStorage.setItem("summaryMarket", "IN");
+                return "India Markets";
+            }
+        }
+        // No saved value, set default
+        localStorage.setItem("summaryMarket", "IN");
+        return "India Markets";
+    });
     
     const routePromptFrruitGPT = (question, flag) => {
         // Add validation to prevent empty or null questions
         if (!question || question.trim() === '') {
-            console.warn('Empty or invalid question passed to routePromptFrruitGPT:', question);
             return;
         }
         
@@ -36,6 +132,50 @@ function PopularQuestions({ handleBackButtonClick, mostOnFrruitGpt, chatSuggesti
         });
     };
 
+    const handleSummaryCountrySelect = (event) => {
+        const countryName = event.target.value;
+
+        // Prevent selection if already selected
+        if (selectedSummaryCountry === countryName) {
+            return;
+        }
+
+        setSelectedSummaryCountry(countryName);
+
+        // Find the country code and store it in localStorage
+        const selectedCountryObj = countries.find(
+            (country) => country.name === countryName
+        );
+
+        if (selectedCountryObj) {
+            localStorage.setItem("summaryMarket", selectedCountryObj.code);
+        }
+    };
+
+    // Ensure selectedSummaryCountry is properly initialized from localStorage on mount
+    useEffect(() => {
+        const savedCountryCode = localStorage.getItem('summaryMarket');
+        if (savedCountryCode) {
+            const savedCountryObj = countries.find(country => country.code === savedCountryCode);
+            if (savedCountryObj && savedCountryObj.name !== selectedSummaryCountry) {
+                setSelectedSummaryCountry(savedCountryObj.name);
+            }
+        }
+    }, []);
+
+    // Refetch market summary data when country selection changes
+    useEffect(() => {
+        if (dispatch && selectedSummaryCountry) {
+            const selectedCountryObj = countries.find(country => country.name === selectedSummaryCountry);
+            if (selectedCountryObj) {
+                dispatch(getTrendingDashboardData(selectedCountryObj.code)).unwrap()
+                    .catch((err) => {
+                        // Error handling can be added here if needed
+                    });
+            }
+        }
+    }, [selectedSummaryCountry, dispatch]);
+
     const handleShowMostOnFrruit = () => {
         setShowMostOnFrruitDrawer(true);
     };
@@ -44,30 +184,175 @@ function PopularQuestions({ handleBackButtonClick, mostOnFrruitGpt, chatSuggesti
         setShowMostOnFrruitDrawer(false);
     };
 
-    const handleShowSuggestedPrompts = () => {
-        setShowSuggestedPromptsDrawer(true);
+    const handleCloseSourcesDrawer = () => {
+        setShowSourcesDrawer(false);
     };
 
-    const handleCloseSuggestedPrompts = () => {
-        setShowSuggestedPromptsDrawer(false);
+    // Helper function to extract domain from URL for better display
+    const getDomainFromUrl = (url) => {
+        try {
+            const urlObj = new URL(url);
+            return urlObj.hostname.replace('www.', '');
+        } catch (error) {
+            return url;
+        }
     };
 
-    useEffect(() => {
-        dispatch(getTrendingDashboardData());
-    }, [dispatch]);
 
     return (
         <>
             <div className='hide-on-large-screens-dashboard'>
                 <div className='dashboardTextForMobile'>Home</div>
-                {/* <div onClick={handleViewAllClick} className='dashboardTextForMobile'>Latest News<img src={RightWhiteArrow} width={16} height={16} style={{ objectFit: 'contain', cursor: 'pointer' }} /></div> */}
             </div>
+            
             <div className='popular-questions-css'>
-                <div className='d-flex justify-content-start align-items-center' style={{ marginBottom: 20 }}>
-                    <button onClick={handleBackButtonClick} className='light-blue-btn me-2'><img src={BackBtnArrow} style={{ width: 7, height: 13, objectFit: 'contain', marginRight: 5, marginTop: -2 }} />Back</button>
+                <div className='top-navigation-row'>
+                    <div className='back-button-section'>
+                        <button onClick={handleBackButtonClick} className='light-blue-btn me-2'>
+                            <img src={BackBtnArrow} style={{ width: 7, height: 13, objectFit: 'contain', marginRight: 5, marginTop: -2 }} />
+                            Back
+                        </button>
+                    </div>
+                    <div className='market-toggle-section'>
+                        <div className='market-label'>Choose your market:</div>
+                        <div className='country-dropdown-container'>
+                            <FormControl
+                             sx={{
+                                 background: "#F1F4FD",
+                                 borderRadius: "8px",
+                                 border: "1px solid #E8ECFF",
+                                 minWidth: "160px",
+                                 width: "180px",
+                                 "& .MuiOutlinedInput-notchedOutline": {
+                                     border: "none"
+                                 },
+                                 "&:hover": {
+                                     background: "#E8ECFF"
+                                 }
+                             }}
+                         >
+                             <Select
+                                 value={selectedSummaryCountry}
+                                 onChange={handleSummaryCountrySelect}
+                                 displayEmpty
+                                 sx={{
+                                     height: "36px",
+                                     px: 1.5,
+                                     fontSize: "14px",
+                                     fontWeight: "500",
+                                     color: "#4563E4",
+                                     display: "flex",
+                                     alignItems: "center",
+                                     "& .MuiSelect-select": {
+                                         display: "flex",
+                                         alignItems: "center",
+                                         py: 0,
+                                         pr: "24px !important"
+                                     },
+                                     "& .MuiSelect-icon": {
+                                         color: "#4563E4"
+                                     }
+                                 }}
+                                 renderValue={(value) => {
+                                     if (!value) return "Select a country";
+                                     const country = countries.find((c) => c.name === value);
+                                     return (
+                                         <Box display="flex" alignItems="center">
+                                             <Box
+                                                 sx={{
+                                                     width: "16px",
+                                                     height: "12px",
+                                                     display: "flex",
+                                                     alignItems: "center",
+                                                     justifyContent: "center",
+                                                     marginRight: "6px",
+                                                     borderRadius: "2px",
+                                                     overflow: "hidden"
+                                                 }}
+                                             >
+                                                 <FlagIcon countryCode={country?.code} size={16} />
+                                             </Box>
+                                             <Typography
+                                                 sx={{
+                                                     fontWeight: 500,
+                                                     fontSize: "14px",
+                                                     color: "#4563E4",
+                                                     whiteSpace: "nowrap",
+                                                     overflow: "hidden",
+                                                     textOverflow: "ellipsis"
+                                                 }}
+                                             >
+                                                 {country?.name}
+                                             </Typography>
+                                         </Box>
+                                     );
+                                 }}
+                                 MenuProps={{
+                                     PaperProps: {
+                                         sx: {
+                                             borderRadius: "8px",
+                                             border: "1px solid #E8ECFF",
+                                             backgroundColor: "white",
+                                             boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+                                             mt: -1
+                                         }
+                                     },
+                                     anchorOrigin: {
+                                         vertical: 'top',
+                                         horizontal: 'left',
+                                     },
+                                     transformOrigin: {
+                                         vertical: 'bottom',
+                                         horizontal: 'left',
+                                     }
+                                 }}
+                             >
+                                 {countries.map((country) => (
+                                     <MenuItem
+                                         key={country.code}
+                                         value={country.name}
+                                         sx={{
+                                             display: "flex",
+                                             alignItems: "center",
+                                             height: "40px",
+                                             padding: "8px 12px",
+                                             fontSize: "14px",
+                                             fontWeight: "500",
+                                             color: "#4563E4",
+                                             backgroundColor: "transparent",
+                                             "&.Mui-selected": {
+                                                 backgroundColor: "#F1F4FD",
+                                                 color: "#4563E4"
+                                             },
+                                             "&:hover": {
+                                                 backgroundColor: "#F1F4FD"
+                                             }
+                                         }}
+                                     >
+                                         <Box marginRight="8px">
+                                             <FlagIcon countryCode={country.code} size={16} />
+                                         </Box>
+                                         <Typography sx={{ fontSize: "14px", fontWeight: "500", color: "#4563E4" }}>
+                                             {country.name}
+                                         </Typography>
+                                         {selectedSummaryCountry === country.name && (
+                                             <Box
+                                                 sx={{
+                                                     width: "6px",
+                                                     height: "6px",
+                                                     backgroundColor: "#4563E4",
+                                                     borderRadius: "50%",
+                                                     marginLeft: "auto"
+                                                 }}
+                                             />
+                                         )}
+                                     </MenuItem>
+                                 ))}
+                             </Select>
+                             </FormControl>
                 </div>
-                <div className='heading-text'>Market Summary and Standout Stocks</div>
-                <div className='desc-text mt-1'>Get comprehensive market insights and discover trending stocks</div>
+                     </div>
+                 </div>
                 
                 {marketSummaryLoading && (
                     <div className='d-flex justify-content-center align-items-center mt-5'>
@@ -77,25 +362,62 @@ function PopularQuestions({ handleBackButtonClick, mostOnFrruitGpt, chatSuggesti
                         <span className='ms-2'>Loading market summary...</span>
                     </div>
                 )}
-                
+
                 {marketSummaryError && (
                     <div className='alert alert-danger mt-3' role='alert'>
                         Error loading market summary: {marketSummaryError}
                     </div>
                 )}
+
+                {!marketSummaryLoading && !marketSummaryError && !marketSummaryData?.data?.data?.[0]?.data && (
+                    <div className='d-flex justify-content-center align-items-center mt-5'>
+                        <div className='text-muted'>No market data available</div>
+                    </div>
+                )}
                 
-                {marketSummaryData && (
-                    <>
-                        {/* Market Summary Section */}
-                        <div className='box-content position-relative mt-3'>
-                            <div className='title mb-3'>Market Summary</div>
+                {marketSummaryData?.data?.data?.[0]?.data && (
+                    <div className='two-section-layout'>
+                        {/* Left Section - All content except Latest News */}
+                        <div className='left-section'>
+                            {/* Scrollable Content Container */}
+                            <div className='left-scrollable-content'>
+                                <div className='title-section'>
+                                    <div className='title-left'>
+                                        <div className='heading-text'>Market Summary</div>
+                                        <div className='desc-text mt-1'>Get comprehensive market insights</div>
+                                    </div>
+                                    <div className='title-right'>
+                                        <button
+                                            className='sources-btn'
+                                            onClick={() => setShowSourcesDrawer(true)}
+                                        >
+                                            Sources
+                                        </button>
+                                    </div>
+                                </div>
+                              {/* Market Drivers Section */}
+                        {marketSummaryData.data.data[0].data.market_drivers?.summary && (
+                                <div className='box-content position-relative content-spacing'>
+                                    <div className='d-flex justify-content-between align-items-center mb-3'>
+                                        <div className='title'>Market Drivers</div>
+                                        <div className='market-drivers-time'>
+                                            Updated {formatTimeDifference(marketSummaryData.data.data[0].data.last_updated_utc)}
+                                        </div>
+                                    </div>
+                                <div className='market-drivers-text'>
+                                    {marketSummaryData.data.data[0].data.market_drivers.summary}
+                                </div>
+                            </div>
+                        )}
+
+                            {/* Market Summary Section */}
+                            <div className='box-content position-relative content-spacing'>
                             <div className='row'>
-                                {marketSummaryData.market_summary?.summary_points?.slice(0, 6).map((point, index) => (
+                                {marketSummaryData.data.data[0].data.market_summary?.summary_points?.slice(0, 6).map((point, index) => (
                                     <div key={index} className='col-lg-6 col-md-6 col-sm-12 mb-3'>
-                                        <div className='market-summary-card'>
+                                        <div className='market-summary-card h-100'>
                                             <div className='market-summary-title'>{point.title}</div>
                                             <div className='market-summary-text'>{point.summary}</div>
-                                            <div className='market-summary-age'>{point.age}</div>
                                         </div>
                                     </div>
                                 ))}
@@ -103,112 +425,176 @@ function PopularQuestions({ handleBackButtonClick, mostOnFrruitGpt, chatSuggesti
                         </div>
 
                         {/* Standout Stocks Section */}
-                        <div className='box-content position-relative mt-3'>
-                            <div className='title mb-3'>Standout Stocks</div>
-                            <div className='row'>
-                                <div className='col-lg-6 col-md-6 col-sm-12 mb-3'>
-                                    <div className='standout-section'>
-                                        <div className='standout-section-title'>Top Gainers</div>
-                                        {marketSummaryData.standouts_analysis?.topGainers?.map((stock, index) => (
-                                            <div key={index} className='standout-stock-card mb-2'>
-                                                <div className='d-flex justify-content-between align-items-start'>
-                                                    <div className='stock-info'>
-                                                        <div className='stock-name'>{stock.name}</div>
-                                                        <div className='stock-reason'>{stock.reason}</div>
+                        {(marketSummaryData.data.data[0].data.standouts_analysis?.gainers?.length > 0 ||
+                          marketSummaryData.data.data[0].data.standouts_analysis?.losers?.length > 0) && (
+                                <div className='box-content position-relative content-spacing'>
+                                    <div className='heading-text'>Standout Stocks</div>
+                                <div className='row'>
+                                    {marketSummaryData.data.data[0].data.standouts_analysis?.gainers?.length > 0 && (
+                                        <div className='col-lg-6 col-md-6 col-sm-12 mb-3'>
+                                            <div className='standout-section'>
+                                                <div className='standout-section-title'>Top Gainers</div>
+                                                {marketSummaryData.data.data[0].data.standouts_analysis.gainers.map((stock, index) => (
+                                                    <div key={index} className='standout-stock-card mb-2'>
+                                                            <div className='d-flex justify-content-start align-items-start'>
+                                                            <div className='stock-info'>
+                                                                <div className='stock-name'>{stock.stock}</div>
+                                                                <div className='stock-reason'>{stock.reason}</div>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                    <div className='stock-change positive'>+{stock.change}</div>
-                                                </div>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    )}
+                                    {marketSummaryData.data.data[0].data.standouts_analysis?.losers?.length > 0 && (
+                                        <div className='col-lg-6 col-md-6 col-sm-12 mb-3'>
+                                            <div className='standout-section'>
+                                                <div className='standout-section-title'>Top Losers</div>
+                                                {marketSummaryData.data.data[0].data.standouts_analysis.losers.map((stock, index) => (
+                                                    <div key={index} className='standout-stock-card mb-2'>
+                                                            <div className='d-flex justify-content-start align-items-start'>
+                                                            <div className='stock-info'>
+                                                                <div className='stock-name'>{stock.stock}</div>
+                                                                <div className='stock-reason'>{stock.reason}</div>
+                                                            </div>
+                                                        </div>
                                             </div>
                                         ))}
                                     </div>
-                                </div>
-                                <div className='col-lg-6 col-md-6 col-sm-12 mb-3'>
-                                    <div className='standout-section'>
-                                        <div className='standout-section-title'>Top Losers</div>
-                                        {marketSummaryData.standouts_analysis?.topLosers?.map((stock, index) => (
-                                            <div key={index} className='standout-stock-card mb-2'>
-                                                <div className='d-flex justify-content-between align-items-start'>
-                                                    <div className='stock-info'>
-                                                        <div className='stock-name'>{stock.name}</div>
-                                                        <div className='stock-reason'>{stock.reason}</div>
-                                                    </div>
-                                                    <div className='stock-change negative'>{stock.change}</div>
-                                                </div>
-                                            </div>
-                                        ))}
-                                    </div>
+                                        </div>
+                                    )}
                                 </div>
                             </div>
-                        </div>
-                    </>
-                )}
-                {chatSuggestions?.length > 0 &&
-                    <>
-                        <div className='d-flex align-items-center justify-content-between'>
-                            <div className='title mt-3'>Suggested Prompts</div>
-                            <div onClick={handleShowSuggestedPrompts} style={{ cursor: 'pointer', color: '#4563E4', fontWeight: 600 }}>View All</div>
-                        </div>
-                        <div className='row hide-in-mobile' >
-                            {chatSuggestions.filter(item => item?.prompt_text && item.prompt_text.trim() !== '').slice(0, 9).map((item, index) => (
-                                <div onClick={() => { routePromptFrruitGPT(item?.prompt_text, 'news_bing') }} key={index} className='col-lg-4' style={{ cursor: 'pointer' }}>
-                                    <div className='prompts-text-bg mt-2' style={{ cursor: 'pointer' }}>
-                                        <div className=' d-flex justify-content-between align-items-center w-100' >
-                                            <p className='prompts-text'>{item?.prompt_text}</p>
-                                            <img style={{ width: 24, objectFit: 'contain' }} src={quesIcon} className={`my-anchor-element-${index}`} />
-                                        </div>
+                        )}
 
-                                    </div>
-                                    <Tooltip absolute fixed anchorSelect={`.my-anchor-element-${index}`} place="left" className="bg-primary">
-                                        <div style={{ width: '370px', fontSize: '14px' }}>
-                                            {item?.prompt_description ? item?.prompt_description : item?.prompt_text}</div>
-                                    </Tooltip>
-                                </div>
-                            ))}
+                            {/* Sector Analysis Section */}
+                        {marketSummaryData?.data?.data?.[0]?.data && (
+                                <div className='box-content position-relative content-spacing'>
+                                    <div className='heading-text'>Sector Analysis</div>
+                                <div className='row'>
+                                    {/* Top Performing Sectors */}
+                                    {marketSummaryData.data.data[0].data.sector_analysis?.top_performing_sectors?.length > 0 && (
+                                            <div className='col-lg-6 col-md-12 mb-3'>
+                                            <div className='sector-section'>
+                                                <div className='sector-section-title'>Top Performers</div>
+                                                {marketSummaryData.data.data[0].data.sector_analysis.top_performing_sectors.map((sector, index) => (
+                                                    <div key={index} className='sector-card mb-2'>
+                                                            <div className='d-flex justify-content-start align-items-start'>
+                                                            <div className='sector-info'>
+                                                                <div className='sector-name'>{sector.sector}</div>
+                                                                <div className='sector-explanation'>{sector.explanation}</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {/* Underperforming Sectors */}
+                                        {(marketSummaryData.data.data[0].data.sector_analysis?.underperforming_sectors?.length > 0 ||
+                                          marketSummaryData.data.data[0].data.sector_analysis?.top_underperforming_sectors?.length > 0) && (
+                                            <div className='col-lg-6 col-md-12 mb-3'>
+                                            <div className='sector-section'>
+                                                <div className='sector-section-title'>Underperformers</div>
+                                                    {(marketSummaryData.data.data[0].data.sector_analysis.underperforming_sectors ||
+                                                      marketSummaryData.data.data[0].data.sector_analysis.top_underperforming_sectors).map((sector, index) => (
+                                                    <div key={index} className='sector-card mb-2'>
+                                                            <div className='d-flex justify-content-start align-items-start'>
+                                                            <div className='sector-info'>
+                                                                <div className='sector-name'>{sector.sector}</div>
+                                                                <div className='sector-explanation'>{sector.explanation}</div>
+                                                            </div>
+                                                        </div>
                         </div>
-                        <div className="d-flex flex-column hide-in-desktop">
-                            {[0, 3].map((startIdx) => (
-                                <div
-                                    className="d-flex mb-3 mobile-scroll"
-                                    key={startIdx}
-                                >
-                                    {chatSuggestions.filter(item => item?.prompt_text && item.prompt_text.trim() !== '').slice(startIdx, startIdx + 3).map((item, index) => (
-                                        <div
-                                            onClick={() => { routePromptFrruitGPT(item?.prompt_text, 'news_bing') }}
-                                            key={index}
-                                            className="col-11 me-3"
-                                            style={{ cursor: 'pointer' }}
-                                        >
-                                            <div className="prompts-text-bg mb-2" style={{ cursor: 'pointer' }}>
-                                                <div className="d-flex justify-content-between align-items-center w-100">
-                                                    <p className="prompts-text">{item?.prompt_text}</p>
-                                                    <img
-                                                        style={{ width: 24, objectFit: 'contain' }}
-                                                        src={quesIcon}
-                                                        className={`my-anchor-element-${index}`}
-                                                        alt={`Icon ${index}`}
-                                                    />
+                                                ))}
+                        </div>
+                                        </div>
+                                    )}
+
+                                    {/* Display sector data in side-by-side tables */}
+                                    {marketSummaryData.data.data[0].data.sector_analysis && (
+                                        <div className='col-12'>
+                                            <div className='row'>
+                                                {/* Top Performers Table */}
+                                                {marketSummaryData.data.data[0].data.sector_analysis.top_performers && marketSummaryData.data.data[0].data.sector_analysis.top_performers.length > 0 && (
+                                                        <div className='col-12 mb-4'>
+                                                        <div className='simple-sector-table'>
+                                                            <div className='table-title'>Top Performing Sectors</div>
+                                                            <table className='sector-table'>
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>Sector</th>
+                                                                        <th>Analysis</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    {marketSummaryData.data.data[0].data.sector_analysis.top_performers.map((sector, index) => (
+                                                                        <tr key={index} className='positive-row'>
+                                                                            <td className='sector-name'>{sector.sector}</td>
+                                                                            <td className='sector-explanation'>{sector.explanation}</td>
+                                                                        </tr>
+                                                                    ))}
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                )}
+
+
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {/* Show message if no sector analysis data at all */}
+                                    {!marketSummaryData.data.data[0].data.sector_analysis && (
+                                        <div className='col-12'>
+                                            <div className='d-flex justify-content-center align-items-center' style={{ padding: '40px 20px' }}>
+                                                <div style={{ textAlign: 'center', color: '#6F7387' }}>
+                                                    <div style={{ fontSize: '48px', marginBottom: '16px', opacity: '0.5' }}>📊</div>
+                                                    <div style={{ fontSize: '14px', fontWeight: '500', marginBottom: '8px' }}>
+                                                        Sector Analysis Not Available
+                                                    </div>
+                                                    <div style={{ fontSize: '12px' }}>
+                                                        Sector performance data will be displayed here when available.
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <Tooltip
-                                                absolute
-                                                fixed
-                                                anchorSelect={`.my-anchor-element-${index}`}
-                                                place="left"
-                                                className="bg-primary"
-                                            >
-                                                <div style={{ width: '370px', fontSize: '14px' }}>
-                                                    {item?.prompt_description ? item?.prompt_description : item?.prompt_text}
-                                                </div>
-                                            </Tooltip>
                                         </div>
-                                    ))}
+                                    )}
+                                </div>
+                            </div>
+                        )}
+                            </div>
+                        </div>
+
+                        {/* Right Section - Latest News Only */}
+                        <div className='right-section'>
+                        {marketSummaryData.data.data[0].data.latest_news?.articles?.length > 0 && (
+                                <>
+                                    <div className='heading-text sticky-header'>Latest News</div>
+                                    <div className='news-container'>
+                                        {marketSummaryData.data.data[0].data.latest_news.articles.map((article, index) => (
+                                    <div 
+                                        key={index} 
+                                                className={`news-card clickable-news-card ${index === marketSummaryData.data.data[0].data.latest_news.articles.length - 1 ? 'mb-5' : 'mb-3'}`}
+                                        onClick={() => article.url && window.open(article.url, '_blank', 'noopener,noreferrer')}
+                                        style={{ cursor: article.url ? 'pointer' : 'default' }}
+                                    >
+                                        <div className='news-title'>{article.title}</div>
+                                        <div className='news-snippet'>{article.snippet}</div>
+                                        <div className='news-age'>{article.age}</div>
                                 </div>
                             ))}
                         </div>
-
-                    </>
-                }
+                                </>
+                        )}
+                        </div>
+                    </div>
+                )}
             </div>
+            
             {/* Right Drawer for Most on Frruit */}
             <RightDrawer
                 isOpen={showMostOnFrruitDrawer}
@@ -228,34 +614,85 @@ function PopularQuestions({ handleBackButtonClick, mostOnFrruitGpt, chatSuggesti
                 </div>
             </RightDrawer>
 
-            {/* Right Drawer for Suggested Prompts */}
+            {/* Right Drawer for Sources */}
             <RightDrawer
-                isOpen={showSuggestedPromptsDrawer}
-                onClose={handleCloseSuggestedPrompts}
-                title="Suggested Prompts"
+                isOpen={showSourcesDrawer}
+                onClose={handleCloseSourcesDrawer}
+                title="Sources"
                 width="500px"
             >
-                <div className='viewModal'>
-                    <div>
-                        {chatSuggestions?.filter(text => text?.prompt_text && text.prompt_text.trim() !== '').map((text, index) => (
-                            <div onClick={() => { routePromptFrruitGPT(text?.prompt_text, 'news_bing'); handleCloseSuggestedPrompts(); }} key={index} className='prompts-text-bg' style={{ cursor: 'pointer' }}>
-                                <div className='d-flex justify-content-between align-items-center w-100'>
-                                    <p className='prompts-text'>{text?.prompt_text?.replace(/\b\w/g, char => char.toUpperCase())}</p>
-                                    <div className='d-flex align-items-center'>
-                                        <img style={{ width: 24, height: 24, objectFit: 'contain' }} src={quesIcon} className={`my-anchor-element-drawer-${index} hide-in-mobile`} />
-                                        <img src={RightBlueArrow} className='ms-2' width={10} height={10} style={{ objectFit: 'contain' }} />
-                                    </div>
-                                    <Tooltip absolute fixed anchorSelect={`.my-anchor-element-drawer-${index}`} place="left" className="bg-primary hide-in-mobile">
-                                        <div style={{ width: '370px', fontSize: '14px' }}>
-                                            {text?.prompt_description ? text?.prompt_description : text?.prompt_text}
-                                        </div>
-                                    </Tooltip>
+                <div className="right-drawer-content">
+                    {marketSummaryData?.data?.data?.[0]?.data?.market_summary?.sources?.length > 0 ? (
+                        marketSummaryData.data.data[0].data.market_summary.sources.map((sourceUrl, index) => (
+                            <div 
+                                key={index} 
+                                className="drawer-item mb-3 p-3 clickable-source-item"
+                                style={{ 
+                                    border: '1px solid #E8ECFF',
+                                    borderRadius: '8px',
+                                    backgroundColor: '#FFFFFF',
+                                    transition: 'all 0.3s ease',
+                                    cursor: 'pointer'
+                                }}
+                                onClick={() => window.open(sourceUrl, '_blank', 'noopener,noreferrer')}
+                            >
+                                <div className="source-title" style={{
+                                    fontSize: '14px',
+                                    fontWeight: '600',
+                                    color: '#171E42',
+                                    marginBottom: '8px',
+                                    lineHeight: '1.4'
+                                }}>
+                                    {getDomainFromUrl(sourceUrl)}
                                 </div>
+                                <a 
+                                    href={sourceUrl} 
+                                    target="_blank" 
+                                    rel="noopener noreferrer"
+                                    style={{
+                                        fontSize: '12px',
+                                        color: '#4563E4',
+                                        textDecoration: 'none',
+                                        wordBreak: 'break-all',
+                                        display: 'block',
+                                        lineHeight: '1.4'
+                                    }}
+                                    onMouseEnter={(e) => {
+                                        e.target.style.textDecoration = 'underline';
+                                    }}
+                                    onMouseLeave={(e) => {
+                                        e.target.style.textDecoration = 'none';
+                                    }}
+                                >
+                                    {sourceUrl}
+                                </a>
                             </div>
-                        ))}
+                        ))
+                    ) : (
+                        <div className="no-sources-message" style={{
+                            textAlign: 'center',
+                            padding: '40px 20px',
+                            color: '#6F7387',
+                            fontSize: '14px'
+                        }}>
+                            <div style={{
+                                fontSize: '48px',
+                                marginBottom: '16px',
+                                opacity: '0.5'
+                            }}>
+                                📄
+                            </div>
+                            <div style={{ fontWeight: '500', marginBottom: '8px' }}>
+                                No Sources Available
+                            </div>
+                            <div style={{ fontSize: '12px' }}>
+                                Sources will be displayed here when available from the API response.
+                            </div>
                     </div>
+                    )}
                 </div>
             </RightDrawer>
+
         </>
     )
 }
