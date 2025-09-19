@@ -90,6 +90,20 @@ function PopularQuestions({
     const [showMostOnFrruitDrawer, setShowMostOnFrruitDrawer] = useState(false);
     const [showSourcesDrawer, setShowSourcesDrawer] = useState(false);
 
+    // Handle sector card click
+    const handleSectorClick = (url) => {
+        if (url) {
+            window.open(url, '_blank');
+        }
+    };
+
+    // Handle standout stock card click
+    const handleStockClick = (url) => {
+        if (url) {
+            window.open(url, '_blank');
+        }
+    };
+
     const countries = [
         { code: 'IN', name: 'India Markets' },
         { code: 'US', name: 'US Markets' },
@@ -435,7 +449,7 @@ function PopularQuestions({
                                             <div className='standout-section'>
                                                 <div className='standout-section-title'>Top Gainers</div>
                                                 {marketSummaryData.data.data[0].data.standouts_analysis.gainers.map((stock, index) => (
-                                                    <div key={index} className='standout-stock-card mb-2'>
+                                                    <div key={index} className='standout-stock-card mb-2' style={{cursor: 'pointer'}} onClick={() => handleStockClick(stock.url)}>
                                                             <div className='d-flex justify-content-start align-items-start'>
                                                             <div className='stock-info'>
                                                                 <div className='stock-name'>{stock.stock}</div>
@@ -452,7 +466,7 @@ function PopularQuestions({
                                             <div className='standout-section'>
                                                 <div className='standout-section-title'>Top Losers</div>
                                                 {marketSummaryData.data.data[0].data.standouts_analysis.losers.map((stock, index) => (
-                                                    <div key={index} className='standout-stock-card mb-2'>
+                                                    <div key={index} className='standout-stock-card mb-2' style={{cursor: 'pointer'}} onClick={() => handleStockClick(stock.url)}>
                                                             <div className='d-flex justify-content-start align-items-start'>
                                                             <div className='stock-info'>
                                                                 <div className='stock-name'>{stock.stock}</div>
@@ -479,11 +493,11 @@ function PopularQuestions({
                                             <div className='sector-section'>
                                                 <div className='sector-section-title'>Top Performers</div>
                                                 {marketSummaryData.data.data[0].data.sector_analysis.top_performing_sectors.map((sector, index) => (
-                                                    <div key={index} className='sector-card mb-2'>
+                                                    <div key={index} className='sector-card mb-2' style={{cursor: 'pointer'}} onClick={() => handleSectorClick(sector.url)}>
                                                             <div className='d-flex justify-content-start align-items-start'>
                                                             <div className='sector-info'>
                                                                 <div className='sector-name'>{sector.sector}</div>
-                                                                <div className='sector-explanation'>{sector.explanation}</div>
+                                                                <div className='sector-explanation'>{sector.reason}</div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -500,11 +514,11 @@ function PopularQuestions({
                                                 <div className='sector-section-title'>Underperformers</div>
                                                     {(marketSummaryData.data.data[0].data.sector_analysis.underperforming_sectors ||
                                                       marketSummaryData.data.data[0].data.sector_analysis.top_underperforming_sectors).map((sector, index) => (
-                                                    <div key={index} className='sector-card mb-2'>
+                                                    <div key={index} className='sector-card mb-2' style={{cursor: 'pointer'}} onClick={() => handleSectorClick(sector.url)}>
                                                             <div className='d-flex justify-content-start align-items-start'>
                                                             <div className='sector-info'>
                                                                 <div className='sector-name'>{sector.sector}</div>
-                                                                <div className='sector-explanation'>{sector.explanation}</div>
+                                                                <div className='sector-explanation'>{sector.reason}</div>
                                                             </div>
                                                         </div>
                         </div>
@@ -531,9 +545,9 @@ function PopularQuestions({
                                                                 </thead>
                                                                 <tbody>
                                                                     {marketSummaryData.data.data[0].data.sector_analysis.top_performers.map((sector, index) => (
-                                                                        <tr key={index} className='positive-row'>
+                                                                        <tr key={index} className='positive-row' style={{cursor: 'pointer'}} onClick={() => handleSectorClick(sector.url)}>
                                                                             <td className='sector-name'>{sector.sector}</td>
-                                                                            <td className='sector-explanation'>{sector.explanation}</td>
+                                                                            <td className='sector-explanation'>{sector.reason}</td>
                                                                         </tr>
                                                                     ))}
                                                                 </tbody>
