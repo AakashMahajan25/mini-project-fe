@@ -58,8 +58,14 @@ function TrendingStocksCard({ name, stock_ticker, stock_relevance, reason }) {
         setShowPopUp(false)
     }
     const getFrruitClick = () => {
+        // Sync selectedCountry with trendingCountry for proper market targeting
+        const currentTrendingCountry = localStorage.getItem('trendingCountry');
+        if (currentTrendingCountry) {
+            localStorage.setItem('selectedCountry', currentTrendingCountry);
+        }
+
         navigate("/frruit-gpt", {
-            state: { question: 'Why is ' + name + ' trending ?',fundamental:'news_bing' },
+            state: { question: 'Why is ' + name + ' trending ?',fundamental:'news' },
         });
     }
 
