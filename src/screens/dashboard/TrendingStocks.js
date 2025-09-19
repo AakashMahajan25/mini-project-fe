@@ -96,8 +96,8 @@ function TrendingStocks({ handleBackButtonClick, trendingStocks: initialTrending
                 }
             }
 
-            // Call the API with the market parameter
-            const result = await dispatch(getTrendingStocks(currentMarketCode)).unwrap();
+            // Call the API - market will be handled internally by the function
+            const result = await dispatch(getTrendingStocks()).unwrap();
             setLocalTrendingStocks(result || []);
         } catch (error) {
             console.error('Error fetching trending stocks:', error);

@@ -114,11 +114,14 @@ export const getStockRevenue = createAsyncThunk("dashboard/getStockRevenue", asy
     }
 });
 
-export const getTrendingStocks = createAsyncThunk("dashboard/getTrendingStocks", async (market = 'IN') => {
+export const getTrendingStocks = createAsyncThunk("dashboard/getTrendingStocks", async (market) => {
     try {
+        // Get market from parameter or localStorage
+        const marketValue = market || localStorage.getItem("trendingCountry") || 'IN';
+
         let data = {
             method: METHOD_TYPE.get,
-            url: `${API_ENDPOINTS.trendingLatestStocks}?market=${market}`,
+            url: `${API_ENDPOINTS.trendingLatestStocks}?market=${marketValue}`,
         };
         const response = await api(data);
         return response.data.data;

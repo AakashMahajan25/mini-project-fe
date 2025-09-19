@@ -542,8 +542,7 @@ function Dashboard() {
 
     useEffect(() => {
         if ((!isData)) {
-            const currentCountryCode = localStorage.getItem("selectedCountry") || 'IN';
-            dispatch(getTrendingStocks(currentCountryCode)).unwrap()
+            dispatch(getTrendingStocks()).unwrap()
                 .then((res) => {
                     ReactGA.event({
                         category: 'Dashboard',
@@ -601,8 +600,10 @@ function Dashboard() {
         //     clearInterval(interval)
         // }
 
-        // Set trendingCountry to IN whenever Dashboard loads
-        localStorage.setItem("trendingCountry", "IN");
+        // Set trendingCountry to IN only if not already set (preserve user's selection)
+        if (!localStorage.getItem("trendingCountry")) {
+            localStorage.setItem("trendingCountry", "IN");
+        }
     }, [])
 
     useEffect(() => {
