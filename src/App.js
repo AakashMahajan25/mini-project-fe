@@ -23,7 +23,7 @@ function App() {
   const { userCredits } = useSelector(state => state.userSlice);
 
   useEffect(() => {
-    ReactGA.initialize('G-PJPZEYMZY8', { debug: true });
+    if (process.env.NODE_ENV === 'production') ReactGA.initialize('G-PJPZEYMZY8');
   }, []);
 
   // useEffect(() => {

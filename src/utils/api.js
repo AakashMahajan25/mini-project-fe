@@ -1,15 +1,12 @@
 import axios from "axios";
 
 const api = axios.create({
-      baseURL: 'https://frruitapi.airrchip.com/api/',
-   //    baseURL: 'http://18.233.54.54/api/', // Your API base URL
-  // baseURL: "http://localhost:4000/api/", // Your Local API base URL
+  baseURL: `${process.env.REACT_APP_API_URL || "http://localhost:4000"}/api/`,
   headers: {
     "Content-Type": "application/json",
     // Add any common headers here
   },
 });
-
 api.interceptors.request.use(function (config) {
   const token = localStorage.getItem('token');
   token && (config.headers.Authorization = "Bearer " + token);

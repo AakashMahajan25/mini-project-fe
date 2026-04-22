@@ -1,7 +1,6 @@
 import { io } from 'socket.io-client';
 
-// Use the same base URL as the API but for socket connection
-const SOCKET_URL = "https://frruitapi.airrchip.com/chat";
+const SOCKET_URL = `${process.env.REACT_APP_API_URL || "http://localhost:4000"}/chat`;
 
 // Function to create a new socket with current market parameter
 export const createSocket = (market = 'IN') => {

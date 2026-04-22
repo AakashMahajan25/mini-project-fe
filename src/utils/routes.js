@@ -11,12 +11,13 @@ import Market from "../screens/makeSelection/MakeSelection"
 import NewsIframe from "../screens/news/NewsIframe";
 import LeftBox from "../components/leftBox/LeftBox";
 import WalkThrough from "../screens/WalkThrough/WalkThrough";
+import { Navigate } from "react-router-dom";
 
 export const loginRoutes = [
     {
         path: "/",
         exact: true,
-        element: <Login />,
+        element: <Navigate to={localStorage.getItem('token') ? "/dashboard" : "/login"} replace />,
     },
     {
         path: "/login",

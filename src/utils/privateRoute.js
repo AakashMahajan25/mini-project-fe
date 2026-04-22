@@ -7,19 +7,13 @@ const PrivateRoute = ({
 }) => {
     const history = useNavigate();
     const location = useLocation();
-    
-    responseInterceptor(history);
-    const isAuthenticated = localStorage.getItem('token');
 
-    if (isAuthenticated) {
-        return <Component />
-    } else {
-        return <Navigate
-            to={"/login"}
-            replace
-            state={{ from: location.pathname }}
-        />
-    }
+    responseInterceptor(history);
+
+    const token = localStorage.getItem('token');
+    if (!token) return <Navigate to="/login" replace state={{ from: location }} />;
+
+    return <Component />
 }
 
 export default PrivateRoute;
