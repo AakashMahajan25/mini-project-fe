@@ -76,5 +76,11 @@ export const API_ENDPOINTS = {
     userFeedback: 'users/userFeedback',
     getFinancialsResults: 'stocks/getFinancialsResults',
     getFaqs: 'getfaqs',
-    getTrendingDashboardData: 'stocks/getTrendingDashboardData'
+    getTrendingDashboardData: 'stocks/getTrendingDashboardData',
+    newsFeed: 'news/feed',
+    newsInsights: 'news/insights',
+    stockTicker: 'stocks/ticker',
+    portfolio: 'portfolio',
+    portfolioSearch: 'portfolio/search',
+    portfolioHoldings: 'portfolio/holdings',
 }

@@ -1303,3 +1303,34 @@
         }
     }
 }
+
+// Note under translated answers, with a toggle to the English original
+.language-note {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 10px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 12px;
+    color: #6F7387;
+
+    svg {
+        flex: none;
+        color: #4563E4;
+    }
+
+    .language-toggle {
+        padding: 0;
+        border: none;
+        background: none;
+        color: #4563E4;
+        font-size: 12px;
+        font-weight: 500;
+        cursor: pointer;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+}

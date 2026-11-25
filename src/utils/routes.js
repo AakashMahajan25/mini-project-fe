@@ -9,6 +9,8 @@ import PrivateRoute from "./privateRoute";
 import Topics from "../screens/selectPreferences/SelectPreferences";
 import Market from "../screens/makeSelection/MakeSelection"
 import NewsIframe from "../screens/news/NewsIframe";
+import NewsFeed from "../screens/newsFeed/NewsFeed";
+import Portfolio from "../screens/portfolio/Portfolio";
 import LeftBox from "../components/leftBox/LeftBox";
 import WalkThrough from "../screens/WalkThrough/WalkThrough";
 import { Navigate } from "react-router-dom";
@@ -73,6 +75,16 @@ export const loginRoutes = [
         path: "/news",
         exact: true,
         element: <PrivateRoute component={NewsIframe} />,
+    },
+    {
+        path: "/news-feed",
+        exact: true,
+        element: <PrivateRoute component={NewsFeed} />,
+    },
+    {
+        path: "/portfolio",
+        exact: true,
+        element: <PrivateRoute component={Portfolio} />,
     },
     {
         path: "/walkthrough",

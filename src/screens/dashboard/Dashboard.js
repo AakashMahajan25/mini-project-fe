@@ -75,6 +75,7 @@ import QuestionImage from '../../assets/images/popular_questions_img.png'
 import AlertImg from '../../assets/images/exclamation.png'
 import ModalWalkthrough from '../../components/modalWalkthrough/ModalWalkthrough';
 import TrendingStocks from './TrendingStocks';
+import { TICKER_HEIGHT } from '../../utils/utils';
 
 // Flag components
 const FlagIcon = ({ countryCode, size = 20, className = '' }) => {
@@ -328,6 +329,10 @@ function Dashboard() {
             title: 'Market Summary and Standout Stocks',
             subtitle: 'Get comprehensive market insights and discover trending stocks'
         },
+        {
+            title: 'Latest Market News',
+            subtitle: 'Live headlines with AI sentiment and the stocks they mention'
+        },
     ]
 
     const handleClick = (title) => {
@@ -342,6 +347,8 @@ function Dashboard() {
         } else if (title === 'Trending Stocks for Today') {
             setShowTrendingStocks(!showTrendingStocks);
             setShowAllContent(false);
+        } else if (title === 'Latest Market News') {
+            navigate("/news-feed")
         }
     };
 
@@ -864,7 +871,7 @@ function Dashboard() {
                                 {/* <div onClick={handleViewAllClick} className='dashboardTextForMobile'>Latest News<img src={RightWhiteArrow} width={16} height={16} style={{ objectFit: 'contain', cursor: 'pointer' }} /></div> */}
                             </div>
                             <div className='dashboard'>
-                                <div className='d-flex flex-column justify-content-between mb-3' style={{ height: window.innerWidth > 768 ? window.innerHeight - 102 : window.innerHeight - 115 }}>
+                                <div className='d-flex flex-column justify-content-between mb-3' style={{ height: window.innerWidth > 768 ? (window.innerHeight - TICKER_HEIGHT) - 102 : (window.innerHeight - TICKER_HEIGHT) - 115 }}>
                                     <div>
                                         {/* <div style={{ marginTop: 12, textAlign: 'center' }}>
                                             <p className='title-header px-3'>Perform AI search across

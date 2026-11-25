@@ -18,6 +18,7 @@ import WhiteChevronImg from '../../assets/images/white-dropdown.png'
 import CloseImage from '../../assets/images/close_icon.png'
 import SelectedFlagIcon from '../../assets/images/selected-flag.png'
 import SendIconMobile from '../../assets/images/send_icon_mobile.png'
+import LanguageSelect from './LanguageSelect'
 
 import {
     FormControl,
@@ -159,7 +160,8 @@ function BottomSearchBar(props) {
         // { name: 'Fundamentals', flag: 'fund', description: 'Compare company fundamentals data, financials, stock screener, and corporate actions' },
         // { name: 'Screener', flag: 'screener', description: 'Screen markets in real time based on your queries' },
         // { name: 'Videos', flag: 'youtube', description: 'Discover insights from videos without watching' },
-        { name: 'Social Opinions', flag: 'reddit', description: 'Search discussions and opinions on social media' }
+        { name: 'Social Opinions', flag: 'reddit', description: 'Search discussions and opinions on social media' },
+        { name: 'My Portfolio', flag: 'portfolio', description: 'Ask about your own holdings: returns, risk, sector exposure and news that affects them' }
     ];
 
     const {
@@ -283,7 +285,7 @@ function BottomSearchBar(props) {
             document.removeEventListener("mousedown", handleClickOutside);
         };
     }, []);
-    const placeholderText = (flag === 'news' || flag === 'news_bing') ? 'Search news, summarize & get TLDRs' : (flag === 'fund' || flag === 'screener') ? 'Compare company fundamentals data, financials, stock screener and corporate actions' : flag === 'youtube' ? 'Discover insights from videos without watching' : 'Search discussions and opinions on social media'
+    const placeholderText = flag === 'portfolio' ? 'Ask about your portfolio: returns, risk, sector exposure, news on your holdings' : (flag === 'news' || flag === 'news_bing') ? 'Search news, summarize & get TLDRs' : (flag === 'fund' || flag === 'screener') ? 'Compare company fundamentals data, financials, stock screener and corporate actions' : flag === 'youtube' ? 'Discover insights from videos without watching' : 'Search discussions and opinions on social media'
     return (
         <>
             {showSearchModal &&
@@ -437,6 +439,9 @@ function BottomSearchBar(props) {
                                                                     ))}
                                                                 </Select>
                                                             </FormControl>
+                            <div className='ms-2'>
+                                <LanguageSelect disabled={frruitLoader} />
+                            </div>
                             <img src={StraightArrowIcon} style={{ width: 20, objectFit: 'contain', marginLeft: 16}} />
                         </div>
                         <div className={(flag === 'news' || flag === 'news_bing') ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: (flag === 'news' || flag === 'news_bing') ? '#F1F4FD' : '', color: (frruitLoader && !(flag === 'news' || flag === 'news_bing')) ? '#B4B3B9' : '#4563E4', cursor: 'pointer' }}
@@ -451,6 +456,10 @@ function BottomSearchBar(props) {
                         <div className={flag === 'reddit' ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: flag === 'reddit' ? '#F1F4FD' : '', color: frruitLoader && flag != 'reddit' ? '#B4B3B9' : '#4563E4', cursor: 'pointer' }}
                             onClick={frruitLoader ? undefined : () => setFlag('reddit')}
                         >Social Opinions </div>
+                        <div className={flag === 'portfolio' ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: flag === 'portfolio' ? '#F1F4FD' : '', color: frruitLoader && flag !== 'portfolio' ? '#B4B3B9' : '#4563E4', cursor: 'pointer' }}
+                            onClick={frruitLoader ? undefined : () => setFlag('portfolio')}
+                            title='Answers use your holdings from the Portfolio page'
+                        >My Portfolio </div>
                         {/* <div className={flag === 'news' ? `tab-name-css tab-box-css me-2` : `tab-name-css me-2`} style={{ backgroundColor: flag === 'news' ? '#F1F4FD' : '', color: '#4563E4', cursor: 'pointer' }}
                                 onClick={() => setFlag('news')}
                             > News </div>
@@ -502,6 +511,7 @@ function BottomSearchBar(props) {
                                 <div className="d-flex justify-content-between align-items-center">
                                     <div className='header-text-focus'>Select focus</div>
                                     <div className="d-flex" style={{ gap: '8px' }}>
+                                        <LanguageSelect variant="mobile" disabled={frruitLoader} />
                                         <div className="flags-blue-button" onClick={handleCountryModalShow}>
                                             <div className="flag-white-text d-flex align-items-center">
                                                 <div style={{
@@ -529,7 +539,8 @@ function BottomSearchBar(props) {
                                                                 flag === 'reddit' ? 'Social Opinions' :
                                                                     flag === 'news_bing' ? 'News + Web' :
                                                                         flag === 'screener' ? 'Screener' :
-                                                                            'Choose your focus'
+                                                                            flag === 'portfolio' ? 'My Portfolio' :
+                                                                                'Choose your focus'
                                                 }
                                             </div>
                                             <img src={WhiteChevronImg} className="white-chevron" />

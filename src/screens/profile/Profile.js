@@ -10,6 +10,7 @@ import InputUser from '../../assets/images/input-user.png';
 import MobileIcon from '../../assets/images/mobile-icon.png';
 import MailIcon from '../../assets/images/mail-icon.png';
 import BlueCardFrruitLogo from '../../assets/images/blue-card-frruitlogo.png';
+import { TICKER_HEIGHT } from '../../utils/utils';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import Loader from '../../components/loader/Loader';
@@ -417,7 +418,7 @@ function Profile() {
         toast.info("Payment functionality temporarily disabled");
     };
 
-    const rightPartHeight = window.innerWidth > 768 ? window.innerHeight - 68 : window.innerHeight - 122;
+    const rightPartHeight = window.innerWidth > 768 ? (window.innerHeight - TICKER_HEIGHT) - 68 : (window.innerHeight - TICKER_HEIGHT) - 122;
 
     const handlePaymentModel = (type) => {
         switch (type) {

@@ -21,6 +21,7 @@ import HistoryImg from '../../assets/images/history_icon.png';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import BackArrowIcon from '../../assets/images/back-btn-arrow.png'
 import { createSocket } from '../../utils/socket'
+import { getChatLanguage } from '../../utils/languages'
 import CloseImage from '../../assets/images/close_icon.png'
 import SelectedFlagIcon from '../../assets/images/selected-flag.png'
 import WhiteChevronImg from '../../assets/images/white-dropdown.png'
@@ -88,6 +89,8 @@ function FrruitGPT() {
     const [streamLinks, setStreamLinks] = useState([])
     const [streamInitiated, setStreamInitiated] = useState(false)
     const [streamFlag, setStreamFlag] = useState(null)
+    // Language info for the streamed answer: { language, language_name, translated, text_en }
+    const [streamMeta, setStreamMeta] = useState(null)
 
     // Country selector states
     const countries = [
@@ -222,7 +225,9 @@ function FrruitGPT() {
                 text: streamData,
                 type: "text",
                 link: streamLinks,
-                focus_type: streamFlag
+                focus_type: streamFlag,
+                language: streamMeta?.language,
+                text_en: streamMeta?.text_en
             }]))
             clearStreamData();
         }
@@ -244,7 +249,8 @@ function FrruitGPT() {
         const requestData = {
             message: title ? title : question,
             prompt_id: promptId ? Number(promptId) : Number(selectedChat),
-            market
+            market,
+            language: getChatLanguage()
         }
         dispatch(setChatHistory([{
             person: "user",
@@ -315,6 +321,8 @@ function FrruitGPT() {
                 stopStream(currentSocket);
                 if (endData && endData?.data?.length > 0)
                     setStreamLinks(endData?.data)
+                if (endData?.meta)
+                    setStreamMeta(endData.meta)
             });
 
             currentSocket.on("error", (error) => {
@@ -331,6 +339,7 @@ function FrruitGPT() {
         setStreamData('')
         setStreamLinks([])
         setStreamFlag(null)
+        setStreamMeta(null)
         stopStream(socketInstance);
     }
 
@@ -348,7 +357,7 @@ function FrruitGPT() {
         if (!question) {
             return;
         }
-        if(question?.trim()?.length < 12 && flag !== 'news'){
+        if(question?.trim()?.length < 12 && flag !== 'news' && flag !== 'portfolio'){
             toast.error("Please rephrase the question to a minimum of 12 characters.");
             return;
         }
@@ -457,6 +466,7 @@ function FrruitGPT() {
                             streamData={streamData}
                             streamInitiated={streamInitiated}
                             streamLinks={streamLinks}
+                            streamMeta={streamMeta}
                         />
                         {/* <PromptsLibrary
                             handlePromptClick={handlePromptClick}

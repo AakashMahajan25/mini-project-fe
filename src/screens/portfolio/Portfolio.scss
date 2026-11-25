@@ -1,0 +1,803 @@
+$primary: #4563E4;
+$primary-soft: #4563E41A;
+$primary-track: #E8ECFF;
+$dark: #171E42;
+$grey: #6F7387;
+$border: #EDEDED;
+$gain: #12805C;
+$loss: #D63230;
+
+@mixin market-toggle {
+    display: inline-flex;
+    padding: 4px;
+    border-radius: 10px;
+    background: #F1F4FD;
+
+    button {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 7px 16px;
+        border: none;
+        border-radius: 8px;
+        background: transparent;
+        color: $grey;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background 0.15s, color 0.15s;
+
+        img {
+            width: 18px;
+            height: 13px;
+            object-fit: cover;
+            border-radius: 2px;
+        }
+
+        &.active {
+            background: #fff;
+            color: $primary;
+            box-shadow: 0 1px 3px rgba(23, 30, 66, 0.1);
+        }
+
+        &:disabled {
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+    }
+}
+
+.gain { color: $gain; }
+.loss { color: $loss; }
+
+.portfolio-page {
+    font-family: 'Roboto', sans-serif;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 28px 24px 48px;
+    color: $dark;
+
+    @media (max-width: 990px) {
+        padding: 20px 16px 40px;
+    }
+
+    button {
+        font-family: inherit;
+    }
+
+    // ── Header ───────────────────────────────────────────────────────────────
+    .portfolio-header {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 16px;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+    }
+
+    .portfolio-title {
+        font-size: 26px;
+        font-weight: 700;
+        margin: 0 0 4px;
+        color: $dark;
+    }
+
+    .portfolio-subtitle {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 4px;
+        font-size: 13px;
+        color: $grey;
+    }
+
+    .refresh-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 26px;
+        height: 26px;
+        margin-left: 4px;
+        border: none;
+        border-radius: 50%;
+        background: transparent;
+        color: $primary;
+        cursor: pointer;
+
+        &:hover { background: $primary-soft; }
+        &:disabled { opacity: 0.5; cursor: default; }
+    }
+
+    .header-actions {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+    }
+
+    .market-toggle { @include market-toggle; }
+
+    .add-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 15px;
+        padding: 9px 18px;
+    }
+
+    .portfolio-banner {
+        margin-bottom: 16px;
+        padding: 10px 14px;
+        border-radius: 10px;
+        background: #FFF6E5;
+        color: #7A4B00;
+        font-size: 14px;
+
+        button {
+            border: none;
+            background: none;
+            color: $primary;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+    }
+
+    // ── Summary ──────────────────────────────────────────────────────────────
+    .summary-tiles {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 12px;
+        margin-bottom: 20px;
+
+        @media (max-width: 990px) {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+    }
+
+    .summary-tile {
+        min-width: 0;
+        padding: 16px 18px;
+        border: 1px solid $border;
+        border-radius: 14px;
+        background: #fff;
+
+        &.skeleton {
+            height: 94px;
+            background: linear-gradient(90deg, #F4F6FC 0%, #EBEFFB 50%, #F4F6FC 100%);
+            background-size: 200% 100%;
+            animation: portfolio-shimmer 1.4s ease-in-out infinite;
+        }
+
+        .tile-label {
+            font-size: 13px;
+            color: $grey;
+            margin-bottom: 6px;
+        }
+
+        .tile-value {
+            font-size: 22px;
+            font-weight: 700;
+            font-variant-numeric: tabular-nums;
+            overflow-wrap: anywhere;
+
+            @media (max-width: 576px) { font-size: 18px; }
+        }
+
+        .tile-sub {
+            margin-top: 2px;
+            font-size: 13px;
+            font-weight: 500;
+            color: $grey;
+            font-variant-numeric: tabular-nums;
+
+            &.gain { color: $gain; }
+            &.loss { color: $loss; }
+        }
+    }
+
+    // ── Layout ───────────────────────────────────────────────────────────────
+    .portfolio-layout {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 360px;
+        gap: 16px;
+        align-items: start;
+
+        @media (max-width: 1100px) {
+            grid-template-columns: minmax(0, 1fr);
+        }
+    }
+
+    .side-column {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        min-width: 0;
+    }
+
+    .portfolio-card {
+        min-width: 0;
+        padding: 18px 20px;
+        border: 1px solid $border;
+        border-radius: 14px;
+        background: #fff;
+    }
+
+    .card-title {
+        font-size: 17px;
+        font-weight: 700;
+        margin: 0 0 4px;
+        color: $dark;
+    }
+
+    .card-subtitle {
+        font-size: 13px;
+        color: $grey;
+        margin-bottom: 14px;
+    }
+
+    // ── Holdings table ───────────────────────────────────────────────────────
+    .holdings-card .card-title { margin-bottom: 12px; }
+
+    .table-scroll {
+        overflow-x: auto;
+        margin: 0 -20px;
+        padding: 0 20px;
+    }
+
+    .holdings-table {
+        width: 100%;
+        min-width: 720px;
+        border-collapse: collapse;
+        font-size: 14px;
+        font-variant-numeric: tabular-nums;
+
+        th {
+            padding: 0 10px 10px;
+            font-size: 12px;
+            font-weight: 500;
+            color: $grey;
+            text-align: left;
+            white-space: nowrap;
+            border-bottom: 1px solid $border;
+        }
+
+        td {
+            padding: 12px 10px;
+            border-bottom: 1px solid #F3F3F3;
+            vertical-align: top;
+            white-space: nowrap;
+        }
+
+        tr:last-child td { border-bottom: none; }
+
+        tbody tr:hover { background: #FAFBFF; }
+
+        th:first-child, td:first-child { padding-left: 0; }
+
+        .num { text-align: right; }
+
+        .cell-sub {
+            font-size: 12px;
+            margin-top: 2px;
+        }
+
+        .flat { color: $grey; }
+    }
+
+    // Phones: each holding becomes a card (stock + actions on top, figures in a 2-column grid)
+    @media (max-width: 640px) {
+        .table-scroll {
+            overflow: visible;
+            margin: 0;
+            padding: 0;
+        }
+
+        .holdings-table {
+            min-width: 0;
+
+            thead { display: none; }
+
+            tbody tr {
+                position: relative;
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                column-gap: 16px;
+                row-gap: 8px;
+                padding: 14px 0;
+                border-bottom: 1px solid #F3F3F3;
+
+                &:hover { background: none; }
+                &:last-child { border-bottom: none; }
+            }
+
+            td {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 0;
+                border: none;
+                text-align: left;
+
+                &.num { text-align: left; }
+
+                &[data-label]::before {
+                    content: attr(data-label);
+                    font-size: 11px;
+                    color: $grey;
+                    margin-bottom: 2px;
+                }
+            }
+
+            td.stock-td {
+                grid-column: 1 / -1;
+                padding-right: 76px;
+            }
+
+            td.actions {
+                position: absolute;
+                top: 10px;
+                right: 0;
+                flex-direction: row;
+            }
+        }
+
+        .stock-cell { max-width: none; }
+    }
+
+    .stock-cell {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        max-width: 240px;
+        white-space: normal;
+    }
+
+    .stock-symbol {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-weight: 700;
+        color: $dark;
+    }
+
+    .market-tag {
+        padding: 1px 6px;
+        border-radius: 4px;
+        background: #F1F4FD;
+        color: $primary;
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+    }
+
+    .stock-name {
+        font-size: 12px;
+        color: $grey;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .stock-sector {
+        font-size: 11px;
+        color: #8A8D9B;
+    }
+
+    .actions {
+        text-align: right;
+        padding-right: 0;
+    }
+
+    .icon-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 32px;
+        height: 32px;
+        border: none;
+        border-radius: 8px;
+        background: transparent;
+        color: $grey;
+        cursor: pointer;
+
+        &:hover { background: #F1F4FD; color: $primary; }
+        &.danger:hover { background: #FDECEC; color: $loss; }
+    }
+
+    .visually-hidden {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+    }
+
+    // ── Ask card ─────────────────────────────────────────────────────────────
+    .ask-card .card-subtitle { margin-bottom: 12px; }
+
+    .ask-input {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+
+        input {
+            flex: 1;
+            min-width: 0;
+            height: 44px;
+            padding: 0 14px;
+            border: 1px solid #BAC6E4;
+            border-radius: 10px;
+            font-size: 14px;
+            color: $dark;
+            outline: none;
+
+            &:focus {
+                border-color: $primary;
+                box-shadow: 0 0 0 3px $primary-soft;
+            }
+
+            &::placeholder { color: #A4A5A7; }
+        }
+
+        button {
+            flex: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            border: none;
+            border-radius: 10px;
+            background: $primary;
+            color: #fff;
+            cursor: pointer;
+
+            &:disabled { background: #95A9FF; cursor: default; }
+        }
+    }
+
+    .ask-language {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 12px;
+        font-size: 13px;
+        color: $grey;
+    }
+
+    .suggested-questions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 14px;
+    }
+
+    .question-chip {
+        padding: 7px 12px;
+        border: 1px solid #E8ECFF;
+        border-radius: 999px;
+        background: #F7F8FE;
+        color: $primary;
+        font-size: 13px;
+        text-align: left;
+        cursor: pointer;
+        transition: background 0.15s, border-color 0.15s;
+
+        &:hover {
+            background: #EEF1FD;
+            border-color: #C9D3F8;
+        }
+    }
+
+    // ── Sector allocation (meter list) ───────────────────────────────────────
+    .meter-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .meter-row {
+        position: relative;
+        display: grid;
+        grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr) 48px;
+        align-items: center;
+        gap: 10px;
+        padding: 6px 6px;
+        margin: 0 -6px;
+        border-radius: 8px;
+        outline: none;
+
+        &:hover, &:focus-visible {
+            background: #F7F8FE;
+
+            .meter-tooltip { opacity: 1; transform: translateY(0); }
+        }
+
+        &:focus-visible { box-shadow: 0 0 0 2px $primary-soft; }
+    }
+
+    .meter-name {
+        font-size: 13px;
+        color: $dark;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .meter-track {
+        height: 8px;
+        border-radius: 999px;
+        background: $primary-track;
+        overflow: hidden;
+    }
+
+    .meter-fill {
+        display: block;
+        height: 100%;
+        min-width: 4px;
+        border-radius: 999px;
+        background: $primary;
+    }
+
+    .meter-figure {
+        font-size: 13px;
+        font-weight: 600;
+        color: $dark;
+        text-align: right;
+        font-variant-numeric: tabular-nums;
+    }
+
+    .meter-tooltip {
+        position: absolute;
+        right: 6px;
+        bottom: calc(100% - 2px);
+        z-index: 2;
+        padding: 6px 10px;
+        border-radius: 8px;
+        background: $dark;
+        color: #fff;
+        font-size: 12px;
+        white-space: nowrap;
+        pointer-events: none;
+        opacity: 0;
+        transform: translateY(4px);
+        transition: opacity 0.12s, transform 0.12s;
+    }
+
+    // ── Empty state ──────────────────────────────────────────────────────────
+    .empty-state {
+        grid-column: 1 / -1;
+        max-width: 620px;
+        padding: 32px;
+
+        h2 {
+            font-size: 20px;
+            font-weight: 700;
+            margin: 0 0 8px;
+        }
+
+        p {
+            color: $grey;
+            font-size: 15px;
+            line-height: 1.55;
+            margin-bottom: 20px;
+        }
+
+        .empty-markets {
+            margin-top: 14px;
+            font-size: 13px;
+            color: #8A8D9B;
+        }
+    }
+
+    .portfolio-disclaimer {
+        margin-top: 16px;
+        font-size: 12px;
+        color: #8A8D9B;
+    }
+}
+
+@keyframes portfolio-shimmer {
+    0% { background-position: 100% 0; }
+    100% { background-position: -100% 0; }
+}
+
+// ── Add / edit modal (rendered in a portal, outside .portfolio-page) ──────────
+.portfolio-modal {
+    font-family: 'Roboto', sans-serif;
+    color: $dark;
+
+    .modal-content {
+        border: none;
+        border-radius: 16px;
+    }
+
+    .modal-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: none;
+        padding: 20px 24px 4px;
+    }
+
+    .modal-title-text {
+        font-size: 20px;
+        font-weight: 700;
+    }
+
+    .icon-btn {
+        border: none;
+        background: none;
+        padding: 0;
+        cursor: pointer;
+    }
+
+    .modal-body {
+        padding: 12px 24px;
+    }
+
+    .modal-footer {
+        border-top: none;
+        padding: 8px 24px 20px;
+        gap: 8px;
+
+        button { font-size: 15px; }
+        button:disabled { opacity: 0.6; }
+    }
+
+    .market-toggle {
+        @include market-toggle;
+        width: 100%;
+
+        button {
+            flex: 1;
+            justify-content: center;
+            padding: 8px 10px;
+        }
+
+        .exchange {
+            font-size: 11px;
+            color: #8A8D9B;
+            font-weight: 400;
+        }
+    }
+
+    .field {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        margin-bottom: 14px;
+        min-width: 0;
+        flex: 1;
+    }
+
+    .field-row {
+        display: flex;
+        gap: 12px;
+
+        @media (max-width: 480px) {
+            flex-direction: column;
+            gap: 0;
+        }
+    }
+
+    .field-label {
+        font-size: 13px;
+        font-weight: 500;
+        color: $grey;
+        margin: 0;
+
+        .optional { font-weight: 400; color: #A4A5A7; }
+    }
+
+    input, select, textarea {
+        width: 100%;
+        padding: 10px 12px;
+        border: 1px solid #BAC6E4;
+        border-radius: 10px;
+        background: #fff;
+        font-size: 14px;
+        color: $dark;
+        outline: none;
+        font-family: inherit;
+
+        &:focus {
+            border-color: $primary;
+            box-shadow: 0 0 0 3px $primary-soft;
+        }
+
+        &:disabled {
+            background: #F5F6FA;
+            color: $grey;
+        }
+
+        &::placeholder { color: #A4A5A7; }
+    }
+
+    input { height: 44px; }
+    select { height: 44px; }
+    textarea { resize: vertical; }
+
+    .field-hint {
+        margin: -6px 0 12px;
+        font-size: 12px;
+        color: $grey;
+    }
+
+    .symbol-field {
+        position: relative;
+
+        .field-hint { margin: 0; }
+    }
+
+    .symbol-suggestions {
+        position: absolute;
+        top: 74px;
+        left: 0;
+        right: 0;
+        z-index: 5;
+        max-height: 260px;
+        overflow-y: auto;
+        margin: 0;
+        padding: 6px;
+        list-style: none;
+        border: 1px solid #E8ECFF;
+        border-radius: 10px;
+        background: #fff;
+        box-shadow: 0 8px 24px rgba(23, 30, 66, 0.12);
+
+        button {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            padding: 8px 10px;
+            border: none;
+            border-radius: 8px;
+            background: none;
+            text-align: left;
+            cursor: pointer;
+
+            &:hover, &:focus-visible { background: #F1F4FD; outline: none; }
+        }
+
+        .suggestion-symbol {
+            flex: none;
+            min-width: 72px;
+            font-weight: 700;
+            font-size: 14px;
+            color: $dark;
+        }
+
+        .suggestion-name {
+            flex: 1;
+            min-width: 0;
+            font-size: 13px;
+            color: $grey;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .suggestion-type {
+            flex: none;
+            padding: 1px 6px;
+            border-radius: 4px;
+            background: #F1F4FD;
+            color: $primary;
+            font-size: 10px;
+            font-weight: 600;
+        }
+    }
+
+    .form-error {
+        padding: 8px 12px;
+        border-radius: 8px;
+        background: #FDECEC;
+        color: $loss;
+        font-size: 13px;
+    }
+}

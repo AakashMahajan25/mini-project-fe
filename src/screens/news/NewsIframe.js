@@ -4,6 +4,7 @@ import './styles.scss'
 import BackArrow from '../../assets/images/back-btn-arrow.png';
 import WhiteArrow from '../../assets/images/white-btn-arrow.png';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { TICKER_HEIGHT } from '../../utils/utils';
 
 function NewsIframe() {
     const navigate = useNavigate();
@@ -47,7 +48,7 @@ function NewsIframe() {
                     </div>
                 }
                 {state?.src &&
-                    <iframe style={{ width: '100%', height: window.innerHeight - 175 }} src={state?.src} />
+                    <iframe style={{ width: '100%', height: (window.innerHeight - TICKER_HEIGHT) - 175 }} src={state?.src} />
                 }
             </div>
         </div>

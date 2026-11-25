@@ -1,5 +1,8 @@
 import moment from 'moment';
 
+// Height of the market ticker strip under the top bar (see StockPriceScroll.scss)
+export const TICKER_HEIGHT = 32;
+
 export const trimText = (text, maxLength) => {
     if (text?.length <= maxLength) {
         return text;

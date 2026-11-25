@@ -17,7 +17,7 @@ import RightGreen from '../../assets/images/right-green-circle-icon.png';
 import BlueTick from '../../assets/images/charm_tick.png';
 import { addTickertoWatchList, addWatchList, deleteWatchList, editWatchList, getFinancialsPeers, getFinancialsResults, getFinancialsShareHolding, getGraphDetail, getStockBySearch, getStockOverview, getStockRevenue, getStockStatistics, getStocksCompanyDetail, getTickersById, getUserWatchLists, removeTickerFromWatchList, resetStockDetail } from '../../screens/dashboard/slice';
 import { useDispatch, useSelector } from 'react-redux';
-import { capitalizeFirstLetter, formatPrice, trimText } from '../../utils/utils';
+import { capitalizeFirstLetter, formatPrice, trimText, TICKER_HEIGHT } from '../../utils/utils';
 import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
 import Tooltip from '@mui/material/Tooltip';
@@ -434,7 +434,7 @@ function LeftBox() {
                 {
                     (location.pathname !== '/discover-correlation' && (isLoading || watchlistLoading))  && <Loader />
                 }
-                <div className='box' style={{ height: window.innerHeight - 68 }}>
+                <div className='box' style={{ height: (window.innerHeight - TICKER_HEIGHT) - 68 }}>
                     <div className="position-relative" style={{ marginBottom: 10, padding: '0px 16px' }}>
                         <input type="text" className="form-control form-control-search" placeholder='Search Here' value={searchParam}
                             onChange={event => setSearchParam(event.target.value)} ref={searchBoxRef}

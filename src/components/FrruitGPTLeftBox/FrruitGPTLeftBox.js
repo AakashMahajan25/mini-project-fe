@@ -10,7 +10,7 @@ import LeftWhiteArrow from '../../assets/images/chevron-left.png'
 import RightBlueArrow from '../../assets/images/right-arrow.png'
 import { useDispatch, useSelector } from 'react-redux';
 import { getPromptList, searchPrompt } from '../../screens/frruitGPT/slice';
-import { trimText } from '../../utils/utils';
+import { trimText, TICKER_HEIGHT } from '../../utils/utils';
 import { useNavigate } from 'react-router-dom';
 import Nav from 'react-bootstrap/Nav';
 import moment from 'moment';
@@ -68,7 +68,7 @@ function FrruitGPTLeftBox(props) {
         handleHistory(prompt_id)
     }
     // const leftPartHeight = window.innerWidth > 768 ? window.innerHeight - 105 : window.innerHeight - 57;
-    const leftPartHeight = window.innerHeight > 600 ? window.innerWidth > 768 ? window.innerHeight - 68 : window.innerHeight - 65 : window.innerHeight - 52;
+    const leftPartHeight = window.innerHeight > 600 ? window.innerWidth > 768 ? (window.innerHeight - TICKER_HEIGHT) - 68 : (window.innerHeight - TICKER_HEIGHT) - 65 : (window.innerHeight - TICKER_HEIGHT) - 52;
 
     return (
         <>

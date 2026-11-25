@@ -15,7 +15,7 @@ import TrendingStocksCard from '../trendingStocks/TrendingStocksCard'
 import DiscoverCorrelationGraph from '../graph/DiscoverCorrelationGraph'
 import BarChart from '../barChart/BarChart'
 import { useSelector } from 'react-redux'
-import { formatTimeAgo, getCurrentTimeWithAMPM, replaceNewlinesWithBr, trimText } from '../../utils/utils'
+import { formatTimeAgo, getCurrentTimeWithAMPM, replaceNewlinesWithBr, trimText, TICKER_HEIGHT } from '../../utils/utils'
 import { useLoading, Audio, SpinningCircles, Circles, ThreeDots } from '@agney/react-loading';
 import { useLocation } from 'react-router'
 import UploadDocImg from '../../assets/images/doc-img.png'
@@ -33,6 +33,22 @@ import moment from 'moment'
 import { InfinitySpin } from 'react-loader-spinner'
 import CustomTable from '../customTable/CustomTable'
 import AlertImg from '../../assets/images/exclamation.png'
+import { isRtl, languageName } from '../../utils/languages'
+
+const GlobeIcon = () => (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="9" />
+        <path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z" />
+    </svg>
+)
+
+// Language info for a saved bot message (rows carry language + the English original)
+const historyMeta = (chat) => ({
+    language: chat?.language,
+    language_name: languageName(chat?.language),
+    translated: !!chat?.text_en && !!chat?.language && chat.language !== 'en',
+    text_en: chat?.text_en,
+})
 
 const ChatGpt = forwardRef((props, ref) => {
     const { chatSuggestions } = useSelector(state => state.fruitGPTSlice);
@@ -42,7 +58,14 @@ const ChatGpt = forwardRef((props, ref) => {
     const [modalGraphData, setModalGraphData] = useState('');
     const [sourceData, setSourceData] = useState([]);
     const [tabStates, setTabStates] = useState({});
+    // responseId → true while the English original of a translated answer is shown
+    const [showOriginal, setShowOriginal] = useState({});
     const path = location.pathname === '/market-content-gpt'
+
+    // A new streamed answer starts in the user's language
+    React.useEffect(() => {
+        if (props.streamInitiated) setShowOriginal(prev => ({ ...prev, stream: false }));
+    }, [props.streamInitiated]);
 
     // Expose functions to parent component
     useImperativeHandle(ref, () => ({
@@ -418,7 +441,33 @@ const ChatGpt = forwardRef((props, ref) => {
     };
 
     // Function to render tabbed content
-    const renderTabbedContent = (content, streamLinks = [], responseId = 'stream') => {
+    // Answer + a note on translated answers that toggles to the English original
+    const renderAnswer = (text, links, responseId, meta) => {
+        const translated = !!(meta?.translated && meta?.text_en);
+        const showEnglish = translated && !!showOriginal[responseId];
+        const name = meta?.language_name || languageName(meta?.language);
+        return (
+            <>
+                {renderTabbedContent(showEnglish ? meta.text_en : text, links, responseId, showEnglish ? 'en' : meta?.language)}
+                {translated && (
+                    <div className='language-note'>
+                        <GlobeIcon />
+                        <span>{showEnglish ? 'Original English answer' : `Translated to ${name}`}</span>
+                        <span aria-hidden='true'>·</span>
+                        <button
+                            type='button'
+                            className='language-toggle'
+                            onClick={() => setShowOriginal(prev => ({ ...prev, [responseId]: !prev[responseId] }))}
+                        >
+                            {showEnglish ? `Show ${name}` : 'Show English original'}
+                        </button>
+                    </div>
+                )}
+            </>
+        );
+    };
+
+    const renderTabbedContent = (content, streamLinks = [], responseId = 'stream', language = null) => {
         const parsed = parseStreamContent(content);
         const allSources = [...parsed.sources, ...streamLinks];
         const currentTab = getTabState(responseId);
@@ -452,7 +501,9 @@ const ChatGpt = forwardRef((props, ref) => {
                     </Nav>
                     <Tab.Content className="tab-content-area">
                         <Tab.Pane eventKey="answer">
-                            {parsed.answer}
+                            <div dir={isRtl(language) ? 'rtl' : undefined} lang={language || undefined}>
+                                {parsed.answer}
+                            </div>
                         </Tab.Pane>
                         <Tab.Pane eventKey="steps">
                             {parsed.steps.length > 0 ? (
@@ -893,7 +944,7 @@ const ChatGpt = forwardRef((props, ref) => {
     return (
         <>
             <div className='ChatGpt' style={{
-                height: path ? (window.innerWidth < 786 ? window.innerHeight - 170: window.innerHeight - 200) : (window.innerWidth < 786 ? window.innerHeight - 175 : window.innerHeight - 205),
+                height: path ? (window.innerWidth < 786 ? (window.innerHeight - TICKER_HEIGHT) - 170: (window.innerHeight - TICKER_HEIGHT) - 200) : (window.innerWidth < 786 ? (window.innerHeight - TICKER_HEIGHT) - 175 : (window.innerHeight - TICKER_HEIGHT) - 205),
                 paddingBottom: chatHistory.length === 0 && !path ? 0 : 40,
                 marginTop: window.innerWidth < 500 ? 0 : (path ? (contentChatHistory.length === 0 ? 10 : 10) : 0),
                 // marginTop: path ? (contentChatHistory.length === 0 ? 10 : 10) : 0,
@@ -901,7 +952,7 @@ const ChatGpt = forwardRef((props, ref) => {
                 marginBottom: path ? (window.innerWidth < 786 ? 80 : 20) : (window.innerWidth < 786 ? 80 : 20)
             }} ref={containerRef}>
                 {
-                    (newChat && !path) && <div className='default-screens-content' style={{ height: window.innerHeight - 240 }}>
+                    (newChat && !path) && <div className='default-screens-content' style={{ height: (window.innerHeight - TICKER_HEIGHT) - 240 }}>
                         <div className='text-center'>
                             <img src={LogoCircle} width={57} style={{ objectFit: 'contain' }} />
                             <div className='help-text'>How can I help you today ?</div>
@@ -928,7 +979,7 @@ const ChatGpt = forwardRef((props, ref) => {
                     </div>
                 }
                 {
-                    (newChat && path) && <div className='default-screens-content' style={{ height: window.innerHeight - 310 }}>
+                    (newChat && path) && <div className='default-screens-content' style={{ height: (window.innerHeight - TICKER_HEIGHT) - 310 }}>
                         <div className='text-center'>
                             <img src={DefaultImg} className='default-screens-content-img-css' />
                             <div className='help-text'>How can I help you today ?</div>
@@ -948,7 +999,7 @@ const ChatGpt = forwardRef((props, ref) => {
                                         <p className='you-text'>You</p>
                                     </div>
                                     <div className='chat-text-container'>
-                                        <h3 className='chat-text'>{chat?.text}</h3>
+                                        <h3 className='chat-text' dir='auto'>{chat?.text}</h3>
                                         <div className='d-flex justify-content-end'>
                                             <h3 className='chat-text' style={{ color: "rgba(255, 255, 255, 0.8)", fontWeight: '400', fontSize: 12 }}>{getCurrentTimeWithAMPM(chat?.createdAt)}</h3>
                                         </div>
@@ -980,7 +1031,7 @@ const ChatGpt = forwardRef((props, ref) => {
                                                         ></h3>
                                                     </div>
                                                 ) : (
-                                                    renderTabbedContent(chat?.text || '', chat?.link || [], `chat-${index}`)
+                                                    renderAnswer(chat?.text || '', chat?.link || [], `chat-${index}`, historyMeta(chat))
                                                 )}
                                             </div>
                                         </>
@@ -1127,7 +1178,7 @@ const ChatGpt = forwardRef((props, ref) => {
                             <h3 className='you-text' style={{ color: "#a4a5a7", fontWeight: '400', marginBottom: 0, marginLeft: 5, fontSize: 12 }}>{getCurrentTimeWithAMPM(moment())}</h3>
                         </div>
                                                 <div className={`chat-text-container chat-stream ${props.streamInitiated && !props.streamData ? 'blinking' : ''}`}>
-                            {props?.streamData && hasSubstantialContent(props.streamData) ? renderTabbedContent(props?.streamData || '', props?.streamLinks || [], 'stream') : (
+                            {props?.streamData && (!props.streamInitiated || hasSubstantialContent(props.streamData)) ? renderAnswer(props?.streamData || '', props?.streamLinks || [], 'stream', props?.streamMeta) : (
                                 <div className="loading-blip">
                                     <div className="single-blip"></div>
                                     {props?.streamData && (() => {
@@ -1220,7 +1271,7 @@ const ChatGpt = forwardRef((props, ref) => {
                                         <p className='you-text'>You</p>
                                     </div>
                                     <div className='chat-text-container'>
-                                        <h3 className='chat-text'>{chat?.text}</h3>
+                                        <h3 className='chat-text' dir='auto'>{chat?.text}</h3>
                                         <div className='d-flex justify-content-end'>
                                             <h3 className='chat-text' style={{ color: "rgba(255, 255, 255, 0.8)", fontWeight: '400', fontSize: 12 }}>{getCurrentTimeWithAMPM(chat?.createdAt)}</h3>
                                         </div>

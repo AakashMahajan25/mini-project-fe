@@ -366,3 +366,29 @@
         }
     }
 }
+
+// Answer-language picker in the mobile focus header (native select inside the blue pill)
+.language-select-mobile {
+    gap: 4px;
+    padding: 0 10px !important;
+    margin: 0;
+    color: #fff;
+    cursor: pointer;
+
+    select {
+        height: 28px;
+        max-width: 92px;
+        border: none;
+        background: transparent;
+        color: #fff;
+        font-family: 'Roboto', sans-serif;
+        font-size: 14px;
+        font-weight: 500;
+        outline: none;
+        cursor: pointer;
+
+        option {
+            color: #171E42;
+        }
+    }
+}

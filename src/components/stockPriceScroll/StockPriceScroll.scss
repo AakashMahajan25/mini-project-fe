@@ -1,23 +1,135 @@
-.stockpricescroll{
-    .text1{
+// Keep in sync with TICKER_HEIGHT in utils/utils.js
+$ticker-height: 32px;
+
+.stock-ticker {
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: $ticker-height;
+    overflow: hidden;
+    border-top: 1px solid #EDEDED;
+    border-bottom: 1px solid #EDEDED;
+    background: #fff;
+    font-family: 'Roboto', sans-serif;
+    font-size: 12.5px;
+    line-height: 1;
+    white-space: nowrap;
+
+    &.ticker-mobile {
+        @media only screen and (min-width: 991px) {
+            display: none;
+        }
+    }
+
+    .ticker-placeholder {
+        padding: 0 24px;
+        color: #A4A5A7;
+    }
+
+    .ticker-viewport {
+        flex: 1;
+        min-width: 0;
+        overflow: hidden;
+        // Fade items in and out at the edges
+        mask-image: linear-gradient(90deg, transparent 0, #000 24px, #000 calc(100% - 24px), transparent 100%);
+    }
+
+    .ticker-track {
+        display: flex;
+        width: max-content;
+        animation: ticker-scroll linear infinite;
+
+        &:hover {
+            animation-play-state: paused;
+        }
+    }
+
+    .ticker-items {
+        display: flex;
+        align-items: center;
+    }
+
+    .ticker-market {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        margin: 0 4px 0 20px;
+        padding: 3px 8px;
+        border-radius: 4px;
+        background: #F1F4FD;
+        color: #4563E4;
+        font-size: 11px;
         font-weight: 600;
-        font-family: 'Roboto', sans-serif;
-        font-size: 14px;
-        line-height: 16.71px;
+        letter-spacing: 0.02em;
+        text-transform: uppercase;
+
+        img {
+            width: 14px;
+            height: 10px;
+            object-fit: cover;
+            border-radius: 1px;
+        }
+    }
+
+    .ticker-item {
+        display: inline-flex;
+        align-items: baseline;
+        gap: 6px;
+        padding: 0 16px;
+        border-right: 1px solid #F0F0F3;
+
+        &.index .ticker-label {
+            color: #4563E4;
+        }
+    }
+
+    .ticker-label {
+        color: #171E42;
+        font-weight: 600;
+    }
+
+    .ticker-price {
         color: #6F7387;
+        font-variant-numeric: tabular-nums;
     }
-    .text2{
+
+    .ticker-change {
         font-weight: 600;
-        font-family: 'Roboto', sans-serif;
-        font-size: 14px;
-        line-height: 16.71px;
-        color: #28C76F;
+        font-variant-numeric: tabular-nums;
+
+        &.up { color: #28C76F; }
+        &.down { color: #EA5455; }
+        &.flat { color: #A4A5A7; }
     }
-    .text2red{
-        font-weight: 600;
-        font-family: 'Roboto', sans-serif;
-        font-size: 14px;
-        line-height: 16.71px;
-        color: #EA5455;
+
+    .ticker-updated {
+        flex-shrink: 0;
+        padding: 0 16px 0 10px;
+        color: #A4A5A7;
+        font-size: 11px;
+
+        @media only screen and (max-width: 576px) {
+            display: none;
+        }
     }
+
+    @media (prefers-reduced-motion: reduce) {
+        .ticker-viewport {
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .ticker-track {
+            animation: none;
+        }
+
+        .ticker-items[aria-hidden] {
+            display: none;
+        }
+    }
+}
+
+@keyframes ticker-scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
 }

@@ -3,7 +3,7 @@ import './TopBar.scss';
 import FrruitLogo from '../../assets/images/frruit-logo.png'
 import ProfilePic from '../../assets/images/profile.png'
 import { useLocation, useNavigate } from 'react-router-dom';
-import StockPriceScroll from '../stockPriceScroll/StockPriceScroll';
+import StockPriceScroll, { useTickerQuotes } from '../stockPriceScroll/StockPriceScroll';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUserDetails } from '../../screens/profile/usersSlice';
 import LogOut from '../../assets/images/logout-outline.png';
@@ -25,6 +25,7 @@ function TopBar() {
   const handleShow = () => setShow(true);
   const { userDetails } = useSelector(state => state.userSlice)
   const { cancelTokens } = useSelector(state => state.contentGPTSlice);
+  const ticker = useTickerQuotes();
 
   const location = useLocation()
   let navigate = useNavigate();
@@ -51,6 +52,15 @@ function TopBar() {
     setShow(false)
     let path = `/discover-correlation`;
     navigate(path);
+  }
+  const routeChangeNewsFeed = () => {
+    setShow(false)
+    let path = `/news-feed`;
+    navigate(path);
+  }
+  const routeChangePortfolio = () => {
+    setShow(false)
+    navigate('/portfolio');
   }
   const routeChangeProfile = () => {
     setShow(false)
@@ -92,6 +102,8 @@ function TopBar() {
                 <div className={location.pathname === '/frruit-gpt' ? 'web-nav-text-active' : 'web-nav-text'} onClick={routeChangeFrruitGPT}>Frruit Search</div>
                 {/* <div className={location.pathname === '/market-content-gpt' ? 'web-nav-text-active' : 'web-nav-text'} onClick={routeChangeMarketContentGPT}>Content Search</div> */}
                 <div className={location.pathname === '/discover-correlation' ? 'web-nav-text-active' : 'web-nav-text'} onClick={routeChangeDiscoverCorrelation}>Discover Correlation</div>
+                <div className={location.pathname === '/news-feed' ? 'web-nav-text-active' : 'web-nav-text'} onClick={routeChangeNewsFeed}>News</div>
+                <div className={location.pathname === '/portfolio' ? 'web-nav-text-active' : 'web-nav-text'} onClick={routeChangePortfolio}>Portfolio</div>
                 <div onClick={routeChangeProfile} className='profile-icon'>
                   <div className='profile-name-text'>{userDetails?.first_name?.slice(0, 1)}</div>
                 </div>
@@ -101,7 +113,7 @@ function TopBar() {
                 </div>
               </div >
             </div >
-            {/* <StockPriceScroll /> */}
+            <StockPriceScroll quotes={ticker.quotes} updatedAt={ticker.updatedAt} />
           </div >
         </div >
 
@@ -133,6 +145,7 @@ function TopBar() {
           </Navbar.Collapse> */}
           </Container>
         </Navbar>
+        <StockPriceScroll className='ticker-mobile' quotes={ticker.quotes} updatedAt={ticker.updatedAt} />
         <Offcanvas show={show} onHide={handleClose}>
           <Offcanvas.Header>
             <img className="logo" style={{ width: 78 }} src={FrruitLogo} alt="" />
@@ -162,6 +175,8 @@ function TopBar() {
               <div className={location.pathname === '/frruit-gpt' ? 'web-nav-text-mobile-offcanvas-active' : 'web-nav-text-mobile-offcanvas'} onClick={routeChangeFrruitGPT}>Frruit Search</div>
               {/* <div className={location.pathname === '/market-content-gpt' ? 'web-nav-text-mobile-offcanvas-active' : 'web-nav-text-mobile-offcanvas'} onClick={routeChangeMarketContentGPT}>Content Search</div> */}
               <div className={location.pathname === '/discover-correlation' ? 'web-nav-text-mobile-offcanvas-active' : 'web-nav-text-mobile-offcanvas'} onClick={routeChangeDiscoverCorrelation}>Discover Correlation</div>
+              <div className={location.pathname === '/news-feed' ? 'web-nav-text-mobile-offcanvas-active' : 'web-nav-text-mobile-offcanvas'} onClick={routeChangeNewsFeed}>News</div>
+              <div className={location.pathname === '/portfolio' ? 'web-nav-text-mobile-offcanvas-active' : 'web-nav-text-mobile-offcanvas'} onClick={routeChangePortfolio}>Portfolio</div>
               {/* <div className={location.pathname === '/dashboard/watchlist' ? 'web-nav-text-mobile-offcanvas-active' : 'web-nav-text-mobile-offcanvas'} onClick={routeChangeWatchlist}>Watchlist</div> */}
               <div className={location.pathname === '/dashboard/profile' ? 'web-nav-text-mobile-offcanvas-active' : 'web-nav-text-mobile-offcanvas'} onClick={routeChangeProfile}>Profile</div>
               {/* <div className='web-nav-text me-5' onClick={handleLogout}>Logout</div> */}

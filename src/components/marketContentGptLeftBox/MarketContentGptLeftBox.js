@@ -4,7 +4,7 @@ import SearchIcon from '../../assets/images/search-icon.png';
 import ChatIcon from '../../assets/images/new-chat-icon.png';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
-import { trimText } from '../../utils/utils';
+import { trimText, TICKER_HEIGHT } from '../../utils/utils';
 import { Nav, Tab, Tabs } from 'react-bootstrap'
 import { deleteContentPrompt, getContentPromptList, searchContentPrompt } from '../../screens/marketContentGPT/slice';
 import DeleteRedIcon from '../../assets/images/delete-red-icon.png';
@@ -87,7 +87,7 @@ function MarketContentGptLeftBox(props) {
         handleHistory(content_prompt_id, selected, name)
     }
 
-    const leftPartHeight = window.innerHeight > 600 ? window.innerWidth > 768 ? window.innerHeight - 68 : window.innerHeight - 65 : window.innerHeight - 52;
+    const leftPartHeight = window.innerHeight > 600 ? window.innerWidth > 768 ? (window.innerHeight - TICKER_HEIGHT) - 68 : (window.innerHeight - TICKER_HEIGHT) - 65 : (window.innerHeight - TICKER_HEIGHT) - 52;
 
     return (
         <>
