@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 import { useDispatch } from 'react-redux';
 import { getTrendingStocks } from './slice';
+import { useLiveEvent } from '../../utils/liveSocket';
 
 // Flag components
 const FlagIcon = ({ countryCode, size = 20, className = '' }) => {
@@ -81,9 +82,9 @@ function TrendingStocks({ handleBackButtonClick, trendingStocks: initialTrending
         return "India Markets";
     });
 
-    // Function to fetch trending stocks
-    const fetchTrendingStocks = async (marketCode = null) => {
-        setIsLoadingStocks(true);
+    // Function to fetch trending stocks; `silent` keeps the current cards on screen (live refreshes)
+    const fetchTrendingStocks = async (marketCode = null, { silent = false } = {}) => {
+        if (!silent) setIsLoadingStocks(true);
         try {
             let currentMarketCode = marketCode;
 
@@ -96,16 +97,27 @@ function TrendingStocks({ handleBackButtonClick, trendingStocks: initialTrending
                 }
             }
 
-            // Call the API - market will be handled internally by the function
-            const result = await dispatch(getTrendingStocks()).unwrap();
+            const result = await dispatch(getTrendingStocks(currentMarketCode)).unwrap();
             setLocalTrendingStocks(result || []);
         } catch (error) {
             console.error('Error fetching trending stocks:', error);
-            setLocalTrendingStocks([]);
+            if (!silent) setLocalTrendingStocks([]);
         } finally {
-            setIsLoadingStocks(false);
+            if (!silent) setIsLoadingStocks(false);
         }
     };
+
+    // Live updates: new headlines change the mention counts, new quotes change the % moves
+    const currentMarket = countries.find((country) => country.name === selectedCountry)?.code || 'IN';
+    useLiveEvent('news:new', (payload) => {
+        const added = payload?.byMarket ? payload.byMarket[currentMarket] : payload?.added;
+        if (added > 0 && !isLoadingStocks) fetchTrendingStocks(currentMarket, { silent: true });
+    });
+    useLiveEvent('market:movers', (payload) => {
+        if ((!payload?.market || payload.market === currentMarket) && !isLoadingStocks) {
+            fetchTrendingStocks(currentMarket, { silent: true });
+        }
+    });
 
     const handleCountrySelect = (event) => {
         const countryName = event.target.value;
@@ -301,7 +313,7 @@ function TrendingStocks({ handleBackButtonClick, trendingStocks: initialTrending
                     </div>
                 </div>
                 <div className='heading-text'>Trending Stocks</div>
-                <div className='desc-text mt-1'>Explore trending stocks curated by AI</div>
+                <div className='desc-text mt-1'>Stocks most mentioned in the last 24 hours of news, topped up with today's biggest movers. Updates live.</div>
                 
                 {isLoadingStocks ? (
                     <div className='d-flex justify-content-center align-items-center mt-5'>

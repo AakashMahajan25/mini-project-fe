@@ -3,6 +3,7 @@ import { API_ENDPOINTS, METHOD_TYPE } from "../../utils/apiUrls";
 import api from "../../utils/api";
 import { toast } from "react-toastify";
 import { setCancelTokens } from "../marketContentGPT/slice";
+import { answerFieldsFromMeta } from "../../components/answer/answerData";
 
 const initialState = {
     chatSuggestions: [],
@@ -15,6 +16,8 @@ const initialState = {
     error: null,
     promptLibraryList: [],
     suggestedQuestionsList: [],
+    // answer_id → { rating, status } for feedback sent this session (FrruitGPT and document chats)
+    answerFeedback: {},
 }
 
 export const getPromptSuggestion = createAsyncThunk("fruitGpt/getPromptSuggestion", async (number) => {
@@ -105,7 +108,10 @@ export const triggerFrruitGpt = createAsyncThunk("fruitGpt/triggerFrruitGpt", as
             text: response.data.data.data,
             link: response.data.data.link,
             focus_type: response.data.data.focus_type,
-            type: "text"
+            type: "text",
+            language: response.data.data.language,
+            text_en: response.data.data.text_en,
+            ...answerFieldsFromMeta(response.data.data)
         }]
         dispatch(setCancelTokens(null))
         return chatData;
@@ -188,6 +194,26 @@ export const searchSuggestedPrompt = createAsyncThunk("fruitGpt/searchSuggestedP
     }
 });
 
+// Thumbs up / down on an answer → { answer_id, rating, status } (a thumbs-down moves it to NEEDS_REVISION)
+export const submitAnswerFeedback = createAsyncThunk("fruitGpt/submitAnswerFeedback", async ({ answerId, rating, reason, comment }, { rejectWithValue }) => {
+    try {
+        let data = {
+            method: METHOD_TYPE.post,
+            url: `${API_ENDPOINTS.answers}${answerId}/feedback`,
+            data: {
+                rating,
+                ...(reason ? { reason } : {}),
+                ...(comment ? { comment } : {}),
+            },
+        };
+        const response = await api(data);
+        return response.data.data;
+
+    } catch (error) {
+        return rejectWithValue(error?.response?.data?.message || "Could not send your feedback. Please try again.");
+    }
+});
+
 
 const fruitGPTSlice = createSlice({
     name: "fruitGPT",
@@ -250,6 +276,11 @@ const fruitGPTSlice = createSlice({
         })
         .addCase(getPromptsLibrary.fulfilled, (state, action) => {
             state.promptLibraryList = action.payload;
+        })
+        .addCase(submitAnswerFeedback.fulfilled, (state, action) => {
+            const { answer_id, rating, status } = action.payload || {};
+            if (answer_id)
+                state.answerFeedback = { ...state.answerFeedback, [answer_id]: { rating, status } };
         })
             .addMatcher(
                 (action) =>

@@ -19,6 +19,7 @@ import CloseImage from '../../assets/images/close_icon.png'
 import SelectedFlagIcon from '../../assets/images/selected-flag.png'
 import SendIconMobile from '../../assets/images/send_icon_mobile.png'
 import LanguageSelect from './LanguageSelect'
+import VoiceInput from './VoiceInput'
 
 import {
     FormControl,
@@ -212,6 +213,12 @@ function BottomSearchBar(props) {
     const handleChange = (e) => {
         setQuestion(e.target.value);
         setError(false);  // Clear error when user starts typing
+    }
+
+    // Voice transcript goes into the input box; the user reviews it and presses send
+    const handleVoiceText = (text) => {
+        setQuestion(text);
+        setError(false);
     }
 
     // const handleKeyPress = (e) => {
@@ -556,6 +563,7 @@ function BottomSearchBar(props) {
                                         placeholder={placeholderText}
                                         onKeyDown={handleKeyPress}
                                     />
+                                    <VoiceInput className='ms-2' value={question} onChange={handleVoiceText} disabled={!buttonStart} />
                                     <div className='sendIcon ms-3' onClick={() => {
                                         if (question.length === 0) {
                                             setError(true);  // Set error if input is empty
@@ -573,6 +581,7 @@ function BottomSearchBar(props) {
                     {/* <div className='sendIcon ms-3' onClick={handleAskPress} style={{ cursor: buttonStart && 'pointer', opacity: buttonStart ? 1 : 0.5, }}>
                         <img src={SendIcon} className='sendIcon-styles' />
                     </div> */}
+                    <VoiceInput className='ms-3 hide-in-mobile' value={question} onChange={handleVoiceText} disabled={!buttonStart} />
                     <div className='sendIcon ms-3 hide-in-mobile' onClick={() => {
                         if (question.length === 0) {
                             setError(true);  // Set error if input is empty

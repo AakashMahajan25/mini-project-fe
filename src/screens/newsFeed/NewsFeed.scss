@@ -40,9 +40,14 @@ $neutral: #8A8D9B;
     .news-feed-subtitle {
         display: flex;
         align-items: center;
-        gap: 4px;
+        flex-wrap: wrap;
+        gap: 4px 6px;
         font-size: 13px;
         color: $grey;
+    }
+
+    .news-updated {
+        white-space: nowrap;
     }
 
     .refresh-btn {
@@ -299,6 +304,59 @@ $neutral: #8A8D9B;
         @media (max-width: 990px) {
             grid-row: 2;
         }
+
+        // Focused programmatically after loading new stories; not a tab stop
+        &:focus {
+            outline: none;
+        }
+    }
+
+    // ── Live "N new stories" pill ────────────────────────────────────────────
+    .new-stories-bar {
+        position: sticky;
+        top: 12px;
+        z-index: 5;
+        display: flex;
+        justify-content: center;
+        margin-bottom: -4px;
+        pointer-events: none;
+
+        // Below the fixed top bar + market ticker on desktop
+        @media (min-width: 821px) {
+            top: 111px;
+        }
+    }
+
+    .new-stories-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 18px 8px 14px;
+        border: none;
+        border-radius: 999px;
+        background: $primary;
+        color: #fff;
+        font-size: 13px;
+        font-weight: 600;
+        box-shadow: 0 6px 18px rgba(69, 99, 228, 0.35);
+        cursor: pointer;
+        pointer-events: auto;
+        animation: news-pill-in 0.25s ease-out;
+        transition: background 0.15s;
+
+        &:hover:not(:disabled) {
+            background: #3653D6;
+        }
+
+        &:focus-visible {
+            outline: 2px solid $dark;
+            outline-offset: 2px;
+        }
+
+        &:disabled {
+            opacity: 0.85;
+            cursor: default;
+        }
     }
 
     // ── Side cards ───────────────────────────────────────────────────────────
@@ -408,6 +466,25 @@ $neutral: #8A8D9B;
             gap: 12px;
             padding: 14px;
         }
+
+        // Briefly highlighted after arriving through the live pill
+        &.is-new {
+            border-color: #C9D3F5;
+            background: #F5F7FF;
+            animation: news-new-fade 8s ease-out forwards;
+        }
+    }
+
+    .new-badge {
+        padding: 1px 7px;
+        border-radius: 999px;
+        background: $primary;
+        color: #fff;
+        font-size: 10px;
+        font-weight: 700;
+        line-height: 16px;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
     }
 
     .news-card-body {
@@ -635,4 +712,24 @@ $neutral: #8A8D9B;
 @keyframes news-shimmer {
     0% { background-position: 200% 0; }
     100% { background-position: -200% 0; }
+}
+
+@keyframes news-pill-in {
+    from { opacity: 0; transform: translateY(-6px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes news-new-fade {
+    0% { background: #E9EEFF; box-shadow: 0 0 0 3px #4563E41F; }
+    50% { background: #F5F7FF; box-shadow: 0 0 0 0 transparent; }
+    100% { background: #fff; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .news-feed-page {
+        .new-stories-pill,
+        .news-card.is-new {
+            animation: none;
+        }
+    }
 }

@@ -1,0 +1,53 @@
+.live-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+    padding: 2px 8px 2px 7px;
+    border-radius: 999px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 16px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    white-space: nowrap;
+
+    &.is-live {
+        background: #12805C14;
+        color: #12805C;
+    }
+
+    &.is-offline {
+        background: #6F73871A;
+        color: #6F7387;
+    }
+
+    .live-dot {
+        position: relative;
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: currentColor;
+    }
+
+    &.is-live .live-dot::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: 50%;
+        background: currentColor;
+        animation: live-badge-pulse 1.8s ease-out infinite;
+    }
+}
+
+@keyframes live-badge-pulse {
+    0% { transform: scale(1); opacity: 0.55; }
+    100% { transform: scale(2.8); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .live-badge.is-live .live-dot::after {
+        animation: none;
+    }
+}

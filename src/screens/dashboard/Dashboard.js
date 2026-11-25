@@ -39,7 +39,7 @@ import Slider from 'react-slick';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Modal from 'react-bootstrap/Modal';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchAllNews, fetchTrendingStocksFromAI, getInvestorStories, getMostOnFrruitGpt, getStockIndexes, getTrendingNews, getTrendingStocks, setStoryIndex, setStoryViewed, getTrendingDashboardData } from './slice';
+import { fetchAllNews, fetchTrendingStocksFromAI, getInvestorStories, getMostOnFrruitGpt, getStockIndexes, getTrendingNews, getTrendingStocks, setStoryIndex, setStoryViewed } from './slice';
 import { getPromptSuggestion, searchSuggestedPrompt } from '../frruitGPT/slice';
 // import { searchSuggestedPrompt } from '../../screens/frruitGPT/slice'
 import Loader from '../../components/loader/Loader';
@@ -66,7 +66,8 @@ import WhiteChevronImg from '../../assets/images/white-dropdown.png'
 import CloseImage from '../../assets/images/close_icon.png'
 import SelectedFlagIcon from '../../assets/images/selected-flag.png'
 import SendIconMobile from '../../assets/images/send_icon_mobile.png'
-import PopularQuestions from './PopularQuestions';
+import MarketPulse from '../../components/marketPulse/MarketPulse';
+import MarketPulseStrip from '../../components/marketPulse/MarketPulseStrip';
 import InvestorStories from './InvestorStories';
 import RoundChevronRight from '../../assets/images/navigate_icon.png'
 import TrendingStockImg from '../../assets/images/trending_stocks_img.png'
@@ -317,7 +318,7 @@ function Dashboard() {
         {
             imagesource: TrendingStockImg,
             title: 'Trending Stocks for Today',
-            subtitle: 'Explore trending stocks for today curated by AI'
+            subtitle: "Stocks most mentioned in today's news, with the headline behind each"
         },
         // {
         //     imagesource: ContentSearchImg,
@@ -325,9 +326,10 @@ function Dashboard() {
         //     subtitle: 'Upload documents and videos to extract key insights instantly with AI'
         // },
         {
+            // Replaces "Market Summary and Standout Stocks": the live pulse covers the summary, sources and movers
             imagesource: QuestionImage,
-            title: 'Market Summary and Standout Stocks',
-            subtitle: 'Get comprehensive market insights and discover trending stocks'
+            title: 'Market Pulse',
+            subtitle: 'Live indices, top movers, stocks in the news and an AI summary with sources'
         },
         {
             title: 'Latest Market News',
@@ -336,9 +338,11 @@ function Dashboard() {
     ]
 
     const handleClick = (title) => {
-        if (title === 'Market Summary and Standout Stocks') {
-            setShowPopularOpinions(!showPopularOpinions);
+        if (title === 'Market Pulse') {
+            // The former market-summary slot (showPopularOpinions) now shows the live market pulse
+            setShowPopularOpinions(true);
             setShowAllContent(false);
+            window.scrollTo(0, 0);
         } else if (title === 'Investor Stories & Trending Stocks') {
             setShowInvestorStories(!showInvestorStories);
             setShowAllContent(false);
@@ -372,7 +376,7 @@ function Dashboard() {
     ];
 
     const dispatch = useDispatch()
-    const { trendingStocks, trendingNews, mostOnFrruitGpt, storyViewed, investorStory, storyIndex, isLoading, investorStoryLoading, indexLoader, stockIndexes, investorStoryError, cmotsNews, marketSummaryData, marketSummaryLoading, marketSummaryError } = useSelector(state => state.dashboardSlice);
+    const { trendingStocks, trendingNews, mostOnFrruitGpt, storyViewed, investorStory, storyIndex, isLoading, investorStoryLoading, indexLoader, stockIndexes, investorStoryError, cmotsNews } = useSelector(state => state.dashboardSlice);
     const { chatSuggestions, suggestionLoader, suggestionError, suggestedQuestionsList } = useSelector(state => state.fruitGPTSlice);
     const { userCredits, userPlan } = useSelector(state => state.userSlice)
     // const [showLeftBox, setShowLeftBox] = useState(true);
@@ -523,6 +527,16 @@ function Dashboard() {
         }
     };
 
+    // The live market pulse follows the dashboard's market selector (India / US)
+    const pulseMarket = countries.find((country) => country.name === selectedCountry)?.code === 'US' ? 'US' : 'IN';
+
+    const handlePulseMarketChange = (code) => {
+        const country = countries.find((c) => c.code === code);
+        if (country) {
+            handleCountrySelectMobile(country.name);
+        }
+    };
+
 
     // Ensure selectedCountry is properly initialized from localStorage on mount
     useEffect(() => {
@@ -581,18 +595,7 @@ function Dashboard() {
                 }).catch(err => {
 
                 });
-            // Get the market from localStorage summaryMarket or default to 'IN'
-            const summaryMarket = localStorage.getItem('summaryMarket') || 'IN';
-            dispatch(getTrendingDashboardData(summaryMarket)).unwrap()
-                .then((res) => {
-                    ReactGA.event({
-                        category: 'Dashboard',
-                        action: 'get_trending_dashboard_data',
-                        label: 'Get Trending Dashboard Data'
-                    });
-                }).catch(err => {
-                    console.log('Error fetching trending dashboard data:', err);
-                });
+            // The market summary now comes from the live market pulse (MarketPulse fetches market/overview itself)
             // dispatch(getStockIndexes())
             dispatch(fetchAllNews(''))
         }
@@ -871,8 +874,10 @@ function Dashboard() {
                                 {/* <div onClick={handleViewAllClick} className='dashboardTextForMobile'>Latest News<img src={RightWhiteArrow} width={16} height={16} style={{ objectFit: 'contain', cursor: 'pointer' }} /></div> */}
                             </div>
                             <div className='dashboard'>
-                                <div className='d-flex flex-column justify-content-between mb-3' style={{ height: window.innerWidth > 768 ? (window.innerHeight - TICKER_HEIGHT) - 102 : (window.innerHeight - TICKER_HEIGHT) - 115 }}>
-                                    <div>
+                                <div className='d-flex flex-column justify-content-between mb-3' style={{ minHeight: window.innerWidth > 768 ? (window.innerHeight - TICKER_HEIGHT) - 102 : (window.innerHeight - TICKER_HEIGHT) - 115 }}>
+                                    <div className='px-4'>
+                                        {/* Live index strip; opens the full market pulse */}
+                                        <MarketPulseStrip market={pulseMarket} onOpen={() => handleClick('Market Pulse')} />
                                         {/* <div style={{ marginTop: 12, textAlign: 'center' }}>
                                             <p className='title-header px-3'>Perform AI search across
                                                 <span style={{ color: '#4563e4' }}> Financial Markets</span> 
@@ -1392,15 +1397,10 @@ function Dashboard() {
                     }
                     {!showAllContent && showPopularOpinions &&
                         <div className='col-lg-12 column-pad'>
-                            <PopularQuestions
-                                mostOnFrruitGpt={mostOnFrruitGpt}
-                                handleBackButtonClick={handleBackButtonClick}
-                                chatSuggestions={chatSuggestions}
-                                handleViewAllClick={handleViewAllClick}
-                                marketSummaryData={marketSummaryData}
-                                marketSummaryLoading={marketSummaryLoading}
-                                marketSummaryError={marketSummaryError}
-                                dispatch={dispatch}
+                            <MarketPulse
+                                market={pulseMarket}
+                                onMarketChange={handlePulseMarketChange}
+                                onBack={handleBackButtonClick}
                             />
                         </div>
                     }

@@ -11,6 +11,8 @@ import Market from "../screens/makeSelection/MakeSelection"
 import NewsIframe from "../screens/news/NewsIframe";
 import NewsFeed from "../screens/newsFeed/NewsFeed";
 import Portfolio from "../screens/portfolio/Portfolio";
+import Documents from "../screens/documents/Documents";
+import Review from "../screens/review/Review";
 import LeftBox from "../components/leftBox/LeftBox";
 import WalkThrough from "../screens/WalkThrough/WalkThrough";
 import { Navigate } from "react-router-dom";
@@ -85,6 +87,16 @@ export const loginRoutes = [
         path: "/portfolio",
         exact: true,
         element: <PrivateRoute component={Portfolio} />,
+    },
+    {
+        path: "/documents",
+        exact: true,
+        element: <PrivateRoute component={Documents} />,
+    },
+    {
+        path: "/review",
+        exact: true,
+        element: <PrivateRoute component={Review} />,
     },
     {
         path: "/walkthrough",

@@ -13,9 +13,12 @@ import TataLogo from '../../assets/images/Tata_Consultancy_Services_Logo.png'
 import UpGreenArrow from '../../assets/images/up-arrow-outline.png'
 import DiscoverCorrelationGraph from '../../components/graph/DiscoverCorrelationGraph'
 import StockMiniLogo from '../../assets/images/frruit-mini-logo.png';
-function TrendingStocksCard({ name, stock_ticker, stock_relevance, reason }) {
+import moment from 'moment';
+function TrendingStocksCard({ name, stock_ticker, stock_relevance, reason, source_url, source_date }) {
     const navigate = useNavigate();
-    const isPositiveChange = stock_relevance && stock_relevance.startsWith('+');
+    // "+1.23%" / "-0.40%" from live quotes, or "5 stories" when there is no quote for the ticker
+    const relevanceTone = stock_relevance?.startsWith('+') ? 'positive' : stock_relevance?.startsWith('-') ? 'negative' : 'neutral';
+    const sourceMoment = source_date ? moment(source_date) : null;
     const country = localStorage.getItem('trendingCountry')
     const [showPopUp, setShowPopUp] = useState(false)
     const dataForMapping = [
@@ -70,7 +73,7 @@ function TrendingStocksCard({ name, stock_ticker, stock_relevance, reason }) {
     }
 
     return (
-        <div>
+        <div className='trendingStockCardRoot'>
             <div className='trendingStockCard' style={{ marginRight: 10 }}>
                 <div className='card' onClick={getFrruitClick}>
                     <div className='d-flex align-items-center justify-content-between' style={{ marginBottom: 6 }}>
@@ -80,9 +83,31 @@ function TrendingStocksCard({ name, stock_ticker, stock_relevance, reason }) {
                     <p className='stockname'>{name || 'Unknown Stock'}</p>
                     {stock_relevance && (
                         <div className='d-flex align-items-center mt-2'>
-                            <span className={`stock-relevance ${isPositiveChange ? 'positive' : 'negative'}`}>
+                            <span className={`stock-relevance ${relevanceTone}`}>
                                 {stock_relevance}
                             </span>
+                        </div>
+                    )}
+                    {reason && (
+                        <div className='stock-reason-block'>
+                            <p className='stock-reason' title={reason}>
+                                {source_url ? (
+                                    <a
+                                        href={source_url}
+                                        target='_blank'
+                                        rel='noopener noreferrer'
+                                        onClick={(e) => e.stopPropagation()}
+                                        onKeyDown={(e) => e.stopPropagation()}
+                                    >
+                                        {reason}
+                                    </a>
+                                ) : reason}
+                            </p>
+                            {sourceMoment?.isValid() && (
+                                <time className='stock-reason-date' dateTime={source_date} title={sourceMoment.format('D MMM YYYY, h:mm A')}>
+                                    {sourceMoment.fromNow()}
+                                </time>
+                            )}
                         </div>
                     )}
                     <div>
@@ -279,6 +304,8 @@ TrendingStocksCard.propTypes = {
     stock_ticker: PropTypes.string,
     stock_relevance: PropTypes.string,
     reason: PropTypes.string,
+    source_url: PropTypes.string,
+    source_date: PropTypes.string,
     isActive: PropTypes.bool,
     createdAt: PropTypes.string,
     updatedAt: PropTypes.string,

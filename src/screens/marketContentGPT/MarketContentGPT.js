@@ -14,6 +14,7 @@ import axios from 'axios';
 import { replaceSpaceWithUnderscore } from '../../utils/utils';
 import ReactGA from 'react-ga4';
 import Offcanvas from 'react-bootstrap/Offcanvas';
+import { useLocation, useNavigate } from 'react-router-dom';
 // import CloseImg from '../../assets/images/close_icon.png';
 
 function MarketContentGPT() {
@@ -33,11 +34,24 @@ function MarketContentGPT() {
     const handleHistoryClose = () => setShowHistory(false);
     const handleHistoryShow = () => setShowHistory(true);
     const [buttonStart, setButtonStart] = useState(true);
+    const location = useLocation();
+    const navigate = useNavigate();
 
     useEffect(() => {
         dispatch(clearContentChatHistory())
         dispatch(getContentPromptList('link'))
         dispatch(clearChatHistory())
+    }, [])
+
+    // Deep link from the Documents page ("Ask questions"): open that document chat once,
+    // then drop the router state so a refresh doesn't reopen it
+    useEffect(() => {
+        const { contentPromptId, fileName: docName } = location.state || {};
+        if (!contentPromptId) return;
+        navigate(location.pathname, { replace: true, state: null });
+        handleHistory(contentPromptId, 'attachment', docName);
+        dispatch(getContentPromptList('attachment'));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const scrollToBottom = () => {

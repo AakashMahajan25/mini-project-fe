@@ -62,6 +62,16 @@ function TopBar() {
     setShow(false)
     navigate('/portfolio');
   }
+  const routeChangeDocuments = () => {
+    setShow(false)
+    navigate('/documents');
+  }
+  const routeChangeReview = () => {
+    setShow(false)
+    navigate('/review');
+  }
+  // userDetails comes from getUserDetails (dispatched below on mount); role is "user" or "reviewer"
+  const isReviewer = userDetails?.role === 'reviewer';
   const routeChangeProfile = () => {
     setShow(false)
     let path = `/profile`;
@@ -104,6 +114,10 @@ function TopBar() {
                 <div className={location.pathname === '/discover-correlation' ? 'web-nav-text-active' : 'web-nav-text'} onClick={routeChangeDiscoverCorrelation}>Discover Correlation</div>
                 <div className={location.pathname === '/news-feed' ? 'web-nav-text-active' : 'web-nav-text'} onClick={routeChangeNewsFeed}>News</div>
                 <div className={location.pathname === '/portfolio' ? 'web-nav-text-active' : 'web-nav-text'} onClick={routeChangePortfolio}>Portfolio</div>
+                <button type='button' className={`nav-item-btn ${location.pathname === '/documents' ? 'web-nav-text-active' : 'web-nav-text'}`} onClick={routeChangeDocuments} aria-current={location.pathname === '/documents' ? 'page' : undefined}>Documents</button>
+                {isReviewer && (
+                  <button type='button' className={`nav-item-btn ${location.pathname === '/review' ? 'web-nav-text-active' : 'web-nav-text'}`} onClick={routeChangeReview} aria-current={location.pathname === '/review' ? 'page' : undefined}>Review</button>
+                )}
                 <div onClick={routeChangeProfile} className='profile-icon'>
                   <div className='profile-name-text'>{userDetails?.first_name?.slice(0, 1)}</div>
                 </div>
@@ -177,6 +191,10 @@ function TopBar() {
               <div className={location.pathname === '/discover-correlation' ? 'web-nav-text-mobile-offcanvas-active' : 'web-nav-text-mobile-offcanvas'} onClick={routeChangeDiscoverCorrelation}>Discover Correlation</div>
               <div className={location.pathname === '/news-feed' ? 'web-nav-text-mobile-offcanvas-active' : 'web-nav-text-mobile-offcanvas'} onClick={routeChangeNewsFeed}>News</div>
               <div className={location.pathname === '/portfolio' ? 'web-nav-text-mobile-offcanvas-active' : 'web-nav-text-mobile-offcanvas'} onClick={routeChangePortfolio}>Portfolio</div>
+              <button type='button' className={`nav-item-btn ${location.pathname === '/documents' ? 'web-nav-text-mobile-offcanvas-active' : 'web-nav-text-mobile-offcanvas'}`} onClick={routeChangeDocuments} aria-current={location.pathname === '/documents' ? 'page' : undefined}>Documents</button>
+              {isReviewer && (
+                <button type='button' className={`nav-item-btn ${location.pathname === '/review' ? 'web-nav-text-mobile-offcanvas-active' : 'web-nav-text-mobile-offcanvas'}`} onClick={routeChangeReview} aria-current={location.pathname === '/review' ? 'page' : undefined}>Review</button>
+              )}
               {/* <div className={location.pathname === '/dashboard/watchlist' ? 'web-nav-text-mobile-offcanvas-active' : 'web-nav-text-mobile-offcanvas'} onClick={routeChangeWatchlist}>Watchlist</div> */}
               <div className={location.pathname === '/dashboard/profile' ? 'web-nav-text-mobile-offcanvas-active' : 'web-nav-text-mobile-offcanvas'} onClick={routeChangeProfile}>Profile</div>
               {/* <div className='web-nav-text me-5' onClick={handleLogout}>Logout</div> */}

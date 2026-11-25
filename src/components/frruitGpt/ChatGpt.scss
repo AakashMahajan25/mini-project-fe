@@ -513,13 +513,39 @@
                 }
             }
             
+            // Answers use blockquotes for warnings (the "⚠️ UNCERTAIN" banner): show them as a callout
             blockquote {
-                font-size: 15px;
-                color: #6B7280;
-                border-left: 3px solid #E5E7EB;
-                padding-left: 16px;
+                font-size: 14px;
+                color: #7A4A00;
+                background-color: #FFF6E5;
+                border: 1px solid #F3D49A;
+                border-left: 4px solid #E8A33D;
+                border-radius: 10px;
+                padding: 10px 14px;
                 margin: 12px 0;
-                font-style: italic;
+                font-style: normal;
+
+                p {
+                    font-size: 14px;
+                    color: inherit;
+                    margin: 4px 0;
+                }
+
+                strong, b {
+                    color: inherit;
+                }
+            }
+
+            // Review footer after the closing rule ("Candidate answer for human review…")
+            hr {
+                margin: 16px 0 8px;
+                border-color: #EDEDED;
+                opacity: 1;
+            }
+
+            hr + p:last-child {
+                font-size: 12px;
+                color: #6F7387;
             }
             
             code {
@@ -849,13 +875,38 @@
         }
     }
     
+    // Warning callout, same as finished answers
     blockquote {
-        font-size: 15px;
-        color: #6B7280;
-        border-left: 3px solid #E5E7EB;
-        padding-left: 16px;
+        font-size: 14px;
+        color: #7A4A00;
+        background-color: #FFF6E5;
+        border: 1px solid #F3D49A;
+        border-left: 4px solid #E8A33D;
+        border-radius: 10px;
+        padding: 10px 14px;
         margin: 12px 0;
-        font-style: italic;
+        font-style: normal;
+
+        p {
+            font-size: 14px;
+            color: inherit;
+            margin: 4px 0;
+        }
+
+        strong, b {
+            color: inherit;
+        }
+    }
+
+    hr {
+        margin: 16px 0 8px;
+        border-color: #EDEDED;
+        opacity: 1;
+    }
+
+    hr + p:last-child {
+        font-size: 12px;
+        color: #6F7387;
     }
     
     code {

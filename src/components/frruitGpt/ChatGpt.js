@@ -1,4 +1,4 @@
-import React, { useState, useImperativeHandle, forwardRef } from 'react'
+import React, { useState, useImperativeHandle, forwardRef, useCallback } from 'react'
 import './ChatGpt.scss'
 import ProfileIcon from '../../assets/images/profile_image.png'
 import ArrowGrey from '../../assets/images/arrow-right-grey.png'
@@ -34,6 +34,12 @@ import { InfinitySpin } from 'react-loader-spinner'
 import CustomTable from '../customTable/CustomTable'
 import AlertImg from '../../assets/images/exclamation.png'
 import { isRtl, languageName } from '../../utils/languages'
+import AnswerMarkdown from '../answer/AnswerMarkdown'
+import AnswerSources from '../answer/AnswerSources'
+import AnswerMeta from '../answer/AnswerMeta'
+import AnswerProgress from '../answer/AnswerProgress'
+import CitationPanel from '../answer/CitationPanel'
+import { absoluteUrl, answerInfo, splitCitations } from '../answer/answerData'
 
 const GlobeIcon = () => (
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -60,6 +66,9 @@ const ChatGpt = forwardRef((props, ref) => {
     const [tabStates, setTabStates] = useState({});
     // responseId → true while the English original of a translated answer is shown
     const [showOriginal, setShowOriginal] = useState({});
+    // Citation shown in the side panel (opened from an inline chip or a sources list)
+    const [openCitation, setOpenCitation] = useState(null);
+    const openCitationPanel = useCallback((citation) => setOpenCitation(citation), []);
     const path = location.pathname === '/market-content-gpt'
 
     // A new streamed answer starts in the user's language
@@ -248,7 +257,8 @@ const ChatGpt = forwardRef((props, ref) => {
     };
 
     // Function to parse progress and stream content
-    const parseStreamContent = (content) => {
+    // `citations` (structured answers) turn [S1]-style markers into clickable chips
+    const parseStreamContent = (content, citations = []) => {
         if (!content) return { answer: <p></p>, steps: [], sources: [], readingStatus: null };
 
         // First parse sources
@@ -306,14 +316,14 @@ const ChatGpt = forwardRef((props, ref) => {
         // Debug and render content with citation badges
         const renderContentWithBadges = (content) => {
             if (!content) {
-                return <Markdown remarkPlugins={[remarkGfm]}>{content}</Markdown>;
+                return <AnswerMarkdown citations={citations} onOpenCitation={openCitationPanel}>{content}</AnswerMarkdown>;
             }
 
 
 
-            // If no citations, render normally
+            // If no legacy "&sources" citations, render with the structured citation chips
             if (inlineCitations.size === 0) {
-                return <Markdown remarkPlugins={[remarkGfm]}>{content}</Markdown>;
+                return <AnswerMarkdown citations={citations} onOpenCitation={openCitationPanel}>{content}</AnswerMarkdown>;
             }
 
             // Use a hybrid approach - render markdown normally but replace citations afterward
@@ -441,14 +451,15 @@ const ChatGpt = forwardRef((props, ref) => {
     };
 
     // Function to render tabbed content
-    // Answer + a note on translated answers that toggles to the English original
-    const renderAnswer = (text, links, responseId, meta) => {
+    // Answer + a note on translated answers that toggles to the English original,
+    // then the review status / confidence / feedback row for answers that have an answer record
+    const renderAnswer = (text, links, responseId, meta, info = null) => {
         const translated = !!(meta?.translated && meta?.text_en);
         const showEnglish = translated && !!showOriginal[responseId];
         const name = meta?.language_name || languageName(meta?.language);
         return (
             <>
-                {renderTabbedContent(showEnglish ? meta.text_en : text, links, responseId, showEnglish ? 'en' : meta?.language)}
+                {renderTabbedContent(showEnglish ? meta.text_en : text, links, responseId, showEnglish ? 'en' : meta?.language, info)}
                 {translated && (
                     <div className='language-note'>
                         <GlobeIcon />
@@ -463,13 +474,17 @@ const ChatGpt = forwardRef((props, ref) => {
                         </button>
                     </div>
                 )}
+                <AnswerMeta info={info} />
             </>
         );
     };
 
-    const renderTabbedContent = (content, streamLinks = [], responseId = 'stream', language = null) => {
-        const parsed = parseStreamContent(content);
+    const renderTabbedContent = (content, streamLinks = [], responseId = 'stream', language = null, info = null) => {
+        // Structured citations (new answers); old rows only have the legacy link list
+        const citations = info?.citations || [];
+        const parsed = parseStreamContent(content, citations);
         const allSources = [...parsed.sources, ...streamLinks];
+        const sourceCount = citations.length > 0 ? splitCitations(citations).cited.length : allSources.length;
         const currentTab = getTabState(responseId);
         
         return (
@@ -495,7 +510,7 @@ const ChatGpt = forwardRef((props, ref) => {
                                 <svg className="tab-icon" viewBox="0 0 20 20" fill="currentColor">
                                     <path fillRule="evenodd" d="M3 4a1 1 0 011-1h4a1 1 0 010 2H6.414l2.293 2.293a1 1 0 11-1.414 1.414L5 6.414V8a1 1 0 01-2 0V4zm9 1a1 1 0 010-2h4a1 1 0 011 1v4a1 1 0 01-2 0V6.414l-2.293 2.293a1 1 0 11-1.414-1.414L13.586 5H12zm-9 7a1 1 0 012 0v1.586l2.293-2.293a1 1 0 111.414 1.414L6.414 15H8a1 1 0 010 2H4a1 1 0 01-1-1v-4zm13-1a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 010-2h1.586l-2.293-2.293a1 1 0 111.414-1.414L15 13.586V12a1 1 0 011-1z" clipRule="evenodd" />
                                 </svg>
-                                Sources {allSources.length > 0 && <span className="step-count">({allSources.length})</span>}
+                                Sources {sourceCount > 0 && <span className="step-count">({sourceCount})</span>}
                             </Nav.Link>
                         </Nav.Item>
                     </Nav>
@@ -504,6 +519,9 @@ const ChatGpt = forwardRef((props, ref) => {
                             <div dir={isRtl(language) ? 'rtl' : undefined} lang={language || undefined}>
                                 {parsed.answer}
                             </div>
+                            {citations.length > 0 && (
+                                <AnswerSources citations={citations} onOpen={openCitationPanel} />
+                            )}
                         </Tab.Pane>
                         <Tab.Pane eventKey="steps">
                             {parsed.steps.length > 0 ? (
@@ -535,12 +553,14 @@ const ChatGpt = forwardRef((props, ref) => {
                 )}
                         </Tab.Pane>
                         <Tab.Pane eventKey="sources">
-                            {allSources.length > 0 ? (
+                            {citations.length > 0 ? (
+                                <AnswerSources citations={citations} onOpen={openCitationPanel} detailed />
+                            ) : allSources.length > 0 ? (
                                 <div className="sources-list-container">
                                     <ol className="sources-list">
                                         {allSources.map((link, index) => (
                                             <li key={index} className="source-item">
-                                                <a href={link?.source_url} target='_blank' rel='noopener noreferrer' className="source-link">
+                                                <a href={absoluteUrl(link?.source_url) || undefined} target='_blank' rel='noopener noreferrer' className="source-link">
                                                     <div className="source-title">{link?.heading ?? link?.title}</div>
                                                     <div className="source-url">{link?.source_url}</div>
                                                     {link?.source_date && (
@@ -704,6 +724,10 @@ const ChatGpt = forwardRef((props, ref) => {
         { logoSrc: CompanyLogo, companyName: 'Economic Times', cardTitle: 'Tata Price up by 5%', cardPara: 'Tata Consultancy Services Limited (TCS) is an India-based company engaged in providing information technology (IT) services, consulting, and business solutio' },
     ];
     const { containerRef, docStatus = false, docName = '', newChat, selectedType, flag } = props;
+
+    // Streaming answer: show it once there is enough text; until then (and while translating) the live stage line
+    const streamReady = !!props?.streamData && (!props.streamInitiated || hasSubstantialContent(props.streamData));
+    const showStreamStage = !!(props.streamInitiated && props.streamStage?.stage && (props.streamStage.stage === 'translating' || !streamReady));
 
     const { chatHistory, frruitLoader } = useSelector(state => state.fruitGPTSlice);
     const { contentChatHistory, contentGPTLoader, contentGraphLoader } = useSelector(state => state.contentGPTSlice);
@@ -1031,7 +1055,7 @@ const ChatGpt = forwardRef((props, ref) => {
                                                         ></h3>
                                                     </div>
                                                 ) : (
-                                                    renderAnswer(chat?.text || '', chat?.link || [], `chat-${index}`, historyMeta(chat))
+                                                    renderAnswer(chat?.text || '', chat?.link || [], `chat-${index}`, historyMeta(chat), answerInfo(chat))
                                                 )}
                                             </div>
                                         </>
@@ -1177,8 +1201,9 @@ const ChatGpt = forwardRef((props, ref) => {
                             <p className='you-text'>Frruit</p>
                             <h3 className='you-text' style={{ color: "#a4a5a7", fontWeight: '400', marginBottom: 0, marginLeft: 5, fontSize: 12 }}>{getCurrentTimeWithAMPM(moment())}</h3>
                         </div>
+                        {showStreamStage && <AnswerProgress stage={props.streamStage} />}
                                                 <div className={`chat-text-container chat-stream ${props.streamInitiated && !props.streamData ? 'blinking' : ''}`}>
-                            {props?.streamData && (!props.streamInitiated || hasSubstantialContent(props.streamData)) ? renderAnswer(props?.streamData || '', props?.streamLinks || [], 'stream', props?.streamMeta) : (
+                            {streamReady ? renderAnswer(props?.streamData || '', props?.streamLinks || [], 'stream', props?.streamMeta, answerInfo(props?.streamMeta)) : showStreamStage ? null : (
                                 <div className="loading-blip">
                                     <div className="single-blip"></div>
                                     {props?.streamData && (() => {
@@ -1332,7 +1357,7 @@ const ChatGpt = forwardRef((props, ref) => {
                                                 <></>
                                                 :
                                                 <div className='chat-text-container'>
-                                                    <Markdown remarkPlugins={[remarkGfm]}>{chat?.text || ''}</Markdown>
+                                                    {renderAnswer(chat?.text || '', Array.isArray(chat?.link) ? chat.link : [], `content-${index}`, historyMeta(chat), answerInfo(chat))}
                                                 </div>
                                             }
 
@@ -1365,6 +1390,8 @@ const ChatGpt = forwardRef((props, ref) => {
                     headers={tableHeaders}
                 />
             </div> */}
+
+            <CitationPanel citation={openCitation} onHide={() => setOpenCitation(null)} />
 
             <Modal show={show} fullscreen={true} onHide={() => setShow(false)} style={{ backgroundColor: '#fefefe' }}>
                 <Modal.Header closeButton>

@@ -3,6 +3,17 @@ import { API_ENDPOINTS, METHOD_TYPE } from "../../utils/apiUrls";
 import api from "../../utils/api";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { answerFieldsFromMeta } from "../../components/answer/answerData";
+
+// History rows store the cited sources as a JSON string
+const parseLink = (link) => {
+    if (typeof link !== 'string') return link;
+    try {
+        return JSON.parse(link);
+    } catch {
+        return [];
+    }
+}
 
 const initialState = {
     isLoading: false,
@@ -96,10 +107,17 @@ export const triggerDocumentChat = createAsyncThunk("contentGpt/triggerDocumentC
         if (!response.data.status) {
             toast.error(response.data.message)
         }
+        // { status, message, data: answer text, link: cited sources, meta: answer record + language }
+        const { data: text, link, meta } = response.data;
         const chatData = [{
             person: "bot",
-            text: response.data.data,
-            type: "attachment"
+            text,
+            type: "attachment",
+            link: link || [],
+            language: meta?.language,
+            text_en: meta?.text_en,
+            ...answerFieldsFromMeta(meta),
+            meta: meta || null
         }]
         return chatData;
 
@@ -262,7 +280,7 @@ const contentGPTSlice = createSlice({
 
         builder
             .addCase(getContentPromptHistory.fulfilled, (state, action) => {
-                const history = action.payload.map(row => (row.type === 'link' && row.person === 'bot') ? ({ ...row, text: JSON.parse(row.text) }) : (row.type === 'attachment' && row.person === 'bot' && row.render_type === 'graph') ? ({ ...row, text: JSON.parse(row.text) }) : row)
+                const history = action.payload.map(row => (row.type === 'link' && row.person === 'bot') ? ({ ...row, text: JSON.parse(row.text) }) : (row.type === 'attachment' && row.person === 'bot' && row.render_type === 'graph') ? ({ ...row, text: JSON.parse(row.text) }) : row.link ? ({ ...row, link: parseLink(row.link) }) : row)
                 state.contentChatHistory = history;
             })
             .addCase(triggerContentPrompt.fulfilled, (state, action) => {

@@ -2,7 +2,8 @@
     .web-nav {
         position: relative;
 
-        @media only screen and (max-width: 820px) {
+        // Same breakpoint as the mobile bar (.tabNavBar), so exactly one of them shows
+        @media only screen and (max-width: 990px) {
             display: none !important;
         }
 
@@ -97,6 +98,37 @@
                         color: #4F6CE8;
                         font-size: 16px;
                         line-height: 30px;
+                    }
+                }
+
+                // Room for every item (incl. Documents and Review) on laptop-sized screens
+                .web-nav-text,
+                .web-nav-text-active {
+                    white-space: nowrap;
+                }
+
+                @media only screen and (max-width: 1400px) {
+                    .web-nav-text,
+                    .web-nav-text-active,
+                    .profile-icon {
+                        margin-right: 1.5rem;
+                    }
+                }
+
+                @media only screen and (min-width: 1025px) and (max-width: 1200px) {
+                    padding: 10px 24px;
+                }
+
+                @media only screen and (max-width: 1200px) {
+                    .web-nav-text,
+                    .web-nav-text-active,
+                    .profile-icon {
+                        margin-right: 1.1rem;
+                    }
+
+                    .web-nav-text,
+                    .web-nav-text-active {
+                        font-size: 15px;
                     }
                 }
             }
@@ -217,8 +249,34 @@
     }
 }
 
+// Nav items rendered as real buttons (Documents, Review); the web-nav-text* classes supply the look
+.nav-item-btn {
+    padding: 0;
+    border: none;
+    background: none;
+    font-family: 'Roboto', sans-serif;
+    line-height: inherit;
+    text-align: left;
+
+    &:focus-visible {
+        outline: 2px solid #4563E4;
+        outline-offset: 3px;
+        border-radius: 4px;
+    }
+}
+
 .menu-container-offcanvas {
     padding: 16px;
+
+    .nav-item-btn {
+        display: block;
+        width: 100%;
+
+        &:focus-visible {
+            border-radius: 12px;
+            outline-offset: 0;
+        }
+    }
 
     .web-nav-text-mobile-offcanvas {
         color: #6F7387;

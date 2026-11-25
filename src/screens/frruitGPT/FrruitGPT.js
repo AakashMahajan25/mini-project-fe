@@ -22,6 +22,7 @@ import Offcanvas from 'react-bootstrap/Offcanvas';
 import BackArrowIcon from '../../assets/images/back-btn-arrow.png'
 import { createSocket } from '../../utils/socket'
 import { getChatLanguage } from '../../utils/languages'
+import { answerFieldsFromMeta } from '../../components/answer/answerData'
 import CloseImage from '../../assets/images/close_icon.png'
 import SelectedFlagIcon from '../../assets/images/selected-flag.png'
 import WhiteChevronImg from '../../assets/images/white-dropdown.png'
@@ -89,8 +90,11 @@ function FrruitGPT() {
     const [streamLinks, setStreamLinks] = useState([])
     const [streamInitiated, setStreamInitiated] = useState(false)
     const [streamFlag, setStreamFlag] = useState(null)
-    // Language info for the streamed answer: { language, language_name, translated, text_en }
+    // Meta of the streamed answer from the socket `end` event: language info (language, translated, text_en)
+    // plus the answer record (answer_id, status, confidence, confidence_detail, citations …)
     const [streamMeta, setStreamMeta] = useState(null)
+    // Latest socket `stage` event while the answer is produced: { stage, query?, sources?, language? }
+    const [streamStage, setStreamStage] = useState(null)
 
     // Country selector states
     const countries = [
@@ -227,7 +231,9 @@ function FrruitGPT() {
                 link: streamLinks,
                 focus_type: streamFlag,
                 language: streamMeta?.language,
-                text_en: streamMeta?.text_en
+                text_en: streamMeta?.text_en,
+                ...answerFieldsFromMeta(streamMeta),
+                meta: streamMeta
             }]))
             clearStreamData();
         }
@@ -312,6 +318,9 @@ function FrruitGPT() {
             };
 
             currentSocket.emit('chatStream', requestDataWithCountry);
+            currentSocket.on("stage", (stageData) => {
+                setStreamStage(stageData)
+            });
             currentSocket.on("response", (data) => {
                 setStreamData(prev => prev + data.data)
                 scrollToBottom()
@@ -319,6 +328,7 @@ function FrruitGPT() {
 
             currentSocket.on("end", (endData) => {
                 stopStream(currentSocket);
+                setStreamStage(null)
                 if (endData && endData?.data?.length > 0)
                     setStreamLinks(endData?.data)
                 if (endData?.meta)
@@ -340,11 +350,13 @@ function FrruitGPT() {
         setStreamLinks([])
         setStreamFlag(null)
         setStreamMeta(null)
+        setStreamStage(null)
         stopStream(socketInstance);
     }
 
     const stopStream = (socketInstance = null) => {
         const targetSocket = socketInstance || createSocket();
+        targetSocket.off("stage");
         targetSocket.off("response");
         targetSocket.off("end");
         targetSocket.off("error");
@@ -467,6 +479,7 @@ function FrruitGPT() {
                             streamInitiated={streamInitiated}
                             streamLinks={streamLinks}
                             streamMeta={streamMeta}
+                            streamStage={streamStage}
                         />
                         {/* <PromptsLibrary
                             handlePromptClick={handlePromptClick}

@@ -1,0 +1,796 @@
+$primary: #4563E4;
+$primary-soft: #4563E41A;
+$primary-track: #E8ECFF;
+$dark: #171E42;
+$grey: #6F7387;
+$muted: #8A8D9B;
+$border: #EDEDED;
+$gain: #12805C;
+$loss: #D63230;
+
+.documents-page {
+    font-family: 'Roboto', sans-serif;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 28px 24px 48px;
+    color: $dark;
+
+    @media (max-width: 990px) {
+        padding: 20px 16px 40px;
+    }
+
+    button {
+        font-family: inherit;
+    }
+
+    .visually-hidden {
+        position: absolute !important;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+        white-space: nowrap;
+        border: 0;
+    }
+
+    // File-type badge
+    .file-badge {
+        position: relative;
+        flex: none;
+        display: inline-flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 1px;
+        width: 40px;
+        height: 44px;
+        border-radius: 10px;
+        background: #F1F4FD;
+        color: $primary;
+
+        .file-badge-label {
+            font-size: 9.5px;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            line-height: 1;
+        }
+
+        &.pdf { background: #FDECEC; color: #B3261E; }
+        &.word { background: #E9F0FB; color: #2B579A; }
+        &.text { background: #F1F2F6; color: #4B5066; }
+
+        &.sm {
+            width: 32px;
+            height: 36px;
+            border-radius: 8px;
+
+            svg { width: 13px; height: 13px; }
+            .file-badge-label { font-size: 8.5px; }
+        }
+    }
+
+    // ── Header ───────────────────────────────────────────────────────────────
+    .documents-header {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 12px 24px;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+    }
+
+    .documents-title {
+        font-size: 26px;
+        font-weight: 700;
+        margin: 0 0 4px;
+        color: $dark;
+    }
+
+    .documents-subtitle {
+        max-width: 640px;
+        font-size: 14px;
+        line-height: 1.5;
+        color: $grey;
+    }
+
+    .library-summary {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 6px 16px;
+        font-size: 13px;
+        color: $grey;
+
+        strong {
+            color: $dark;
+            font-weight: 700;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .busy {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: $primary;
+            font-weight: 500;
+        }
+    }
+
+    .pulse-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: currentColor;
+        animation: doc-pulse 1.2s ease-in-out infinite;
+    }
+
+    // ── Layout ───────────────────────────────────────────────────────────────
+    .documents-layout {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 340px;
+        gap: 16px;
+        align-items: start;
+
+        @media (max-width: 1100px) {
+            grid-template-columns: minmax(0, 1fr);
+        }
+    }
+
+    .documents-main,
+    .documents-side {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        min-width: 0;
+    }
+
+    .documents-side {
+        @media (max-width: 1100px) and (min-width: 700px) {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            align-items: start;
+        }
+    }
+
+    .doc-card {
+        min-width: 0;
+        padding: 18px 20px;
+        border: 1px solid $border;
+        border-radius: 14px;
+        background: #fff;
+
+        @media (max-width: 576px) {
+            padding: 16px;
+        }
+    }
+
+    .card-head {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 4px 12px;
+        margin-bottom: 12px;
+    }
+
+    .card-title {
+        font-size: 17px;
+        font-weight: 700;
+        margin: 0 0 4px;
+        color: $dark;
+    }
+
+    .card-head .card-title { margin: 0; }
+
+    .card-subtitle {
+        font-size: 13px;
+        line-height: 1.5;
+        color: $grey;
+        margin: 0 0 14px;
+    }
+
+    .card-note {
+        font-size: 12px;
+        color: $muted;
+    }
+
+    .doc-banner {
+        padding: 10px 14px;
+        border-radius: 10px;
+        font-size: 14px;
+
+        &.error {
+            background: #FDECEC;
+            color: #9B1C1A;
+        }
+
+        button {
+            border: none;
+            background: none;
+            padding: 0;
+            color: $primary;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+    }
+
+    .icon-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex: none;
+        width: 34px;
+        height: 34px;
+        padding: 0;
+        border: none;
+        border-radius: 8px;
+        background: transparent;
+        color: $grey;
+        cursor: pointer;
+        text-decoration: none;
+        transition: background 0.15s, color 0.15s;
+
+        &:hover { background: #F1F4FD; color: $primary; }
+        &.danger:hover { background: #FDECEC; color: $loss; }
+        &:disabled { opacity: 0.5; cursor: default; }
+    }
+
+    button:focus-visible,
+    a:focus-visible {
+        outline: 2px solid $primary;
+        outline-offset: 2px;
+    }
+
+    // ── Upload ───────────────────────────────────────────────────────────────
+    .upload-card { padding: 16px; }
+
+    .drop-zone {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 6px;
+        padding: 28px 20px;
+        border: 1.5px dashed #BAC6E4;
+        border-radius: 12px;
+        background: #FAFBFF;
+        cursor: pointer;
+        transition: border-color 0.15s, background 0.15s;
+
+        &:hover { border-color: $primary; }
+
+        &.active {
+            border-color: $primary;
+            border-style: solid;
+            background: #EEF1FD;
+        }
+
+        @media (max-width: 576px) {
+            padding: 22px 14px;
+        }
+    }
+
+    .drop-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 52px;
+        height: 52px;
+        margin-bottom: 4px;
+        border-radius: 50%;
+        background: $primary-soft;
+        color: $primary;
+    }
+
+    .drop-title {
+        font-size: 16px;
+        font-weight: 600;
+        color: $dark;
+    }
+
+    .drop-hint {
+        max-width: 420px;
+        font-size: 13px;
+        line-height: 1.5;
+        color: $grey;
+    }
+
+    .choose-btn {
+        margin-top: 10px;
+        padding: 9px 22px;
+        font-size: 15px;
+    }
+
+    .upload-list {
+        list-style: none;
+        margin: 12px 0 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .upload-row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 12px;
+        border: 1px solid $border;
+        border-radius: 10px;
+        background: #fff;
+
+        &.error {
+            border-color: #F5C6C5;
+            background: #FFF8F8;
+
+            .upload-state { color: $loss; }
+        }
+
+        &.done .upload-state { color: $gain; }
+        &.duplicate .upload-state { color: $grey; }
+    }
+
+    .upload-main {
+        flex: 1;
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .upload-name-line {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 10px;
+    }
+
+    .upload-name {
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-size: 14px;
+        font-weight: 500;
+    }
+
+    .upload-size {
+        flex: none;
+        font-size: 12px;
+        color: $muted;
+        font-variant-numeric: tabular-nums;
+    }
+
+    .upload-track {
+        height: 6px;
+        border-radius: 999px;
+        background: $primary-track;
+        overflow: hidden;
+    }
+
+    .upload-fill {
+        display: block;
+        height: 100%;
+        border-radius: 999px;
+        background: $primary;
+        transition: width 0.2s ease-out;
+    }
+
+    .upload-row.done .upload-fill { background: $gain; }
+    .upload-row.duplicate .upload-fill { background: $muted; }
+
+    .upload-state {
+        font-size: 12px;
+        color: $grey;
+    }
+
+    .dismiss-x {
+        font-size: 22px;
+        line-height: 1;
+    }
+
+    // ── Library ──────────────────────────────────────────────────────────────
+    .doc-skeletons {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .doc-skeleton {
+        height: 56px;
+        border-radius: 10px;
+        background: linear-gradient(90deg, #F4F6FC 0%, #EBEFFB 50%, #F4F6FC 100%);
+        background-size: 200% 100%;
+        animation: doc-shimmer 1.4s ease-in-out infinite;
+    }
+
+    .library-empty {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        max-width: 560px;
+        padding: 8px 0 6px;
+
+        .empty-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            margin-bottom: 12px;
+            border-radius: 12px;
+            background: #F1F4FD;
+            color: $primary;
+        }
+
+        h3 {
+            font-size: 18px;
+            font-weight: 700;
+            margin: 0 0 6px;
+        }
+
+        p {
+            margin: 0;
+            font-size: 14px;
+            line-height: 1.55;
+            color: $grey;
+        }
+
+        .choose-btn { margin-top: 16px; }
+
+        .empty-note {
+            margin-top: 12px;
+            font-size: 13px;
+            color: $muted;
+        }
+    }
+
+    .table-scroll {
+        overflow-x: auto;
+        margin: 0 -20px;
+        padding: 0 20px;
+    }
+
+    .doc-table {
+        width: 100%;
+        min-width: 760px;
+        border-collapse: collapse;
+        font-size: 14px;
+        font-variant-numeric: tabular-nums;
+
+        th {
+            padding: 0 10px 10px;
+            font-size: 12px;
+            font-weight: 500;
+            color: $grey;
+            text-align: left;
+            white-space: nowrap;
+            border-bottom: 1px solid $border;
+        }
+
+        td {
+            padding: 12px 8px;
+            border-bottom: 1px solid #F3F3F3;
+            vertical-align: middle;
+            white-space: nowrap;
+        }
+
+        tr:last-child td { border-bottom: none; }
+        tbody tr:hover { background: #FAFBFF; }
+
+        th:first-child, td:first-child { padding-left: 0; }
+        th:last-child, td:last-child { padding-right: 0; }
+
+        .num { text-align: right; }
+    }
+
+    .doc-cell {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        min-width: 160px;
+        max-width: 300px;
+        white-space: normal;
+    }
+
+    .doc-names {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        min-width: 0;
+    }
+
+    .doc-title {
+        font-weight: 600;
+        color: $dark;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow-wrap: anywhere;
+    }
+
+    // Long file names wrap so the table fits its column without a horizontal scrollbar
+    .doc-filename {
+        font-size: 12px;
+        color: $muted;
+        overflow-wrap: anywhere;
+    }
+
+    .doc-error {
+        font-size: 12px;
+        line-height: 1.4;
+        color: $loss;
+    }
+
+    .doc-status {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 3px 10px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 600;
+        white-space: nowrap;
+
+        &::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: currentColor;
+        }
+
+        &.queued { background: #F1F2F6; color: #5B5F73; }
+        &.processing {
+            background: #EEF1FD;
+            color: $primary;
+
+            &::before { animation: doc-pulse 1.2s ease-in-out infinite; }
+        }
+        &.ready { background: #E7F5EF; color: $gain; }
+        &.failed { background: #FDECEC; color: $loss; }
+    }
+
+    .doc-actions {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 4px;
+    }
+
+    .ask-btn,
+    .retry-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        height: 34px;
+        padding: 0 12px;
+        border: none;
+        border-radius: 999px;
+        font-size: 13px;
+        font-weight: 500;
+        white-space: nowrap;
+        cursor: pointer;
+        transition: background 0.15s, opacity 0.15s;
+    }
+
+    .ask-btn {
+        background: #E5EAFF;
+        color: $primary;
+
+        &:hover:not(:disabled) { background: #D8DFFD; }
+        &:disabled { opacity: 0.45; cursor: not-allowed; }
+    }
+
+    .retry-btn {
+        background: #FDECEC;
+        color: $loss;
+
+        &:hover:not(:disabled) { background: #FBDADA; }
+        &:disabled { opacity: 0.6; cursor: default; }
+    }
+
+    // Phones: each document becomes a card
+    @media (max-width: 720px) {
+        .table-scroll {
+            overflow: visible;
+            margin: 0;
+            padding: 0;
+        }
+
+        .doc-table {
+            min-width: 0;
+
+            thead { display: none; }
+
+            tbody tr {
+                display: grid;
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+                column-gap: 12px;
+                row-gap: 10px;
+                padding: 14px 0;
+                border-bottom: 1px solid #F3F3F3;
+
+                &:hover { background: none; }
+                &:last-child { border-bottom: none; }
+            }
+
+            td {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 0;
+                border: none;
+                text-align: left;
+                white-space: normal;
+
+                &.num { text-align: left; }
+
+                &[data-label]::before {
+                    content: attr(data-label);
+                    font-size: 11px;
+                    color: $grey;
+                    margin-bottom: 2px;
+                }
+            }
+
+            td.doc-td,
+            td.actions-td { grid-column: 1 / -1; }
+            td[data-label='Status'] { grid-column: span 2; }
+        }
+
+        .doc-cell { max-width: none; }
+
+        .doc-actions {
+            justify-content: flex-start;
+            flex-wrap: wrap;
+        }
+    }
+
+    // ── Side cards ───────────────────────────────────────────────────────────
+    .how-steps {
+        list-style: none;
+        margin: 12px 0 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+
+        li {
+            display: flex;
+            gap: 12px;
+        }
+    }
+
+    .step-num {
+        flex: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        background: #E5EAFF;
+        color: $primary;
+        font-size: 12px;
+        font-weight: 700;
+    }
+
+    .step-title {
+        font-size: 14px;
+        font-weight: 600;
+        color: $dark;
+        margin-bottom: 2px;
+    }
+
+    .step-body {
+        font-size: 13px;
+        line-height: 1.5;
+        color: $grey;
+    }
+
+    .privacy-note {
+        margin-top: 16px;
+        padding-top: 12px;
+        border-top: 1px solid #F3F3F3;
+        font-size: 12px;
+        color: $muted;
+    }
+
+    .shared-counts {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin-bottom: 14px;
+    }
+
+    .shared-count {
+        display: flex;
+        flex-direction: column;
+        padding: 10px 12px;
+        border-radius: 10px;
+        background: #F7F8FE;
+
+        .count-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: $dark;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .count-label {
+            font-size: 12px;
+            color: $grey;
+        }
+    }
+
+    .seed-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .seed-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 8px 0;
+        border-top: 1px solid #F3F3F3;
+
+        &:first-child { border-top: none; }
+    }
+
+    .seed-names {
+        flex: 1;
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .seed-title {
+        font-size: 13px;
+        font-weight: 500;
+        color: $dark;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .seed-meta {
+        font-size: 12px;
+        color: $muted;
+    }
+
+    .seed-actions {
+        display: flex;
+        gap: 2px;
+    }
+}
+
+@keyframes doc-shimmer {
+    0% { background-position: 100% 0; }
+    100% { background-position: -100% 0; }
+}
+
+@keyframes doc-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .documents-page {
+        .pulse-dot,
+        .doc-skeleton,
+        .doc-status.processing::before {
+            animation: none;
+        }
+
+        .upload-fill { transition: none; }
+    }
+}

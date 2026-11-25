@@ -55,7 +55,9 @@ const initialState = {
     getResults: [],
     marketSummaryData: null,
     marketSummaryLoading: false,
-    marketSummaryError: null
+    marketSummaryError: null,
+    // Live market pulse per market code: { IN: { data, loading, error, fetchedAt, requestId }, US: … }
+    marketOverview: {}
 }
 
 export const getStockOverview = createAsyncThunk("dashboard/getStockOverview", async (queryParams) => {
@@ -345,20 +347,14 @@ export const fetchAllNews = createAsyncThunk("dashboard/fetchAllNews", async (qu
     }
 });
 
-export const fetchTrendingStocksFromAI = createAsyncThunk("dashboard/fetchTrendingStocksFromAI", async () => {
+export const fetchTrendingStocksFromAI = createAsyncThunk("dashboard/fetchTrendingStocksFromAI", async (market) => {
     try {
-        // Determine the endpoint based on selected country
-        const selectedCountry = localStorage.getItem('selectedCountry');
-        const countryCode = selectedCountry === 'India' ? 'IN' : 'US';
-
-        // Use different endpoint for US vs India
-        const endpoint = countryCode === 'US'
-            ? 'stocks/fetch_trending_stocks_us_ai'
-            : API_ENDPOINTS.fetchTrendingStocksFromAI;
+        // selectedCountry holds the market code ('IN' | 'US'); one endpoint serves both markets
+        const marketValue = market || (localStorage.getItem('selectedCountry') === 'US' ? 'US' : 'IN');
 
         let data = {
             method: METHOD_TYPE.get,
-            url: endpoint,
+            url: `${API_ENDPOINTS.fetchTrendingStocksFromAI}?market=${marketValue}`,
         };
         const response = await api(data);
         return response.data.data;
@@ -407,6 +403,21 @@ export const getTrendingDashboardData = createAsyncThunk("dashboard/getTrendingD
     } catch (error) {
         console.log('Error in getTrendingDashboardData:', error);
         throw error;
+    }
+});
+
+// Live market pulse: indices, movers, breadth, news-trending tickers and the market summary for one market
+export const getMarketOverview = createAsyncThunk("dashboard/getMarketOverview", async (market = 'IN') => {
+    try {
+        let data = {
+            method: METHOD_TYPE.get,
+            url: API_ENDPOINTS.marketOverview,
+            params: { market },
+        };
+        const response = await api(data);
+        return response.data.data;
+    } catch (error) {
+        throw error?.response?.data || error;
     }
 });
 
@@ -572,6 +583,34 @@ const dashboardSlice = createSlice({
             .addCase(getTrendingDashboardData.rejected, (state, action) => {
                 state.marketSummaryData = null;
                 state.marketSummaryError = action.error.message;
+            })
+            // Keep the last good data while refreshing; only the newest request per market may write
+            .addCase(getMarketOverview.pending, (state, action) => {
+                const market = action.meta.arg || 'IN';
+                const entry = state.marketOverview[market] || { data: null, error: null, fetchedAt: null };
+                state.marketOverview[market] = { ...entry, loading: true, requestId: action.meta.requestId };
+            })
+            .addCase(getMarketOverview.fulfilled, (state, action) => {
+                const market = action.meta.arg || 'IN';
+                if (state.marketOverview[market]?.requestId !== action.meta.requestId) return;
+                state.marketOverview[market] = {
+                    data: action.payload,
+                    loading: false,
+                    error: null,
+                    fetchedAt: new Date().toISOString(),
+                    requestId: null,
+                };
+            })
+            .addCase(getMarketOverview.rejected, (state, action) => {
+                const market = action.meta.arg || 'IN';
+                const entry = state.marketOverview[market];
+                if (entry?.requestId !== action.meta.requestId) return;
+                state.marketOverview[market] = {
+                    ...entry,
+                    loading: false,
+                    error: action.error?.message || "Couldn't load market data.",
+                    requestId: null,
+                };
             })
             .addMatcher(
                 (action) =>

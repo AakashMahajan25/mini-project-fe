@@ -1,0 +1,849 @@
+// Structured answer UI: citation chips, sources list, citation panel, status / confidence,
+// feedback and live progress. Colours follow NewsFeed.scss / Portfolio.scss.
+
+$primary: #4563E4;
+$primary-hover: #3B4FD1;
+$primary-soft: #F1F4FD;
+$primary-track: #E8ECFF;
+$dark: #171E42;
+$text: #374151;
+$grey: #6F7387;
+$border: #EDEDED;
+$field-border: #BAC6E4;
+$gain: #12805C;
+$gain-soft: #E7F5EE;
+$loss: #D63230;
+$loss-soft: #FDECEC;
+$warn: #8A5300;
+$warn-soft: #FFF6E5;
+$warn-border: #F3D49A;
+$revise: #B4480C;
+$revise-soft: #FFF0E6;
+$review: #5B4BC4;
+$review-soft: #EFEDFC;
+
+@mixin focus-ring {
+    &:focus-visible {
+        outline: 2px solid $primary;
+        outline-offset: 2px;
+    }
+}
+
+@mixin tones {
+    &.tone-info { background: $primary-soft; color: $primary; border-color: #D5DCFA; }
+    &.tone-good { background: $gain-soft; color: $gain; border-color: #BFE3D1; }
+    &.tone-warn { background: $warn-soft; color: $warn; border-color: $warn-border; }
+    &.tone-bad { background: $loss-soft; color: #B42927; border-color: #F2B8B7; }
+    &.tone-revise { background: $revise-soft; color: $revise; border-color: #F7CDB0; }
+    &.tone-review { background: $review-soft; color: $review; border-color: #D6D0F6; }
+    &.tone-neutral { background: #F1F3F8; color: #4B5068; border-color: #DDE1EC; }
+    &.tone-muted { background: #F5F5F6; color: $grey; border-color: #E5E7EB; }
+}
+
+// ── Inline citation chip ─────────────────────────────────────────────────────
+.cite-ref {
+    position: relative;
+    top: -0.45em;
+    vertical-align: baseline;
+    line-height: 0;
+    font-size: inherit;
+}
+
+.cite-chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 22px;
+    height: 16px;
+    margin: 0 1px;
+    padding: 0 4px;
+    border: 1px solid #D5DCFA;
+    border-radius: 5px;
+    background: $primary-soft;
+    color: $primary;
+    font-family: 'Roboto', sans-serif;
+    font-size: 10px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: 0.02em;
+    vertical-align: middle;
+    white-space: nowrap;
+    transition: background 0.15s, border-color 0.15s, color 0.15s;
+
+    &.is-partial {
+        background: $warn-soft;
+        border-color: $warn-border;
+        color: $warn;
+    }
+
+    &.is-unsupported {
+        background: $loss-soft;
+        border-color: #F2B8B7;
+        color: #B42927;
+    }
+
+    &.is-static {
+        flex: none;
+        height: 18px;
+        min-width: 26px;
+        font-size: 11px;
+    }
+}
+
+button.cite-chip {
+    cursor: pointer;
+    @include focus-ring;
+
+    &:hover:not(:disabled) {
+        border-color: currentColor;
+        background: #E3E9FD;
+    }
+
+    &.is-partial:hover:not(:disabled) { background: #FFEFD1; }
+    &.is-unsupported:hover:not(:disabled) { background: #FBDCDC; }
+
+    &:disabled {
+        cursor: default;
+        opacity: 0.55;
+    }
+}
+
+// ── Sources under an answer ──────────────────────────────────────────────────
+.answer-sources {
+    margin-top: 14px;
+    padding-top: 10px;
+    border-top: 1px solid $border;
+    font-family: 'Roboto', sans-serif;
+
+    .answer-sources-title {
+        margin-bottom: 4px;
+        color: $grey;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+    }
+
+    .answer-sources-empty {
+        color: $grey;
+        font-size: 13px;
+    }
+
+    .answer-sources-list {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+
+        &.is-unused {
+            margin-top: 4px;
+
+            .source-row-btn {
+                opacity: 0.85;
+            }
+        }
+    }
+
+    .source-row-btn {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        width: 100%;
+        padding: 7px 8px;
+        border: 1px solid transparent;
+        border-radius: 10px;
+        background: transparent;
+        text-align: left;
+        cursor: pointer;
+        transition: background 0.15s, border-color 0.15s;
+        @include focus-ring;
+
+        &:hover {
+            background: #F7F9FE;
+            border-color: $primary-track;
+        }
+
+        .cite-chip {
+            margin-top: 1px;
+        }
+    }
+
+    .source-row-body {
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        gap: 2px;
+        min-width: 0;
+    }
+
+    .source-row-title {
+        overflow: hidden;
+        color: $dark;
+        font-size: 13px;
+        font-weight: 500;
+        line-height: 1.35;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .source-row-facts {
+        color: $grey;
+        font-size: 12px;
+        line-height: 1.4;
+    }
+
+    .source-row-snippet {
+        display: -webkit-box;
+        margin-top: 2px;
+        overflow: hidden;
+        color: $text;
+        font-size: 12.5px;
+        line-height: 1.5;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 3;
+    }
+
+    .source-row-support {
+        flex: none;
+        margin-top: 1px;
+    }
+
+    .answer-sources-toggle {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        margin-top: 6px;
+        padding: 4px 8px 4px 6px;
+        border: none;
+        border-radius: 8px;
+        background: transparent;
+        color: $grey;
+        font-size: 12.5px;
+        font-weight: 500;
+        cursor: pointer;
+        @include focus-ring;
+
+        svg {
+            transform: rotate(-90deg);
+            transition: transform 0.2s;
+        }
+
+        &.is-open svg {
+            transform: none;
+        }
+
+        &:hover {
+            background: #F5F5F6;
+            color: $dark;
+        }
+    }
+
+    // Sources tab: cards with excerpt and support verdict
+    &.is-detailed {
+        margin-top: 0;
+        padding-top: 4px;
+        border-top: none;
+
+        .answer-sources-list {
+            gap: 8px;
+        }
+
+        .source-row-btn {
+            padding: 12px;
+            border-color: #E5E7EB;
+            background: #fff;
+
+            &:hover {
+                border-color: $primary;
+                box-shadow: 0 2px 10px rgba(69, 99, 228, 0.1);
+            }
+        }
+
+        .source-row-title {
+            white-space: normal;
+        }
+
+        @media only screen and (max-width: 500px) {
+            .source-row-btn {
+                flex-wrap: wrap;
+            }
+
+            .source-row-support {
+                margin-left: 36px;
+            }
+        }
+    }
+}
+
+// ── Badges ───────────────────────────────────────────────────────────────────
+.answer-status-badge,
+.support-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 3px 10px;
+    border: 1px solid transparent;
+    border-radius: 999px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 16px;
+    white-space: nowrap;
+    @include tones;
+
+    .answer-status-dot,
+    .support-badge-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: currentColor;
+    }
+}
+
+.support-badge {
+    padding: 2px 8px;
+    font-size: 11.5px;
+}
+
+// ── Status, confidence and feedback row ─────────────────────────────────────
+.answer-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 12px;
+    font-family: 'Roboto', sans-serif;
+
+    .answer-meta-row {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px 12px;
+    }
+
+    .answer-meta-status {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 6px 8px;
+        min-width: 0;
+    }
+
+    .answer-confidence-toggle {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        padding: 3px 8px;
+        border: none;
+        border-radius: 8px;
+        background: transparent;
+        color: $grey;
+        font-size: 12.5px;
+        font-weight: 500;
+        cursor: pointer;
+        @include focus-ring;
+
+        svg {
+            transition: transform 0.2s;
+        }
+
+        &.is-open svg {
+            transform: rotate(180deg);
+        }
+
+        &.is-low {
+            color: $warn;
+        }
+
+        &:hover {
+            background: #F5F5F6;
+            color: $dark;
+        }
+    }
+
+    .answer-feedback {
+        display: flex;
+        gap: 6px;
+        margin-left: auto;
+    }
+
+    .answer-feedback-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 34px;
+        height: 34px;
+        border: 1px solid #E5E7EB;
+        border-radius: 50%;
+        background: #fff;
+        color: $grey;
+        cursor: pointer;
+        transition: background 0.15s, border-color 0.15s, color 0.15s;
+        @include focus-ring;
+
+        &:hover:not(:disabled) {
+            border-color: $primary;
+            color: $primary;
+        }
+
+        &:disabled {
+            cursor: progress;
+            opacity: 0.6;
+        }
+
+        &.is-up.is-active {
+            border-color: #BFE3D1;
+            background: $gain-soft;
+            color: $gain;
+        }
+
+        &.is-down.is-active {
+            border-color: #F2B8B7;
+            background: $loss-soft;
+            color: #B42927;
+        }
+    }
+}
+
+.answer-details,
+.answer-feedback-form {
+    padding: 12px 14px;
+    border: 1px solid $primary-track;
+    border-radius: 12px;
+    background: #F7F9FE;
+    color: $text;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.answer-details {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    .answer-details-status strong {
+        color: $dark;
+        font-weight: 600;
+    }
+
+    .answer-details-subtitle {
+        margin-bottom: 2px;
+        color: $dark;
+        font-weight: 600;
+    }
+
+    .answer-details-muted {
+        color: $grey;
+        font-size: 12.5px;
+    }
+}
+
+// Role-based list (not <ul>) so the chat's markdown list styles don't apply
+.answer-details-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+
+    > div {
+        position: relative;
+        padding-left: 14px;
+
+        &::before {
+            content: '';
+            position: absolute;
+            top: 0.6em;
+            left: 2px;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: #E8A33D;
+        }
+    }
+}
+
+.confidence-breakdown {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    .confidence-factor-head {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 4px;
+        font-size: 12.5px;
+
+        strong {
+            color: $dark;
+            font-weight: 600;
+        }
+    }
+
+    .confidence-weight {
+        color: $grey;
+    }
+
+    .confidence-factor-value {
+        flex: none;
+        color: $dark;
+        font-weight: 600;
+        font-variant-numeric: tabular-nums;
+    }
+
+    .confidence-bar {
+        position: relative;
+        height: 6px;
+        border-radius: 3px;
+        background: $primary-track;
+
+        span {
+            display: block;
+            height: 100%;
+            border-radius: 3px;
+            background: $primary;
+            transition: width 0.4s ease;
+
+            &.is-low {
+                background: #E8A33D;
+            }
+        }
+
+        .confidence-threshold {
+            position: absolute;
+            top: -3px;
+            width: 2px;
+            height: 12px;
+            margin-left: -1px;
+            border-radius: 1px;
+            background: $dark;
+        }
+    }
+
+    .is-total .confidence-bar {
+        height: 8px;
+    }
+}
+
+// ── Thumbs-down form ─────────────────────────────────────────────────────────
+.answer-feedback-form {
+    display: flex;
+    flex-direction: column;
+
+    .answer-feedback-form-title {
+        margin-bottom: 8px;
+        color: $dark;
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    .answer-field-label {
+        margin: 6px 0 4px;
+        color: $dark;
+        font-size: 12.5px;
+        font-weight: 500;
+    }
+
+    .answer-field-optional {
+        color: $grey;
+        font-weight: 400;
+    }
+
+    .answer-field {
+        width: 100%;
+        padding: 8px 12px;
+        border: 1px solid $field-border;
+        border-radius: 10px;
+        background: #fff;
+        color: $dark;
+        font-family: inherit;
+        font-size: 14px;
+        outline: none;
+
+        &:focus {
+            border-color: $primary;
+            box-shadow: 0 0 0 3px #4563E41A;
+        }
+
+        &::placeholder {
+            color: #A4A5A7;
+        }
+    }
+
+    select.answer-field {
+        height: 40px;
+        cursor: pointer;
+    }
+
+    textarea.answer-field {
+        min-height: 72px;
+        resize: vertical;
+    }
+
+    .answer-feedback-form-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 8px;
+        margin-top: 12px;
+    }
+}
+
+.answer-btn {
+    padding: 8px 16px;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s;
+    @include focus-ring;
+
+    &.is-primary {
+        background: $primary;
+        color: #fff;
+
+        &:hover:not(:disabled) {
+            background: $primary-hover;
+        }
+    }
+
+    &.is-secondary {
+        border-color: $primary-track;
+        background: #fff;
+        color: $primary;
+
+        &:hover {
+            background: $primary-soft;
+        }
+    }
+
+    &:disabled {
+        cursor: not-allowed;
+        opacity: 0.55;
+    }
+}
+
+// ── Citation panel (Offcanvas) ───────────────────────────────────────────────
+.citation-panel {
+    font-family: 'Roboto', sans-serif;
+
+    &.offcanvas-end {
+        width: 420px;
+        max-width: 100vw;
+    }
+
+    &.offcanvas-bottom {
+        height: auto;
+        max-height: 85vh;
+        border-radius: 16px 16px 0 0;
+    }
+
+    .offcanvas-header {
+        align-items: flex-start;
+        gap: 12px;
+        padding: 18px 20px 14px;
+        border-bottom: 1px solid $border;
+
+        .btn-close {
+            flex: none;
+            margin: 0;
+        }
+    }
+
+    .citation-panel-heading {
+        min-width: 0;
+    }
+
+    .citation-panel-kicker {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: $grey;
+        font-size: 12px;
+        font-weight: 500;
+    }
+
+    .citation-panel-title {
+        margin: 8px 0 0;
+        color: $dark;
+        font-size: 17px;
+        font-weight: 600;
+        line-height: 1.35;
+        overflow-wrap: anywhere;
+    }
+
+    .offcanvas-body {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        padding: 16px 20px 24px;
+    }
+
+    .citation-panel-badges {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .citation-unused-note {
+        color: $grey;
+        font-size: 12px;
+    }
+
+    .citation-panel-hint {
+        margin-top: -6px;
+        color: $grey;
+        font-size: 12.5px;
+        line-height: 1.5;
+    }
+
+    .citation-facts {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 10px 16px;
+        margin: 0;
+
+        dt {
+            color: $grey;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        dd {
+            margin: 2px 0 0;
+            color: $dark;
+            font-size: 13.5px;
+            overflow-wrap: anywhere;
+        }
+    }
+
+    .citation-excerpt-label {
+        margin-bottom: 6px;
+        color: $grey;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+    }
+
+    .citation-snippet {
+        max-height: 40vh;
+        margin: 0;
+        padding: 12px 14px;
+        overflow-y: auto;
+        border-left: 3px solid $primary;
+        border-radius: 8px;
+        background: #F7F9FE;
+        color: $text;
+        font-size: 13.5px;
+        line-height: 1.6;
+        white-space: pre-line;
+        overflow-wrap: anywhere;
+    }
+
+    .citation-open {
+        display: inline-flex;
+        align-items: center;
+        align-self: flex-start;
+        gap: 8px;
+        padding: 10px 16px;
+        border-radius: 10px;
+        background: $primary;
+        color: #fff;
+        font-size: 14px;
+        font-weight: 500;
+        text-decoration: none;
+        transition: background 0.15s;
+        @include focus-ring;
+
+        &:hover {
+            background: $primary-hover;
+            color: #fff;
+        }
+    }
+}
+
+// ── Live progress above the streaming answer ────────────────────────────────
+.answer-progress {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    max-width: 100%;
+    margin: 2px 0 12px;
+    padding: 6px 14px 6px 12px;
+    border-radius: 999px;
+    background: $primary-soft;
+    color: $primary;
+    font-family: 'Roboto', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+
+    .answer-progress-dot {
+        position: relative;
+        flex: none;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: $primary;
+
+        &::after {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 50%;
+            border: 2px solid $primary;
+            opacity: 0;
+            animation: answer-progress-ping 1.6s ease-out infinite;
+        }
+    }
+
+    .answer-progress-label {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        animation: answer-progress-in 0.35s ease;
+    }
+
+    .answer-progress-ellipsis {
+        display: inline-flex;
+        flex: none;
+        gap: 3px;
+
+        i {
+            width: 3px;
+            height: 3px;
+            border-radius: 50%;
+            background: currentColor;
+            animation: answer-progress-dots 1.2s ease-in-out infinite;
+
+            &:nth-child(2) { animation-delay: 0.15s; }
+            &:nth-child(3) { animation-delay: 0.3s; }
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .answer-progress-dot::after,
+        .answer-progress-label,
+        .answer-progress-ellipsis i {
+            animation: none;
+        }
+    }
+}
+
+@keyframes answer-progress-ping {
+    0% { transform: scale(0.6); opacity: 0.7; }
+    100% { transform: scale(1.6); opacity: 0; }
+}
+
+@keyframes answer-progress-in {
+    from { opacity: 0; transform: translateY(3px); }
+    to { opacity: 1; transform: none; }
+}
+
+@keyframes answer-progress-dots {
+    0%, 80%, 100% { opacity: 0.25; }
+    40% { opacity: 1; }
+}

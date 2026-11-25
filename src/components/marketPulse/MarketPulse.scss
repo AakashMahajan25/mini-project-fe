@@ -1,0 +1,942 @@
+$primary: #4563E4;
+$primary-soft: #4563E41A;
+$dark: #171E42;
+$grey: #6F7387;
+$muted: #8A8D9B;
+$border: #EDEDED;
+$border-blue: #D9DFF5;
+$soft-bg: #F7F9FE;
+$toggle-bg: #F1F4FD;
+$gain: #12805C;
+$loss: #D63230;
+
+@mixin focus-ring {
+    &:focus-visible {
+        outline: 2px solid $primary;
+        outline-offset: 2px;
+    }
+}
+
+// ── Shared atoms (used by the full view, the home strip and the error boundary) ──
+.mp-card {
+    padding: 18px;
+    border: 1px solid $border;
+    border-radius: 12px;
+    background: #fff;
+    font-family: 'Roboto', sans-serif;
+    color: $dark;
+
+    @media (max-width: 576px) {
+        padding: 14px;
+    }
+}
+
+.mp-pct,
+.mp-change {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+    color: $grey;
+
+    &.up { color: $gain; }
+    &.down { color: $loss; }
+}
+
+.mp-arrow {
+    font-size: 0.7em;
+    line-height: 1;
+}
+
+.mp-sk {
+    display: block;
+    height: 12px;
+    border-radius: 6px;
+    background: linear-gradient(90deg, #F1F3F8 25%, #E6E9F2 50%, #F1F3F8 75%);
+    background-size: 200% 100%;
+    animation: mp-shimmer 1.4s infinite;
+
+    &.mp-sk-sm { height: 10px; }
+    &.mp-sk-lg { height: 22px; }
+}
+
+.mp-breadth-bar {
+    display: flex;
+    gap: 2px;
+    width: 100%;
+    height: 10px;
+    overflow: hidden;
+    border-radius: 999px;
+    background: #F1F3F8;
+
+    &.thin {
+        height: 6px;
+    }
+
+    .seg {
+        min-width: 4px;
+
+        &.adv { background: $gain; }
+        &.unch { background: #CFD2DC; }
+        &.dec { background: $loss; }
+    }
+}
+
+.mp-error {
+    text-align: center;
+    color: $grey;
+    font-size: 14px;
+
+    p {
+        margin-bottom: 12px;
+    }
+}
+
+.mp-outline-btn {
+    padding: 8px 18px;
+    border: 1px solid $primary;
+    border-radius: 8px;
+    background: #fff;
+    color: $primary;
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    @include focus-ring;
+
+    &:hover:not(:disabled) {
+        background: $primary-soft;
+    }
+
+    &:disabled {
+        opacity: 0.6;
+        cursor: default;
+    }
+}
+
+.mp-link-btn {
+    padding: 0;
+    border: none;
+    background: none;
+    color: $primary;
+    font-family: 'Roboto', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    @include focus-ring;
+
+    &:hover:not(:disabled) {
+        text-decoration: underline;
+    }
+
+    &:disabled {
+        opacity: 0.6;
+        cursor: default;
+    }
+}
+
+.mp-spin {
+    animation: mp-spin 0.9s linear infinite;
+}
+
+// ── Full market pulse view ───────────────────────────────────────────────────
+.market-pulse {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 16px 24px 48px;
+    font-family: 'Roboto', sans-serif;
+    color: $dark;
+    text-align: left;
+
+    @media (max-width: 990px) {
+        padding: 12px 16px 40px;
+    }
+
+    button {
+        font-family: inherit;
+    }
+
+    a {
+        @include focus-ring;
+    }
+
+    .mp-toprow {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 16px;
+    }
+
+    .mp-back-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        padding: 8px 14px 8px 10px;
+        border: none;
+        border-radius: 8px;
+        background: $toggle-bg;
+        color: $primary;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.15s;
+        @include focus-ring;
+
+        &:hover {
+            background: #E5EAFF;
+        }
+    }
+
+    .mp-market-toggle {
+        display: inline-flex;
+        padding: 4px;
+        border-radius: 10px;
+        background: $toggle-bg;
+
+        button {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 7px 16px;
+            border: none;
+            border-radius: 8px;
+            background: transparent;
+            color: $grey;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.15s, color 0.15s;
+            @include focus-ring;
+
+            img {
+                width: 18px;
+                height: 13px;
+                object-fit: cover;
+                border-radius: 2px;
+            }
+
+            &.active {
+                background: #fff;
+                color: $primary;
+                box-shadow: 0 1px 3px rgba(23, 30, 66, 0.1);
+            }
+
+            @media (max-width: 400px) {
+                padding: 7px 12px;
+            }
+        }
+    }
+
+    .mp-header {
+        margin-bottom: 18px;
+    }
+
+    .mp-title {
+        margin: 0 0 6px;
+        font-size: 26px;
+        font-weight: 700;
+        color: $dark;
+
+        @media (max-width: 576px) {
+            font-size: 22px;
+        }
+    }
+
+    .mp-title-market {
+        color: $grey;
+        font-weight: 500;
+    }
+
+    .mp-subtitle {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 8px;
+        font-size: 13px;
+        color: $grey;
+    }
+
+    .mp-icon-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 28px;
+        height: 28px;
+        border: none;
+        border-radius: 50%;
+        background: transparent;
+        color: $primary;
+        cursor: pointer;
+        @include focus-ring;
+
+        &:hover:not(:disabled) {
+            background: $primary-soft;
+        }
+
+        &:disabled {
+            cursor: default;
+            opacity: 0.7;
+        }
+    }
+
+    .mp-stale {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 14px;
+        padding: 10px 14px;
+        border-radius: 10px;
+        background: #FFF6E5;
+        color: #8A5A00;
+        font-size: 13px;
+    }
+
+    // Card chrome
+    .mp-card-head {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 4px 12px;
+        margin-bottom: 12px;
+    }
+
+    .mp-card-title {
+        margin: 0;
+        font-size: 16px;
+        font-weight: 600;
+        color: $dark;
+    }
+
+    .mp-card-meta {
+        font-size: 12px;
+        font-weight: 400;
+        color: $grey;
+    }
+
+    .mp-empty {
+        margin: 0;
+        font-size: 13px;
+        line-height: 1.5;
+        color: $grey;
+    }
+
+    .mp-empty-state {
+        padding: 22px 16px;
+        border: 1px dashed $border-blue;
+        border-radius: 10px;
+        text-align: center;
+
+        .mp-empty-title {
+            margin: 0 0 4px;
+            font-size: 14px;
+            font-weight: 600;
+            color: $dark;
+        }
+    }
+
+    .mp-skeleton-rows {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+    }
+
+    .mp-skeleton-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+
+        &.tall {
+            flex-wrap: wrap;
+
+            .mp-sk:last-child {
+                flex-basis: 100%;
+            }
+        }
+    }
+
+    // ── Index strip ──────────────────────────────────────────────────────────
+    .mp-index-strip {
+        --mp-index-count: 2;
+        display: grid;
+        grid-template-columns: repeat(var(--mp-index-count), minmax(0, 1fr)) minmax(0, 1.4fr);
+        gap: 12px;
+        margin-bottom: 16px;
+
+        @media (max-width: 900px) {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+
+            .mp-breadth-card.wide {
+                grid-column: 1 / -1;
+            }
+        }
+    }
+
+    .mp-index-card {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        min-width: 0;
+    }
+
+    .mp-index-label {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 8px;
+        font-size: 13px;
+        font-weight: 600;
+        color: $grey;
+    }
+
+    .mp-index-price {
+        font-size: 22px;
+        font-weight: 700;
+        font-variant-numeric: tabular-nums;
+        color: $dark;
+        overflow-wrap: anywhere;
+
+        @media (max-width: 576px) {
+            font-size: 18px;
+        }
+    }
+
+    .mp-change {
+        flex-wrap: wrap;
+        gap: 4px;
+        font-size: 13px;
+    }
+
+    .mp-breadth-card {
+        .mp-breadth-bar {
+            margin-top: 6px;
+        }
+    }
+
+    .mp-breadth-legend {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px 14px;
+        margin-top: 4px;
+        font-size: 12px;
+        color: $grey;
+
+        strong {
+            font-weight: 700;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .up strong { color: $gain; }
+        .down strong { color: $loss; }
+        .flat strong { color: $dark; }
+    }
+
+    // ── Movers + trending grid ───────────────────────────────────────────────
+    .mp-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        grid-template-areas:
+            "gainers losers"
+            "trending trending";
+        gap: 16px;
+        align-items: start;
+        margin-bottom: 16px;
+
+        @media (min-width: 1100px) {
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr);
+            grid-template-areas:
+                "gainers trending"
+                "losers trending";
+        }
+
+        @media (max-width: 767px) {
+            grid-template-columns: minmax(0, 1fr);
+            grid-template-areas:
+                "gainers"
+                "losers"
+                "trending";
+        }
+
+        .gainers { grid-area: gainers; }
+        .losers { grid-area: losers; }
+        .mp-trending { grid-area: trending; }
+    }
+
+    .mp-stock-list {
+        margin: 0 -8px;
+        padding: 0;
+        list-style: none;
+
+        li + li {
+            border-top: 1px solid #F3F4F8;
+        }
+    }
+
+    .mp-stock-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        width: 100%;
+        padding: 9px 8px;
+        border: none;
+        border-radius: 8px;
+        background: transparent;
+        text-align: left;
+        cursor: pointer;
+        transition: background 0.15s;
+        @include focus-ring;
+
+        &:hover {
+            background: $soft-bg;
+        }
+    }
+
+    .mp-stock-id {
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+    }
+
+    .mp-ticker {
+        font-size: 14px;
+        font-weight: 700;
+        letter-spacing: 0.02em;
+        color: $dark;
+    }
+
+    .mp-stock-name {
+        overflow: hidden;
+        font-size: 12px;
+        color: $grey;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+    .mp-stock-quote {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        flex-shrink: 0;
+        font-size: 13px;
+    }
+
+    .mp-price {
+        font-weight: 500;
+        font-variant-numeric: tabular-nums;
+        color: $dark;
+        white-space: nowrap;
+    }
+
+    // ── Trending in the news ─────────────────────────────────────────────────
+    .mp-trending-list {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    .mp-trending-item {
+        padding: 12px 0;
+
+        & + .mp-trending-item {
+            border-top: 1px solid #F3F4F8;
+        }
+
+        &:first-child {
+            padding-top: 2px;
+        }
+    }
+
+    .mp-trending-top {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 6px 8px;
+        margin-bottom: 6px;
+    }
+
+    .mp-ticker-chip {
+        padding: 3px 8px;
+        border: 1px solid $border-blue;
+        border-radius: 6px;
+        background: $soft-bg;
+        color: $dark;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.02em;
+        cursor: pointer;
+        @include focus-ring;
+
+        &:hover {
+            border-color: $primary;
+            color: $primary;
+        }
+    }
+
+    .mp-trending-name {
+        flex: 1 1 120px;
+        min-width: 0;
+        overflow: hidden;
+        font-size: 13px;
+        font-weight: 500;
+        color: $grey;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+    .mp-trending-right {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin-left: auto;
+    }
+
+    .mp-trending-quote {
+        display: inline-flex;
+        align-items: baseline;
+        gap: 6px;
+        font-size: 13px;
+    }
+
+    .mp-sentiment {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 3px 9px;
+        border-radius: 999px;
+        font-size: 11px;
+        font-weight: 600;
+        white-space: nowrap;
+
+        img {
+            width: 13px;
+            height: 9px;
+            object-fit: contain;
+        }
+
+        &.bullish {
+            background: #4563E426;
+            color: $primary;
+        }
+
+        &.bearish {
+            background: #D632301A;
+            color: $loss;
+        }
+
+        &.neutral {
+            background: #00000010;
+            color: #595959;
+        }
+    }
+
+    .mp-trending-headline {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        margin: 0 0 4px;
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 1.4;
+        color: $dark;
+
+        a {
+            color: inherit;
+            text-decoration: none;
+
+            &:hover {
+                color: $primary;
+                text-decoration: underline;
+            }
+        }
+    }
+
+    .mp-meta-line {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        font-size: 12px;
+        color: $grey;
+
+        > * + *::before {
+            content: '·';
+            margin: 0 6px;
+            color: #C4C6D0;
+        }
+    }
+
+    .mp-source-name {
+        font-weight: 600;
+        color: $primary;
+    }
+
+    .mp-more-btn {
+        margin-top: 4px;
+    }
+
+    // ── Market summary ───────────────────────────────────────────────────────
+    .mp-summary-label {
+        padding: 3px 10px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 500;
+
+        &.ai {
+            background: $primary-soft;
+            color: $primary;
+        }
+
+        &.pending {
+            background: #00000008;
+            color: $grey;
+        }
+    }
+
+    .mp-drivers {
+        margin: 0 0 16px;
+        font-size: 15px;
+        line-height: 1.6;
+        color: $dark;
+    }
+
+    .mp-points {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 12px;
+
+        @media (max-width: 576px) {
+            grid-template-columns: minmax(0, 1fr);
+        }
+    }
+
+    .mp-point {
+        display: flex;
+        flex-direction: column;
+        padding: 14px;
+        border: 1px solid #F0F2F8;
+        border-radius: 10px;
+        background: $soft-bg;
+    }
+
+    .mp-point-title {
+        margin: 0 0 6px;
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 1.4;
+        color: $dark;
+    }
+
+    .mp-point-text {
+        display: -webkit-box;
+        -webkit-line-clamp: 4;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        margin: 0 0 10px;
+        font-size: 13px;
+        line-height: 1.5;
+        color: $grey;
+    }
+
+    .mp-sources {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin: auto 0 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    .mp-source {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        max-width: 100%;
+        padding: 3px 8px;
+        border: 1px solid $border-blue;
+        border-radius: 999px;
+        background: #fff;
+        color: $primary;
+        font-size: 11px;
+        font-weight: 500;
+        text-decoration: none;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+
+        &:hover {
+            border-color: $primary;
+        }
+    }
+
+    span.mp-source {
+        color: $grey;
+    }
+
+    .mp-disclaimer {
+        margin: 14px 0 0;
+        font-size: 12px;
+        color: $muted;
+    }
+}
+
+// ── Compact strip on the dashboard home ──────────────────────────────────────
+.mp-strip {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    margin: 4px 0 8px;
+    padding: 12px 16px;
+    border: 1px solid #E5E5E5;
+    border-radius: 12px;
+    background: #fff;
+    font-family: 'Roboto', sans-serif;
+    color: $dark;
+    text-align: left;
+    cursor: pointer;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    @include focus-ring;
+
+    &:hover {
+        border-color: $border-blue;
+        box-shadow: 0 2px 10px rgba(23, 30, 66, 0.05);
+
+        .mp-strip-open {
+            color: $primary;
+        }
+    }
+
+    @media (max-width: 500px) {
+        padding: 10px 12px;
+        gap: 8px;
+    }
+
+    .mp-strip-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        width: 100%;
+    }
+
+    .mp-strip-title {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        min-width: 0;
+    }
+
+    .mp-strip-name {
+        overflow: hidden;
+        font-size: 14px;
+        font-weight: 600;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+    .mp-strip-cta {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-shrink: 0;
+        font-size: 12px;
+        color: $grey;
+    }
+
+    .mp-strip-updated {
+        @media (max-width: 420px) {
+            display: none;
+        }
+    }
+
+    .mp-strip-open {
+        display: inline-flex;
+        align-items: center;
+        gap: 2px;
+        font-weight: 600;
+        color: #6E86EC;
+        transition: color 0.15s;
+    }
+
+    .mp-strip-body {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px 24px;
+        width: 100%;
+
+        @media (max-width: 500px) {
+            gap: 8px 16px;
+        }
+    }
+
+    .mp-strip-index {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        min-width: 0;
+    }
+
+    .mp-strip-label {
+        font-size: 12px;
+        font-weight: 500;
+        color: $grey;
+        white-space: nowrap;
+    }
+
+    .mp-strip-value {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 13px;
+    }
+
+    .mp-strip-price {
+        font-size: 15px;
+        font-weight: 700;
+        font-variant-numeric: tabular-nums;
+        white-space: nowrap;
+    }
+
+    .mp-strip-breadth {
+        flex: 1 1 140px;
+        max-width: 240px;
+
+        .mp-breadth-bar {
+            flex: 1;
+            min-width: 48px;
+        }
+    }
+
+    .mp-strip-breadth-text {
+        display: inline-flex;
+        gap: 6px;
+        font-size: 12px;
+    }
+
+    .mp-strip-note {
+        font-size: 13px;
+        color: $grey;
+    }
+}
+
+@keyframes mp-shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+@keyframes mp-spin {
+    to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .mp-sk,
+    .mp-spin {
+        animation: none;
+    }
+}

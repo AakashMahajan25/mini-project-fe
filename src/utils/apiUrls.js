@@ -83,4 +83,21 @@ export const API_ENDPOINTS = {
     portfolio: 'portfolio',
     portfolioSearch: 'portfolio/search',
     portfolioHoldings: 'portfolio/holdings',
+    newsUpdates: 'news/updates',
+    // RAG document library
+    documents: 'documents',
+    documentById: 'documents/',            // + :id, + :id/reprocess, + :id/chat
+    ragStats: 'rag/stats',
+    // Structured answers, feedback and human review
+    answers: 'answers/',                   // + :id, + :id/feedback
+    reviewQueue: 'review/queue',
+    reviewStats: 'review/stats',
+    reviewAnswer: 'review/',               // + :id, + :id/status
+    // Live market dashboard
+    marketOverview: 'market/overview',
+    marketMovers: 'market/movers',
+    marketTrending: 'market/trending',
+    marketSummary: 'market/summary',
+    // Voice input fallback
+    voiceTranscribe: 'voice/transcribe',
 }
