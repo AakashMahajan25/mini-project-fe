@@ -22,3 +22,12 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# Secrets: never commit these
+.env
+.env.local
+*.pem
+*.key
+
+# Local design-tool state
+.impeccable/
